@@ -31,8 +31,8 @@ TODO: Write credits
 
 TODO: Write license
 # TODO
--[x] Add README
--[] Update documents.
--[] Organize project branches (hien tai dang dung mot branch master).
--[] Implement ECS Entitas.
--[] ...
+- [x] Add README
+- [] Update documents.
+- [] Organize project branches (hien tai dang dung mot branch master).
+- [] Implement ECS Entitas.
+- [] ...
