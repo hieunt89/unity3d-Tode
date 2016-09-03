@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-using Entitas;
+﻿using Entitas;
 
 public class InitMapViewSystem : IInitializeSystem, ISetPool {
 	Pool _pool;

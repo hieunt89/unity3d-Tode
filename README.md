@@ -30,9 +30,12 @@ TODO: Write credits
 ## License
 
 TODO: Write license
-# TODO
+## TODO
 - [x] Add README
 - [] Update documents.
 - [] Organize project branches (hien tai dang dung mot branch master).
 - [] Implement ECS Entitas.
 - [] ...
+
+## Additions
+* [Mark down tutorial](http://www.markdowntutorial.com/)

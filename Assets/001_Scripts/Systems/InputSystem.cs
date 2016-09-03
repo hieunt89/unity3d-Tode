@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using Entitas;
+﻿using Entitas;
 using System;
 using System.Collections.Generic;
 
