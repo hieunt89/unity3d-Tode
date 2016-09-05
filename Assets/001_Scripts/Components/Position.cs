@@ -4,7 +4,8 @@ using Entitas;
 
 public class Position : IComponent {
 
-	public int x;
-	public int y;
+	public float x;
+	public float y;
+	public float z;
 
 }

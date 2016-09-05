@@ -5,6 +5,9 @@ using Entitas.Unity.VisualDebugging;
 
 public class GameController : MonoBehaviour {
 
+	public Vector3[] towerPoints;
+	public Vector3[] wayPoints;
+
 	public bool debug = true;
 	Systems _systems;
 
@@ -25,9 +28,14 @@ public class GameController : MonoBehaviour {
 			systems = new Systems ();
 		}
 		return systems
-			.Add(pool.CreateSystem<InitMapSystem>())
-			.Add(pool.CreateSystem<InitMapViewSystem>())
-			.Add(pool.CreateSystem<UpdateMapViewSystem>())
+			.Add(pool.CreateSystem<UpdateTickSystem>())
+			.Add(pool.CreateSystem<InitTowerSystem>())
+			.Add(pool.CreateSystem<InitEnemyPathSystem>())
+
+			.Add(pool.CreateSystem<UpdateTowerViewSystem>())
+			.Add(pool.CreateSystem<WaveSystem>())
+
+			.Add(pool.CreateSystem<ProcessTapInputSystem>())
 			;
 	}
 }
