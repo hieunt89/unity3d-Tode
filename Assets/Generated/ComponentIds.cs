@@ -9,43 +9,46 @@
 public static class ComponentIds {
     public const int Constructed = 0;
     public const int Enemy = 1;
-    public const int EnemyPath = 2;
-    public const int Id = 3;
-    public const int Movable = 4;
+    public const int Id = 2;
+    public const int Movable = 3;
+    public const int Path = 4;
     public const int Position = 5;
     public const int StartInput = 6;
     public const int TapInput = 7;
     public const int Tick = 8;
     public const int Tower = 9;
     public const int TowerView = 10;
+    public const int Wave = 11;
 
-    public const int TotalComponents = 11;
+    public const int TotalComponents = 12;
 
     public static readonly string[] componentNames = {
         "Constructed",
         "Enemy",
-        "EnemyPath",
         "Id",
         "Movable",
+        "Path",
         "Position",
         "StartInput",
         "TapInput",
         "Tick",
         "Tower",
-        "TowerView"
+        "TowerView",
+        "Wave"
     };
 
     public static readonly System.Type[] componentTypes = {
         typeof(Constructed),
         typeof(Enemy),
-        typeof(EnemyPath),
         typeof(Id),
         typeof(Movable),
+        typeof(Path),
         typeof(Position),
         typeof(StartInput),
         typeof(TapInput),
         typeof(Tick),
         typeof(Tower),
-        typeof(TowerView)
+        typeof(TowerView),
+        typeof(Wave)
     };
 }

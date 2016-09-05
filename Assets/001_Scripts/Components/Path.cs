@@ -2,6 +2,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class EnemyPath : IComponent {
+public class Path : IComponent {
 	public List <Vector3> wayPoints;
 }

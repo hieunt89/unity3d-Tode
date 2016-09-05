@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using Entitas;
 using Entitas.Unity.VisualDebugging;
 
@@ -30,7 +29,7 @@ public class GameController : MonoBehaviour {
 		return systems
 			.Add(pool.CreateSystem<UpdateTickSystem>())
 			.Add(pool.CreateSystem<InitTowerSystem>())
-			.Add(pool.CreateSystem<InitEnemyPathSystem>())
+			.Add(pool.CreateSystem<InitPathSystem>())
 
 			.Add(pool.CreateSystem<UpdateTowerViewSystem>())
 			.Add(pool.CreateSystem<WaveSystem>())

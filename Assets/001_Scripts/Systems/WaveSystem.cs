@@ -1,7 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
-using Entitas;
-
+﻿using Entitas;
+using System.Collections.Generic;
 public class WaveSystem : IReactiveSystem, ISetPool {
 	Pool _pool;
 	#region ISetPool implementation
@@ -19,8 +17,13 @@ public class WaveSystem : IReactiveSystem, ISetPool {
 	{
 		var e = entities.SingleEntity ();
 
+		// TODO: hard code data, can sua lai cho nay!
 		WaveData data = new WaveData (EnemyType.type1, 10, 1.0f);
+		List<WaveData> datas = new List<WaveData>();
+		datas.Add(data);
 
+		_pool.CreateEntity().AddWave(datas);
+		
 		_pool.DestroyEntity (e);
 	}
 

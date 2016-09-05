@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using Entitas;
 using System.Collections.Generic;
 
@@ -28,9 +27,8 @@ public class InitPathSystem : IInitializeSystem, ISetPool {
 			}
 
 			if (wayPoints.Count > 0) {
-				_pool.CreateEntity ().AddEnemyPath (wayPoints);
+				_pool.CreateEntity ().AddPath (wayPoints);
 			}
-
 		}
 	}
 	#endregion

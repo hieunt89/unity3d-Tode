@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using Entitas;
 
 public class UpdateTickSystem : IInitializeSystem, IExecuteSystem, ISetPool {
