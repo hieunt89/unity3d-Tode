@@ -15,13 +15,13 @@ public class WaveSystem : ISetPool, IInitializeSystem {
 
 	public void Initialize ()
 	{
-		WaveData data = new WaveData (EnemyType.type1, 10, 1.0f, 0f);
-		WaveData data2 =  new WaveData (EnemyType.type2, 10, 1.0f, 3.0f);
-		List<WaveData> datas = new List<WaveData>();
-		datas.Add(data);
-		datas.Add(data2);
+		WaveGroup group1 = new WaveGroup (EnemyType.type1, 10, 1.0f, 0f);
+		WaveGroup group2 =  new WaveGroup (EnemyType.type2, 10, 1.0f, 3.0f);
+		List<WaveGroup> groups = new List<WaveGroup>();
+		groups.Add(group1);
+		groups.Add(group2);
 
-		_pool.CreateEntity().AddWave(datas).AddId("wave1");
+		_pool.CreateEntity().AddWave(groups).AddId("wave1");
 	}
 
 	#endregion

@@ -12,15 +12,15 @@ namespace Entitas {
 
         public bool hasWave { get { return HasComponent(ComponentIds.Wave); } }
 
-        public Entity AddWave(System.Collections.Generic.List<WaveData> newDatas) {
+        public Entity AddWave(System.Collections.Generic.List<WaveGroup> newGroups) {
             var component = CreateComponent<Wave>(ComponentIds.Wave);
-            component.datas = newDatas;
+            component.groups = newGroups;
             return AddComponent(ComponentIds.Wave, component);
         }
 
-        public Entity ReplaceWave(System.Collections.Generic.List<WaveData> newDatas) {
+        public Entity ReplaceWave(System.Collections.Generic.List<WaveGroup> newGroups) {
             var component = CreateComponent<Wave>(ComponentIds.Wave);
-            component.datas = newDatas;
+            component.groups = newGroups;
             ReplaceComponent(ComponentIds.Wave, component);
             return this;
         }

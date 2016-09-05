@@ -19,6 +19,10 @@ public class ActiveEnemySystem : IReactiveSystem, ISetPool {
 
 	public void Execute (System.Collections.Generic.List<Entity> entities)
 	{
+		if(_groupActivable.count <= 0){
+			return;
+		}
+
 		var e = entities.SingleEntity ();
 		var eActivable = _groupActivable.GetEntities ();
 		for (int i = 0; i < eActivable.Length; i++) {
