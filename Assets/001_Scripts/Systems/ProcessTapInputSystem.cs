@@ -1,20 +1,17 @@
-﻿using UnityEngine;
-using System.Collections;
-using Entitas;
+﻿using Entitas;
+using UnityEngine;
 
 public class ProcessTapInputSystem : IReactiveSystem, ISetPool {
 	
-	Group _group;
+	Group _groupInteractable;
 	Pool _pool;
 
 	#region ISetPool implementation
-
 	public void SetPool (Pool pool)
 	{
 		_pool = pool;
-		_group = _pool.GetGroup (Matcher.Id);
+		_groupInteractable = _pool.GetGroup (Matcher.AllOf(Matcher.Id, Matcher.Intractable));
 	}
-
 	#endregion
 
 	#region IReactiveExecuteSystem implementation
@@ -22,13 +19,16 @@ public class ProcessTapInputSystem : IReactiveSystem, ISetPool {
 	{
 		for (int i = 0; i < entities.Count; i++) {
 			var e = GetEntityById (entities [i].tapInput.id);
-			if(e != null){
-				e.ReplaceTower (TowerType.type2);
+			if(e != null && e.hasTower){
+				ProcessTowerTap (e);
+			}else if(e != null && e.hasEnemy){
+				ProcessEnemyTap (e);
 			}
 			_pool.DestroyEntity (entities[i]);
 		}
 	}
 	#endregion
+
 	#region IReactiveSystem implementation
 	public TriggerOnEvent trigger {
 		get {
@@ -38,12 +38,20 @@ public class ProcessTapInputSystem : IReactiveSystem, ISetPool {
 	#endregion
 
 	private Entity GetEntityById(string id){
-		var entities = _group.GetEntities ();
+		var entities = _groupInteractable.GetEntities ();
 		for (int i = 0; i < entities.Length; i++) {
 			if(entities[i].id.value.Equals(id)){
 				return entities [i];
 			}
 		}
 		return null;
+	}
+
+	private void ProcessTowerTap(Entity e){
+		e.ReplaceTower (TowerType.type2);
+	}
+
+	private void ProcessEnemyTap(Entity e){
+		Debug.Log("enemy tap");
 	}
 }

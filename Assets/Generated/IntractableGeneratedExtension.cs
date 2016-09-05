@@ -8,39 +8,39 @@
 //------------------------------------------------------------------------------
 namespace Entitas {
     public partial class Entity {
-        static readonly StartInput startInputComponent = new StartInput();
+        static readonly Intractable intractableComponent = new Intractable();
 
-        public bool isStartInput {
-            get { return HasComponent(ComponentIds.StartInput); }
+        public bool isIntractable {
+            get { return HasComponent(ComponentIds.Intractable); }
             set {
-                if (value != isStartInput) {
+                if (value != isIntractable) {
                     if (value) {
-                        AddComponent(ComponentIds.StartInput, startInputComponent);
+                        AddComponent(ComponentIds.Intractable, intractableComponent);
                     } else {
-                        RemoveComponent(ComponentIds.StartInput);
+                        RemoveComponent(ComponentIds.Intractable);
                     }
                 }
             }
         }
 
-        public Entity IsStartInput(bool value) {
-            isStartInput = value;
+        public Entity IsIntractable(bool value) {
+            isIntractable = value;
             return this;
         }
     }
 
     public partial class Matcher {
-        static IMatcher _matcherStartInput;
+        static IMatcher _matcherIntractable;
 
-        public static IMatcher StartInput {
+        public static IMatcher Intractable {
             get {
-                if (_matcherStartInput == null) {
-                    var matcher = (Matcher)Matcher.AllOf(ComponentIds.StartInput);
+                if (_matcherIntractable == null) {
+                    var matcher = (Matcher)Matcher.AllOf(ComponentIds.Intractable);
                     matcher.componentNames = ComponentIds.componentNames;
-                    _matcherStartInput = matcher;
+                    _matcherIntractable = matcher;
                 }
 
-                return _matcherStartInput;
+                return _matcherIntractable;
             }
         }
     }

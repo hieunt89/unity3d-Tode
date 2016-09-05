@@ -1,9 +1,14 @@
 ﻿using System.Collections.Generic;
 using Entitas;
 
-public class SpawnEnemySystem : IReactiveSystem, IExecuteSystem, ISetPool
+public class SpawnEnemySystem : IReactiveSystem, ISetPool
 {
 	Pool _pool;
+
+	public void SetPool(Pool pool)
+	{
+		_pool = pool;
+	}
 
     public TriggerOnEvent trigger
     {
@@ -13,26 +18,23 @@ public class SpawnEnemySystem : IReactiveSystem, IExecuteSystem, ISetPool
         }
     }
 
-    public void Execute(List<Entity> entities)
+	void IReactiveExecuteSystem.Execute(List<Entity> entities)
     {
-        for (int i = 0; i < entities.Count; i++)	// loop throu all waves
-		{
-			for (int j = 0; j < entities[i].wave.datas.Count; j++) 	// loop throu all wave datas 
-			{
-				_pool.CreateEntity().AddEnemy(EnemyType.type1).AddId("e"+j).AddMovable(1.0f);	// create enemy entities
-			} 
-		}
-    }
+		var e = entities.SingleEntity ();
+		float delayTime = _pool.tick.time;
+		WaveData data;
 
-    public void SetPool(Pool pool)
-    {
-        _pool = pool;
-    }
+		for (int i = 0; i < e.wave.datas.Count; i++) { //loop throu all datas in wave
+			data = e.wave.datas[i];
+			delayTime = delayTime + data.Delay;
+			for (int j = 0; j < data.Amount; j++) { //loop throu all enemies is wave data
+				if (j != 0) {
+					delayTime = delayTime + data.Interval;
+				}
+				_pool.CreateEntity().AddEnemy(data.Type, delayTime).AddId(e.id.value+"_e_"+i+"_"+j).IsActivable(true);
+			}
+		} 
 
-    void IExecuteSystem.Execute()
-    {
-        // check tick 
-		// if current tick - last tick >= interval in data
-
+		_pool.DestroyEntity (e);
     }
 }

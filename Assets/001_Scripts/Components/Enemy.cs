@@ -7,4 +7,5 @@ public enum EnemyType{
 
 public class Enemy : IComponent {
 	public EnemyType type;
+	public float activeTime;
 }

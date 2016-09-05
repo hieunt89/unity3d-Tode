@@ -7,13 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 public static class ComponentIds {
-    public const int Constructed = 0;
+    public const int Activable = 0;
     public const int Enemy = 1;
     public const int Id = 2;
-    public const int Movable = 3;
-    public const int Path = 4;
-    public const int Position = 5;
-    public const int StartInput = 6;
+    public const int Intractable = 3;
+    public const int Movable = 4;
+    public const int Path = 5;
+    public const int Position = 6;
     public const int TapInput = 7;
     public const int Tick = 8;
     public const int Tower = 9;
@@ -23,13 +23,13 @@ public static class ComponentIds {
     public const int TotalComponents = 12;
 
     public static readonly string[] componentNames = {
-        "Constructed",
+        "Activable",
         "Enemy",
         "Id",
+        "Intractable",
         "Movable",
         "Path",
         "Position",
-        "StartInput",
         "TapInput",
         "Tick",
         "Tower",
@@ -38,13 +38,13 @@ public static class ComponentIds {
     };
 
     public static readonly System.Type[] componentTypes = {
-        typeof(Constructed),
+        typeof(Activable),
         typeof(Enemy),
         typeof(Id),
+        typeof(Intractable),
         typeof(Movable),
         typeof(Path),
         typeof(Position),
-        typeof(StartInput),
         typeof(TapInput),
         typeof(Tick),
         typeof(Tower),

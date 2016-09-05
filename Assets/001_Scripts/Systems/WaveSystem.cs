@@ -1,6 +1,6 @@
 ﻿using Entitas;
 using System.Collections.Generic;
-public class WaveSystem : IReactiveSystem, ISetPool {
+public class WaveSystem : ISetPool, IInitializeSystem {
 	Pool _pool;
 	#region ISetPool implementation
 
@@ -11,33 +11,18 @@ public class WaveSystem : IReactiveSystem, ISetPool {
 
 	#endregion
 
-	#region IReactiveExecuteSystem implementation
+	#region IInitializeSystem implementation
 
-	public void Execute (System.Collections.Generic.List<Entity> entities)
+	public void Initialize ()
 	{
-		var e = entities.SingleEntity ();
-
-		// TODO: hard code data, can sua lai cho nay!
-		WaveData data = new WaveData (EnemyType.type1, 10, 1.0f);
+		WaveData data = new WaveData (EnemyType.type1, 10, 1.0f, 0f);
+		WaveData data2 =  new WaveData (EnemyType.type2, 10, 1.0f, 3.0f);
 		List<WaveData> datas = new List<WaveData>();
 		datas.Add(data);
+		datas.Add(data2);
 
-		_pool.CreateEntity().AddWave(datas);
-		
-		_pool.DestroyEntity (e);
+		_pool.CreateEntity().AddWave(datas).AddId("wave1");
 	}
 
 	#endregion
-
-	#region IReactiveSystem implementation
-
-	public TriggerOnEvent trigger {
-		get {
-			return Matcher.StartInput.OnEntityAdded ();
-		}
-	}
-
-	#endregion
-
-
 }

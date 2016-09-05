@@ -8,39 +8,39 @@
 //------------------------------------------------------------------------------
 namespace Entitas {
     public partial class Entity {
-        static readonly Constructed constructedComponent = new Constructed();
+        static readonly Activable activableComponent = new Activable();
 
-        public bool isConstructed {
-            get { return HasComponent(ComponentIds.Constructed); }
+        public bool isActivable {
+            get { return HasComponent(ComponentIds.Activable); }
             set {
-                if (value != isConstructed) {
+                if (value != isActivable) {
                     if (value) {
-                        AddComponent(ComponentIds.Constructed, constructedComponent);
+                        AddComponent(ComponentIds.Activable, activableComponent);
                     } else {
-                        RemoveComponent(ComponentIds.Constructed);
+                        RemoveComponent(ComponentIds.Activable);
                     }
                 }
             }
         }
 
-        public Entity IsConstructed(bool value) {
-            isConstructed = value;
+        public Entity IsActivable(bool value) {
+            isActivable = value;
             return this;
         }
     }
 
     public partial class Matcher {
-        static IMatcher _matcherConstructed;
+        static IMatcher _matcherActivable;
 
-        public static IMatcher Constructed {
+        public static IMatcher Activable {
             get {
-                if (_matcherConstructed == null) {
-                    var matcher = (Matcher)Matcher.AllOf(ComponentIds.Constructed);
+                if (_matcherActivable == null) {
+                    var matcher = (Matcher)Matcher.AllOf(ComponentIds.Activable);
                     matcher.componentNames = ComponentIds.componentNames;
-                    _matcherConstructed = matcher;
+                    _matcherActivable = matcher;
                 }
 
-                return _matcherConstructed;
+                return _matcherActivable;
             }
         }
     }

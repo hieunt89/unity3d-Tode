@@ -14,8 +14,4 @@ public class InputController : MonoBehaviour {
 			Pools.pool.CreateEntity().AddTapInput(hitInfo.collider.gameObject.name);
 		}
 	}
-
-	public void StartGame(){
-		Pools.pool.CreateEntity ().IsStartInput(true);
-	}
 }

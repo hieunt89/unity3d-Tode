@@ -2,6 +2,6 @@
 using System.Collections;
 using Entitas;
 
-public class StartInput : IComponent {
-	
+public class Activable : IComponent {
+
 }

@@ -3,15 +3,11 @@ using Entitas;
 using Entitas.Unity.VisualDebugging;
 
 public class GameController : MonoBehaviour {
-
-	public Vector3[] towerPoints;
-	public Vector3[] wayPoints;
-
 	public bool debug = true;
 	Systems _systems;
 
 	void Start() {
-		_systems = createSystems(Pools.pool);
+		_systems = CreateSystems(Pools.pool);
 		_systems.Initialize();
 	}
 
@@ -19,7 +15,7 @@ public class GameController : MonoBehaviour {
 		_systems.Execute();
 	}
 
-	Systems createSystems(Pool pool) {
+	Systems CreateSystems(Pool pool) {
 		Systems systems;
 		if(debug){
 			systems = new DebugSystems ();
@@ -28,11 +24,15 @@ public class GameController : MonoBehaviour {
 		}
 		return systems
 			.Add(pool.CreateSystem<UpdateTickSystem>())
+
 			.Add(pool.CreateSystem<InitTowerSystem>())
 			.Add(pool.CreateSystem<InitPathSystem>())
 
-			.Add(pool.CreateSystem<UpdateTowerViewSystem>())
 			.Add(pool.CreateSystem<WaveSystem>())
+			.Add(pool.CreateSystem<SpawnEnemySystem>())
+			.Add(pool.CreateSystem<ActiveEnemySystem>())
+
+			.Add(pool.CreateSystem<UpdateTowerViewSystem>())
 
 			.Add(pool.CreateSystem<ProcessTapInputSystem>())
 			;
