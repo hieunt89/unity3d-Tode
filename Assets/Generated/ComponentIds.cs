@@ -11,29 +11,31 @@ public static class ComponentIds {
     public const int Enemy = 1;
     public const int Id = 2;
     public const int Intractable = 3;
-    public const int Movable = 4;
-    public const int Path = 5;
-    public const int Position = 6;
-    public const int TapInput = 7;
-    public const int Tick = 8;
-    public const int Tower = 9;
-    public const int TowerView = 10;
-    public const int Wave = 11;
+    public const int Level = 4;
+    public const int Movable = 5;
+    public const int Path = 6;
+    public const int Position = 7;
+    public const int TapInput = 8;
+    public const int Tick = 9;
+    public const int Tower = 10;
+    public const int View = 11;
+    public const int Wave = 12;
 
-    public const int TotalComponents = 12;
+    public const int TotalComponents = 13;
 
     public static readonly string[] componentNames = {
         "Activable",
         "Enemy",
         "Id",
         "Intractable",
+        "Level",
         "Movable",
         "Path",
         "Position",
         "TapInput",
         "Tick",
         "Tower",
-        "TowerView",
+        "View",
         "Wave"
     };
 
@@ -42,13 +44,14 @@ public static class ComponentIds {
         typeof(Enemy),
         typeof(Id),
         typeof(Intractable),
+        typeof(Level),
         typeof(Movable),
         typeof(Path),
         typeof(Position),
         typeof(TapInput),
         typeof(Tick),
         typeof(Tower),
-        typeof(TowerView),
+        typeof(View),
         typeof(Wave)
     };
 }

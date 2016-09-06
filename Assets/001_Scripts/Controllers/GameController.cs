@@ -29,7 +29,7 @@ public class GameController : MonoBehaviour {
 			.Add(pool.CreateSystem<InitPathSystem>())
 
 			.Add(pool.CreateSystem<WaveSystem>())
-			.Add(pool.CreateSystem<SpawnEnemySystem>())
+			.Add(pool.CreateSystem<InitEnemySystem>())
 			.Add(pool.CreateSystem<ActiveEnemySystem>())
 
 			.Add(pool.CreateSystem<UpdateTowerViewSystem>())

@@ -8,24 +8,25 @@
 //------------------------------------------------------------------------------
 namespace Entitas {
     public partial class Entity {
-        static readonly Activable activableComponent = new Activable();
+        public Activable activable { get { return (Activable)GetComponent(ComponentIds.Activable); } }
 
-        public bool isActivable {
-            get { return HasComponent(ComponentIds.Activable); }
-            set {
-                if (value != isActivable) {
-                    if (value) {
-                        AddComponent(ComponentIds.Activable, activableComponent);
-                    } else {
-                        RemoveComponent(ComponentIds.Activable);
-                    }
-                }
-            }
+        public bool hasActivable { get { return HasComponent(ComponentIds.Activable); } }
+
+        public Entity AddActivable(float newActiveTime) {
+            var component = CreateComponent<Activable>(ComponentIds.Activable);
+            component.activeTime = newActiveTime;
+            return AddComponent(ComponentIds.Activable, component);
         }
 
-        public Entity IsActivable(bool value) {
-            isActivable = value;
+        public Entity ReplaceActivable(float newActiveTime) {
+            var component = CreateComponent<Activable>(ComponentIds.Activable);
+            component.activeTime = newActiveTime;
+            ReplaceComponent(ComponentIds.Activable, component);
             return this;
+        }
+
+        public Entity RemoveActivable() {
+            return RemoveComponent(ComponentIds.Activable);
         }
     }
 

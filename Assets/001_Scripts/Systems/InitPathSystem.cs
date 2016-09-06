@@ -27,7 +27,7 @@ public class InitPathSystem : IInitializeSystem, ISetPool {
 			}
 
 			if (wayPoints.Count > 0) {
-				_pool.CreateEntity ().AddPath (wayPoints);
+				_pool.CreateEntity ().AddPath (wayPoints).AddId ("path_"+i);
 			}
 		}
 	}

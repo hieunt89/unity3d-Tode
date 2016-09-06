@@ -20,11 +20,11 @@ public class UpdateTowerViewSystem : IReactiveSystem {
 				break;
 			}
 
-			if (!entities [i].hasTowerView) {
-				entities [i].AddTowerView (go);
+			if (!entities [i].hasView) {
+				entities [i].AddView (go);
 			} else {
-				GameObject.Destroy (entities [i].towerView.view);
-				entities [i].ReplaceTowerView (go);
+				GameObject.Destroy (entities [i].view.go);
+				entities [i].ReplaceView (go);
 			}
 
 			go.name = entities [i].id.value;

@@ -2,6 +2,6 @@
 using System.Collections;
 using Entitas;
 
-public class TowerView : IComponent {
-	public GameObject view;
+public class View : IComponent {
+	public GameObject go;
 }
