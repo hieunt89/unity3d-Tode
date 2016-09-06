@@ -32,22 +32,44 @@ public class MapConstructor : MonoBehaviour {
     //         mapName = value;
     //     }
     // }
-
-    // wave datas
-    public struct WaveData {
-		EnemyType type;
-		int amount;
-		float interval;
-	}
-	public List <WaveData> waveDatas;
+	
+    public List <WaveGroup> waveGroups;
     
-	// tower point 
-	public List<Vector3> towerPoints;
+	  // tower point 
+    public List<Vector3> towerPoints;
     
-	// way point
-	public List<Vector3> wayPoints;
+	  // way point
+    public List<Vector3> wayPoints;
 
+    // TODO: SAVE AND LOAD MAP DATA
+    public void CreateTowerPoint (int _id) {
+        // Create tower point game object
+        // Change name and add icon
+        // Add tower point game object to list
 
-	// TODO: SAVE AND LOAD MAP DATA
+        GameObject tp = new GameObject("TP_" + _id);
+     
+        IconManager.SetIcon(tp, IconManager.LabelIcon.Blue);
+        // IconManager._SetIcon(tp, Resources.Load <Texture2D> ("white_rock") as Texture2D);
+    }
 
+    public void RemoveTowerPoint () {
+        
+    }
+
+    public void CreateWayPoint () {
+
+    }
+    
+    public void RemoveWayPoint () {
+
+    }
+
+    public void SaveMap () {
+
+    }
+
+    public void LoadMap () {
+        
+    }
 }
