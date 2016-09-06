@@ -31,6 +31,9 @@ public class WaveGroup {
 		}
 	}
 
+	public WaveGroup() {
+		
+	}
 	public WaveGroup(EnemyType type, int amount, float spawnInterval, float waveDelay){
 		this.type = type;
 		this.amount = amount;

@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Text;
+using System;
+
 public class MapConstructor : MonoBehaviour {
 
     // map id
@@ -15,21 +17,6 @@ public class MapConstructor : MonoBehaviour {
     //     set
     //     {
     //         mapId = value;
-    //     }
-    // }
-
-    // map name
-    public string mapName = "level1";
-    // public string MapName
-    // {
-    //     get
-    //     {
-    //         return mapName;
-    //     }
-
-    //     set
-    //     {
-    //         mapName = value;
     //     }
     // }
 
@@ -69,7 +56,19 @@ public class MapConstructor : MonoBehaviour {
         return sb.ToString();
     }
 
-    public void Load () {
-
+    public void Load (string data) {
+        // Debug.Lo
+        var mGroup = data.Split (';');
+        waveGroups = new List<WaveGroup> ();
+        for (int i = 0; i < mGroup.Length; i++)
+        {
+            var values = mGroup[i].Split(',');
+            var waveGroup = new WaveGroup();
+            waveGroup.type = (EnemyType) System.Enum.Parse(typeof(EnemyType), values[0]);   // parse string to enum ...
+            waveGroup.amount = Int32.Parse(values[1]);
+            waveGroup.spawnInterval = float.Parse(values[2]);
+            waveGroup.waveDelay = float.Parse(values[3]);
+            waveGroups.Add(waveGroup);
+        }
     }
 }
