@@ -39,5 +39,7 @@ TODO: Write license
 - [] Add tower component
 - [] Init tower on tile
 
-## Additions
+## Additions References
 * [Mark down tutorial](http://www.markdowntutorial.com/)
+* [Refactoring Game Entities with Components](http://cowboyprogramming.com/2007/01/05/evolve-your-heirachy/)
+* [Game Programming Patterns - Component](http://gameprogrammingpatterns.com/component.html)
