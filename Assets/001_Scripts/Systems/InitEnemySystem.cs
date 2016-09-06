@@ -38,10 +38,15 @@ public class InitEnemySystem : IReactiveSystem, ISetPool
 				if(ePath != null){
 					_pool.CreateEntity ()
 						.AddEnemy (waveGroup.EClass, waveGroup.Type)
-						.AddId (e.id.value + "_" + i + "_" + j)
+						.AddId (e.id.value + "_g" + i + "_e" + j)
 						.AddActivable (activeTime)
 						.IsIntractable (true)
-						.AddPath (ePath.path.wayPoints);
+						.AddMovable (1.0f)
+						.AddPath (ePath.path.wayPoints)
+						.AddPosition (
+							ePath.path.wayPoints[0].x,
+							ePath.path.wayPoints[0].y,
+							ePath.path.wayPoints[0].z)
 						;
 				}
 			}
