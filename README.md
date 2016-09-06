@@ -35,7 +35,9 @@ TODO: Write license
 - [] Update documents.
 - [] Organize project branches (hien tai dang dung mot branch master).
 - [] Implement ECS Entitas.
-- [] ...
+- [] Input system
+- [] Add tower component
+- [] Init tower on tile
 
 ## Additions
 * [Mark down tutorial](http://www.markdowntutorial.com/)
