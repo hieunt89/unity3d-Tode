@@ -27,7 +27,8 @@ public class ActiveEnemySystem : IReactiveSystem, ISetPool {
 		var eActivable = _groupActivable.GetEntities ();
 		for (int i = 0; i < eActivable.Length; i++) {
 			if(e.tick.time >= eActivable[i].activable.activeTime){
-				eActivable [i].RemoveActivable ();
+				eActivable [i]
+					.RemoveActivable ();
 			}
 		}
 	}

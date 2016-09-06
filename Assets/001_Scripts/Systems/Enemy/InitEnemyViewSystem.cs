@@ -2,13 +2,13 @@
 using System.Collections;
 using Entitas;
 
-public class InitEnemyViewSystem : IReactiveSystem, ISetPool {
-	Pool _pool;
-	#region ISetPool implementation
+public class InitEnemyViewSystem : IReactiveSystem, IEnsureComponents {
+	#region IEnsureComponents implementation
 
-	public void SetPool (Pool pool)
-	{
-		_pool = pool;
+	public IMatcher ensureComponents {
+		get {
+			return Matcher.Enemy;
+		}
 	}
 
 	#endregion
@@ -21,8 +21,10 @@ public class InitEnemyViewSystem : IReactiveSystem, ISetPool {
 		for (int i = 0; i < entities.Count; i++) {
 			var e = entities [i];
 			if(e.hasEnemy){
-				go = Resources.Load<GameObject> ("Enemy/" + e.enemy.eClass + "/" + e.enemy.eType);
-
+				go = GameObject.Instantiate(Resources.Load<GameObject> ("Enemy/" + e.enemy.eClass + "/" + e.enemy.eType));
+				go.transform.position = e.position.value;
+				go.name = e.id.value;
+				e.AddView (go);
 			}
 		}
 	}

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Entitas;
 
-public class UpdateTickSystem : IInitializeSystem, IExecuteSystem, ISetPool {
+public class TimeSystem : IInitializeSystem, IExecuteSystem, ISetPool {
 	Pool _pool;
 	#region ISetPool implementation
 

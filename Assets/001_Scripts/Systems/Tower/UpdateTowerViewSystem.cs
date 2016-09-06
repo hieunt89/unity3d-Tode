@@ -28,7 +28,7 @@ public class UpdateTowerViewSystem : IReactiveSystem {
 			}
 
 			go.name = entities [i].id.value;
-			go.transform.position = new Vector3 (entities [i].position.x, entities [i].position.y, entities [i].position.z);
+			go.transform.position = entities [i].position.value;
 		}
 	}
 

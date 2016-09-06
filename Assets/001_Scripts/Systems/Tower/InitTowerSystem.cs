@@ -20,9 +20,9 @@ public class InitTowerSystem : IInitializeSystem, ISetPool {
 		for (int i = 0; i < tps.Length; i++) {
 			_pool.CreateEntity ()
 				.AddTower (TowerType.type1)
-				.AddPosition(tps[i].transform.position.x, tps[i].transform.position.y , tps[i].transform.position.z)
 				.AddId("t_" + i)
 				.IsIntractable(true)
+				.AddPosition(tps[i].transform.position)
 				;
 		}
 	}

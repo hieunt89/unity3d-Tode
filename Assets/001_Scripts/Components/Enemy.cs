@@ -13,4 +13,5 @@ public enum EnemyClass{
 public class Enemy : IComponent {
 	public EnemyClass eClass;
 	public EnemyType eType;
+	public string ePathId;
 }

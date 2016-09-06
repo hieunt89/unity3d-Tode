@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
 using Entitas;
+using UnityEngine;
 
 public class InitEnemySystem : IReactiveSystem, ISetPool
 {
 	Pool _pool;
-	Group _groupPathId;
 
 	public void SetPool(Pool pool)
 	{
 		_pool = pool;
-		_groupPathId = _pool.GetGroup (Matcher.AllOf (Matcher.Path, Matcher.Id).NoneOf(Matcher.Enemy));
 	}
 
     public TriggerOnEvent trigger
@@ -34,19 +33,16 @@ public class InitEnemySystem : IReactiveSystem, ISetPool
 					activeTime = activeTime + waveGroup.SpawnInterval;
 				}
 
-				var ePath = GetPathEntityById(waveGroup.PathId);
+				var ePath = _pool.GetPathEntityById(waveGroup.PathId);
 				if(ePath != null){
 					_pool.CreateEntity ()
-						.AddEnemy (waveGroup.EClass, waveGroup.Type)
+						.AddEnemy (waveGroup.EClass, waveGroup.Type, waveGroup.PathId)
 						.AddId (e.id.value + "_g" + i + "_e" + j)
 						.AddActivable (activeTime)
 						.IsIntractable (true)
 						.AddMovable (1.0f)
-						.AddPath (ePath.path.wayPoints)
-						.AddPosition (
-							ePath.path.wayPoints[0].x,
-							ePath.path.wayPoints[0].y,
-							ePath.path.wayPoints[0].z)
+						.AddDestination (ePath.path.wayPoints[0])
+						.AddPosition (ePath.path.wayPoints[0])
 						;
 				}
 			}
@@ -55,13 +51,5 @@ public class InitEnemySystem : IReactiveSystem, ISetPool
 		_pool.DestroyEntity (e);
     }
 
-	Entity GetPathEntityById(string id){
-		var ens = _groupPathId.GetEntities ();
-		for (int i = 0; i < ens.Length; i++) {
-			if (ens [i].id.value.Equals (id)) {
-				return ens [i];
-			}
-		}
-		return null;
-	}
+
 }

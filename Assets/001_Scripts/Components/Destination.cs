@@ -2,8 +2,6 @@
 using System.Collections;
 using Entitas;
 
-public class Position : IComponent {
-
+public class Destination : IComponent{
 	public Vector3 value;
-
 }

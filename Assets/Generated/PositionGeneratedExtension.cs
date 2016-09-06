@@ -12,19 +12,15 @@ namespace Entitas {
 
         public bool hasPosition { get { return HasComponent(ComponentIds.Position); } }
 
-        public Entity AddPosition(float newX, float newY, float newZ) {
+        public Entity AddPosition(UnityEngine.Vector3 newValue) {
             var component = CreateComponent<Position>(ComponentIds.Position);
-            component.x = newX;
-            component.y = newY;
-            component.z = newZ;
+            component.value = newValue;
             return AddComponent(ComponentIds.Position, component);
         }
 
-        public Entity ReplacePosition(float newX, float newY, float newZ) {
+        public Entity ReplacePosition(UnityEngine.Vector3 newValue) {
             var component = CreateComponent<Position>(ComponentIds.Position);
-            component.x = newX;
-            component.y = newY;
-            component.z = newZ;
+            component.value = newValue;
             ReplaceComponent(ComponentIds.Position, component);
             return this;
         }

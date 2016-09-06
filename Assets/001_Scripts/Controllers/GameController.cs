@@ -23,16 +23,20 @@ public class GameController : MonoBehaviour {
 			systems = new Systems ();
 		}
 		return systems
-			.Add(pool.CreateSystem<UpdateTickSystem>())
+			.Add(pool.CreateSystem<TimeSystem>())
 
 			.Add(pool.CreateSystem<InitTowerSystem>())
 			.Add(pool.CreateSystem<InitPathSystem>())
 
 			.Add(pool.CreateSystem<WaveSystem>())
+
 			.Add(pool.CreateSystem<InitEnemySystem>())
 			.Add(pool.CreateSystem<ActiveEnemySystem>())
+			.Add(pool.CreateSystem<MoveEnemySystem>())
 
 			.Add(pool.CreateSystem<UpdateTowerViewSystem>())
+			.Add(pool.CreateSystem<InitEnemyViewSystem>())
+			.Add(pool.CreateSystem<UpdateEnemyViewSystem>())
 
 			.Add(pool.CreateSystem<ProcessTapInputSystem>())
 			;
