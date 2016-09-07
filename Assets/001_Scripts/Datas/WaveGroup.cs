@@ -1,4 +1,4 @@
-﻿[System.SerializableAttribute]
+﻿[System.Serializable]
 public class WaveGroup {
 	// TODO: tam thoi public field de lam editor, sau nay se dung custom editor de thay the
 	public EnemyType type;
@@ -32,8 +32,8 @@ public class WaveGroup {
 	}
 
 	public WaveGroup() {
-		
 	}
+
 	public WaveGroup(EnemyType type, int amount, float spawnInterval, float waveDelay){
 		this.type = type;
 		this.amount = amount;

@@ -3,26 +3,16 @@ using System.Collections.Generic;
 using System.Text;
 using System;
 
+
 public class MapConstructor : MonoBehaviour {
 
     // map id
     public int mapId = 1;
-    // public int MapId
-    // {
-    //     get
-    //     {
-    //         return mapId;
-    //     }
 
-    //     set
-    //     {
-    //         mapId = value;
-    //     }
-    // }
-
-    // wave datas
+    // wave
+    public List<Wave> waves;
+    // wave group 
     public List<WaveGroup> waveGroups;
-      
     // tower point 
     public List<Vector3> towerPoints;
       
@@ -31,16 +21,26 @@ public class MapConstructor : MonoBehaviour {
 
 
     // TODO: SAVE AND LOAD MAP DATA
+    
+
+    public void CreateWayPoint (int _id) {
+        GameObject wp = new GameObject("WP_" + (_id+1));
+        IconManager.SetIcon (wp, IconManager.LabelIcon.Yellow);   
+        wayPoints.Add (wp.transform.position);  
+    }
+
+    public void ClearWayPoints () {
+        wayPoints.Clear ();
+    }
+
     public void CreateTowerPoint (int _id) {
-        GameObject tp = new GameObject("TP_" + _id);
+        GameObject tp = new GameObject("TP_" + (_id+1));
         IconManager.SetIcon (tp, IconManager.Icon.DiamondBlue);   
         towerPoints.Add (tp.transform.position);  
     }
 
-    public void CreateWayPoint (int _id) {
-        GameObject wp = new GameObject("WP_" + _id);
-        IconManager.SetIcon (wp, IconManager.LabelIcon.Yellow);   
-        wayPoints.Add (wp.transform.position);  
+    public void ClearTowerPoints (){
+        towerPoints.Clear();
     }
 
     public string Save () {
@@ -57,7 +57,6 @@ public class MapConstructor : MonoBehaviour {
     }
 
     public void Load (string data) {
-        // Debug.Lo
         var mGroup = data.Split (';');
         waveGroups = new List<WaveGroup> ();
         for (int i = 0; i < mGroup.Length; i++)
