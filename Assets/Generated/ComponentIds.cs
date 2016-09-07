@@ -8,34 +8,37 @@
 //------------------------------------------------------------------------------
 public static class ComponentIds {
     public const int Active = 0;
-    public const int Damage = 1;
-    public const int Destination = 2;
-    public const int Enemy = 3;
-    public const int Hp = 4;
-    public const int Id = 5;
-    public const int Interactable = 6;
-    public const int Level = 7;
-    public const int Life = 8;
-    public const int LifeCount = 9;
-    public const int MarkedForActive = 10;
-    public const int MarkedForDestroy = 11;
-    public const int Movable = 12;
-    public const int Path = 13;
-    public const int Position = 14;
-    public const int Range = 15;
-    public const int ReachedEnd = 16;
-    public const int TapInput = 17;
-    public const int Target = 18;
-    public const int Tick = 19;
-    public const int Tower = 20;
-    public const int View = 21;
-    public const int Wave = 22;
+    public const int Attack = 1;
+    public const int AttackCooldown = 2;
+    public const int Destination = 3;
+    public const int Enemy = 4;
+    public const int Hp = 5;
+    public const int Id = 6;
+    public const int Interactable = 7;
+    public const int Level = 8;
+    public const int Life = 9;
+    public const int LifeCount = 10;
+    public const int MarkedForActive = 11;
+    public const int MarkedForDestroy = 12;
+    public const int Movable = 13;
+    public const int Path = 14;
+    public const int PathReference = 15;
+    public const int Position = 16;
+    public const int Range = 17;
+    public const int ReachedEnd = 18;
+    public const int TapInput = 19;
+    public const int Target = 20;
+    public const int Tick = 21;
+    public const int Tower = 22;
+    public const int View = 23;
+    public const int Wave = 24;
 
-    public const int TotalComponents = 23;
+    public const int TotalComponents = 25;
 
     public static readonly string[] componentNames = {
         "Active",
-        "Damage",
+        "Attack",
+        "AttackCooldown",
         "Destination",
         "Enemy",
         "Hp",
@@ -48,6 +51,7 @@ public static class ComponentIds {
         "MarkedForDestroy",
         "Movable",
         "Path",
+        "PathReference",
         "Position",
         "Range",
         "ReachedEnd",
@@ -61,7 +65,8 @@ public static class ComponentIds {
 
     public static readonly System.Type[] componentTypes = {
         typeof(Active),
-        typeof(Damage),
+        typeof(Attack),
+        typeof(AttackCooldown),
         typeof(Destination),
         typeof(Enemy),
         typeof(Hp),
@@ -74,6 +79,7 @@ public static class ComponentIds {
         typeof(MarkedForDestroy),
         typeof(Movable),
         typeof(Path),
+        typeof(PathReference),
         typeof(Position),
         typeof(Range),
         typeof(ReachedEnd),

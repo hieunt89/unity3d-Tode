@@ -2,6 +2,6 @@
 using System.Collections;
 using Entitas;
 
-public class Target : IComponent {
+public class PathReference : IComponent {
 	public Entity e;
 }

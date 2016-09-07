@@ -2,6 +2,6 @@
 using System.Collections;
 using Entitas;
 
-public class Target : IComponent {
-	public Entity e;
+public class AttackCooldown : IComponent {
+	public float time;
 }
