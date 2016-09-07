@@ -8,39 +8,39 @@
 //------------------------------------------------------------------------------
 namespace Entitas {
     public partial class Entity {
-        static readonly Intractable intractableComponent = new Intractable();
+        static readonly Active activeComponent = new Active();
 
-        public bool isIntractable {
-            get { return HasComponent(ComponentIds.Intractable); }
+        public bool isActive {
+            get { return HasComponent(ComponentIds.Active); }
             set {
-                if (value != isIntractable) {
+                if (value != isActive) {
                     if (value) {
-                        AddComponent(ComponentIds.Intractable, intractableComponent);
+                        AddComponent(ComponentIds.Active, activeComponent);
                     } else {
-                        RemoveComponent(ComponentIds.Intractable);
+                        RemoveComponent(ComponentIds.Active);
                     }
                 }
             }
         }
 
-        public Entity IsIntractable(bool value) {
-            isIntractable = value;
+        public Entity IsActive(bool value) {
+            isActive = value;
             return this;
         }
     }
 
     public partial class Matcher {
-        static IMatcher _matcherIntractable;
+        static IMatcher _matcherActive;
 
-        public static IMatcher Intractable {
+        public static IMatcher Active {
             get {
-                if (_matcherIntractable == null) {
-                    var matcher = (Matcher)Matcher.AllOf(ComponentIds.Intractable);
+                if (_matcherActive == null) {
+                    var matcher = (Matcher)Matcher.AllOf(ComponentIds.Active);
                     matcher.componentNames = ComponentIds.componentNames;
-                    _matcherIntractable = matcher;
+                    _matcherActive = matcher;
                 }
 
-                return _matcherIntractable;
+                return _matcherActive;
             }
         }
     }

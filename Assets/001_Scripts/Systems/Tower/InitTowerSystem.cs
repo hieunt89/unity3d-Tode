@@ -20,8 +20,11 @@ public class InitTowerSystem : IInitializeSystem, ISetPool {
 		for (int i = 0; i < tps.Length; i++) {
 			_pool.CreateEntity ()
 				.AddTower (TowerType.type1)
+				.AddRange (2.0f)
+				.AddDamage (1, 2)
+				.IsActive(true)
 				.AddId("t_" + i)
-				.IsIntractable(true)
+				.IsInteractable(true)
 				.AddPosition(tps[i].transform.position)
 				;
 		}

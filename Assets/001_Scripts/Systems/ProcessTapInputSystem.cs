@@ -10,7 +10,7 @@ public class ProcessTapInputSystem : IReactiveSystem, ISetPool {
 	public void SetPool (Pool pool)
 	{
 		_pool = pool;
-		_groupInteractable = _pool.GetGroup (Matcher.AllOf(Matcher.Id, Matcher.Intractable));
+		_groupInteractable = _pool.GetGroup (Matcher.AllOf(Matcher.Id, Matcher.Interactable));
 	}
 	#endregion
 

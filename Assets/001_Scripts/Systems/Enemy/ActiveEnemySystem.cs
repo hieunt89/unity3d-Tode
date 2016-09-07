@@ -10,7 +10,7 @@ public class ActiveEnemySystem : IReactiveSystem, ISetPool {
 	public void SetPool (Pool pool)
 	{
 		_pool = pool;
-		_groupActivable = _pool.GetGroup (Matcher.Activable);
+		_groupActivable = _pool.GetGroup (Matcher.MarkedForActive);
 	}
 
 	#endregion
@@ -26,9 +26,8 @@ public class ActiveEnemySystem : IReactiveSystem, ISetPool {
 		var e = entities.SingleEntity ();
 		var eActivable = _groupActivable.GetEntities ();
 		for (int i = 0; i < eActivable.Length; i++) {
-			if(e.tick.time >= eActivable[i].activable.activeTime){
-				eActivable [i]
-					.RemoveActivable ();
+			if(e.tick.time >= eActivable[i].markedForActive.delayTime){
+				eActivable [i].RemoveMarkedForActive ().IsActive(true);
 			}
 		}
 	}

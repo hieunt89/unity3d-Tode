@@ -2,5 +2,6 @@
 using System.Collections;
 using Entitas;
 
-public class Intractable : IComponent {
+public class Hp : IComponent {
+	public int value;
 }

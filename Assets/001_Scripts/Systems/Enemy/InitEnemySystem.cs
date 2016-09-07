@@ -38,9 +38,11 @@ public class InitEnemySystem : IReactiveSystem, ISetPool
 					_pool.CreateEntity ()
 						.AddEnemy (waveGroup.EClass, waveGroup.Type, waveGroup.PathId)
 						.AddId (e.id.value + "_g" + i + "_e" + j)
-						.AddActivable (activeTime)
-						.IsIntractable (true)
+						.AddMarkedForActive (activeTime)
+						.IsInteractable (true)
 						.AddMovable (1.0f)
+						.AddLifeCount (-1)
+						.AddHp (5)
 						.AddDestination (ePath.path.wayPoints[0])
 						.AddPosition (ePath.path.wayPoints[0])
 						;

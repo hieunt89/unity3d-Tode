@@ -2,6 +2,6 @@
 using System.Collections;
 using Entitas;
 
-public class Activable : IComponent {
-	public float activeTime;
+public class Range : IComponent {
+	public float value;
 }

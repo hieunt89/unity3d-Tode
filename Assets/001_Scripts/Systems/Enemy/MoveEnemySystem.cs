@@ -11,7 +11,7 @@ public class MoveEnemySystem : IExecuteSystem, ISetPool {
 	public void SetPool (Pool pool)
 	{
 		_pool = pool;
-		_groupEnemyMovable = _pool.GetGroup(Matcher.AllOf(Matcher.Enemy, Matcher.Movable).NoneOf(Matcher.Activable));
+		_groupEnemyMovable = _pool.GetGroup(Matcher.AllOf(Matcher.Enemy, Matcher.Movable, Matcher.Active));
 	}
 
 	#endregion
@@ -25,7 +25,7 @@ public class MoveEnemySystem : IExecuteSystem, ISetPool {
 			if (e.position.value == e.destination.value) {
 				var target = GetNextDestination (e.position.value, e.enemy.ePathId);
 				if (e.position.value == target) {
-					e.RemoveMovable ();
+					e.RemoveMovable ().IsReachedEnd(true);
 					continue;
 				} else {
 					e.ReplaceDestination (target);

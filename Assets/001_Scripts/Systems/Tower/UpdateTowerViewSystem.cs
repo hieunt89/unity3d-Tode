@@ -2,6 +2,14 @@
 using Entitas;
 
 public class UpdateTowerViewSystem : IReactiveSystem {
+	GameObject towerViewParent;
+	public UpdateTowerViewSystem(){
+		towerViewParent = GameObject.Find ("TowersView");
+		if(towerViewParent == null){
+			towerViewParent = new GameObject ("TowersView");
+			towerViewParent.transform.position = Vector3.zero;
+		}
+	}
 	#region IReactiveExecuteSystem implementation
 
 	void IReactiveExecuteSystem.Execute (System.Collections.Generic.List<Entity> entities)
@@ -29,6 +37,7 @@ public class UpdateTowerViewSystem : IReactiveSystem {
 
 			go.name = entities [i].id.value;
 			go.transform.position = entities [i].position.value;
+			go.transform.SetParent (towerViewParent.transform, false);
 		}
 	}
 

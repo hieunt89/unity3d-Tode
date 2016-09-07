@@ -5,6 +5,7 @@ public enum TowerType{
 	type1,
 	type2
 }
+
 public class Tower : IComponent {
 	public TowerType type;
 }

@@ -3,6 +3,14 @@ using System.Collections;
 using Entitas;
 
 public class InitEnemyViewSystem : IReactiveSystem, IEnsureComponents {
+	GameObject enemyViewParent;
+	public InitEnemyViewSystem(){
+		enemyViewParent = GameObject.Find ("EnemysView");
+		if(enemyViewParent == null){
+			enemyViewParent = new GameObject ("EnemysView");
+			enemyViewParent.transform.position = Vector3.zero;
+		}
+	}
 	#region IEnsureComponents implementation
 
 	public IMatcher ensureComponents {
@@ -22,8 +30,9 @@ public class InitEnemyViewSystem : IReactiveSystem, IEnsureComponents {
 			var e = entities [i];
 			if(e.hasEnemy){
 				go = GameObject.Instantiate(Resources.Load<GameObject> ("Enemy/" + e.enemy.eClass + "/" + e.enemy.eType));
-				go.transform.position = e.position.value;
 				go.name = e.id.value;
+				go.transform.position = e.position.value;
+				go.transform.SetParent (enemyViewParent.transform, false);
 				e.AddView (go);
 			}
 		}
@@ -35,7 +44,7 @@ public class InitEnemyViewSystem : IReactiveSystem, IEnsureComponents {
 
 	public TriggerOnEvent trigger {
 		get {
-			return Matcher.Activable.OnEntityRemoved ();
+			return Matcher.AllOf(Matcher.Enemy, Matcher.Active).OnEntityAdded ();
 		}
 	}
 

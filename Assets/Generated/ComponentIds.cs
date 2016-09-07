@@ -7,34 +7,52 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 public static class ComponentIds {
-    public const int Activable = 0;
-    public const int Destination = 1;
-    public const int Enemy = 2;
-    public const int Id = 3;
-    public const int Intractable = 4;
-    public const int Level = 5;
-    public const int Movable = 6;
-    public const int Path = 7;
-    public const int Position = 8;
-    public const int TapInput = 9;
-    public const int Tick = 10;
-    public const int Tower = 11;
-    public const int View = 12;
-    public const int Wave = 13;
+    public const int Active = 0;
+    public const int Damage = 1;
+    public const int Destination = 2;
+    public const int Enemy = 3;
+    public const int Hp = 4;
+    public const int Id = 5;
+    public const int Interactable = 6;
+    public const int Level = 7;
+    public const int Life = 8;
+    public const int LifeCount = 9;
+    public const int MarkedForActive = 10;
+    public const int MarkedForDestroy = 11;
+    public const int Movable = 12;
+    public const int Path = 13;
+    public const int Position = 14;
+    public const int Range = 15;
+    public const int ReachedEnd = 16;
+    public const int TapInput = 17;
+    public const int Target = 18;
+    public const int Tick = 19;
+    public const int Tower = 20;
+    public const int View = 21;
+    public const int Wave = 22;
 
-    public const int TotalComponents = 14;
+    public const int TotalComponents = 23;
 
     public static readonly string[] componentNames = {
-        "Activable",
+        "Active",
+        "Damage",
         "Destination",
         "Enemy",
+        "Hp",
         "Id",
-        "Intractable",
+        "Interactable",
         "Level",
+        "Life",
+        "LifeCount",
+        "MarkedForActive",
+        "MarkedForDestroy",
         "Movable",
         "Path",
         "Position",
+        "Range",
+        "ReachedEnd",
         "TapInput",
+        "Target",
         "Tick",
         "Tower",
         "View",
@@ -42,16 +60,25 @@ public static class ComponentIds {
     };
 
     public static readonly System.Type[] componentTypes = {
-        typeof(Activable),
+        typeof(Active),
+        typeof(Damage),
         typeof(Destination),
         typeof(Enemy),
+        typeof(Hp),
         typeof(Id),
-        typeof(Intractable),
+        typeof(Interactable),
         typeof(Level),
+        typeof(Life),
+        typeof(LifeCount),
+        typeof(MarkedForActive),
+        typeof(MarkedForDestroy),
         typeof(Movable),
         typeof(Path),
         typeof(Position),
+        typeof(Range),
+        typeof(ReachedEnd),
         typeof(TapInput),
+        typeof(Target),
         typeof(Tick),
         typeof(Tower),
         typeof(View),
