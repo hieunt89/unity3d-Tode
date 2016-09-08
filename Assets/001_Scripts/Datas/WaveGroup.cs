@@ -1,47 +1,88 @@
 ﻿[System.Serializable]
+
 public class WaveGroup {
 	// TODO: tam thoi public field de lam editor, sau nay se dung custom editor de thay the
-	public EnemyType type;
+	[UnityEngine.SerializeField] private EnemyType type;
+	public EnemyType Type
+    {
+        get
+        {
+            return type;
+        }
 
-	public EnemyType Type {
-		get {
-			return type;
-		}
-	}
+        set
+        {
+            type = value;
+        }
+    }
 
-	public int amount;
+    [UnityEngine.SerializeField] private int pathId;
+	public int PathId
+    {
+        get
+        {
+            return pathId;
+        }
 
-	public int Amount {
-		get {
-			return amount;
-		}
-	}
+        set
+        {
+            pathId = value;
+        }
+    }
 
-	public float spawnInterval;
-	public float SpawnInterval {
-		get {
-			return spawnInterval;
-		}
-	}
+    [UnityEngine.SerializeField] private int amount;
+  	public int Amount
+    {
+        get
+        {
+            return amount;
+        }
 
-	public float waveDelay;
-	public float WaveDelay {
-		get {
-			return waveDelay;
-		}
-	}
+        set
+        {
+            amount = value;
+        }
+    }
+	
+	[UnityEngine.SerializeField] private float spawnInterval;
+ 	public float SpawnInterval
+    {
+        get
+        {
+            return spawnInterval;
+        }
 
-	public WaveGroup() {
+        set
+        {
+            spawnInterval = value;
+        }
+    }
+
+    [UnityEngine.SerializeField] private float waveDelay;
+	public float WaveDelay
+    {
+        get
+        {
+            return waveDelay;
+        }
+
+        set
+        {
+            waveDelay = value;
+        }
+    }
+	
+    public WaveGroup() {
 	}
 
 	public WaveGroup(EnemyType type, int amount, float spawnInterval, float waveDelay){
-		this.type = type;
-		this.amount = amount;
-		this.spawnInterval = spawnInterval;
-		this.waveDelay = waveDelay;
+		this.Type = type;
+		this.Amount = amount;
+		this.SpawnInterval = spawnInterval;
+		this.WaveDelay = waveDelay;
 	}
 
 	public override string ToString () {
-		return type + "," + amount + "," + spawnInterval + "," + waveDelay;
+		return Type + "," + Amount + "," + SpawnInterval + "," + WaveDelay;
 	}
 }

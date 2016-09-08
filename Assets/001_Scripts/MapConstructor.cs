@@ -3,68 +3,88 @@ using System.Collections.Generic;
 using System.Text;
 using System;
 
+[System.Serializable]
+public struct WayPointData {
+    [UnityEngine.SerializeField] public string id;
+    [UnityEngine.SerializeField] public GameObject wayPointGo;
+    [UnityEngine.SerializeField] public Vector3 wayPointPosition;
+}
 
+[System.Serializable]
+public struct TowerPointData {
+    [UnityEngine.SerializeField] public string id;
+    [UnityEngine.SerializeField] public GameObject TowerPointGo;
+    [UnityEngine.SerializeField] public Vector3 towerPointPosition;
+}
+
+[System.Serializable]
+public struct WaveData {
+    [UnityEngine.SerializeField] public int id;
+    [UnityEngine.SerializeField] public List<WaveGroup> groups;
+}
+
+[ExecuteInEditMode]
 public class MapConstructor : MonoBehaviour {
 
     // map id
-    public int mapId = 1;
+    [UnityEngine.SerializeField] public int mapId = 1;
+    private WayPointData wpd;
+    private TowerPointData tpd;
+    private WaveData wd;
 
-    // way point
-    [System.Serializable]
-    public class WayPointData {
-        public string id;
-        public GameObject wayPointGo;
-        public Vector3 wayPointPosition;
+    [UnityEngine.SerializeField] public List<WayPointData> wayPoints;
+    [UnityEngine.SerializeField] public List<TowerPointData> towerPoints;    
+    [UnityEngine.SerializeField] public List<WaveData> waves;
+    [UnityEngine.SerializeField] public List<WaveGroup> waveGroups;  // test
 
-        public WayPointData (string _id, GameObject _wpg, Vector3 _wpp){
-            id = _id;
-            wayPointGo = _wpg;
-            wayPointPosition = _wpp;
-        }
-    }
-    public List<WayPointData> wayPoints;
-
-    // tower point
-    [System.Serializable]
-    public class TowerPointData {
-        public string id;
-        public Vector3 towerPointPosition;
-
-        public TowerPointData (string _id, Vector3 _tpp){
-            id = _id;
-            towerPointPosition = _tpp;
-        }
-    }
-
-    public List<TowerPointData> towerPoints;
-
-    // wave
-    public List<Wave> waves;
-    // wave group 
-    public List<WaveGroup> waveGroups;
-
-    // TODO: SAVE AND LOAD MAP DATA
-    public void CreateWayPoint (int _id) {
+    public void CreateNewWayPoint (int _id) {
         GameObject wpg = new GameObject("WP_" + (_id+1));
         IconManager.SetIcon (wpg, IconManager.LabelIcon.Yellow);
-
-        wayPoints.Add (new WayPointData(wpg.name, wpg, wpg.transform.position));  
+        
+        wpd.id = wpg.name;
+        wpd.wayPointGo = wpg;
+        wpd.wayPointPosition = wpg.transform.position;
+        wayPoints.Add (wpd);  
     }
 
-    public void ClearWayPoints () {
+    public void ClearAllWayPoints () {
+        for (int i = 0; i < wayPoints.Count; i++)
+        {
+            DestroyImmediate(wayPoints[i].wayPointGo);
+        }
         wayPoints.Clear ();
     }
 
-    public void CreateTowerPoint (int _id) {
-        GameObject tp = new GameObject("TP_" + (_id+1));
-        IconManager.SetIcon (tp, IconManager.Icon.DiamondBlue);   
-        // towerPoints.Add (tp.transform.position);  
+    public void CreateNewTowerPoint (int _id) {
+        GameObject tpg = new GameObject("TP_" + (_id+1));
+        IconManager.SetIcon (tpg, IconManager.LabelIcon.Blue); 
+        tpd.id = tpg.name;
+        tpd.TowerPointGo = tpg;
+        tpd.towerPointPosition = tpg.transform.position;
+        towerPoints.Add (tpd);  
     }
 
-    public void ClearTowerPoints (){
+    public void ClearAllTowerPoints (){
+        for (int i = 0; i < towerPoints.Count; i++)
+        {
+            DestroyImmediate(towerPoints[i].TowerPointGo);
+        }
         towerPoints.Clear();
     }
 
+    public void CreateNewWave(int _id){
+        wd.id = _id;
+        wd.groups = new List<WaveGroup> ();
+        waves.Add(wd);
+    }
+
+     public void ClearAllWaves (){
+        // for (int i = 0; i < waves.Count; i++)
+        // {
+        //     DestroyImmediate(waves[i]);
+        // }
+        waves.Clear();
+    }
     public string Save () {
         var sb = new StringBuilder ();
         for (int i = 0; i < waveGroups.Count; i++)
@@ -85,11 +105,23 @@ public class MapConstructor : MonoBehaviour {
         {
             var values = mGroup[i].Split(',');
             var waveGroup = new WaveGroup();
-            waveGroup.type = (EnemyType) System.Enum.Parse(typeof(EnemyType), values[0]);   // parse string to enum ...
-            waveGroup.amount = Int32.Parse(values[1]);
-            waveGroup.spawnInterval = float.Parse(values[2]);
-            waveGroup.waveDelay = float.Parse(values[3]);
+            waveGroup.Type = (EnemyType) System.Enum.Parse(typeof(EnemyType), values[0]);   // parse string to enum ...
+            waveGroup.Amount = Int32.Parse(values[1]);
+            waveGroup.SpawnInterval = float.Parse(values[2]);
+            waveGroup.WaveDelay = float.Parse(values[3]);
             waveGroups.Add(waveGroup);
+        }
+    }
+
+    void Update () {
+        for (int i = 0; i < wayPoints.Count; i++)
+        {
+            wayPoints[i].wayPointGo.transform.position = wayPoints[i].wayPointPosition;
+        }
+
+        for (int i = 0; i < towerPoints.Count; i++)
+        {
+            towerPoints[i].TowerPointGo.transform.position = towerPoints[i].towerPointPosition;
         }
     }
 }

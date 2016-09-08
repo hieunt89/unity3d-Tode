@@ -12,7 +12,6 @@ public class CustomList : MonoBehaviour {
         public float AnFloat;
         public Vector3 AnVector3;
         public int[] AnIntArray = new int[0];
-
 		public List<int> MySubList = new List<int>();
     }
  
