@@ -10,35 +10,41 @@ public static class ComponentIds {
     public const int Active = 0;
     public const int Attack = 1;
     public const int AttackCooldown = 2;
-    public const int Destination = 3;
-    public const int Enemy = 4;
-    public const int Hp = 5;
-    public const int Id = 6;
-    public const int Interactable = 7;
-    public const int Level = 8;
-    public const int Life = 9;
-    public const int LifeCount = 10;
-    public const int MarkedForActive = 11;
-    public const int MarkedForDestroy = 12;
-    public const int Movable = 13;
-    public const int Path = 14;
-    public const int PathReference = 15;
-    public const int Position = 16;
-    public const int Range = 17;
-    public const int ReachedEnd = 18;
-    public const int TapInput = 19;
-    public const int Target = 20;
-    public const int Tick = 21;
-    public const int Tower = 22;
-    public const int View = 23;
-    public const int Wave = 24;
+    public const int AttackDamage = 3;
+    public const int AttackRange = 4;
+    public const int AttackSpeed = 5;
+    public const int Destination = 6;
+    public const int Enemy = 7;
+    public const int Hp = 8;
+    public const int Id = 9;
+    public const int Interactable = 10;
+    public const int Level = 11;
+    public const int Life = 12;
+    public const int LifeCount = 13;
+    public const int MarkedForActive = 14;
+    public const int MarkedForDestroy = 15;
+    public const int Movable = 16;
+    public const int Path = 17;
+    public const int PathReference = 18;
+    public const int Position = 19;
+    public const int Projectile = 20;
+    public const int ReachedEnd = 21;
+    public const int TapInput = 22;
+    public const int Target = 23;
+    public const int Tick = 24;
+    public const int Tower = 25;
+    public const int View = 26;
+    public const int Wave = 27;
 
-    public const int TotalComponents = 25;
+    public const int TotalComponents = 28;
 
     public static readonly string[] componentNames = {
         "Active",
         "Attack",
         "AttackCooldown",
+        "AttackDamage",
+        "AttackRange",
+        "AttackSpeed",
         "Destination",
         "Enemy",
         "Hp",
@@ -53,7 +59,7 @@ public static class ComponentIds {
         "Path",
         "PathReference",
         "Position",
-        "Range",
+        "Projectile",
         "ReachedEnd",
         "TapInput",
         "Target",
@@ -67,6 +73,9 @@ public static class ComponentIds {
         typeof(Active),
         typeof(Attack),
         typeof(AttackCooldown),
+        typeof(AttackDamage),
+        typeof(AttackRange),
+        typeof(AttackSpeed),
         typeof(Destination),
         typeof(Enemy),
         typeof(Hp),
@@ -81,7 +90,7 @@ public static class ComponentIds {
         typeof(Path),
         typeof(PathReference),
         typeof(Position),
-        typeof(Range),
+        typeof(Projectile),
         typeof(ReachedEnd),
         typeof(TapInput),
         typeof(Target),

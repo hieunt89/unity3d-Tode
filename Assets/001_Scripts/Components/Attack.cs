@@ -1,10 +1,10 @@
-﻿using UnityEngine;
-using System.Collections;
-using Entitas;
+﻿using Entitas;
+
+public enum AttackType{
+	type1,
+	type2
+}
 
 public class Attack : IComponent {
-	public int minDamage;
-	public int maxDamage;
-
-	public float attackSpeed;
+	public AttackType type;
 }

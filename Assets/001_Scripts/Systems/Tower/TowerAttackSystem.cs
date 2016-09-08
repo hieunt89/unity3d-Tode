@@ -34,7 +34,15 @@ public class TowerAttackSystem : IReactiveSystem, ISetPool {
 			}
 
 			//attack
-			tower.AddAttackCooldown(tower.attack.attackSpeed);
+			tower.AddAttackCooldown(tower.attackSpeed.value);
+			_pool.CreateProjectile (
+				ProjectileType.type1,
+				tower.position.value + Vector3.up,
+				tower.attack.type,
+				tower.attackDamage.minDamage,
+				tower.attackDamage.maxDamage,
+				2.0f,
+				tower.target.e);
 		}
 	}
 

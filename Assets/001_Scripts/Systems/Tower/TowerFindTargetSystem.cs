@@ -57,7 +57,7 @@ public class TowerFindTargetSystem : IReactiveSystem, ISetPool {
 	Entity FindTarget(Entity tower, Entity[] enemies ){
 		targetableEnemies.Clear ();
 		for (int i = 0; i < enemies.Length; i++) {
-			if( enemies[i].position.value.IsInRange(tower.position.value, tower.range.value) ){
+			if( enemies[i].position.value.IsInRange(tower.position.value, tower.attackRange.value) ){
 				targetableEnemies.Add (enemies [i]);
 			}
 		}

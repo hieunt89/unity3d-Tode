@@ -14,4 +14,13 @@ public static class PoolExtension {
 		return null;
 	}
 
+	public static Entity CreateProjectile(this Pool pool, ProjectileType prjType, Vector3 pos, AttackType atkType, int minDmg, int maxDmg, float travelSpeed, Entity target){
+		return pool.CreateEntity ()
+			.AddProjectile(prjType)
+			.AddPosition(pos)
+			.AddAttack (atkType)
+			.AddAttackDamage (minDmg, maxDmg)
+			.AddTarget (target)
+			.AddMovable (travelSpeed);
+	}
 }

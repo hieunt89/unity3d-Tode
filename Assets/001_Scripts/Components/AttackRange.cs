@@ -2,6 +2,6 @@
 using System.Collections;
 using Entitas;
 
-public class Range : IComponent {
+public class AttackRange : IComponent {
 	public float value;
 }

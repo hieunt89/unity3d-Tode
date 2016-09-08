@@ -26,7 +26,7 @@ public class TowerCheckTargetSystem : IReactiveSystem, ISetPool {
 		for (int i = 0; i < ens.Length; i++) {
 			var tower = ens [i];
 			var enemy = ens [i].target.e;
-			if(!enemy.hasEnemy || !enemy.position.value.IsInRange(tower.position.value, tower.range.value)){
+			if(!enemy.hasEnemy || !enemy.position.value.IsInRange(tower.position.value, tower.attackRange.value)){
 				tower.RemoveTarget ();
 			}
 		}

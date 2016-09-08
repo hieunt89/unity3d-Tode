@@ -20,12 +20,14 @@ public class TowerInitSystem : IInitializeSystem, ISetPool {
 		for (int i = 0; i < tps.Length; i++) {
 			_pool.CreateEntity ()
 				.AddTower (TowerType.type1)
-				.AddRange (2.0f)
-				.AddAttack (1, 2, 2.0f)
-				.IsActive(true)
-				.AddId("tower_" + i)
-				.IsInteractable(true)
-				.AddPosition(tps[i].transform.position)
+				.AddAttack (AttackType.type1)
+				.AddAttackRange (2.0f)
+				.AddAttackDamage (1, 2)
+				.AddAttackSpeed (2.0f)
+				.IsActive (true)
+				.AddId ("tower_" + i)
+				.IsInteractable (true)
+				.AddPosition (tps[i].transform.position)
 				;
 		}
 	}
