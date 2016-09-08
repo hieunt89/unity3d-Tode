@@ -73,12 +73,12 @@ public class MapConstructor : MonoBehaviour {
     }
 
     public void CreateNewWave(int _id){
-        wd.id = _id;
+        wd.id = _id + 1;
         wd.groups = new List<WaveGroup> ();
         waves.Add(wd);
     }
 
-     public void ClearAllWaves (){
+    public void ClearAllWaves (){
         // for (int i = 0; i < waves.Count; i++)
         // {
         //     DestroyImmediate(waves[i]);
@@ -112,7 +112,6 @@ public class MapConstructor : MonoBehaviour {
             waveGroups.Add(waveGroup);
         }
     }
-
     void Update () {
         for (int i = 0; i < wayPoints.Count; i++)
         {

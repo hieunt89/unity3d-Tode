@@ -46,10 +46,10 @@ public class MapConstructorEditor : Editor {
 
 		// mapConstructor.waves = new List<Wave> ();
 
-		wayPoints = new ReorderableList (serializedObject, serializedObject.FindProperty("wayPoints"), true, true, true, true);
-		towerPoints = new ReorderableList (serializedObject, serializedObject.FindProperty("towerPoints"), true, true, true, true);
-		// waves = new ReorderableList (serializedObject, serializedObject.FindProperty("waves"), true, true, true, true);
-		waveGroups = new ReorderableList (serializedObject, serializedObject.FindProperty("waveGroups"), true, true, true, true);
+		wayPoints = new ReorderableList (mc, mc.FindProperty("wayPoints"), true, true, true, true);
+		towerPoints = new ReorderableList (mc, mc.FindProperty("towerPoints"), true, true, true, true);
+		// waves = new ReorderableList (mc, mc.FindProperty("waves"), true, true, true, true);
+		waveGroups = new ReorderableList (mc, mc.FindProperty("waveGroups"), true, true, true, true);
 		
 
 		//
@@ -115,7 +115,7 @@ public class MapConstructorEditor : Editor {
 
 		// for (int i = 0; i < props.Length; i++)
 		// {
-		// 	var sProp = serializedObject.FindProperty(props[i]);
+		// 	var sProp = mc.FindProperty(props[i]);
 		// 	var guiContent = new GUIContent ();
 		// 	guiContent.text = sProp.displayName;
 		// 	EditorGUILayout.PropertyField (sProp, guiContent);
@@ -152,14 +152,12 @@ public class MapConstructorEditor : Editor {
 
 		if(mapConstructor == null)
 			return;
-
-		serializedObject.Update ();
+		
+		mc.Update();
 
 		wpCount = EditorPrefs.GetInt("WPC");
 		tpCount = EditorPrefs.GetInt("TPC");
 		wCount = EditorPrefs.GetInt("WC");
-
-		
 		
 		EditorGUILayout.BeginVertical ("box");
 
@@ -250,32 +248,20 @@ public class MapConstructorEditor : Editor {
 			}
 			EditorGUILayout.EndHorizontal ();
 			
-			// for (int i = 0; i < mapConstructor.waves.Count; i++)
-			// {
-			// 	EditorGUILayout.LabelField(mapConstructor.waves[i].id.ToString());
-			// }
+			// display wave data
 			for(int i = 0; i < waves.arraySize; i++){
-				SerializedProperty wg = waves.GetArrayElementAtIndex(i);
-				SerializedProperty waveGroups = wg.FindPropertyRelative("waveGroups");
+				SerializedProperty wave = waves.GetArrayElementAtIndex(i);
+				EditorGUILayout.LabelField (wave.FindPropertyRelative("id").intValue.ToString());
+				SerializedProperty groups = wave.FindPropertyRelative("groups");
+				if(GUILayout.Button("Add New Group")) {
+					groups.InsertArrayElementAtIndex(groups.arraySize);
+					// groups.GetArrayElementAtIndex(groups.arraySize -1).intValue = 0;
+				}
+				
+				for(int j = 0; j < groups.arraySize; j++){
+					waveGroups.DoLayoutList();
+				}
 			}
-			for(int i = 0; i < waves.arraySize; i++){
-				 if(GUILayout.Button("Add New Wave To Sub List", GUILayout.MaxWidth(240),GUILayout.MaxHeight(20))){
-                    waveGroups.InsertArrayElementAtIndex(waveGroups.arraySize);
-                    waveGroups.GetArrayElementAtIndex(waveGroups.arraySize -1).intValue = 0;
-			}
- 
-			for(int a = 0; a < MySubList.arraySize; a++){
-                    EditorGUILayout.PropertyField(MySubList.GetArrayElementAtIndex(a));
-                    if(GUILayout.Button("Remove  (" + a.ToString() + ") From Sub List",GUILayout.MaxWidth(150),GUILayout.MaxHeight(15))){
-                        MySubList.DeleteArrayElementAtIndex(a);
-                    }
-			}
-			 }
-			
-			// waves.DoLayoutList();
-			// waveGroups.DoLayoutList();
-
-			
 			EditorGUI.indentLevel--;
 		}
 		EditorGUI.indentLevel--;
@@ -321,20 +307,12 @@ public class MapConstructorEditor : Editor {
 		if (GUI.changed)
 			EditorUtility.SetDirty(mapConstructor);
 
-		serializedObject.ApplyModifiedProperties();
+		mc.ApplyModifiedProperties();
 	}
 	
 	public void OnSceneGUI (){
 		if (mapConstructor == null)
 			return;
-
-		if(mapConstructor.wayPoints != null && mapConstructor.wayPoints.Count > 0) {
-			// wp =
-			for (int i = 0; i < mapConstructor.wayPoints.Count; i++)
-			{
-				// mapConstructor.wayPoints[i].wayPointGo.transform.position = 
-			}
-		} 
 	}
 
 	#region database
