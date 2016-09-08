@@ -19,6 +19,15 @@ public class MapConstructorEditor : Editor {
 	private ReorderableList waveGroups;
 	private MapConstructor mapConstructor;
 
+	public GUIStyle guiTitleStyle {
+		get {
+			var guiTitleStyle = new GUIStyle (GUI.skin.label);
+			guiTitleStyle.normal.textColor = Color.blue;
+			guiTitleStyle.fontSize = 16;
+			guiTitleStyle.fixedHeight = 30;
+			return guiTitleStyle;
+		}
+	}
 	void OnEnable () {
 		mapConstructor = target as MapConstructor;
 		// mapConstructor = Selection.activeGameObject.GetComponent <MapConstructor> ();
@@ -60,31 +69,34 @@ public class MapConstructorEditor : Editor {
 	
 	private void OnDrawWayPointCallBack (Rect rect, int index, bool isActive, bool isFocused) {
 		var wp = wayPoints.serializedProperty.GetArrayElementAtIndex(index);
-		EditorGUI.Vector3Field(
-			new Rect(rect.x, rect.y, 60, EditorGUIUtility.singleLineHeight),
-			"WP_" + (index + 1),
-			wp.vector3Value			
+		EditorGUI.PropertyField (
+			new Rect(rect.x, rect.y, 120, EditorGUIUtility.singleLineHeight),
+			wp.FindPropertyRelative("id"),
+			GUIContent.none
 		);
-		// EditorGUILayout.Vector3Field ("Way Point " + (index + 1), wp.vector3Value);
+
+		EditorGUI.PropertyField (
+			new Rect(rect.x + 130 , rect.y, 320, EditorGUIUtility.singleLineHeight),
+			wp.FindPropertyRelative("wayPointPosition"),
+			GUIContent.none
+		);
 	}
 
 	private void OnDrawTowerPointCallBack (Rect rect, int index, bool isActive, bool isFocused) {
 		var tp = towerPoints.serializedProperty.GetArrayElementAtIndex(index);
-		EditorGUI.Vector3Field(
-			new Rect(rect.x, rect.y, 60, EditorGUIUtility.singleLineHeight),
-			"TP_" + (index + 1),
-			tp.vector3Value			
+		EditorGUI.PropertyField (
+			new Rect(rect.x, rect.y, 120, EditorGUIUtility.singleLineHeight),
+			tp.FindPropertyRelative("id"),
+			GUIContent.none
+		);
+
+		EditorGUI.PropertyField (
+			new Rect(rect.x + 130, rect.y, 320, EditorGUIUtility.singleLineHeight),
+			tp.FindPropertyRelative("towerPointPosition"),
+			GUIContent.none
 		);
 	}
 
-	// private void OnDrawWavesCallBack (Rect rect, int index, bool isActive, bool isFocused) {
-	// 	var w = waves.serializedProperty.GetArrayElementAtIndex(index);
-	// 	EditorGUI.PropertyField (
-	// 		new Rect(rect.x, rect.y, 60, EditorGUIUtility.singleLineHeight),
-	// 		w.FindPropertyRelative ("testId"),
-	// 		GUIContent.none
-	// 	);	
-	// }
 	private void OnDrawWaveGroupCallBack (Rect rect, int index, bool isActive, bool isFocused) {
 		// var props = new [] {"type", "amount", "spawnInterval", "waveDelay"};
 
@@ -123,7 +135,7 @@ public class MapConstructorEditor : Editor {
 		);
 	}
 	public override void OnInspectorGUI (){
-		
+		DrawDefaultInspector();
 
 		serializedObject.Update ();
 
@@ -135,14 +147,19 @@ public class MapConstructorEditor : Editor {
 		EditorGUILayout.EndVertical ();
 		#endregion map constructor window
 		
-		// DrawDefaultInspector();
+		EditorGUILayout.BeginVertical ("box");
+	
 		mapConstructor.mapId = EditorGUILayout.IntField ("Map Id", mapConstructor.mapId);
 
+		EditorGUILayout.Space();
+
 		#region waypoint 
+		EditorGUI.indentLevel++;
 		toggleWP = EditorGUILayout.Foldout(toggleWP, "Way Point");
 		if (toggleWP) {
+			EditorGUI.indentLevel++;
 			EditorGUILayout.BeginHorizontal ();
-			if (GUILayout.Button ("Create Way Point")) {
+			if (GUILayout.Button ("Create A New Way Point")) {
 				Debug.Log ("create a way point");
 				mapConstructor.CreateWayPoint (wpCount);
 				wpCount++;
@@ -156,15 +173,19 @@ public class MapConstructorEditor : Editor {
 			}
 			EditorGUILayout.EndHorizontal();
 			wayPoints.DoLayoutList();
+			EditorGUI.indentLevel--;
 		}
+		EditorGUI.indentLevel--;
 		EditorGUILayout.Space();
 		#endregion waypoint
 
 		#region towerpoint
+		EditorGUI.indentLevel++;
 		toggleTP = EditorGUILayout.Foldout(toggleTP, "Tower Point");
 		if (toggleTP) {
+			EditorGUI.indentLevel++;
 			EditorGUILayout.BeginHorizontal ();
-			if (GUILayout.Button ("Create Tower Point")) {
+			if (GUILayout.Button ("Create A New Tower Point")) {
 				// Debug.Log ("create a tower point");
 				mapConstructor.CreateTowerPoint(tpCount);
 				tpCount++;
@@ -179,20 +200,32 @@ public class MapConstructorEditor : Editor {
 			EditorGUILayout.EndHorizontal();
 			// custom reorderable list 
 			towerPoints.DoLayoutList();
+			EditorGUI.indentLevel--;
 		}
+		EditorGUI.indentLevel--;
 		EditorGUILayout.Space();
 		#endregion towerpoint
 
+		EditorGUI.indentLevel++;
 		toggleWG = EditorGUILayout.Foldout(toggleWG, "Wave");
 		if (toggleWG) {
+			EditorGUI.indentLevel++;
+			EditorGUILayout.BeginHorizontal ();
+			if (GUILayout.Button ("Create A New Wave")) {
+				Debug.Log ("create new wave");
+			}
+			if (GUILayout.Button ("Clear All Wave")) {
+				Debug.Log ("clear all wave");
+			}
+			EditorGUILayout.EndHorizontal ();
 			// custom reorderable list 
 			// waves.DoLayoutList();
 			waveGroups.DoLayoutList();
 
-			if (GUILayout.Button ("Create New Wave")) {
-				Debug.Log ("create new wave");
-			}
+			
+			EditorGUI.indentLevel--;
 		}
+		EditorGUI.indentLevel--;
 
 		#region data
 		// TODO: save and load map data to xml 
@@ -222,7 +255,8 @@ public class MapConstructorEditor : Editor {
 		
 		EditorGUILayout.Space();
 		#endregion data
-
+		EditorGUILayout.EndVertical ();
+		
 		serializedObject.ApplyModifiedProperties();
 	}
 

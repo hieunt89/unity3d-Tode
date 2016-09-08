@@ -9,24 +9,46 @@ public class MapConstructor : MonoBehaviour {
     // map id
     public int mapId = 1;
 
+    // way point
+    [System.Serializable]
+    public class WayPointData {
+        public string id;
+        public GameObject wayPointGo;
+        public Vector3 wayPointPosition;
+
+        public WayPointData (string _id, GameObject _wpg, Vector3 _wpp){
+            id = _id;
+            wayPointGo = _wpg;
+            wayPointPosition = _wpp;
+        }
+    }
+    public List<WayPointData> wayPoints;
+
+    // tower point
+    [System.Serializable]
+    public class TowerPointData {
+        public string id;
+        public Vector3 towerPointPosition;
+
+        public TowerPointData (string _id, Vector3 _tpp){
+            id = _id;
+            towerPointPosition = _tpp;
+        }
+    }
+
+    public List<TowerPointData> towerPoints;
+
     // wave
     public List<Wave> waves;
     // wave group 
     public List<WaveGroup> waveGroups;
-    // tower point 
-    public List<Vector3> towerPoints;
-      
-    // way point
-    public List<Vector3> wayPoints;
-
 
     // TODO: SAVE AND LOAD MAP DATA
-    
-
     public void CreateWayPoint (int _id) {
-        GameObject wp = new GameObject("WP_" + (_id+1));
-        IconManager.SetIcon (wp, IconManager.LabelIcon.Yellow);   
-        wayPoints.Add (wp.transform.position);  
+        GameObject wpg = new GameObject("WP_" + (_id+1));
+        IconManager.SetIcon (wpg, IconManager.LabelIcon.Yellow);
+
+        wayPoints.Add (new WayPointData(wpg.name, wpg, wpg.transform.position));  
     }
 
     public void ClearWayPoints () {
@@ -36,7 +58,7 @@ public class MapConstructor : MonoBehaviour {
     public void CreateTowerPoint (int _id) {
         GameObject tp = new GameObject("TP_" + (_id+1));
         IconManager.SetIcon (tp, IconManager.Icon.DiamondBlue);   
-        towerPoints.Add (tp.transform.position);  
+        // towerPoints.Add (tp.transform.position);  
     }
 
     public void ClearTowerPoints (){
