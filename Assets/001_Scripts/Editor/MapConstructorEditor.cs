@@ -16,7 +16,9 @@ public class MapConstructorEditor : Editor {
 	private ReorderableList towerPoints;
 	// private ReorderableList waves;
 	private SerializedObject mc;
-	private SerializedProperty waves;
+	private SerializedProperty _waves;
+
+	// private ReorderableList waves;
 	private ReorderableList waveGroups;
 	private MapConstructor mapConstructor;
 
@@ -34,7 +36,7 @@ public class MapConstructorEditor : Editor {
 	void OnEnable () {
 		mapConstructor = target as MapConstructor;
 		mc = new SerializedObject(mapConstructor);
-        waves = mc.FindProperty("waves");
+        _waves = mc.FindProperty("waves");
 
 		if (EditorPrefs.HasKey("TWP"))
 			toggleWP = EditorPrefs.GetBool("TWP");
@@ -42,9 +44,6 @@ public class MapConstructorEditor : Editor {
 			toggleTP = EditorPrefs.GetBool("TTP");
 		if (EditorPrefs.HasKey("TW"))
 			toggleW = EditorPrefs.GetBool("TW");
-		// mapConstructor = Selection.activeGameObject.GetComponent <MapConstructor> ();
-
-		// mapConstructor.waves = new List<Wave> ();
 
 		wayPoints = new ReorderableList (mc, mc.FindProperty("wayPoints"), true, true, true, true);
 		towerPoints = new ReorderableList (mc, mc.FindProperty("towerPoints"), true, true, true, true);
@@ -59,10 +58,14 @@ public class MapConstructorEditor : Editor {
 		waveGroups.onRemoveCallback += OnRemoveCallBack;
 
 		//
-		wayPoints.drawElementCallback += OnDrawWayPointCallBack;
-		towerPoints.drawElementCallback += OnDrawTowerPointCallBack;
-		// waves.drawElementCallback += OnDrawCallBack;
-		waveGroups.drawElementCallback += OnDrawWaveGroupCallBack;
+		wayPoints.drawElementCallback += OnDrawWayPointElementCallBack;
+		towerPoints.drawElementCallback += OnDrawTowerPointElementCallBack;
+		// waves.drawElementCallback += OnDrawWaveCallBack;
+		waveGroups.drawElementCallback += OnDrawWaveGroupElementCallBack;
+
+		wayPoints.drawHeaderCallback += OnDrawWayPointHeaderCallBack;
+		towerPoints.drawHeaderCallback += OnDrawTowerPointHeaderCallBack;
+		waveGroups.drawHeaderCallback += OnDrawWaveGroupHeaderCallBack;
 	}
 
 	void OnDisable () {
@@ -74,45 +77,53 @@ public class MapConstructorEditor : Editor {
 
 
 	// TODO separate remove call back
-	private void OnRemoveCallBack (ReorderableList list) {
+	private void OnRemoveCallBack (ReorderableList _list) {
 		if (EditorUtility.DisplayDialog("Warning!", "Are you sure?", "Yes", "Hell No")) {
-			ReorderableList.defaultBehaviours.DoRemoveButton (list);
+			ReorderableList.defaultBehaviours.DoRemoveButton (_list);
 		}
 	}
 	
-	private void OnDrawWayPointCallBack (Rect rect, int index, bool isActive, bool isFocused) {
-		var wp = wayPoints.serializedProperty.GetArrayElementAtIndex(index);
+	private void OnDrawWayPointElementCallBack (Rect _rect, int _index, bool _isActive, bool _isFocused) {
+		var wp = wayPoints.serializedProperty.GetArrayElementAtIndex(_index);
 		EditorGUI.PropertyField (
-			new Rect(rect.x, rect.y, 120, EditorGUIUtility.singleLineHeight),
+			new Rect(_rect.x, _rect.y, 120, EditorGUIUtility.singleLineHeight),
 			wp.FindPropertyRelative("id"),
 			GUIContent.none
 		);
 
 		EditorGUI.PropertyField (
-			new Rect(rect.x + 130 , rect.y, 320, EditorGUIUtility.singleLineHeight),
+			new Rect(_rect.x + 130 , _rect.y, 320, EditorGUIUtility.singleLineHeight),
 			wp.FindPropertyRelative("wayPointPosition"),
 			GUIContent.none
 		);
 	}
 
-	private void OnDrawTowerPointCallBack (Rect rect, int index, bool isActive, bool isFocused) {
-		var tp = towerPoints.serializedProperty.GetArrayElementAtIndex(index);
+	private void OnDrawTowerPointElementCallBack (Rect _rect, int _index, bool _isActive, bool _isFocused) {
+		var tp = towerPoints.serializedProperty.GetArrayElementAtIndex(_index);
 		EditorGUI.PropertyField (
-			new Rect(rect.x, rect.y, 120, EditorGUIUtility.singleLineHeight),
+			new Rect(_rect.x, _rect.y, 120, EditorGUIUtility.singleLineHeight),
 			tp.FindPropertyRelative("id"),
 			GUIContent.none
 		);
 
 		EditorGUI.PropertyField (
-			new Rect(rect.x + 130, rect.y, 320, EditorGUIUtility.singleLineHeight),
+			new Rect(_rect.x + 130, _rect.y, 320, EditorGUIUtility.singleLineHeight),
 			tp.FindPropertyRelative("towerPointPosition"),
 			GUIContent.none
 		);
 	}
 
-	private void OnDrawWaveGroupCallBack (Rect rect, int index, bool isActive, bool isFocused) {
+	// private void OnDrawWaveCallBack (Rect rect, int index, bool isActive, bool isFocused) {
+	// 	var w = waves.serializedProperty.GetArrayElementAtIndex(index);
+	// 	EditorGUI.PropertyField (
+	// 		new Rect(rect.x, rect.y, 100, EditorGUIUtility.singleLineHeight),
+	// 		w.FindPropertyRelative ("id"),
+	// 		GUIContent.none
+	// 	);
+	// 	waveGroups.DoLayoutList ();
+	// }
+	private void OnDrawWaveGroupElementCallBack (Rect _rect, int _index, bool _isActive, bool _isFocused) {
 		// var props = new [] {"type", "amount", "spawnInterval", "waveDelay"};
-
 		// for (int i = 0; i < props.Length; i++)
 		// {
 		// 	var sProp = mc.FindProperty(props[i]);
@@ -121,32 +132,49 @@ public class MapConstructorEditor : Editor {
 		// 	EditorGUILayout.PropertyField (sProp, guiContent);
 		// }
 
-		var wg = waveGroups.serializedProperty.GetArrayElementAtIndex(index);
+		var wg = waveGroups.serializedProperty.GetArrayElementAtIndex(_index);
 		// GUIContent guiContent;
 		EditorGUI.PropertyField (
-			new Rect(rect.x, rect.y, 100, EditorGUIUtility.singleLineHeight),
+			new Rect(_rect.x, _rect.y, 100, EditorGUIUtility.singleLineHeight),
 			wg.FindPropertyRelative ("type"),
 			GUIContent.none
 		);
 
 		EditorGUI.PropertyField (
-			new Rect(rect.x + 100, rect.y, 60, EditorGUIUtility.singleLineHeight),
+			new Rect(_rect.x + 100, _rect.y, 60, EditorGUIUtility.singleLineHeight),
+			wg.FindPropertyRelative ("pathId"),
+			GUIContent.none
+		);
+
+		EditorGUI.PropertyField (
+			new Rect(_rect.x + 160, _rect.y, 60, EditorGUIUtility.singleLineHeight),
 			wg.FindPropertyRelative ("amount"),
 			GUIContent.none
 		);
 
 		EditorGUI.PropertyField (
-			new Rect(rect.x + 160, rect.y, 60, EditorGUIUtility.singleLineHeight),
+			new Rect(_rect.x + 220, _rect.y, 60, EditorGUIUtility.singleLineHeight),
 			wg.FindPropertyRelative ("spawnInterval"),
 			GUIContent.none
 		);
 
 		EditorGUI.PropertyField (
-			new Rect(rect.x + 220, rect.y, 60, EditorGUIUtility.singleLineHeight),
+			new Rect(_rect.x + 280, _rect.y, 60, EditorGUIUtility.singleLineHeight),
 			wg.FindPropertyRelative ("waveDelay"),
 			GUIContent.none
 		);
 	}
+
+	private void OnDrawWayPointHeaderCallBack(Rect rect){
+		EditorGUI.LabelField (rect, "Way Point List");
+	}
+	private void OnDrawTowerPointHeaderCallBack(Rect rect){
+		EditorGUI.LabelField (rect, "Tower Point List");
+	}
+	private void OnDrawWaveGroupHeaderCallBack(Rect rect){
+		EditorGUI.LabelField (rect, "Wave Group List");
+	}
+
 	public override void OnInspectorGUI (){
 		// DrawDefaultInspector();	// test
 
@@ -177,16 +205,11 @@ public class MapConstructorEditor : Editor {
 			EditorGUI.indentLevel++;
 			EditorGUILayout.BeginHorizontal ();
 			if (GUILayout.Button ("Create A New Way Point")) {
-				Debug.Log ("create a way point");
 				mapConstructor.CreateNewWayPoint (wpCount);
 				wpCount++;
 				EditorPrefs.SetInt("WPC", wpCount);
 			}
-			// if (GUILayout.Button ("Remove Way Point")) {
-			// 	Debug.Log ("remove a way point");
-			// }
 			if (GUILayout.Button ("Clear All Way Points")) {
-				// Debug.Log ("clear all way points");
 				mapConstructor.ClearAllWayPoints();
 				if (EditorPrefs.HasKey("WPC"))
 					EditorPrefs.SetInt("WPC", 0);
@@ -207,22 +230,16 @@ public class MapConstructorEditor : Editor {
 			EditorGUI.indentLevel++;
 			EditorGUILayout.BeginHorizontal ();
 			if (GUILayout.Button ("Create A New Tower Point")) {
-				// Debug.Log ("create a tower point");
 				mapConstructor.CreateNewTowerPoint(tpCount);
 				tpCount++;
 				EditorPrefs.SetInt("TPC", tpCount);
 			}
-			// if (GUILayout.Button ("Remove Tower Point")) {
-			// 	Debug.Log ("remove a tower point");
-			// }
 			if (GUILayout.Button ("Clear All Tower Points")) {
-				// Debug.Log ("clear all tower points");
 				mapConstructor.ClearAllTowerPoints();
 				if (EditorPrefs.HasKey("TPC"))
 					EditorPrefs.SetInt("TPC", 0);
 			}
 			EditorGUILayout.EndHorizontal();
-			// custom reorderable list 
 			towerPoints.DoLayoutList();
 			EditorGUI.indentLevel--;
 		}
@@ -249,16 +266,24 @@ public class MapConstructorEditor : Editor {
 			EditorGUILayout.EndHorizontal ();
 			
 			// display wave data
-			for(int i = 0; i < waves.arraySize; i++){
-				SerializedProperty wave = waves.GetArrayElementAtIndex(i);
-				EditorGUILayout.LabelField (wave.FindPropertyRelative("id").intValue.ToString());
+			for(int i = 0; i < _waves.arraySize; i++){
+				SerializedProperty wave = _waves.GetArrayElementAtIndex(i);
 				SerializedProperty groups = wave.FindPropertyRelative("groups");
+
+				EditorGUILayout.BeginHorizontal();
+				EditorGUILayout.LabelField (wave.FindPropertyRelative("id").intValue.ToString());
 				if(GUILayout.Button("Add New Group")) {
 					groups.InsertArrayElementAtIndex(groups.arraySize);
 					// groups.GetArrayElementAtIndex(groups.arraySize -1).intValue = 0;
 				}
+				if(GUILayout.Button("Clear All Groups")) {
+					groups.ClearArray();
+					// groups.GetArrayElementAtIndex(groups.arraySize -1).intValue = 0;
+				}
+				EditorGUILayout.EndHorizontal();
 				
 				for(int j = 0; j < groups.arraySize; j++){
+					// groups.GetArrayElementAtIndex(groups.arraySize)
 					waveGroups.DoLayoutList();
 				}
 			}
@@ -268,6 +293,7 @@ public class MapConstructorEditor : Editor {
 		EditorGUILayout.EndVertical ();
 
 		#region map constructor window
+		// TODO: make map constructor window
 		EditorGUILayout.BeginVertical ();
 		if (GUILayout.Button ("Open Map Constructor Window")) {
 				Debug.Log ("open map constructor window");
@@ -277,26 +303,25 @@ public class MapConstructorEditor : Editor {
 
 		#region data
 		// TODO: save and load map data to xml 
-		// EditorGUILayout.LabelField("");
-		
 		EditorGUILayout.BeginHorizontal ();
 		if (GUILayout.Button ("Save")) {
-			// Debug.Log ("save current map data to xml");
 			var text = mapConstructor.Save();
-			// Debug.Log (text);
 			WriteMapData(text);
 			// TODO: 
 			// - [x]confirm windows 
 			// - kiem tra cac truong co empty khong
 		}
 		if (GUILayout.Button ("Load")) {
-			Debug.Log ("load current map data from xml then setup scene");
-
 			mapConstructor.Load (LoadMapData());
 			// TODO: confirm windows
 		}
-		if (GUILayout.Button ("Clear")) {
-			Debug.Log ("clear all current map data and scene");
+		if (GUILayout.Button ("Reset")) {
+			mapConstructor.Reset();
+			EditorPrefs.SetInt("WPC", 0);
+			EditorPrefs.SetInt("TPC", 0);
+			EditorPrefs.SetInt("WC", 0);
+
+			mc.ApplyModifiedProperties();
 			// TODO: confirm windows
 		}
 		EditorGUILayout.EndHorizontal();

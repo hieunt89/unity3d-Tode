@@ -123,4 +123,11 @@ public class MapConstructor : MonoBehaviour {
             towerPoints[i].TowerPointGo.transform.position = towerPoints[i].towerPointPosition;
         }
     }
+
+    public void Reset (){
+        this.mapId = 1;
+        this.wayPoints.Clear();
+        this.towerPoints.Clear();
+        this.waves.Clear();
+    }
 }
