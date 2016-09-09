@@ -2,10 +2,15 @@
 
 public enum EnemyType{
 	type1, 
-	type2	
+	type2
+}
+
+public enum EnemyClass{
+	Cho,
+	Meo
 }
 
 public class Enemy : IComponent {
-	public EnemyType type;
-	public float activeTime;
+	public EnemyClass eClass;
+	public EnemyType eType;
 }

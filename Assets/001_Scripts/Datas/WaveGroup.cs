@@ -1,6 +1,12 @@
-﻿[System.Serializable]
-
 public class WaveGroup {
+	EnemyClass eClass;
+
+	public EnemyClass EClass {
+		get {
+			return eClass;
+		}
+	}
+
 	// TODO: tam thoi public field de lam editor, sau nay se dung custom editor de thay the
 	[UnityEngine.SerializeField] private EnemyType type;
 	public EnemyType Type
@@ -16,8 +22,8 @@ public class WaveGroup {
         }
     }
 
-    [UnityEngine.SerializeField] private int pathId;
-	public int PathId
+    [UnityEngine.SerializeField] private string pathId;
+	public string PathId
     {
         get
         {
@@ -74,15 +80,17 @@ public class WaveGroup {
 	
     public WaveGroup() {
 	}
-
-	public WaveGroup(EnemyType type, int amount, float spawnInterval, float waveDelay){
-		this.Type = type;
-		this.Amount = amount;
-		this.SpawnInterval = spawnInterval;
-		this.WaveDelay = waveDelay;
-	}
-
-	public override string ToString () {
+    
+    public override string ToString () {
 		return Type + "," + Amount + "," + SpawnInterval + "," + WaveDelay;
+    }
+	
+	public WaveGroup(EnemyClass eClass, EnemyType type, int amount, float spawnInterval, float waveDelay, string pathId){
+		this.eClass = eClass;
+		this.type = type;
+		this.amount = amount;
+		this.spawnInterval = spawnInterval;
+		this.waveDelay = waveDelay;
+		this.pathId = pathId;
 	}
 }

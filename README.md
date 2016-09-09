@@ -1,7 +1,6 @@
 # unity3d-Tode
-# Project Name
 
-TODO: Write a project description
+A prototype tower defense game made with Unity and Entitas v.0.31.1
 
 ## Installation
 

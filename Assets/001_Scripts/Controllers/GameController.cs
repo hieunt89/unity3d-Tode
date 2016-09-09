@@ -23,17 +23,34 @@ public class GameController : MonoBehaviour {
 			systems = new Systems ();
 		}
 		return systems
-			.Add(pool.CreateSystem<UpdateTickSystem>())
-
-			.Add(pool.CreateSystem<InitTowerSystem>())
-			.Add(pool.CreateSystem<InitPathSystem>())
-
+			//Map
+			.Add(pool.CreateSystem<TimeSystem>())
+			.Add(pool.CreateSystem<LifeSystem>())
+			.Add(pool.CreateSystem<PathSystem>())
 			.Add(pool.CreateSystem<WaveSystem>())
-			.Add(pool.CreateSystem<SpawnEnemySystem>())
-			.Add(pool.CreateSystem<ActiveEnemySystem>())
 
-			.Add(pool.CreateSystem<UpdateTowerViewSystem>())
+			//Tower
+			.Add(pool.CreateSystem<TowerInitSystem>())
+			.Add(pool.CreateSystem<TowerCheckTargetSystem>())
+			.Add(pool.CreateSystem<TowerFindTargetSystem>())
+			.Add(pool.CreateSystem<TowerAttackSystem>())
+			.Add(pool.CreateSystem<TowerAttackCooldownSystem>())
 
+			//Enemy
+			.Add(pool.CreateSystem<EnemyInitSystem>())
+			.Add(pool.CreateSystem<EnemyActiveSystem>())
+			.Add(pool.CreateSystem<EnemyMoveSystem>())
+			.Add(pool.CreateSystem<EnemyReachEndSystem>())
+
+			//view
+			.Add(pool.CreateSystem<TowerUpdateViewSystem>())
+			.Add(pool.CreateSystem<EnemyCreateViewSystem>())
+			.Add(pool.CreateSystem<EnemyUpdateViewSystem>())
+
+			//destroy things
+			.Add(pool.CreateSystem<DestroyEntitySystem>())
+
+			//Input
 			.Add(pool.CreateSystem<ProcessTapInputSystem>())
 			;
 	}
