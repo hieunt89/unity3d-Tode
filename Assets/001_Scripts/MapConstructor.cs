@@ -130,4 +130,9 @@ public class MapConstructor : MonoBehaviour {
         this.towerPoints.Clear();
         this.waves.Clear();
     }
+    // public float explosionRadius = 5.0F;
+    // void OnDrawGizmosSelected() {
+    //     Gizmos.color = Color.white;
+    //     Gizmos.DrawWireSphere(transform.position, explosionRadius);
+    // }
 }

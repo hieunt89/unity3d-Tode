@@ -338,6 +338,25 @@ public class MapConstructorEditor : Editor {
 	public void OnSceneGUI (){
 		if (mapConstructor == null)
 			return;
+
+		// draw line between waypoint
+		if(mapConstructor.wayPoints == null )
+			return;
+		for( int i = 0; i < mapConstructor.wayPoints.Count; i++ )
+		{
+			if(i < mapConstructor.wayPoints.Count - 1)
+				Handles.DrawLine(mapConstructor.wayPoints[i].wayPointGo.transform.position, mapConstructor.wayPoints[i + 1].wayPointGo.transform.position );
+		}
+
+		// draw tower range circle
+		if(mapConstructor.towerPoints == null )
+			return;
+
+		for( int i = 0; i < mapConstructor.towerPoints.Count; i++ )
+		{
+			// ... and draw a line between them
+			Handles.DrawWireDisc(mapConstructor.towerPoints[i].TowerPointGo.transform.position, Vector3.up, 3f);
+		}
 	}
 
 	#region database
