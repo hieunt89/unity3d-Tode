@@ -351,10 +351,8 @@ public class MapConstructorEditor : Editor {
 		// draw tower range circle
 		if(mapConstructor.towerPoints == null )
 			return;
-
 		for( int i = 0; i < mapConstructor.towerPoints.Count; i++ )
 		{
-			// ... and draw a line between them
 			Handles.DrawWireDisc(mapConstructor.towerPoints[i].TowerPointGo.transform.position, Vector3.up, 3f);
 		}
 	}
