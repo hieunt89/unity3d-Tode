@@ -12,14 +12,15 @@ public class MapConstructorEditor : Editor {
 	bool toggleWP;
 	bool toggleTP;
 	bool toggleW;
-	private ReorderableList wayPoints;
-	private ReorderableList towerPoints;
+	private ReorderableList wpROL;
+	private ReorderableList tpROL;
 	// private ReorderableList waves;
+	private ReorderableList wgROL;
 	private SerializedObject mc;
-	private SerializedProperty _waves;
-
-	// private ReorderableList waves;
-	private ReorderableList waveGroups;
+	private SerializedProperty _wayPoints;	
+	private SerializedProperty _towerPoints;	
+	private SerializedProperty _waves;	
+		
 	private MapConstructor mapConstructor;
 
 	public GUIStyle guiTitleStyle {
@@ -36,8 +37,11 @@ public class MapConstructorEditor : Editor {
 	void OnEnable () {
 		mapConstructor = target as MapConstructor;
 		mc = new SerializedObject(mapConstructor);
-        _waves = mc.FindProperty("waves");
-
+        
+		_wayPoints = mc.FindProperty ("wayPoints");
+		_towerPoints = mc.FindProperty ("towerPoints");
+		_waves = mc.FindProperty("waves");
+		
 		if (EditorPrefs.HasKey("TWP"))
 			toggleWP = EditorPrefs.GetBool("TWP");
 		if (EditorPrefs.HasKey("TTP"))
@@ -45,46 +49,46 @@ public class MapConstructorEditor : Editor {
 		if (EditorPrefs.HasKey("TW"))
 			toggleW = EditorPrefs.GetBool("TW");
 
-		wayPoints = new ReorderableList (mc, mc.FindProperty("wayPoints"), true, true, true, true);
-		towerPoints = new ReorderableList (mc, mc.FindProperty("towerPoints"), true, true, true, true);
+		wpROL = new ReorderableList (mc, _wayPoints, true, true, true, true);
+		tpROL = new ReorderableList (mc, _towerPoints, true, true, true, true);
 		// waves = new ReorderableList (mc, mc.FindProperty("waves"), true, true, true, true);
-		waveGroups = new ReorderableList (mc, mc.FindProperty("waveGroups"), true, true, true, true);
+		wgROL = new ReorderableList (mc, mc.FindProperty("waveGroups"), true, true, true, true);	// test
 		
 
 		//
-		wayPoints.onRemoveCallback += OnRemoveCallBack;
-		towerPoints.onRemoveCallback += OnRemoveCallBack;
+		wpROL.onRemoveCallback += OnRemoveCallBack;
+		tpROL.onRemoveCallback += OnRemoveCallBack;
 		// waves.onRemoveCallback += OnRemoveCallBack;
-		waveGroups.onRemoveCallback += OnRemoveCallBack;
+		wgROL.onRemoveCallback += OnRemoveCallBack;
 
 		//
-		wayPoints.drawElementCallback += OnDrawWayPointElementCallBack;
-		towerPoints.drawElementCallback += OnDrawTowerPointElementCallBack;
+		wpROL.drawElementCallback += OnDrawWayPointElementCallBack;
+		tpROL.drawElementCallback += OnDrawTowerPointElementCallBack;
 		// waves.drawElementCallback += OnDrawWaveCallBack;
-		waveGroups.drawElementCallback += OnDrawWaveGroupElementCallBack;
+		wgROL.drawElementCallback += OnDrawWaveGroupElementCallBack;
 
-		wayPoints.drawHeaderCallback += OnDrawWayPointHeaderCallBack;
-		towerPoints.drawHeaderCallback += OnDrawTowerPointHeaderCallBack;
-		waveGroups.drawHeaderCallback += OnDrawWaveGroupHeaderCallBack;
+		wpROL.drawHeaderCallback += OnDrawWayPointHeaderCallBack;
+		tpROL.drawHeaderCallback += OnDrawTowerPointHeaderCallBack;
+		wgROL.drawHeaderCallback += OnDrawWaveGroupHeaderCallBack;
 	}
 
 	void OnDisable () {
-		if (wayPoints != null) wayPoints.onRemoveCallback -= OnRemoveCallBack;
-		if (towerPoints != null) towerPoints.onRemoveCallback -= OnRemoveCallBack;
+		if (wpROL != null) wpROL.onRemoveCallback -= OnRemoveCallBack;
+		if (tpROL != null) tpROL.onRemoveCallback -= OnRemoveCallBack;
 		// if (waves != null) waveGroups.onRemoveCallback -= OnRemoveCallBack;
-		if (waveGroups != null) waveGroups.onRemoveCallback -= OnRemoveCallBack;
+		if (wgROL != null) wgROL.onRemoveCallback -= OnRemoveCallBack;
 	}
 
 
 	// TODO separate remove call back
 	private void OnRemoveCallBack (ReorderableList _list) {
-		if (EditorUtility.DisplayDialog("Warning!", "Are you sure?", "Yes", "Hell No")) {
+		if (EditorUtility.DisplayDialog("Warning!", "Are you sure?", "Yes", "No")) {
 			ReorderableList.defaultBehaviours.DoRemoveButton (_list);
 		}
 	}
 	
 	private void OnDrawWayPointElementCallBack (Rect _rect, int _index, bool _isActive, bool _isFocused) {
-		var wp = wayPoints.serializedProperty.GetArrayElementAtIndex(_index);
+		var wp = wpROL.serializedProperty.GetArrayElementAtIndex(_index);
 		EditorGUI.PropertyField (
 			new Rect(_rect.x, _rect.y, 120, EditorGUIUtility.singleLineHeight),
 			wp.FindPropertyRelative("id"),
@@ -99,7 +103,7 @@ public class MapConstructorEditor : Editor {
 	}
 
 	private void OnDrawTowerPointElementCallBack (Rect _rect, int _index, bool _isActive, bool _isFocused) {
-		var tp = towerPoints.serializedProperty.GetArrayElementAtIndex(_index);
+		var tp = tpROL.serializedProperty.GetArrayElementAtIndex(_index);
 		EditorGUI.PropertyField (
 			new Rect(_rect.x, _rect.y, 120, EditorGUIUtility.singleLineHeight),
 			tp.FindPropertyRelative("id"),
@@ -108,7 +112,7 @@ public class MapConstructorEditor : Editor {
 
 		EditorGUI.PropertyField (
 			new Rect(_rect.x + 130, _rect.y, 320, EditorGUIUtility.singleLineHeight),
-			tp.FindPropertyRelative("towerPointPosition"),
+			tp.FindPropertyRelative("wayPointPosition"),
 			GUIContent.none
 		);
 	}
@@ -132,7 +136,7 @@ public class MapConstructorEditor : Editor {
 		// 	EditorGUILayout.PropertyField (sProp, guiContent);
 		// }
 
-		var wg = waveGroups.serializedProperty.GetArrayElementAtIndex(_index);
+		var wg = wgROL.serializedProperty.GetArrayElementAtIndex(_index);
 		// GUIContent guiContent;
 		EditorGUI.PropertyField (
 			new Rect(_rect.x, _rect.y, 100, EditorGUIUtility.singleLineHeight),
@@ -176,7 +180,7 @@ public class MapConstructorEditor : Editor {
 	}
 
 	public override void OnInspectorGUI (){
-		// DrawDefaultInspector();	// test
+		DrawDefaultInspector();	// test
 
 		if(mapConstructor == null)
 			return;
@@ -194,7 +198,8 @@ public class MapConstructorEditor : Editor {
 		EditorGUILayout.Space();
 
 		mapConstructor.mapId = EditorGUILayout.IntField ("Map Id", mapConstructor.mapId);
-		
+		mapConstructor.mapPos = EditorGUILayout.Vector3Field ("Map Pos", mapConstructor.mapPos);
+				
 		EditorGUILayout.Space();
 
 		#region waypoint 
@@ -215,7 +220,7 @@ public class MapConstructorEditor : Editor {
 					EditorPrefs.SetInt("WPC", 0);
 			}
 			EditorGUILayout.EndHorizontal();
-			wayPoints.DoLayoutList();
+			wpROL.DoLayoutList();
 			EditorGUI.indentLevel--;
 		}
 		EditorGUI.indentLevel--;
@@ -240,7 +245,7 @@ public class MapConstructorEditor : Editor {
 					EditorPrefs.SetInt("TPC", 0);
 			}
 			EditorGUILayout.EndHorizontal();
-			towerPoints.DoLayoutList();
+			tpROL.DoLayoutList();
 			EditorGUI.indentLevel--;
 		}
 		EditorGUI.indentLevel--;
@@ -284,7 +289,7 @@ public class MapConstructorEditor : Editor {
 				
 				for(int j = 0; j < groups.arraySize; j++){
 					// groups.GetArrayElementAtIndex(groups.arraySize)
-					waveGroups.DoLayoutList();
+					wgROL.DoLayoutList();
 				}
 			}
 			EditorGUI.indentLevel--;
@@ -338,23 +343,49 @@ public class MapConstructorEditor : Editor {
 	public void OnSceneGUI (){
 		if (mapConstructor == null)
 			return;
-
+		
+		// EditorGUI.BeginChangeCheck();
+        // Vector3 pos = Handles.PositionHandle(mapConstructor.mapPos, Quaternion.identity);
+        // if (EditorGUI.EndChangeCheck()) {
+        //     Undo.RecordObject(mapConstructor, "Move Map");
+        //     mapConstructor.mapPos = pos;
+        //     mapConstructor.Update ();
+        // }
+	
 		// draw line between waypoint
-		if(mapConstructor.wayPoints == null )
+		if(mapConstructor.wayPoints == null)
 			return;
-		for( int i = 0; i < mapConstructor.wayPoints.Count; i++ )
-		{
-			if(i < mapConstructor.wayPoints.Count - 1)
-				Handles.DrawLine(mapConstructor.wayPoints[i].wayPointGo.transform.position, mapConstructor.wayPoints[i + 1].wayPointGo.transform.position );
-		}
+		
+		
+		EditorGUI.BeginChangeCheck();
+		// if (_wayPoints.arraySize > 0) {
+		// 	for (int i = 0; i < _wayPoints.arraySize; i++)
+		// 	{
+		// 		// var newPos = Handles.PositionHandle(mapConstructor.wayPoints[i].wayPointGo.transform.position, Quaternion.identity);
+		// 		if (EditorGUI.EndChangeCheck()) {
+		// 		// 	Undo.RecordObject(mapConstructor, "Move Wave Point");
+		// 		// 	mapConstructor.wayPoints[i].wayPointGo.transform.position = newPos;
+		// 		// 	mapConstructor.wayPoints[i].wayPointPosition = newPos;
+		// 		// 	mapConstructor.Update ();
+		// 		}
+		// 		// var wp = _wayPoints.GetArrayElementAtIndex(i);
+		// 		// mapConstructor.wayPoints[i].wayPointGo.transform.position = wp.FindPropertyRelative("wayPointPosition").vector3Value;
+		// 	}
+		// }
+		// for( int i = 0; i < mapConstructor.wayPoints.Count; i++ )
+		// {	
+		// 	// mapConstructor.wayPoints[i].wayPointGo.transform.position = wp.FindPropertyRelative("wayPointGo").; 
+		// 	// if(i < mapConstructor.wayPoints.Count - 1)
+		// 	// 	Handles.DrawLine(mapConstructor.wayPoints[i].wayPointGo.transform.position, mapConstructor.wayPoints[i + 1].wayPointGo.transform.position );
+		// }
 
-		// draw tower range circle
-		if(mapConstructor.towerPoints == null )
-			return;
-		for( int i = 0; i < mapConstructor.towerPoints.Count; i++ )
-		{
-			Handles.DrawWireDisc(mapConstructor.towerPoints[i].TowerPointGo.transform.position, Vector3.up, 3f);
-		}
+		// // draw tower range circle
+		// if(mapConstructor.towerPoints == null )
+		// 	return;
+		// for( int i = 0; i < mapConstructor.towerPoints.Count; i++ )
+		// {
+		// 	// Handles.DrawWireDisc(mapConstructor.towerPoints[i].towerPointGo.transform.position, Vector3.up, 1f);
+		// }
 	}
 
 	#region database

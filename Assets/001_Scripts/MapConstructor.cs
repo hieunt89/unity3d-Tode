@@ -4,23 +4,39 @@ using System.Text;
 using System;
 
 [System.Serializable]
-public struct WayPointData {
+public class WayPointData {
     [UnityEngine.SerializeField] public string id;
     [UnityEngine.SerializeField] public GameObject wayPointGo;
     [UnityEngine.SerializeField] public Vector3 wayPointPosition;
+
+    public WayPointData (string _id, GameObject _wpg, Vector3 _wpp){
+        id = _id;
+        wayPointGo = _wpg;
+        wayPointPosition = _wpp;
+    }
 }
 
 [System.Serializable]
-public struct TowerPointData {
+public class TowerPointData {
     [UnityEngine.SerializeField] public string id;
-    [UnityEngine.SerializeField] public GameObject TowerPointGo;
+    [UnityEngine.SerializeField] public GameObject towerPointGo;
     [UnityEngine.SerializeField] public Vector3 towerPointPosition;
+    public TowerPointData (string _id, GameObject _tpg, Vector3 _tpp){
+        id = _id;
+        towerPointGo = _tpg;
+        towerPointPosition = _tpp;
+    }
 }
 
 [System.Serializable]
-public struct WaveData {
+public class WaveData {
     [UnityEngine.SerializeField] public int id;
     [UnityEngine.SerializeField] public List<WaveGroup> groups;
+
+    public WaveData (int _id, List<WaveGroup> _groups){
+        id = _id;
+        groups = _groups;
+    }
 }
 
 [ExecuteInEditMode]
@@ -28,6 +44,8 @@ public class MapConstructor : MonoBehaviour {
 
     // map id
     [UnityEngine.SerializeField] public int mapId = 1;
+
+    public Vector3 mapPos;    
     private WayPointData wpd;
     private TowerPointData tpd;
     private WaveData wd;
@@ -37,14 +55,23 @@ public class MapConstructor : MonoBehaviour {
     [UnityEngine.SerializeField] public List<WaveData> waves;
     [UnityEngine.SerializeField] public List<WaveGroup> waveGroups;  // test
 
+    private Transform mTransform;
+
+    #region Mono
+    void Awake () {
+        mTransform = this.transform;
+    }
+
+    #endregion Mono
     public void CreateNewWayPoint (int _id) {
         GameObject wpg = new GameObject("WP_" + (_id+1));
+        wpg.transform.position = new Vector3 ((float)_id, 0f , 0f);
+        wpg.transform.SetParent (mTransform, false);
         IconManager.SetIcon (wpg, IconManager.LabelIcon.Yellow);
         
-        wpd.id = wpg.name;
-        wpd.wayPointGo = wpg;
-        wpd.wayPointPosition = wpg.transform.position;
-        wayPoints.Add (wpd);  
+        
+        // set way point data then add it to way point list
+        wayPoints.Add (new WayPointData(wpg.name, wpg, wpg.transform.position));  
     }
 
     public void ClearAllWayPoints () {
@@ -57,32 +84,27 @@ public class MapConstructor : MonoBehaviour {
 
     public void CreateNewTowerPoint (int _id) {
         GameObject tpg = new GameObject("TP_" + (_id+1));
-        IconManager.SetIcon (tpg, IconManager.LabelIcon.Blue); 
-        tpd.id = tpg.name;
-        tpd.TowerPointGo = tpg;
-        tpd.towerPointPosition = tpg.transform.position;
-        towerPoints.Add (tpd);  
+        tpg.transform.position = new Vector3 ((float)_id, 0f, 1f);
+        tpg.transform.SetParent (mTransform, false);
+        IconManager.SetIcon (tpg, IconManager.LabelIcon.Blue);
+
+        // set tower point data then add it to tower point list 
+        towerPoints.Add (new TowerPointData(tpg.name, tpg, tpg.transform.position));  
     }
 
     public void ClearAllTowerPoints (){
         for (int i = 0; i < towerPoints.Count; i++)
         {
-            DestroyImmediate(towerPoints[i].TowerPointGo);
+            DestroyImmediate(towerPoints[i].towerPointGo);
         }
         towerPoints.Clear();
     }
 
     public void CreateNewWave(int _id){
-        wd.id = _id + 1;
-        wd.groups = new List<WaveGroup> ();
-        waves.Add(wd);
+        waves.Add(new WaveData(_id + 1, new List<WaveGroup>()));
     }
 
     public void ClearAllWaves (){
-        // for (int i = 0; i < waves.Count; i++)
-        // {
-        //     DestroyImmediate(waves[i]);
-        // }
         waves.Clear();
     }
     public string Save () {
@@ -112,27 +134,30 @@ public class MapConstructor : MonoBehaviour {
             waveGroups.Add(waveGroup);
         }
     }
-    void Update () {
-        for (int i = 0; i < wayPoints.Count; i++)
-        {
-            wayPoints[i].wayPointGo.transform.position = wayPoints[i].wayPointPosition;
-        }
+    public void Update () {
 
-        for (int i = 0; i < towerPoints.Count; i++)
-        {
-            towerPoints[i].TowerPointGo.transform.position = towerPoints[i].towerPointPosition;
-        }
+        // transform.position = mapPos;
+
+        // if (wayPoints.Count > 0) { 
+        //     for (int i = 0; i < wayPoints.Count; i++)
+        //     {
+        //         // wayPoints[i].wayPointGo.transform.position = wayPoints[i].wayPointPosition;
+        //     }
+        // }
+
+        // if (towerPoints.Count > 0) {
+        //     for (int i = 0; i < towerPoints.Count; i++)
+        //     {
+        //         towerPoints[i].towerPointGo.transform.position = towerPoints[i].towerPointPosition;
+        //     }
+        // }
     }
 
     public void Reset (){
         this.mapId = 1;
-        this.wayPoints.Clear();
-        this.towerPoints.Clear();
-        this.waves.Clear();
+
+        ClearAllWayPoints();
+        ClearAllTowerPoints();
+        ClearAllWaves();
     }
-    // public float explosionRadius = 5.0F;
-    // void OnDrawGizmosSelected() {
-    //     Gizmos.color = Color.white;
-    //     Gizmos.DrawWireSphere(transform.position, explosionRadius);
-    // }
 }
