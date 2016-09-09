@@ -35,7 +35,7 @@ public class MapConstructor : MonoBehaviour {
 
     // wave datas
     public struct WaveData {
-		EnemyType type;
+//		EnemyType type;
 		int amount;
 		float interval;
 	}

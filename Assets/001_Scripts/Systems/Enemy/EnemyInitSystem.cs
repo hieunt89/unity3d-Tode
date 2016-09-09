@@ -37,7 +37,7 @@ public class EnemyInitSystem : IReactiveSystem, ISetPool
 
 				if(ePath != null){
 					_pool.CreateEntity ()
-						.AddEnemy (waveGroup.EClass, waveGroup.Type)
+						.AddEnemy (waveGroup.EnemyId)
 						.AddId (e.id.value + "_group" + i + "_enemy" + j)
 						.AddPathReference (ePath)
 						.AddMarkedForActive (activeTime)

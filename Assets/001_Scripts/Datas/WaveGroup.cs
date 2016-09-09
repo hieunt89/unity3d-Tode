@@ -1,17 +1,9 @@
 ﻿public class WaveGroup {
-	EnemyClass eClass;
+	string eId;
 
-	public EnemyClass EClass {
+	public string EnemyId {
 		get {
-			return eClass;
-		}
-	}
-
-	EnemyType type;
-
-	public EnemyType Type {
-		get {
-			return type;
+			return EnemyId;
 		}
 	}
 
@@ -47,12 +39,13 @@
 		}
 	}
 
-	public WaveGroup(EnemyClass eClass, EnemyType type, int amount, float spawnInterval, float waveDelay, string pathId){
-		this.eClass = eClass;
-		this.type = type;
+	public WaveGroup (string enemyId, int amount, float spawnInterval, float waveDelay, string pathId)
+	{
+		this.eId = enemyId;
 		this.amount = amount;
 		this.spawnInterval = spawnInterval;
 		this.waveDelay = waveDelay;
 		this.pathId = pathId;
 	}
+	
 }

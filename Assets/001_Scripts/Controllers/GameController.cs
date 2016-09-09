@@ -31,6 +31,7 @@ public class GameController : MonoBehaviour {
 
 			//Tower
 			.Add(pool.CreateSystem<TowerInitSystem>())
+			.Add(pool.CreateSystem<TowerStatsUpdateSystem>())
 			.Add(pool.CreateSystem<TowerCheckTargetSystem>())
 			.Add(pool.CreateSystem<TowerFindTargetSystem>())
 			.Add(pool.CreateSystem<TowerAttackSystem>())

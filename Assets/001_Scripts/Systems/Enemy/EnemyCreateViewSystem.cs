@@ -29,7 +29,7 @@ public class EnemyCreateViewSystem : IReactiveSystem, IEnsureComponents {
 		for (int i = 0; i < entities.Count; i++) {
 			var e = entities [i];
 			if(e.hasEnemy){
-				go = GameObject.Instantiate(Resources.Load<GameObject> ("Enemy/" + e.enemy.eClass + "/" + e.enemy.eType));
+				go = GameObject.Instantiate(Resources.Load<GameObject> ("Enemy/" + e.enemy.enemyId));
 				go.name = e.id.value;
 				go.transform.position = e.position.value;
 				go.transform.SetParent (enemyViewParent.transform, false);
