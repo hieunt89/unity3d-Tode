@@ -1,9 +1,9 @@
 ﻿public class WaveGroup {
-	string eId;
+	string enemyId;
 
 	public string EnemyId {
 		get {
-			return EnemyId;
+			return enemyId;
 		}
 	}
 
@@ -41,7 +41,7 @@
 
 	public WaveGroup (string enemyId, int amount, float spawnInterval, float waveDelay, string pathId)
 	{
-		this.eId = enemyId;
+		this.enemyId = enemyId;
 		this.amount = amount;
 		this.spawnInterval = spawnInterval;
 		this.waveDelay = waveDelay;

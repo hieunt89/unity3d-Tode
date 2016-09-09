@@ -2,7 +2,7 @@
 using Entitas;
 using Entitas.Unity.VisualDebugging;
 
-public class GameController : MonoBehaviour {
+public class GameManager : MonoBehaviour {
 	public bool debug = true;
 	Systems _systems;
 

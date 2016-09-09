@@ -20,7 +20,7 @@ public class TowerStatsUpdateSystem : IReactiveSystem, IEnsureComponents {
 		TowerData data;
 		for (int i = 0; i < entities.Count; i++) {
 			var tower = entities [i];
-			data = DataController.Instance.GetTowerData (tower.tower.towerId);
+			data = DataManager.Instance.GetTowerData (tower.tower.towerId);
 			if (data != null) {
 				tower
 					.ReplaceProjectile (data.prjType)

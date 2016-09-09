@@ -6,5 +6,5 @@ public enum AttackType{
 }
 
 public class Attack : IComponent {
-	public AttackType type;
+	public AttackType attackType;
 }
