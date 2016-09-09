@@ -112,7 +112,7 @@ public class MapConstructorEditor : Editor {
 
 		EditorGUI.PropertyField (
 			new Rect(_rect.x + 130, _rect.y, 320, EditorGUIUtility.singleLineHeight),
-			tp.FindPropertyRelative("wayPointPosition"),
+			tp.FindPropertyRelative("towerPointPosition"),
 			GUIContent.none
 		);
 	}
@@ -273,24 +273,27 @@ public class MapConstructorEditor : Editor {
 			// display wave data
 			for(int i = 0; i < _waves.arraySize; i++){
 				SerializedProperty wave = _waves.GetArrayElementAtIndex(i);
-				SerializedProperty groups = wave.FindPropertyRelative("groups");
+				// SerializedProperty groups = wave.FindPropertyRelative("groups");
 
 				EditorGUILayout.BeginHorizontal();
 				EditorGUILayout.LabelField (wave.FindPropertyRelative("id").intValue.ToString());
-				if(GUILayout.Button("Add New Group")) {
-					groups.InsertArrayElementAtIndex(groups.arraySize);
+				if(GUILayout.Button("Add Group")) {
+					// groups.InsertArrayElementAtIndex(groups.arraySize);
+					// groups.GetArrayElementAtIndex(groups.arraySize -1).intValue = 0;
+				}
+				if(GUILayout.Button("Remove Group")) {
+					// groups.ClearArray();
 					// groups.GetArrayElementAtIndex(groups.arraySize -1).intValue = 0;
 				}
 				if(GUILayout.Button("Clear All Groups")) {
-					groups.ClearArray();
-					// groups.GetArrayElementAtIndex(groups.arraySize -1).intValue = 0;
+				
 				}
 				EditorGUILayout.EndHorizontal();
 				
-				for(int j = 0; j < groups.arraySize; j++){
-					// groups.GetArrayElementAtIndex(groups.arraySize)
-					wgROL.DoLayoutList();
-				}
+				// for(int j = 0; j < groups.arraySize; j++){
+				// 	// groups.GetArrayElementAtIndex(groups.arraySize)
+				// 	wgROL.DoLayoutList();
+				// }
 			}
 			EditorGUI.indentLevel--;
 		}
@@ -358,7 +361,7 @@ public class MapConstructorEditor : Editor {
 		
 		
 		EditorGUI.BeginChangeCheck();
-		// if (_wayPoints.arraySize > 0) {
+		// if (_wayPoints.arraySize > 0){ 
 		// 	for (int i = 0; i < _wayPoints.arraySize; i++)
 		// 	{
 		// 		// var newPos = Handles.PositionHandle(mapConstructor.wayPoints[i].wayPointGo.transform.position, Quaternion.identity);

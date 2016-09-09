@@ -3,42 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using System;
 
-[System.Serializable]
-public class WayPointData {
-    [UnityEngine.SerializeField] public string id;
-    [UnityEngine.SerializeField] public GameObject wayPointGo;
-    [UnityEngine.SerializeField] public Vector3 wayPointPosition;
-
-    public WayPointData (string _id, GameObject _wpg, Vector3 _wpp){
-        id = _id;
-        wayPointGo = _wpg;
-        wayPointPosition = _wpp;
-    }
-}
-
-[System.Serializable]
-public class TowerPointData {
-    [UnityEngine.SerializeField] public string id;
-    [UnityEngine.SerializeField] public GameObject towerPointGo;
-    [UnityEngine.SerializeField] public Vector3 towerPointPosition;
-    public TowerPointData (string _id, GameObject _tpg, Vector3 _tpp){
-        id = _id;
-        towerPointGo = _tpg;
-        towerPointPosition = _tpp;
-    }
-}
-
-[System.Serializable]
-public class WaveData {
-    [UnityEngine.SerializeField] public int id;
-    [UnityEngine.SerializeField] public List<WaveGroup> groups;
-
-    public WaveData (int _id, List<WaveGroup> _groups){
-        id = _id;
-        groups = _groups;
-    }
-}
-
 [ExecuteInEditMode]
 public class MapConstructor : MonoBehaviour {
 
