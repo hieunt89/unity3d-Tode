@@ -5,10 +5,7 @@ using UnityEditorInternal;
 
 [CustomEditor (typeof(MapConstructor))]
 public class MapConstructorEditor : Editor {
-	int tpCount;
-	int wpCount;
-	int wCount;
-
+	// TODO: make map constructor window
 	bool toggleWP;
 	bool toggleTP;
 	bool toggleW;
@@ -22,6 +19,9 @@ public class MapConstructorEditor : Editor {
 	private SerializedProperty _waves;	
 		
 	private MapConstructor mapConstructor;
+	private Event currentEvent;
+	private bool quickCreationMode = false;
+	private bool resetTool = false;
 
 	public GUIStyle guiTitleStyle {
 		get {
@@ -35,7 +35,7 @@ public class MapConstructorEditor : Editor {
 		}
 	}
 	void OnEnable () {
-		mapConstructor = target as MapConstructor;
+		mapConstructor = (MapConstructor) target as MapConstructor;
 		mc = new SerializedObject(mapConstructor);
         
 		_wayPoints = mc.FindProperty ("wayPoints");
@@ -180,29 +180,196 @@ public class MapConstructorEditor : Editor {
 	}
 
 	public override void OnInspectorGUI (){
-		DrawDefaultInspector();	// test
+		// DrawDefaultInspector();	// test
 
 		if(mapConstructor == null)
 			return;
 		
 		mc.Update();
-
-		wpCount = EditorPrefs.GetInt("WPC");
-		tpCount = EditorPrefs.GetInt("TPC");
-		wCount = EditorPrefs.GetInt("WC");
 		
 		EditorGUILayout.BeginVertical ("box");
-
 		EditorGUILayout.Space();
+
 		EditorGUILayout.LabelField ("MAP CONSTRUCTOR", guiTitleStyle);
 		EditorGUILayout.Space();
 
 		mapConstructor.mapId = EditorGUILayout.IntField ("Map Id", mapConstructor.mapId);
-		mapConstructor.mapPos = EditorGUILayout.Vector3Field ("Map Pos", mapConstructor.mapPos);
-				
+		quickCreationMode = GUILayout.Toggle(quickCreationMode, "Interactive Creation", GUI.skin.button);
+		if (quickCreationMode) {
+			if (mapConstructor.gameObject.GetComponent <BoxCollider> () == null)
+				mapConstructor.gameObject.AddComponent <BoxCollider> ().size = new Vector3(50f, 0.01f, 50f);
+			EditorGUILayout.HelpBox ("- Left click on the plane to create a new WAY POINT.\n- Shift + left click on the plane to create a new TOWER POINT.\n-You should turn off Interactive Creation Mode to drag the points.", MessageType.Info, true);
+		} 		
+
 		EditorGUILayout.Space();
 
-		#region waypoint 
+		OnWayPointInspectorGUI();
+		OnTowerPointInspectorGUI();
+		OnWaveInspectorGUI();
+		
+		EditorGUILayout.EndVertical ();
+
+		OnDataInspectorGUI ();		
+		mc.ApplyModifiedProperties();
+	}
+	
+	public void OnSceneGUI (){
+		if (mapConstructor == null)
+			return;
+		
+		currentEvent = Event.current;
+		
+		// if (currentEvent.command) {
+        //     if (Application.platform == RuntimePlatform.OSXEditor)
+        //         Debug.Log("Command key was pressed");
+        //     else
+        //         if (Application.platform == RuntimePlatform.WindowsEditor)
+        //             Debug.Log("Windows Key was pressed!");
+		// }
+
+		if (currentEvent.isKey && currentEvent.type == EventType.KeyDown && currentEvent.character == 'l'){
+			quickCreationMode = !quickCreationMode;
+		}
+
+		if (quickCreationMode) {
+			Tools.current = Tool.None;
+			HandleUtility.AddDefaultControl (GUIUtility.GetControlID(FocusType.Passive));
+			resetTool = false;
+
+			// get position of mouse and find world hit point;
+			Vector2 mousePos = currentEvent.mousePosition;
+			Ray ray = HandleUtility.GUIPointToWorldRay(mousePos); 
+			if (currentEvent.isMouse && currentEvent.type == EventType.MouseDown && currentEvent.button == 0 && !currentEvent.alt) {
+				CheckRay(ray);
+			}	
+		} else {
+			if (!resetTool)
+				Tools.current = Tool.Move;
+				resetTool = true;
+
+		}
+		Handles.color = mapConstructor.pointColor;;
+		Handles.Disc (mapConstructor.transform.rotation, mapConstructor.transform.position, Vector3.up, 1f, false, 1f);
+		Handles.Label (mapConstructor.transform.position + new Vector3(0f, mapConstructor.pointSize, 0f), mapConstructor.name);
+
+		// 2d gui on scene view
+		Handles.BeginGUI();
+		GUILayout.BeginArea(new Rect(10f, 10f, 128f, 128f), GUI.skin.box);
+		if (GUILayout.Button("Create Way Point")){
+			CreateWayPoint (new Vector3(mapConstructor.wayPoints.Count, 0f, 0f));
+		}
+		if (GUILayout.Button("Create Tower Point")){
+			CreateTowerPoint (new Vector3(mapConstructor.towerPoints.Count, 0f, 1f));
+		}
+
+		GUILayout.Space(5f);
+		mapConstructor.pointSize = GUILayout.HorizontalSlider (mapConstructor.pointSize, 0f, 2f);
+		GUILayout.EndArea();
+		Handles.EndGUI(); 
+
+		// render waypoints on scene view
+		if (mapConstructor.wayPoints.Count > 0){
+			for (int i = 0; i < mapConstructor.wayPoints.Count; i++)
+			{
+				GameObject wayPoint = mapConstructor.wayPoints[i].wayPointGo;
+				 
+				if (wayPoint != null) {
+					Handles.Label (wayPoint.transform.position + new Vector3(0f, mapConstructor.pointSize * .5f, 0f), wayPoint.name, new GUIStyle (GUI.skin.label));
+					if (i == 0){
+						Handles.color = Color.green;
+					} else if (i == mapConstructor.wayPoints.Count - 1) {
+						Handles.color = Color.red;
+					}
+					Handles.SphereCap (0, wayPoint.transform.position, wayPoint.transform.rotation, mapConstructor.pointSize * .5f);
+					Handles.color = mapConstructor.pointColor;;
+					
+					wayPoint.transform.position = Handles.FreeMoveHandle (new Vector3(wayPoint.transform.position.x, 0f, wayPoint.transform.position.z), Quaternion.identity, mapConstructor.pointSize * .5f, Vector3.one, Handles.RectangleCap);
+					if(i < mapConstructor.wayPoints.Count - 1) {
+						Handles.color = Color.yellow;
+						GameObject newWayPoint = mapConstructor.wayPoints[i + 1].wayPointGo;
+						Handles.DrawLine (wayPoint.transform.position, newWayPoint.transform.position);
+						Handles.color = mapConstructor.pointColor;;
+					}
+				}
+
+			}
+		}
+
+		// render towerpoints on scene view
+		if (mapConstructor.towerPoints.Count > 0){
+			for (int i = 0; i < mapConstructor.towerPoints.Count; i++)
+			{
+				GameObject towerPoint = mapConstructor.towerPoints[i].towerPointGo;
+				 
+				if (towerPoint != null) {
+					Handles.Label (towerPoint.transform.position + new Vector3(0f, mapConstructor.pointSize * .5f, 0f), towerPoint.name, new GUIStyle (GUI.skin.label));
+					Handles.color = Color.blue;
+					Handles.CubeCap (0, towerPoint.transform.position, towerPoint.transform.rotation, mapConstructor.pointSize * .5f);
+					Handles.color = mapConstructor.pointColor;;
+					
+					towerPoint.transform.position = Handles.FreeMoveHandle (new Vector3(towerPoint.transform.position.x, 0f, towerPoint.transform.position.z), Quaternion.identity, mapConstructor.pointSize * .5f, Vector3.one, Handles.RectangleCap);
+				}
+			}
+		}
+		// EditorGUI.BeginChangeCheck();
+        // Vector3 pos = Handles.PositionHandle(mapConstructor.mapPos, Quaternion.identity);
+        // if (EditorGUI.EndChangeCheck()) {
+        //     Undo.RecordObject(mapConstructor, "Move Map");
+        //     mapConstructor.mapPos = pos;
+        //     mapConstructor.Update ();
+        // }
+	}
+
+	#region private methods
+	void CheckRay (Ray ray) {
+		RaycastHit hit = (RaycastHit) HandleUtility.RaySnap (ray);
+		if (hit.transform != null){
+			if (currentEvent.shift) {
+				CreateTowerPoint(hit.point);
+			} else {
+				CreateWayPoint(hit.point);
+			}
+		}
+	}
+	private void CreateWayPoint (Vector3 position) {
+		GameObject wp = new GameObject ("wp_" + (mapConstructor.wayPoints.Count+1).ToString());
+		if (wp != null) {
+			wp.transform.SetParent (mapConstructor.transform);
+			wp.transform.position = position;
+			mapConstructor.wayPoints.Add (new WayPointData(wp.name, wp));
+		}
+	}
+
+	private void ClearWayPoints() {
+		for (int i = 0; i < mapConstructor.wayPoints.Count; i++)
+		{
+			DestroyImmediate (mapConstructor.wayPoints[i].wayPointGo);
+		}
+		mapConstructor.wayPoints.Clear ();
+	}
+
+	private void CreateTowerPoint (Vector3 position) {
+		GameObject tp = new GameObject ("tp_" + (mapConstructor.towerPoints.Count+1).ToString());
+		if (tp != null) {
+			tp.transform.SetParent (mapConstructor.transform);
+			tp.transform.position = position;
+			mapConstructor.towerPoints.Add (new TowerPointData(tp.name, tp));
+		}
+		
+	}
+
+	private void ClearTowerPoints() {
+		for (int i = 0; i < mapConstructor.towerPoints.Count; i++)
+		{
+			DestroyImmediate (mapConstructor.towerPoints[i].towerPointGo);
+		}
+		mapConstructor.towerPoints.Clear ();
+	}
+	#endregion private methods
+
+	#region waypoint 
+	private void OnWayPointInspectorGUI () {
+		
 		EditorGUI.indentLevel++;
 		toggleWP = EditorGUILayout.Foldout(toggleWP, "Way Point");
 		EditorPrefs.SetBool("TWP", toggleWP);
@@ -210,14 +377,10 @@ public class MapConstructorEditor : Editor {
 			EditorGUI.indentLevel++;
 			EditorGUILayout.BeginHorizontal ();
 			if (GUILayout.Button ("Create A New Way Point")) {
-				mapConstructor.CreateNewWayPoint (wpCount);
-				wpCount++;
-				EditorPrefs.SetInt("WPC", wpCount);
+				CreateWayPoint(new Vector3(mapConstructor.wayPoints.Count, 0f, 0f));
 			}
 			if (GUILayout.Button ("Clear All Way Points")) {
-				mapConstructor.ClearAllWayPoints();
-				if (EditorPrefs.HasKey("WPC"))
-					EditorPrefs.SetInt("WPC", 0);
+				ClearWayPoints ();
 			}
 			EditorGUILayout.EndHorizontal();
 			wpROL.DoLayoutList();
@@ -225,9 +388,11 @@ public class MapConstructorEditor : Editor {
 		}
 		EditorGUI.indentLevel--;
 		EditorGUILayout.Space();
-		#endregion waypoint
+	}
+	#endregion waypoint
 
-		#region towerpoint
+	#region towerpoint
+	private void OnTowerPointInspectorGUI () {
 		EditorGUI.indentLevel++;
 		toggleTP = EditorGUILayout.Foldout(toggleTP, "Tower Point");
 		EditorPrefs.SetBool("TTP", toggleTP);
@@ -235,14 +400,10 @@ public class MapConstructorEditor : Editor {
 			EditorGUI.indentLevel++;
 			EditorGUILayout.BeginHorizontal ();
 			if (GUILayout.Button ("Create A New Tower Point")) {
-				mapConstructor.CreateNewTowerPoint(tpCount);
-				tpCount++;
-				EditorPrefs.SetInt("TPC", tpCount);
+				CreateTowerPoint(new Vector3(mapConstructor.towerPoints.Count, 0f, 1f));
 			}
 			if (GUILayout.Button ("Clear All Tower Points")) {
-				mapConstructor.ClearAllTowerPoints();
-				if (EditorPrefs.HasKey("TPC"))
-					EditorPrefs.SetInt("TPC", 0);
+				ClearTowerPoints();
 			}
 			EditorGUILayout.EndHorizontal();
 			tpROL.DoLayoutList();
@@ -250,8 +411,12 @@ public class MapConstructorEditor : Editor {
 		}
 		EditorGUI.indentLevel--;
 		EditorGUILayout.Space();
-		#endregion towerpoint
+		
+	}
+	#endregion towerpoint
 
+	#region wave
+	private void OnWaveInspectorGUI () {
 		EditorGUI.indentLevel++;
 		toggleW = EditorGUILayout.Foldout(toggleW, "Wave");
 		EditorPrefs.SetBool("TW", toggleW);
@@ -259,14 +424,10 @@ public class MapConstructorEditor : Editor {
 			EditorGUI.indentLevel++;
 			EditorGUILayout.BeginHorizontal ();
 			if (GUILayout.Button ("Create A New Wave")) {
-				mapConstructor.CreateNewWave(wCount);
-				wCount++;
-				EditorPrefs.SetInt("WC", wCount);
+				// mapConstructor.CreateNewWave(wCount);
 			}
 			if (GUILayout.Button ("Clear All Waves")) {
-				mapConstructor.ClearAllWaves();
-				if (EditorPrefs.HasKey("WC"))
-					EditorPrefs.SetInt("WC", 0);
+				// mapConstructor.ClearAllWaves();
 			}
 			EditorGUILayout.EndHorizontal ();
 			
@@ -298,18 +459,11 @@ public class MapConstructorEditor : Editor {
 			EditorGUI.indentLevel--;
 		}
 		EditorGUI.indentLevel--;
-		EditorGUILayout.EndVertical ();
-
-		#region map constructor window
-		// TODO: make map constructor window
-		EditorGUILayout.BeginVertical ();
-		if (GUILayout.Button ("Open Map Constructor Window")) {
-				Debug.Log ("open map constructor window");
-		}
-		EditorGUILayout.EndVertical ();
-		#endregion map constructor window
-
-		#region data
+	}
+	#endregion wave
+	
+	#region data
+	private void OnDataInspectorGUI () {
 		// TODO: save and load map data to xml 
 		EditorGUILayout.BeginHorizontal ();
 		if (GUILayout.Button ("Save")) {
@@ -334,62 +488,8 @@ public class MapConstructorEditor : Editor {
 		}
 		EditorGUILayout.EndHorizontal();
 		EditorGUILayout.Space();
-		#endregion data
-		
-
-		if (GUI.changed)
-			EditorUtility.SetDirty(mapConstructor);
-
-		mc.ApplyModifiedProperties();
 	}
-	
-	public void OnSceneGUI (){
-		if (mapConstructor == null)
-			return;
-		
-		// EditorGUI.BeginChangeCheck();
-        // Vector3 pos = Handles.PositionHandle(mapConstructor.mapPos, Quaternion.identity);
-        // if (EditorGUI.EndChangeCheck()) {
-        //     Undo.RecordObject(mapConstructor, "Move Map");
-        //     mapConstructor.mapPos = pos;
-        //     mapConstructor.Update ();
-        // }
-	
-		// draw line between waypoint
-		if(mapConstructor.wayPoints == null)
-			return;
-		
-		
-		EditorGUI.BeginChangeCheck();
-		// if (_wayPoints.arraySize > 0){ 
-		// 	for (int i = 0; i < _wayPoints.arraySize; i++)
-		// 	{
-		// 		// var newPos = Handles.PositionHandle(mapConstructor.wayPoints[i].wayPointGo.transform.position, Quaternion.identity);
-		// 		if (EditorGUI.EndChangeCheck()) {
-		// 		// 	Undo.RecordObject(mapConstructor, "Move Wave Point");
-		// 		// 	mapConstructor.wayPoints[i].wayPointGo.transform.position = newPos;
-		// 		// 	mapConstructor.wayPoints[i].wayPointPosition = newPos;
-		// 		// 	mapConstructor.Update ();
-		// 		}
-		// 		// var wp = _wayPoints.GetArrayElementAtIndex(i);
-		// 		// mapConstructor.wayPoints[i].wayPointGo.transform.position = wp.FindPropertyRelative("wayPointPosition").vector3Value;
-		// 	}
-		// }
-		// for( int i = 0; i < mapConstructor.wayPoints.Count; i++ )
-		// {	
-		// 	// mapConstructor.wayPoints[i].wayPointGo.transform.position = wp.FindPropertyRelative("wayPointGo").; 
-		// 	// if(i < mapConstructor.wayPoints.Count - 1)
-		// 	// 	Handles.DrawLine(mapConstructor.wayPoints[i].wayPointGo.transform.position, mapConstructor.wayPoints[i + 1].wayPointGo.transform.position );
-		// }
-
-		// // draw tower range circle
-		// if(mapConstructor.towerPoints == null )
-		// 	return;
-		// for( int i = 0; i < mapConstructor.towerPoints.Count; i++ )
-		// {
-		// 	// Handles.DrawWireDisc(mapConstructor.towerPoints[i].towerPointGo.transform.position, Vector3.up, 1f);
-		// }
-	}
+	#endregion data
 
 	#region database
 	const string mapGroupDataDirectory = "Assets/Resources/Maps";	

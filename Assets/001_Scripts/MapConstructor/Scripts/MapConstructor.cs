@@ -9,7 +9,8 @@ public class MapConstructor : MonoBehaviour {
     // map id
     [UnityEngine.SerializeField] public int mapId = 1;
 
-    public Vector3 mapPos;    
+    public Color pointColor = Color.magenta;
+    public float pointSize = 1f;
     private WayPointData wpd;
     private TowerPointData tpd;
     private WaveData wd;
@@ -32,8 +33,7 @@ public class MapConstructor : MonoBehaviour {
         wpg.transform.position = new Vector3 ((float)_id, 0f , 0f);
         wpg.transform.SetParent (mTransform, false);
         IconManager.SetIcon (wpg, IconManager.LabelIcon.Yellow);
-        
-        
+                
         // set way point data then add it to way point list
         wayPoints.Add (new WayPointData(wpg.name, wpg, wpg.transform.position));  
     }
@@ -99,22 +99,7 @@ public class MapConstructor : MonoBehaviour {
         }
     }
     public void Update () {
-
-        // transform.position = mapPos;
-
-        // if (wayPoints.Count > 0) { 
-        //     for (int i = 0; i < wayPoints.Count; i++)
-        //     {
-        //         // wayPoints[i].wayPointGo.transform.position = wayPoints[i].wayPointPosition;
-        //     }
-        // }
-
-        // if (towerPoints.Count > 0) {
-        //     for (int i = 0; i < towerPoints.Count; i++)
-        //     {
-        //         towerPoints[i].towerPointGo.transform.position = towerPoints[i].towerPointPosition;
-        //     }
-        // }
+       
     }
 
     public void Reset (){

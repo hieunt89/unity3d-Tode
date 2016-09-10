@@ -6,6 +6,11 @@ public class TowerPointData {
     [UnityEngine.SerializeField] public string id;
     [UnityEngine.SerializeField] public GameObject towerPointGo;
     [UnityEngine.SerializeField] public Vector3 towerPointPosition;
+
+    public TowerPointData (string _id, GameObject _tpg){
+        id = _id;
+        towerPointGo = _tpg;
+    }
     public TowerPointData (string _id, GameObject _tpg, Vector3 _tpp){
         id = _id;
         towerPointGo = _tpg;
