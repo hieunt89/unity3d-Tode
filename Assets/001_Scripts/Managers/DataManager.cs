@@ -21,35 +21,50 @@ public class DataManager {
 	Dictionary<string, ProjectileData> projectileIdToData;
 	Dictionary<string, TowerData> towerIdToData;
 	Dictionary<string, EnemyData> enemyIdToData;
+	Dictionary<ArmorRating, float> armorRatingToReduction;
 
 	public DataManager(){
-		LoadProjectileDatas ();
-		LoadTowerDatas ();
-		LoadEnemyDatas ();
+		LoadProjectileData ();
+		LoadTowerData ();
+		LoadEnemyData ();
+		LoadArmorRatingRef ();
 	}
 
-	void LoadProjectileDatas(){
+	void LoadArmorRatingRef(){
+		armorRatingToReduction = new Dictionary<ArmorRating, float> ();
+		armorRatingToReduction.Add (ArmorRating.none, 0f);
+		armorRatingToReduction.Add (ArmorRating.low, 0.1f);
+		armorRatingToReduction.Add (ArmorRating.medium, 0.2f);
+		armorRatingToReduction.Add (ArmorRating.high, 0.5f);
+		armorRatingToReduction.Add (ArmorRating.immume, 1f);
+	}
+
+	void LoadProjectileData(){
 		projectileIdToData = new Dictionary<string, ProjectileData> ();
-		projectileIdToData.Add("arrow", new ProjectileData(3.0f));
+		projectileIdToData.Add("arrow", new ProjectileData(3.0f, 0f));
 	}
 
-	void LoadTowerDatas(){
+	void LoadTowerData(){
 		towerIdToData = new Dictionary<string, TowerData> ();
 		towerIdToData.Add (
 			"arrow1", 
-			new TowerData ("arrow", AttackType.type1, 2f, 1, 2, 2f)
+			new TowerData ("arrow", AttackType.physical, 2f, 1, 2, 1f)
 		);
 	}
 
-	void LoadEnemyDatas(){
+	void LoadEnemyData(){
+		List<ArmorData> armorList = new List<ArmorData> ();
+		armorList.Add (new ArmorData (AttackType.magical, ArmorRating.none));
+		armorList.Add (new ArmorData (AttackType.physical, ArmorRating.high));
+
 		enemyIdToData = new Dictionary<string, EnemyData> ();
 		enemyIdToData.Add (
 			"enemy1",
-			new EnemyData(1f, 1, AttackType.type1, 2f, 1, 2, 0f, ArmorType.type1, 1, 5)
+			new EnemyData(1f, 1, AttackType.physical, 2f, 1, 2, 0f, armorList, 5)
 		);
 		enemyIdToData.Add (
 			"enemy2",
-			new EnemyData(1.5f, 1, AttackType.type1, 2f, 1, 2, 1f, ArmorType.type1, 1, 3)
+			new EnemyData(1.5f, 1, AttackType.physical, 2f, 1, 2, 1f, armorList, 3)
 		);
 	}
 
@@ -74,6 +89,14 @@ public class DataManager {
 			return enemyIdToData [id];
 		} else {
 			return null;
+		}
+	}
+
+	public float GetArmorReduction(ArmorRating rating){
+		if (armorRatingToReduction.ContainsKey (rating)) {
+			return armorRatingToReduction [rating];
+		} else {
+			return 0f;
 		}
 	}
 }

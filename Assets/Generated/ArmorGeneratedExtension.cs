@@ -12,15 +12,15 @@ namespace Entitas {
 
         public bool hasArmor { get { return HasComponent(ComponentIds.Armor); } }
 
-        public Entity AddArmor(ArmorType newArmorType) {
+        public Entity AddArmor(System.Collections.Generic.List<ArmorData> newArmorList) {
             var component = CreateComponent<Armor>(ComponentIds.Armor);
-            component.armorType = newArmorType;
+            component.armorList = newArmorList;
             return AddComponent(ComponentIds.Armor, component);
         }
 
-        public Entity ReplaceArmor(ArmorType newArmorType) {
+        public Entity ReplaceArmor(System.Collections.Generic.List<ArmorData> newArmorList) {
             var component = CreateComponent<Armor>(ComponentIds.Armor);
-            component.armorType = newArmorType;
+            component.armorList = newArmorList;
             ReplaceComponent(ComponentIds.Armor, component);
             return this;
         }

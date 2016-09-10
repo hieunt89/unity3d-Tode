@@ -58,9 +58,9 @@ public class EnemyInitSystem : IReactiveSystem, ISetPool
 					.AddAttackSpeed(enemyData.atkSpeed)
 					.AddAttackDamage(enemyData.minAtkDmg, enemyData.maxAtkDmg)
 					.AddAttackRange(enemyData.atkRange)
-					.AddArmor (enemyData.armorType)
-					.AddArmorRating (enemyData.armorRating)
+					.AddArmor(enemyData.armors)
 					.AddHp (enemyData.hp)
+					.AddHpTotal(enemyData.hp)
 					;
 			}
 		}

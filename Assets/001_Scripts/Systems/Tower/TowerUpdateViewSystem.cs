@@ -16,7 +16,7 @@ public class TowerUpdateViewSystem : IReactiveSystem {
 	{
 		GameObject go = null;
 		for (int i = 0; i < entities.Count; i++) {
-			go = GameObject.CreatePrimitive (PrimitiveType.Cube);
+			go = GameObject.Instantiate (Resources.Load<GameObject>("Tower/" + entities[i].tower.towerId));
 			if (!entities [i].hasView) {
 				entities [i].AddView (go);
 			} else {

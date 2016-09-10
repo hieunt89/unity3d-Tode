@@ -21,6 +21,7 @@ public static class PoolExtension {
 			.AddAttack (atkType)
 			.AddAttackDamage (minDmg, maxDmg)
 			.AddTarget (target)
+			.AddDestination (target.position.value)
 			.AddMovable (DataManager.Instance.GetProjectileData(projectileId).travelSpeed)
 			;
 	}

@@ -9,15 +9,15 @@
 public static class ComponentIds {
     public const int Active = 0;
     public const int Armor = 1;
-    public const int ArmorRating = 2;
-    public const int Attack = 3;
-    public const int AttackCooldown = 4;
-    public const int AttackDamage = 5;
-    public const int AttackRange = 6;
-    public const int AttackSpeed = 7;
-    public const int Destination = 8;
-    public const int Enemy = 9;
-    public const int Hp = 10;
+    public const int Attack = 2;
+    public const int AttackCooldown = 3;
+    public const int AttackDamage = 4;
+    public const int AttackRange = 5;
+    public const int AttackSpeed = 6;
+    public const int Destination = 7;
+    public const int Enemy = 8;
+    public const int Hp = 9;
+    public const int HpTotal = 10;
     public const int Id = 11;
     public const int Interactable = 12;
     public const int Level = 13;
@@ -43,7 +43,6 @@ public static class ComponentIds {
     public static readonly string[] componentNames = {
         "Active",
         "Armor",
-        "ArmorRating",
         "Attack",
         "AttackCooldown",
         "AttackDamage",
@@ -52,6 +51,7 @@ public static class ComponentIds {
         "Destination",
         "Enemy",
         "Hp",
+        "HpTotal",
         "Id",
         "Interactable",
         "Level",
@@ -76,7 +76,6 @@ public static class ComponentIds {
     public static readonly System.Type[] componentTypes = {
         typeof(Active),
         typeof(Armor),
-        typeof(ArmorRating),
         typeof(Attack),
         typeof(AttackCooldown),
         typeof(AttackDamage),
@@ -85,6 +84,7 @@ public static class ComponentIds {
         typeof(Destination),
         typeof(Enemy),
         typeof(Hp),
+        typeof(HpTotal),
         typeof(Id),
         typeof(Interactable),
         typeof(Level),

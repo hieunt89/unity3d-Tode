@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour {
 			.Add(pool.CreateSystem<LifeSystem>())
 			.Add(pool.CreateSystem<PathSystem>())
 			.Add(pool.CreateSystem<WaveSystem>())
+			.Add(pool.CreateSystem<HpWatchSystem>())
 
 			//Tower
 			.Add(pool.CreateSystem<TowerInitSystem>())
@@ -43,10 +44,15 @@ public class GameManager : MonoBehaviour {
 			.Add(pool.CreateSystem<EnemyMoveSystem>())
 			.Add(pool.CreateSystem<EnemyReachEndSystem>())
 
+			//Projectile
+			.Add(pool.CreateSystem<ProjectileHomingSystem>())
+			.Add(pool.CreateSystem<ProjectileReachEndSystem>())
+
 			//view
 			.Add(pool.CreateSystem<TowerUpdateViewSystem>())
 			.Add(pool.CreateSystem<EnemyCreateViewSystem>())
-			.Add(pool.CreateSystem<EnemyUpdateViewSystem>())
+			.Add(pool.CreateSystem<ProjectileCreateViewSystem>())
+			.Add(pool.CreateSystem<UpdateViewPositionSystem>())
 
 			//destroy things
 			.Add(pool.CreateSystem<DestroyEntitySystem>())
