@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Lean;
 
-public class InputController : MonoBehaviour {
+public class InputManager : MonoBehaviour {
 
 	void Start(){
 		LeanTouch.OnFingerTap += HandleFingerTap;

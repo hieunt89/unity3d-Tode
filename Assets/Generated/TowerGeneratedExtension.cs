@@ -12,15 +12,15 @@ namespace Entitas {
 
         public bool hasTower { get { return HasComponent(ComponentIds.Tower); } }
 
-        public Entity AddTower(TowerType newType) {
+        public Entity AddTower(string newTowerId) {
             var component = CreateComponent<Tower>(ComponentIds.Tower);
-            component.type = newType;
+            component.towerId = newTowerId;
             return AddComponent(ComponentIds.Tower, component);
         }
 
-        public Entity ReplaceTower(TowerType newType) {
+        public Entity ReplaceTower(string newTowerId) {
             var component = CreateComponent<Tower>(ComponentIds.Tower);
-            component.type = newType;
+            component.towerId = newTowerId;
             ReplaceComponent(ComponentIds.Tower, component);
             return this;
         }

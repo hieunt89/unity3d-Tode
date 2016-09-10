@@ -19,13 +19,8 @@ public class TowerInitSystem : IInitializeSystem, ISetPool {
 		var tps = GameObject.FindGameObjectsWithTag ("TowerPoint");
 		for (int i = 0; i < tps.Length; i++) {
 			_pool.CreateEntity ()
-				.AddTower (TowerType.type1)
-				.AddAttack (AttackType.type1)
-				.AddAttackRange (2.0f)
-				.AddAttackDamage (1, 2)
-				.AddAttackSpeed (2.0f)
-				.IsActive (true)
-				.AddId ("tower_" + i)
+				.AddTower ("arrow1")
+				.AddId ("tower_" + i + "_" + "arrow1")
 				.IsInteractable (true)
 				.AddPosition (tps[i].transform.position)
 				;

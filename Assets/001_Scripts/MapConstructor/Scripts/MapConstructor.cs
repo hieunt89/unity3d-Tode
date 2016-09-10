@@ -91,7 +91,7 @@ public class MapConstructor : MonoBehaviour {
         {
             var values = mGroup[i].Split(',');
             var waveGroup = new WaveGroup();
-            waveGroup.Type = (EnemyType) System.Enum.Parse(typeof(EnemyType), values[0]);   // parse string to enum ...
+            waveGroup.EnemyId = values[0];   // parse string to enum ...
             waveGroup.Amount = Int32.Parse(values[1]);
             waveGroup.SpawnInterval = float.Parse(values[2]);
             waveGroup.WaveDelay = float.Parse(values[3]);

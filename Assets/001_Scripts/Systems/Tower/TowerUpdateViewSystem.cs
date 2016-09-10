@@ -16,18 +16,7 @@ public class TowerUpdateViewSystem : IReactiveSystem {
 	{
 		GameObject go = null;
 		for (int i = 0; i < entities.Count; i++) {
-			switch (entities[i].tower.type) {
-			case TowerType.type1:
-				go = GameObject.CreatePrimitive (PrimitiveType.Sphere);
-				break;
-			case TowerType.type2:
-				go = GameObject.CreatePrimitive (PrimitiveType.Cube);
-				break;
-			default:
-				go = new GameObject ();
-				break;
-			}
-
+			go = GameObject.Instantiate (Resources.Load<GameObject>("Tower/" + entities[i].tower.towerId));
 			if (!entities [i].hasView) {
 				entities [i].AddView (go);
 			} else {

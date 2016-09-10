@@ -25,32 +25,45 @@ public class EnemyInitSystem : IReactiveSystem, ISetPool
 		float activeTime = _pool.tick.time;
 		WaveGroup waveGroup;
 		Entity ePath;
-
-		for (int i = 0; i < e.wave.groups.Count; i++) { //loop throu all datas in wave
+		EnemyData enemyData;
+		for (int i = 0; i < e.wave.groups.Count; i++) { //loop throu all wave group datas in wave
 			waveGroup = e.wave.groups[i];
 			activeTime = activeTime + waveGroup.WaveDelay;
 			ePath = _pool.GetPathEntityById(waveGroup.PathId);
-			for (int j = 0; j < waveGroup.Amount; j++) { //loop throu all enemies is wave data
-				if (j != 0) {
+			if (ePath == null) { //continue if path not found
+				continue;
+			}
+
+			for (int j = 0; j < waveGroup.Amount; j++) { //loop throu all enemies in wave group data
+				enemyData = DataManager.Instance.GetEnemyData (waveGroup.EnemyId);
+				if(enemyData == null){ //break if enemy data is null
+					break;
+				}
+
+				if (j != 0) { //do not add spawn interval on the first enemy in group
 					activeTime = activeTime + waveGroup.SpawnInterval;
 				}
 
-				if(ePath != null){
-					_pool.CreateEntity ()
-						.AddEnemy (waveGroup.EClass, waveGroup.Type)
-						.AddId (e.id.value + "_group" + i + "_enemy" + j)
-						.AddPathReference (ePath)
-						.AddMarkedForActive (activeTime)
-						.IsInteractable (true)
-						.AddMovable (1.0f)
-						.AddLifeCount (-1)
-						.AddHp (5)
-						.AddDestination (ePath.path.wayPoints[0])
-						.AddPosition (ePath.path.wayPoints[0])
-						;
-				}
+				_pool.CreateEntity ()
+					.AddEnemy (waveGroup.EnemyId)
+					.AddId (e.id.value + "_group" + i + "_enemy" + j)
+					.AddPathReference (ePath)
+					.AddMarkedForActive (activeTime)
+					.IsInteractable (true)
+					.AddDestination (ePath.path.wayPoints[0])
+					.AddPosition (ePath.path.wayPoints[0])
+					.AddMovable (enemyData.moveSpeed)
+					.AddLifeCount (enemyData.lifeCount)
+					.AddAttack (enemyData.atkType)
+					.AddAttackSpeed(enemyData.atkSpeed)
+					.AddAttackDamage(enemyData.minAtkDmg, enemyData.maxAtkDmg)
+					.AddAttackRange(enemyData.atkRange)
+					.AddArmor(enemyData.armors)
+					.AddHp (enemyData.hp)
+					.AddHpTotal(enemyData.hp)
+					;
 			}
-		} 
+		}
 
 		_pool.DestroyEntity (e);
     }

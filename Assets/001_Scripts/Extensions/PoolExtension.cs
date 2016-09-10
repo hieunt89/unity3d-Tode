@@ -14,13 +14,15 @@ public static class PoolExtension {
 		return null;
 	}
 
-	public static Entity CreateProjectile(this Pool pool, ProjectileType prjType, Vector3 pos, AttackType atkType, int minDmg, int maxDmg, float travelSpeed, Entity target){
+	public static Entity CreateProjectile(this Pool pool, string projectileId, Vector3 pos, AttackType atkType, int minDmg, int maxDmg, Entity target){
 		return pool.CreateEntity ()
-			.AddProjectile(prjType)
+			.AddProjectile(projectileId)
 			.AddPosition(pos)
 			.AddAttack (atkType)
 			.AddAttackDamage (minDmg, maxDmg)
 			.AddTarget (target)
-			.AddMovable (travelSpeed);
+			.AddDestination (target.position.value)
+			.AddMovable (DataManager.Instance.GetProjectileData(projectileId).travelSpeed)
+			;
 	}
 }

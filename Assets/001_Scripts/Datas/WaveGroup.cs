@@ -1,96 +1,70 @@
-public class WaveGroup {
-	EnemyClass eClass;
+﻿public class WaveGroup {
+	string enemyId;
 
-	public EnemyClass EClass {
+	public string EnemyId {
 		get {
-			return eClass;
+			return enemyId;
 		}
+        set {
+            enemyId = value;
+        }
 	}
 
-	// TODO: tam thoi public field de lam editor, sau nay se dung custom editor de thay the
-	[UnityEngine.SerializeField] private EnemyType type;
-	public EnemyType Type
-    {
-        get
-        {
-            return type;
-        }
+	int amount;
 
-        set
-        {
-            type = value;
-        }
-    }
-
-    [UnityEngine.SerializeField] private string pathId;
-	public string PathId
-    {
-        get
-        {
-            return pathId;
-        }
-
-        set
-        {
-            pathId = value;
-        }
-    }
-
-    [UnityEngine.SerializeField] private int amount;
-  	public int Amount
-    {
-        get
-        {
-            return amount;
-        }
-
-        set
-        {
+	public int Amount {
+		get {
+			return amount;
+		}
+        set {
             amount = value;
         }
-    }
-	
-	[UnityEngine.SerializeField] private float spawnInterval;
- 	public float SpawnInterval
-    {
-        get
-        {
-            return spawnInterval;
-        }
+	}
 
-        set
-        {
+	float spawnInterval;
+
+	public float SpawnInterval {
+		get {
+			return spawnInterval;
+		}
+        set {
             spawnInterval = value;
         }
-    }
+	}
 
-    [UnityEngine.SerializeField] private float waveDelay;
-	public float WaveDelay
-    {
-        get
-        {
-            return waveDelay;
-        }
+	float waveDelay;
 
-        set
-        {
+	public float WaveDelay {
+		get {
+			return waveDelay;
+		}
+        set {
             waveDelay = value;
         }
-    }
-	
-    public WaveGroup() {
 	}
-    
-    public override string ToString () {
-		return Type + "," + Amount + "," + SpawnInterval + "," + WaveDelay;
+
+	string pathId;
+
+	public string PathId {
+		get {
+			return pathId;
+		}
+        set {
+            pathId = value;
+        }
+	}
+
+    public WaveGroup () {
+        
     }
-	
-	public WaveGroup(EnemyClass eClass, EnemyType type, int amount, float spawnInterval, float waveDelay, string pathId){
-		this.eClass = eClass;
-		this.type = type;
+
+	public WaveGroup (string enemyId, int amount, float spawnInterval, float waveDelay, string pathId)
+	{
+		this.enemyId = enemyId;
 		this.amount = amount;
 		this.spawnInterval = spawnInterval;
 		this.waveDelay = waveDelay;
 		this.pathId = pathId;
 	}
+	
 }

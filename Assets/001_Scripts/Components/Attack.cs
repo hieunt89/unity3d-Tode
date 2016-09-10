@@ -1,10 +1,11 @@
 ﻿using Entitas;
 
 public enum AttackType{
-	type1,
-	type2
+	physical,
+	magical, 
+	trueDmg
 }
 
 public class Attack : IComponent {
-	public AttackType type;
+	public AttackType attackType;
 }

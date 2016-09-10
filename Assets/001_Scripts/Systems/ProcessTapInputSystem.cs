@@ -48,7 +48,7 @@ public class ProcessTapInputSystem : IReactiveSystem, ISetPool {
 	}
 
 	private void ProcessTowerTap(Entity e){
-		e.ReplaceTower (TowerType.type2);
+		Debug.Log("tower tap");
 	}
 
 	private void ProcessEnemyTap(Entity e){

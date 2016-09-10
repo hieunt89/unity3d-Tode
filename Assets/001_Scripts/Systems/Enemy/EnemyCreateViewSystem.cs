@@ -3,6 +3,7 @@ using System.Collections;
 using Entitas;
 
 public class EnemyCreateViewSystem : IReactiveSystem, IEnsureComponents {
+	#region Constructor
 	GameObject enemyViewParent;
 	public EnemyCreateViewSystem(){
 		enemyViewParent = GameObject.Find ("EnemysView");
@@ -11,6 +12,7 @@ public class EnemyCreateViewSystem : IReactiveSystem, IEnsureComponents {
 			enemyViewParent.transform.position = Vector3.zero;
 		}
 	}
+	#endregion
 	#region IEnsureComponents implementation
 
 	public IMatcher ensureComponents {
@@ -29,7 +31,7 @@ public class EnemyCreateViewSystem : IReactiveSystem, IEnsureComponents {
 		for (int i = 0; i < entities.Count; i++) {
 			var e = entities [i];
 			if(e.hasEnemy){
-				go = GameObject.Instantiate(Resources.Load<GameObject> ("Enemy/" + e.enemy.eClass + "/" + e.enemy.eType));
+				go = GameObject.Instantiate(Resources.Load<GameObject> ("Enemy/" + e.enemy.enemyId));
 				go.name = e.id.value;
 				go.transform.position = e.position.value;
 				go.transform.SetParent (enemyViewParent.transform, false);

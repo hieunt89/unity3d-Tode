@@ -2,7 +2,7 @@
 using Entitas;
 using Entitas.Unity.VisualDebugging;
 
-public class GameController : MonoBehaviour {
+public class GameManager : MonoBehaviour {
 	public bool debug = true;
 	Systems _systems;
 
@@ -28,9 +28,11 @@ public class GameController : MonoBehaviour {
 			.Add(pool.CreateSystem<LifeSystem>())
 			.Add(pool.CreateSystem<PathSystem>())
 			.Add(pool.CreateSystem<WaveSystem>())
+			.Add(pool.CreateSystem<HpWatchSystem>())
 
 			//Tower
 			.Add(pool.CreateSystem<TowerInitSystem>())
+			.Add(pool.CreateSystem<TowerStatsUpdateSystem>())
 			.Add(pool.CreateSystem<TowerCheckTargetSystem>())
 			.Add(pool.CreateSystem<TowerFindTargetSystem>())
 			.Add(pool.CreateSystem<TowerAttackSystem>())
@@ -42,10 +44,15 @@ public class GameController : MonoBehaviour {
 			.Add(pool.CreateSystem<EnemyMoveSystem>())
 			.Add(pool.CreateSystem<EnemyReachEndSystem>())
 
+			//Projectile
+			.Add(pool.CreateSystem<ProjectileHomingSystem>())
+			.Add(pool.CreateSystem<ProjectileReachEndSystem>())
+
 			//view
 			.Add(pool.CreateSystem<TowerUpdateViewSystem>())
 			.Add(pool.CreateSystem<EnemyCreateViewSystem>())
-			.Add(pool.CreateSystem<EnemyUpdateViewSystem>())
+			.Add(pool.CreateSystem<ProjectileCreateViewSystem>())
+			.Add(pool.CreateSystem<UpdateViewPositionSystem>())
 
 			//destroy things
 			.Add(pool.CreateSystem<DestroyEntitySystem>())

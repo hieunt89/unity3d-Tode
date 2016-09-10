@@ -2,7 +2,7 @@
 using System.Collections;
 using Entitas;
 
-public class EnemyUpdateViewSystem : IReactiveSystem {
+public class UpdateViewPositionSystem : IReactiveSystem {
 
 	#region IReactiveExecuteSystem implementation
 
@@ -19,7 +19,7 @@ public class EnemyUpdateViewSystem : IReactiveSystem {
 
 	public TriggerOnEvent trigger {
 		get {
-			return Matcher.AllOf(Matcher.Enemy, Matcher.View, Matcher.Position).OnEntityAdded ();
+			return Matcher.AllOf(Matcher.View, Matcher.Position).OnEntityAdded ();
 		}
 	}
 
