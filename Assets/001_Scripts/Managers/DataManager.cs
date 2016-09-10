@@ -99,4 +99,17 @@ public class DataManager {
 			return 0f;
 		}
 	}
+
+	void test(){
+		TowerLevelData tld = new TowerLevelData ("arrow1",
+			new TowerLevelData[2] {
+				new TowerLevelData ("arrow2",
+					new TowerLevelData[2]{
+						new TowerLevelData ("arrow3"),
+						new TowerLevelData ("arrow4")
+					}),
+				new TowerLevelData ("arrow5")
+			}
+        );
+	}
 }
