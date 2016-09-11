@@ -11,9 +11,10 @@ public class MapConstructor : MonoBehaviour {
 
     public Color pointColor = Color.magenta;
     public float pointSize = 1f;
-    private WayPointData wpd;
-    private TowerPointData tpd;
-    private WaveData wd;
+    public float maxPointSize = 2f;
+    // private WayPointData wpd;
+    // private TowerPointData tpd;
+    // private WaveData wd;
 
     [UnityEngine.SerializeField] public List<WayPointData> wayPoints;
     [UnityEngine.SerializeField] public List<TowerPointData> towerPoints;    
@@ -35,7 +36,7 @@ public class MapConstructor : MonoBehaviour {
         IconManager.SetIcon (wpg, IconManager.LabelIcon.Yellow);
                 
         // set way point data then add it to way point list
-        wayPoints.Add (new WayPointData(wpg.name, wpg, wpg.transform.position));  
+        wayPoints.Add (new WayPointData(wpg.name, wpg));  
     }
 
     public void ClearAllWayPoints () {
@@ -53,7 +54,7 @@ public class MapConstructor : MonoBehaviour {
         IconManager.SetIcon (tpg, IconManager.LabelIcon.Blue);
 
         // set tower point data then add it to tower point list 
-        towerPoints.Add (new TowerPointData(tpg.name, tpg, tpg.transform.position));  
+        towerPoints.Add (new TowerPointData(tpg.name, tpg));  
     }
 
     public void ClearAllTowerPoints (){

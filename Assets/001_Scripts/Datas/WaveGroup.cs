@@ -1,4 +1,5 @@
-﻿public class WaveGroup {
+﻿[System.Serializable]
+public class WaveGroup {
 	string enemyId;
 
 	public string EnemyId {
