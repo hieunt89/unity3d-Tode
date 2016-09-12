@@ -21,27 +21,29 @@ public static class ComponentIds {
     public const int Hp = 11;
     public const int HpTotal = 12;
     public const int Id = 13;
-    public const int Interactable = 14;
-    public const int Level = 15;
-    public const int LifeCount = 16;
-    public const int LifePlayer = 17;
-    public const int MarkedForActive = 18;
-    public const int MarkedForDestroy = 19;
-    public const int Movable = 20;
-    public const int Path = 21;
-    public const int PathReference = 22;
-    public const int Position = 23;
-    public const int Projectile = 24;
-    public const int ReachedEnd = 25;
-    public const int TapInput = 26;
+    public const int InputTap = 14;
+    public const int Interactable = 15;
+    public const int Level = 16;
+    public const int LifeCount = 17;
+    public const int LifePlayer = 18;
+    public const int MarkedForActive = 19;
+    public const int MarkedForDestroy = 20;
+    public const int Movable = 21;
+    public const int Path = 22;
+    public const int PathReference = 23;
+    public const int Position = 24;
+    public const int Projectile = 25;
+    public const int ReachedEnd = 26;
     public const int Target = 27;
     public const int Tick = 28;
     public const int Tower = 29;
     public const int TowerNextUpgrade = 30;
-    public const int View = 31;
-    public const int Wave = 32;
+    public const int TowerUpgrade = 31;
+    public const int TowerUpgradeProgress = 32;
+    public const int View = 33;
+    public const int Wave = 34;
 
-    public const int TotalComponents = 33;
+    public const int TotalComponents = 35;
 
     public static readonly string[] componentNames = {
         "Active",
@@ -58,6 +60,7 @@ public static class ComponentIds {
         "Hp",
         "HpTotal",
         "Id",
+        "InputTap",
         "Interactable",
         "Level",
         "LifeCount",
@@ -70,11 +73,12 @@ public static class ComponentIds {
         "Position",
         "Projectile",
         "ReachedEnd",
-        "TapInput",
         "Target",
         "Tick",
         "Tower",
         "TowerNextUpgrade",
+        "TowerUpgrade",
+        "TowerUpgradeProgress",
         "View",
         "Wave"
     };
@@ -94,6 +98,7 @@ public static class ComponentIds {
         typeof(Hp),
         typeof(HpTotal),
         typeof(Id),
+        typeof(InputTap),
         typeof(Interactable),
         typeof(Level),
         typeof(LifeCount),
@@ -106,11 +111,12 @@ public static class ComponentIds {
         typeof(Position),
         typeof(Projectile),
         typeof(ReachedEnd),
-        typeof(TapInput),
         typeof(Target),
         typeof(Tick),
         typeof(Tower),
         typeof(TowerNextUpgrade),
+        typeof(TowerUpgrade),
+        typeof(TowerUpgradeProgress),
         typeof(View),
         typeof(Wave)
     };

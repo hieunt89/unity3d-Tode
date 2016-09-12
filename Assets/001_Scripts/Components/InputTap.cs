@@ -1,6 +1,6 @@
 ﻿using Entitas;
 using Entitas.CodeGenerator;
 
-public class TapInput : IComponent {
+public class InputTap : IComponent {
 	public string id;
 }

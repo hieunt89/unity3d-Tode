@@ -10,10 +10,11 @@ public class TowerData
 	[SerializeField] public int minDmg;
 	[SerializeField] public int maxDmg;
 	[SerializeField] public float atkSpeed;
-	[SerializeField] public int goldWorth;
+	[SerializeField] public int goldRequired;
 	[SerializeField] public List<string> nextUpgrade;
+	[SerializeField] public float buildTime;
 
-	public TowerData (string prjType, AttackType atkType, float atkRange, int minDmg, int maxDmg, float atkSpeed, int goldWorth, List<string> nextUpgrade)
+	public TowerData (string prjType, AttackType atkType, float atkRange, int minDmg, int maxDmg, float atkSpeed, int goldWorth, List<string> nextUpgrade, float buildTime)
 	{
 		this.prjType = prjType;
 		this.atkType = atkType;
@@ -21,8 +22,8 @@ public class TowerData
 		this.minDmg = minDmg;
 		this.maxDmg = maxDmg;
 		this.atkSpeed = atkSpeed;
-		this.goldWorth = goldWorth;
+		this.goldRequired = goldWorth;
 		this.nextUpgrade = nextUpgrade;
+		this.buildTime = buildTime;
 	}
-	
 }

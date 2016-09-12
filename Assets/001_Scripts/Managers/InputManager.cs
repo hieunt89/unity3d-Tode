@@ -11,7 +11,9 @@ public class InputManager : MonoBehaviour {
 		RaycastHit hitInfo;
 		Ray ray = fg.GetRay (Camera.main);
 		if (Physics.Raycast (ray, out hitInfo)) {
-			Pools.pool.CreateEntity().AddTapInput(hitInfo.collider.gameObject.name);
+			Pools.pool.CreateEntity ().AddInputTap (hitInfo.collider.gameObject.name);
+		} else {
+			Messenger.Broadcast (Events.Input.EMPTY_CLICK);
 		}
 	}
 }

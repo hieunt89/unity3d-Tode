@@ -24,13 +24,16 @@ public class GameManager : MonoBehaviour {
 		}
 		return systems
 			//Map
-			.Add(pool.CreateSystem<MapInitSystem>())
 			.Add(pool.CreateSystem<TimeSystem>())
+			.Add(pool.CreateSystem<LifeSystem>())
+			.Add(pool.CreateSystem<GoldSystem>())
 			.Add(pool.CreateSystem<PathSystem>())
 			.Add(pool.CreateSystem<WaveSystem>())
 
 			//Tower
 			.Add(pool.CreateSystem<TowerInitSystem>())
+			.Add(pool.CreateSystem<TowerUpgradeSystem>())
+			.Add(pool.CreateSystem<TowerBuildSystem>())
 			.Add(pool.CreateSystem<TowerStatsUpdateSystem>())
 			.Add(pool.CreateSystem<TowerCheckTargetSystem>())
 			.Add(pool.CreateSystem<TowerFindTargetSystem>())

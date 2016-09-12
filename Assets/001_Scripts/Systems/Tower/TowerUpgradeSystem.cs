@@ -2,15 +2,43 @@
 using System.Collections;
 using Entitas;
 
-public class TowerUpgradeSystem : IReactiveSystem {
+public class TowerUpgradeSystem : IReactiveSystem, ISetPool{
+	#region ISetPool implementation
+	Pool _pool;
+	public void SetPool (Pool pool)
+	{
+		_pool = pool;
+	}
 
-	// Use this for initialization
-	void Start () {
-	
+	#endregion
+
+	#region IReactiveExecuteSystem implementation
+
+	public void Execute (System.Collections.Generic.List<Entity> entities)
+	{
+		for (int i = 0; i < entities.Count; i++) {
+			var e = entities [i];
+			var cost = DataManager.Instance.GetTowerData (e.towerUpgrade.upgradeId).goldRequired;
+			if (_pool.goldPlayer.value < cost) {
+				e.RemoveTowerUpgrade ();
+			} else {
+				_pool.ReplaceGoldPlayer (_pool.goldPlayer.value - cost);
+				e.AddTowerUpgradeProgress (0f).IsActive(false);
+			}
+		}
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+
+	#endregion
+
+	#region IReactiveSystem implementation
+
+	public TriggerOnEvent trigger {
+		get {
+			return Matcher.TowerUpgrade.OnEntityAdded ();
+		}
 	}
+
+	#endregion
+
+
 }

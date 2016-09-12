@@ -17,22 +17,21 @@ public class ProcessTapInputSystem : IReactiveSystem, ISetPool {
 	#region IReactiveExecuteSystem implementation
 	public void Execute (System.Collections.Generic.List<Entity> entities)
 	{
-		for (int i = 0; i < entities.Count; i++) {
-			var e = GetEntityById (entities [i].tapInput.id);
-			if(e != null && e.hasTower){
-				ProcessTowerTap (e);
-			}else if(e != null && e.hasEnemy){
-				ProcessEnemyTap (e);
+		var input = entities.SingleEntity ();
+		var e = GetEntityById (input.inputTap.id);
+		if(e != null){
+			if(e.hasTower){
+				HandleTowerTap (e);
 			}
-			_pool.DestroyEntity (entities[i]);
 		}
+		_pool.DestroyEntity (input);
 	}
 	#endregion
 
 	#region IReactiveSystem implementation
 	public TriggerOnEvent trigger {
 		get {
-			return Matcher.TapInput.OnEntityAdded ();
+			return Matcher.InputTap.OnEntityAdded ();
 		}
 	}
 	#endregion
@@ -47,11 +46,7 @@ public class ProcessTapInputSystem : IReactiveSystem, ISetPool {
 		return null;
 	}
 
-	private void ProcessTowerTap(Entity e){
-		Debug.Log("tower tap");
-	}
-
-	private void ProcessEnemyTap(Entity e){
-		Debug.Log("enemy tap");
+	void HandleTowerTap(Entity e){
+		Messenger.Broadcast<Entity> (Events.Input.TOWER_CLICK, e);
 	}
 }

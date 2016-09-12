@@ -35,16 +35,16 @@ public class DataManager {
 
 	void LoadTowerData(){
 		List<string> nextUpgrade = new List<string> ();
-		nextUpgrade.Add ("arrow2");
+		nextUpgrade.Add ("tower2");
 
 		towerIdToData = new Dictionary<string, TowerData> ();
 		towerIdToData.Add (
 			"tower1", 
-			new TowerData ("arrow", AttackType.physical, 2f, 1, 2, 1f, 150, nextUpgrade)
+			new TowerData ("arrow", AttackType.physical, 2f, 1, 2, 1f, 150, nextUpgrade, 1f)
 		);
 		towerIdToData.Add (
 			"tower2", 
-			new TowerData ("arrow", AttackType.physical, 2f, 1, 2, 1f, 150, null)
+			new TowerData ("arrow", AttackType.physical, 2f, 1, 2, 1f, 150, null, 3f)
 		);
 
 	}
