@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using Entitas;
 
-public class TowerUpdateViewSystem : IReactiveSystem {
+public class TowerCreateViewSystem : IReactiveSystem {
 	GameObject towerViewParent;
-	public TowerUpdateViewSystem(){
+	public TowerCreateViewSystem(){
 		towerViewParent = GameObject.Find ("TowersView");
 		if(towerViewParent == null){
 			towerViewParent = new GameObject ("TowersView");

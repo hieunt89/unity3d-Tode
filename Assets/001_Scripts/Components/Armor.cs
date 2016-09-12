@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 
 public enum ArmorRating{
-	none, low, medium, high, immume
+	none = 0, 
+	low = 20, 
+	medium = 40, 
+	high = 70, 
+	immume = 100
 }
 
 public class ArmorData {

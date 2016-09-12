@@ -2,6 +2,6 @@
 using Entitas.CodeGenerator;
 
 [SingleEntity]
-public class Life : IComponent {
+public class LifePlayer : IComponent {
 	public int value;
 }

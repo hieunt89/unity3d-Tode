@@ -34,7 +34,7 @@ public class ProjectileReachEndSystem : IReactiveSystem {
 		int damage = Random.Range (projectile.attackDamage.minDamage, projectile.attackDamage.maxDamage);
 		float reduction = GetDamageReduction (projectile.attack.attackType, enemy.armor.armorList);
 		damage = Mathf.CeilToInt(damage * (1 - reduction));
-		int hpLeft = Mathf.Clamp(enemy.hp.value - damage, 0, enemy.hp.value);
+		int hpLeft = Mathf.Clamp(enemy.hp.value - damage, 0, enemy.hpTotal.value);
 		enemy.ReplaceHp (hpLeft);
 	}
 

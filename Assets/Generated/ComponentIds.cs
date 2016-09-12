@@ -16,29 +16,32 @@ public static class ComponentIds {
     public const int AttackSpeed = 6;
     public const int Destination = 7;
     public const int Enemy = 8;
-    public const int Hp = 9;
-    public const int HpTotal = 10;
-    public const int Id = 11;
-    public const int Interactable = 12;
-    public const int Level = 13;
-    public const int Life = 14;
-    public const int LifeCount = 15;
-    public const int MarkedForActive = 16;
-    public const int MarkedForDestroy = 17;
-    public const int Movable = 18;
-    public const int Path = 19;
-    public const int PathReference = 20;
-    public const int Position = 21;
-    public const int Projectile = 22;
-    public const int ReachedEnd = 23;
-    public const int TapInput = 24;
-    public const int Target = 25;
-    public const int Tick = 26;
-    public const int Tower = 27;
-    public const int View = 28;
-    public const int Wave = 29;
+    public const int Gold = 9;
+    public const int GoldPlayer = 10;
+    public const int Hp = 11;
+    public const int HpTotal = 12;
+    public const int Id = 13;
+    public const int Interactable = 14;
+    public const int Level = 15;
+    public const int LifeCount = 16;
+    public const int LifePlayer = 17;
+    public const int MarkedForActive = 18;
+    public const int MarkedForDestroy = 19;
+    public const int Movable = 20;
+    public const int Path = 21;
+    public const int PathReference = 22;
+    public const int Position = 23;
+    public const int Projectile = 24;
+    public const int ReachedEnd = 25;
+    public const int TapInput = 26;
+    public const int Target = 27;
+    public const int Tick = 28;
+    public const int Tower = 29;
+    public const int TowerNextUpgrade = 30;
+    public const int View = 31;
+    public const int Wave = 32;
 
-    public const int TotalComponents = 30;
+    public const int TotalComponents = 33;
 
     public static readonly string[] componentNames = {
         "Active",
@@ -50,13 +53,15 @@ public static class ComponentIds {
         "AttackSpeed",
         "Destination",
         "Enemy",
+        "Gold",
+        "GoldPlayer",
         "Hp",
         "HpTotal",
         "Id",
         "Interactable",
         "Level",
-        "Life",
         "LifeCount",
+        "LifePlayer",
         "MarkedForActive",
         "MarkedForDestroy",
         "Movable",
@@ -69,6 +74,7 @@ public static class ComponentIds {
         "Target",
         "Tick",
         "Tower",
+        "TowerNextUpgrade",
         "View",
         "Wave"
     };
@@ -83,13 +89,15 @@ public static class ComponentIds {
         typeof(AttackSpeed),
         typeof(Destination),
         typeof(Enemy),
+        typeof(Gold),
+        typeof(GoldPlayer),
         typeof(Hp),
         typeof(HpTotal),
         typeof(Id),
         typeof(Interactable),
         typeof(Level),
-        typeof(Life),
         typeof(LifeCount),
+        typeof(LifePlayer),
         typeof(MarkedForActive),
         typeof(MarkedForDestroy),
         typeof(Movable),
@@ -102,6 +110,7 @@ public static class ComponentIds {
         typeof(Target),
         typeof(Tick),
         typeof(Tower),
+        typeof(TowerNextUpgrade),
         typeof(View),
         typeof(Wave)
     };

@@ -21,22 +21,11 @@ public class DataManager {
 	Dictionary<string, ProjectileData> projectileIdToData;
 	Dictionary<string, TowerData> towerIdToData;
 	Dictionary<string, EnemyData> enemyIdToData;
-	Dictionary<ArmorRating, float> armorRatingToReduction;
 
 	public DataManager(){
 		LoadProjectileData ();
 		LoadTowerData ();
 		LoadEnemyData ();
-		LoadArmorRatingRef ();
-	}
-
-	void LoadArmorRatingRef(){
-		armorRatingToReduction = new Dictionary<ArmorRating, float> ();
-		armorRatingToReduction.Add (ArmorRating.none, 0f);
-		armorRatingToReduction.Add (ArmorRating.low, 0.1f);
-		armorRatingToReduction.Add (ArmorRating.medium, 0.2f);
-		armorRatingToReduction.Add (ArmorRating.high, 0.5f);
-		armorRatingToReduction.Add (ArmorRating.immume, 1f);
 	}
 
 	void LoadProjectileData(){
@@ -45,11 +34,19 @@ public class DataManager {
 	}
 
 	void LoadTowerData(){
+		List<string> nextUpgrade = new List<string> ();
+		nextUpgrade.Add ("arrow2");
+
 		towerIdToData = new Dictionary<string, TowerData> ();
 		towerIdToData.Add (
-			"arrow1", 
-			new TowerData ("arrow", AttackType.physical, 2f, 1, 2, 1f)
+			"tower1", 
+			new TowerData ("arrow", AttackType.physical, 2f, 1, 2, 1f, 150, nextUpgrade)
 		);
+		towerIdToData.Add (
+			"tower2", 
+			new TowerData ("arrow", AttackType.physical, 2f, 1, 2, 1f, 150, null)
+		);
+
 	}
 
 	void LoadEnemyData(){
@@ -60,11 +57,11 @@ public class DataManager {
 		enemyIdToData = new Dictionary<string, EnemyData> ();
 		enemyIdToData.Add (
 			"enemy1",
-			new EnemyData(1f, 1, AttackType.physical, 2f, 1, 2, 0f, armorList, 5)
+			new EnemyData(1f, 1, 5, AttackType.physical, 2f, 1, 2, 0f, armorList, 5)
 		);
 		enemyIdToData.Add (
 			"enemy2",
-			new EnemyData(1.5f, 1, AttackType.physical, 2f, 1, 2, 1f, armorList, 3)
+			new EnemyData(1.5f, 1, 5, AttackType.physical, 2f, 1, 2, 1f, armorList, 3)
 		);
 	}
 
@@ -93,11 +90,7 @@ public class DataManager {
 	}
 
 	public float GetArmorReduction(ArmorRating rating){
-		if (armorRatingToReduction.ContainsKey (rating)) {
-			return armorRatingToReduction [rating];
-		} else {
-			return 0f;
-		}
+		return (int)rating * 0.01f;
 	}
 
 	void test(){

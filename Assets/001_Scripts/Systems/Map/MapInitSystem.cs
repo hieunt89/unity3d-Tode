@@ -2,7 +2,7 @@
 using System.Collections;
 using Entitas;
 
-public class LifeSystem : ISetPool, IInitializeSystem {
+public class MapInitSystem : ISetPool, IInitializeSystem {
 	Pool _pool;
 	#region ISetPool implementation
 	public void SetPool (Pool pool)
@@ -15,7 +15,8 @@ public class LifeSystem : ISetPool, IInitializeSystem {
 
 	public void Initialize ()
 	{
-		_pool.SetLife (ConstantData.INIT_LIFE);
+		_pool.SetLifePlayer (ConstantData.INIT_LIFE);
+		_pool.SetGoldPlayer (ConstantData.INIT_GOLD);
 	}
 
 	#endregion
