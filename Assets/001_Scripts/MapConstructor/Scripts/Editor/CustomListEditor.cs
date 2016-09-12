@@ -104,6 +104,7 @@ public class CustomListEditor : Editor {
 				if(GUILayout.Button("Add New Index To Sub List", GUILayout.MaxWidth(240),GUILayout.MaxHeight(20))){
                     MySubList.InsertArrayElementAtIndex(MySubList.arraySize);
                     MySubList.GetArrayElementAtIndex(MySubList.arraySize -1).intValue = 0;
+                    UnityEngine.Debug.Log (t.MyList[i].MySubList.Count);
                 }
  
                 for(int a = 0; a < MySubList.arraySize; a++){

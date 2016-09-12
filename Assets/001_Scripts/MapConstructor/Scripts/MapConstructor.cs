@@ -7,19 +7,19 @@ using System;
 public class MapConstructor : MonoBehaviour {
 
     // map id
-    [UnityEngine.SerializeField] public int mapId = 1;
+    [SerializeField] public int mapId = 1;
+    [SerializeField] public float pointSize = 1f;
+    [SerializeField] public float maxPointSize = 2f;
+    [SerializeField] public Color baseColor = Color.gray;
+    [SerializeField] public Color pathColor = Color.gray;
+    [SerializeField] public Color wayPointColor = Color.gray;
+    [SerializeField] public Color towerPointColor = Color.gray;
 
-    public Color pointColor = Color.magenta;
-    public float pointSize = 1f;
-    public float maxPointSize = 2f;
-    // private WayPointData wpd;
-    // private TowerPointData tpd;
-    // private WaveData wd;
-
-    [UnityEngine.SerializeField] public List<WayPointData> wayPoints;
-    [UnityEngine.SerializeField] public List<TowerPointData> towerPoints;    
-    [UnityEngine.SerializeField] public List<WaveData> waves;
-    [UnityEngine.SerializeField] public List<WaveGroup> waveGroups;  // test
+    [SerializeField] public List<PathData> paths;
+    // [UnityEngine.SerializeField] public List<WayPointData> wayPoints;
+    [SerializeField] public List<TowerPointData> towerPoints;    
+    [SerializeField] public List<WaveData> waves;
+    [SerializeField] public List<WaveGroup> waveGroups;  // test
 
     private Transform mTransform;
 
@@ -27,52 +27,9 @@ public class MapConstructor : MonoBehaviour {
     void Awake () {
         mTransform = this.transform;
     }
-
     #endregion Mono
-    public void CreateNewWayPoint (int _id) {
-        GameObject wpg = new GameObject("WP_" + (_id+1));
-        wpg.transform.position = new Vector3 ((float)_id, 0f , 0f);
-        wpg.transform.SetParent (mTransform, false);
-        IconManager.SetIcon (wpg, IconManager.LabelIcon.Yellow);
-                
-        // set way point data then add it to way point list
-        wayPoints.Add (new WayPointData(wpg.name, wpg));  
-    }
 
-    public void ClearAllWayPoints () {
-        for (int i = 0; i < wayPoints.Count; i++)
-        {
-            DestroyImmediate(wayPoints[i].wayPointGo);
-        }
-        wayPoints.Clear ();
-    }
-
-    public void CreateNewTowerPoint (int _id) {
-        GameObject tpg = new GameObject("TP_" + (_id+1));
-        tpg.transform.position = new Vector3 ((float)_id, 0f, 1f);
-        tpg.transform.SetParent (mTransform, false);
-        IconManager.SetIcon (tpg, IconManager.LabelIcon.Blue);
-
-        // set tower point data then add it to tower point list 
-        towerPoints.Add (new TowerPointData(tpg.name, tpg));  
-    }
-
-    public void ClearAllTowerPoints (){
-        for (int i = 0; i < towerPoints.Count; i++)
-        {
-            DestroyImmediate(towerPoints[i].towerPointGo);
-        }
-        towerPoints.Clear();
-    }
-
-    public void CreateNewWave(int _id){
-        waves.Add(new WaveData(_id + 1, new List<WaveGroup>()));
-    }
-
-    public void ClearAllWaves (){
-        waves.Clear();
-    }
-    public string Save () {
+      public string Save () {
         var sb = new StringBuilder ();
         for (int i = 0; i < waveGroups.Count; i++)
         {
@@ -98,16 +55,5 @@ public class MapConstructor : MonoBehaviour {
             waveGroup.WaveDelay = float.Parse(values[3]);
             waveGroups.Add(waveGroup);
         }
-    }
-    public void Update () {
-       
-    }
-
-    public void Reset (){
-        this.mapId = 1;
-
-        ClearAllWayPoints();
-        ClearAllTowerPoints();
-        ClearAllWaves();
     }
 }
