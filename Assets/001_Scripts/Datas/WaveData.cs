@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using UnityEngine;
+using System.Collections.Generic;
 
 [System.Serializable]
 public class WaveData {
-	[UnityEngine.SerializeField] public int id;
-    [UnityEngine.SerializeField] public List<WaveGroup> groups;
+	[SerializeField] public int id;
+    [SerializeField] public List<WaveGroup> groups;
 
     public WaveData (int _id, List<WaveGroup> _groups){
         id = _id;

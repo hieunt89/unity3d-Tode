@@ -379,6 +379,7 @@ public class MapConstructorEditor : Editor {
 				
 				var pos = EditorGUILayout.Vector3Field ("Position", mapConstructor.wayPoints[i].wayPointGo.transform.position);
 				if (EditorGUI.EndChangeCheck ()) {
+					Undo.RecordObject(mapConstructor,"Change Way Point Position");
 					mapConstructor.wayPoints[i].id = id;
 					mapConstructor.wayPoints[i].wayPointGo.name = id;
 					mapConstructor.wayPoints[i].wayPointGo.transform.position = pos;
@@ -462,7 +463,7 @@ public class MapConstructorEditor : Editor {
 					SerializedProperty groups = wave.FindPropertyRelative("groups");
 
 					EditorGUILayout.BeginHorizontal();
-					EditorGUILayout.LabelField (wave.FindPropertyRelative("id").intValue.ToString());
+					EditorGUILayout.LabelField ("Wave " + wave.FindPropertyRelative("id").intValue.ToString());
 
 					if(GUILayout.Button("Add Group", GUILayout.MaxWidth (100))) {
 						groups.InsertArrayElementAtIndex(groups.arraySize);	
@@ -478,8 +479,28 @@ public class MapConstructorEditor : Editor {
 						for (int j = 0; j < groups.arraySize; j++)
 						{
 							EditorGUILayout.BeginHorizontal();
-							EditorGUILayout.LabelField (j.ToString());
-							if(GUILayout.Button("Remove Group", GUILayout.MaxWidth (100))) {
+							EditorGUILayout.LabelField ("G" + j, GUILayout.MinWidth (60), GUILayout.MaxWidth (100));
+							
+							// TODO: add enemy id 
+							
+														
+							SerializedProperty amountProp = groups.GetArrayElementAtIndex(j).FindPropertyRelative("amount");
+							SerializedProperty spawnIntervalProp = groups.GetArrayElementAtIndex(j).FindPropertyRelative("spawnInterval");
+							SerializedProperty waveDelayProp = groups.GetArrayElementAtIndex(j).FindPropertyRelative("waveDelay");
+							SerializedProperty pathIdProp = groups.GetArrayElementAtIndex(j).FindPropertyRelative("pathId");
+
+							// TODO: handle change data on inspector
+							EditorGUI.BeginChangeCheck();
+							var enemyId = EditorGUILayout.Popup (0, new string[3]{"e01", "e02", "e03"}, GUILayout.MinWidth (100), GUILayout.MaxWidth (100)); // test
+							var amount = EditorGUILayout.IntField ("amount", amountProp.intValue);
+							var spawnInterval = EditorGUILayout.FloatField (spawnIntervalProp.floatValue);
+							var waveDelay = EditorGUILayout.FloatField (waveDelayProp.floatValue);
+							var pathId = EditorGUILayout.Popup (0, new string[3]{"p01", "p02", "p03"}, GUILayout.MinWidth (100), GUILayout.MaxWidth (100));  // test
+							if (EditorGUI.EndChangeCheck()){
+								
+							}
+
+							if(GUILayout.Button("Remove", GUILayout.MinWidth (60), GUILayout.MaxWidth (80))) {
 								groups.DeleteArrayElementAtIndex(j);
 							}
 							EditorGUILayout.EndHorizontal();
