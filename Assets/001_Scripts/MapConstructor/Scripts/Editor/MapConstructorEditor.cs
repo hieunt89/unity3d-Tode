@@ -441,7 +441,7 @@ public class MapConstructorEditor : Editor {
 					SerializedProperty groups = wave.FindPropertyRelative("groups");
 
 					EditorGUILayout.BeginHorizontal();
-					EditorGUILayout.LabelField (wave.FindPropertyRelative("waveId").intValue.ToString(), GUILayout.MinWidth (60), GUILayout.MaxWidth (100));
+					EditorGUILayout.LabelField (wave.FindPropertyRelative("waveId").intValue.ToString(), GUILayout.MinWidth (60), GUILayout.MaxWidth (60));
 					EditorGUILayout.LabelField ("Enemy Id", GUILayout.MinWidth (100), GUILayout.MaxWidth (100));
 					EditorGUILayout.LabelField ("Amount", GUILayout.MinWidth (100), GUILayout.MaxWidth (100));
 					EditorGUILayout.LabelField ("Interval", GUILayout.MinWidth (100), GUILayout.MaxWidth (100));
@@ -449,7 +449,9 @@ public class MapConstructorEditor : Editor {
 					EditorGUILayout.LabelField ("Path Id", GUILayout.MinWidth (100), GUILayout.MaxWidth (100));
 
 					if(GUILayout.Button("Add Group", GUILayout.MinWidth (85), GUILayout.MaxWidth (85))) {
-						groups.InsertArrayElementAtIndex(groups.arraySize);	
+						// groups.InsertArrayElementAtIndex(groups.arraySize);	
+						// todo can them logic cho nay tuong tu add way point
+						
 					}
 					if(GUILayout.Button("Clear Groups", GUILayout.MinWidth (85), GUILayout.MaxWidth (85))) {	
 						groups.ClearArray();			
@@ -462,7 +464,7 @@ public class MapConstructorEditor : Editor {
 						for (int j = 0; j < groups.arraySize; j++)
 						{
 							EditorGUILayout.BeginHorizontal();
-							EditorGUILayout.LabelField ("G" + j, GUILayout.MinWidth (60), GUILayout.MaxWidth (100));
+							EditorGUILayout.LabelField ("G" + j, GUILayout.MinWidth (60), GUILayout.MaxWidth (60));
 							
 							// TODO: add enemy id 														
 							SerializedProperty amountProp = groups.GetArrayElementAtIndex(j).FindPropertyRelative("amount");
@@ -478,7 +480,11 @@ public class MapConstructorEditor : Editor {
 							var waveDelay = EditorGUILayout.FloatField (waveDelayProp.floatValue, GUILayout.MinWidth (100), GUILayout.MaxWidth (100));
 							var pathId = EditorGUILayout.Popup (0, new string[3]{"p01", "p02", "p03"}, GUILayout.MinWidth (100), GUILayout.MaxWidth (100));  // test
 							if (EditorGUI.EndChangeCheck()){
-								
+								// mapConstructor.waves[i].groups[j].enemyId = enemyId;	// convert popup (int) to string
+								mapConstructor.waves[i].groups[j].amount = amount;
+								mapConstructor.waves[i].groups[j].spawnInterval = spawnInterval;
+								mapConstructor.waves[i].groups[j].waveDelay = waveDelay;
+								// mapConstructor.waves[i].groups[j].pathId = pathId;	// convert popup (int) to string
 							}
 
 							if(GUILayout.Button("Remove", GUILayout.MinWidth (175), GUILayout.MaxWidth (175))) {
@@ -500,14 +506,14 @@ public class MapConstructorEditor : Editor {
 		// TODO: save and load map data to xml 
 		EditorGUILayout.BeginHorizontal ();
 		if (GUILayout.Button ("Save")) {
-			var text = mapConstructor.Save();
-			WriteMapData(text);
+			// var text = mapConstructor.Save();
+			// WriteMapData(text);
 			// TODO: 
 			// - [x]confirm windows 
 			// - kiem tra cac truong co empty khong
 		}
 		if (GUILayout.Button ("Load")) {
-			mapConstructor.Load (LoadMapData());
+			// mapConstructor.Load (LoadMapData());
 			// TODO: confirm windows
 		}
 		if (GUILayout.Button ("Reset")) {
