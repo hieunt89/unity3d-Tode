@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 [System.Serializable]
-public class WaveGroup {
+public class WaveGroup { // TODO: rename WaveGroupData
 	[SerializeField] public string enemyId;
 
 	public string EnemyId {
