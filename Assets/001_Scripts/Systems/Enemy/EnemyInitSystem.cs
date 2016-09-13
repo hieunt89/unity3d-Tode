@@ -53,6 +53,7 @@ public class EnemyInitSystem : IReactiveSystem, ISetPool
 					.AddDestination (ePath.path.wayPoints [0])
 					.AddPosition (ePath.path.wayPoints [0])
 					.AddMovable (enemyData.moveSpeed)
+					.AddTurnable(enemyData.turnSpeed)
 					.AddLifeCount (enemyData.lifeCount)
 					.AddGold (enemyData.goldWorth)
 					.AddAttack (enemyData.atkType)

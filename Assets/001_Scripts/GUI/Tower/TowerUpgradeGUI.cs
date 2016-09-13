@@ -21,10 +21,13 @@ public class TowerUpgradeGUI : MonoBehaviour{
 	}
 
 	void CreateTowerUpgradeBtns(Entity e){
-		ClearTowerUpgradeBtns ();
-
-		if (e == currentSelected || !e.hasTower) {
+		if (!e.hasTower) {
+			ClearTowerUpgradeBtns ();
 			return;
+		} else if (e == currentSelected) {
+			return;
+		} else {
+			ClearTowerUpgradeBtns ();
 		}
 
 		currentSelected = e;
@@ -35,13 +38,13 @@ public class TowerUpgradeGUI : MonoBehaviour{
 		}
 
 		for (int i = 0; i < upgrades.Count; i++) {
-			var data = DataManager.Instance.GetTowerData (upgrades [i]);
+			var data = DataManager.Instance.GetTowerData (upgrades[i]);
 			if(data != null){
 				var go = GameObject.Instantiate (btnTowerUpgradePrefab);
-				go.transform.SetParent (this.transform);
+				go.transform.SetParent (this.transform, false);
 
 				go.AddComponent<TowerUpgradeBtn> ().RegisterUpgradeBtn(upgrades[i], data.goldRequired);
-				go.GetComponentInChildren<Text> ().text = "upgrade to " + upgrades [i] + " for " + data.goldRequired + " gold";
+				go.GetComponentInChildren<Text> ().text = "upgrade to " + upgrades[i] + " for " + data.goldRequired + " gold";
 			}
 		}
 	}

@@ -11,9 +11,9 @@ A prototype tower defense game made with Unity and Entitas v.0.31.1
 5. Submit a pull request :D
 
 ## TODO
-- [x] Add README
-- [] projectile and enemy look at destination
+- [x] projectile and enemy look at destination
 - [] health bar and build progress bar
+- [] view object pooling
 
 ## Additions References
 * [Mark down tutorial](http://www.markdowntutorial.com/)

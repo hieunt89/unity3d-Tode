@@ -30,7 +30,7 @@ public class DataManager {
 
 	void LoadProjectileData(){
 		projectileIdToData = new Dictionary<string, ProjectileData> ();
-		projectileIdToData.Add("arrow", new ProjectileData(3.0f, 0f));
+		projectileIdToData.Add("arrow", new ProjectileData(1.0f, 5.0f, 0f));
 	}
 
 	void LoadTowerData(){
@@ -57,11 +57,11 @@ public class DataManager {
 		enemyIdToData = new Dictionary<string, EnemyData> ();
 		enemyIdToData.Add (
 			"enemy1",
-			new EnemyData(1f, 1, 5, AttackType.physical, 2f, 1, 2, 0f, armorList, 5)
+			new EnemyData(0.5f, 5f, 1, 5, AttackType.physical, 2f, 1, 2, 0f, armorList, 5)
 		);
 		enemyIdToData.Add (
 			"enemy2",
-			new EnemyData(1.5f, 1, 5, AttackType.physical, 2f, 1, 2, 1f, armorList, 3)
+			new EnemyData(0.5f, 5f, 1, 5, AttackType.physical, 2f, 1, 2, 1f, armorList, 3)
 		);
 	}
 
@@ -91,18 +91,5 @@ public class DataManager {
 
 	public float GetArmorReduction(ArmorRating rating){
 		return (int)rating * 0.01f;
-	}
-
-	void test(){
-		TowerLevelData tld = new TowerLevelData ("arrow1",
-			new TowerLevelData[2] {
-				new TowerLevelData ("arrow2",
-					new TowerLevelData[2]{
-						new TowerLevelData ("arrow3"),
-						new TowerLevelData ("arrow4")
-					}),
-				new TowerLevelData ("arrow5")
-			}
-        );
 	}
 }

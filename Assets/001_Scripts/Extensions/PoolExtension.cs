@@ -24,6 +24,7 @@ public static class PoolExtension {
 			.AddTarget (target)
 			.AddDestination (target.position.value)
 			.AddMovable (prj.travelSpeed)
+			.AddTurnable (prj.turnSpeed)
 			;
 		if(prj.range > 0){
 			e.AddAttackRange (prj.range);

@@ -2,6 +2,7 @@
 
 public class EnemyData {
 	public float moveSpeed;
+	public float turnSpeed;
 	public int lifeCount;
 	public int goldWorth;
 	public AttackType atkType;
@@ -12,9 +13,10 @@ public class EnemyData {
 	public List<ArmorData> armors;
 	public int hp;
 
-	public EnemyData (float moveSpeed, int lifeCount, int goldWorth, AttackType atkType, float atkSpeed, int minAtkDmg, int maxAtkDmg, float atkRange, List<ArmorData> armors, int hp)
+	public EnemyData (float moveSpeed, float turnSpeed, int lifeCount, int goldWorth, AttackType atkType, float atkSpeed, int minAtkDmg, int maxAtkDmg, float atkRange, List<ArmorData> armors, int hp)
 	{
 		this.moveSpeed = moveSpeed;
+		this.turnSpeed = turnSpeed;
 		this.lifeCount = lifeCount;
 		this.goldWorth = goldWorth;
 		this.atkType = atkType;
