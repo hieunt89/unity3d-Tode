@@ -29,7 +29,7 @@ public class EnemyInitSystem : IReactiveSystem, ISetPool
 		for (int i = 0; i < e.wave.groups.Count; i++) { //loop throu all wave group datas in wave
 			waveGroup = e.wave.groups[i];
 			activeTime = activeTime + waveGroup.WaveDelay;
-			ePath = _pool.GetPathEntityById(waveGroup.PathId);
+			ePath = _pool.GetEntityById(waveGroup.PathId);
 			if (ePath == null) { //continue if path not found
 				continue;
 			}

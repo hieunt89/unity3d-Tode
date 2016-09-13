@@ -1,7 +1,7 @@
 ﻿public class Events {
 	public enum Input{
 		EMPTY_CLICK,
-		TOWER_CLICK,
+		ENTITY_CLICK,
 		TOWER_UPGRADE_BTN_CLICK
 	}
 

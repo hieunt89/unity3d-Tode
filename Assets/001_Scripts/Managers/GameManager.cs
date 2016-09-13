@@ -59,9 +59,6 @@ public class GameManager : MonoBehaviour {
 
 			//Destroy things
 			.Add(pool.CreateSystem<DestroyEntitySystem>())
-
-			//Input
-			.Add(pool.CreateSystem<ProcessTapInputSystem>())
 			;
 	}
 }

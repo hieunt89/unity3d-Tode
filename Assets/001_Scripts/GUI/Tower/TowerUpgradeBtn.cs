@@ -15,6 +15,7 @@ public class TowerUpgradeBtn : MonoBehaviour {
 				Messenger.Broadcast<string> (Events.Input.TOWER_UPGRADE_BTN_CLICK, id);
 			});
 			_goldRequire = goldRequire;
+			HandleGoldChange (Pools.pool.goldPlayer.value);
 			Messenger.AddListener<int> (Events.Game.GOLD_CHANGE, HandleGoldChange);
 		}
 	}
@@ -25,5 +26,9 @@ public class TowerUpgradeBtn : MonoBehaviour {
 		} else {
 			_button.interactable = true;
 		}
+	}
+
+	void OnDestroy(){
+		Messenger.RemoveListener<int> (Events.Game.GOLD_CHANGE, HandleGoldChange);
 	}
 }

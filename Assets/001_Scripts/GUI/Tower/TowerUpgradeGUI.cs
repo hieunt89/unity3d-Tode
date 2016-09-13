@@ -6,26 +6,30 @@ using UnityEngine.UI;
 public class TowerUpgradeGUI : MonoBehaviour{
 
 	public GameObject btnTowerUpgradePrefab;
-	Entity currentSelected;
+	Entity currentSelected = null;
 
 	void Start(){
 		Messenger.AddListener (Events.Input.EMPTY_CLICK, ClearTowerUpgradeBtns);
-		Messenger.AddListener<Entity> (Events.Input.TOWER_CLICK, CreateTowerUpgradeBtns);
+		Messenger.AddListener<Entity> (Events.Input.ENTITY_CLICK, CreateTowerUpgradeBtns);
 		Messenger.AddListener<string> (Events.Input.TOWER_UPGRADE_BTN_CLICK, CreateTowerUpgradeEntity);
 	}
 
 	void OnDestroy(){
 		Messenger.RemoveListener (Events.Input.EMPTY_CLICK, ClearTowerUpgradeBtns);
-		Messenger.RemoveListener<Entity> (Events.Input.TOWER_CLICK, CreateTowerUpgradeBtns);
+		Messenger.RemoveListener<Entity> (Events.Input.ENTITY_CLICK, CreateTowerUpgradeBtns);
 		Messenger.RemoveListener<string> (Events.Input.TOWER_UPGRADE_BTN_CLICK, CreateTowerUpgradeEntity);
 	}
 
-	void CreateTowerUpgradeBtns(Entity tower){
+	void CreateTowerUpgradeBtns(Entity e){
 		ClearTowerUpgradeBtns ();
 
-		currentSelected = tower;
+		if (e == currentSelected || !e.hasTower) {
+			return;
+		}
 
-		var upgrades = tower.towerNextUpgrade.upgradeIds;
+		currentSelected = e;
+
+		var upgrades = e.towerNextUpgrade.upgradeIds;
 		if(upgrades == null){
 			return;
 		}
