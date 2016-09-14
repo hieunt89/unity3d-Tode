@@ -29,13 +29,7 @@ public class HeathBarViewSystem : IReactiveSystem, IInitializeSystem {
 				e.AddViewSlider (healthBarGUI.CreateHealthBar ());
 			}
 
-			rend = e.view.go.GetComponent<Renderer> ();
-			if(rend == null){
-				offset = Vector3.up;
-			}else{
-				offset = new Vector3 (0f, rend.bounds.extents.y, 0f);
-			}
-				
+			offset = e.view.go.GetRendererOffset (true);
 			e.viewSlider.bar.transform.position = Camera.main.WorldToScreenPoint (e.position.value + offset);
 
 			e.viewSlider.bar.value = (float)e.hp.value / (float)e.hpTotal.value;

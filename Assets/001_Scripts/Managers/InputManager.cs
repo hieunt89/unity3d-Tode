@@ -9,6 +9,10 @@ public class InputManager : MonoBehaviour {
 	}
 
 	void HandleFingerTap (LeanFinger fg){
+		if(LeanTouch.GuiInUse){
+			return;
+		}
+
 		RaycastHit hitInfo;
 		Ray ray = fg.GetRay (Camera.main);
 		if (Physics.Raycast (ray, out hitInfo)) {

@@ -21,7 +21,7 @@ public class TowerUpgradeGUI : MonoBehaviour{
 	}
 
 	void CreateTowerUpgradeBtns(Entity e){
-		if (!e.hasTower) {
+		if (!e.hasTower || !e.isActive) {
 			ClearTowerUpgradeBtns ();
 			return;
 		} else if (e == currentSelected) {
@@ -54,6 +54,7 @@ public class TowerUpgradeGUI : MonoBehaviour{
 		if(data != null){
 			currentSelected.AddTowerUpgrade (data.buildTime, id);
 		}
+		ClearTowerUpgradeBtns ();
 	}
 
 	void ClearTowerUpgradeBtns(){

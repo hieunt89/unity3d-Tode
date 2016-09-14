@@ -31,19 +31,15 @@ public class TowerProgressBarViewSystem : IReactiveSystem, IInitializeSystem{
 					e.AddViewSlider (progressBarGUI.CreateProgressBar ());
 				}
 
-				rend = e.view.go.GetComponent<Renderer> ();
-				if(rend == null){
-					offset = Vector3.up;
-				}else{
-					offset = new Vector3 (0f, -rend.bounds.extents.y, 0f);
-				}
-
+				offset = e.view.go.GetRendererOffset (false);
 				e.viewSlider.bar.transform.position = Camera.main.WorldToScreenPoint (e.position.value + offset);
 
 				e.viewSlider.bar.value = e.towerUpgradeProgress.progress / e.towerUpgrade.upgradeTime;
 			} else {
-				GameObject.Destroy (e.viewSlider.bar.gameObject);
-				e.RemoveViewSlider ();
+				if (e.hasViewSlider) {
+					GameObject.Destroy (e.viewSlider.bar.gameObject);
+					e.RemoveViewSlider ();
+				}
 			}
 		}
 	}
