@@ -1,5 +1,7 @@
-﻿public class WaveGroup {
-	string enemyId;
+﻿using UnityEngine;
+[System.Serializable]
+public class WaveGroup { // TODO: rename WaveGroupData
+	[SerializeField] public string enemyId;
 
 	public string EnemyId {
 		get {
@@ -10,7 +12,7 @@
         }
 	}
 
-	int amount;
+	[SerializeField] public int amount;
 
 	public int Amount {
 		get {
@@ -21,7 +23,7 @@
         }
 	}
 
-	float spawnInterval;
+	[SerializeField] public float spawnInterval;
 
 	public float SpawnInterval {
 		get {
@@ -32,9 +34,9 @@
         }
 	}
 
-	float waveDelay;
+	[SerializeField] public float waveDelay;
 
-	public float WaveDelay {
+	[SerializeField] public float WaveDelay {
 		get {
 			return waveDelay;
 		}
@@ -43,7 +45,7 @@
         }
 	}
 
-	string pathId;
+	[SerializeField] public string pathId;
 
 	public string PathId {
 		get {
