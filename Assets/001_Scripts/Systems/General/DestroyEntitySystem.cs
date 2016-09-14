@@ -22,6 +22,9 @@ public class DestroyEntitySystem : IReactiveSystem, ISetPool {
 			if(e.hasView){
 				GameObject.Destroy (e.view.go);
 			}
+			if(e.hasViewSlider){
+				GameObject.Destroy (e.viewSlider.bar.gameObject);
+			}
 			_pool.DestroyEntity (e);
 		}
 	}

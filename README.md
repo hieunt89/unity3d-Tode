@@ -12,7 +12,7 @@ A prototype tower defense game made with Unity and Entitas v.0.31.1
 
 ## TODO
 - [x] projectile and enemy look at destination
-- [] health bar and build progress bar
+- [x] health bar and build progress bar
 - [] view object pooling
 
 ## Additions References
