@@ -1,8 +1,28 @@
 ﻿using UnityEngine;
+
 [System.Serializable]
 public class WaveGroup { // TODO: rename WaveGroupData
-	[SerializeField] public string enemyId;
 
+	// TODO: get index of enemyid string in list of enemyid (pre-defined)
+	string[] enemyIdOptions = new string[] {"e01", "e02", "e03"};	// test
+	[SerializeField] private int eId;
+	public int EId {
+		get {
+			for (int i = 0; i < enemyIdOptions.Length; i++) {
+				if (enemyId.Equals (enemyIdOptions [i])) {
+					return i;
+				}
+			}
+			return 0;
+		}
+		set {
+			eId = value;
+			// TODO: something wrong here
+			enemyId = enemyIdOptions[eId];
+		}
+	}
+	
+	[SerializeField] private string enemyId;
 	public string EnemyId {
 		get {
 			return enemyId;
@@ -12,7 +32,7 @@ public class WaveGroup { // TODO: rename WaveGroupData
         }
 	}
 
-	[SerializeField] public int amount;
+	[SerializeField] private int amount;
 
 	public int Amount {
 		get {
@@ -23,7 +43,7 @@ public class WaveGroup { // TODO: rename WaveGroupData
         }
 	}
 
-	[SerializeField] public float spawnInterval;
+	[SerializeField] private float spawnInterval;
 
 	public float SpawnInterval {
 		get {
@@ -34,9 +54,9 @@ public class WaveGroup { // TODO: rename WaveGroupData
         }
 	}
 
-	[SerializeField] public float waveDelay;
+	[SerializeField] private float waveDelay;
 
-	[SerializeField] public float WaveDelay {
+	public float WaveDelay {
 		get {
 			return waveDelay;
 		}
@@ -45,7 +65,26 @@ public class WaveGroup { // TODO: rename WaveGroupData
         }
 	}
 
-	[SerializeField] public string pathId;
+	string[] pathIdOptions = new string[] {"p01", "p02", "p03"};
+
+	[SerializeField] private int pId;
+
+	public int PId {
+		get {
+			for (int i = 0; i < pathIdOptions.Length; i++) {
+				if (pathId.Equals (pathIdOptions [i])) {
+					return i;
+				}
+			}
+			return 0;
+		}
+		set {
+			pId = value;
+			pathId = pathIdOptions [pId];
+		}
+	}
+
+	[SerializeField] private string pathId;
 
 	public string PathId {
 		get {
