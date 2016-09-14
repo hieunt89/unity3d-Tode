@@ -18,9 +18,9 @@ public class MapConstructorEditor : Editor {
 	private bool resetTool = false;
 
 	string[] enemyIdOptions = new string[] {"e01", "e02", "e03"};	// test	
-	List<List<int>> enemyIndexes;
+	List<List<int>> enemyIndexes = new List<List<int>> ();
 	string[] pathIdOptions = new string[] {"p01", "p02", "p03"};	// test
-	List<List<int>> pathIndexes;
+	List<List<int>> pathIndexes = new List<List<int>> ();
 	public GUIStyle guiTitleStyle {
 		get {
 			var guiTitleStyle = new GUIStyle (GUI.skin.label);
@@ -53,25 +53,34 @@ public class MapConstructorEditor : Editor {
 			toggleWaveGroups.Add(false);
 		}
 
-		enemyIndexes = new List<List<int>> ();
-		pathIndexes = new List<List<int>> ();
-		for (int i = 0; i < mapConstructor.waves.Count; i++)
-		{	
-			List<int> sublist = new List<int>();
-			for (int j = 0; j < mapConstructor.waves[i].groups.Count; j++)
-			{					
-				sublist.Add(0);
+		// create enemy and path indexes [i] [j]
+		if (mapConstructor.waves.Count > 0) {
+			for (int i = 0; i < mapConstructor.waves.Count; i++)
+			{	
+				// enemyIndexes.Add(new List<int>());
+				List<int> enemySublist = new List<int>();
+				if (mapConstructor.waves[i].groups.Count > 0) {
+					for (int j = 0; j < mapConstructor.waves[i].groups.Count; j++)
+					{					
+						// enemySublist.Add (int.Parse(mapConstructor.waves[i].groups[j].enemyId.Substring(0, 5)));
+						// Debug.Log (mapConstructor.waves[i].groups[j].enemyId);
+						// enemySublist.Add (int.Parse(mapConstructor.waves[i].groups[j].enemyId.Substring(0, 5)));
+						// pathIndexes[i].Add (int.Parse(mapConstructor.waves[i].groups[j].pathId.Substring(0, 5)));
+					}
+				}	else {
+						enemySublist.Add(0);
+				}
+				
+				enemyIndexes.Add(enemySublist);
+				// pathIndexes.Add(sublist);
 			}
-			enemyIndexes.Add(sublist);
-			pathIndexes.Add(sublist);
+		} else {
+			enemyIndexes = new List<List<int>> ();
+			pathIndexes = new List<List<int>> ();
 		}
-		
-
 		GenerateStyle ();
 	}
 	#endregion MONO
-
-
 
 	public override void OnInspectorGUI (){
 		// DrawDefaultInspector();	// test
@@ -424,15 +433,14 @@ public class MapConstructorEditor : Editor {
 					var g = new WaveGroup();
 					mapConstructor.waves[i].groups.Add(g);
 
-					// enemyIndexes.Add (0);
-					// pathIndexes.Add (0);
-					// for (int h = 0; h < mapConstructor.waves[i].groups.Count; h++)
-					// {
-						
-					// }
+					// enemyIndexes.Insert(i, new List<int> (){0});
+					// enemyIndexes[i].Add(0);
+					// pathIndexes[i].Add(0);
 				}
 				if(GUILayout.Button("Clear Groups", GUILayout.MinWidth (85), GUILayout.MaxWidth (85))) {	
-					mapConstructor.waves[i].groups.Clear();			
+					mapConstructor.waves[i].groups.Clear();		
+					enemyIndexes[i].Clear();
+					pathIndexes[i].Clear();	
 				}
 				EditorGUILayout.EndHorizontal();
 
@@ -446,13 +454,14 @@ public class MapConstructorEditor : Editor {
 							EditorGUILayout.LabelField ("Group " + j, GUILayout.MinWidth (80), GUILayout.MaxWidth (80));
 							
 							EditorGUI.BeginChangeCheck();
+							// enemyIndexes[i][j] = EditorGUILayout.Popup (enemyIndexes[i][j], enemyIdOptions, GUILayout.MinWidth (100), GUILayout.MaxWidth (100));
 							// enemyIndexes[j] = EditorGUILayout.Popup (enemyIndexes[j], enemyIdOptions, GUILayout.MinWidth (100), GUILayout.MaxWidth (100));
 							var amount = EditorGUILayout.IntField (mapConstructor.waves[i].groups[j].amount, GUILayout.MinWidth (100), GUILayout.MaxWidth (100));
 							var spawnInterval = EditorGUILayout.FloatField (mapConstructor.waves[i].groups[j].spawnInterval, GUILayout.MinWidth (100), GUILayout.MaxWidth (100));
 							var waveDelay = EditorGUILayout.FloatField (mapConstructor.waves[i].groups[j].waveDelay, GUILayout.MinWidth (100), GUILayout.MaxWidth (100));
 							// pathIndexes[j] = EditorGUILayout.Popup (pathIndexes[j], pathIdOptions, GUILayout.MinWidth (100), GUILayout.MaxWidth (100));
 							if (EditorGUI.EndChangeCheck()){
-								// mapConstructor.waves[i].groups[j].enemyId = enemyIdOptions[enemyIndexes[j]];
+								// mapConstructor.waves[i].groups[j].enemyId = enemyIdOptions[enemyIndexes[i][j]];
 								mapConstructor.waves[i].groups[j].amount = amount;
 								mapConstructor.waves[i].groups[j].spawnInterval = spawnInterval;
 								mapConstructor.waves[i].groups[j].waveDelay = waveDelay;
@@ -472,90 +481,17 @@ public class MapConstructorEditor : Editor {
 				}
 			}
 		}
-		// if (_waves != null && _waves.arraySize > 0) {
-		// 	for(int i = 0; i < _waves.arraySize; i++){
-		// 		SerializedProperty wave = _waves.GetArrayElementAtIndex(i);
-		// 		SerializedProperty groups = wave.FindPropertyRelative("groups");
-
-		// 		EditorGUILayout.BeginHorizontal();
-		// 		EditorGUILayout.LabelField ("Wave " + wave.FindPropertyRelative("waveId").intValue, GUILayout.MinWidth (60), GUILayout.MaxWidth (60));
-		// 		EditorGUILayout.LabelField ("Enemy Id", GUILayout.MinWidth (100), GUILayout.MaxWidth (100));
-		// 		EditorGUILayout.LabelField ("Amount", GUILayout.MinWidth (100), GUILayout.MaxWidth (100));
-		// 		EditorGUILayout.LabelField ("Interval", GUILayout.MinWidth (100), GUILayout.MaxWidth (100));
-		// 		EditorGUILayout.LabelField ("Delay", GUILayout.MinWidth (100), GUILayout.MaxWidth (100));
-		// 		EditorGUILayout.LabelField ("Path Id", GUILayout.MinWidth (100), GUILayout.MaxWidth (100));
-
-		// 		if(GUILayout.Button("Add Group", GUILayout.MinWidth (85), GUILayout.MaxWidth (85))) {
-		// 			var g = new WaveGroup();
-		// 			mapConstructor.waves[i].groups.Add(g);
-
-		// 			enemyIndexes.Add (0);
-		// 			pathIndexes.Add (0);
-		// 		}
-		// 		if(GUILayout.Button("Clear Groups", GUILayout.MinWidth (85), GUILayout.MaxWidth (85))) {	
-		// 			groups.ClearArray();			
-		// 		}
-		// 		EditorGUILayout.EndHorizontal();
-			
-		// 		// render wave groups
-		// 		// EditorGUI.indentLevel++;
-		// 		if (groups.arraySize > 0) {
-		// 			toggleWaveGroups[i] = EditorGUILayout.Foldout(toggleWaveGroups[i], "Groups");
-		// 			if (toggleWaveGroups[i]) {
-		// 				EditorGUI.indentLevel++;
-		// 				for (int j = 0; j < groups.arraySize; j++)
-		// 				{
-		// 					EditorGUILayout.BeginHorizontal();
-		// 					EditorGUILayout.LabelField ("Group " + j, GUILayout.MinWidth (80), GUILayout.MaxWidth (80));
-							
-		// 					SerializedProperty enemyIdProp = groups.GetArrayElementAtIndex(j).FindPropertyRelative("enemyId");													
-		// 					SerializedProperty amountProp = groups.GetArrayElementAtIndex(j).FindPropertyRelative("amount");
-		// 					SerializedProperty spawnIntervalProp = groups.GetArrayElementAtIndex(j).FindPropertyRelative("spawnInterval");
-		// 					SerializedProperty waveDelayProp = groups.GetArrayElementAtIndex(j).FindPropertyRelative("waveDelay");
-		// 					SerializedProperty pathIdProp = groups.GetArrayElementAtIndex(j).FindPropertyRelative("pathId");
-
-		// 					EditorGUI.BeginChangeCheck();
-		// 					enemyIndexes[j] = EditorGUILayout.Popup (enemyIndexes[j], enemyIdOptions, GUILayout.MinWidth (100), GUILayout.MaxWidth (100));
-		// 					var amount = EditorGUILayout.IntField (amountProp.intValue, GUILayout.MinWidth (100), GUILayout.MaxWidth (100));
-		// 					var spawnInterval = EditorGUILayout.FloatField (spawnIntervalProp.floatValue, GUILayout.MinWidth (100), GUILayout.MaxWidth (100));
-		// 					var waveDelay = EditorGUILayout.FloatField (waveDelayProp.floatValue, GUILayout.MinWidth (100), GUILayout.MaxWidth (100));
-		// 					pathIndexes[j] = EditorGUILayout.Popup (pathIndexes[j], pathIdOptions, GUILayout.MinWidth (100), GUILayout.MaxWidth (100));
-		// 					if (EditorGUI.EndChangeCheck()){
-		// 						mapConstructor.waves[i].groups[j].enemyId = enemyIdOptions[enemyIndexes[j]];
-		// 						mapConstructor.waves[i].groups[j].amount = amount;
-		// 						mapConstructor.waves[i].groups[j].spawnInterval = spawnInterval;
-		// 						mapConstructor.waves[i].groups[j].waveDelay = waveDelay;
-		// 						mapConstructor.waves[i].groups[j].pathId = pathIdOptions[pathIndexes[j]];
-		// 						EditorUtility.SetDirty(mapConstructor);
-		// 					}
-
-		// 					if(GUILayout.Button("Remove", GUILayout.MinWidth (175), GUILayout.MaxWidth (175))) {
-		// 						mapConstructor.waves[i].groups.RemoveAt(j);
-		// 						enemyIndexes.RemoveAt(j);
-		// 						pathIndexes.RemoveAt(j);
-		// 					}
-		// 					EditorGUILayout.EndHorizontal();
-		// 				}
-		// 				EditorGUI.indentLevel--;
-		// 			}
-		// 		}
-		// 	}
-		// }
-		// 	EditorGUI.indentLevel--;
-		// }
 		EditorGUI.indentLevel--;
 		EditorGUILayout.EndVertical();
 	}
 	
+
+	// TODO: save and load map data to xml 
 	private void OnDataInspectorGUI () {
-		// TODO: save and load map data to xml 
 		EditorGUILayout.BeginHorizontal ();
 		if (GUILayout.Button ("Save")) {
 			// var text = mapConstructor.Save();
 			// WriteMapData(text);
-			// TODO: 
-			// - [x]confirm windows 
-			// - kiem tra cac truong co empty khong
 		}
 		if (GUILayout.Button ("Load")) {
 			// mapConstructor.Load (LoadMapData());
@@ -648,6 +584,8 @@ public class MapConstructorEditor : Editor {
 	}
 	private void ClearWaves() {
 		mapConstructor.waves.Clear();
+		enemyIndexes.Clear();
+		pathIndexes.Clear();
 	}
 
 	private void ResetData() {

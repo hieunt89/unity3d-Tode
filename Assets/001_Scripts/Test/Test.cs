@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Test : MonoBehaviour {
-
-	public int id;
+	public List<Dictionary<int, string>> enemyIndexes;
 }
