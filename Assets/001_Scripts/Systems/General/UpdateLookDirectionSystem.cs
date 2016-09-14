@@ -13,7 +13,9 @@ public class UpdateLookDirectionSystem : IReactiveSystem {
 			Vector3 targetDir = e.destination.value - e.position.value;
 			float step = e.turnable.turnSpeed * Time.deltaTime;
 			targetDir = Vector3.RotateTowards(e.view.go.transform.forward, targetDir, step, 0f);
-			Debug.DrawRay(e.position.value, targetDir, Color.red);
+			if(GameManager.debug){
+				Debug.DrawRay(e.position.value, targetDir, Color.red);
+			}
 			e.view.go.transform.rotation = Quaternion.LookRotation(targetDir);
 		}
 	}

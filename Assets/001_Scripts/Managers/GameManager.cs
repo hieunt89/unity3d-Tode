@@ -3,7 +3,8 @@ using Entitas;
 using Entitas.Unity.VisualDebugging;
 
 public class GameManager : MonoBehaviour {
-	public bool debug = true;
+	[SerializeField]
+	public static bool debug = true;
 	Systems _systems;
 
 	void Start() {
