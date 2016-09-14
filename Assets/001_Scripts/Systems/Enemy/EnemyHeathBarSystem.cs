@@ -8,6 +8,7 @@ public class EnemyHeathBarSystem : IReactiveSystem {
 	{
 		for (int i = 0; i < entities.Count; i++) {
 			var e = entities [i];
+
 		}
 	}
 	#endregion

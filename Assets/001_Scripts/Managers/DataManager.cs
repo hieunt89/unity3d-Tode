@@ -30,7 +30,7 @@ public class DataManager {
 
 	void LoadProjectileData(){
 		projectileIdToData = new Dictionary<string, ProjectileData> ();
-		projectileIdToData.Add("arrow", new ProjectileData(1.0f, 5.0f, 0f));
+		projectileIdToData.Add("prj1", new ProjectileData("prj1", 1.0f, 5.0f, 0f));
 	}
 
 	void LoadTowerData(){
@@ -40,11 +40,11 @@ public class DataManager {
 		towerIdToData = new Dictionary<string, TowerData> ();
 		towerIdToData.Add (
 			"tower1", 
-			new TowerData ("arrow", AttackType.physical, 2f, 1, 2, 1f, 150, nextUpgrade, 1f)
+			new TowerData ("tower1", "arrow 1 name", "prj1", AttackType.physical, 2f, 1, 2, 1f, 150, nextUpgrade, 1f)
 		);
 		towerIdToData.Add (
 			"tower2", 
-			new TowerData ("arrow", AttackType.physical, 2f, 1, 2, 1f, 150, null, 3f)
+			new TowerData ("tower2", "arrow 2 name", "prj1", AttackType.physical, 2f, 1, 2, 1f, 150, null, 3f)
 		);
 
 	}
@@ -57,11 +57,11 @@ public class DataManager {
 		enemyIdToData = new Dictionary<string, EnemyData> ();
 		enemyIdToData.Add (
 			"enemy1",
-			new EnemyData(0.5f, 5f, 1, 5, AttackType.physical, 2f, 1, 2, 0f, armorList, 5)
+			new EnemyData("enemy1", "enemy 1 name", 0.5f, 5f, 1, 5, AttackType.physical, 2f, 1, 2, 0f, armorList, 5)
 		);
 		enemyIdToData.Add (
 			"enemy2",
-			new EnemyData(0.5f, 5f, 1, 5, AttackType.physical, 2f, 1, 2, 1f, armorList, 3)
+			new EnemyData("enemy2", "enemy 2 name", 0.5f, 5f, 1, 5, AttackType.physical, 2f, 1, 2, 1f, armorList, 3)
 		);
 	}
 

@@ -3,11 +3,12 @@ using Entitas;
 using Entitas.Unity.VisualDebugging;
 
 public class GameManager : MonoBehaviour {
-	[SerializeField]
-	public static bool debug = true;
+	public bool showDebug = true;
+	public static bool debug;
 	Systems _systems;
 
 	void Start() {
+		debug = showDebug;
 		_systems = CreateSystems(Pools.pool);
 		_systems.Initialize();
 	}
