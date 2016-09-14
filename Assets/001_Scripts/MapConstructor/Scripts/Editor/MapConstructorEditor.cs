@@ -419,7 +419,7 @@ public class MapConstructorEditor : Editor {
 			for (int i = 0; i < mapConstructor.waves.Count; i++)
 			{
 				EditorGUILayout.BeginHorizontal();
-				EditorGUILayout.LabelField ("Wave " + mapConstructor.waves[i].waveId, GUILayout.MinWidth (60), GUILayout.MaxWidth (60));
+				EditorGUILayout.LabelField ("Wave " + mapConstructor.waves[i].waveId);
 				if(GUILayout.Button("Add Group", GUILayout.MinWidth (85), GUILayout.MaxWidth (85))) {
 					var g = new WaveGroup();
 					mapConstructor.waves[i].groups.Add(g);
@@ -578,6 +578,7 @@ public class MapConstructorEditor : Editor {
 			if (currentEvent.shift) {
 				CreateTowerPoint(hit.point);
 			} else {
+				// check there is any path
 				CreateWayPoint(hit.point, 0);	// TODO: get current selected path
 			}
 		}
