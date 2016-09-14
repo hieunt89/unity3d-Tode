@@ -17,17 +17,19 @@ public class TowerStatsUpdateSystem : IReactiveSystem, IEnsureComponents {
 
 	public void Execute (System.Collections.Generic.List<Entity> entities)
 	{
-		TowerData data;
+		TowerData towerData;
 		for (int i = 0; i < entities.Count; i++) {
 			var tower = entities [i];
-			data = DataManager.Instance.GetTowerData (tower.tower.towerId);
-			if (data != null) {
+			towerData = DataManager.Instance.GetTowerData (tower.tower.towerId);
+			if (towerData != null) {
 				tower
-					.ReplaceProjectile (data.prjType)
-					.ReplaceAttack (data.atkType)
-					.ReplaceAttackRange (data.atkRange)
-					.ReplaceAttackDamage (data.minDmg, data.maxDmg)
-					.ReplaceAttackSpeed (data.atkSpeed)
+					.ReplaceProjectile (towerData.prjType)
+					.ReplaceAttack (towerData.atkType)
+					.ReplaceAttackRange (towerData.atkRange)
+					.ReplaceAttackDamage (towerData.minDmg, towerData.maxDmg)
+					.ReplaceAttackSpeed (towerData.atkSpeed)
+					.ReplaceGold(towerData.goldRequired)
+					.ReplaceTowerNextUpgrade(towerData.nextUpgrade)
 					.IsActive (true);
 			} else {
 				tower.IsActive (false);

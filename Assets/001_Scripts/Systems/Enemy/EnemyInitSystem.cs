@@ -29,7 +29,7 @@ public class EnemyInitSystem : IReactiveSystem, ISetPool
 		for (int i = 0; i < e.wave.groups.Count; i++) { //loop throu all wave group datas in wave
 			waveGroup = e.wave.groups[i];
 			activeTime = activeTime + waveGroup.WaveDelay;
-			ePath = _pool.GetPathEntityById(waveGroup.PathId);
+			ePath = _pool.GetEntityById(waveGroup.PathId);
 			if (ePath == null) { //continue if path not found
 				continue;
 			}
@@ -50,10 +50,12 @@ public class EnemyInitSystem : IReactiveSystem, ISetPool
 					.AddPathReference (ePath)
 					.AddMarkedForActive (activeTime)
 					.IsInteractable (true)
-					.AddDestination (ePath.path.wayPoints[0])
-					.AddPosition (ePath.path.wayPoints[0])
+					.AddDestination (ePath.path.wayPoints [0])
+					.AddPosition (ePath.path.wayPoints [0])
 					.AddMovable (enemyData.moveSpeed)
+					.AddTurnable(enemyData.turnSpeed)
 					.AddLifeCount (enemyData.lifeCount)
+					.AddGold (enemyData.goldWorth)
 					.AddAttack (enemyData.atkType)
 					.AddAttackSpeed(enemyData.atkSpeed)
 					.AddAttackDamage(enemyData.minAtkDmg, enemyData.maxAtkDmg)

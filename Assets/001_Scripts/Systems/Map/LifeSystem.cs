@@ -15,7 +15,7 @@ public class LifeSystem : ISetPool, IInitializeSystem {
 
 	public void Initialize ()
 	{
-		_pool.SetLife (ConstantData.INIT_LIFE);
+		_pool.SetLifePlayer (ConstantData.INIT_LIFE);
 	}
 
 	#endregion

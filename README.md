@@ -2,14 +2,6 @@
 
 A prototype tower defense game made with Unity and Entitas v.0.31.1
 
-## Installation
-
-TODO: Describe the installation process
-
-## Usage
-
-TODO: Write usage instructions
-
 ## Contributing
 
 1. Fork it!
@@ -18,23 +10,10 @@ TODO: Write usage instructions
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request :D
 
-## History
-
-TODO: Write history
-
-## Credits
-
-TODO: Write credits
-
-## License
-
-TODO: Write license
 ## TODO
-- [x] Add README
-- [] Update documents.
-- [] Organize project branches (hien tai dang dung mot branch master).
-- [] Implement ECS Entitas.
-- [] ...
+- [x] projectile and enemy look at destination
+- [] health bar and build progress bar
+- [] view object pooling
 
 ## Additions References
 * [Mark down tutorial](http://www.markdowntutorial.com/)
