@@ -13,6 +13,9 @@ public class ArmorData {
 	public AttackType type;
 	public ArmorRating rating;
 
+	public ArmorData (){
+		
+	}
 	public ArmorData (AttackType type, ArmorRating rating)
 	{
 		this.type = type;

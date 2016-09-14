@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
+[System.Serializable]
 public class TowerData
 {
 	[SerializeField] public string id;
@@ -16,6 +16,10 @@ public class TowerData
 	[SerializeField] public List<string> nextUpgrade;
 	[SerializeField] public float buildTime;
 
+	public TowerData (){
+
+	}
+	
 	public TowerData (string id, string name, string prjType, AttackType atkType, float atkRange, int minDmg, int maxDmg, float atkSpeed, int goldWorth, List<string> nextUpgrade, float buildTime)
 	{
 		this.id = id;

@@ -8,9 +8,6 @@ public class MapConstructorEditor : Editor {
 	private List<bool> toggleWayPoints;
 	private List<bool> toggleWaveGroups;
 	private SerializedObject mc;
-	private SerializedProperty _paths;
-	private SerializedProperty _towerPoints;	
-	private SerializedProperty _waves;	
 		
 	private MapConstructor mapConstructor;
 	private Event currentEvent;
@@ -19,6 +16,8 @@ public class MapConstructorEditor : Editor {
 
 	string[] enemyIdOptions = new string[] {"e01", "e02", "e03"};	// test	
 	List<List<int>> enemyIndexes = new List<List<int>> ();
+
+	Dictionary <string, int> eToId = new Dictionary<string, int> ();
 	string[] pathIdOptions = new string[] {"p01", "p02", "p03"};	// test
 	List<List<int>> pathIndexes = new List<List<int>> ();
 	public GUIStyle guiTitleStyle {
@@ -37,10 +36,6 @@ public class MapConstructorEditor : Editor {
 		mapConstructor = (MapConstructor) target as MapConstructor;
 		mc = new SerializedObject(mapConstructor);
         
-		_paths = mc.FindProperty ("paths");
-		_towerPoints = mc.FindProperty ("towerPoints");
-		_waves = mc.FindProperty("waves");
-
 		toggleWayPoints = new List<bool> (mapConstructor.paths.Count);
 		for (int i = 0; i < mapConstructor.paths.Count; i++)
 		{
@@ -53,31 +48,22 @@ public class MapConstructorEditor : Editor {
 			toggleWaveGroups.Add(false);
 		}
 
-		// create enemy and path indexes [i] [j]
-		if (mapConstructor.waves.Count > 0) {
-			for (int i = 0; i < mapConstructor.waves.Count; i++)
-			{	
-				// enemyIndexes.Add(new List<int>());
-				List<int> enemySublist = new List<int>();
-				if (mapConstructor.waves[i].groups.Count > 0) {
-					for (int j = 0; j < mapConstructor.waves[i].groups.Count; j++)
-					{					
-						// enemySublist.Add (int.Parse(mapConstructor.waves[i].groups[j].enemyId.Substring(0, 5)));
-						// Debug.Log (mapConstructor.waves[i].groups[j].enemyId);
-						// enemySublist.Add (int.Parse(mapConstructor.waves[i].groups[j].enemyId.Substring(0, 5)));
-						// pathIndexes[i].Add (int.Parse(mapConstructor.waves[i].groups[j].pathId.Substring(0, 5)));
-					}
-				}	else {
-						enemySublist.Add(0);
-				}
-				
-				enemyIndexes.Add(enemySublist);
-				// pathIndexes.Add(sublist);
-			}
-		} else {
-			enemyIndexes = new List<List<int>> ();
-			pathIndexes = new List<List<int>> ();
+		for (int i = 0; i < enemyIdOptions.Length; i++)
+		{
+			eToId.Add (enemyIdOptions[i], i);
 		}
+
+		if (mapConstructor.waves.Count > 0) {
+			
+			for (int i = 0; i < mapConstructor.waves.Count; i++)
+			{
+				enemyIndexes.Add(new List<int> ());
+				for (int j = 0; j < mapConstructor.waves[i].groups.Count; j++)
+				{
+					enemyIndexes[i].Add (0);
+				}
+			}
+		} 
 		GenerateStyle ();
 	}
 	#endregion MONO
@@ -453,15 +439,16 @@ public class MapConstructorEditor : Editor {
 							EditorGUILayout.BeginHorizontal();
 							EditorGUILayout.LabelField ("Group " + j, GUILayout.MinWidth (80), GUILayout.MaxWidth (80));
 							
-							EditorGUI.BeginChangeCheck();
-							// enemyIndexes[i][j] = EditorGUILayout.Popup (enemyIndexes[i][j], enemyIdOptions, GUILayout.MinWidth (100), GUILayout.MaxWidth (100));
+//							EditorGUI.BeginChangeCheck();
+//							Debug.Log (enemyIndexes.Count + " / " + enemyIndexes[i].Count + " / " + enemyIdOptions.Length);
+							 enemyIndexes[i][j] = EditorGUILayout.Popup (enemyIndexes[i][j], enemyIdOptions, GUILayout.MinWidth (100), GUILayout.MaxWidth (100));
 							// enemyIndexes[j] = EditorGUILayout.Popup (enemyIndexes[j], enemyIdOptions, GUILayout.MinWidth (100), GUILayout.MaxWidth (100));
 							var amount = EditorGUILayout.IntField (mapConstructor.waves[i].groups[j].amount, GUILayout.MinWidth (100), GUILayout.MaxWidth (100));
 							var spawnInterval = EditorGUILayout.FloatField (mapConstructor.waves[i].groups[j].spawnInterval, GUILayout.MinWidth (100), GUILayout.MaxWidth (100));
 							var waveDelay = EditorGUILayout.FloatField (mapConstructor.waves[i].groups[j].waveDelay, GUILayout.MinWidth (100), GUILayout.MaxWidth (100));
 							// pathIndexes[j] = EditorGUILayout.Popup (pathIndexes[j], pathIdOptions, GUILayout.MinWidth (100), GUILayout.MaxWidth (100));
 							if (EditorGUI.EndChangeCheck()){
-								// mapConstructor.waves[i].groups[j].enemyId = enemyIdOptions[enemyIndexes[i][j]];
+								mapConstructor.waves[i].groups[j].enemyId = enemyIdOptions[enemyIndexes[i][j]];
 								mapConstructor.waves[i].groups[j].amount = amount;
 								mapConstructor.waves[i].groups[j].spawnInterval = spawnInterval;
 								mapConstructor.waves[i].groups[j].waveDelay = waveDelay;
@@ -499,8 +486,8 @@ public class MapConstructorEditor : Editor {
 		}
 		if (GUILayout.Button ("Reset")) {
 			ResetData();
+			mc.ApplyModifiedProperties();	// ????
 
-			mc.ApplyModifiedProperties();
 			// TODO: confirm windows
 		}
 		EditorGUILayout.EndHorizontal();

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 
+[System.Serializable]
 public class EnemyData {
 	public string id;
 	public string name;
@@ -14,6 +15,10 @@ public class EnemyData {
 	public float atkRange;
 	public List<ArmorData> armors;
 	public int hp;
+
+	public EnemyData (List<ArmorData> armors) {
+		this.armors = armors;
+	}
 
 	public EnemyData (string id, string name, float moveSpeed, float turnSpeed, int lifeCount, int goldWorth, AttackType atkType, float atkSpeed, int minAtkDmg, int maxAtkDmg, float atkRange, List<ArmorData> armors, int hp)
 	{
