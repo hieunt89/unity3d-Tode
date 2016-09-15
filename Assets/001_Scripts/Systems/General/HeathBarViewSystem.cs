@@ -21,7 +21,6 @@ public class HeathBarViewSystem : IReactiveSystem, IInitializeSystem {
 		}
 
 		Vector3 offset;
-		Renderer rend;
 		Entity e;
 		for (int i = 0; i < entities.Count; i++) {
 			e = entities [i];
@@ -40,7 +39,7 @@ public class HeathBarViewSystem : IReactiveSystem, IInitializeSystem {
 	#region IReactiveSystem implementation
 	public TriggerOnEvent trigger {
 		get {
-			return Matcher.AllOf (Matcher.Hp, Matcher.HpTotal, Matcher.Active, Matcher.Position).OnEntityAdded ();
+			return Matcher.AllOf (Matcher.Hp, Matcher.HpTotal, Matcher.Active, Matcher.Position, Matcher.View).OnEntityAdded ();
 		}
 	}
 	#endregion

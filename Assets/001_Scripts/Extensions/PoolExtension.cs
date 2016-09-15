@@ -29,6 +29,16 @@ public static class PoolExtension {
 		if(prj.range > 0){
 			e.AddAttackRange (prj.range);
 		}
+		switch (prj.type) {
+		case ProjectileType.homing:
+			e.IsProjectileHoming (true);
+			break;
+		case ProjectileType.throwing:
+			e.IsProjectileThrowing (true);
+			break;
+		default:
+			break;
+		}
 		return e;
 	}
 }

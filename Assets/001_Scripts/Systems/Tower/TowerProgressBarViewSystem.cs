@@ -23,7 +23,6 @@ public class TowerProgressBarViewSystem : IReactiveSystem, IInitializeSystem{
 
 		Vector3 offset;
 		Entity e;
-		Renderer rend;
 		for (int i = 0; i < entities.Count; i++) {
 			e = entities [i];
 			if (e.hasTowerUpgradeProgress) {

@@ -27,19 +27,23 @@ public class EnemyCreateViewSystem : IReactiveSystem, IEnsureComponents {
 
 	public void Execute (System.Collections.Generic.List<Entity> entities)
 	{
-		GameObject go;
 		for (int i = 0; i < entities.Count; i++) {
 			var e = entities [i];
-			if(e.hasEnemy){
-				go = Lean.LeanPool.Spawn (Resources.Load<GameObject> ("Enemy/" + e.enemy.enemyId));
-				go.name = e.id.value;
 
-				go.transform.position = e.position.value;
-				go.transform.rotation = Quaternion.LookRotation(e.destination.value - e.position.value);
-				go.transform.SetParent (enemyViewParent.transform, false);
+			#region Loding enemy no async
+//			GameObject go = Lean.LeanPool.Spawn (Resources.Load<GameObject> ("Enemy/" + e.enemy.enemyId));
+//			go.name = e.id.value;
+//
+//			go.transform.position = e.position.value;
+//			go.transform.rotation = Quaternion.LookRotation(e.destination.value - e.position.value);
+//			go.transform.SetParent (enemyViewParent.transform, false);
+//
+//			e.AddView (go);
+			#endregion
 
-				e.AddView (go);
-			}
+			#region loading enemy async
+			e.AddCoroutine(CreateEnemyView(e));
+			#endregion
 		}
 	}
 
@@ -55,4 +59,19 @@ public class EnemyCreateViewSystem : IReactiveSystem, IEnsureComponents {
 
 	#endregion
 
+	IEnumerator CreateEnemyView(Entity e){
+		var r = Resources.LoadAsync<GameObject> ("Enemy/" + e.enemy.enemyId);
+		while(!r.isDone){
+			yield return null;
+		}
+
+		GameObject go = Lean.LeanPool.Spawn (r.asset as GameObject);
+
+		go.name = e.id.value;
+		go.transform.position = e.position.value;
+		go.transform.rotation = Quaternion.LookRotation(e.destination.value - e.position.value);
+		go.transform.SetParent (enemyViewParent.transform, false);
+
+		e.AddView (go);
+	}
 }

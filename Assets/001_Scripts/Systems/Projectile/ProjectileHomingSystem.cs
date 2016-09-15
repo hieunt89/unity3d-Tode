@@ -5,11 +5,11 @@ using Entitas;
 public class ProjectileHomingSystem : IReactiveSystem, ISetPool {
 	#region ISetPool implementation
 	Pool _pool;
-	Group _groupProjectiles;
+	Group _groupPrjHoming;
 	public void SetPool (Pool pool)
 	{
 		_pool = pool;
-		_groupProjectiles = _pool.GetGroup (Matcher.AllOf (Matcher.Projectile, Matcher.Target).NoneOf (Matcher.Tower, Matcher.ReachedEnd));
+		_groupPrjHoming = _pool.GetGroup (Matcher.AllOf (Matcher.Projectile, Matcher.Target, Matcher.ProjectileHoming).NoneOf (Matcher.Tower, Matcher.ReachedEnd));
 	}
 
 	#endregion
@@ -17,13 +17,14 @@ public class ProjectileHomingSystem : IReactiveSystem, ISetPool {
 	#region IReactiveExecuteSystem implementation
 	public void Execute (System.Collections.Generic.List<Entity> entities)
 	{
-		if(_groupProjectiles.count <= 0){
+		if(_groupPrjHoming.count <= 0){
 			return;
 		}
 
-		var projectiles = _groupProjectiles.GetEntities ();
+		Entity e;
+		var projectiles = _groupPrjHoming.GetEntities ();
 		for (int i = 0; i < projectiles.Length; i++) {
-			var e = projectiles [i];
+			e = projectiles [i];
 			if (e.position.value == e.destination.value) {
 				e.IsReachedEnd (true);
 			}

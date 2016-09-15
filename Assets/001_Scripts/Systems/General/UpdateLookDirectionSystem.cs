@@ -17,6 +17,8 @@ public class UpdateLookDirectionSystem : IReactiveSystem {
 				Debug.DrawRay(e.position.value, targetDir, Color.red);
 			}
 			e.view.go.transform.rotation = Quaternion.LookRotation(targetDir);
+
+//			e.view.go.transform.LookAt (e.destination.value);
 		}
 	}
 

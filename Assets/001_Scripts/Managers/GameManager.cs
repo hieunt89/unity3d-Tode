@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour {
 		}
 		return systems
 			//Map
+			.Add(pool.CreateSystem<CoroutineSystem>())
 			.Add(pool.CreateSystem<TimeSystem>())
 			.Add(pool.CreateSystem<LifeSystem>())
 			.Add(pool.CreateSystem<GoldSystem>())
@@ -51,6 +52,7 @@ public class GameManager : MonoBehaviour {
 
 			//Projectile
 			.Add(pool.CreateSystem<ProjectileHomingSystem>())
+			.Add(pool.CreateSystem<ProjectileThrowingSystem>())
 			.Add(pool.CreateSystem<ProjectileReachEndSystem>())
 
 			//View
