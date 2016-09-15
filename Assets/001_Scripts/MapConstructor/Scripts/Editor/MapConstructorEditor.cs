@@ -182,7 +182,7 @@ public class MapConstructorEditor : Editor {
 				if (mapConstructor.paths[i].Points.Count > 0){
 					for (int j = 0; j < mapConstructor.paths[i].Points.Count; j++)
 					{
-						Vector3 point = mapConstructor.paths[i].Points[j].WayPointPos;
+						Vector3 point = mapConstructor.paths[i].Points[j];
 						
 						if (point != null) {
 							// TODO: waypoint data need and id to set a label for it view
@@ -199,12 +199,12 @@ public class MapConstructorEditor : Editor {
 							// draw line between way points
 							if(j < mapConstructor.paths[i].Points.Count - 1) {
 								Handles.color = mapConstructor.pathColor;
-								Vector3 newPoint = mapConstructor.paths[i].Points[j + 1].WayPointPos;
+								Vector3 newPoint = mapConstructor.paths[i].Points[j + 1];
 								Handles.DrawLine (point, newPoint);
 								Handles.color = mapConstructor.baseColor;
 							}
 														
-							mapConstructor.paths[i].Points[j].WayPointPos = Handles.FreeMoveHandle (point, Quaternion.identity, mapConstructor.pointSize * .5f, Vector3.one, Handles.CircleCap);
+							mapConstructor.paths[i].Points[j] = Handles.FreeMoveHandle (point, Quaternion.identity, mapConstructor.pointSize * .5f, Vector3.one, Handles.CircleCap);
 //							point = Handles.PositionHandle (point, Quaternion.identity);
 						}
 					}
@@ -318,9 +318,9 @@ public class MapConstructorEditor : Editor {
 							EditorGUILayout.LabelField ("p" + j, GUILayout.MinWidth (60), GUILayout.MaxWidth (100));
 							
 							EditorGUI.BeginChangeCheck();
-							var position = EditorGUILayout.Vector3Field("Pos", mapConstructor.paths[i].Points[j].WayPointPos);
+							var position = EditorGUILayout.Vector3Field("Pos", mapConstructor.paths[i].Points[j]);
 							if(EditorGUI.EndChangeCheck()){
-								mapConstructor.paths[i].Points[j].WayPointPos = position;
+								mapConstructor.paths[i].Points[j] = position;
 								EditorUtility.SetDirty(mapConstructor);
 							}
 							
@@ -370,7 +370,6 @@ public class MapConstructorEditor : Editor {
 				}
 
 				if (GUILayout.Button("Remove",GUILayout.MinWidth (175), GUILayout.MaxWidth (175))) {
-					// DestroyImmediate(mapConstructor.towerPoints[i].towerPointGo);
 					mapConstructor.towerPoints.RemoveAt(i);
 				}
 				// EditorGUILayout.EndHorizontal();
@@ -408,7 +407,6 @@ public class MapConstructorEditor : Editor {
 					continue;
 				}
 				if(GUILayout.Button("Add Group", GUILayout.MinWidth (85), GUILayout.MaxWidth (85))) {
-//					var g = new WaveGroup();
 					var g = new WaveGroup(enemyIdOptions[0], pathIdOptions[0]);
 					mapConstructor.waves[i].groups.Add(g);
 				}
@@ -493,7 +491,7 @@ public class MapConstructorEditor : Editor {
 	}
 
 	private void CreatePath () {
-		mapConstructor.paths.Add(new PathData(mapConstructor.paths.Count, new List<WayPointData> ()));
+		mapConstructor.paths.Add(new PathData(mapConstructor.paths.Count, new List<Vector3> ()));
 	}
 
 	private void ClearPaths () {
@@ -501,7 +499,7 @@ public class MapConstructorEditor : Editor {
 	}
 
 	private void CreateWayPoint ( int pathIndex, Vector3 position) {
-		mapConstructor.paths[pathIndex].Points.Add(new WayPointData(position));
+		mapConstructor.paths[pathIndex].Points.Add(position);
 	}
 
 	private void ClearWayPoints(int pathIndex) {
@@ -511,7 +509,7 @@ public class MapConstructorEditor : Editor {
 	private void AlignWayPoints(int pathIndex) {
 		for (int j = 0; j < mapConstructor.paths[pathIndex].Points.Count; j++)
 		{
-			mapConstructor.paths[pathIndex].Points[j].WayPointPos = new Vector3(mapConstructor.paths[pathIndex].Points[j].WayPointPos.x, 0f, mapConstructor.paths[pathIndex].Points[j].WayPointPos.z);
+			mapConstructor.paths[pathIndex].Points[j] = new Vector3(mapConstructor.paths[pathIndex].Points[j].x, 0f, mapConstructor.paths[pathIndex].Points[j].z);
 		}
 	}
 

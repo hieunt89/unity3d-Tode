@@ -26,7 +26,7 @@ public class TowerConstructorEditor : Editor {
 		if (GUILayout.Button("Add Tower")){
 			towerConstructor.towers.Add(new TowerData());
 		}
-		if (GUILayout.Button("Clear Tower")){
+		if (GUILayout.Button("Clear Towers")){
 			towerConstructor.towers.Clear ();
 		}
 		GUILayout.EndHorizontal();

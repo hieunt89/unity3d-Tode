@@ -16,16 +16,14 @@ public class MapConstructor : MonoBehaviour {
     [SerializeField] public Color towerPointColor = Color.gray;
 
     [SerializeField] public List<PathData> paths;
-    // [UnityEngine.SerializeField] public List<WayPointData> wayPoints;
     [SerializeField] public List<TowerPointData> towerPoints;    
     [SerializeField] public List<WaveData> waves;
-    // [SerializeField] public List<WaveGroup> waveGroups;  // test
 
-    private Transform mTransform;
+//    private Transform mTransform;
 
     #region Mono
     void Awake () {
-        mTransform = this.transform;
+//        mTransform = this.transform;
     }
     #endregion Mono
 

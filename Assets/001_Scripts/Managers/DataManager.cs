@@ -92,4 +92,15 @@ public class DataManager {
 	public float GetArmorReduction(ArmorRating rating){
 		return (int)rating * 0.01f;
 	}
+
+	public void SaveMapData () {
+
+	}
+
+	public void LoadMapData (int mapIndex) {
+
+	}
+
+
+
 }

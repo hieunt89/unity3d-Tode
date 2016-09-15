@@ -5,12 +5,10 @@ using UnityEngine;
 [CustomEditor (typeof(EnemyConstructor))]
 public class EnemyConstructorEditor : Editor {
 	EnemyConstructor enemyConstructor;
-	SerializedObject tc;
-	SerializedProperty towers;
+	SerializedObject ec;
 	void OnEnable(){
 		enemyConstructor = (EnemyConstructor) target as EnemyConstructor;
-		tc = new SerializedObject(enemyConstructor);
-		towers = tc.FindProperty("towers");
+		ec = new SerializedObject(enemyConstructor);
 	}
 	bool toggleNextUpgrade;
 	public override void OnInspectorGUI (){
@@ -19,7 +17,7 @@ public class EnemyConstructorEditor : Editor {
 		if(enemyConstructor == null)
 			return;
 		
-		tc.Update();
+		ec.Update();
 		GUILayout.BeginVertical("box");
 		EditorGUI.indentLevel++;
 		GUILayout.BeginHorizontal();
@@ -29,7 +27,7 @@ public class EnemyConstructorEditor : Editor {
 				new ArmorData(AttackType.physical, ArmorRating.none), 
 				new ArmorData(AttackType.magical, ArmorRating.none)}));
 		}
-		if (GUILayout.Button("Clear Enemy")){
+		if (GUILayout.Button("Clear Enemies")){
 			enemyConstructor.enemies.Clear ();
 		}
 		GUILayout.EndHorizontal();
@@ -76,7 +74,7 @@ public class EnemyConstructorEditor : Editor {
 		EditorGUI.indentLevel--;
 		GUILayout.EndVertical();
 
-		tc.ApplyModifiedProperties();
+		ec.ApplyModifiedProperties();
 
 		Repaint ();
 		

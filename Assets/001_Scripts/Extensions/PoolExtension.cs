@@ -23,11 +23,11 @@ public static class PoolExtension {
 			.AddAttackDamage (minDmg, maxDmg)
 			.AddTarget (target)
 			.AddDestination (target.position.value)
-			.AddMovable (prj.travelSpeed)
-			.AddTurnable (prj.turnSpeed)
+			.AddMovable (prj.TravelSpeed)
+			.AddTurnable (prj.TurnSpeed)
 			;
-		if(prj.range > 0){
-			e.AddAttackRange (prj.range);
+		if(prj.Range > 0){
+			e.AddAttackRange (prj.Range);
 		}
 		return e;
 	}

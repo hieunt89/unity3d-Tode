@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using UnityEngine;
+using System.Collections.Generic;
 
 [System.Serializable]
 public class PathData {
@@ -13,9 +14,9 @@ public class PathData {
 		}
 	}
 
-	[UnityEngine.SerializeField] private List<WayPointData> points;
+	[UnityEngine.SerializeField] private List<Vector3> points;
 
-	public List<WayPointData> Points {
+	public List<Vector3> Points {
 		get {
 			return points;
 		}
@@ -24,7 +25,7 @@ public class PathData {
 		}
 	}
 
-	public PathData (int _pathId, List<WayPointData> _points){
+	public PathData (int _pathId, List<Vector3> _points){
 		pathId = _pathId;
 		points = _points;
 	}
