@@ -28,7 +28,7 @@ public class TowerBuildSystem : IReactiveSystem, ISetPool {
 			if (e.towerUpgradeProgress.progress < e.towerUpgrade.upgradeTime) {
 				e.ReplaceTowerUpgradeProgress (e.towerUpgradeProgress.progress + Time.deltaTime);
 			} else {
-				e.ReplaceTower (e.towerUpgrade.upgradeId).RemoveTowerUpgrade ();
+				e.ReplaceTower (e.towerUpgrade.upgradeId).RemoveTowerUpgrade ().RemoveTowerUpgradeProgress();
 			}
 		}
 	}
@@ -41,5 +41,4 @@ public class TowerBuildSystem : IReactiveSystem, ISetPool {
 		}
 	}
 	#endregion
-	
 }

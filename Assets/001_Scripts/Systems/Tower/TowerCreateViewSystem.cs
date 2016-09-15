@@ -16,11 +16,11 @@ public class TowerCreateViewSystem : IReactiveSystem {
 	{
 		GameObject go = null;
 		for (int i = 0; i < entities.Count; i++) {
-			go = GameObject.Instantiate (Resources.Load<GameObject>("Tower/" + entities[i].tower.towerId));
+			go = Lean.LeanPool.Spawn (Resources.Load<GameObject>("Tower/" + entities[i].tower.towerId));
 			if (!entities [i].hasView) {
 				entities [i].AddView (go);
 			} else {
-				GameObject.Destroy (entities [i].view.go);
+				Lean.LeanPool.Despawn (entities [i].view.go);
 				entities [i].ReplaceView (go);
 			}
 

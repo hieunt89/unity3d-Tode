@@ -59,6 +59,8 @@ public class GameManager : MonoBehaviour {
 			.Add(pool.CreateSystem<ProjectileCreateViewSystem>())
 			.Add(pool.CreateSystem<UpdateViewPositionSystem>())
 			.Add(pool.CreateSystem<UpdateLookDirectionSystem>())
+			.Add(pool.CreateSystem<HeathBarViewSystem>())
+			.Add(pool.CreateSystem<TowerProgressBarViewSystem>())
 
 			//Destroy things
 			.Add(pool.CreateSystem<DestroyEntitySystem>())

@@ -19,7 +19,7 @@ public class ProjectileCreateViewSystem : IReactiveSystem {
 		GameObject go;
 		for (int i = 0; i < entities.Count; i++) {
 			var e = entities [i];
-			go = GameObject.Instantiate(Resources.Load<GameObject> ("Projectile/" + e.projectile.projectileId));
+			go = Lean.LeanPool.Spawn (Resources.Load<GameObject> ("Projectile/" + e.projectile.projectileId));
 			go.transform.position = e.position.value;
 			go.transform.rotation = Quaternion.LookRotation(e.destination.value - e.position.value);
 			go.transform.SetParent (projectileViewParent.transform, false);
