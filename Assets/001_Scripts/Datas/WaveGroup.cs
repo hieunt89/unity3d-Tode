@@ -98,6 +98,10 @@ public class WaveGroup { // TODO: rename WaveGroupData
     public WaveGroup () {
         
     }
+	public WaveGroup (string enemyId, string pathId) {
+		this.enemyId = enemyId;
+		this.pathId = pathId;
+	}
 
 	public WaveGroup (string enemyId, int amount, float spawnInterval, float waveDelay, string pathId)
 	{
