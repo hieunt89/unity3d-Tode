@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
+using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 public class DataManager {
 	#region Singleton
@@ -93,14 +95,32 @@ public class DataManager {
 		return (int)rating * 0.01f;
 	}
 
-	public void SaveMapData () {
+	const string mapGroupDataDirectory = "Assets/Resources/Maps";	
+	public void SaveMapData (MapConstructor data) {
 
+		var jsonString = JsonUtility.ToJson(data);
+		var path = EditorUtility.SaveFilePanel("Save Map Data", mapGroupDataDirectory, "map_"+ data.MapId +".json", "json");
+
+		if (!string.IsNullOrEmpty(path))
+		{
+			using (FileStream fs = new FileStream (path, FileMode.Create)) {
+				using (StreamWriter writer = new StreamWriter(fs)) {
+					writer.Write(jsonString);
+				}
+			}
+		}
+
+		// refresh project database
+		AssetDatabase.Refresh();
 	}
 
-	public void LoadMapData (int mapIndex) {
+	public MapConstructor LoadMapData () {
+		var path = EditorUtility.OpenFilePanel("Load Map Data", mapGroupDataDirectory, "json");
 
+		var reader = new WWW("file:///" + path);
+		while(!reader.isDone){
+		}
+		Debug.Log(reader.text);
+		return JsonUtility.FromJson <MapConstructor>(reader.text);
 	}
-
-
-
 }

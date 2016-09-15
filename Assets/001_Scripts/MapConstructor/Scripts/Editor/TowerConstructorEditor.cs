@@ -48,7 +48,7 @@ public class TowerConstructorEditor : Editor {
 				EditorGUILayout.TextField ("name", towerConstructor.towers[i].name);
 				EditorGUILayout.TextField ("projectile", towerConstructor.towers[i].prjType);
 				EditorGUILayout.EnumPopup ("Attack Type", towerConstructor.towers[i].atkType);
-				EditorGUILayout.Slider ("Tower Range", towerConstructor.towers[i].atkRange, 0f, 10f);
+				EditorGUILayout.FloatField ("Tower Range", towerConstructor.towers[i].atkRange);
 				EditorGUILayout.IntField ("Min Damage", towerConstructor.towers[i].minDmg);
 				EditorGUILayout.IntField ("Max Damage", towerConstructor.towers[i].maxDmg);
 				EditorGUILayout.FloatField ("Attack Speed", towerConstructor.towers[i].atkSpeed);

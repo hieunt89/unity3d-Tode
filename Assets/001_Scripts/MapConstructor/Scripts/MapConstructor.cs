@@ -4,27 +4,121 @@ using System.Text;
 using System;
 
 [ExecuteInEditMode]
+[System.Serializable]
 public class MapConstructor : MonoBehaviour {
 
     // map id
-    [SerializeField] public int mapId = 1;
-    [SerializeField] public float pointSize = 1f;
-    [SerializeField] public float maxPointSize = 2f;
-    [SerializeField] public Color baseColor = Color.gray;
-    [SerializeField] public Color pathColor = Color.gray;
-    [SerializeField] public Color wayPointColor = Color.gray;
-    [SerializeField] public Color towerPointColor = Color.gray;
+	[SerializeField] private int mapId = 1;
 
-    [SerializeField] public List<PathData> paths;
-    [SerializeField] public List<TowerPointData> towerPoints;    
-    [SerializeField] public List<WaveData> waves;
+	public int MapId {
+		get {
+			return mapId;
+		}
+		set {
+			mapId = value;
+		}
+	}
 
-//    private Transform mTransform;
+	[SerializeField] private float pointSize = 1f;
 
-    #region Mono
-    void Awake () {
-//        mTransform = this.transform;
-    }
+	public float PointSize {
+		get {
+			return pointSize;
+		}
+		set {
+			pointSize = value;
+		}
+	}
+
+	[SerializeField] private float maxPointSize = 2f;
+
+	public float MaxPointSize {
+		get {
+			return maxPointSize;
+		}
+		set {
+			maxPointSize = value;
+		}
+	}
+
+	[SerializeField] private Color baseColor = Color.gray;
+
+	public Color BaseColor {
+		get {
+			return baseColor;
+		}
+		set {
+			baseColor = value;
+		}
+	}
+
+	[SerializeField] private Color pathColor = Color.gray;
+
+	public Color PathColor {
+		get {
+			return pathColor;
+		}
+		set {
+			pathColor = value;
+		}
+	}
+
+	[SerializeField] private Color wayPointColor = Color.gray;
+
+	public Color WayPointColor {
+		get {
+			return wayPointColor;
+		}
+		set {
+			wayPointColor = value;
+		}
+	}
+
+	[SerializeField] private Color towerPointColor = Color.gray;
+
+	public Color TowerPointColor {
+		get {
+			return towerPointColor;
+		}
+		set {
+			towerPointColor = value;
+		}
+	}
+
+	[SerializeField] private List<PathData> paths;
+
+	public List<PathData> Paths {
+		get {
+			return paths;
+		}
+		set {
+			paths = value;
+		}
+	}
+
+	[SerializeField] private List<TowerPointData> towerPoints;
+
+	public List<TowerPointData> TowerPoints {
+		get {
+			return towerPoints;
+		}
+		set {
+			towerPoints = value;
+		}
+	}
+
+    
+	[SerializeField] private List<WaveData> waves;
+
+	public List<WaveData> Waves {
+		get {
+			return waves;
+		}
+		set {
+			waves = value;
+		}
+	}
+	#region Mono
     #endregion Mono
 
     // public string Save () {

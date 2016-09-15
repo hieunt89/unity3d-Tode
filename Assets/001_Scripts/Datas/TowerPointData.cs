@@ -12,7 +12,6 @@ public class TowerPointData {
         }
     }
 
-    [UnityEngine.SerializeField] private GameObject towerPointGo;
     [UnityEngine.SerializeField] private Vector3 towerPointPos;
      public Vector3 TowerPointPos {
         get {
@@ -23,11 +22,6 @@ public class TowerPointData {
         }
     }
     
-    public TowerPointData (string _id, GameObject _tpg){
-        id = _id;
-        towerPointGo = _tpg;
-    }
-
     public TowerPointData (string _id, Vector3 _tpp){
         id = _id;
         towerPointPos = _tpp;
