@@ -4,10 +4,10 @@ using Entitas;
 
 public class TowerProgressBarViewSystem : IReactiveSystem, IInitializeSystem{
 	#region IInitializeSystem implementation
-	ProgressBarGUI progressBarGUI;
+	BarGUI barGUI;
 	public void Initialize ()
 	{
-		progressBarGUI = GameObject.FindObjectOfType<ProgressBarGUI> ();
+		barGUI = GameObject.FindObjectOfType<BarGUI> ();
 	}
 
 	#endregion
@@ -16,8 +16,8 @@ public class TowerProgressBarViewSystem : IReactiveSystem, IInitializeSystem{
 
 	public void Execute (System.Collections.Generic.List<Entity> entities)
 	{
-		if(progressBarGUI == null){
-			Debug.Log ("ProgressBarGUI not found");
+		if(barGUI == null){
+			Debug.Log ("BarGUI not found");
 			return;
 		}
 
@@ -28,7 +28,7 @@ public class TowerProgressBarViewSystem : IReactiveSystem, IInitializeSystem{
 			e = entities [i];
 			if (e.hasTowerUpgradeProgress) {
 				if(!e.hasViewSlider){
-					e.AddViewSlider (progressBarGUI.CreateProgressBar ());
+					e.AddViewSlider (barGUI.CreateProgressBar ());
 				}
 
 				offset = e.view.go.GetRendererOffset (false);
@@ -37,7 +37,7 @@ public class TowerProgressBarViewSystem : IReactiveSystem, IInitializeSystem{
 				e.viewSlider.bar.value = e.towerUpgradeProgress.progress / e.towerUpgrade.upgradeTime;
 			} else {
 				if (e.hasViewSlider) {
-					GameObject.Destroy (e.viewSlider.bar.gameObject);
+					Lean.LeanPool.Despawn (e.viewSlider.bar.gameObject);
 					e.RemoveViewSlider ();
 				}
 			}

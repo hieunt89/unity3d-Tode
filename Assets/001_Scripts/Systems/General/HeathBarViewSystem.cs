@@ -4,10 +4,10 @@ using Entitas;
 
 public class HeathBarViewSystem : IReactiveSystem, IInitializeSystem {
 	#region IInitializeSystem implementation
-	HealthBarGUI healthBarGUI;
+	BarGUI barGUI;
 	public void Initialize ()
 	{
-		healthBarGUI = GameObject.FindObjectOfType<HealthBarGUI> ();
+		barGUI = GameObject.FindObjectOfType<BarGUI> ();
 	}
 
 	#endregion
@@ -15,8 +15,8 @@ public class HeathBarViewSystem : IReactiveSystem, IInitializeSystem {
 	#region IReactiveExecuteSystem implementation
 	public void Execute (System.Collections.Generic.List<Entity> entities)
 	{
-		if(healthBarGUI == null){
-			Debug.Log ("HealthBarGUI not found");
+		if(barGUI == null){
+			Debug.Log ("GUI not found");
 			return;
 		}
 
@@ -26,7 +26,7 @@ public class HeathBarViewSystem : IReactiveSystem, IInitializeSystem {
 		for (int i = 0; i < entities.Count; i++) {
 			e = entities [i];
 			if (!e.hasViewSlider) {
-				e.AddViewSlider (healthBarGUI.CreateHealthBar ());
+				e.AddViewSlider (barGUI.CreateHealthBar ());
 			}
 
 			offset = e.view.go.GetRendererOffset (true);
@@ -36,6 +36,7 @@ public class HeathBarViewSystem : IReactiveSystem, IInitializeSystem {
 		}
 	}
 	#endregion
+
 	#region IReactiveSystem implementation
 	public TriggerOnEvent trigger {
 		get {

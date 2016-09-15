@@ -41,5 +41,4 @@ public class TowerBuildSystem : IReactiveSystem, ISetPool {
 		}
 	}
 	#endregion
-	
 }

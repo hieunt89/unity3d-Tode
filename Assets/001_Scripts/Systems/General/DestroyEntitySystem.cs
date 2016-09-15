@@ -20,10 +20,10 @@ public class DestroyEntitySystem : IReactiveSystem, ISetPool {
 		for (int i = 0; i < entities.Count; i++) {
 			var e = entities [i];
 			if(e.hasView){
-				GameObject.Destroy (e.view.go);
+				Lean.LeanPool.Despawn (e.view.go);
 			}
 			if(e.hasViewSlider){
-				GameObject.Destroy (e.viewSlider.bar.gameObject);
+				Lean.LeanPool.Despawn (e.viewSlider.bar.gameObject);
 			}
 			_pool.DestroyEntity (e);
 		}

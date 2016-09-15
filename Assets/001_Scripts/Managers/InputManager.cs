@@ -14,9 +14,13 @@ public class InputManager : MonoBehaviour {
 		}
 
 		RaycastHit hitInfo;
+		Entity e;
 		Ray ray = fg.GetRay (Camera.main);
 		if (Physics.Raycast (ray, out hitInfo)) {
-			Messenger.Broadcast<Entity> (Events.Input.ENTITY_CLICK, Pools.pool.GetEntityById(hitInfo.collider.gameObject.name));
+			e = Pools.pool.GetEntityById (hitInfo.collider.gameObject.name);
+			if(e != null){
+				Messenger.Broadcast<Entity> (Events.Input.ENTITY_CLICK, e);
+			}
 		} else {
 			Messenger.Broadcast (Events.Input.EMPTY_CLICK);
 		}
