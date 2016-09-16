@@ -3,12 +3,12 @@ using System.Collections;
 
 [System.Serializable]
 public class ProjectileData {
-	[SerializeField] public string id;
-	[SerializeField] public ProjectileType type;
-	[SerializeField] public float travelSpeed;
-	[SerializeField] public float turnSpeed;
-	[SerializeField] public float travelTime;
-	[SerializeField] public float range;
+	[SerializeField] private string id;
+	[SerializeField] private ProjectileType type;
+	[SerializeField] private float travelSpeed;
+	[SerializeField] private float turnSpeed;
+	[SerializeField] private float travelTime;
+	[SerializeField] private float range;
 
 	public string Id {
 		get {
@@ -36,7 +36,16 @@ public class ProjectileData {
 			travelSpeed = value;
 		}
 	}
-		
+
+	public float TravelTime {
+		get {
+			return this.travelTime;
+		}
+		set {
+			travelTime = value;
+		}
+	}
+
 	public float TurnSpeed {
 		get {
 			return turnSpeed;
@@ -46,7 +55,6 @@ public class ProjectileData {
 		}
 	}
 		
-
 	public float Range {
 		get {
 			return range;

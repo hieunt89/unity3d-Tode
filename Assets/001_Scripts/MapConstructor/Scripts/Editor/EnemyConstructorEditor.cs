@@ -9,6 +9,10 @@ public class EnemyConstructorEditor : Editor {
 	void OnEnable(){
 		enemyConstructor = (EnemyConstructor) target as EnemyConstructor;
 		ec = new SerializedObject(enemyConstructor);
+		enemyConstructor.Enemy = new EnemyData (new List<ArmorData>(){
+			new ArmorData(AttackType.physical, ArmorRating.none),
+			new ArmorData(AttackType.magical, ArmorRating.none),
+		});
 	}
 	bool toggleNextUpgrade;
 	public override void OnInspectorGUI (){
@@ -20,60 +24,64 @@ public class EnemyConstructorEditor : Editor {
 		ec.Update();
 		GUILayout.BeginVertical("box");
 		EditorGUI.indentLevel++;
-		GUILayout.BeginHorizontal();
-		if (GUILayout.Button("Add Enemy")){
-			enemyConstructor.enemies.Add(new EnemyData(new List<ArmorData> () 
-			{
-				new ArmorData(AttackType.physical, ArmorRating.none), 
-				new ArmorData(AttackType.magical, ArmorRating.none)}));
-		}
-		if (GUILayout.Button("Clear Enemies")){
-			enemyConstructor.enemies.Clear ();
-		}
-		GUILayout.EndHorizontal();
 
-		if (enemyConstructor.enemies != null && enemyConstructor.enemies.Count > 0){
-			for (int i = 0; i < enemyConstructor.enemies.Count; i++)
-			{
-				GUILayout.BeginVertical("box");
+		var eId = "e" + 0;
+		EditorGUILayout.LabelField ("id", eId);
+		enemyConstructor.Enemy.Id = eId;
+			
+		EditorGUI.BeginChangeCheck ();
+		var name = EditorGUILayout.TextField ("Name", enemyConstructor.Enemy.Name);
+		var hp = EditorGUILayout.IntField ("Hit Point", enemyConstructor.enemy.Hp);
+		var moveSpeed = EditorGUILayout.FloatField ("Move Speed", enemyConstructor.Enemy.MoveSpeed);
+		var turnSpeed = EditorGUILayout.FloatField ("Turn Speed", enemyConstructor.Enemy.TurnSpeed);
+		var lifeCount = EditorGUILayout.IntField ("Life Count", enemyConstructor.Enemy.LifeCount);
+		var goldWorth = EditorGUILayout.IntField ("Gold Worth", enemyConstructor.Enemy.GoldWorth);
+		var atkType = (AttackType) EditorGUILayout.EnumPopup ("Attack Type", enemyConstructor.Enemy.AtkType);
+		var atkSpeed = EditorGUILayout.FloatField ("Attack Speed", enemyConstructor.Enemy.AtkSpeed);
+		var minAtkDmg = EditorGUILayout.IntField ("Min Attack Damage", enemyConstructor.Enemy.MinAtkDmg);
+		var maxAtkDmg = EditorGUILayout.IntField ("Max Attack Damage", enemyConstructor.Enemy.MaxAtkDmg);
+		var atkRange = EditorGUILayout.FloatField ("Attack Range", enemyConstructor.Enemy.AtkRange);
 
+		if (EditorGUI.EndChangeCheck ()) {
+			enemyConstructor.Enemy.Name = name;
+			enemyConstructor.Enemy.Hp = hp;
+			enemyConstructor.Enemy.MoveSpeed = moveSpeed;
+			enemyConstructor.Enemy.TurnSpeed = turnSpeed;
+			enemyConstructor.Enemy.LifeCount = lifeCount;
+			enemyConstructor.Enemy.GoldWorth = goldWorth;
+			enemyConstructor.Enemy.AtkType = atkType;
+			enemyConstructor.Enemy.AtkSpeed = atkSpeed;
+			enemyConstructor.Enemy.MinAtkDmg = minAtkDmg;
+			enemyConstructor.Enemy.MaxAtkDmg = maxAtkDmg;
+			enemyConstructor.Enemy.AtkRange = atkRange;
+		}
+
+		if (enemyConstructor.Enemy.Armors != null && enemyConstructor.Enemy.Armors.Count > 0){
+			for (int j = 0; j < enemyConstructor.Enemy.Armors.Count; j++)
+			{
 				GUILayout.BeginHorizontal();
-				var eId = "e" + i;
-				EditorGUILayout.LabelField ("id", eId);
-				enemyConstructor.enemies[i].Id = eId;
-				if (GUILayout.Button("Remove")){
-					enemyConstructor.enemies.RemoveAt(i);
-					continue;
-				}	
+				enemyConstructor.Enemy.Armors[j].rating = (ArmorRating) EditorGUILayout.EnumPopup(enemyConstructor.Enemy.Armors[j].type.ToString ().ToUpper() + " Armor Rating", enemyConstructor.Enemy.Armors[j].rating);
 				GUILayout.EndHorizontal();
-				enemyConstructor.enemies[i].Name = EditorGUILayout.TextField ("Name", enemyConstructor.enemies[i].Name);
-				enemyConstructor.enemies[i].Hp = EditorGUILayout.IntField ("Hit Point", enemyConstructor.enemies[i].Hp);
-				enemyConstructor.enemies[i].MoveSpeed = EditorGUILayout.FloatField ("Move Speed", enemyConstructor.enemies[i].MoveSpeed);
-				enemyConstructor.enemies[i].TurnSpeed = EditorGUILayout.FloatField ("Turn Speed", enemyConstructor.enemies[i].TurnSpeed);
-				enemyConstructor.enemies[i].LifeCount = EditorGUILayout.IntField ("Life Count", enemyConstructor.enemies[i].LifeCount);
-				enemyConstructor.enemies[i].GoldWorth = EditorGUILayout.IntField ("Gold Worth", enemyConstructor.enemies[i].GoldWorth);
-				enemyConstructor.enemies[i].AtkType = (AttackType) EditorGUILayout.EnumPopup ("Attack Type", enemyConstructor.enemies[i].AtkType);
-				enemyConstructor.enemies[i].AtkSpeed = EditorGUILayout.FloatField ("Attack Speed", enemyConstructor.enemies[i].AtkSpeed);
-				enemyConstructor.enemies[i].MinAtkDmg = EditorGUILayout.IntField ("Min Attack Damage", enemyConstructor.enemies[i].MinAtkDmg);
-				enemyConstructor.enemies[i].MaxAtkDmg = EditorGUILayout.IntField ("Max Attack Damage", enemyConstructor.enemies[i].MaxAtkDmg);
-				enemyConstructor.enemies[i].AtkRange = EditorGUILayout.FloatField ("Attack Range", enemyConstructor.enemies[i].AtkRange);
-
-				if (enemyConstructor.enemies[i].Armors != null && enemyConstructor.enemies[i].Armors.Count > 0){
-					for (int j = 0; j < enemyConstructor.enemies[i].Armors.Count; j++)
-					{
-						GUILayout.BeginHorizontal();
-						enemyConstructor.enemies[i].Armors[j].rating = (ArmorRating) EditorGUILayout.EnumPopup(enemyConstructor.enemies[i].Armors[j].type.ToString ().ToUpper() + " Armor Rating", enemyConstructor.enemies[i].Armors[j].rating);
-						GUILayout.EndHorizontal();
-					}
-				}
-				GUILayout.EndVertical();
-				GUILayout.Space(5);
 			}
-
 		}
+			
 		EditorGUI.indentLevel--;
 		GUILayout.EndVertical();
 
+		GUILayout.BeginHorizontal ();
+		if (GUILayout.Button("Save")){
+			DataManager.Instance.SaveData (enemyConstructor.Enemy);
+		}
+		if (GUILayout.Button("Load")){
+			DataManager.Instance.LoadData (enemyConstructor.Enemy);
+		}
+		if (GUILayout.Button("Rest")){
+			enemyConstructor.Enemy =  new EnemyData (new List<ArmorData>(){
+				new ArmorData(AttackType.physical, ArmorRating.none),
+				new ArmorData(AttackType.magical, ArmorRating.none),
+			});
+		}
+		GUILayout.EndHorizontal ();
 		ec.ApplyModifiedProperties();
 
 		Repaint ();

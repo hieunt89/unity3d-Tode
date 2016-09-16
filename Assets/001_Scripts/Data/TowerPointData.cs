@@ -4,6 +4,8 @@
 public class TowerPointData {
 	
     [SerializeField] private string id;
+	[SerializeField] private Vector3 towerPointPos;
+
     public string Id {
         get {
             return id;
@@ -13,7 +15,6 @@ public class TowerPointData {
         }
     }
 
-    [SerializeField] private Vector3 towerPointPos;
      public Vector3 TowerPointPos {
         get {
             return towerPointPos;

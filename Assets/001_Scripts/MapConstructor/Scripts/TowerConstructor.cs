@@ -3,5 +3,14 @@ using UnityEngine;
 
 public class TowerConstructor : MonoBehaviour {
 
-	public List<TowerData> towers;
+	public TowerData tower;
+
+	public TowerData Tower {
+		get {
+			return this.tower;
+		}
+		set {
+			tower = value;
+		}
+	}
 }

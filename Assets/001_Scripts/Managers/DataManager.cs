@@ -126,7 +126,7 @@ public class DataManager {
 //		JsonUtility.FromJsonOverwrite (reader.text, mapData);
 //	}
 
-	public void SaveMapData<T> (T data) {
+	public void SaveData<T> (T data) {
 
 		var jsonString = JsonUtility.ToJson(data);
 		Debug.Log(jsonString);
@@ -147,7 +147,7 @@ public class DataManager {
 		AssetDatabase.Refresh();
 	}
 
-	public void LoadMapData<T> (T data) {
+	public void LoadData<T> (T data) {
 		var path = EditorUtility.OpenFilePanel("Load " + data.ToString(), dataDirectory + data.ToString(), "json");
 
 		var reader = new WWW("file:///" + path);
@@ -159,27 +159,27 @@ public class DataManager {
 	#endregion json data
 
 	#region test scriptable object
-	string databasePath = "Assets/Resources/Maps";
-
-	private MapData LoadMap () {
-		MapData currentMapData = (MapData) AssetDatabase.LoadAssetAtPath (databasePath, typeof(MapData));
-		if (currentMapData != null) {
-			return currentMapData;
-		} 
-		return CreateMap();
-	}
-
-	private MapData CreateMap () {
-		MapData currentMapData = (MapData) ScriptableObject.CreateInstance(typeof(MapData));
-		if (currentMapData != null) {
-			AssetDatabase.CreateAsset(currentMapData, databasePath);
-			AssetDatabase.Refresh();
-			AssetDatabase.SaveAssets();
-			Debug.Log ("Create map ...");
-			return currentMapData;
-		} 
-		return null;
-	}
+//	string databasePath = "Assets/Resources/Maps";
+//
+//	private MapData LoadMap () {
+//		MapData currentMapData = (MapData) AssetDatabase.LoadAssetAtPath (databasePath, typeof(MapData));
+//		if (currentMapData != null) {
+//			return currentMapData;
+//		} 
+//		return CreateMap();
+//	}
+//
+//	private MapData CreateMap () {
+//		MapData currentMapData = (MapData) ScriptableObject.CreateInstance(typeof(MapData));
+//		if (currentMapData != null) {
+//			AssetDatabase.CreateAsset(currentMapData, databasePath);
+//			AssetDatabase.Refresh();
+//			AssetDatabase.SaveAssets();
+//			Debug.Log ("Create map ...");
+//			return currentMapData;
+//		} 
+//		return null;
+//	}
 	#endregion
 
 }

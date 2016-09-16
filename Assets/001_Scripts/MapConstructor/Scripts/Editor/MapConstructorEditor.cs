@@ -20,17 +20,7 @@ public class MapConstructorEditor : Editor {
 	List<List<int>> enemyIndexes = new List<List<int>> ();
 	string[] pathIdOptions = new string[] {"p01", "p02", "p03"};	// test
 	List<List<int>> pathIndexes = new List<List<int>> ();
-	public GUIStyle guiTitleStyle {
-		get {
-			var guiTitleStyle = new GUIStyle (GUI.skin.label);
-			guiTitleStyle.normal.textColor = Color.black;
-			guiTitleStyle.fontStyle = FontStyle.Bold;
-			guiTitleStyle.fontSize = 16;
-			guiTitleStyle.fixedHeight = 30;
-			guiTitleStyle.alignment = TextAnchor.MiddleCenter;
-			return guiTitleStyle;
-		}
-	}
+
 	#region MONO
 	void OnEnable () {
 		mapConstructor = (MapConstructor) target as MapConstructor;
@@ -298,9 +288,9 @@ public class MapConstructorEditor : Editor {
 			for (int i = 0; i < mapConstructor.Map.Paths.Count; i++)
 			{
 				EditorGUILayout.BeginHorizontal();
-				EditorGUILayout.LabelField ("Path " + mapConstructor.Map.Paths[i].Id);
+				EditorGUILayout.LabelField ("Path Id", mapConstructor.Map.Paths[i].Id);
 				if(GUILayout.Button("Add WP", GUILayout.MinWidth (85), GUILayout.MaxWidth (85))) {
-					CreateWayPoint (i, new Vector3(mapConstructor.Map.Paths[i].Points.Count, 0f, mapConstructor.Map.Paths[i].Id + 1));
+					CreateWayPoint (i, new Vector3(mapConstructor.Map.Paths[i].Points.Count, 0f, i + 1));
 				}
 				if(GUILayout.Button("Clear WPs", GUILayout.MinWidth (85), GUILayout.MaxWidth (85))) {
 					ClearWayPoints(i);	
@@ -464,11 +454,11 @@ public class MapConstructorEditor : Editor {
 
 		GUI.enabled = CheckFields();
 		if (GUILayout.Button ("Save")) {
-			DataManager.Instance.SaveMapData(mapConstructor.Map);
+			DataManager.Instance.SaveData(mapConstructor.Map);
 		}
 		GUI.enabled = true;
 		if (GUILayout.Button ("Load")) {
-			DataManager.Instance.LoadMapData(mapConstructor.Map);
+			DataManager.Instance.LoadData(mapConstructor.Map);
 			CreateIndexes ();
 		}
 		if (GUILayout.Button ("Reset")) {
@@ -507,7 +497,7 @@ public class MapConstructorEditor : Editor {
 	private void CreatePath () {
 		if (mapConstructor.Map.Paths == null)
 			mapConstructor.Map.Paths = new List<PathData> ();
-		mapConstructor.Map.Paths.Add(new PathData(mapConstructor.Map.Paths.Count, new List<Vector3> ()));
+		mapConstructor.Map.Paths.Add(new PathData("p" + mapConstructor.Map.Paths.Count, new List<Vector3> ()));
 		togglePaths.Add(false);
 	}
 

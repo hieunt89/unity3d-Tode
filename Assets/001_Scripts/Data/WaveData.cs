@@ -4,6 +4,7 @@ using System.Collections.Generic;
 [System.Serializable]
 public class WaveData {
 	[SerializeField] public string id;
+	[SerializeField] private List<WaveGroupData> groups;
 
 	public string Id {
 		get {
@@ -13,8 +14,6 @@ public class WaveData {
 			id = value;
 		}
 	}
-
-	[SerializeField] private List<WaveGroupData> groups;
 
 	public List<WaveGroupData> Groups {
 		get {

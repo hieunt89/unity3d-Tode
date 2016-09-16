@@ -27,12 +27,12 @@ public static class PoolExtension {
 		if(prj.Range > 0){
 			e.AddAttackRange (prj.Range);
 		}
-		switch (prj.type) {
+		switch (prj.Type) {
 		case ProjectileType.homing:
-			e.AddProjectileHoming (prj.travelSpeed);
+			e.AddProjectileHoming (prj.TravelSpeed);
 			break;
 		case ProjectileType.throwing:
-			e.AddProjectileThrowing (prj.travelTime);
+			e.AddProjectileThrowing (prj.TravelTime);
 			break;
 		default:
 			break;

@@ -1,20 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using UnityEngine;
+using System.Collections.Generic;
 
 [System.Serializable]
 public class EnemyData {
-	public string id;
-	private string name;
-	private float moveSpeed;
-	private float turnSpeed;
-	private int lifeCount;
-	private int goldWorth;
-	private AttackType atkType;
-	private float atkSpeed;
-	private int minAtkDmg;
-	private int maxAtkDmg;
-	private float atkRange;
-	private List<ArmorData> armors;
-	private int hp;
+	[SerializeField] public string id;
+
+	[SerializeField] private string name;
+	[SerializeField] private float moveSpeed;
+	[SerializeField] private float turnSpeed;
+	[SerializeField] private int lifeCount;
+	[SerializeField] private int goldWorth;
+	[SerializeField] private AttackType atkType;
+	[SerializeField] private float atkSpeed;
+	[SerializeField] private int minAtkDmg;
+	[SerializeField] private int maxAtkDmg;
+	[SerializeField] private float atkRange;
+	[SerializeField] private List<ArmorData> armors;
+	[SerializeField] private int hp;
 
 	public string Id {
 		get {
@@ -132,6 +134,7 @@ public class EnemyData {
 			hp = value;
 		}
 	}
+
 	public EnemyData (List<ArmorData> armors) {
 		this.armors = armors;
 	}

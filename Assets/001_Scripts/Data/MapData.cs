@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 
 [System.Serializable]
-public class MapData : ScriptableObject {
+public class MapData {
 	
-	// map id
 	[SerializeField] public string id;
 
 	public string Id {
@@ -49,10 +48,6 @@ public class MapData : ScriptableObject {
 			waves = value;
 		}
 	}	
-
-	public MapData ()
-	{
-	}
 
 	public MapData (string id, List<PathData> paths, List<TowerPointData> towerPoints, List<WaveData> waves)
 	{

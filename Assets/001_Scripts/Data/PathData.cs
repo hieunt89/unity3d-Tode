@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 [System.Serializable]
 public class PathData {
-	[SerializeField] public int id;
+	[SerializeField] public string id;
 
-	public int Id {
+	public string Id {
 		get {
 			return id;
 		}
@@ -25,7 +25,7 @@ public class PathData {
 		}
 	}
 
-	public PathData (int _pathId, List<Vector3> _points){
+	public PathData (string _pathId, List<Vector3> _points){
 		id = _pathId;
 		points = _points;
 	}

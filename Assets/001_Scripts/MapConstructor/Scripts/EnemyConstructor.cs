@@ -4,5 +4,13 @@ using System.Collections.Generic;
 [System.Serializable]
 public class EnemyConstructor : MonoBehaviour {
 
-	public List<EnemyData> enemies;
+	public EnemyData enemy;
+	public EnemyData Enemy {
+		get {
+			return this.enemy;
+		}
+		set {
+			enemy = value;
+		}
+	}
 }
