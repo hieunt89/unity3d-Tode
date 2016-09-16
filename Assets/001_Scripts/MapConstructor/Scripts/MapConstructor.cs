@@ -4,56 +4,30 @@ using System.Text;
 using System;
 
 [ExecuteInEditMode]
-public class MapConstructor : MonoBehaviour {
+[System.Serializable]
+public class MapConstructor : MonoBehaviour
+{
+	public float pointSize = 1f;
 
-    // map id
-    [SerializeField] public int mapId = 1;
-    [SerializeField] public float pointSize = 1f;
-    [SerializeField] public float maxPointSize = 2f;
-    [SerializeField] public Color baseColor = Color.gray;
-    [SerializeField] public Color pathColor = Color.gray;
-    [SerializeField] public Color wayPointColor = Color.gray;
-    [SerializeField] public Color towerPointColor = Color.gray;
+	public float maxPointSize = 2f;
 
-    [SerializeField] public List<PathData> paths;
-    // [UnityEngine.SerializeField] public List<WayPointData> wayPoints;
-    [SerializeField] public List<TowerPointData> towerPoints;    
-    [SerializeField] public List<WaveData> waves;
-    // [SerializeField] public List<WaveGroup> waveGroups;  // test
+	public Color baseColor = Color.gray;
 
-    private Transform mTransform;
+	public Color pathColor = Color.gray;
 
-    #region Mono
-    void Awake () {
-        mTransform = this.transform;
-    }
-    #endregion Mono
+	public Color wayPointColor = Color.gray;
 
-    // public string Save () {
-    //     var sb = new StringBuilder ();
-    //     for (int i = 0; i < waveGroups.Count; i++)
-    //     {
-    //         sb.Append (waveGroups[i].ToString());
-    //         if (i < waveGroups.Count - 1)
-    //         {
-    //             sb.Append("; ");
-    //         }
-    //     }
-    //     return sb.ToString();
-    // }
+	public Color towerPointColor = Color.gray;
 
-    // public void Load (string data) {
-    //     var mGroup = data.Split (';');
-    //     waveGroups = new List<WaveGroup> ();
-    //     for (int i = 0; i < mGroup.Length; i++)
-    //     {
-    //         var values = mGroup[i].Split(',');
-    //         var waveGroup = new WaveGroup();
-    //         waveGroup.EnemyId = values[0];   // parse string to enum ...
-    //         waveGroup.Amount = Int32.Parse(values[1]);
-    //         waveGroup.SpawnInterval = float.Parse(values[2]);
-    //         waveGroup.WaveDelay = float.Parse(values[3]);
-    //         waveGroups.Add(waveGroup);
-    //     }
-    // }
+	[SerializeField] private MapData map;
+
+	public MapData Map {
+		get {
+			return this.map;
+		}
+		set {
+			map = value;
+		}
+	}
 }
+	

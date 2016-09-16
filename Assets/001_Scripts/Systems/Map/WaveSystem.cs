@@ -15,10 +15,11 @@ public class WaveSystem : ISetPool, IInitializeSystem {
 
 	public void Initialize ()
 	{
-		WaveGroup group1 = new WaveGroup ("enemy1", 1, 1.0f, 0f, "path_0");
+		
+		WaveGroupData group1 = new WaveGroupData ("enemy1", 1, 1.0f, 0f, "path_0");
 //		WaveGroup group2 =  new WaveGroup ("enemy2", 10, 1.0f, 3.0f, "path_1");
 
-		List<WaveGroup> groups = new List<WaveGroup>();
+		List<WaveGroupData> groups = new List<WaveGroupData>();
 		groups.Add(group1);
 //		groups.Add(group2);
 

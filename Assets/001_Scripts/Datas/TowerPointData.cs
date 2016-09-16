@@ -1,13 +1,30 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 [System.Serializable]
 public class TowerPointData {
-    [UnityEngine.SerializeField] public string id;
-    [UnityEngine.SerializeField] public GameObject towerPointGo;
+	
+    [SerializeField] private string id;
+    public string Id {
+        get {
+            return id;
+        }
+        set {
+            id = value;
+        }
+    }
 
-    public TowerPointData (string _id, GameObject _tpg){
+    [SerializeField] private Vector3 towerPointPos;
+     public Vector3 TowerPointPos {
+        get {
+            return towerPointPos;
+        }
+        set {
+            towerPointPos = value;
+        }
+    }
+    
+    public TowerPointData (string _id, Vector3 _tpp){
         id = _id;
-        towerPointGo = _tpg;
+        towerPointPos = _tpp;
     }
 }

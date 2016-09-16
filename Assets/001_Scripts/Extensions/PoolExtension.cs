@@ -22,10 +22,10 @@ public static class PoolExtension {
 			.AddAttack (atkType)
 			.AddAttackDamage (minDmg, maxDmg)
 			.AddTarget (target)
-			.AddTurnable (prj.turnSpeed)
+			.AddTurnable (prj.TurnSpeed)
 			;
-		if(prj.range > 0){
-			e.AddAttackRange (prj.range);
+		if(prj.Range > 0){
+			e.AddAttackRange (prj.Range);
 		}
 		switch (prj.type) {
 		case ProjectileType.homing:

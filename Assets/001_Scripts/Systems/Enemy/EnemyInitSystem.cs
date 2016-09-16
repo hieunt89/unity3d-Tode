@@ -23,7 +23,7 @@ public class EnemyInitSystem : IReactiveSystem, ISetPool
     {
 		var e = entities.SingleEntity ();
 		float activeTime = _pool.tick.time;
-		WaveGroup waveGroup;
+		WaveGroupData waveGroup;
 		Entity ePath;
 		EnemyData enemyData;
 		for (int i = 0; i < e.wave.groups.Count; i++) { //loop throu all wave group datas in wave
@@ -52,17 +52,17 @@ public class EnemyInitSystem : IReactiveSystem, ISetPool
 					.IsInteractable (true)
 					.AddDestination (ePath.path.wayPoints [0])
 					.AddPosition (ePath.path.wayPoints [0])
-					.AddMovable (enemyData.moveSpeed)
-					.AddTurnable(enemyData.turnSpeed)
-					.AddLifeCount (enemyData.lifeCount)
-					.AddGold (enemyData.goldWorth)
-					.AddAttack (enemyData.atkType)
-					.AddAttackSpeed(enemyData.atkSpeed)
-					.AddAttackDamage(enemyData.minAtkDmg, enemyData.maxAtkDmg)
-					.AddAttackRange(enemyData.atkRange)
-					.AddArmor(enemyData.armors)
-					.AddHp (enemyData.hp)
-					.AddHpTotal(enemyData.hp)
+					.AddMovable (enemyData.MoveSpeed)
+					.AddTurnable(enemyData.TurnSpeed)
+					.AddLifeCount (enemyData.LifeCount)
+					.AddGold (enemyData.GoldWorth)
+					.AddAttack (enemyData.AtkType)
+					.AddAttackSpeed(enemyData.AtkSpeed)
+					.AddAttackDamage(enemyData.MinAtkDmg, enemyData.MaxAtkDmg)
+					.AddAttackRange(enemyData.AtkRange)
+					.AddArmor(enemyData.Armors)
+					.AddHp (enemyData.Hp)
+					.AddHpTotal(enemyData.Hp)
 					;
 			}
 		}

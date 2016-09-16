@@ -27,7 +27,7 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 		for (int i = 0; i < ens.Length; i++) {
 			e = ens [i];
 			if(!e.hasDestination){
-				e.AddDestination (GetEnemyFuturePosition(e.target.e, 15.0f));
+				e.AddDestination (GetEnemyFuturePosition(e.target.e, e.projectileThrowing.travelTime));
 				if (GameManager.debug) {
 					Debug.DrawLine (e.target.e.position.value, e.destination.value, Color.blue, Mathf.Infinity);
 				}
