@@ -22,8 +22,6 @@ public static class PoolExtension {
 			.AddAttack (atkType)
 			.AddAttackDamage (minDmg, maxDmg)
 			.AddTarget (target)
-			.AddDestination (target.position.value)
-			.AddMovable (prj.travelSpeed)
 			.AddTurnable (prj.turnSpeed)
 			;
 		if(prj.range > 0){
@@ -31,10 +29,10 @@ public static class PoolExtension {
 		}
 		switch (prj.type) {
 		case ProjectileType.homing:
-			e.IsProjectileHoming (true);
+			e.AddProjectileHoming (prj.travelSpeed);
 			break;
 		case ProjectileType.throwing:
-			e.IsProjectileThrowing (true);
+			e.AddProjectileThrowing (prj.travelTime);
 			break;
 		default:
 			break;

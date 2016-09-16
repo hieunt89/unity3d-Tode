@@ -25,7 +25,13 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 		Entity e;
 		var ens = _groupPrjThrowing.GetEntities ();
 		for (int i = 0; i < ens.Length; i++) {
-			
+			e = ens [i];
+			if(!e.hasDestination){
+				e.AddDestination (GetEnemyFuturePosition(e.target.e, 15.0f));
+				if (GameManager.debug) {
+					Debug.DrawLine (e.target.e.position.value, e.destination.value, Color.blue, Mathf.Infinity);
+				}
+			}
 		}
 	}
 
@@ -42,27 +48,39 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 	#endregion
 
 	Vector3 GetEnemyFuturePosition(Entity e, float timeToContact){
-		Vector3 result = Vector3.zero;
-
 		var points = e.pathReference.e.path.wayPoints;
-		var pointsMag = new List<float> ();
-		for (int i = 0; i < points.Count; i++) {
-			pointsMag.Add (points [i].magnitude);
+		var distanceBtwPoints = e.pathReference.e.pathLength.distances;
+		var enemyDistanceFromStart = (e.position.value - points [0]).magnitude;
+		var distanceToTravel = enemyDistanceFromStart + e.movable.speed * timeToContact;
+
+		var totalDistance = 0f;
+		for (int i = 0; i < distanceBtwPoints.Count; i++) {
+			totalDistance += distanceBtwPoints [i];
+		}
+		if (distanceToTravel > totalDistance) {
+			return points [points.Count-1];
 		}
 
-		var distanceTravel = e.movable.speed * timeToContact;
-		var distanceReached = 0f;
 		var index = 0;
-		for (int i = 0; i < pointsMag.Count; i++) {
-			if(distanceTravel > distanceReached){
+		var distanceToPoint = 0f;
+
+		for (int i = 0; i < distanceBtwPoints.Count; i++) {
+			distanceToPoint += distanceBtwPoints [i];
+			if(distanceToTravel <= distanceToPoint){
 				index = i;
-				distanceReached = distanceReached + pointsMag [i];
+				distanceToPoint -= distanceBtwPoints [i];
+				break;
 			}
 		}
 
-		var distanceRelative = distanceTravel - distanceReached;
-		var scaleToMag = distanceRelative / pointsMag [index];
+		var distanceDiff = distanceToTravel - distanceToPoint;
+		var scaleOnVector = distanceDiff / distanceBtwPoints [index];
 
-		return result;
+		var startPoint = points [index];
+		var endPoint = points [index + 1];
+		var resultVector = ((endPoint - startPoint) * scaleOnVector) + startPoint;
+
+		return resultVector;
+
 	}
 }

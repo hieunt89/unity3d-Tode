@@ -30,24 +30,25 @@ public static class ComponentIds {
     public const int MarkedForDestroy = 20;
     public const int Movable = 21;
     public const int Path = 22;
-    public const int PathReference = 23;
-    public const int Position = 24;
-    public const int Projectile = 25;
-    public const int ProjectileHoming = 26;
-    public const int ProjectileThrowing = 27;
-    public const int ReachedEnd = 28;
-    public const int Target = 29;
-    public const int Tick = 30;
-    public const int Tower = 31;
-    public const int TowerNextUpgrade = 32;
-    public const int TowerUpgrade = 33;
-    public const int TowerUpgradeProgress = 34;
-    public const int Turnable = 35;
-    public const int View = 36;
-    public const int ViewSlider = 37;
-    public const int Wave = 38;
+    public const int PathLength = 23;
+    public const int PathReference = 24;
+    public const int Position = 25;
+    public const int Projectile = 26;
+    public const int ProjectileHoming = 27;
+    public const int ProjectileThrowing = 28;
+    public const int ReachedEnd = 29;
+    public const int Target = 30;
+    public const int Tick = 31;
+    public const int Tower = 32;
+    public const int TowerNextUpgrade = 33;
+    public const int TowerUpgrade = 34;
+    public const int TowerUpgradeProgress = 35;
+    public const int Turnable = 36;
+    public const int View = 37;
+    public const int ViewSlider = 38;
+    public const int Wave = 39;
 
-    public const int TotalComponents = 39;
+    public const int TotalComponents = 40;
 
     public static readonly string[] componentNames = {
         "Active",
@@ -73,6 +74,7 @@ public static class ComponentIds {
         "MarkedForDestroy",
         "Movable",
         "Path",
+        "PathLength",
         "PathReference",
         "Position",
         "Projectile",
@@ -115,6 +117,7 @@ public static class ComponentIds {
         typeof(MarkedForDestroy),
         typeof(Movable),
         typeof(Path),
+        typeof(PathLength),
         typeof(PathReference),
         typeof(Position),
         typeof(Projectile),
