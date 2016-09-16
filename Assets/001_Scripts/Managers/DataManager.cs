@@ -30,7 +30,7 @@ public class DataManager {
 
 	void LoadProjectileData(){
 		projectileIdToData = new Dictionary<string, ProjectileData> ();
-		projectileIdToData.Add("prj1", new ProjectileData("prj1", ProjectileType.homing, 1.0f, 5.0f, 0f));
+		projectileIdToData.Add("prj1", new ProjectileData("prj1", ProjectileType.homing, 1.0f, 5.0f, 2.0f, 0f));
 	}
 
 	void LoadTowerData(){

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Entitas;
+using System.Collections.Generic;
 
 public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 	#region ISetPool implementation
@@ -39,4 +40,29 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 	}
 
 	#endregion
+
+	Vector3 GetEnemyFuturePosition(Entity e, float timeToContact){
+		Vector3 result = Vector3.zero;
+
+		var points = e.pathReference.e.path.wayPoints;
+		var pointsMag = new List<float> ();
+		for (int i = 0; i < points.Count; i++) {
+			pointsMag.Add (points [i].magnitude);
+		}
+
+		var distanceTravel = e.movable.speed * timeToContact;
+		var distanceReached = 0f;
+		var index = 0;
+		for (int i = 0; i < pointsMag.Count; i++) {
+			if(distanceTravel > distanceReached){
+				index = i;
+				distanceReached = distanceReached + pointsMag [i];
+			}
+		}
+
+		var distanceRelative = distanceTravel - distanceReached;
+		var scaleToMag = distanceRelative / pointsMag [index];
+
+		return result;
+	}
 }
