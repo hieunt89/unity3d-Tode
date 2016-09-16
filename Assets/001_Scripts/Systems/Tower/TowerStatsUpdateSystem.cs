@@ -23,13 +23,13 @@ public class TowerStatsUpdateSystem : IReactiveSystem, IEnsureComponents {
 			towerData = DataManager.Instance.GetTowerData (tower.tower.towerId);
 			if (towerData != null) {
 				tower
-					.ReplaceProjectile (towerData.prjType)
-					.ReplaceAttack (towerData.atkType)
-					.ReplaceAttackRange (towerData.atkRange)
-					.ReplaceAttackDamage (towerData.minDmg, towerData.maxDmg)
-					.ReplaceAttackSpeed (towerData.atkSpeed)
-					.ReplaceGold(towerData.goldRequired)
-					.ReplaceTowerNextUpgrade(towerData.nextUpgrade)
+					.ReplaceProjectile (towerData.PrjType)
+					.ReplaceAttack (towerData.AtkType)
+					.ReplaceAttackRange (towerData.AtkRange)
+					.ReplaceAttackDamage (towerData.MinDmg, towerData.MaxDmg)
+					.ReplaceAttackSpeed (towerData.AtkSpeed)
+					.ReplaceGold(towerData.GoldRequired)
+					.ReplaceTowerNextUpgrade(towerData.NextUpgrade)
 					.IsActive (true);
 			} else {
 				tower.IsActive (false);

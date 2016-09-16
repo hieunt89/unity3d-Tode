@@ -3,20 +3,20 @@ using System.Collections.Generic;
 
 [System.Serializable]
 public class WaveData {
-	[SerializeField] private int waveId;
+	[SerializeField] public string id;
 
-	public int WaveId {
+	public string Id {
 		get {
-			return waveId;
+			return id;
 		}
 		set {
-			waveId = value;
+			id = value;
 		}
 	}
 
-	[SerializeField] private List<WaveGroup> groups;
+	[SerializeField] private List<WaveGroupData> groups;
 
-	public List<WaveGroup> Groups {
+	public List<WaveGroupData> Groups {
 		get {
 			return groups;
 		}
@@ -25,8 +25,8 @@ public class WaveData {
 		}
 	}
 
-    public WaveData (int _waveId, List<WaveGroup> _groups){
-        waveId = _waveId;
+    public WaveData (string _id, List<WaveGroupData> _groups){
+        id = _id;
         groups = _groups;
     }
 }

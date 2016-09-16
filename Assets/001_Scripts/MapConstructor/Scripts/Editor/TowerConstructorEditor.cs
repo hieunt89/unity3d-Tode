@@ -45,36 +45,36 @@ public class TowerConstructorEditor : Editor {
 					continue;
 				}	
 				GUILayout.EndHorizontal();
-				EditorGUILayout.TextField ("name", towerConstructor.towers[i].name);
-				EditorGUILayout.TextField ("projectile", towerConstructor.towers[i].prjType);
-				EditorGUILayout.EnumPopup ("Attack Type", towerConstructor.towers[i].atkType);
-				EditorGUILayout.FloatField ("Tower Range", towerConstructor.towers[i].atkRange);
-				EditorGUILayout.IntField ("Min Damage", towerConstructor.towers[i].minDmg);
-				EditorGUILayout.IntField ("Max Damage", towerConstructor.towers[i].maxDmg);
-				EditorGUILayout.FloatField ("Attack Speed", towerConstructor.towers[i].atkSpeed);
-				EditorGUILayout.FloatField ("Build Time", towerConstructor.towers[i].buildTime);
+				EditorGUILayout.TextField ("name", towerConstructor.towers[i].Name);
+				EditorGUILayout.TextField ("projectile", towerConstructor.towers[i].PrjType);
+				EditorGUILayout.EnumPopup ("Attack Type", towerConstructor.towers[i].AtkType);
+				EditorGUILayout.FloatField ("Tower Range", towerConstructor.towers[i].AtkRange);
+				EditorGUILayout.IntField ("Min Damage", towerConstructor.towers[i].MinDmg);
+				EditorGUILayout.IntField ("Max Damage", towerConstructor.towers[i].MaxDmg);
+				EditorGUILayout.FloatField ("Attack Speed", towerConstructor.towers[i].AtkSpeed);
+				EditorGUILayout.FloatField ("Build Time", towerConstructor.towers[i].BuildTime);
 
 				GUILayout.BeginHorizontal();
 				EditorGUILayout.LabelField ("Next Upgrades");
 				if (GUILayout.Button("Add Upgrade")){
-					if (towerConstructor.towers[i].nextUpgrade == null)
-						towerConstructor.towers[i].nextUpgrade = new List <string> ();
-					towerConstructor.towers[i].nextUpgrade.Add("");
+					if (towerConstructor.towers[i].NextUpgrade == null)
+						towerConstructor.towers[i].NextUpgrade = new List <string> ();
+					towerConstructor.towers[i].NextUpgrade.Add("");
 				}
 				if (GUILayout.Button("Clear Upgrades")){
-					towerConstructor.towers[i].nextUpgrade.Clear();
+					towerConstructor.towers[i].NextUpgrade.Clear();
 				}
 				GUILayout.EndHorizontal();
 
-				if (towerConstructor.towers[i].nextUpgrade != null && towerConstructor.towers[i].nextUpgrade.Count > 0){
+				if (towerConstructor.towers[i].NextUpgrade != null && towerConstructor.towers[i].NextUpgrade.Count > 0){
 					EditorGUI.indentLevel++;
-					for (int j = 0; j < towerConstructor.towers[i].nextUpgrade.Count; j++)
+					for (int j = 0; j < towerConstructor.towers[i].NextUpgrade.Count; j++)
 					{
 
 						GUILayout.BeginHorizontal();
-						EditorGUILayout.TextField ("Branch " + (j + 1), towerConstructor.towers[i].nextUpgrade[j]);
+						EditorGUILayout.TextField ("Branch " + (j + 1), towerConstructor.towers[i].NextUpgrade[j]);
 						if (GUILayout.Button("Remove Upgrade")){
-							towerConstructor.towers[i].nextUpgrade.RemoveAt(j);
+							towerConstructor.towers[i].NextUpgrade.RemoveAt(j);
 						}
 						GUILayout.EndHorizontal();
 					}

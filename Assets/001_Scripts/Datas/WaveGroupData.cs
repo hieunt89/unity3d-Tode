@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [System.Serializable]
-public class WaveGroup { // TODO: rename WaveGroupData
+public class WaveGroupData : ScriptableObject { // TODO: rename WaveGroupData
 
 	// TODO: get index of enemyid string in list of enemyid (pre-defined)
 	string[] enemyIdOptions = new string[] {"e01", "e02", "e03"};	// test
@@ -95,15 +95,15 @@ public class WaveGroup { // TODO: rename WaveGroupData
         }
 	}
 
-    public WaveGroup () {
+    public WaveGroupData () {
         
     }
-	public WaveGroup (string enemyId, string pathId) {
+	public WaveGroupData (string enemyId, string pathId) {
 		this.enemyId = enemyId;
 		this.pathId = pathId;
 	}
 
-	public WaveGroup (string enemyId, int amount, float spawnInterval, float waveDelay, string pathId)
+	public WaveGroupData (string enemyId, int amount, float spawnInterval, float waveDelay, string pathId)
 	{
 		this.enemyId = enemyId;
 		this.amount = amount;

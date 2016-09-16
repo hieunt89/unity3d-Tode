@@ -3,7 +3,7 @@ using System.Collections;
 
 [System.Serializable]
 public class ProjectileData {
-	[SerializeField] private string id;
+	[SerializeField] public string id;
 
 	public string Id {
 		get {

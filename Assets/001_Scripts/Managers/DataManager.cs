@@ -3,6 +3,8 @@ using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System;
+using System.Reflection;
 
 public class DataManager {
 	#region Singleton
@@ -42,11 +44,11 @@ public class DataManager {
 		towerIdToData = new Dictionary<string, TowerData> ();
 		towerIdToData.Add (
 			"tower1", 
-			new TowerData ("tower1", "arrow 1 name", "prj1", AttackType.physical, 2f, 1, 2, 1f, 150, nextUpgrade, 1f)
+			new TowerData ("t1", "arrow 1 name", "prj1", AttackType.physical, 2f, 1, 2, 1f, 150, nextUpgrade, 1f)
 		);
 		towerIdToData.Add (
 			"tower2", 
-			new TowerData ("tower2", "arrow 2 name", "prj1", AttackType.physical, 2f, 1, 2, 1f, 150, null, 3f)
+			new TowerData ("t2", "arrow 2 name", "prj1", AttackType.physical, 2f, 1, 2, 1f, 150, null, 3f)
 		);
 
 	}
@@ -59,11 +61,11 @@ public class DataManager {
 		enemyIdToData = new Dictionary<string, EnemyData> ();
 		enemyIdToData.Add (
 			"enemy1",
-			new EnemyData("enemy1", "enemy 1 name", 0.5f, 5f, 1, 5, AttackType.physical, 2f, 1, 2, 0f, armorList, 5)
+			new EnemyData("e1", "enemy 1 name", 0.5f, 5f, 1, 5, AttackType.physical, 2f, 1, 2, 0f, armorList, 5)
 		);
 		enemyIdToData.Add (
 			"enemy2",
-			new EnemyData("enemy2", "enemy 2 name", 0.5f, 5f, 1, 5, AttackType.physical, 2f, 1, 2, 1f, armorList, 3)
+			new EnemyData("e1", "enemy 2 name", 0.5f, 5f, 1, 5, AttackType.physical, 2f, 1, 2, 1f, armorList, 3)
 		);
 	}
 
@@ -95,11 +97,45 @@ public class DataManager {
 		return (int)rating * 0.01f;
 	}
 
-	const string mapGroupDataDirectory = "Assets/Resources/Maps";	
-	public void SaveMapData (MapConstructor data) {
+	#region json data
+	const string dataDirectory = "Assets/Resources/Data/";
+
+//	public void SaveMapData (MapData mapData) {
+//
+//		var jsonString = JsonUtility.ToJson(mapData);
+//		Debug.Log(jsonString);
+//		var path = EditorUtility.SaveFilePanel("Save Map Data", dataDirectory , mapData.Id +".json", "json");
+//
+//		if (!string.IsNullOrEmpty(path))
+//		{
+//			using (FileStream fs = new FileStream (path, FileMode.Create)) {
+//				using (StreamWriter writer = new StreamWriter(fs)) {
+//					writer.Write(jsonString);
+//				}
+//			}
+//		}
+//		AssetDatabase.Refresh();
+//	}
+
+//	public void LoadMapData (MapData mapData) {
+//		var path = EditorUtility.OpenFilePanel("Load Map Data", dataDirectory, "json");
+//
+//		var reader = new WWW("file:///" + path);
+//		while(!reader.isDone){
+//		}
+//		Debug.Log(reader.text);
+//		JsonUtility.FromJsonOverwrite (reader.text, mapData);
+//	}
+
+	public void SaveMapData<T> (T data) {
 
 		var jsonString = JsonUtility.ToJson(data);
-		var path = EditorUtility.SaveFilePanel("Save Map Data", mapGroupDataDirectory, "map_"+ data.MapId +".json", "json");
+		Debug.Log(jsonString);
+
+		FieldInfo field = typeof(T).GetField("id");
+		string id = (string) field.GetValue(data);
+		Debug.Log (dataDirectory + data.ToString());
+		var path = EditorUtility.SaveFilePanel("Save " + data.ToString(), dataDirectory + data.ToString(), id +".json", "json");
 
 		if (!string.IsNullOrEmpty(path))
 		{
@@ -109,18 +145,42 @@ public class DataManager {
 				}
 			}
 		}
-
-		// refresh project database
 		AssetDatabase.Refresh();
 	}
 
-	public MapConstructor LoadMapData () {
-		var path = EditorUtility.OpenFilePanel("Load Map Data", mapGroupDataDirectory, "json");
+	public void LoadMapData<T> (T data) {
+		var path = EditorUtility.OpenFilePanel("Load " + data.ToString(), dataDirectory + data.ToString(), "json");
 
 		var reader = new WWW("file:///" + path);
 		while(!reader.isDone){
 		}
-		Debug.Log(reader.text);
-		return JsonUtility.FromJson <MapConstructor>(reader.text);
+
+		JsonUtility.FromJsonOverwrite (reader.text, data);
 	}
+	#endregion json data
+
+	#region test scriptable object
+	string databasePath = "Assets/Resources/Maps";
+
+	private MapData LoadMap () {
+		MapData currentMapData = (MapData) AssetDatabase.LoadAssetAtPath (databasePath, typeof(MapData));
+		if (currentMapData != null) {
+			return currentMapData;
+		} 
+		return CreateMap();
+	}
+
+	private MapData CreateMap () {
+		MapData currentMapData = (MapData) ScriptableObject.CreateInstance(typeof(MapData));
+		if (currentMapData != null) {
+			AssetDatabase.CreateAsset(currentMapData, databasePath);
+			AssetDatabase.Refresh();
+			AssetDatabase.SaveAssets();
+			Debug.Log ("Create map ...");
+			return currentMapData;
+		} 
+		return null;
+	}
+	#endregion
+
 }

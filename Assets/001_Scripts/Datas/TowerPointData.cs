@@ -2,7 +2,8 @@
 
 [System.Serializable]
 public class TowerPointData {
-    [UnityEngine.SerializeField] private string id;
+	
+    [SerializeField] private string id;
     public string Id {
         get {
             return id;
@@ -12,7 +13,7 @@ public class TowerPointData {
         }
     }
 
-    [UnityEngine.SerializeField] private Vector3 towerPointPos;
+    [SerializeField] private Vector3 towerPointPos;
      public Vector3 TowerPointPos {
         get {
             return towerPointPos;

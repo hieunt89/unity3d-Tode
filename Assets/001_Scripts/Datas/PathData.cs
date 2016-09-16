@@ -3,18 +3,18 @@ using System.Collections.Generic;
 
 [System.Serializable]
 public class PathData {
-	[UnityEngine.SerializeField] private int pathId;
+	[SerializeField] public int id;
 
-	public int PathId {
+	public int Id {
 		get {
-			return pathId;
+			return id;
 		}
 		set {
-			pathId = value;
+			id = value;
 		}
 	}
 
-	[UnityEngine.SerializeField] private List<Vector3> points;
+	[SerializeField] private List<Vector3> points;
 
 	public List<Vector3> Points {
 		get {
@@ -26,7 +26,7 @@ public class PathData {
 	}
 
 	public PathData (int _pathId, List<Vector3> _points){
-		pathId = _pathId;
+		id = _pathId;
 		points = _points;
 	}
 }

@@ -12,13 +12,13 @@ namespace Entitas {
 
         public bool hasWave { get { return HasComponent(ComponentIds.Wave); } }
 
-        public Entity AddWave(System.Collections.Generic.List<WaveGroup> newGroups) {
+        public Entity AddWave(System.Collections.Generic.List<WaveGroupData> newGroups) {
             var component = CreateComponent<Wave>(ComponentIds.Wave);
             component.groups = newGroups;
             return AddComponent(ComponentIds.Wave, component);
         }
 
-        public Entity ReplaceWave(System.Collections.Generic.List<WaveGroup> newGroups) {
+        public Entity ReplaceWave(System.Collections.Generic.List<WaveGroupData> newGroups) {
             var component = CreateComponent<Wave>(ComponentIds.Wave);
             component.groups = newGroups;
             ReplaceComponent(ComponentIds.Wave, component);
