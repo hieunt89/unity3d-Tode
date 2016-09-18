@@ -8,9 +8,20 @@ public class TowerConstructorEditor : Editor {
 	TowerConstructor towerConstructor;
 	SerializedObject tc;
 
+	TowerData testTower;
+	List<TowerData> existTowers;
 	void OnEnable(){
 		towerConstructor = (TowerConstructor) target as TowerConstructor;
 		tc = new SerializedObject(towerConstructor);
+		existTowers = new List<TowerData> ();
+		DataManager.Instance.LoadAllData (existTowers);
+		if (existTowers.Count > 0) {
+			Debug.Log ("success");
+		}
+
+		testTower = DataManager.Instance.LoadDataById <TowerData> ("t0");
+		if (testTower != null)
+			Debug.Log (testTower);
 	}
 	bool toggleNextUpgrade;
 	public override void OnInspectorGUI (){
@@ -36,6 +47,7 @@ public class TowerConstructorEditor : Editor {
 		var minDmg = EditorGUILayout.IntField ("Min Damage", towerConstructor.Tower.MinDmg);
 		var maxDmg = EditorGUILayout.IntField ("Max Damage", towerConstructor.Tower.MaxDmg);
 		var atkSpeed = EditorGUILayout.FloatField ("Attack Speed", towerConstructor.Tower.AtkSpeed);
+		var goldRequired = EditorGUILayout.IntField ("Gold Cost", towerConstructor.Tower.GoldRequired);
 		var buildTime = EditorGUILayout.FloatField ("Build Time", towerConstructor.Tower.BuildTime);
 		if (EditorGUI.EndChangeCheck ()) {
 			towerConstructor.Tower.Name = name;
@@ -45,6 +57,7 @@ public class TowerConstructorEditor : Editor {
 			towerConstructor.Tower.MinDmg = minDmg;
 			towerConstructor.Tower.MaxDmg = maxDmg;
 			towerConstructor.Tower.AtkSpeed = atkSpeed;
+			towerConstructor.Tower.GoldRequired = goldRequired;
 			towerConstructor.Tower.BuildTime = buildTime;
 		}
 

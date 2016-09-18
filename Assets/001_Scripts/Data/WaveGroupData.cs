@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 
 [System.Serializable]
-public class WaveGroupData : ScriptableObject { // TODO: rename WaveGroupData
+public class WaveGroupData { // TODO: rename WaveGroupData
 
 	// TODO: get index of enemyid string in list of enemyid (pre-defined)
-	string[] enemyIdOptions = new string[] {"e01", "e02", "e03"};	// test
-	string[] pathIdOptions = new string[] {"p01", "p02", "p03"};
+	string[] enemyIdOptions;
+	string[] pathIdOptions;
+
+	[SerializeField] private string id;
 
 	[SerializeField] private int eId;
 	[SerializeField] private string enemyId;
@@ -17,8 +19,18 @@ public class WaveGroupData : ScriptableObject { // TODO: rename WaveGroupData
 	[SerializeField] private int pId;
 	[SerializeField] private string pathId;
 
+	public string Id {
+		get {
+			return this.id;
+		}
+		set {
+			id = value;
+		}
+	}
+
 	public int EId {
 		get {
+			enemyIdOptions = new string[] {"e01", "e02", "e03"};	// test
 			for (int i = 0; i < enemyIdOptions.Length; i++) {
 				if (enemyId.Equals (enemyIdOptions [i])) {
 					return i;
@@ -71,6 +83,7 @@ public class WaveGroupData : ScriptableObject { // TODO: rename WaveGroupData
 
 	public int PId {
 		get {
+			pathIdOptions = new string[] {"p01", "p02", "p03"};
 			for (int i = 0; i < pathIdOptions.Length; i++) {
 				if (pathId.Equals (pathIdOptions [i])) {
 					return i;
@@ -93,13 +106,15 @@ public class WaveGroupData : ScriptableObject { // TODO: rename WaveGroupData
         }
 	}
 
-	public WaveGroupData (string enemyId, string pathId) {
+	public WaveGroupData (string id, string enemyId, string pathId) {
+		this.id = id;
 		this.enemyId = enemyId;
 		this.pathId = pathId;
 	}
 
-	public WaveGroupData (string enemyId, int amount, float spawnInterval, float waveDelay, string pathId)
+	public WaveGroupData (string id, string enemyId, int amount, float spawnInterval, float waveDelay, string pathId)
 	{
+		this.id = id;
 		this.enemyId = enemyId;
 		this.amount = amount;
 		this.spawnInterval = spawnInterval;

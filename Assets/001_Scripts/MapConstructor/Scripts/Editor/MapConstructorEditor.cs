@@ -61,9 +61,8 @@ public class MapConstructorEditor : Editor {
 			return;
 		
 		mc.Update();
-		
+
 		EditorGUILayout.LabelField ("MAP CONSTRUCTOR", headerStyle, GUILayout.MinHeight (40));
-		// EditorGUILayout.Space();
 
 		EditorGUILayout.BeginVertical ();
 		EditorGUILayout.Space();
@@ -100,10 +99,9 @@ public class MapConstructorEditor : Editor {
 		OnTowerPointInspectorGUI();
 		EditorGUILayout.Space();
 
-		if (mapConstructor.Map.Paths != null && mapConstructor.Map.Paths.Count > 0) {
-			OnWaveInspectorGUI();
-			EditorGUILayout.Space();
-		}
+		GUI.enabled = (mapConstructor.Map.Paths != null && mapConstructor.Map.Paths.Count > 0);
+		OnWaveInspectorGUI();
+		GUI.enabled = true;
 
 		if (mapConstructor.Map != null)
 			OnDataInspectorGUI ();
@@ -232,9 +230,9 @@ public class MapConstructorEditor : Editor {
 	GUIStyle titleCStyle = new GUIStyle();
 
 	void GenerateStyle () {
-		Texture2D mBg = (Texture2D) Resources.Load ("map_constructor_bg");
-		Texture2D mBg2 = (Texture2D) Resources.Load ("map_constructor_bg_2");
-		Font mFont = (Font)Resources.Load("HELVETICANEUEBOLD");
+		Texture2D mBg = (Texture2D) Resources.Load ("Textures/map_constructor_bg");
+		Texture2D mBg2 = (Texture2D) Resources.Load ("Textures/map_constructor_bg_2");
+		Font mFont = (Font)Resources.Load("Fonts/HELVETICANEUEBOLD");
 
 		headerStyle.normal.background = mBg;
 		headerStyle.font = mFont;
@@ -284,11 +282,18 @@ public class MapConstructorEditor : Editor {
 		EditorGUILayout.EndHorizontal();
 		GUILayout.Space (5);
 
+		var wpIdWidth = EditorGUIUtility.currentViewWidth * .1f;
+		var posWidth = EditorGUIUtility.currentViewWidth * .6f;
+		var btnWidth = EditorGUIUtility.currentViewWidth * .1f;
+
 		if (mapConstructor.Map.Paths != null && mapConstructor.Map.Paths.Count > 0) {
 			for (int i = 0; i < mapConstructor.Map.Paths.Count; i++)
 			{
 				EditorGUILayout.BeginHorizontal();
-				EditorGUILayout.LabelField ("Path Id", mapConstructor.Map.Paths[i].Id);
+				var pIdWidth = EditorGUIUtility.currentViewWidth * .3f;
+				EditorGUIUtility.labelWidth = pIdWidth * .5f;
+				EditorGUILayout.LabelField ("Path Id", mapConstructor.Map.Paths[i].Id, GUILayout.Width (pIdWidth));
+
 				if(GUILayout.Button("Add WP", GUILayout.MinWidth (85), GUILayout.MaxWidth (85))) {
 					CreateWayPoint (i, new Vector3(mapConstructor.Map.Paths[i].Points.Count, 0f, i + 1));
 				}
@@ -299,22 +304,26 @@ public class MapConstructorEditor : Editor {
 					AlignWayPoints(i);	
 				}
 				EditorGUILayout.EndHorizontal();
+
+
+
 				if (mapConstructor.Map.Paths[i].Points.Count > 0) {
-					togglePaths[i] = EditorGUILayout.Foldout(togglePaths[i], "Waypoints");
+					togglePaths[i] = EditorGUILayout.Foldout(togglePaths[i], "Waypoint");
 					if (togglePaths[i]) {
 						EditorGUI.indentLevel++;
 						for (int j = 0; j < mapConstructor.Map.Paths[i].Points.Count; j++)
 						{
 							EditorGUILayout.BeginHorizontal();
-							EditorGUILayout.LabelField ("p" + j, GUILayout.MinWidth (60), GUILayout.MaxWidth (100));
-							
+
+
+							EditorGUILayout.LabelField ("Id", "p" + j, GUILayout.Width (wpIdWidth));
 							EditorGUI.BeginChangeCheck();
-							var position = EditorGUILayout.Vector3Field("Pos", mapConstructor.Map.Paths[i].Points[j]);
+							var position = EditorGUILayout.Vector3Field("Pos", mapConstructor.Map.Paths[i].Points[j], GUILayout.Width(posWidth));
 							if(EditorGUI.EndChangeCheck()){
 								mapConstructor.Map.Paths[i].Points[j] = position;
 								EditorUtility.SetDirty(mapConstructor);
 							}
-							if (GUILayout.Button("Remove", GUILayout.MinWidth (175), GUILayout.MaxWidth (175))) {
+							if (GUILayout.Button("Remove", GUILayout.Width (btnWidth))) {
 								mapConstructor.Map.Paths[i].Points.RemoveAt(j);
 							}
 							EditorGUILayout.EndHorizontal();
@@ -350,25 +359,31 @@ public class MapConstructorEditor : Editor {
 		EditorGUILayout.EndHorizontal();
 		GUILayout.Space (5);
 				
+		var wpIdWidth = EditorGUIUtility.currentViewWidth * .1f;
+		var posWidth = EditorGUIUtility.currentViewWidth * .6f;
+		var btnWidth = EditorGUIUtility.currentViewWidth * .1f;
+
 		if (mapConstructor.Map.TowerPoints != null && mapConstructor.Map.TowerPoints.Count > 0){
+			EditorGUI.indentLevel++;
 			for (int i = 0; i < mapConstructor.Map.TowerPoints.Count; i++)
 			{	
 				EditorGUI.BeginChangeCheck();
 				GUILayout.BeginHorizontal ();
-				EditorGUILayout.LabelField ("Tower Point Id", "t" + i);
+				EditorGUILayout.LabelField ("Id", "t" + i, GUILayout.Width (wpIdWidth));
 
-				if (GUILayout.Button("Remove",GUILayout.MinWidth (175), GUILayout.MaxWidth (175))) {
-					mapConstructor.Map.TowerPoints.RemoveAt(i);
-					continue;
-				}
-				GUILayout.EndHorizontal ();
-
-				var pos = EditorGUILayout.Vector3Field ("Pos", mapConstructor.Map.TowerPoints[i].TowerPointPos);
+				var pos = EditorGUILayout.Vector3Field ("Pos", mapConstructor.Map.TowerPoints[i].TowerPointPos, GUILayout.Width (posWidth));
 				if (EditorGUI.EndChangeCheck ()) {
 					mapConstructor.Map.TowerPoints[i].TowerPointPos = pos;
 					EditorUtility.SetDirty(mapConstructor);
 				}
+
+				if (GUILayout.Button("Remove", GUILayout.Width (btnWidth))) {
+					mapConstructor.Map.TowerPoints.RemoveAt(i);
+					continue;
+				}
+				GUILayout.EndHorizontal ();
 			}
+			EditorGUI.indentLevel--;
 		}		
 		EditorGUI.indentLevel--;
 		EditorGUILayout.EndVertical();
@@ -389,18 +404,23 @@ public class MapConstructorEditor : Editor {
 		EditorGUILayout.EndHorizontal ();
 		GUILayout.Space (5);
 
+		var elementWidth = EditorGUIUtility.currentViewWidth * .14f;
+		var posWidth = EditorGUIUtility.currentViewWidth * .6f;
+		var btnWidth = EditorGUIUtility.currentViewWidth * .1f;
+
 		// render wave data
 		if (mapConstructor.Map.Waves!= null && mapConstructor.Map.Waves.Count > 0) {
 			for (int i = 0; i < mapConstructor.Map.Waves.Count; i++)
 			{
 				EditorGUILayout.BeginHorizontal();
-				EditorGUILayout.LabelField ("Wave ID",  mapConstructor.Map.Waves[i].Id);
+				EditorGUILayout.LabelField ("Id",  mapConstructor.Map.Waves[i].Id);
 				if(GUILayout.Button("Remove", GUILayout.MinWidth (85), GUILayout.MaxWidth (85))) {
 					mapConstructor.Map.Waves.RemoveAt (i);
 					continue;
 				}
+				GUILayout.Space (10);
 				if(GUILayout.Button("Add Group", GUILayout.MinWidth (85), GUILayout.MaxWidth (85))) {
-					var g = new WaveGroupData(enemyIdOptions[0], pathIdOptions[0]);
+					var g = new WaveGroupData("g" + mapConstructor.Map.Waves[i].Groups.Count, enemyIdOptions[0], pathIdOptions[0]);
 					mapConstructor.Map.Waves[i].Groups.Add(g);
 					CreateIndexes ();
 				}
@@ -410,20 +430,20 @@ public class MapConstructorEditor : Editor {
 				EditorGUILayout.EndHorizontal();
 
 				if (mapConstructor.Map.Waves[i].Groups != null && mapConstructor.Map.Waves[i].Groups.Count > 0) {
-					toggleWaves[i] = EditorGUILayout.Foldout(toggleWaves[i], "Groups");
+					toggleWaves[i] = EditorGUILayout.Foldout(toggleWaves[i], "Group");
 					if (toggleWaves[i]) {
 						EditorGUI.indentLevel++;
 						for (int j = 0; j < mapConstructor.Map.Waves[i].Groups.Count; j++)
 						{
 							EditorGUILayout.BeginHorizontal();
-							EditorGUILayout.LabelField ("Group " + j, GUILayout.MinWidth (80), GUILayout.MaxWidth (80));
+							EditorGUILayout.LabelField ("Id ", mapConstructor.Map.Waves[i].Groups[j].Id, GUILayout.Width (elementWidth));
 							
 							EditorGUI.BeginChangeCheck();
-							enemyIndexes[i][j] = EditorGUILayout.Popup (enemyIndexes[i][j], enemyIdOptions, GUILayout.MinWidth (100), GUILayout.MaxWidth (100));
-							var amount = EditorGUILayout.IntField (mapConstructor.Map.Waves[i].Groups[j].Amount, GUILayout.MinWidth (100), GUILayout.MaxWidth (100));
-							var spawnInterval = EditorGUILayout.FloatField (mapConstructor.Map.Waves[i].Groups[j].SpawnInterval, GUILayout.MinWidth (100), GUILayout.MaxWidth (100));
-							var waveDelay = EditorGUILayout.FloatField (mapConstructor.Map.Waves[i].Groups[j].WaveDelay, GUILayout.MinWidth (100), GUILayout.MaxWidth (100));
-							pathIndexes[i][j] = EditorGUILayout.Popup (pathIndexes[i][j], pathIdOptions, GUILayout.MinWidth (100), GUILayout.MaxWidth (100));
+							enemyIndexes[i][j] = EditorGUILayout.Popup (enemyIndexes[i][j], enemyIdOptions, GUILayout.Width (elementWidth));
+							var amount = EditorGUILayout.IntField (mapConstructor.Map.Waves[i].Groups[j].Amount,  GUILayout.Width (elementWidth));
+							var spawnInterval = EditorGUILayout.FloatField (mapConstructor.Map.Waves[i].Groups[j].SpawnInterval,  GUILayout.Width (elementWidth));
+							var waveDelay = EditorGUILayout.FloatField (mapConstructor.Map.Waves[i].Groups[j].WaveDelay, GUILayout.Width (elementWidth));
+							pathIndexes[i][j] = EditorGUILayout.Popup (pathIndexes[i][j], pathIdOptions,  GUILayout.Width (elementWidth));
 							if (EditorGUI.EndChangeCheck()){
 								mapConstructor.Map.Waves[i].Groups[j].EId = enemyIndexes[i][j];
 								mapConstructor.Map.Waves[i].Groups[j].Amount = amount;
@@ -433,7 +453,7 @@ public class MapConstructorEditor : Editor {
 								EditorUtility.SetDirty(mapConstructor);
 							}
 
-							if(GUILayout.Button("Remove", GUILayout.MinWidth (175), GUILayout.MaxWidth (175))) {
+							if(GUILayout.Button("Remove", GUILayout.MinWidth (85), GUILayout.MaxWidth (85))) {
 								mapConstructor.Map.Waves[i].Groups.RemoveAt(j);
 								enemyIndexes.RemoveAt(j);
 								pathIndexes.RemoveAt(j);

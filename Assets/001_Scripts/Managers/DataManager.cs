@@ -156,6 +156,26 @@ public class DataManager {
 
 		JsonUtility.FromJsonOverwrite (reader.text, data);
 	}
+
+	public void LoadAllData <T> (List<T> data) {
+		var path = "Data/" + typeof(T).ToString();
+		TextAsset[] files = Resources.LoadAll <TextAsset> (path) as TextAsset[];
+		if (files != null && files.Length > 0) {
+			for (int i = 0; i < files.Length; i++) {
+				T datum = (T)JsonUtility.FromJson (files [i].text, typeof(T));
+				data.Add (datum);
+			}
+		}
+	}
+
+	public T LoadDataById <T> (string id) {
+		var path = "Data/" + typeof(T).ToString() + "/" + id;
+		Debug.Log (path);
+		TextAsset file = Resources.Load <TextAsset> (path) as TextAsset;
+		Debug.Log (file.text);
+		return (T)JsonUtility.FromJson (file.text, typeof(T));
+	
+	}
 	#endregion json data
 
 	#region test scriptable object

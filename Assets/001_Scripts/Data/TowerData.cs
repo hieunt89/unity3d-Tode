@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 
 [System.Serializable]
-public class TowerData
-{
+public class TowerData {
 	[SerializeField] public string id;
 	[SerializeField] private string name;
 	[SerializeField] private string prjType;

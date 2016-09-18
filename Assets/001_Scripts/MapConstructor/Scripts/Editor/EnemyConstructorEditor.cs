@@ -7,6 +7,9 @@ using System;
 public class EnemyConstructorEditor : Editor {
 	EnemyConstructor enemyConstructor;
 	SerializedObject ec;
+
+	List<EnemyData> existEnemies;
+	EnemyData testEnemy;
 	void OnEnable(){
 		enemyConstructor = (EnemyConstructor) target as EnemyConstructor;
 		ec = new SerializedObject(enemyConstructor);
@@ -14,6 +17,16 @@ public class EnemyConstructorEditor : Editor {
 			new ArmorData(AttackType.physical, ArmorRating.none),
 			new ArmorData(AttackType.magical, ArmorRating.none),
 		});
+
+		existEnemies = new List<EnemyData> ();
+		DataManager.Instance.LoadAllData (existEnemies);
+		if (existEnemies.Count > 0) {
+			Debug.Log ("success");
+		}
+
+		testEnemy = DataManager.Instance.LoadDataById <EnemyData> ("e0");
+		if (testEnemy != null)
+			Debug.Log (testEnemy);
 	}
 	bool toggleNextUpgrade;
 	public override void OnInspectorGUI (){
