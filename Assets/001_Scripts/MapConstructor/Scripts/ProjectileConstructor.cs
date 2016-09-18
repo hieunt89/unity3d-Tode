@@ -1,17 +1,16 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 
 [System.Serializable]
 public class ProjectileConstructor : MonoBehaviour {
 	
-	[SerializeField] private List<ProjectileData> projectiles;
+	[SerializeField] private ProjectileData projectile;
 
-	public List<ProjectileData> Projectiles {
+	public ProjectileData Projectile {
 		get {
-			return projectiles;
+			return projectile;
 		}
 		set {
-			projectiles = value;
+			projectile = value;
 		}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -76,21 +77,29 @@ public class TowerConstructorEditor : Editor {
 
 		GUILayout.EndVertical();
 		GUILayout.Space(5);
+
 		GUILayout.BeginHorizontal ();
+		GUI.enabled = CheckFields ();
 		if (GUILayout.Button("Save")){
 			DataManager.Instance.SaveData (towerConstructor.Tower);
 		}
+		GUI.enabled = true;
 		if (GUILayout.Button("Load")){
 			DataManager.Instance.LoadData (towerConstructor.Tower);
 		}
 		if (GUILayout.Button("Reset")){
 			towerConstructor.tower = new TowerData ();
 		}
-		EditorGUI.indentLevel--;
-		GUILayout.EndVertical();
+		GUILayout.EndHorizontal();
 
 		tc.ApplyModifiedProperties();
 
 		Repaint ();
+	}
+
+	private bool CheckFields () {
+		var nameInput = !String.IsNullOrEmpty (towerConstructor.Tower.Name);
+
+		return nameInput;
 	}
 }

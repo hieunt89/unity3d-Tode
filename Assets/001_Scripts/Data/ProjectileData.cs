@@ -3,7 +3,8 @@ using System.Collections;
 
 [System.Serializable]
 public class ProjectileData {
-	[SerializeField] private string id;
+	[SerializeField] public string id;
+	[SerializeField] private string name;
 	[SerializeField] private ProjectileType type;
 	[SerializeField] private float travelSpeed;
 	[SerializeField] private float turnSpeed;
@@ -16,6 +17,15 @@ public class ProjectileData {
 		}
 		set {
 			id = value;
+		}
+	}
+
+	public string Name {
+		get {
+			return this.name;
+		}
+		set {
+			name = value;
 		}
 	}
 

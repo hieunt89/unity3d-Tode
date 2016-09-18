@@ -76,7 +76,7 @@ public class MapConstructorEditor : Editor {
 		var wayPointColor = EditorGUILayout.ColorField("Way Points Color", mapConstructor.wayPointColor);
 		var towerPointColor = EditorGUILayout.ColorField("Tower Points Color", mapConstructor.towerPointColor);
 		if(EditorGUI.EndChangeCheck()){
-			mapConstructor.Map.Id = mapId;
+			mapConstructor.Map.Id = "m" + mapId;
 			mapConstructor.pointSize = pointSize;
 			mapConstructor.baseColor = baseColor;
 			mapConstructor.pathColor = pathColor;

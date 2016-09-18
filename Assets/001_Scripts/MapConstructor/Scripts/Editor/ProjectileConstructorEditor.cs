@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using System;
 
 [CustomEditor (typeof(ProjectileConstructor))]
 public class ProjectileConstructorEditor : Editor {
@@ -17,53 +18,54 @@ public class ProjectileConstructorEditor : Editor {
 			return;
 
 		pc.Update();
+
 		GUILayout.BeginVertical("box");
 		EditorGUI.indentLevel++;
+		EditorGUILayout.LabelField ("PROJECTILE CONSTRUCTOR");
+
 		GUILayout.BeginHorizontal();
-		if (GUILayout.Button("Add Projectile")){
-			projectileConstructor.Projectiles.Add(new ProjectileData());
-		}
-		if (GUILayout.Button("Clear Projectiles")){
-			projectileConstructor.Projectiles.Clear ();
-		}
+		var pId = "p" + 0;
+		EditorGUILayout.LabelField ("id", pId);
+		projectileConstructor.Projectile.Id = pId;
 		GUILayout.EndHorizontal();
 
-		if (projectileConstructor.Projectiles != null && projectileConstructor.Projectiles.Count > 0){
-			for (int i = 0; i < projectileConstructor.Projectiles.Count; i++)
-			{
-				GUILayout.BeginVertical("box");
-
-				GUILayout.BeginHorizontal();
-				var pId = "p" + i;
-				EditorGUILayout.LabelField ("id", pId);
-				projectileConstructor.Projectiles[i].Id = pId;
-				if (GUILayout.Button("Remove")){
-					projectileConstructor.Projectiles.RemoveAt(i);
-					continue;
-				}	
-				GUILayout.EndHorizontal();
-				EditorGUI.BeginChangeCheck();
-				var id = EditorGUILayout.TextField ("Id", projectileConstructor.Projectiles[i].Id);
-				var travelSpeed = EditorGUILayout.FloatField ("Travel Speed", projectileConstructor.Projectiles[i].TravelSpeed);
-				var turnSpeed = EditorGUILayout.FloatField ("Turn Speed", projectileConstructor.Projectiles[i].TurnSpeed);
-				var range = EditorGUILayout.FloatField ("Range", projectileConstructor.Projectiles[i].Range);
-				if (EditorGUI.EndChangeCheck()) {
-					projectileConstructor.Projectiles[i].Id = id;
-					projectileConstructor.Projectiles[i].TravelSpeed = travelSpeed;
-					projectileConstructor.Projectiles[i].TurnSpeed = turnSpeed;
-					projectileConstructor.Projectiles[i].Range = range;
-				}
-				GUILayout.EndVertical();
-				GUILayout.Space(5);
-			}
-
+		EditorGUI.BeginChangeCheck();
+		var name = EditorGUILayout.TextField ("Name", projectileConstructor.Projectile.Name);
+		var travelSpeed = EditorGUILayout.FloatField ("Travel Speed", projectileConstructor.Projectile.TravelSpeed);
+		var turnSpeed = EditorGUILayout.FloatField ("Turn Speed", projectileConstructor.Projectile.TurnSpeed);
+		var range = EditorGUILayout.FloatField ("Range", projectileConstructor.Projectile.Range);
+		if (EditorGUI.EndChangeCheck()) {
+			projectileConstructor.Projectile.Name = name;
+			projectileConstructor.Projectile.TravelSpeed = travelSpeed;
+			projectileConstructor.Projectile.TurnSpeed = turnSpeed;
+			projectileConstructor.Projectile.Range = range;
 		}
+
 		EditorGUI.indentLevel--;
 		GUILayout.EndVertical();
+
+		GUILayout.BeginHorizontal ();
+		GUI.enabled = CheckFields ();
+		if (GUILayout.Button("Save")){
+			DataManager.Instance.SaveData (projectileConstructor.Projectile);
+		}
+		GUI.enabled = true;
+		if (GUILayout.Button("Load")){
+			DataManager.Instance.LoadData (projectileConstructor.Projectile);
+		}
+		if (GUILayout.Button("Reset")){
+			projectileConstructor.Projectile = new ProjectileData ();
+		}
+		GUILayout.EndHorizontal();
 
 		pc.ApplyModifiedProperties();
 
 		Repaint ();
+	}
 
+	private bool CheckFields () {
+		var nameInput = !String.IsNullOrEmpty (projectileConstructor.Projectile.Name);
+
+		return nameInput;
 	}
 }
