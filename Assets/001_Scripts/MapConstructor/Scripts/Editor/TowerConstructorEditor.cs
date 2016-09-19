@@ -8,7 +8,6 @@ public class TowerConstructorEditor : Editor {
 	TowerConstructor towerConstructor;
 	SerializedObject tc;
 
-	TowerData testTower;
 	List<TowerData> existTowers;
 	void OnEnable(){
 		towerConstructor = (TowerConstructor) target as TowerConstructor;

@@ -1,14 +1,21 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System;
+using System.Collections.Generic;
 
 [CustomEditor (typeof(ProjectileConstructor))]
 public class ProjectileConstructorEditor : Editor {
 	ProjectileConstructor projectileConstructor;
 	SerializedObject pc;
+
+	List<ProjectileData> existProjectiles;
+
 	void OnEnable(){
 		projectileConstructor = (ProjectileConstructor) target as ProjectileConstructor;
 		pc = new SerializedObject(projectileConstructor);
+
+		existProjectiles = new List<ProjectileData> ();
+		DataManager.Instance.LoadAllData(existProjectiles);
 	}
 	bool toggleNextUpgrade;
 	public override void OnInspectorGUI (){
@@ -24,7 +31,7 @@ public class ProjectileConstructorEditor : Editor {
 		EditorGUILayout.LabelField ("PROJECTILE CONSTRUCTOR");
 
 		GUILayout.BeginHorizontal();
-		var pId = "p" + 0;
+		var pId = "p" + existProjectiles.Count;
 		EditorGUILayout.LabelField ("id", pId);
 		projectileConstructor.Projectile.Id = pId;
 		GUILayout.EndHorizontal();
