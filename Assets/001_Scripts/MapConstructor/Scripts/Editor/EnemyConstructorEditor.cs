@@ -9,17 +9,28 @@ public class EnemyConstructorEditor : Editor {
 	SerializedObject ec;
 
 	List<EnemyData> existEnemies;
+
+	List<float> armorValues;
+
+	string enemyId;
+
 	void OnEnable(){
 		enemyConstructor = (EnemyConstructor) target as EnemyConstructor;
 		ec = new SerializedObject(enemyConstructor);
 		enemyConstructor.Enemy = new EnemyData (new List<ArmorData>(){
-			new ArmorData(AttackType.physical, ArmorRating.none),
-			new ArmorData(AttackType.magical, ArmorRating.none),
+			new ArmorData(AttackType.physical, 0f),
+			new ArmorData(AttackType.magical, 0f),
 		});
 
-		existEnemies = new List<EnemyData> ();
-		DataManager.Instance.LoadAllData (existEnemies);
+		existEnemies = DataManager.Instance.LoadAllData<EnemyData> ();
 
+		var enemyId = "enemy" + existEnemies.Count;
+		enemyConstructor.Enemy.Id = enemyId;
+
+		armorValues = new List<float> ();
+		for (int i = 0; i < enemyConstructor.Enemy.Armors.Count; i++) {
+			armorValues.Add (0f);
+		}
 	}
 	bool toggleNextUpgrade;
 	public override void OnInspectorGUI (){
@@ -32,12 +43,9 @@ public class EnemyConstructorEditor : Editor {
 		GUILayout.BeginVertical("box");
 		EditorGUI.indentLevel++;
 		EditorGUILayout.LabelField ("ENEMY CONSTRUCTOR");
-
-		var eId = "e" + existEnemies.Count;
-		EditorGUILayout.LabelField ("id", eId);
-		enemyConstructor.Enemy.Id = eId;
 			
 		EditorGUI.BeginChangeCheck ();
+		var id = EditorGUILayout.TextField ("id", enemyConstructor.Enemy.Id);
 		var name = EditorGUILayout.TextField ("Name", enemyConstructor.Enemy.Name);
 		var hp = EditorGUILayout.IntField ("Hit Point", enemyConstructor.Enemy.Hp);
 		var moveSpeed = EditorGUILayout.FloatField ("Move Speed", enemyConstructor.Enemy.MoveSpeed);
@@ -51,6 +59,7 @@ public class EnemyConstructorEditor : Editor {
 		var atkRange = EditorGUILayout.FloatField ("Attack Range", enemyConstructor.Enemy.AtkRange);
 
 		if (EditorGUI.EndChangeCheck ()) {
+			enemyConstructor.Enemy.Id = id;
 			enemyConstructor.Enemy.Name = name;
 			enemyConstructor.Enemy.Hp = hp;
 			enemyConstructor.Enemy.MoveSpeed = moveSpeed;
@@ -65,13 +74,19 @@ public class EnemyConstructorEditor : Editor {
 		}
 
 		if (enemyConstructor.Enemy.Armors != null && enemyConstructor.Enemy.Armors.Count > 0){
-			for (int j = 0; j < enemyConstructor.Enemy.Armors.Count; j++)
+			for (int i = 0; i < enemyConstructor.Enemy.Armors.Count; i++)
 			{
 				GUILayout.BeginHorizontal();
-				enemyConstructor.Enemy.Armors[j].rating = (ArmorRating) EditorGUILayout.EnumPopup(enemyConstructor.Enemy.Armors[j].type.ToString ().ToUpper() + " Armor Rating", enemyConstructor.Enemy.Armors[j].rating);
+				EditorGUI.BeginChangeCheck ();
+				armorValues[i] =  EditorGUILayout.Slider(enemyConstructor.Enemy.Armors [i].Type.ToString ().ToUpper () + " Armor Reduction", enemyConstructor.Enemy.Armors [i].Reduction, 0f, 100f);
+				if (EditorGUI.EndChangeCheck ()) {
+					enemyConstructor.Enemy.Armors [i].Reduction = armorValues [i];
+				}
 				GUILayout.EndHorizontal();
 			}
 		}
+
+
 			
 		EditorGUI.indentLevel--;
 		GUILayout.EndVertical();
@@ -83,12 +98,12 @@ public class EnemyConstructorEditor : Editor {
 		}
 		GUI.enabled = true;
 		if (GUILayout.Button("Load")){
-			DataManager.Instance.LoadData (enemyConstructor.Enemy);
+			enemyConstructor.Enemy = DataManager.Instance.LoadData <EnemyData> ();
 		}
 		if (GUILayout.Button("Rest")){
 			enemyConstructor.Enemy =  new EnemyData (new List<ArmorData>(){
-				new ArmorData(AttackType.physical, ArmorRating.none),
-				new ArmorData(AttackType.magical, ArmorRating.none),
+				new ArmorData(AttackType.physical, 0f),
+				new ArmorData(AttackType.magical, 0f),
 			});
 		}
 		GUILayout.EndHorizontal ();

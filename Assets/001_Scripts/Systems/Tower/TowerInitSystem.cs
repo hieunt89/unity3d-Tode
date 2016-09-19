@@ -16,13 +16,15 @@ public class TowerInitSystem : IInitializeSystem, ISetPool {
 
 	public void Initialize ()
 	{
-		var tps = GameObject.FindGameObjectsWithTag ("TowerPoint");
-		for (int i = 0; i < tps.Length; i++) {
+		var towerData = DataManager.Instance.GetTowerData ("tower0");
+
+		var tps = DataManager.Instance.GetMapData ("map0").TowerPoints;
+		for (int i = 0; i < tps.Count; i++) {
 			_pool.CreateEntity ()
-				.AddTower ("tower1")
-				.AddId ("tower_" + i + "_" + "tower1")
+				.AddTower (towerData.Id)
+				.AddId ("tower" + i)
 				.IsInteractable (true)
-				.AddPosition (tps[i].transform.position)
+				.AddPosition (tps[i].TowerPointPos)
 				;
 		}
 	}

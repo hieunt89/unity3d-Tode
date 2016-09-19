@@ -16,14 +16,9 @@ public class WaveSystem : ISetPool, IInitializeSystem {
 	public void Initialize ()
 	{
 		
-		WaveGroupData group1 = new WaveGroupData ("g0", "enemy1", 1, 1.0f, 0f, "path_0");
-//		WaveGroup group2 =  new WaveGroup ("enemy2", 10, 1.0f, 3.0f, "path_1");
+		MapData map = DataManager.Instance.GetMapData ("map0");
 
-		List<WaveGroupData> groups = new List<WaveGroupData>();
-		groups.Add(group1);
-//		groups.Add(group2);
-
-		_pool.CreateEntity().AddWave(groups).AddId("wave_1");
+		_pool.CreateEntity().AddWave(map.Waves[0].Groups).AddId(map.Waves[0].Id);
 	}
 
 	#endregion

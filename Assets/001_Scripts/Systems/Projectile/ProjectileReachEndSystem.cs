@@ -41,8 +41,8 @@ public class ProjectileReachEndSystem : IReactiveSystem {
 	float GetDamageReduction(AttackType atkType, List<ArmorData> armors){
 		float result = 0f;
 		for (int i = 0; i < armors.Count; i++) {
-			if (armors [i].type == atkType) {
-				result = DataManager.Instance.GetArmorReduction (armors[i].rating);
+			if (armors [i].Type == atkType) {
+				result = armors[i].Reduction;
 				break;
 			}
 		}

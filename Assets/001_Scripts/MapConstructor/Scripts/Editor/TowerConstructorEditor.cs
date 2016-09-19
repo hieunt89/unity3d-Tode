@@ -9,11 +9,14 @@ public class TowerConstructorEditor : Editor {
 	SerializedObject tc;
 
 	List<TowerData> existTowers;
+	string towerId;
 	void OnEnable(){
 		towerConstructor = (TowerConstructor) target as TowerConstructor;
 		tc = new SerializedObject(towerConstructor);
-		existTowers = new List<TowerData> ();
-		DataManager.Instance.LoadAllData (existTowers);
+		existTowers = DataManager.Instance.LoadAllData <TowerData>();
+
+		towerId = "tower" + existTowers.Count;
+		towerConstructor.Tower.Id = towerId;
 	}
 	bool toggleNextUpgrade;
 	public override void OnInspectorGUI (){
@@ -27,12 +30,11 @@ public class TowerConstructorEditor : Editor {
 		EditorGUI.indentLevel++;
 		EditorGUILayout.LabelField ("TOWER CONSTRUCTOR");
 
-		var tId = "t" + existTowers.Count;
-		EditorGUILayout.LabelField ("id", tId);
-		towerConstructor.Tower.Id = tId;
+
 
 		EditorGUI.BeginChangeCheck ();
-		var name = EditorGUILayout.TextField ("name", towerConstructor.Tower.Name);
+		var id = EditorGUILayout.TextField ("Id", towerConstructor.Tower.Id);
+		var name = EditorGUILayout.TextField ("Name", towerConstructor.Tower.Name);
 		var prjType = EditorGUILayout.TextField ("projectile", towerConstructor.Tower.PrjType);
 		var atkType = EditorGUILayout.EnumPopup ("Attack Type", towerConstructor.Tower.AtkType);
 		var atkRange = EditorGUILayout.FloatField ("Tower Range", towerConstructor.Tower.AtkRange);
@@ -42,6 +44,7 @@ public class TowerConstructorEditor : Editor {
 		var goldRequired = EditorGUILayout.IntField ("Gold Cost", towerConstructor.Tower.GoldRequired);
 		var buildTime = EditorGUILayout.FloatField ("Build Time", towerConstructor.Tower.BuildTime);
 		if (EditorGUI.EndChangeCheck ()) {
+			towerConstructor.Tower.Id = id;
 			towerConstructor.Tower.Name = name;
 			towerConstructor.Tower.PrjType = prjType;
 			towerConstructor.Tower.AtkType = (AttackType) atkType;
@@ -90,7 +93,7 @@ public class TowerConstructorEditor : Editor {
 		}
 		GUI.enabled = true;
 		if (GUILayout.Button("Load")){
-			DataManager.Instance.LoadData (towerConstructor.Tower);
+			towerConstructor.Tower = DataManager.Instance.LoadData <TowerData> ();
 		}
 		if (GUILayout.Button("Reset")){
 			towerConstructor.tower = new TowerData ();

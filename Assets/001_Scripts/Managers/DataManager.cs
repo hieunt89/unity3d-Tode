@@ -25,47 +25,66 @@ public class DataManager {
 	Dictionary<string, ProjectileData> projectileIdToData;
 	Dictionary<string, TowerData> towerIdToData;
 	Dictionary<string, EnemyData> enemyIdToData;
+	Dictionary<string, MapData> mapIdToData;
 
 	public DataManager(){
-		LoadProjectileData ();
-		LoadTowerData ();
-		LoadEnemyData ();
+//		LoadProjectileData ();
+//		LoadTowerData ();
+//		LoadEnemyData ();
+		LoadData <ProjectileData>(out projectileIdToData);
+		LoadData <TowerData> (out towerIdToData);
+		LoadData <EnemyData> (out enemyIdToData);
+		LoadData <MapData> (out mapIdToData);
+	}
+
+	void LoadData <T> (out Dictionary<string, T> d){
+		d = new Dictionary<string, T> ();
+
+		List<T> datas = LoadAllData<T> ();
+
+		foreach (T data in datas) {
+			FieldInfo field = typeof(T).GetField("id");
+			string id = (string) field.GetValue(data);
+			d.Add (id, data);
+		}
 	}
 
 	void LoadProjectileData(){
 		projectileIdToData = new Dictionary<string, ProjectileData> ();
-		projectileIdToData.Add("prj1", new ProjectileData("prj1", ProjectileType.throwing, 1.0f, 5.0f, 2.0f, 0f));
+
+		List<ProjectileData> datas = LoadAllData<ProjectileData> ();
+
+		foreach (ProjectileData data in datas) {
+			projectileIdToData.Add (data.Id, data);
+		}
 	}
 
 	void LoadTowerData(){
-		List<string> nextUpgrade = new List<string> ();
-		nextUpgrade.Add ("tower2");
-
 		towerIdToData = new Dictionary<string, TowerData> ();
-		towerIdToData.Add (
-			"tower1", 
-			new TowerData ("t1", "arrow 1 name", "prj1", AttackType.physical, 2f, 1, 2, 1f, 150, nextUpgrade, 1f)
-		);
-		towerIdToData.Add (
-			"tower2", 
-			new TowerData ("t2", "arrow 2 name", "prj1", AttackType.physical, 2f, 1, 2, 1f, 150, null, 3f)
-		);
+
+		List<TowerData> datas = LoadAllData<TowerData> ();
+
+		foreach (TowerData data in datas) {
+			towerIdToData.Add (data.Id, data);
+		}
 	}
 
 	void LoadEnemyData(){
-		List<ArmorData> armorList = new List<ArmorData> ();
-		armorList.Add (new ArmorData (AttackType.magical, ArmorRating.none));
-		armorList.Add (new ArmorData (AttackType.physical, ArmorRating.high));
-
 		enemyIdToData = new Dictionary<string, EnemyData> ();
-		enemyIdToData.Add (
-			"enemy1",
-			new EnemyData("e1", "enemy 1 name", 0.5f, 5f, 1, 5, AttackType.physical, 2f, 1, 2, 0f, armorList, 5)
-		);
-		enemyIdToData.Add (
-			"enemy2",
-			new EnemyData("e1", "enemy 2 name", 0.5f, 5f, 1, 5, AttackType.physical, 2f, 1, 2, 1f, armorList, 3)
-		);
+
+		List<EnemyData> datas = LoadAllData<EnemyData> ();
+
+		foreach (EnemyData data in datas) {
+			enemyIdToData.Add (data.Id, data);
+		}
+	}
+
+	public MapData GetMapData(string id){
+		if (mapIdToData.ContainsKey (id)) {
+			return mapIdToData [id];	
+		} else {
+			return null;
+		}
 	}
 
 	public TowerData GetTowerData(string id){
@@ -90,10 +109,6 @@ public class DataManager {
 		} else {
 			return null;
 		}
-	}
-
-	public float GetArmorReduction(ArmorRating rating){
-		return (int)rating * 0.01f;
 	}
 
 	#region json data
@@ -134,38 +149,43 @@ public class DataManager {
 		FieldInfo field = typeof(T).GetField("id");
 		string id = (string) field.GetValue(data);
 		Debug.Log (dataDirectory + data.ToString());
-		var path = EditorUtility.SaveFilePanel("Save " + data.ToString(), dataDirectory + data.ToString(), id +".json", "json");
 
-		if (!string.IsNullOrEmpty(path))
-		{
-			using (FileStream fs = new FileStream (path, FileMode.Create)) {
-				using (StreamWriter writer = new StreamWriter(fs)) {
-					writer.Write(jsonString);
-				}
-			}
-		}
+		File.WriteAllText (dataDirectory + "/" + data.ToString () + "/"  + id + ".json", jsonString);
+
+//		var path = EditorUtility.SaveFilePanel("Save " + data.ToString(), dataDirectory + data.ToString(), id +".json", "json");
+
+//		if (!string.IsNullOrEmpty(path))
+//		{
+//			using (FileStream fs = new FileStream (path, FileMode.Create)) {
+//				using (StreamWriter writer = new StreamWriter(fs)) {
+//					writer.Write(jsonString);
+//				}
+//			}
+//		}
 		AssetDatabase.Refresh();
 	}
 
-	public void LoadData<T> (T data) {
-		var path = EditorUtility.OpenFilePanel("Load " + data.ToString(), dataDirectory + data.ToString(), "json");
+	public T LoadData<T> () {
+		var path = EditorUtility.OpenFilePanel("Load " +  typeof(T).ToString(), dataDirectory +  typeof(T).ToString(), "json");
 
 		var reader = new WWW("file:///" + path);
 		while(!reader.isDone){
 		}
 
-		JsonUtility.FromJsonOverwrite (reader.text, data);
+		return (T) JsonUtility.FromJson (reader.text, typeof(T));
 	}
 
-	public void LoadAllData <T> (List<T> data) {
+	public List<T> LoadAllData <T> () {
+		var list = new List<T> ();
 		var path = "Data/" + typeof(T).ToString();
 		TextAsset[] files = Resources.LoadAll <TextAsset> (path) as TextAsset[];
 		if (files != null && files.Length > 0) {
 			for (int i = 0; i < files.Length; i++) {
 				T datum = (T)JsonUtility.FromJson (files [i].text, typeof(T));
-				data.Add (datum);
+				list.Add (datum);
 			}
 		}
+		return list;
 	}
 
 	public T LoadDataById <T> (string id) {

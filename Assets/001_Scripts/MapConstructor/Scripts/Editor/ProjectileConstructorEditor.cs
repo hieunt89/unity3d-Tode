@@ -10,12 +10,15 @@ public class ProjectileConstructorEditor : Editor {
 
 	List<ProjectileData> existProjectiles;
 
+	string projectileId;
 	void OnEnable(){
 		projectileConstructor = (ProjectileConstructor) target as ProjectileConstructor;
 		pc = new SerializedObject(projectileConstructor);
 
-		existProjectiles = new List<ProjectileData> ();
-		DataManager.Instance.LoadAllData(existProjectiles);
+		existProjectiles = DataManager.Instance.LoadAllData<ProjectileData>();
+
+		var projectileId = "projectile" + existProjectiles.Count;
+		projectileConstructor.Projectile.Id = projectileId;
 	}
 	bool toggleNextUpgrade;
 	public override void OnInspectorGUI (){
@@ -31,17 +34,17 @@ public class ProjectileConstructorEditor : Editor {
 		EditorGUILayout.LabelField ("PROJECTILE CONSTRUCTOR");
 
 		GUILayout.BeginHorizontal();
-		var pId = "p" + existProjectiles.Count;
-		EditorGUILayout.LabelField ("id", pId);
-		projectileConstructor.Projectile.Id = pId;
+
 		GUILayout.EndHorizontal();
 
 		EditorGUI.BeginChangeCheck();
+		var id = EditorGUILayout.TextField ("id",  projectileConstructor.Projectile.Id);
 		var name = EditorGUILayout.TextField ("Name", projectileConstructor.Projectile.Name);
 		var travelSpeed = EditorGUILayout.FloatField ("Travel Speed", projectileConstructor.Projectile.TravelSpeed);
 		var turnSpeed = EditorGUILayout.FloatField ("Turn Speed", projectileConstructor.Projectile.TurnSpeed);
 		var range = EditorGUILayout.FloatField ("Range", projectileConstructor.Projectile.Range);
 		if (EditorGUI.EndChangeCheck()) {
+			projectileConstructor.Projectile.Id = id;
 			projectileConstructor.Projectile.Name = name;
 			projectileConstructor.Projectile.TravelSpeed = travelSpeed;
 			projectileConstructor.Projectile.TurnSpeed = turnSpeed;
@@ -58,7 +61,7 @@ public class ProjectileConstructorEditor : Editor {
 		}
 		GUI.enabled = true;
 		if (GUILayout.Button("Load")){
-			DataManager.Instance.LoadData (projectileConstructor.Projectile);
+			projectileConstructor.Projectile = DataManager.Instance.LoadData <ProjectileData> ();
 		}
 		if (GUILayout.Button("Reset")){
 			projectileConstructor.Projectile = new ProjectileData ();

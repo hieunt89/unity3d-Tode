@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
-
+using System.Collections.Generic;
 [System.Serializable]
 public class WaveGroupData { // TODO: rename WaveGroupData
 
 	// TODO: get index of enemyid string in list of enemyid (pre-defined)
-	string[] enemyIdOptions;
-	string[] pathIdOptions;
+//	List<string> existEnemies;
+//	List<MapData> existMaps;
 
 	[SerializeField] private string id;
 
@@ -21,7 +21,7 @@ public class WaveGroupData { // TODO: rename WaveGroupData
 
 	public string Id {
 		get {
-			return this.id;
+			return id;
 		}
 		set {
 			id = value;
@@ -30,18 +30,18 @@ public class WaveGroupData { // TODO: rename WaveGroupData
 
 	public int EId {
 		get {
-			enemyIdOptions = new string[] {"e01", "e02", "e03"};	// test
-			for (int i = 0; i < enemyIdOptions.Length; i++) {
-				if (enemyId.Equals (enemyIdOptions [i])) {
-					return i;
-				}
-			}
-			return 0;
+//			existEnemies = DataManager.Instance.LoadAllData <EnemyData> ();
+//
+//			for (int i = 0; i < existEnemies.Count; i++) {
+//				if (enemyId.Equals (existEnemies [i])) {
+//					return i;
+//				}
+//			}
+			return eId;
 		}
 		set {
 			eId = value;
-			// TODO: something wrong here
-			enemyId = enemyIdOptions[eId];
+//			enemyId = existEnemies[eId];
 		}
 	}
 
@@ -83,17 +83,29 @@ public class WaveGroupData { // TODO: rename WaveGroupData
 
 	public int PId {
 		get {
-			pathIdOptions = new string[] {"p01", "p02", "p03"};
-			for (int i = 0; i < pathIdOptions.Length; i++) {
-				if (pathId.Equals (pathIdOptions [i])) {
-					return i;
-				}
-			}
-			return 0;
+//			existMaps = DataManager.Instance.LoadAllData <MapData> ();
+//			if (existMaps.Count > 0) {
+//				for (int i = 0; i < existMaps.Count; i++) {
+//					for (int j = 0; j < existMaps [i].Paths.Count; j++) {
+//						if (pathId.Equals (existMaps [i].Paths [j].Id)) {
+//							return i;
+//						}
+//					}
+//				}
+//			}
+			return pId;
 		}
 		set {
 			pId = value;
-			pathId = pathIdOptions [pId];
+
+//			existMaps = DataManager.Instance.LoadAllData <MapData> ();
+//			if (existMaps.Count > 0) {
+//				for (int i = 0; i < existMaps.Count; i++) {
+//					
+//				}
+//			}
+//
+//			pathId = pathIdOptions [pId];
 		}
 	}
 

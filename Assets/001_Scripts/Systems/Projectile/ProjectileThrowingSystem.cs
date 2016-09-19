@@ -83,4 +83,8 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 		return resultVector;
 
 	}
+
+	float GetInitAngle(float travelTime, float initSpeed, float distanceX){
+		return 0f;
+	}
 }
