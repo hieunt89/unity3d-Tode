@@ -15,13 +15,6 @@ public class TowerConstructorEditor : Editor {
 		tc = new SerializedObject(towerConstructor);
 		existTowers = new List<TowerData> ();
 		DataManager.Instance.LoadAllData (existTowers);
-		if (existTowers.Count > 0) {
-			Debug.Log ("success");
-		}
-
-		testTower = DataManager.Instance.LoadDataById <TowerData> ("t0");
-		if (testTower != null)
-			Debug.Log (testTower);
 	}
 	bool toggleNextUpgrade;
 	public override void OnInspectorGUI (){
@@ -35,7 +28,7 @@ public class TowerConstructorEditor : Editor {
 		EditorGUI.indentLevel++;
 		EditorGUILayout.LabelField ("TOWER CONSTRUCTOR");
 
-		var tId = "t" + 0;
+		var tId = "t" + existTowers.Count;
 		EditorGUILayout.LabelField ("id", tId);
 		towerConstructor.Tower.Id = tId;
 

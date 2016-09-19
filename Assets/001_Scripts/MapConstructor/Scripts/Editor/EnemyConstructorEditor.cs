@@ -9,7 +9,6 @@ public class EnemyConstructorEditor : Editor {
 	SerializedObject ec;
 
 	List<EnemyData> existEnemies;
-	EnemyData testEnemy;
 	void OnEnable(){
 		enemyConstructor = (EnemyConstructor) target as EnemyConstructor;
 		ec = new SerializedObject(enemyConstructor);
@@ -20,13 +19,7 @@ public class EnemyConstructorEditor : Editor {
 
 		existEnemies = new List<EnemyData> ();
 		DataManager.Instance.LoadAllData (existEnemies);
-		if (existEnemies.Count > 0) {
-			Debug.Log ("success");
-		}
 
-		testEnemy = DataManager.Instance.LoadDataById <EnemyData> ("e0");
-		if (testEnemy != null)
-			Debug.Log (testEnemy);
 	}
 	bool toggleNextUpgrade;
 	public override void OnInspectorGUI (){
@@ -40,7 +33,7 @@ public class EnemyConstructorEditor : Editor {
 		EditorGUI.indentLevel++;
 		EditorGUILayout.LabelField ("ENEMY CONSTRUCTOR");
 
-		var eId = "e" + 0;
+		var eId = "e" + existEnemies.Count;
 		EditorGUILayout.LabelField ("id", eId);
 		enemyConstructor.Enemy.Id = eId;
 			
