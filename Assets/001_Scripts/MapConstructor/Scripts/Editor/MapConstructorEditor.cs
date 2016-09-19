@@ -13,19 +13,15 @@ public class MapConstructorEditor : Editor {
 	private bool quickCreationMode = false;
 	private bool resetTool = false;
 
-	string mapId;
-
 	private List<bool> togglePaths;
 	private List<bool> toggleWaves;
 
-	List<List<int>> enemyIndexes;
-	List<List<int>> pathIndexes;
-
 	List<MapData> existMaps;
 	List<EnemyData> existEnemies;
-//	List<TowerData> existTowers;
 
-//	List<string> towerIds;
+	List<List<int>> enemyPopupIndexes;
+	List<List<int>> pathPopupIndexes;
+
 	List<string> enemyIds;
 	List<string> pathIds;
 
@@ -39,11 +35,11 @@ public class MapConstructorEditor : Editor {
 		CreateToggles ();
 
 		LoadExistData ();
-		CreateIndexes ();
+		CreatePopupIndexes ();
 		GenerateStyle ();
 
-		mapId = "map" + existMaps.Count;
-		mapConstructor.Map.Id  = mapId;
+		var mapId = "map" + existMaps.Count;
+		mapConstructor.Map.Id = mapId;
 	}
 	#endregion MONO
 
@@ -296,6 +292,8 @@ public class MapConstructorEditor : Editor {
 				if(GUILayout.Button("Remove", GUILayout.MinWidth (85), GUILayout.MaxWidth (85))) {
 					mapConstructor.Map.Paths.RemoveAt (i);
 					pathIds.RemoveAt (i);
+
+					GetPathIds ();
 					continue;
 				}
 				if(GUILayout.Button("Add WP", GUILayout.MinWidth (85), GUILayout.MaxWidth (85))) {
@@ -430,9 +428,9 @@ public class MapConstructorEditor : Editor {
 				}
 				GUILayout.Space (10);
 				if(GUILayout.Button("Add Group", GUILayout.MinWidth (85), GUILayout.MaxWidth (85))) {
-					var g = new WaveGroupData("g" + mapConstructor.Map.Waves[i].Groups.Count, enemyIds.ToArray()[0], pathIds.ToArray()[0]);
+					var g = new WaveGroupData("g" + mapConstructor.Map.Waves[i].Groups.Count, enemyIds[0], pathIds[0]);
 					mapConstructor.Map.Waves[i].Groups.Add(g);
-					CreateIndexes ();
+					CreatePopupIndexes ();
 				}
 				GUI.enabled = (mapConstructor.Map.Waves[i].Groups.Count > 0);
 				if(GUILayout.Button("Clear Groups", GUILayout.MinWidth (85), GUILayout.MaxWidth (85))) {	
@@ -451,26 +449,26 @@ public class MapConstructorEditor : Editor {
 							EditorGUILayout.LabelField ("Id ", mapConstructor.Map.Waves[i].Groups[j].Id, GUILayout.Width (elementWidth));
 							
 							EditorGUI.BeginChangeCheck();
-							enemyIndexes[i][j] = EditorGUILayout.Popup (enemyIndexes[i][j], enemyIds.ToArray(), GUILayout.Width (elementWidth));
+							enemyPopupIndexes[i][j] = EditorGUILayout.Popup (enemyPopupIndexes[i][j], enemyIds.ToArray(), GUILayout.Width (elementWidth));
 							var amount = EditorGUILayout.IntField (mapConstructor.Map.Waves[i].Groups[j].Amount,  GUILayout.Width (elementWidth));
 							var spawnInterval = EditorGUILayout.FloatField (mapConstructor.Map.Waves[i].Groups[j].SpawnInterval,  GUILayout.Width (elementWidth));
 							var waveDelay = EditorGUILayout.FloatField (mapConstructor.Map.Waves[i].Groups[j].WaveDelay, GUILayout.Width (elementWidth));
-							pathIndexes[i][j] = EditorGUILayout.Popup (pathIndexes[i][j], pathIds.ToArray(),  GUILayout.Width (elementWidth));
+							pathPopupIndexes[i][j] = EditorGUILayout.Popup (pathPopupIndexes[i][j], pathIds.ToArray(),  GUILayout.Width (elementWidth));
 							if (EditorGUI.EndChangeCheck()){
-								mapConstructor.Map.Waves[i].Groups[j].EId = enemyIndexes[i][j];
-								mapConstructor.Map.Waves[i].Groups[j].EnemyId = enemyIds.ToArray()[enemyIndexes[i][j]];
+								mapConstructor.Map.Waves[i].Groups[j].EnemyIdIndex = enemyPopupIndexes[i][j];
+								mapConstructor.Map.Waves[i].Groups[j].EnemyId = enemyIds[enemyPopupIndexes[i][j]];
 								mapConstructor.Map.Waves[i].Groups[j].Amount = amount;
 								mapConstructor.Map.Waves[i].Groups[j].SpawnInterval = spawnInterval;
 								mapConstructor.Map.Waves[i].Groups[j].WaveDelay = waveDelay;
-								mapConstructor.Map.Waves[i].Groups[j].PId = pathIndexes[i][j];
-								mapConstructor.Map.Waves[i].Groups[j].PathId = pathIds.ToArray()[pathIndexes[i][j]];
+								mapConstructor.Map.Waves[i].Groups[j].PathIdIndex = pathPopupIndexes[i][j];
+								mapConstructor.Map.Waves[i].Groups[j].PathId = pathIds[pathPopupIndexes[i][j]];
 								EditorUtility.SetDirty(mapConstructor);
 							}
 
 							if(GUILayout.Button("Remove", GUILayout.MinWidth (85), GUILayout.MaxWidth (85))) {
 								mapConstructor.Map.Waves[i].Groups.RemoveAt(j);
-								enemyIndexes.RemoveAt(j);
-								pathIndexes.RemoveAt(j);
+								enemyPopupIndexes[i].RemoveAt(j);
+								pathPopupIndexes[i].RemoveAt(j);
 							}
 							EditorGUILayout.EndHorizontal();
 						}
@@ -489,21 +487,22 @@ public class MapConstructorEditor : Editor {
 		GUI.enabled = CheckFields();
 		if (GUILayout.Button ("Save")) {
 			DataManager.Instance.SaveData(mapConstructor.Map);
-			LoadExistData ();
+//			LoadExistData ();
 		}
 		GUI.enabled = true;
 		if (GUILayout.Button ("Load")) {
 			mapConstructor.Map = DataManager.Instance.LoadData <MapData> ();
 			if (mapConstructor.Map != null) {
 				CreateToggles ();
-				CreateIndexes ();
-				if (pathIds == null) {
-					pathIds = new List<string> ();
-					for (int i = 0; i < mapConstructor.Map.Paths.Count; i++) {
-						pathIds.Add(mapConstructor.Map.Paths[i].Id);		
-					}
-				}
+				CreatePopupIndexes ();
 
+				GetPathIds ();
+//				if (pathIds == null) {
+//					pathIds = new List<string> ();
+//					for (int i = 0; i < mapConstructor.Map.Paths.Count; i++) {
+//						pathIds.Add(mapConstructor.Map.Paths[i].Id);		
+//					}
+//				}
 			}
 		}
 		if (GUILayout.Button ("Reset")) {
@@ -547,9 +546,10 @@ public class MapConstructorEditor : Editor {
 			mapConstructor.Map.Paths = new List<PathData> ();
 		PathData pathData = new PathData("p" + mapConstructor.Map.Paths.Count, new List<Vector3> ()) ;
 		mapConstructor.Map.Paths.Add(pathData);
-		if (pathIds == null) {
-			pathIds = new List<string> ();
-		}
+
+		if (pathIds == null) 
+			pathIds = new List<string> ();		
+
 		pathIds.Add(pathData.Id);
 		togglePaths.Add(false);
 	}
@@ -599,8 +599,8 @@ public class MapConstructorEditor : Editor {
 	private void ClearWaves() {
 		if (mapConstructor.Map.Waves != null)
 			mapConstructor.Map.Waves.Clear();
-		enemyIndexes.Clear();
-		pathIndexes.Clear();
+		enemyPopupIndexes.Clear();
+		pathPopupIndexes.Clear();
 	}
 
 	private void ResetData() {
@@ -613,15 +613,26 @@ public class MapConstructorEditor : Editor {
 
 	void LoadExistData () {
 		existMaps = DataManager.Instance.LoadAllData <MapData> ();
+		GetPathIds ();
 
-	
 		existEnemies = DataManager.Instance.LoadAllData <EnemyData> ();
+		GetEnemyIds ();
+	}
 
-
+	private void GetEnemyIds () {
 		if (existEnemies.Count > 0) {
 			enemyIds = new List<string> ();
 			for (int i = 0; i < existEnemies.Count; i++) {
 				enemyIds.Add(existEnemies[i].Id);
+			}
+		}
+	}
+
+	private void GetPathIds () {
+		if (mapConstructor.Map.Paths.Count > 0) {
+			pathIds = new List<string> ();
+			for (int i = 0; i < mapConstructor.Map.Paths.Count; i++) {
+				pathIds.Add(mapConstructor.Map.Paths[i].Id);		
 			}
 		}
 	}
@@ -644,18 +655,18 @@ public class MapConstructorEditor : Editor {
 			}
 		}
 	}
-	private void CreateIndexes () {
-		enemyIndexes = new List<List<int>> ();
-		pathIndexes = new List<List<int>> ();
-		if (mapConstructor.Map.Waves != null &&mapConstructor.Map.Waves.Count > 0) {
+	private void CreatePopupIndexes () {
+		enemyPopupIndexes = new List<List<int>> ();
+		pathPopupIndexes = new List<List<int>> ();
+		if (mapConstructor.Map.Waves != null && mapConstructor.Map.Waves.Count > 0) {
 			for (int i = 0; i < mapConstructor.Map.Waves.Count; i++)
 			{
-				enemyIndexes.Add(new List<int> ());
-				pathIndexes.Add (new List<int> ());
+				enemyPopupIndexes.Add(new List<int> ());
+				pathPopupIndexes.Add (new List<int> ());
 				for (int j = 0; j < mapConstructor.Map.Waves[i].Groups.Count; j++)
 				{
-					enemyIndexes[i].Add (mapConstructor.Map.Waves[i].Groups[j].EId);
-					pathIndexes[i].Add (mapConstructor.Map.Waves[i].Groups[j].PId);
+					enemyPopupIndexes[i].Add (mapConstructor.Map.Waves[i].Groups[j].EnemyIdIndex);
+					pathPopupIndexes[i].Add (mapConstructor.Map.Waves[i].Groups[j].PathIdIndex);
 				}
 			}
 		}

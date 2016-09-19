@@ -10,15 +10,15 @@ public class ProjectileConstructorEditor : Editor {
 
 	List<ProjectileData> existProjectiles;
 
-	string projectileId;
 	void OnEnable(){
 		projectileConstructor = (ProjectileConstructor) target as ProjectileConstructor;
 		pc = new SerializedObject(projectileConstructor);
 
-		existProjectiles = DataManager.Instance.LoadAllData<ProjectileData>();
+		if (projectileConstructor.Projectile == null) {
+			projectileConstructor.Projectile = new ProjectileData ("projectile" + existProjectiles.Count);
+		}
 
-		var projectileId = "projectile" + existProjectiles.Count;
-		projectileConstructor.Projectile.Id = projectileId;
+		existProjectiles = DataManager.Instance.LoadAllData<ProjectileData>();
 	}
 	bool toggleNextUpgrade;
 	public override void OnInspectorGUI (){
@@ -64,7 +64,7 @@ public class ProjectileConstructorEditor : Editor {
 			projectileConstructor.Projectile = DataManager.Instance.LoadData <ProjectileData> ();
 		}
 		if (GUILayout.Button("Reset")){
-			projectileConstructor.Projectile = new ProjectileData ();
+			projectileConstructor.Projectile = new ProjectileData ("projectile" + existProjectiles.Count);
 		}
 		GUILayout.EndHorizontal();
 
