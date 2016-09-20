@@ -28,9 +28,6 @@ public class DataManager {
 	Dictionary<string, MapData> mapIdToData;
 
 	public DataManager(){
-//		LoadProjectileData ();
-//		LoadTowerData ();
-//		LoadEnemyData ();
 		LoadData <ProjectileData>(out projectileIdToData);
 		LoadData <TowerData> (out towerIdToData);
 		LoadData <EnemyData> (out enemyIdToData);
