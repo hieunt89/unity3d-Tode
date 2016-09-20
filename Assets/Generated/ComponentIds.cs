@@ -36,19 +36,21 @@ public static class ComponentIds {
     public const int Projectile = 26;
     public const int ProjectileHoming = 27;
     public const int ProjectileThrowing = 28;
-    public const int ReachedEnd = 29;
-    public const int Target = 30;
-    public const int Tick = 31;
-    public const int Tower = 32;
-    public const int TowerNextUpgrade = 33;
-    public const int TowerUpgrade = 34;
-    public const int TowerUpgradeProgress = 35;
-    public const int Turnable = 36;
-    public const int View = 37;
-    public const int ViewSlider = 38;
-    public const int Wave = 39;
+    public const int ProjectileThrowingDestination = 29;
+    public const int ProjectileThrowingTime = 30;
+    public const int ReachedEnd = 31;
+    public const int Target = 32;
+    public const int Tick = 33;
+    public const int Tower = 34;
+    public const int TowerNextUpgrade = 35;
+    public const int TowerUpgrade = 36;
+    public const int TowerUpgradeProgress = 37;
+    public const int Turnable = 38;
+    public const int View = 39;
+    public const int ViewSlider = 40;
+    public const int Wave = 41;
 
-    public const int TotalComponents = 40;
+    public const int TotalComponents = 42;
 
     public static readonly string[] componentNames = {
         "Active",
@@ -80,6 +82,8 @@ public static class ComponentIds {
         "Projectile",
         "ProjectileHoming",
         "ProjectileThrowing",
+        "ProjectileThrowingDestination",
+        "ProjectileThrowingTime",
         "ReachedEnd",
         "Target",
         "Tick",
@@ -123,6 +127,8 @@ public static class ComponentIds {
         typeof(Projectile),
         typeof(ProjectileHoming),
         typeof(ProjectileThrowing),
+        typeof(ProjectileThrowingDestination),
+        typeof(ProjectileThrowingTime),
         typeof(ReachedEnd),
         typeof(Target),
         typeof(Tick),

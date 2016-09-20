@@ -17,8 +17,11 @@ public class TowerInitSystem : IInitializeSystem, ISetPool {
 	public void Initialize ()
 	{
 		var towerData = DataManager.Instance.GetTowerData ("tower0");
-
 		var tps = DataManager.Instance.GetMapData ("map0").TowerPoints;
+		if(towerData == null || tps == null){
+			return;
+		}
+
 		for (int i = 0; i < tps.Count; i++) {
 			_pool.CreateEntity ()
 				.AddTower (towerData.Id)

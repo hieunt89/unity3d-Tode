@@ -40,14 +40,22 @@ public class ProjectileConstructorEditor : Editor {
 		EditorGUI.BeginChangeCheck();
 		var id = EditorGUILayout.TextField ("id",  projectileConstructor.Projectile.Id);
 		var name = EditorGUILayout.TextField ("Name", projectileConstructor.Projectile.Name);
+		var type = (ProjectileType) EditorGUILayout.EnumPopup ("Type", projectileConstructor.Projectile.Type);
 		var travelSpeed = EditorGUILayout.FloatField ("Travel Speed", projectileConstructor.Projectile.TravelSpeed);
 		var turnSpeed = EditorGUILayout.FloatField ("Turn Speed", projectileConstructor.Projectile.TurnSpeed);
+
+		GUI.enabled = projectileConstructor.Projectile.Type == ProjectileType.throwing;
+		var travelTime = EditorGUILayout.FloatField ("Travel Time", projectileConstructor.Projectile.TravelTime);
+		GUI.enabled = true;
+
 		var range = EditorGUILayout.FloatField ("Range", projectileConstructor.Projectile.Range);
 		if (EditorGUI.EndChangeCheck()) {
 			projectileConstructor.Projectile.Id = id;
 			projectileConstructor.Projectile.Name = name;
+			projectileConstructor.Projectile.Type = type;
 			projectileConstructor.Projectile.TravelSpeed = travelSpeed;
 			projectileConstructor.Projectile.TurnSpeed = turnSpeed;
+			projectileConstructor.Projectile.TravelTime = travelTime;
 			projectileConstructor.Projectile.Range = range;
 		}
 

@@ -16,6 +16,10 @@ public static class PoolExtension {
 
 	public static Entity CreateProjectile(this Pool pool, string projectileId, Vector3 pos, AttackType atkType, int minDmg, int maxDmg, Entity target){
 		ProjectileData prj = DataManager.Instance.GetProjectileData (projectileId);
+		if (prj == null) {
+			return null;
+		}
+
 		Entity e = pool.CreateEntity ()
 			.AddProjectile(projectileId)
 			.AddPosition(pos)

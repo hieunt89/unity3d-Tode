@@ -1,1 +1,1 @@
-{"id":"projectile0","name":"bomb1","type":0,"travelSpeed":5.0,"turnSpeed":5.0,"travelTime":0.0,"range":0.0}
+{"id":"projectile0","name":"arrow","type":1,"travelSpeed":5.0,"turnSpeed":5.0,"travelTime":5.0,"range":0.0}

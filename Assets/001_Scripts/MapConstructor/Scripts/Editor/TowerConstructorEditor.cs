@@ -20,11 +20,12 @@ public class TowerConstructorEditor : Editor {
 	void OnEnable(){
 		towerConstructor = (TowerConstructor) target as TowerConstructor;
 		tc = new SerializedObject(towerConstructor);
+				
+		existTowers = DataManager.Instance.LoadAllData <TowerData>();
 
 		if (towerConstructor.Tower == null)
 			towerConstructor.Tower = new TowerData("tower" + existTowers.Count);
 		
-		existTowers = DataManager.Instance.LoadAllData <TowerData>();
 		existProjectiles =  DataManager.Instance.LoadAllData <ProjectileData>();
 
 		if (existTowers.Count > 0) {

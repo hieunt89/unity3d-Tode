@@ -17,22 +17,24 @@ public class PathSystem : IInitializeSystem, ISetPool{
 	public void Initialize ()
 	{
 		var paths = DataManager.Instance.GetMapData ("map0").Paths;
-
+		if(paths == null){
+			return;
+		}
 
 		for (int i = 0; i < paths.Count; i++) {
-
+			var path = paths [i];
 			List <Vector3> wayPoints = new List<Vector3> ();
 			List <float> pathLength = new List<float> ();
-			for (int j = 0; j < paths[i].Points.Count; j++) {
-				wayPoints.Add (paths [i].Points [j]);
+			for (int j = 0; j < path.Points.Count; j++) {
+				wayPoints.Add (path.Points [j]);
 				if(j > 0){
-					var length = (paths [i].Points[j] - paths [i].Points[j - 1]).magnitude;
+					var length = (path.Points[j] - path.Points[j - 1]).magnitude;
 					pathLength.Add (length);
 				}
 			}
 
 			if (wayPoints.Count > 0) {
-				_pool.CreateEntity ().AddPath (wayPoints).AddId (paths[i].Id).AddPathLength(pathLength);
+				_pool.CreateEntity ().AddPath (wayPoints).AddId (path.Id).AddPathLength(pathLength);
 			}
 
 			if(GameManager.debug){
