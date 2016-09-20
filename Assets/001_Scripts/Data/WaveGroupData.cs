@@ -9,14 +9,14 @@ public class WaveGroupData { // TODO: rename WaveGroupData
 
 	[SerializeField] private string id;
 
-	[SerializeField] private int eId;
+	[SerializeField] private int enemyIdIndex;
 	[SerializeField] private string enemyId;
 
 	[SerializeField] private int amount;
 	[SerializeField] private float spawnInterval;
 	[SerializeField] private float waveDelay;
 
-	[SerializeField] private int pId;
+	[SerializeField] private int pathIdIndex;
 	[SerializeField] private string pathId;
 
 	public string Id {
@@ -28,20 +28,12 @@ public class WaveGroupData { // TODO: rename WaveGroupData
 		}
 	}
 
-	public int EId {
+	public int EnemyIdIndex {
 		get {
-//			existEnemies = DataManager.Instance.LoadAllData <EnemyData> ();
-//
-//			for (int i = 0; i < existEnemies.Count; i++) {
-//				if (enemyId.Equals (existEnemies [i])) {
-//					return i;
-//				}
-//			}
-			return eId;
+			return enemyIdIndex;
 		}
 		set {
-			eId = value;
-//			enemyId = existEnemies[eId];
+			enemyIdIndex = value;
 		}
 	}
 
@@ -81,31 +73,13 @@ public class WaveGroupData { // TODO: rename WaveGroupData
         }
 	}
 
-	public int PId {
+	public int PathIdIndex {
 		get {
-//			existMaps = DataManager.Instance.LoadAllData <MapData> ();
-//			if (existMaps.Count > 0) {
-//				for (int i = 0; i < existMaps.Count; i++) {
-//					for (int j = 0; j < existMaps [i].Paths.Count; j++) {
-//						if (pathId.Equals (existMaps [i].Paths [j].Id)) {
-//							return i;
-//						}
-//					}
-//				}
-//			}
-			return pId;
+//		
+			return pathIdIndex;
 		}
 		set {
-			pId = value;
-
-//			existMaps = DataManager.Instance.LoadAllData <MapData> ();
-//			if (existMaps.Count > 0) {
-//				for (int i = 0; i < existMaps.Count; i++) {
-//					
-//				}
-//			}
-//
-//			pathId = pathIdOptions [pId];
+			pathIdIndex = value;
 		}
 	}
 

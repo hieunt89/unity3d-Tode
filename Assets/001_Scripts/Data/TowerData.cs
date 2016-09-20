@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class TowerData {
 	[SerializeField] public string id;
 	[SerializeField] private string name;
+	[SerializeField] private int prjTypeIndex;
 	[SerializeField] private string prjType;
 	[SerializeField] private AttackType atkType;
 	[SerializeField] private float atkRange;
@@ -12,7 +13,10 @@ public class TowerData {
 	[SerializeField] private int maxDmg;
 	[SerializeField] private float atkSpeed;
 	[SerializeField] private int goldRequired;
-	[SerializeField] private List<string> nextUpgrade;
+
+	[SerializeField] private List<int> nextUpgradeIndexes;
+	[SerializeField] private List<string> nextUpgrades;
+
 	[SerializeField] private float buildTime;
 
 	public string Id {
@@ -30,6 +34,15 @@ public class TowerData {
 		}
 		set {
 			name = value;
+		}
+	}
+
+	public int PrjTypeIndex {
+		get {
+			return this.prjTypeIndex;
+		}
+		set {
+			prjTypeIndex = value;
 		}
 	}
 
@@ -96,12 +109,21 @@ public class TowerData {
 		}
 	}
 
-	public List<string> NextUpgrade {
+	public List<int> NextUpgradeIndexes {
 		get {
-			return this.nextUpgrade;
+			return this.nextUpgradeIndexes;
 		}
 		set {
-			nextUpgrade = value;
+			nextUpgradeIndexes = value;
+		}
+	}
+
+	public List<string> NextUpgrades {
+		get {
+			return this.nextUpgrades;
+		}
+		set {
+			nextUpgrades = value;
 		}
 	}
 
@@ -113,11 +135,18 @@ public class TowerData {
 			buildTime = value;
 		}
 	}
-	public TowerData (){
 
+	public TowerData (string id) {
+		this.id = id;
+	}
+
+	public TowerData (string id, List<int> nextUpgradeIndexes, List<string> nextUpgrades){
+		this.id = id;
+		this.nextUpgradeIndexes = nextUpgradeIndexes;
+		this.nextUpgrades = nextUpgrades;
 	}
 	
-	public TowerData (string id, string name, string prjType, AttackType atkType, float atkRange, int minDmg, int maxDmg, float atkSpeed, int goldWorth, List<string> nextUpgrade, float buildTime)
+	public TowerData (string id, string name, string prjType, AttackType atkType, float atkRange, int minDmg, int maxDmg, float atkSpeed, int goldWorth, List<string> nextUpgrades, float buildTime)
 	{
 		this.id = id;
 		this.name = name;
@@ -128,7 +157,7 @@ public class TowerData {
 		this.maxDmg = maxDmg;
 		this.atkSpeed = atkSpeed;
 		this.goldRequired = goldWorth;
-		this.nextUpgrade = nextUpgrade;
+		this.nextUpgrades = nextUpgrades;
 		this.buildTime = buildTime;
 	}
 }

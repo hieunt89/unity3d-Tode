@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class TowerConstructor : MonoBehaviour {
 
-	public TowerData tower;
+	private TowerData tower;
 
 	public TowerData Tower {
 		get {

@@ -74,8 +74,8 @@ public class ProjectileData {
 		}
 	}
 
-	public ProjectileData () {
-
+	public ProjectileData (string id) {
+		this.id = id;
 	}
 
 	public ProjectileData (string id, ProjectileType type, float travelSpeed, float turnSpeed, float travelTime, float range)

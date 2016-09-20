@@ -135,7 +135,8 @@ public class EnemyData {
 		}
 	}
 
-	public EnemyData (List<ArmorData> armors) {
+	public EnemyData (string id, List<ArmorData> armors) {
+		this.id = id;
 		this.armors = armors;
 	}
 
