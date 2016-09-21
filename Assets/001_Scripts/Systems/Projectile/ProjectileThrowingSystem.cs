@@ -28,13 +28,13 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 			e = ens [i];
 			if(!e.hasProjectileThrowingDestination){
 				var startPos = Vector3.ProjectOnPlane (e.position.value, Vector3.up);
-				var finalDestination = GetEnemyFuturePosition (e.target.e, e.projectileThrowing.travelTime);
-				var initAngle = GetInitAngle (e.projectileThrowing.travelTime, e.projectileThrowing.initSpeed, e.position.value, finalDestination);
+				var finalPos = GetEnemyFuturePosition (e.target.e, e.projectileThrowing.travelTime);
+				var initAngle = GetInitAngle (e.projectileThrowing.travelTime, e.projectileThrowing.initSpeed, startPos, finalPos);
 				var initHeight = Vector3.Project (e.position.value, Vector3.down).magnitude;
-				e.AddProjectileThrowingDestination (startPos, finalDestination, initAngle, initHeight).AddProjectileThrowingTime(0f);
+				e.AddProjectileThrowingDestination (startPos, finalPos, initAngle, initHeight).AddProjectileThrowingTime(0f);
 				if (GameManager.debug) {
 					Debug.DrawLine (e.target.e.position.value, e.projectileThrowingDestination.destination, Color.blue, Mathf.Infinity);
-					Debug.DrawLine (startPos, finalDestination, Color.yellow, Mathf.Infinity);
+					Debug.DrawLine (startPos, finalPos, Color.yellow, Mathf.Infinity);
 				}
 			}
 
@@ -54,7 +54,7 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 							e.projectileThrowing.travelTime
 						)
 					);
-				e.ReplacePosition (Vector3.MoveTowards (e.position.value, e.destination.value, Time.deltaTime));
+				e.ReplacePosition (e.destination.value);
 			}
 		}
 	}
@@ -126,18 +126,18 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 		return resultVector;
 	}
 
-	float GetInitAngle(float travelTime, float initSpeed, Vector3 initPos, Vector3 finalPos){
-		var distanceX = (finalPos - Vector3.ProjectOnPlane (initPos, Vector3.up)).magnitude;
+	float GetInitAngle(float travelTime, float initSpeed, Vector3 startPos, Vector3 finalPos){
+		var distanceX = (finalPos - startPos).magnitude;
 		float angle = Mathf.Acos (distanceX / (initSpeed * travelTime)) * Mathf.Rad2Deg;
 		return angle;
 	}
 
 	Vector3 GetNextDestination(float time, float initSpeed, float initHeight, float initAngle, Vector3 start, Vector3 end, float totalTime){
 		var v = (((end - start) * (time / totalTime)) + start);
-		Debug.DrawLine (start, v, Color.gray, Mathf.Infinity);
+		Debug.DrawLine (start, v, Color.gray, 1f);
 
 		float x = v.x;
-		float y = initHeight + initSpeed * time * Mathf.Sin (initAngle) - Mathf.Pow (time, 2f) * ConstantData.G / 2;
+		float y = initHeight + initSpeed * time * Mathf.Sin (initAngle) - ((Mathf.Pow (time, 2f) * ConstantData.G) / 2);
 		float z = v.z;
 
 		return new Vector3(x, y, z);
