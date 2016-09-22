@@ -106,8 +106,6 @@ public class TowerConstructorEditor : Editor {
 			towerConstructor.Tower.NextUpgrades.Add (existTowers [0].Id);
 
 			nextTowerIndexes.Add (0);
-			
-//			towerConstructor.Tower.NextUpgrades.Add("");
 		}
 		if (GUILayout.Button("Clear Upgrades")){
 			towerConstructor.Tower.NextUpgrades.Clear();

@@ -33,10 +33,6 @@ public class ProjectileConstructorEditor : Editor {
 		EditorGUI.indentLevel++;
 		EditorGUILayout.LabelField ("PROJECTILE CONSTRUCTOR");
 
-		GUILayout.BeginHorizontal();
-
-		GUILayout.EndHorizontal();
-
 		EditorGUI.BeginChangeCheck();
 		var id = EditorGUILayout.TextField ("id",  projectileConstructor.Projectile.Id);
 		var name = EditorGUILayout.TextField ("Name", projectileConstructor.Projectile.Name);
