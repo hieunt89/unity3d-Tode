@@ -26,35 +26,45 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 		var ens = _groupPrjThrowing.GetEntities ();
 		for (int i = 0; i < ens.Length; i++) {
 			e = ens [i];
-			if(!e.hasProjectileThrowingDestination){
+			#region calculate trajectory data
+			if(!e.hasProjectileThrowingParams){ 
 				var startPos = Vector3.ProjectOnPlane (e.position.value, Vector3.up);
 				var finalPos = GetEnemyFuturePosition (e.target.e, e.projectileThrowing.travelTime);
-				var initAngle = GetInitAngle (e.projectileThrowing.travelTime, e.projectileThrowing.initSpeed, startPos, finalPos);
 				var initHeight = Vector3.Project (e.position.value, Vector3.down).magnitude;
-				e.AddProjectileThrowingDestination (startPos, finalPos, initAngle, initHeight).AddProjectileThrowingTime(0f);
+				var initAngle = GetInitAngle (e.projectileThrowing.travelTime, e.projectileThrowing.initSpeed, startPos, finalPos);
+				var gravity = GetGravity (e.projectileThrowing.travelTime, e.projectileThrowing.initSpeed, initHeight, initAngle);
+
+				e.AddProjectileThrowingParams (startPos, finalPos, gravity, initAngle, initHeight).AddProjectileThrowingTime(0f).AddDestination(e.position.value);
 				if (GameManager.debug) {
-					Debug.DrawLine (e.target.e.position.value, e.projectileThrowingDestination.destination, Color.blue, Mathf.Infinity);
+					Debug.DrawLine (e.target.e.position.value, e.projectileThrowingParams.end, Color.blue, Mathf.Infinity);
 					Debug.DrawLine (startPos, finalPos, Color.yellow, Mathf.Infinity);
 				}
 			}
+			#endregion
 
-			if (e.position.value == e.projectileThrowingDestination.destination) {
+			if (e.position.value.y <= 0f) {
 				e.IsReachedEnd (true);
-				continue;
 			} else {
-				e.ReplaceProjectileThrowingTime (e.projectileThrowingTime.time + Time.deltaTime)
-					.ReplaceDestination(
-						GetNextDestination(
+				e.ReplaceProjectileThrowingTime (e.projectileThrowingTime.time + Time.deltaTime);
+				if (e.position.value == e.destination.value) {
+					e.ReplaceDestination (
+						GetNextDestination (
 							e.projectileThrowingTime.time,
 							e.projectileThrowing.initSpeed,
-							e.projectileThrowingDestination.initHeight,
-							e.projectileThrowingDestination.initAngle,
-							e.projectileThrowingDestination.start,
-							e.projectileThrowingDestination.destination,
-							e.projectileThrowing.travelTime
+							e.projectileThrowing.travelTime,
+							e.projectileThrowingParams.height,
+							e.projectileThrowingParams.angle,
+							e.projectileThrowingParams.start,
+							e.projectileThrowingParams.end,
+							e.projectileThrowingParams.gravity
 						)
 					);
-				e.ReplacePosition (e.destination.value);
+				} else {
+					if (GameManager.debug) {
+						Debug.DrawLine (e.position.value, e.destination.value, Color.gray, Mathf.Infinity);
+					}
+					e.ReplacePosition (e.destination.value);
+				}
 			}
 		}
 	}
@@ -126,20 +136,22 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 		return resultVector;
 	}
 
-	float GetInitAngle(float travelTime, float initSpeed, Vector3 startPos, Vector3 finalPos){
-		var distanceX = (finalPos - startPos).magnitude;
-		float angle = Mathf.Acos (distanceX / (initSpeed * travelTime)) * Mathf.Rad2Deg;
-		return angle;
+	float GetInitAngle(float t, float v, Vector3 start, Vector3 end){
+		var distanceX = Mathf.Clamp((end - start).magnitude, -1f, 1f);
+		float angleX = Mathf.Acos (distanceX / (v * t));
+		return angleX;
 	}
 
-	Vector3 GetNextDestination(float time, float initSpeed, float initHeight, float initAngle, Vector3 start, Vector3 end, float totalTime){
-		var v = (((end - start) * (time / totalTime)) + start);
-		Debug.DrawLine (start, v, Color.gray, 1f);
+	float GetGravity(float t, float v, float h, float a){
+		return (h + v * t * Mathf.Sin (a)) * 2 / Mathf.Pow (t, 2f);
+	}
 
-		float x = v.x;
-		float y = initHeight + initSpeed * time * Mathf.Sin (initAngle) - ((Mathf.Pow (time, 2f) * ConstantData.G) / 2);
-		float z = v.z;
+	Vector3 GetNextDestination(float t, float v, float totalTime, float h, float a, Vector3 start, Vector3 end, float g){
+		var sToE = (((end - start) * (t / totalTime)) + start);
 
+		float x = sToE.x;
+		float y = h + (v * t * Mathf.Sin (a)) - ((Mathf.Pow (t, 2f) * g) / 2);
+		float z = sToE.z;
 		return new Vector3(x, y, z);
 	}
 }
