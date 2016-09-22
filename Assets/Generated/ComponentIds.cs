@@ -36,7 +36,7 @@ public static class ComponentIds {
     public const int Projectile = 26;
     public const int ProjectileHoming = 27;
     public const int ProjectileThrowing = 28;
-    public const int ProjectileThrowingDestination = 29;
+    public const int ProjectileThrowingParams = 29;
     public const int ProjectileThrowingTime = 30;
     public const int ReachedEnd = 31;
     public const int Target = 32;
@@ -82,7 +82,7 @@ public static class ComponentIds {
         "Projectile",
         "ProjectileHoming",
         "ProjectileThrowing",
-        "ProjectileThrowingDestination",
+        "ProjectileThrowingParams",
         "ProjectileThrowingTime",
         "ReachedEnd",
         "Target",
@@ -127,7 +127,7 @@ public static class ComponentIds {
         typeof(Projectile),
         typeof(ProjectileHoming),
         typeof(ProjectileThrowing),
-        typeof(ProjectileThrowingDestination),
+        typeof(ProjectileThrowingParams),
         typeof(ProjectileThrowingTime),
         typeof(ReachedEnd),
         typeof(Target),

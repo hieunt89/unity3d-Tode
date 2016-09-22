@@ -4,5 +4,5 @@ using Entitas;
 
 public class ProjectileThrowing : IComponent {
 	public float travelTime;
-	public float initSpeed;
+	public float throwAngle;
 }

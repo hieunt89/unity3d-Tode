@@ -30,6 +30,7 @@ public class ProjectileHomingSystem : IReactiveSystem, ISetPool {
 			}
 			if (e.position.value == e.destination.value) {
 				e.IsReachedEnd (true);
+				continue;
 			}
 			if(e.target.e.hasEnemy){
 				e.ReplaceDestination (e.target.e.position.value);
