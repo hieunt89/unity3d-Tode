@@ -41,6 +41,11 @@ public class ProjectileConstructorEditor : Editor {
 		var id = EditorGUILayout.TextField ("id",  projectileConstructor.Projectile.Id);
 		var name = EditorGUILayout.TextField ("Name", projectileConstructor.Projectile.Name);
 		var type = (ProjectileType) EditorGUILayout.EnumPopup ("Type", projectileConstructor.Projectile.Type);
+
+		if (projectileConstructor.Projectile.Type == ProjectileType.homing) {
+			projectileConstructor.Projectile.TravelTime = 0f;
+		}
+
 		var travelSpeed = EditorGUILayout.FloatField ("Travel Speed", projectileConstructor.Projectile.TravelSpeed);
 		var turnSpeed = EditorGUILayout.FloatField ("Turn Speed", projectileConstructor.Projectile.TurnSpeed);
 
