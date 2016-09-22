@@ -31,10 +31,9 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 				var startPos = Vector3.ProjectOnPlane (e.position.value, Vector3.up);
 				var finalPos = GetEnemyFuturePosition (e.target.e, e.projectileThrowing.travelTime);
 				var initHeight = Vector3.Project (e.position.value, Vector3.down).magnitude;
-				var initAngle = GetInitAngle (e.projectileThrowing.travelTime, e.projectileThrowing.initSpeed, startPos, finalPos);
-				var gravity = GetGravity (e.projectileThrowing.travelTime, e.projectileThrowing.initSpeed, initHeight, initAngle);
+				var initVelocity = GetInitVelocity(e.projectileThrowing.throwAngle, startPos, finalPos, e.projectileThrowing.travelTime, initHeight);
 
-				e.AddProjectileThrowingParams (startPos, finalPos, gravity, initAngle, initHeight).AddProjectileThrowingTime(0f).AddDestination(e.position.value);
+				e.AddProjectileThrowingParams (startPos, finalPos, initHeight, initVelocity).AddProjectileThrowingTime(0f).AddDestination(e.position.value);
 				if (GameManager.debug) {
 					Debug.DrawLine (e.target.e.position.value, e.projectileThrowingParams.end, Color.blue, Mathf.Infinity);
 					Debug.DrawLine (startPos, finalPos, Color.yellow, Mathf.Infinity);
@@ -50,13 +49,11 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 					e.ReplaceDestination (
 						GetNextDestination (
 							e.projectileThrowingTime.time,
-							e.projectileThrowing.initSpeed,
-							e.projectileThrowing.travelTime,
+							e.projectileThrowingParams.initVelocity,
 							e.projectileThrowingParams.height,
-							e.projectileThrowingParams.angle,
+							e.projectileThrowing.throwAngle,
 							e.projectileThrowingParams.start,
-							e.projectileThrowingParams.end,
-							e.projectileThrowingParams.gravity
+							e.projectileThrowingParams.end
 						)
 					);
 				} else {
@@ -80,6 +77,7 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 	}
 
 	#endregion
+
 	float GetEnemyTraveledDistance(Entity e){
 		var points = e.pathReference.e.path.wayPoints;
 		var distanceBtwPoints = e.pathReference.e.pathLength.distances;
@@ -136,22 +134,37 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 		return resultVector;
 	}
 
-	float GetInitAngle(float t, float v, Vector3 start, Vector3 end){
-		var distanceX = Mathf.Clamp((end - start).magnitude, -1f, 1f);
-		float angleX = Mathf.Acos (distanceX / (v * t));
-		return angleX;
+	float GetInitVelocity(float a, Vector3 start, Vector3 end, float t, float h){
+		var d = (end - start).magnitude;
+		var v = Mathf.Sqrt (d*ConstantData.G/Mathf.Sin(a*2*Mathf.Deg2Rad));
+
+		var x = d / t;
+		var y = (ConstantData.G * Mathf.Pow (t, 2f) / 2 - h) / t;
+
+		for (int i = 0; i < 90; i++) {
+			var vX = x / (Mathf.Cos (i * Mathf.Deg2Rad));
+			var vY = y / (Mathf.Sin (i * Mathf.Deg2Rad));
+
+			if (Mathf.Abs(vX - vY) < 1f) {
+				Debug.Log (i + " " + vX + " " + vY);
+				v = vX;
+			}
+		}
+
+		return v;
 	}
 
-	float GetGravity(float t, float v, float h, float a){
-		return (h + v * t * Mathf.Sin (a)) * 2 / Mathf.Pow (t, 2f);
-	}
+	Vector3 GetNextDestination(float t, float v, float h, float a, Vector3 start, Vector3 end){
+		var sToEMag = (end - start).magnitude;
+		var c = Mathf.Cos (a * Mathf.Deg2Rad);
+		var s = Mathf.Sin (a * Mathf.Deg2Rad);
+		var dX = v * t * c;
+		var vec = (end - start) * (dX / sToEMag) + start;
 
-	Vector3 GetNextDestination(float t, float v, float totalTime, float h, float a, Vector3 start, Vector3 end, float g){
-		var sToE = (((end - start) * (t / totalTime)) + start);
+		float x = vec.x;
+		float y = h + (v * t * s) - (ConstantData.G * (Mathf.Pow (t, 2f)) / 2);
+		float z = vec.z;
 
-		float x = sToE.x;
-		float y = h + (v * t * Mathf.Sin (a)) - ((Mathf.Pow (t, 2f) * g) / 2);
-		float z = sToE.z;
 		return new Vector3(x, y, z);
 	}
 }

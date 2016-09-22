@@ -36,7 +36,7 @@ public static class PoolExtension {
 			e.AddProjectileHoming (prj.TravelSpeed);
 			break;
 		case ProjectileType.throwing:
-			e.AddProjectileThrowing (prj.TravelTime, prj.TravelSpeed);
+			e.AddProjectileThrowing (prj.TravelTime, prj.ThrowAngle);
 			break;
 		default:
 			break;

@@ -12,23 +12,21 @@ namespace Entitas {
 
         public bool hasProjectileThrowingParams { get { return HasComponent(ComponentIds.ProjectileThrowingParams); } }
 
-        public Entity AddProjectileThrowingParams(UnityEngine.Vector3 newStart, UnityEngine.Vector3 newEnd, float newGravity, float newAngle, float newHeight) {
+        public Entity AddProjectileThrowingParams(UnityEngine.Vector3 newStart, UnityEngine.Vector3 newEnd, float newHeight, float newInitVelocity) {
             var component = CreateComponent<ProjectileThrowingParams>(ComponentIds.ProjectileThrowingParams);
             component.start = newStart;
             component.end = newEnd;
-            component.gravity = newGravity;
-            component.angle = newAngle;
             component.height = newHeight;
+            component.initVelocity = newInitVelocity;
             return AddComponent(ComponentIds.ProjectileThrowingParams, component);
         }
 
-        public Entity ReplaceProjectileThrowingParams(UnityEngine.Vector3 newStart, UnityEngine.Vector3 newEnd, float newGravity, float newAngle, float newHeight) {
+        public Entity ReplaceProjectileThrowingParams(UnityEngine.Vector3 newStart, UnityEngine.Vector3 newEnd, float newHeight, float newInitVelocity) {
             var component = CreateComponent<ProjectileThrowingParams>(ComponentIds.ProjectileThrowingParams);
             component.start = newStart;
             component.end = newEnd;
-            component.gravity = newGravity;
-            component.angle = newAngle;
             component.height = newHeight;
+            component.initVelocity = newInitVelocity;
             ReplaceComponent(ComponentIds.ProjectileThrowingParams, component);
             return this;
         }
