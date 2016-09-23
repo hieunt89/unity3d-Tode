@@ -16,14 +16,15 @@ public class EnemyConstructorEditor : Editor {
 		enemyConstructor = (EnemyConstructor) target as EnemyConstructor;
 		ec = new SerializedObject(enemyConstructor);
 
+		existEnemies = DataManager.Instance.LoadAllData<EnemyData> ();
+		// check exist enemies null
+
 		if (enemyConstructor.Enemy == null) {
 			enemyConstructor.Enemy = new EnemyData ("enemy" + existEnemies.Count, new List<ArmorData> () {
 				new ArmorData (AttackType.physical, 0f),
 				new ArmorData (AttackType.magical, 0f),
 			});
 		}
-
-		existEnemies = DataManager.Instance.LoadAllData<EnemyData> ();
 
 		armorValues = new List<float> ();
 		for (int i = 0; i < enemyConstructor.Enemy.Armors.Count; i++) {

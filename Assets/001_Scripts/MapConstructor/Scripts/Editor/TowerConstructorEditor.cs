@@ -24,7 +24,7 @@ public class TowerConstructorEditor : Editor {
 		existTowers = DataManager.Instance.LoadAllData <TowerData>();
 
 		if (towerConstructor.Tower == null)
-			towerConstructor.Tower = new TowerData("tower" + existTowers.Count);
+			towerConstructor.Tower = new TowerData("tower" + existTowers.Count, new List<int> (), new List<string> ());
 		
 		existProjectiles =  DataManager.Instance.LoadAllData <ProjectileData>();
 
@@ -106,8 +106,6 @@ public class TowerConstructorEditor : Editor {
 			towerConstructor.Tower.NextUpgrades.Add (existTowers [0].Id);
 
 			nextTowerIndexes.Add (0);
-			
-//			towerConstructor.Tower.NextUpgrades.Add("");
 		}
 		if (GUILayout.Button("Clear Upgrades")){
 			towerConstructor.Tower.NextUpgrades.Clear();

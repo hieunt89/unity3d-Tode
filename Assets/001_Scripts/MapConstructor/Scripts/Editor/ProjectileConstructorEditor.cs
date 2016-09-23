@@ -33,14 +33,14 @@ public class ProjectileConstructorEditor : Editor {
 		EditorGUI.indentLevel++;
 		EditorGUILayout.LabelField ("PROJECTILE CONSTRUCTOR");
 
-		GUILayout.BeginHorizontal();
-
-		GUILayout.EndHorizontal();
-
 		EditorGUI.BeginChangeCheck();
 		var id = EditorGUILayout.TextField ("id",  projectileConstructor.Projectile.Id);
 		var name = EditorGUILayout.TextField ("Name", projectileConstructor.Projectile.Name);
 		var type = (ProjectileType) EditorGUILayout.EnumPopup ("Type", projectileConstructor.Projectile.Type);
+
+		if (projectileConstructor.Projectile.Type == ProjectileType.homing) {
+			projectileConstructor.Projectile.TravelTime = 0f;
+		}
 		var turnSpeed = EditorGUILayout.FloatField ("Turn Speed", projectileConstructor.Projectile.TurnSpeed);
 
 		GUI.enabled = projectileConstructor.Projectile.Type == ProjectileType.homing;
