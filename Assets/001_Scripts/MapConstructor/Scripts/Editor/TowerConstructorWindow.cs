@@ -5,13 +5,8 @@ using System.Collections.Generic;
 using UnityEditor;
 using System;
 
-
 public class TowerConstructorWindow : EditorWindow {
-	string myString = "Hello World";
-	bool groupEnabled;
-	bool myBool = true;
-	float myFloat = 1.23f;
-
+	
 	TowerData tower;
 	List<TowerData> existTowers;
 	List<ProjectileData> existProjectiles;
@@ -50,7 +45,7 @@ public class TowerConstructorWindow : EditorWindow {
 		}
 	}
 
-	[MenuItem("Window/Tower Constructor %#T")]
+	[MenuItem("Window/Tower Constructor %T")]
 	public static void ShowWindow()
 	{
 		EditorWindow.GetWindow(typeof(TowerConstructorWindow));
@@ -58,6 +53,8 @@ public class TowerConstructorWindow : EditorWindow {
 
 	void OnGUI()
 	{
+
+		EditorGUI.BeginChangeCheck ();
 		var id = EditorGUILayout.TextField ("Id", tower.Id);
 		var name = EditorGUILayout.TextField ("Name", tower.Name);
 		//		var prjType = EditorGUILayout.TextField ("projectile", towerConstructor.Tower.PrjType);
@@ -69,6 +66,20 @@ public class TowerConstructorWindow : EditorWindow {
 		var atkSpeed = EditorGUILayout.FloatField ("Attack Speed", tower.AtkSpeed);
 		var goldRequired = EditorGUILayout.IntField ("Gold Cost", tower.GoldRequired);
 		var buildTime = EditorGUILayout.FloatField ("Build Time", tower.BuildTime);
+
+		if (EditorGUI.EndChangeCheck ()) {
+			tower.Id = id;
+			tower.Name = name;
+//			tower.PrjTypeIndex = projectileIndex;
+//			tower.PrjType = projectileIds[projectileIndex];
+			tower.AtkType = (AttackType) atkType;
+			tower.AtkRange = atkRange;
+			tower.MinDmg = minDmg;
+			tower.MaxDmg = maxDmg;
+			tower.AtkSpeed = atkSpeed;
+			tower.GoldRequired = goldRequired;
+			tower.BuildTime = buildTime;
+		}
 
 		GUI.enabled = (existTowers.Count > 1);
 
