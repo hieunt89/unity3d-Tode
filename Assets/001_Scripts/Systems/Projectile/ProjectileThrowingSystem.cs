@@ -159,14 +159,12 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 	}
 
 	Vector3 GetNextDestination(float t, float v, float h, float a, Vector3 start, Vector3 end){
-		var sToEMag = (end - start).magnitude;
-		var c = Mathf.Cos (a * Mathf.Deg2Rad);
-		var s = Mathf.Sin (a * Mathf.Deg2Rad);
-		var dX = v * t * c;
-		var vec = (end - start) * (dX / sToEMag) + start;
+		var d = (end - start).magnitude;
+		var dX = v * t * Mathf.Cos (a * Mathf.Deg2Rad);
+		var vec = (end - start) * (dX / d) + start;
 
 		float x = vec.x;
-		float y = h + (v * t * s) - (ConstantData.G * (Mathf.Pow (t, 2f)) / 2);
+		float y = h + (v * t * Mathf.Sin (a * Mathf.Deg2Rad)) - (ConstantData.G * (Mathf.Pow (t, 2f)) / 2);
 		float z = vec.z;
 
 		return new Vector3(x, y, z);

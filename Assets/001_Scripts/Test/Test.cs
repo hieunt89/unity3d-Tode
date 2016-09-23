@@ -3,15 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Test : MonoBehaviour {
-	public List<Dictionary<int, string>> enemyIndexes;
-
 	void Start () {
-		var path = "Data/TowerData";
-		TextAsset[] files = Resources.LoadAll <TextAsset> (path) as TextAsset[];
-		Debug.Log (path);
-		Debug.Log (files.Length);
-//		Texture2D[] tex = Resources.LoadAll <Texture2D> (path) as Texture2D[];
-//		Debug.Log (path);
-//		Debug.Log (tex);
+		Tree<string> t = new Tree<string> ("root");
+		t.Root.AddChild ("node1").AddChild ("node2");
+
+		t.Root.Children [0].AddChild ("node3").AddChild ("node4");
+		t.Root.Children [0].Children[0].AddChild ("node5").AddChild("node6");
+
+		Node<string> n = t.Root.FindChildNodeByData ("node3");
+		Debug.Log (n.Data + " " + n.Children.Count);
 	}
 }
