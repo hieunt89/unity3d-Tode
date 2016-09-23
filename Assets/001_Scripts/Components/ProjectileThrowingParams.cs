@@ -7,4 +7,5 @@ public class ProjectileThrowingParams : IComponent {
 	public Vector3 end;
 	public float height;
 	public float initVelocity;
+	public float initAngle;
 }

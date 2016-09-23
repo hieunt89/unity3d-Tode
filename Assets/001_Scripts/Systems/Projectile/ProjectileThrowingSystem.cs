@@ -31,9 +31,11 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 				var startPos = Vector3.ProjectOnPlane (e.position.value, Vector3.up);
 				var finalPos = GetEnemyFuturePosition (e.target.e, e.projectileThrowing.travelTime);
 				var initHeight = Vector3.Project (e.position.value, Vector3.down).magnitude;
-				var initVelocity = GetInitVelocity(e.projectileThrowing.throwAngle, startPos, finalPos, e.projectileThrowing.travelTime, initHeight);
+				float initVelocity;
+				float initAngle;
+				GetInitVelocityAndAngle(startPos, finalPos, e.projectileThrowing.travelTime, initHeight, out initVelocity, out initAngle);
 
-				e.AddProjectileThrowingParams (startPos, finalPos, initHeight, initVelocity).AddProjectileThrowingTime(0f).AddDestination(e.position.value);
+				e.AddProjectileThrowingParams (startPos, finalPos, initHeight, initVelocity, initAngle).AddProjectileThrowingTime(0f).AddDestination(e.position.value);
 				if (GameManager.debug) {
 					Debug.DrawLine (e.target.e.position.value, e.projectileThrowingParams.end, Color.blue, Mathf.Infinity);
 					Debug.DrawLine (startPos, finalPos, Color.yellow, Mathf.Infinity);
@@ -51,7 +53,7 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 							e.projectileThrowingTime.time,
 							e.projectileThrowingParams.initVelocity,
 							e.projectileThrowingParams.height,
-							e.projectileThrowing.throwAngle,
+							e.projectileThrowingParams.initAngle,
 							e.projectileThrowingParams.start,
 							e.projectileThrowingParams.end
 						)
@@ -134,24 +136,26 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 		return resultVector;
 	}
 
-	float GetInitVelocity(float a, Vector3 start, Vector3 end, float t, float h){
+	void GetInitVelocityAndAngle(Vector3 start, Vector3 end, float t, float h, out float velocity, out float angle){
 		var d = (end - start).magnitude;
-		var v = Mathf.Sqrt (d*ConstantData.G/Mathf.Sin(a*2*Mathf.Deg2Rad));
-
-		var x = d / t;
-		var y = (ConstantData.G * Mathf.Pow (t, 2f) / 2 - h) / t;
+		var vX = d / t;
+		var vY = ((ConstantData.G * Mathf.Pow (t, 2f) / 2) - h) / t;
+		var delta = 1f;
+		float v0FromX;
+		float v0FromY;
+		velocity = 0f;
+		angle = 0f;
 
 		for (int i = 0; i < 90; i++) {
-			var vX = x / (Mathf.Cos (i * Mathf.Deg2Rad));
-			var vY = y / (Mathf.Sin (i * Mathf.Deg2Rad));
+			v0FromX = vX / (Mathf.Cos (i * Mathf.Deg2Rad));
+			v0FromY = vY / (Mathf.Sin (i * Mathf.Deg2Rad));
 
-			if (Mathf.Abs(vX - vY) < 1f) {
-				Debug.Log (i + " " + vX + " " + vY);
-				v = vX;
+			if (Mathf.Abs (v0FromX - v0FromY) < delta) {
+				delta = Mathf.Abs (v0FromX - v0FromY);
+				velocity = v0FromX;
+				angle = (float)i;
 			}
 		}
-
-		return v;
 	}
 
 	Vector3 GetNextDestination(float t, float v, float h, float a, Vector3 start, Vector3 end){
