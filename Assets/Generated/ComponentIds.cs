@@ -138,7 +138,6 @@ public static class ComponentIds {
         typeof(Tick),
         typeof(Tower),
         typeof(TowerBase),
-        typeof(TowerNextUpgrade),
         typeof(TowerUpgrade),
         typeof(TowerUpgradeCurrentNode),
         typeof(TowerUpgradeProgress),
