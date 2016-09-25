@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Node <T> where T : class{
+public class Node <T> where T : class {
 	public T Data;
 	public List<Node<T>> Children;
 
