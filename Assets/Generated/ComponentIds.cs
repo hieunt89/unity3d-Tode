@@ -42,15 +42,16 @@ public static class ComponentIds {
     public const int Target = 32;
     public const int Tick = 33;
     public const int Tower = 34;
-    public const int TowerNextUpgrade = 35;
+    public const int TowerBase = 35;
     public const int TowerUpgrade = 36;
-    public const int TowerUpgradeProgress = 37;
-    public const int Turnable = 38;
-    public const int View = 39;
-    public const int ViewSlider = 40;
-    public const int Wave = 41;
+    public const int TowerUpgradeCurrentNode = 37;
+    public const int TowerUpgradeProgress = 38;
+    public const int Turnable = 39;
+    public const int View = 40;
+    public const int ViewSlider = 41;
+    public const int Wave = 42;
 
-    public const int TotalComponents = 42;
+    public const int TotalComponents = 43;
 
     public static readonly string[] componentNames = {
         "Active",
@@ -88,8 +89,9 @@ public static class ComponentIds {
         "Target",
         "Tick",
         "Tower",
-        "TowerNextUpgrade",
+        "TowerBase",
         "TowerUpgrade",
+        "TowerUpgradeCurrentNode",
         "TowerUpgradeProgress",
         "Turnable",
         "View",
@@ -133,8 +135,9 @@ public static class ComponentIds {
         typeof(Target),
         typeof(Tick),
         typeof(Tower),
-        typeof(TowerNextUpgrade),
+        typeof(TowerBase),
         typeof(TowerUpgrade),
+        typeof(TowerUpgradeCurrentNode),
         typeof(TowerUpgradeProgress),
         typeof(Turnable),
         typeof(View),

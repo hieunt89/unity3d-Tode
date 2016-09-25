@@ -18,12 +18,12 @@ public class TowerUpgradeSystem : IReactiveSystem, ISetPool{
 	{
 		for (int i = 0; i < entities.Count; i++) {
 			var e = entities [i];
-			var cost = DataManager.Instance.GetTowerData (e.towerUpgrade.upgradeId).GoldRequired;
+			var cost = DataManager.Instance.GetTowerData (e.towerUpgrade.upgradeNode.Data).GoldRequired;
 			if (_pool.goldPlayer.value < cost) {
 				e.RemoveTowerUpgrade ();
 			} else {
 				_pool.ReplaceGoldPlayer (_pool.goldPlayer.value - cost);
-				e.AddTowerUpgradeProgress (0f).IsActive(false);
+				e.AddTowerUpgradeProgress (0f).IsActive(false).IsInteractable(false);
 			}
 		}
 	}

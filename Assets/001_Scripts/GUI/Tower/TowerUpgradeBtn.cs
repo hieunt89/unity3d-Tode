@@ -7,12 +7,12 @@ public class TowerUpgradeBtn : MonoBehaviour {
 	Button _button;
 	float _goldRequire;
 
-	public void RegisterUpgradeBtn (string id, float goldRequire)
+	public void RegisterUpgradeBtn (Node<string> upgrade, float goldRequire)
 	{
 		_button = GetComponent<Button> ();
 		if (_button) {
 			_button.onClick.AddListener (() => {
-				Messenger.Broadcast<string> (Events.Input.TOWER_UPGRADE_BTN_CLICK, id);
+				Messenger.Broadcast<Node<string>> (Events.Input.TOWER_UPGRADE_BTN_CLICK, upgrade);
 			});
 			_goldRequire = goldRequire;
 			HandleGoldChange (Pools.pool.goldPlayer.value);

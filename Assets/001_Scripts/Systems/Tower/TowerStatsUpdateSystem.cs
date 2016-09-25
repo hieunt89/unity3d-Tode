@@ -29,7 +29,7 @@ public class TowerStatsUpdateSystem : IReactiveSystem, IEnsureComponents {
 					.ReplaceAttackDamage (towerData.MinDmg, towerData.MaxDmg)
 					.ReplaceAttackSpeed (towerData.AtkSpeed)
 					.ReplaceGold(towerData.GoldRequired)
-					.ReplaceTowerNextUpgrade(towerData.NextUpgrades)
+					.IsInteractable(true)
 					.IsActive (true);
 			} else {
 				tower.IsActive (false);
