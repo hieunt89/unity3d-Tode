@@ -39,7 +39,7 @@ public class Node <T> where T : class {
 	}
 }
 
-public class Tree <T> where T : class{
+public class Tree <T> where T : class {
 	public Node <T> Root;
 
 	public Tree (){

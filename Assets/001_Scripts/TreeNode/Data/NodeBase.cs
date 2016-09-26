@@ -8,7 +8,7 @@ public class NodeBase : ScriptableObject {
 	public bool isSelected = false;
 	public string nodeName;
 	public Rect nodeRect;
-	public NodeGraph parentGraph;
+	public Tree tree;
 //	public 
 
 	protected GUISkin nodeSkin;
@@ -21,6 +21,8 @@ public class NodeBase : ScriptableObject {
 
 	public class NodeOutput {
 		public bool isOccupied = false;
+
+		// TODO: there is multiple outputs
 	}
 
 	public virtual void InitNode () {

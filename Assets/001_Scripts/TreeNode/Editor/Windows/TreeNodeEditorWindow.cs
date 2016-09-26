@@ -1,18 +1,18 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-public class TowerNodeEditorWindow : EditorWindow {
+public class TreeNodeEditorWindow : EditorWindow {
 
-	public static TowerNodeEditorWindow currentWindow;
+	public static TreeNodeEditorWindow currentWindow;
 	public TreeNodeWorkView workView;
 	public TreeNodePropertiesView propertiesView;
 
-	public NodeGraph currentGraph = null;
+	public Tree currentGraph = null;
 
 	private float viewPercentage = 0.75f;
 
 	public static void InitTowerNodeEditorWindow () {
-		currentWindow = (TowerNodeEditorWindow)EditorWindow.GetWindow <TowerNodeEditorWindow> ();
+		currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow <TreeNodeEditorWindow> ();
 		currentWindow.titleContent = new GUIContent ("Tower Tree");
 		CreateViews ();
 	}
@@ -39,7 +39,7 @@ public class TowerNodeEditorWindow : EditorWindow {
 			currentWindow.workView = new TreeNodeWorkView ();
 			currentWindow.propertiesView = new TreeNodePropertiesView ();
 		} else {
-			currentWindow = (TowerNodeEditorWindow)EditorWindow.GetWindow <TowerNodeEditorWindow> ();
+			currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow <TreeNodeEditorWindow> ();
 		}
 	}
 

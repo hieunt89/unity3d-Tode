@@ -10,24 +10,24 @@ public class ViewBase {
 	public Rect viewRect;
 
 	protected GUISkin viewSkin;
-	protected NodeGraph currentGraph;
+	protected Tree currentTree;
 
 	public ViewBase (string _viewTitle) {
 		this.viewTitle = _viewTitle;
 		GetEditorSkin ();
 	}
 
-	public virtual void UpdateView (Rect _editorRect, Rect _percentageRect, Event _e, NodeGraph _currentGraph) {
+	public virtual void UpdateView (Rect _editorRect, Rect _percentageRect, Event _e, Tree _currentTree) {
 		if (viewSkin == null) {
 			GetEditorSkin ();
 			return;
 		}
 
-		this.currentGraph = _currentGraph;
-		if (currentGraph != null) {
-			viewTitle = currentGraph.graphName;
+		this.currentTree = _currentTree;
+		if (currentTree != null) {
+			viewTitle = currentTree.treeName;
 		} else {
-			viewTitle = "No graph";
+			viewTitle = "No Tree";
 		}
 
 		viewRect = new Rect (

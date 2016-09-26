@@ -3,6 +3,12 @@ using UnityEditor;
 
 public static class TreeNodeUtils {
 
+	public static void CreateTree (string treeName, TreeType treeType) {
+//		Debug.Log ("Create Tree " + treeName + "/" + treeType.ToString());
+//		Tree currentTree = (Tree) 
+
+	}
+
 	public static void DrawGrid (Rect viewRect, float gridSpacing, float gridOpacity, Color gridColor) {
 		int widthDivs = Mathf.CeilToInt (viewRect.width - gridSpacing);
 		int heightDivs = Mathf.CeilToInt (viewRect.height - gridSpacing);

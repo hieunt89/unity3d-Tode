@@ -5,9 +5,13 @@ using UnityEditor;
 using System;
 using System.Collections.Generic;
 
+public enum TreeType {
+	Tower,
+	Skill
+}
 [Serializable]
-public class NodeGraph : ScriptableObject {
-	public string graphName = "New Graph";
+public class Tree : ScriptableObject {
+	public string treeName = "New Tree";
 	public List<NodeBase> nodes;
 	public NodeBase selectedNode;
 	public bool wantsConnection = false;
@@ -20,7 +24,7 @@ public class NodeGraph : ScriptableObject {
 		}
 	}
 
-	public void InitGraph () {
+	public void InitTree () {
 		if (nodes.Count > 0) {
 			for (int i = 0; i < nodes.Count; i++) {
 				nodes [i].InitNode ();
@@ -28,13 +32,13 @@ public class NodeGraph : ScriptableObject {
 		}
 	}
 
-	public void UpdateGraph() {
+	public void UpdateTree() {
 		if (nodes.Count > 0) {
 
 		}
 	}
 
-	public void UpdateGraphGUI (Event e, Rect viewRect, GUISkin viewSkin) {
+	public void UpdateTreeGUI (Event e, Rect viewRect, GUISkin viewSkin) {
 		if (nodes.Count > 0) {
 			ProcessEvents (e, viewRect);
 			for (int i = 0; i < nodes.Count; i++) {
