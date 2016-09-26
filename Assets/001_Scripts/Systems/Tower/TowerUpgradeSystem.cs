@@ -22,7 +22,7 @@ public class TowerUpgradeSystem : IReactiveSystem, ISetPool{
 				e.RemoveTowerUpgrade ();
 			} else {
 				_pool.ReplaceGoldPlayer (_pool.goldPlayer.value - cost);
-				e.AddTowerUpgradeProgress (0f).IsActive(false).IsInteractable(false);
+				e.ReplaceGold(e.gold.value + cost).AddTowerUpgradeProgress (0f).IsActive(false).IsInteractable(false);
 			}
 		}
 	}

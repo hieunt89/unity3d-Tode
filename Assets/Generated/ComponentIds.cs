@@ -28,23 +28,23 @@ public static class ComponentIds {
     public const int LifePlayer = 18;
     public const int MarkedForActive = 19;
     public const int MarkedForDestroy = 20;
-    public const int Movable = 21;
-    public const int Path = 22;
-    public const int PathLength = 23;
-    public const int PathReference = 24;
-    public const int Position = 25;
-    public const int Projectile = 26;
-    public const int ProjectileHoming = 27;
-    public const int ProjectileThrowing = 28;
-    public const int ProjectileThrowingParams = 29;
-    public const int ProjectileThrowingTime = 30;
-    public const int ReachedEnd = 31;
-    public const int Target = 32;
-    public const int Tick = 33;
-    public const int Tower = 34;
-    public const int TowerBase = 35;
-    public const int TowerUpgrade = 36;
-    public const int TowerUpgradeCurrentNode = 37;
+    public const int MarkedForSell = 21;
+    public const int Movable = 22;
+    public const int Path = 23;
+    public const int PathLength = 24;
+    public const int PathReference = 25;
+    public const int Position = 26;
+    public const int Projectile = 27;
+    public const int ProjectileHoming = 28;
+    public const int ProjectileThrowing = 29;
+    public const int ProjectileThrowingParams = 30;
+    public const int ProjectileThrowingTime = 31;
+    public const int ReachedEnd = 32;
+    public const int Target = 33;
+    public const int Tick = 34;
+    public const int Tower = 35;
+    public const int TowerBase = 36;
+    public const int TowerUpgrade = 37;
     public const int TowerUpgradeProgress = 38;
     public const int Turnable = 39;
     public const int View = 40;
@@ -75,6 +75,7 @@ public static class ComponentIds {
         "LifePlayer",
         "MarkedForActive",
         "MarkedForDestroy",
+        "MarkedForSell",
         "Movable",
         "Path",
         "PathLength",
@@ -91,7 +92,6 @@ public static class ComponentIds {
         "Tower",
         "TowerBase",
         "TowerUpgrade",
-        "TowerUpgradeCurrentNode",
         "TowerUpgradeProgress",
         "Turnable",
         "View",
@@ -121,6 +121,7 @@ public static class ComponentIds {
         typeof(LifePlayer),
         typeof(MarkedForActive),
         typeof(MarkedForDestroy),
+        typeof(MarkedForSell),
         typeof(Movable),
         typeof(Path),
         typeof(PathLength),
