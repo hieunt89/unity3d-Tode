@@ -1,1 +1,1 @@
-{"id":"tower1","name":"mage","prjTypeIndex":0,"prjType":"projectile0","atkType":1,"atkRange":10.0,"minDmg":10,"maxDmg":30,"atkSpeed":1.0,"goldRequired":100,"nextUpgradeIndexes":[],"nextUpgrades":[],"buildTime":1.0}
+{"id":"tower1","name":"tower 1 name","prjTypeIndex":0,"prjType":"projectile0","atkType":1,"atkRange":5.0,"minDmg":5,"maxDmg":15,"atkSpeed":1.0,"goldRequired":100,"nextUpgradeIndexes":[],"nextUpgrades":[],"buildTime":5.0}
