@@ -26,6 +26,7 @@ public class NodeBase : ScriptableObject {
 	}
 
 	public virtual void InitNode () {
+		Debug.Log ("Init Node");
 	}
 
 	public virtual void UpdateNode (Event _e, Rect _viewRect) {

@@ -79,7 +79,6 @@ public class TreeNodeWorkView : ViewBase {
 	private void OnClickContextCallback (object obj) {
 		switch(obj.ToString()) {
 		case "0":
-			Debug.Log ("Create Tree");
 			TreeNodePopupWindow.InitTreeNodePopup ();
 			break;
 		case "1":
