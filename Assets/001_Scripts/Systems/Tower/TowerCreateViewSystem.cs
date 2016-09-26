@@ -17,24 +17,7 @@ public class TowerCreateViewSystem : IReactiveSystem {
 	{
 		for (int i = 0; i < entities.Count; i++) {
 			var e = entities [i];
-			#region loading pref no async
-//			GameObjectgo = Lean.LeanPool.Spawn (Resources.Load<GameObject>("Tower/" + entities[i].tower.towerId));
-//
-//			if (!entities [i].hasView) {
-//				entities [i].AddView (go);
-//			} else {
-//				Lean.LeanPool.Despawn (entities [i].view.go);
-//				entities [i].ReplaceView (go);
-//			}
-//
-//			go.name = entities [i].id.value;
-//			go.transform.position = entities [i].position.value;
-//			go.transform.SetParent (towerViewParent.transform, false);
-			#endregion
-
-			#region loading pref async
 			e.AddCoroutine(CreateTowerView(e));
-			#endregion
 		}
 	}
 
@@ -44,18 +27,31 @@ public class TowerCreateViewSystem : IReactiveSystem {
 
 	TriggerOnEvent IReactiveSystem.trigger {
 		get {
-			return Matcher.Tower.OnEntityAdded();
+			return Matcher.AnyOf(Matcher.Tower, Matcher.TowerBase).OnEntityAdded();
 		}
 	}
 
 	#endregion
 
 	IEnumerator CreateTowerView(Entity e){
-		var r = Resources.LoadAsync<GameObject> ("Tower/" + e.tower.towerId);
+		string prefToLoad;
+		if (e.isTowerBase) {
+			prefToLoad = "towerbase";
+		} else {
+			prefToLoad = e.tower.currentNode.Data;
+		}
+
+		var r = Resources.LoadAsync<GameObject> ("Tower/" + prefToLoad);
 		while(!r.isDone){
 			yield return null;
 		}
 
+		if(r.asset == null){
+			if (GameManager.debug) {
+				Debug.Log ("Fail to load asset " + prefToLoad + " from Resources");
+			}
+			yield break;
+		}
 		GameObject go = Lean.LeanPool.Spawn ( r.asset as GameObject );
 
 		if (!e.hasView) {

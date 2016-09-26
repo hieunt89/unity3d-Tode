@@ -31,12 +31,18 @@ public class EnemyInitSystem : IReactiveSystem, ISetPool
 			activeTime = activeTime + waveGroup.WaveDelay;
 			ePath = _pool.GetEntityById(waveGroup.PathId);
 			if (ePath == null) { //continue if path not found
+				if (GameManager.debug) {
+					Debug.Log ("Path with id " + waveGroup.PathId + " is null");
+				}
 				continue;
 			}
 
 			for (int j = 0; j < waveGroup.Amount; j++) { //loop throu all enemies in wave group data
 				enemyData = DataManager.Instance.GetEnemyData (waveGroup.EnemyId);
 				if(enemyData == null){ //break if enemy data is null
+					if (GameManager.debug) {
+						Debug.Log ("Enemy with id " + waveGroup.EnemyId + " is null");
+					}
 					break;
 				}
 

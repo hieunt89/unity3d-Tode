@@ -27,12 +27,11 @@ public class TowerProgressBarViewSystem : IReactiveSystem, IInitializeSystem{
 			e = entities [i];
 			if (e.hasTowerUpgradeProgress) {
 				if(!e.hasViewSlider){
-					e.AddViewSlider (barGUI.CreateProgressBar ());
+					offset = e.view.go.GetRendererOffset (false);
+					e.AddViewSlider (barGUI.CreateProgressBar (), offset);
 				}
 
-				offset = e.view.go.GetRendererOffset (false);
-				e.viewSlider.bar.transform.position = Camera.main.WorldToScreenPoint (e.position.value + offset);
-
+				e.viewSlider.bar.transform.position = Camera.main.WorldToScreenPoint (e.position.value + e.viewSlider.offset);
 				e.viewSlider.bar.value = e.towerUpgradeProgress.progress / e.towerUpgrade.upgradeTime;
 			} else {
 				if (e.hasViewSlider) {

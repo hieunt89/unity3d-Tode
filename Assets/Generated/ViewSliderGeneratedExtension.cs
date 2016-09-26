@@ -12,15 +12,17 @@ namespace Entitas {
 
         public bool hasViewSlider { get { return HasComponent(ComponentIds.ViewSlider); } }
 
-        public Entity AddViewSlider(UnityEngine.UI.Slider newBar) {
+        public Entity AddViewSlider(UnityEngine.UI.Slider newBar, UnityEngine.Vector3 newOffset) {
             var component = CreateComponent<ViewSlider>(ComponentIds.ViewSlider);
             component.bar = newBar;
+            component.offset = newOffset;
             return AddComponent(ComponentIds.ViewSlider, component);
         }
 
-        public Entity ReplaceViewSlider(UnityEngine.UI.Slider newBar) {
+        public Entity ReplaceViewSlider(UnityEngine.UI.Slider newBar, UnityEngine.Vector3 newOffset) {
             var component = CreateComponent<ViewSlider>(ComponentIds.ViewSlider);
             component.bar = newBar;
+            component.offset = newOffset;
             ReplaceComponent(ComponentIds.ViewSlider, component);
             return this;
         }

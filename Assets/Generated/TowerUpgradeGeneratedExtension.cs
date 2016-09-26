@@ -12,17 +12,17 @@ namespace Entitas {
 
         public bool hasTowerUpgrade { get { return HasComponent(ComponentIds.TowerUpgrade); } }
 
-        public Entity AddTowerUpgrade(float newUpgradeTime, string newUpgradeId) {
+        public Entity AddTowerUpgrade(float newUpgradeTime, Node<string> newUpgradeNode) {
             var component = CreateComponent<TowerUpgrade>(ComponentIds.TowerUpgrade);
             component.upgradeTime = newUpgradeTime;
-            component.upgradeId = newUpgradeId;
+            component.upgradeNode = newUpgradeNode;
             return AddComponent(ComponentIds.TowerUpgrade, component);
         }
 
-        public Entity ReplaceTowerUpgrade(float newUpgradeTime, string newUpgradeId) {
+        public Entity ReplaceTowerUpgrade(float newUpgradeTime, Node<string> newUpgradeNode) {
             var component = CreateComponent<TowerUpgrade>(ComponentIds.TowerUpgrade);
             component.upgradeTime = newUpgradeTime;
-            component.upgradeId = newUpgradeId;
+            component.upgradeNode = newUpgradeNode;
             ReplaceComponent(ComponentIds.TowerUpgrade, component);
             return this;
         }

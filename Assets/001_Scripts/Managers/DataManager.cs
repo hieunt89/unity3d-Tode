@@ -26,12 +26,23 @@ public class DataManager {
 	Dictionary<string, TowerData> towerIdToData;
 	Dictionary<string, EnemyData> enemyIdToData;
 	Dictionary<string, MapData> mapIdToData;
+	List<Tree<string>> towerTrees;
 
 	public DataManager(){
 		LoadData <ProjectileData>(out projectileIdToData);
 		LoadData <TowerData> (out towerIdToData);
 		LoadData <EnemyData> (out enemyIdToData);
 		LoadData <MapData> (out mapIdToData);
+		LoadTowerTreeData ();
+	}
+
+	void LoadTowerTreeData(){
+		towerTrees = new List<Tree<string>> ();
+
+		Tree<string> t1 =  new Tree<string> ("tower0");
+		t1.Root.AddChild ("tower1");
+		t1.Root.Children [0].AddChild ("tower0");
+		towerTrees.Add (t1);
 	}
 
 	void LoadData <T> (out Dictionary<string, T> d){
@@ -46,35 +57,15 @@ public class DataManager {
 		}
 	}
 
-	void LoadProjectileData(){
-		projectileIdToData = new Dictionary<string, ProjectileData> ();
-
-		List<ProjectileData> datas = LoadAllData<ProjectileData> ();
-
-		foreach (ProjectileData data in datas) {
-			projectileIdToData.Add (data.Id, data);
+	public List<Node<string>> GetTowerRoots(){
+		List <Node<string>> list = new List<Node<string>> ();
+		for (int i = 0; i < towerTrees.Count; i++) {
+			list.Add (towerTrees[i].Root);
 		}
+		return list;
 	}
 
-	void LoadTowerData(){
-		towerIdToData = new Dictionary<string, TowerData> ();
-
-		List<TowerData> datas = LoadAllData<TowerData> ();
-
-		foreach (TowerData data in datas) {
-			towerIdToData.Add (data.Id, data);
-		}
-	}
-
-	void LoadEnemyData(){
-		enemyIdToData = new Dictionary<string, EnemyData> ();
-
-		List<EnemyData> datas = LoadAllData<EnemyData> ();
-
-		foreach (EnemyData data in datas) {
-			enemyIdToData.Add (data.Id, data);
-		}
-	}
+//	public Tree
 
 	public MapData GetMapData(string id){
 		if (mapIdToData.ContainsKey (id)) {
@@ -110,33 +101,6 @@ public class DataManager {
 
 	#region json data
 	const string dataDirectory = "Assets/Resources/Data/";
-
-//	public void SaveMapData (MapData mapData) {
-//
-//		var jsonString = JsonUtility.ToJson(mapData);
-//		Debug.Log(jsonString);
-//		var path = EditorUtility.SaveFilePanel("Save Map Data", dataDirectory , mapData.Id +".json", "json");
-//
-//		if (!string.IsNullOrEmpty(path))
-//		{
-//			using (FileStream fs = new FileStream (path, FileMode.Create)) {
-//				using (StreamWriter writer = new StreamWriter(fs)) {
-//					writer.Write(jsonString);
-//				}
-//			}
-//		}
-//		AssetDatabase.Refresh();
-//	}
-
-//	public void LoadMapData (MapData mapData) {
-//		var path = EditorUtility.OpenFilePanel("Load Map Data", dataDirectory, "json");
-//
-//		var reader = new WWW("file:///" + path);
-//		while(!reader.isDone){
-//		}
-//		Debug.Log(reader.text);
-//		JsonUtility.FromJsonOverwrite (reader.text, mapData);
-//	}
 
 	public void SaveData<T> (T data) {
 
@@ -194,29 +158,5 @@ public class DataManager {
 	
 	}
 	#endregion json data
-
-	#region test scriptable object
-//	string databasePath = "Assets/Resources/Maps";
-//
-//	private MapData LoadMap () {
-//		MapData currentMapData = (MapData) AssetDatabase.LoadAssetAtPath (databasePath, typeof(MapData));
-//		if (currentMapData != null) {
-//			return currentMapData;
-//		} 
-//		return CreateMap();
-//	}
-//
-//	private MapData CreateMap () {
-//		MapData currentMapData = (MapData) ScriptableObject.CreateInstance(typeof(MapData));
-//		if (currentMapData != null) {
-//			AssetDatabase.CreateAsset(currentMapData, databasePath);
-//			AssetDatabase.Refresh();
-//			AssetDatabase.SaveAssets();
-//			Debug.Log ("Create map ...");
-//			return currentMapData;
-//		} 
-//		return null;
-//	}
-	#endregion
 
 }

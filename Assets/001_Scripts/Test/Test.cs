@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
+[ExecuteInEditMode]
 public class Test : MonoBehaviour {
 	void Start () {
 		Tree<string> t = new Tree<string> ("root");

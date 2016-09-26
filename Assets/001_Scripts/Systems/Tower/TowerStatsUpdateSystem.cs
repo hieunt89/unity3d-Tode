@@ -20,7 +20,7 @@ public class TowerStatsUpdateSystem : IReactiveSystem, IEnsureComponents {
 		TowerData towerData;
 		for (int i = 0; i < entities.Count; i++) {
 			var tower = entities [i];
-			towerData = DataManager.Instance.GetTowerData (tower.tower.towerId);
+			towerData = DataManager.Instance.GetTowerData (tower.tower.currentNode.Data);
 			if (towerData != null) {
 				tower
 					.ReplaceProjectile (towerData.PrjType)
@@ -29,7 +29,7 @@ public class TowerStatsUpdateSystem : IReactiveSystem, IEnsureComponents {
 					.ReplaceAttackDamage (towerData.MinDmg, towerData.MaxDmg)
 					.ReplaceAttackSpeed (towerData.AtkSpeed)
 					.ReplaceGold(towerData.GoldRequired)
-					.ReplaceTowerNextUpgrade(towerData.NextUpgrades)
+					.IsInteractable(true)
 					.IsActive (true);
 			} else {
 				tower.IsActive (false);
