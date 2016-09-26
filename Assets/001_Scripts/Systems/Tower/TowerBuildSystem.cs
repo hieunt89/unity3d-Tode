@@ -29,11 +29,11 @@ public class TowerBuildSystem : IReactiveSystem, ISetPool {
 				e.ReplaceTowerUpgradeProgress (e.towerUpgradeProgress.progress + Time.deltaTime);
 			} else {
 				if (e.isTowerBase) {
-					e.IsTowerBase (false).AddTower (e.towerUpgrade.upgradeNode.Data);
+					e.IsTowerBase (false).AddTower (e.towerUpgrade.upgradeNode);
 				} else {
-					e.ReplaceTower (e.towerUpgrade.upgradeNode.Data);
+					e.ReplaceTower (e.towerUpgrade.upgradeNode);
 				}
-				e.ReplaceTowerUpgradeCurrentNode (e.towerUpgrade.upgradeNode).RemoveTowerUpgrade ().RemoveTowerUpgradeProgress ();
+				e.RemoveTowerUpgrade ().RemoveTowerUpgradeProgress ();
 			}
 		}
 	}
