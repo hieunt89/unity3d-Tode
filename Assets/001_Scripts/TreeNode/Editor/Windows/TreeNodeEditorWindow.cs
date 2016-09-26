@@ -7,7 +7,7 @@ public class TreeNodeEditorWindow : EditorWindow {
 	public TreeNodeWorkView workView;
 	public TreeNodePropertiesView propertiesView;
 
-	public Tree currentGraph = null;
+	public TreeUI currentTree = null;
 
 	private float viewPercentage = 0.75f;
 
@@ -27,9 +27,9 @@ public class TreeNodeEditorWindow : EditorWindow {
 		Event e = Event.current;
 		ProcessEvent (e);
 
-		workView.UpdateView (position, new Rect (0f, 0f, viewPercentage, 1f), e, currentGraph);
+		workView.UpdateView (position, new Rect (0f, 0f, viewPercentage, 1f), e, currentTree);
 		propertiesView.UpdateView (new Rect (position.width, position.y, position.width, position.height), 
-			new Rect (viewPercentage, 0f, 1f - viewPercentage, 1f), e, currentGraph);
+			new Rect (viewPercentage, 0f, 1f - viewPercentage, 1f), e, currentTree);
 
 		Repaint ();
 	}

@@ -1,82 +1,32 @@
 ﻿using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-using System;
+using System.Collections;
 using System.Collections.Generic;
 
-public enum TreeType {
-	Tower,
-	Skill
-}
-[Serializable]
-public class Tree : ScriptableObject {
-	public string treeName = "New Tree";
-	public List<NodeBase> nodes;
-	public NodeBase selectedNode;
-	public bool wantsConnection = false;
-	public NodeBase connectionNode;	// ???
-	public bool showProperties = false;
+public class Tree <T> where T : class {
+	public TreeType treeType;
+	public string treeName;
+	public Node <T> Root;
 
-	void OnEnable () {
-		if (nodes == null) {
-			nodes = new List<NodeBase> ();
-		}
-	}
-
-	public void InitTree () {
-		if (nodes.Count > 0) {
-			for (int i = 0; i < nodes.Count; i++) {
-				nodes [i].InitNode ();
-			}
-		}
-	}
-
-	public void UpdateTree() {
-		if (nodes.Count > 0) {
-
-		}
-	}
-
-	public void UpdateTreeGUI (Event e, Rect viewRect, GUISkin viewSkin) {
-		if (nodes.Count > 0) {
-			ProcessEvents (e, viewRect);
-			for (int i = 0; i < nodes.Count; i++) {
-				nodes [i].UpdateNodeGUI (e, viewRect, viewSkin);
-			}
-		}
-		if (wantsConnection) {
-			if (connectionNode != null) {
-				// draw conntection bezier
-			}
-		}
-
-		if (e.type == EventType.Layout) {
-			if (selectedNode != null) {
-				showProperties = true;
-			}
-		}
-
-		EditorUtility.SetDirty (this);
-	}
-
-	private void ProcessEvents (Event _e, Rect _viewRect) {
-		if (_viewRect.Contains (_e.mousePosition)) {
-			if (_e.button == 0) {
-				if (_e.type == EventType.MouseDown) {
-
-				}
-			}
-		}
-	}
-
-	private void DrawConnectionToMouse (Vector2 _mousePosition) {
+	public Tree () {
 
 	}
 
-	void DeselectAllNodes () {
-		for (int i = 0; i < nodes.Count; i++) {
-			nodes [i].isSelected = false;
-		}
+	public Tree (TreeType treeType, string treeName){
+		this.treeType = treeType;
+		this.treeName = treeName;
+		this.Root = new Node<T> ();
+	}
+
+	public Tree (T rootData)
+	{
+		this.Root = new Node<T> (rootData);
+	}
+
+	public Tree (TreeType treeType, string treeName, T rootData)
+	{
+		this.treeType = treeType;
+		this.treeName = treeName;
+		this.Root = new Node<T> (rootData);
 	}
 }
+

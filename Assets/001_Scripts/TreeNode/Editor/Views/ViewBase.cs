@@ -10,22 +10,22 @@ public class ViewBase {
 	public Rect viewRect;
 
 	protected GUISkin viewSkin;
-	protected Tree currentTree;
+	protected TreeUI currentTree;
 
 	public ViewBase (string _viewTitle) {
 		this.viewTitle = _viewTitle;
 		GetEditorSkin ();
 	}
 
-	public virtual void UpdateView (Rect _editorRect, Rect _percentageRect, Event _e, Tree _currentTree) {
+	public virtual void UpdateView (Rect _editorRect, Rect _percentageRect, Event _e, TreeUI _currentTree) {
 		if (viewSkin == null) {
 			GetEditorSkin ();
 			return;
 		}
 
 		this.currentTree = _currentTree;
-		if (currentTree != null) {
-			viewTitle = currentTree.treeName;
+		if (currentTree != null && currentTree.treeData != null) {
+			viewTitle = currentTree.treeData.treeName;
 		} else {
 			viewTitle = "No Tree";
 		}

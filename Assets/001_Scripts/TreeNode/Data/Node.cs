@@ -1,8 +1,13 @@
 ﻿using UnityEngine;
-using System.Collections;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+using System;
 using System.Collections.Generic;
 
-public class Node <T> where T : class {
+[Serializable]
+public class Node <T> where T : class  {
+
 	public T Data;
 	public Node<T> parent;
 	public List<Node<T>> Children;
@@ -45,32 +50,3 @@ public class Node <T> where T : class {
 		return null;
 	}
 }
-
-public class Tree <T> where T : class {
-	public TreeType treeType;
-	public string treeName;
-	public Node <T> Root;
-
-	public Tree () {
-
-	}
-
-	public Tree (TreeType treeType, string treeName){
-		this.treeType = treeType;
-		this.treeName = treeName;
-		this.Root = new Node<T> ();
-	}
-
-	public Tree (T rootData)
-	{
-		this.Root = new Node<T> (rootData);
-	}
-
-	public Tree (TreeType treeType, string treeName, T rootData)
-	{
-		this.treeType = treeType;
-		this.treeName = treeName;
-		this.Root = new Node<T> (rootData);
-	}
-}
-

@@ -4,7 +4,7 @@ using UnityEditor;
 public class TreeNodePopupWindow : EditorWindow {
 
 	static TreeNodePopupWindow currentPopup;
-	string treeName = "Enter a name ...";
+	string treeName = "Enter tree name ...";
 	TreeType treeType;
 
 	public static void InitTreeNodePopup () {
@@ -24,7 +24,7 @@ public class TreeNodePopupWindow : EditorWindow {
 
 		GUILayout.BeginHorizontal ();
 		if (GUILayout.Button ("Create Tree", GUILayout.Height(40))){
-			if (!string.IsNullOrEmpty (treeName) && treeName != "Enter a name ...") {
+			if (!string.IsNullOrEmpty (treeName) && treeName != "Enter tree name ...") {
 				TreeNodeUtils.CreateTree (treeType, treeName);
 			} else {
 				EditorUtility.DisplayDialog ("Tree Node Message", "Please enter a valid tree name", "OK");

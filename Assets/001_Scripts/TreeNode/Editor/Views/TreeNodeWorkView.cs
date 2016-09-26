@@ -9,12 +9,12 @@ public class TreeNodeWorkView : ViewBase {
 	public TreeNodeWorkView () : base ("Tree View") {
 	}
 
-	public override void UpdateView (Rect _editorRect, Rect _percentageRect, Event _e, Tree _currentTree)
+	public override void UpdateView (Rect _editorRect, Rect _percentageRect, Event _e, TreeUI _currentTree)
 	{
 		base.UpdateView (_editorRect, _percentageRect, _e, _currentTree);
 
-		if (_currentTree != null) {
-			viewTitle = _currentTree.treeName;
+		if (_currentTree != null && _currentTree.treeData != null) {
+			viewTitle = _currentTree.treeData.treeName;
 		} else {
 			viewTitle = "No Tree";
 		}

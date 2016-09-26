@@ -2,14 +2,19 @@
 using UnityEditor;
 using System;
 
+public enum NodeType {
+	RootNode,
+	Node
+}
+
 [Serializable]
-public class NodeBase : ScriptableObject {
+public class NodeBase {
 
 	public bool isSelected = false;
 	public string nodeName;
 	public Rect nodeRect;
-	public Tree tree;
-//	public 
+	public TreeUI tree;
+	
 
 	protected GUISkin nodeSkin;
 
@@ -40,7 +45,7 @@ public class NodeBase : ScriptableObject {
 		} else {
 			GUI.Box (nodeRect, nodeName, _viewSkin.GetStyle ("NodeSelected"));
 		}
-		EditorUtility.SetDirty (this);
+//		EditorUtility.SetDirty (this);
 	}
 
 	public virtual void DrawNodeProperties () {
