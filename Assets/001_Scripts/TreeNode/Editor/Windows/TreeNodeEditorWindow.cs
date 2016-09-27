@@ -28,6 +28,7 @@ public class TreeNodeEditorWindow : EditorWindow {
 		ProcessEvent (e);
 
 		workView.UpdateView (position, new Rect (0f, 0f, viewPercentage, 1f), e, currentTree);
+
 		propertiesView.UpdateView (new Rect (position.width, position.y, position.width, position.height), 
 			new Rect (viewPercentage, 0f, 1f - viewPercentage, 1f), e, currentTree);
 

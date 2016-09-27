@@ -48,30 +48,6 @@ public class TreeUI {
 		}
 	}
 
-//	void OnEnable () {
-//		Debug.Log ("tree ui on enable");
-//
-//		treeData = new Tree <string> ();
-//		if (nodes == null) {
-//			nodes = new List<NodeBase> ();
-//		}
-//	}
-
-//	public void InitTree () {
-//		treeData = new Tree <string> ();
-//		if (nodes.Count > 0) {
-//			for (int i = 0; i < nodes.Count; i++) {
-//				nodes [i].InitNode ();
-//			}
-//		}
-//	}
-
-//	public void UpdateTree() {
-//		if (nodes.Count > 0) {
-//
-//		}
-//	}
-
 	public void UpdateTreeUI (Event e, Rect viewRect, GUISkin viewSkin) {
 
 		ProcessEvents (e, viewRect);
@@ -116,8 +92,6 @@ public class TreeUI {
 					}
 
 					if (!setNode) {
-						wantsConnection = false;
-						startConnectionNode = null;
 						DeselectAllNodes ();
 					}
 
@@ -130,10 +104,10 @@ public class TreeUI {
 	}
 
 	private void DrawConnectionToMouse (Vector2 _mousePosition) {
-		bool isRight = _mousePosition.x >= startConnectionNode.nodeRect.x + (startConnectionNode.nodeRect.width * 0.5f);
+		bool isRight = _mousePosition.x >= startConnectionNode.nodeRect.x + startConnectionNode.nodeRect.width * 0.5f;
 
 		var startPos = new Vector3(isRight ? startConnectionNode.nodeRect.x + startConnectionNode.nodeRect.width :  startConnectionNode.nodeRect.x, 
-									startConnectionNode.nodeRect.y + startConnectionNode.nodeRect.height * 0.75f, 
+									startConnectionNode.nodeRect.y + startConnectionNode.nodeRect.height + 5f + startConnectionNode.nodeRect.height * 0.5f, 
 									0);
 		var endPos = new Vector3(_mousePosition.x, _mousePosition.y, 0);
 

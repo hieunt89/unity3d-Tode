@@ -6,7 +6,7 @@ public static class TreeNodeUtils {
 
 	public static void CreateTree (TreeType treeType, string treeName) {
 		
-		TreeUI currentTree = new TreeUI(treeType, treeName, new Tree<string> ("tower"));
+		TreeUI currentTree = new TreeUI(treeType, treeName, new Tree<string> (""));
 
 		if (currentTree != null) {
 			// add root node
@@ -59,9 +59,7 @@ public static class TreeNodeUtils {
 			}
 
 			if (newNode != null) {
-				newNode.InitNode ();
-				newNode.nodeRect.x = position.x;
-				newNode.nodeRect.y = position.y;
+				newNode.InitNode (position);
 
 				newNode.currentTree = currentTree;
 				currentTree.nodes.Add (newNode);

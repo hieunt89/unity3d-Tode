@@ -14,7 +14,7 @@ public class TreeNodeWorkView : ViewBase {
 	{
 		base.UpdateView (_editorRect, _percentageRect, _e, _currentTree);
 
-		if (_currentTree != null && _currentTree.treeData != null) {
+		if (_currentTree != null) {
 			viewTitle = _currentTree.treeName;
 		} else {
 			viewTitle = "No Tree";
@@ -23,8 +23,8 @@ public class TreeNodeWorkView : ViewBase {
 		GUI.Box (viewRect, viewTitle, viewSkin.GetStyle("ViewBg"));
 
 		// draw grid
-		TreeNodeUtils.DrawGrid (viewRect, 60f, 0.15f, Color.white);
-		TreeNodeUtils.DrawGrid (viewRect, 20f, 0.1f, Color.white);
+		TreeNodeUtils.DrawGrid (viewRect, 60f, 0.015f, Color.white);
+//		TreeNodeUtils.DrawGrid (viewRect, 20f, 0.1f, Color.white);
 
 		GUILayout.BeginArea (viewRect);
 		if (currentTree != null) {
