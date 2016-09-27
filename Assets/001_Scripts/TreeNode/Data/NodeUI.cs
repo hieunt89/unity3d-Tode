@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System;
+using System.Collections.Generic;
 
 public enum NodeType {
 	RootNode,
@@ -9,11 +10,13 @@ public enum NodeType {
 
 [Serializable]
 public class NodeUI  {
-
 	public Node<string> nodeData;
 	public bool isSelected = false;
 	public Rect nodeRect;
-	public TreeUI tree;
+	public TreeUI currentTree;
+
+	public NodeUI inputNode;
+	public List<NodeUI> outputNodes;
 
 	protected GUISkin nodeSkin;
 
@@ -21,11 +24,13 @@ public class NodeUI  {
 		this.nodeData = _nodeData;
 	}
 
-
+	public NodeUI (Node<string> _nodeData, NodeUI _inputNode, List<NodeUI> _outputNodes) {
+		this.nodeData = _nodeData;
+		this.inputNode = _inputNode;
+		this.outputNodes = _outputNodes;
+	}
 
 	public void InitNode () {
-		Debug.Log ("init node");
-		// check node type ? rootNode : node
 		nodeRect = new Rect (10f, 10f, 100f, 40f);
 	}
 
@@ -33,27 +38,24 @@ public class NodeUI  {
 		ProcessEvent (_e, _viewRect);
 	}
 
-	public void UpdateNodeGUI (Event _e, Rect _viewRect, GUISkin _viewSkin) {
+	public void UpdateNodeUI (Event _e, Rect _viewRect, GUISkin _viewSkin) {
 		ProcessEvent (_e, _viewRect);
 
 		if (!isSelected) {
-			GUI.Box (nodeRect, nodeData.Data, _viewSkin.GetStyle ("NodeDefault"));
+			GUI.Box (nodeRect, "nodeData.Data", _viewSkin.GetStyle ("NodeDefault"));
 		} else {
-			GUI.Box (nodeRect, nodeData.Data, _viewSkin.GetStyle ("NodeSelected"));
+			GUI.Box (nodeRect, "nodeData.Data", _viewSkin.GetStyle ("NodeSelected"));
 		}
+			
+//		if (GUI.Button (new Rect(nodeRect.x, nodeRect.y + (nodeRect.height * 0.5f), nodeRect.width, nodeRect.height * 0.5f), "C")) {
+//			if (currentTree != null) {
+//				currentTree.wantsConnection = true;
+//				currentTree.startConnectionNode = this;
+//			}
+//		}
 
-		// draw bezier link from this node to mouse
-		// TODO: draw button to link to other node 
-		// check if the tree is not null
-		// do the job
-		// tree.wantsconnection = true;
-		// tree.connectionNode = this node;
-		if (GUI.Button (new Rect(nodeRect.x + nodeRect.width, nodeRect.y + (nodeRect.height * 0.5f) - 12f, 24f, 24f), "", _viewSkin.GetStyle ("NodeOutput"))) {
-			if (tree != null) {
-				tree.wantsConnection = true;
-				tree.connectionNode = this;
-			}
-		}
+
+		DrawInputConnection ();
 	}
 
 	public void DrawNodeProperties () {
@@ -63,11 +65,55 @@ public class NodeUI  {
 	private void ProcessEvent (Event _e, Rect _viewRect) {
 		if (isSelected) {
 			if (_viewRect.Contains (_e.mousePosition)) {
-				if (_e.type == EventType.MouseDrag) {
-					nodeRect.x += _e.delta.x;
-					nodeRect.y += _e.delta.y;
+//				if (_e.type == EventType.MouseDrag) {
+//					nodeRect.x += _e.delta.x;
+//					nodeRect.y += _e.delta.y;
+//				}
+				if (_e.type == EventType.MouseDown) {
+					Debug.Log ("Node mouse down");
+					if (currentTree != null) {
+						if (currentTree.startConnectionNode == null) {
+							currentTree.wantsConnection = true;
+							currentTree.startConnectionNode = this;
+						} else {
+							inputNode = currentTree.startConnectionNode;
+							currentTree.wantsConnection = false;
+							currentTree.startConnectionNode = null;
+						}
+					}
 				}
+				if (_e.type == EventType.MouseUp) {
+					Debug.Log ("Node mouse up + add connection here " + nodeData.Data); 
+					// check this node if it has valid conditions
+					if (currentTree !=null) {
+						
+					}
+				}
+
 			}
 		}
+	}
+
+	private void DrawInputConnection () {
+		if (inputNode != null) {
+			bool isRight = nodeRect.x >= inputNode.nodeRect.x + (inputNode.nodeRect.width * 0.5f);
+
+			var startPos = new Vector3 (inputNode.nodeRect.x + inputNode.nodeRect.width, 
+				inputNode.nodeRect.y + inputNode.nodeRect.height * 0.75f, 0f);
+			var endPos = new Vector3(nodeRect.x, nodeRect.y + (nodeRect.height * 0.75f), 0f);
+
+			float mnog = Vector3.Distance(startPos,endPos);
+			Vector3 startTangent = startPos + (isRight ? Vector3.right : Vector3.left) * (mnog / 3f) ;
+			Vector3 endTangent = endPos + (isRight ? Vector3.left : Vector3.right) * (mnog / 3f);
+
+			Handles.BeginGUI ();
+			Handles.DrawBezier(startPos, endPos, startTangent, endTangent,Color.white, null, 2f);
+			Handles.EndGUI ();
+
+		} else {
+			inputNode = null;
+		}
+
+
 	}
 }

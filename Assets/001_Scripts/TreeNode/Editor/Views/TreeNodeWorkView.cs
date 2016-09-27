@@ -5,6 +5,7 @@ using System;
 [Serializable]
 public class TreeNodeWorkView : ViewBase {
 	private Vector2 mousePosition;
+	private int deleteNodeId = 0;
 
 	public TreeNodeWorkView () : base ("Tree View") {
 	}
@@ -14,7 +15,7 @@ public class TreeNodeWorkView : ViewBase {
 		base.UpdateView (_editorRect, _percentageRect, _e, _currentTree);
 
 		if (_currentTree != null && _currentTree.treeData != null) {
-			viewTitle = _currentTree.treeData.treeName;
+			viewTitle = _currentTree.treeName;
 		} else {
 			viewTitle = "No Tree";
 		}
@@ -22,11 +23,13 @@ public class TreeNodeWorkView : ViewBase {
 		GUI.Box (viewRect, viewTitle, viewSkin.GetStyle("ViewBg"));
 
 		// draw grid
-//		TreeNodeUtils.DrawGrid (viewRect, 60f, 0.15f, Color.white);
-//		TreeNodeUtils.DrawGrid (viewRect, 30f, 0.05f, Color.white);
-
+		TreeNodeUtils.DrawGrid (viewRect, 60f, 0.15f, Color.white);
+		TreeNodeUtils.DrawGrid (viewRect, 20f, 0.1f, Color.white);
 
 		GUILayout.BeginArea (viewRect);
+		if (currentTree != null) {
+			currentTree.UpdateTreeUI (_e, viewRect, viewSkin);
+		}
 
 		GUILayout.EndArea ();
 
@@ -38,42 +41,70 @@ public class TreeNodeWorkView : ViewBase {
 		base.ProcessEvent (e);
 
 		if (viewRect.Contains (e.mousePosition)) {
-			if (e.button == 0) {
-				if (e.type == EventType.MouseDown) {
-					
-				}
-				if (e.type == EventType.MouseDrag) {
-					
-				}
-				if (e.type == EventType.MouseUp) {
-					
-				}
-			}
+//			if (e.button == 0) {
+//				if (e.type == EventType.MouseDown) {
+//					
+//				}
+//				if (e.type == EventType.MouseDrag) {
+//					
+//				}
+//				if (e.type == EventType.MouseUp) {
+//					
+//				}
+//			}
 			if (e.button == 1) {
 				if (e.type == EventType.MouseDown) {
-					CreateContextMenu (e);
+					mousePosition = e.mousePosition;
+
+					bool mouseOverNode = false;
+					deleteNodeId = 0;
+					if (currentTree != null) {
+						if (currentTree.nodes.Count > 0) {
+							for (int i = 0; i < currentTree.nodes.Count; i++) {
+								if (currentTree.nodes[i].nodeRect.Contains (mousePosition)) {
+									mouseOverNode = true;
+									deleteNodeId = i;
+								}
+							}
+						}
+					}
+
+					if (!mouseOverNode) {
+						ProcessContextMenu(e, 0);
+					} else {
+						ProcessContextMenu(e, 1);
+					}
 				}
 			}
 		}
 	}
 
-	private void CreateContextMenu (Event e) {
+	private void ProcessContextMenu (Event e, int contextId) {
 		GenericMenu menu = new GenericMenu ();
-		menu.AddItem (new GUIContent ("Create Tree"), false, OnClickContextCallback, "0");
-		menu.AddItem (new GUIContent ("Load Tree"), false, OnClickContextCallback, "1");
 
-		if (currentTree != null) {
-			menu.AddSeparator ("");
-			menu.AddItem (new GUIContent("Unload Tree"), false, OnClickContextCallback, "2");
+		switch (contextId) {
+		case 0:
+			if (currentTree == null) {
+				menu.AddItem (new GUIContent ("Create Tree"), false, OnClickContextCallback, "0");
+				menu.AddItem (new GUIContent ("Load Tree"), false, OnClickContextCallback, "1");
+			} else {
+				menu.AddSeparator ("");
+				menu.AddItem (new GUIContent("Unload Tree"), false, OnClickContextCallback, "2");
 
-			menu.AddSeparator ("");
-			menu.AddItem (new GUIContent ("Add Node"), false, OnClickContextCallback, "3");
-			menu.AddItem (new GUIContent ("Remove Node"), false, OnClickContextCallback, "4");
+				menu.AddSeparator ("");
+				menu.AddItem (new GUIContent ("Add Node"), false, OnClickContextCallback, "3");
+			}
+			break;
+
+		case 1:
+			if (currentTree != null){
+				menu.AddItem (new GUIContent ("Remove Node"), false, OnClickContextCallback, "4");
+			}
+			break;
 		}
 
 		menu.ShowAsContext ();
 		e.Use ();
-
 	}
 
 	private void OnClickContextCallback (object obj) {
@@ -85,17 +116,16 @@ public class TreeNodeWorkView : ViewBase {
 			Debug.Log ("Load Tree");
 			break;
 		case "2":
-			Debug.Log ("Unload Tree");
+			TreeNodeUtils.UnloadTree ();
 			break;
 		case "3":
-			Debug.Log ("Add Node");
+			TreeNodeUtils.AddNode (currentTree, NodeType.Node, mousePosition);
 			break;
 		case "4":
-			Debug.Log ("Remove Node");
+			TreeNodeUtils.RemoveNode(deleteNodeId, currentTree);
 			break;
 		}
 	}
-	private void ProcessContextMenu (Event e, int contextId) {
 
-	}
+
 }

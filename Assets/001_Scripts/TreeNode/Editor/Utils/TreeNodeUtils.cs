@@ -1,18 +1,16 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using System.Collections.Generic;
 
 public static class TreeNodeUtils {
 
 	public static void CreateTree (TreeType treeType, string treeName) {
-		TreeUI currentTree = new TreeUI(new Tree<string> ());
+		
+		TreeUI currentTree = new TreeUI(treeType, treeName, new Tree<string> ("tower"));
 
 		if (currentTree != null) {
-			currentTree.treeData.treeType = treeType;
-			currentTree.treeData.treeName = treeName;
-
-			// TODO: add root node to treeData
-
-//			Debug.Log (currentTree.treeType + " / " + currentTree.treeName + " / " + currentTree.Root);
+			// add root node
+			AddNode (currentTree, NodeType.RootNode, new Vector2(10f, 10f));
 
 			// TODO: save current tree to resource folders
 
@@ -28,11 +26,9 @@ public static class TreeNodeUtils {
 
 	public static void LoadTree () {
 		TreeUI currentTree = null;
-//		string treePath = EditorUtility.OpenFilePanel ("Load Tree", Application.dataPath + "/Database/", "");
-//		int appPathLength = Application.dataPath.Length;
-//		string finalPath = treePath.Substring (appPathLength - 6);
 
-//		currentTree = (TreeUI) DataManager.Load
+		// TODO: load tree from resource
+
 		if (currentTree != null) {
 
 		} else {
@@ -47,28 +43,28 @@ public static class TreeNodeUtils {
 		}
 	}
 
-	public static void CreateNode (TreeUI currentTree, NodeType nodeType, Vector2 position) {
+	public static void AddNode (TreeUI currentTree, NodeType nodeType, Vector2 position) {
 		if (currentTree != null) {
-			NodeUI currentNode = null;
-
+			NodeUI newNode = null;
+			List <NodeUI> outputNodes = new List<NodeUI> ();
 			switch (nodeType) {
 			case NodeType.RootNode:
-				currentNode = new NodeUI(new Node<string> ("root node"));
+				newNode = new NodeUI(new Node<string> ("root node"), null, outputNodes);
 				break;
 			case NodeType.Node:
-				currentNode = new NodeUI(new Node<string> ("node"));
+				newNode = new NodeUI(new Node<string> ("node"), null, outputNodes);
+				break;
+			default:
 				break;
 			}
 
+			if (newNode != null) {
+				newNode.InitNode ();
+				newNode.nodeRect.x = position.x;
+				newNode.nodeRect.y = position.y;
 
-			if (currentNode != null) {
-				currentNode.InitNode ();
-				currentNode.nodeRect.x = position.x;
-				currentNode.nodeRect.y = position.y;
-
-				currentNode.tree = currentTree;
-
-				//TODO: add current node to tree data
+				newNode.currentTree = currentTree;
+				currentTree.nodes.Add (newNode);
 
 				// TODO: save node 
 			}
@@ -76,9 +72,16 @@ public static class TreeNodeUtils {
 
 	}
 
-	public static void RemoveNode (int nodeId, Tree currentTree) {
+	public static void RemoveNode (int nodeId, TreeUI currentTree) {
 		if (currentTree != null) {
-			
+			if(currentTree.nodes.Count >= nodeId) {
+				NodeUI selectecNode = currentTree.nodes[nodeId];
+				if(selectecNode != null) {
+					currentTree.nodes.RemoveAt (nodeId);
+
+					// TODO: save data after remove
+				}
+			}
 		}
 	}
 
