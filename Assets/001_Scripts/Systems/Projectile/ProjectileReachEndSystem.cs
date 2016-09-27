@@ -24,7 +24,7 @@ public class ProjectileReachEndSystem : IReactiveSystem {
 
 	public TriggerOnEvent trigger {
 		get {
-			return Matcher.AllOf (Matcher.Projectile, Matcher.ReachedEnd).NoneOf(Matcher.Tower).OnEntityAdded();
+			return Matcher.AllOf (Matcher.ProjectileMark, Matcher.ReachedEnd).OnEntityAdded();
 		}
 	}
 

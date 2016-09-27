@@ -1,25 +1,55 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Entitas;
+using UnityEngine.UI;
+using Lean;
 
 public class TowerSellGUI : MonoBehaviour {
+	public GameObject prefab;
+	Entity currentSelected = null;
 
-
-	void Start(){
-		Messenger.AddListener (Events.Input.EMPTY_CLICK, ClearTowerSellBtn);
-		Messenger.AddListener <Entity> (Events.Input.ENTITY_CLICK, RegisterTowerSellBtn);
+	void OnEnable(){
+		Messenger.AddListener (Events.Input.EMPTY_CLICK, HandleEmptyClick);
+		Messenger.AddListener <Entity> (Events.Input.ENTITY_CLICK, HandleEntityClick);
+		Messenger.AddListener (Events.Input.TOWER_SELL_BTN_CLICK, SellTower);
+		Messenger.AddListener (Events.Input.TOWER_UI_CLEAR, HandleEmptyClick);
 	}
 
-	void OnDestroy(){
-		Messenger.RemoveListener (Events.Input.EMPTY_CLICK, ClearTowerSellBtn);
-		Messenger.RemoveListener <Entity> (Events.Input.ENTITY_CLICK, RegisterTowerSellBtn);
+	void OnDisable(){
+		Messenger.RemoveListener (Events.Input.EMPTY_CLICK, HandleEmptyClick);
+		Messenger.RemoveListener <Entity> (Events.Input.ENTITY_CLICK, HandleEntityClick);
+		Messenger.RemoveListener (Events.Input.TOWER_SELL_BTN_CLICK, SellTower);
+		Messenger.RemoveListener (Events.Input.TOWER_UI_CLEAR, HandleEmptyClick);
 	}
 
-	public void ClearTowerSellBtn(){
-		
+	void HandleEntityClick(Entity e){
+		if (!e.hasTower) {
+			HandleEmptyClick ();
+			return;
+		} else if (e == currentSelected) {
+			return;
+		} else {
+			HandleEmptyClick ();
+		}
+
+		currentSelected = e;
+
+		var go = LeanPool.Spawn (prefab);
+		go.transform.SetParent (this.transform, false);
+		go.GetComponent<TowerSellBtn> ().RegisterSellBtn (e);
 	}
 
-	public void RegisterTowerSellBtn(Entity e){
-		
+	void SellTower(){
+		if(currentSelected != null){
+			currentSelected.IsMarkedForSell (true);
+		}
+		Messenger.Broadcast (Events.Input.TOWER_UI_CLEAR);
+	}
+
+	void HandleEmptyClick(){
+		currentSelected = null;
+		for (int i = 0; i < transform.childCount; i++) {
+			LeanPool.Despawn (transform.GetChild (i).gameObject);
+		}
 	}
 }

@@ -9,7 +9,7 @@ public class ProjectileHomingSystem : IReactiveSystem, ISetPool {
 	public void SetPool (Pool pool)
 	{
 		_pool = pool;
-		_groupPrjHoming = _pool.GetGroup (Matcher.AllOf (Matcher.Projectile, Matcher.Target, Matcher.ProjectileHoming).NoneOf (Matcher.Tower, Matcher.ReachedEnd));
+		_groupPrjHoming = _pool.GetGroup (Matcher.AllOf (Matcher.ProjectileMark, Matcher.Target, Matcher.ProjectileHoming).NoneOf (Matcher.ReachedEnd));
 	}
 
 	#endregion

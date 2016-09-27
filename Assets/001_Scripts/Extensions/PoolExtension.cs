@@ -21,6 +21,7 @@ public static class PoolExtension {
 		}
 
 		Entity e = pool.CreateEntity ()
+			.IsProjectileMark(true)
 			.AddProjectile(projectileId)
 			.AddPosition(pos)
 			.AddAttack (atkType)

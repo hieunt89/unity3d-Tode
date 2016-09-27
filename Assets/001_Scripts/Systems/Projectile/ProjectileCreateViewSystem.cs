@@ -13,6 +13,7 @@ public class ProjectileCreateViewSystem : IReactiveSystem {
 		}
 	}
 	#endregion
+
 	#region IReactiveExecuteSystem implementation
 	public void Execute (System.Collections.Generic.List<Entity> entities)
 	{
@@ -27,12 +28,14 @@ public class ProjectileCreateViewSystem : IReactiveSystem {
 		}
 	}
 	#endregion
+
 	#region IReactiveSystem implementation
 	public TriggerOnEvent trigger {
 		get {
-			return Matcher.AllOf (Matcher.Projectile).NoneOf (Matcher.Tower).OnEntityAdded ();
+			return Matcher.AllOf (Matcher.ProjectileMark).NoneOf(Matcher.MarkedForNoView).OnEntityAdded ();
 		}
 	}
 	#endregion
-	
+
+
 }

@@ -28,30 +28,33 @@ public static class ComponentIds {
     public const int LifePlayer = 18;
     public const int MarkedForActive = 19;
     public const int MarkedForDestroy = 20;
-    public const int MarkedForSell = 21;
-    public const int Movable = 22;
-    public const int Path = 23;
-    public const int PathLength = 24;
-    public const int PathReference = 25;
-    public const int Position = 26;
-    public const int Projectile = 27;
-    public const int ProjectileHoming = 28;
-    public const int ProjectileThrowing = 29;
-    public const int ProjectileThrowingParams = 30;
-    public const int ProjectileThrowingTime = 31;
-    public const int ReachedEnd = 32;
-    public const int Target = 33;
-    public const int Tick = 34;
-    public const int Tower = 35;
-    public const int TowerBase = 36;
-    public const int TowerUpgrade = 37;
-    public const int TowerUpgradeProgress = 38;
-    public const int Turnable = 39;
-    public const int View = 40;
-    public const int ViewSlider = 41;
-    public const int Wave = 42;
+    public const int MarkedForNoView = 21;
+    public const int MarkedForSell = 22;
+    public const int Movable = 23;
+    public const int Path = 24;
+    public const int PathLength = 25;
+    public const int PathReference = 26;
+    public const int Position = 27;
+    public const int Projectile = 28;
+    public const int ProjectileHoming = 29;
+    public const int ProjectileInstant = 30;
+    public const int ProjectileMark = 31;
+    public const int ProjectileThrowing = 32;
+    public const int ProjectileThrowingParams = 33;
+    public const int ProjectileThrowingTime = 34;
+    public const int ReachedEnd = 35;
+    public const int Target = 36;
+    public const int Tick = 37;
+    public const int Tower = 38;
+    public const int TowerBase = 39;
+    public const int TowerUpgrade = 40;
+    public const int TowerUpgradeProgress = 41;
+    public const int Turnable = 42;
+    public const int View = 43;
+    public const int ViewSlider = 44;
+    public const int Wave = 45;
 
-    public const int TotalComponents = 43;
+    public const int TotalComponents = 46;
 
     public static readonly string[] componentNames = {
         "Active",
@@ -75,6 +78,7 @@ public static class ComponentIds {
         "LifePlayer",
         "MarkedForActive",
         "MarkedForDestroy",
+        "MarkedForNoView",
         "MarkedForSell",
         "Movable",
         "Path",
@@ -83,6 +87,8 @@ public static class ComponentIds {
         "Position",
         "Projectile",
         "ProjectileHoming",
+        "ProjectileInstant",
+        "ProjectileMark",
         "ProjectileThrowing",
         "ProjectileThrowingParams",
         "ProjectileThrowingTime",
@@ -121,6 +127,7 @@ public static class ComponentIds {
         typeof(LifePlayer),
         typeof(MarkedForActive),
         typeof(MarkedForDestroy),
+        typeof(MarkedForNoView),
         typeof(MarkedForSell),
         typeof(Movable),
         typeof(Path),
@@ -129,6 +136,8 @@ public static class ComponentIds {
         typeof(Position),
         typeof(Projectile),
         typeof(ProjectileHoming),
+        typeof(ProjectileInstant),
+        typeof(ProjectileMark),
         typeof(ProjectileThrowing),
         typeof(ProjectileThrowingParams),
         typeof(ProjectileThrowingTime),

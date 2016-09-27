@@ -14,10 +14,11 @@ public class TowerUpgradeBtn : MonoBehaviour {
 			_button.onClick.AddListener (() => {
 				Messenger.Broadcast<Node<string>> (Events.Input.TOWER_UPGRADE_BTN_CLICK, upgrade);
 			});
-			_goldRequire = goldRequire;
-			HandleGoldChange (Pools.pool.goldPlayer.value);
-			Messenger.AddListener<int> (Events.Game.GOLD_CHANGE, HandleGoldChange);
 		}
+
+		_goldRequire = goldRequire;
+		HandleGoldChange (Pools.pool.goldPlayer.value);
+		Messenger.AddListener<int> (Events.Game.GOLD_CHANGE, HandleGoldChange);
 	}
 
 	void HandleGoldChange(int gold){
@@ -28,7 +29,10 @@ public class TowerUpgradeBtn : MonoBehaviour {
 		}
 	}
 
-	void OnDestroy(){
+	void OnDisable(){
 		Messenger.RemoveListener<int> (Events.Game.GOLD_CHANGE, HandleGoldChange);
+		if(_button){
+			_button.onClick.RemoveAllListeners ();
+		}
 	}
 }
