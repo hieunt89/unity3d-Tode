@@ -2,11 +2,6 @@
 using UnityEditor;
 using System;
 
-public enum NodeType {
-	RootNode,
-	Node
-}
-
 [Serializable]
 public class NodeBase {
 

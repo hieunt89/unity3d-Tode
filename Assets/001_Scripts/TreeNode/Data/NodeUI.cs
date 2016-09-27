@@ -2,15 +2,26 @@
 using UnityEditor;
 using System;
 
+public enum NodeType {
+	RootNode,
+	Node
+}
+
 [Serializable]
 public class NodeUI  {
 
-	public bool isSelected = false;
 	public Node<string> nodeData;
+	public bool isSelected = false;
 	public Rect nodeRect;
 	public TreeUI tree;
 
 	protected GUISkin nodeSkin;
+
+	public NodeUI (Node<string> _nodeData) {
+		this.nodeData = _nodeData;
+	}
+
+
 
 	public void InitNode () {
 		Debug.Log ("init node");

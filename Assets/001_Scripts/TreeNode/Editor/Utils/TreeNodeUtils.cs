@@ -4,15 +4,14 @@ using UnityEditor;
 public static class TreeNodeUtils {
 
 	public static void CreateTree (TreeType treeType, string treeName) {
-//		Tree <string> currentTree = new Tree<string> ();
 		TreeUI currentTree = new TreeUI(new Tree<string> ());
 
 		if (currentTree != null) {
 			currentTree.treeData.treeType = treeType;
 			currentTree.treeData.treeName = treeName;
 
-//			currentTree.
-//			currentTree.Root = new Node<string> ("tower0");
+			// TODO: add root node to treeData
+
 //			Debug.Log (currentTree.treeType + " / " + currentTree.treeName + " / " + currentTree.Root);
 
 			// TODO: save current tree to resource folders
@@ -43,8 +42,43 @@ public static class TreeNodeUtils {
 
 	public static void UnloadTree () {
 		TreeNodeEditorWindow currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow <TreeNodeEditorWindow> ();
-		if (currentWindow.currentTree != null) {
+		if (currentWindow != null) {
 			currentWindow.currentTree = null;
+		}
+	}
+
+	public static void CreateNode (TreeUI currentTree, NodeType nodeType, Vector2 position) {
+		if (currentTree != null) {
+			NodeUI currentNode = null;
+
+			switch (nodeType) {
+			case NodeType.RootNode:
+				currentNode = new NodeUI(new Node<string> ("root node"));
+				break;
+			case NodeType.Node:
+				currentNode = new NodeUI(new Node<string> ("node"));
+				break;
+			}
+
+
+			if (currentNode != null) {
+				currentNode.InitNode ();
+				currentNode.nodeRect.x = position.x;
+				currentNode.nodeRect.y = position.y;
+
+				currentNode.tree = currentTree;
+
+				//TODO: add current node to tree data
+
+				// TODO: save node 
+			}
+		}
+
+	}
+
+	public static void RemoveNode (int nodeId, Tree currentTree) {
+		if (currentTree != null) {
+			
 		}
 	}
 

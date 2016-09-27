@@ -11,12 +11,12 @@ public class Tree <T> where T : class {
 
 	}
 
-	public Tree (TreeType treeType, string treeName){
-		this.treeType = treeType;
-		this.treeName = treeName;
-		this.Root = new Node<T> ();
-	}
-
+//	public Tree (TreeType treeType, string treeName){
+//		this.treeType = treeType;
+//		this.treeName = treeName;
+//		this.Root = new Node<T> ();
+//	}
+//
 	public Tree (T rootData)
 	{
 		this.Root = new Node<T> (rootData);

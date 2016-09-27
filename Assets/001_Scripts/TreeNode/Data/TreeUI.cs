@@ -13,7 +13,7 @@ public enum TreeType {
 [Serializable]
 public class TreeUI {
 	public Tree<string> treeData;
-//	public List<NodeBase> nodes;
+	public List<NodeBase> nodes;
 	public NodeUI selectedNode;
 	public bool wantsConnection = false;
 	public NodeUI connectionNode;	// ???
