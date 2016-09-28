@@ -25,7 +25,7 @@ public class HeathBarViewSystem : IReactiveSystem, IInitializeSystem {
 		for (int i = 0; i < entities.Count; i++) {
 			e = entities [i];
 			if (!e.hasViewSlider) {
-				offset = e.view.go.GetRendererOffset (true);
+				offset = e.view.go.GetColliderOffset (true);
 				e.AddViewSlider (barGUI.CreateHealthBar (), offset);
 			}
 

@@ -16,8 +16,7 @@ public class TowerCreateViewSystem : IReactiveSystem {
 	void IReactiveExecuteSystem.Execute (System.Collections.Generic.List<Entity> entities)
 	{
 		for (int i = 0; i < entities.Count; i++) {
-			var e = entities [i];
-			e.AddCoroutine(CreateTowerView(e));
+			entities [i].AddCoroutine(CreateTowerView(entities [i]));
 		}
 	}
 

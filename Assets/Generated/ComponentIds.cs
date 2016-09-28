@@ -37,7 +37,7 @@ public static class ComponentIds {
     public const int Position = 27;
     public const int Projectile = 28;
     public const int ProjectileHoming = 29;
-    public const int ProjectileInstant = 30;
+    public const int ProjectileLaser = 30;
     public const int ProjectileMark = 31;
     public const int ProjectileThrowing = 32;
     public const int ProjectileThrowingParams = 33;
@@ -49,7 +49,7 @@ public static class ComponentIds {
     public const int TowerBase = 39;
     public const int TowerUpgrade = 40;
     public const int TowerUpgradeProgress = 41;
-    public const int Turnable = 42;
+    public const int TurnSpeed = 42;
     public const int View = 43;
     public const int ViewSlider = 44;
     public const int Wave = 45;
@@ -87,7 +87,7 @@ public static class ComponentIds {
         "Position",
         "Projectile",
         "ProjectileHoming",
-        "ProjectileInstant",
+        "ProjectileLaser",
         "ProjectileMark",
         "ProjectileThrowing",
         "ProjectileThrowingParams",
@@ -99,7 +99,7 @@ public static class ComponentIds {
         "TowerBase",
         "TowerUpgrade",
         "TowerUpgradeProgress",
-        "Turnable",
+        "TurnSpeed",
         "View",
         "ViewSlider",
         "Wave"
@@ -136,7 +136,7 @@ public static class ComponentIds {
         typeof(Position),
         typeof(Projectile),
         typeof(ProjectileHoming),
-        typeof(ProjectileInstant),
+        typeof(ProjectileLaser),
         typeof(ProjectileMark),
         typeof(ProjectileThrowing),
         typeof(ProjectileThrowingParams),
@@ -148,7 +148,7 @@ public static class ComponentIds {
         typeof(TowerBase),
         typeof(TowerUpgrade),
         typeof(TowerUpgradeProgress),
-        typeof(Turnable),
+        typeof(TurnSpeed),
         typeof(View),
         typeof(ViewSlider),
         typeof(Wave)

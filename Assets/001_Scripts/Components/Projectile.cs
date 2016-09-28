@@ -1,7 +1,8 @@
 ﻿using Entitas;
 public enum ProjectileType{
 	homing,
-	throwing
+	throwing,
+	laser
 }
 
 public class Projectile : IComponent {

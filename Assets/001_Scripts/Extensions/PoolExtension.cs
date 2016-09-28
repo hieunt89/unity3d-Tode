@@ -27,7 +27,6 @@ public static class PoolExtension {
 			.AddAttack (atkType)
 			.AddAttackDamage (minDmg, maxDmg)
 			.AddTarget (target)
-			.AddTurnable (prj.TurnSpeed)
 			;
 		if(prj.Range > 0){
 			e.AddAttackRange (prj.Range);

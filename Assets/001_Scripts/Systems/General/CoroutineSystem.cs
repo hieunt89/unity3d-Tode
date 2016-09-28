@@ -23,8 +23,9 @@ public class CoroutineSystem : IExecuteSystem, ISetPool {
 		}
 
 		var ens = _groupCoroutine.GetEntities ();
+		IEnumerator coroutine;
 		for (int i = 0; i < ens.Length; i++) {
-			IEnumerator coroutine = ens [i].coroutine.task;
+			coroutine = ens [i].coroutine.task;
 			if (!coroutine.MoveNext())
 			{
 				ens[i].RemoveCoroutine();

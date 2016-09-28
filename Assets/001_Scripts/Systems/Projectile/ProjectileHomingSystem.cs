@@ -26,14 +26,14 @@ public class ProjectileHomingSystem : IReactiveSystem, ISetPool {
 		for (int i = 0; i < projectiles.Length; i++) {
 			e = projectiles [i];
 			if(!e.hasDestination){
-				e.AddDestination (e.target.e.position.value);
+				e.AddDestination (e.target.e.position.value + e.target.e.view.go.GetColliderCenterOffset());
 			}
 			if (e.position.value == e.destination.value) {
 				e.IsReachedEnd (true);
 				continue;
 			}
 			if(e.target.e.hasEnemy){
-				e.ReplaceDestination (e.target.e.position.value);
+				e.ReplaceDestination (e.target.e.position.value + e.target.e.view.go.GetColliderCenterOffset());
 			}
 			e.ReplacePosition (Vector3.MoveTowards (e.position.value, e.destination.value, e.projectileHoming.travelSpeed * Time.deltaTime));
 		}
