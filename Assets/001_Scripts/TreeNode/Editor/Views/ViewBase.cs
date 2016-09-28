@@ -12,8 +12,7 @@ public class ViewBase {
 	protected GUISkin viewSkin;
 	protected TreeUI currentTree;
 
-	public ViewBase (string _viewTitle) {
-		this.viewTitle = _viewTitle;
+	public ViewBase () {
 		GetEditorSkin ();
 	}
 
@@ -27,7 +26,7 @@ public class ViewBase {
 		if (currentTree != null) {
 			viewTitle = currentTree.treeName;
 		} else {
-			viewTitle = "No Tree";
+			viewTitle = "No";
 		}
 
 		viewRect = new Rect (

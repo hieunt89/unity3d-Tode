@@ -49,10 +49,10 @@ public static class TreeNodeUtils {
 			List <NodeUI> outputNodes = new List<NodeUI> ();
 			switch (nodeType) {
 			case NodeType.RootNode:
-				newNode = new NodeUI(new Node<string> ("root node"), null, outputNodes);
+				newNode = new NodeUI("Root Node", nodeType, new Node<string> (currentTree.existIds[0]), null, outputNodes);
 				break;
 			case NodeType.Node:
-				newNode = new NodeUI(new Node<string> ("node"), null, outputNodes);
+				newNode = new NodeUI("Node", nodeType, new Node<string> (currentTree.existIds[0]), null, outputNodes);
 				break;
 			default:
 				break;
@@ -88,7 +88,7 @@ public static class TreeNodeUtils {
 		int heightDivs = Mathf.CeilToInt (viewRect.height - gridSpacing);
 
 		Handles.BeginGUI ();
-		Handles.color = gridColor;
+		Handles.color = new Color (gridColor.r, gridColor.g, gridColor.b, gridOpacity);
 
 		for (int x = 0; x < widthDivs; x++) {
 			Handles.DrawLine (new Vector3 (gridSpacing * x, 0f, 0f), new Vector3 (gridSpacing * x, viewRect.height, 0f));

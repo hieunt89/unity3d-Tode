@@ -19,9 +19,10 @@ public class TreeUI {
 	public NodeUI selectedNode;
 	public bool wantsConnection = false;
 	public NodeUI startConnectionNode;	// ???
-	public bool showProperties = false;
+	public bool showNodeProperties = false;
 
 	public List<string> existIds;
+//	private List<int> selectedIndexes;
 
 	public TreeUI (TreeType _treeType, string _treeName, Tree<string> _treeData) {
 		this.treeType = _treeType;
@@ -31,6 +32,10 @@ public class TreeUI {
 		if (nodes == null) {
 			nodes = new List<NodeUI> ();
 		}
+
+//		if (selectedIndexes == null) {
+//			selectedIndexes = new List<int> ();
+//		}
 
 		// load exist data based on tree type
 		switch (_treeType) {
@@ -62,15 +67,26 @@ public class TreeUI {
 			if (startConnectionNode != null) {
 				DrawConnectionToMouse (e.mousePosition);
 			}
+		} else {
+
 		}
 
 		if (e.type == EventType.Layout) {
 			if (selectedNode != null) {
-				showProperties = true;
+				showNodeProperties = true;
 			}
 		}
 
 //		EditorUtility.SetDirty (this);
+	}
+
+	public void DrawTreeProperties () {
+		EditorGUILayout.BeginVertical ();
+		EditorGUILayout.LabelField ("Name", treeName);
+		EditorGUILayout.LabelField ("Number of nodes", nodes.Count.ToString ());
+		EditorGUILayout.EndVertical ();
+
+		// TODO : draw all nodes data :D
 	}
 
 	private void ProcessEvents (Event _e, Rect _viewRect) {
@@ -79,7 +95,7 @@ public class TreeUI {
 				if (_e.type == EventType.MouseDown) {
 					DeselectAllNodes ();
 
-					showProperties = false;
+					showNodeProperties = false;
 					bool setNode = false;
 					selectedNode = null;
 
@@ -93,10 +109,12 @@ public class TreeUI {
 
 					if (!setNode) {
 						DeselectAllNodes ();
+//						startConnectionNode = null;
 					}
 
 					if (wantsConnection) {
 						wantsConnection = false;
+
 					}
 				}
 			}
@@ -107,7 +125,7 @@ public class TreeUI {
 		bool isRight = _mousePosition.x >= startConnectionNode.nodeRect.x + startConnectionNode.nodeRect.width * 0.5f;
 
 		var startPos = new Vector3(isRight ? startConnectionNode.nodeRect.x + startConnectionNode.nodeRect.width :  startConnectionNode.nodeRect.x, 
-									startConnectionNode.nodeRect.y + startConnectionNode.nodeRect.height + startConnectionNode.nodeRect.height * 0.5f, 
+									startConnectionNode.nodeRect.y + startConnectionNode.nodeRect.height * .75f, 
 									0);
 		var endPos = new Vector3(_mousePosition.x, _mousePosition.y, 0);
 
@@ -120,7 +138,7 @@ public class TreeUI {
 		Handles.EndGUI ();
 	}
 
-	void DeselectAllNodes () {
+	private void DeselectAllNodes () {
 		for (int i = 0; i < nodes.Count; i++) {
 			nodes [i].isSelected = false;
 		}

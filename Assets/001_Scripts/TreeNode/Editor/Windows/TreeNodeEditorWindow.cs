@@ -13,7 +13,7 @@ public class TreeNodeEditorWindow : EditorWindow {
 
 	public static void InitTowerNodeEditorWindow () {
 		currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow <TreeNodeEditorWindow> ();
-		currentWindow.titleContent = new GUIContent ("Tower Tree");
+		currentWindow.titleContent = new GUIContent ("Tree Node");
 		CreateViews ();
 	}
 

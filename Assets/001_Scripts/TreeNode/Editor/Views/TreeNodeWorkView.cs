@@ -7,24 +7,18 @@ public class TreeNodeWorkView : ViewBase {
 	private Vector2 mousePosition;
 	private int deleteNodeId = 0;
 
-	public TreeNodeWorkView () : base ("Tree View") {
+	public TreeNodeWorkView () : base () {
 	}
 
 	public override void UpdateView (Rect _editorRect, Rect _percentageRect, Event _e, TreeUI _currentTree)
 	{
 		base.UpdateView (_editorRect, _percentageRect, _e, _currentTree);
 
-		if (_currentTree != null) {
-			viewTitle = _currentTree.treeName;
-		} else {
-			viewTitle = "No Tree";
-		}
-
-		GUI.Box (viewRect, viewTitle, viewSkin.GetStyle("ViewBg"));
+		GUI.Box (viewRect, viewTitle + " Tree", viewSkin.GetStyle("ViewBg"));
 
 		// draw grid
-		TreeNodeUtils.DrawGrid (viewRect, 60f, 0.015f, Color.white);
-//		TreeNodeUtils.DrawGrid (viewRect, 20f, 0.1f, Color.white);
+		TreeNodeUtils.DrawGrid (viewRect, 60f, 0.15f, Color.white);
+		TreeNodeUtils.DrawGrid (viewRect, 20f, 0.1f, Color.white);
 
 		GUILayout.BeginArea (viewRect);
 		if (currentTree != null) {
@@ -72,7 +66,9 @@ public class TreeNodeWorkView : ViewBase {
 					if (!mouseOverNode) {
 						ProcessContextMenu(e, 0);
 					} else {
-						ProcessContextMenu(e, 1);
+						if (currentTree.nodes[deleteNodeId].nodeType != NodeType.RootNode) {
+							ProcessContextMenu(e, 1);
+						}
 					}
 				}
 			}

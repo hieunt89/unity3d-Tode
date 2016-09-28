@@ -10,6 +10,8 @@ public enum NodeType {
 
 [Serializable]
 public class NodeUI  {
+	public string nodeTitle = "Node";
+	public NodeType nodeType;
 	public Node<string> nodeData;
 	public int selectedIndex;
 	public bool isSelected = false;
@@ -22,9 +24,11 @@ public class NodeUI  {
 	protected GUISkin nodeSkin;
 
 	private float nodeWidth = 100f;
-	private float nodeHeight = 20f;
+	private float nodeHeight = 40f;
 
-	public NodeUI (Node<string> _nodeData, NodeUI _inputNode, List<NodeUI> _outputNodes) {
+	public NodeUI (string _nodeTitle, NodeType _nodeType, Node<string> _nodeData, NodeUI _inputNode, List<NodeUI> _outputNodes) {
+		this.nodeTitle = _nodeTitle;
+		this.nodeType = _nodeType;
 		this.nodeData = _nodeData;
 		this.inputNode = _inputNode;
 		this.outputNodes = _outputNodes;
@@ -44,12 +48,12 @@ public class NodeUI  {
 		if (nodeData == null) return;
 		
 		if (!isSelected) {
-			GUI.Box (nodeRect, nodeData.Data, _viewSkin.GetStyle ("NodeDefault"));
+			GUI.Box (nodeRect, nodeTitle, _viewSkin.GetStyle ("NodeDefault"));
 		} else {
-			GUI.Box (nodeRect, nodeData.Data, _viewSkin.GetStyle ("NodeSelected"));
+			GUI.Box (nodeRect, nodeTitle, _viewSkin.GetStyle ("NodeSelected"));
 		}
 
-		if (GUI.Button (new Rect (nodeRect.x, nodeRect.y + nodeRect.height, nodeRect.width, nodeRect.height), "content", _viewSkin.GetStyle ("NodeContent"))) {
+		if (GUI.Button (new Rect (nodeRect.x, nodeRect.y + nodeRect.height * 2f, nodeRect.width, nodeRect.height * .5f), nodeData.Data, _viewSkin.GetStyle ("ContentDefault"))) {
 			if (currentTree != null) {
 				if (currentTree.startConnectionNode == null) {
 					currentTree.wantsConnection = true;
@@ -58,9 +62,14 @@ public class NodeUI  {
 					// TODO: kiem tra truoc khi add connection
 					// khong la chinh no
 					// input node chua co parent ????
-					inputNode = currentTree.startConnectionNode;
-					currentTree.wantsConnection = false;
-					currentTree.startConnectionNode = null;
+					if (currentTree.startConnectionNode != this) {
+						inputNode = currentTree.startConnectionNode;
+						currentTree.wantsConnection = false;
+						currentTree.startConnectionNode = null;
+					} else {
+						currentTree.wantsConnection = false;
+						currentTree.startConnectionNode = null;
+					}
 				}
 			}
 		}
@@ -103,8 +112,8 @@ public class NodeUI  {
 			bool isRight = nodeRect.x >= inputNode.nodeRect.x + (inputNode.nodeRect.width * 0.5f);
 
 			var startPos = new Vector3 (inputNode.nodeRect.x + inputNode.nodeRect.width, 
-				inputNode.nodeRect.y + inputNode.nodeRect.height + inputNode.nodeRect.height * 0.5f, 0f);
-			var endPos = new Vector3(nodeRect.x, nodeRect.y + nodeRect.height + nodeRect.height * 0.5f, 0f);
+				inputNode.nodeRect.y + inputNode.nodeRect.height * 0.75f, 0f);
+			var endPos = new Vector3(nodeRect.x, nodeRect.y + nodeRect.height * 0.75f, 0f);
 
 			float mnog = Vector3.Distance(startPos,endPos);
 			Vector3 startTangent = startPos + (isRight ? Vector3.right : Vector3.left) * (mnog / 3f) ;
