@@ -24,7 +24,7 @@ public class ViewBase {
 		}
 
 		this.currentTree = _currentTree;
-		if (currentTree != null && currentTree.treeData != null) {
+		if (currentTree != null) {
 			viewTitle = currentTree.treeName;
 		} else {
 			viewTitle = "No Tree";

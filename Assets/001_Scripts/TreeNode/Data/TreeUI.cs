@@ -107,7 +107,7 @@ public class TreeUI {
 		bool isRight = _mousePosition.x >= startConnectionNode.nodeRect.x + startConnectionNode.nodeRect.width * 0.5f;
 
 		var startPos = new Vector3(isRight ? startConnectionNode.nodeRect.x + startConnectionNode.nodeRect.width :  startConnectionNode.nodeRect.x, 
-									startConnectionNode.nodeRect.y + startConnectionNode.nodeRect.height + 5f + startConnectionNode.nodeRect.height * 0.5f, 
+									startConnectionNode.nodeRect.y + startConnectionNode.nodeRect.height + startConnectionNode.nodeRect.height * 0.5f, 
 									0);
 		var endPos = new Vector3(_mousePosition.x, _mousePosition.y, 0);
 

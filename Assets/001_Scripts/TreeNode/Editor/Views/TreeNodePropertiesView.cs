@@ -15,13 +15,40 @@ public class TreeNodePropertiesView : ViewBase {
 
 		GUI.Box (viewRect, viewTitle, viewSkin.GetStyle ("ViewBg"));
 
-//		GUILayout.BeginArea (viewRect);
-//		GUILayout.Space (30);
-//		GUILayout.BeginHorizontal ();
-//		GUILayout.Space (30);
-//		if (!
-//		GUILayout.EndHorizontal ();
+		GUILayout.BeginArea (viewRect);
+		GUILayout.Space (30);
+		GUILayout.BeginHorizontal ();
+		GUILayout.Space (30);
 
+		if (_currentGraph != null) { //TODO: kiem tra lai current tree bi null khi unload va khi moi mo viewbase
+			if (!_currentGraph.showProperties) {
+				EditorGUILayout.LabelField ("NONE");
+			} else {
+				_currentGraph.selectedNode.DrawNodeProperties ();
+			}
+		}
+		GUILayout.Space (30);
+		GUILayout.EndHorizontal ();
+		GUILayout.EndArea ();
+
+		ProcessEvent (_e);
+	}
+
+	public override void ProcessEvent (Event _e)
+	{
+		base.ProcessEvent (_e);
+		if (viewRect.Contains (_e.mousePosition)) {
+			if (_e.button == 0) {
+				if (_e.type == EventType.MouseDown) {
+
+				}
+			}
+			if (_e.button == 1) {
+				if (_e.type == EventType.MouseDown) {
+
+				}
+			}
+		}
 	}
 
 
