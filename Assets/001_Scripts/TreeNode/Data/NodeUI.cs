@@ -16,22 +16,23 @@ public class NodeUI  {
 	public int selectedIndex;
 	public bool isSelected = false;
 	public Rect nodeRect;
+	public Rect nodeContentRect;
 	public TreeUI currentTree;
 
-	public NodeUI inputNode;
-	public List<NodeUI> outputNodes;
+	public NodeUI parentNode;
+	public List<NodeUI> childNodes;
 
 	protected GUISkin nodeSkin;
 
 	private float nodeWidth = 100f;
-	private float nodeHeight = 40f;
+	private float nodeHeight = 20f;
 
-	public NodeUI (string _nodeTitle, NodeType _nodeType, Node<string> _nodeData, NodeUI _inputNode, List<NodeUI> _outputNodes) {
+	public NodeUI (string _nodeTitle, NodeType _nodeType, Node<string> _nodeData, NodeUI _parentNode, List<NodeUI> _childNodes) {
 		this.nodeTitle = _nodeTitle;
 		this.nodeType = _nodeType;
 		this.nodeData = _nodeData;
-		this.inputNode = _inputNode;
-		this.outputNodes = _outputNodes;
+		this.parentNode = _parentNode;
+		this.childNodes = _childNodes;
 	}
 
 	public void InitNode (Vector2 position) {
@@ -44,7 +45,6 @@ public class NodeUI  {
 
 	public void UpdateNodeUI (Event _e, Rect _viewRect, GUISkin _viewSkin) {
 		ProcessEvent (_e, _viewRect);
-
 		if (nodeData == null) return;
 		
 		if (!isSelected) {
@@ -52,27 +52,9 @@ public class NodeUI  {
 		} else {
 			GUI.Box (nodeRect, nodeTitle, _viewSkin.GetStyle ("NodeSelected"));
 		}
-
-		if (GUI.Button (new Rect (nodeRect.x, nodeRect.y + nodeRect.height * 2f, nodeRect.width, nodeRect.height * .5f), nodeData.Data, _viewSkin.GetStyle ("ContentDefault"))) {
-			if (currentTree != null) {
-				if (currentTree.startConnectionNode == null) {
-					currentTree.wantsConnection = true;
-					currentTree.startConnectionNode = this;
-				} else {
-					// TODO: kiem tra truoc khi add connection
-					// khong la chinh no
-					// input node chua co parent ????
-					if (currentTree.startConnectionNode != this) {
-						inputNode = currentTree.startConnectionNode;
-						currentTree.wantsConnection = false;
-						currentTree.startConnectionNode = null;
-					} else {
-						currentTree.wantsConnection = false;
-						currentTree.startConnectionNode = null;
-					}
-				}
-			}
-		}
+			
+		nodeContentRect = new Rect(nodeRect.x, nodeRect.y + nodeRect.height, nodeRect.width, nodeRect.height);
+		GUI.Box (nodeContentRect, nodeData.Data, _viewSkin.GetStyle ("ContentDefault"));
 			
 		DrawInputConnection ();
 	}
@@ -90,8 +72,6 @@ public class NodeUI  {
 		GUILayout.Space (30);
 		EditorGUILayout.EndHorizontal ();
 		EditorGUILayout.EndVertical ();
-
-
 	}
 
 	private void ProcessEvent (Event _e, Rect _viewRect) {
@@ -103,16 +83,41 @@ public class NodeUI  {
 				}
 			}
 		}
+
+		if (nodeContentRect.Contains (_e.mousePosition)) {
+			if (_e.type == EventType.MouseDrag) {
+				if (currentTree.wantsConnection == false && currentTree.startConnectionNode == null) {
+					currentTree.wantsConnection = true;
+					currentTree.startConnectionNode = this;
+				}
+			}
+		} else {
+			if (_e.type == EventType.MouseUp) {
+				// check mouse over any node
+				if (currentTree.startConnectionNode != null) {
+					for (int i = 0; i < currentTree.nodes.Count; i++) {
+						if (currentTree.nodes[i].nodeContentRect.Contains (_e.mousePosition)){
+							if (currentTree.nodes[i] != currentTree.startConnectionNode && currentTree.nodes[i].nodeType != NodeType.RootNode && currentTree.nodes[i].parentNode == null) {
+								currentTree.nodes[i].parentNode = currentTree.startConnectionNode;
+							}
+						}
+					}
+				}
+
+				currentTree.wantsConnection = false;
+				currentTree.startConnectionNode = null;
+			}
+		}
 	}
 
 	//TODO: need to fix this bezier
 	// start and end point base on position of node
 	private void DrawInputConnection () {
-		if (inputNode != null) {
-			bool isRight = nodeRect.x >= inputNode.nodeRect.x + (inputNode.nodeRect.width * 0.5f);
+		if (parentNode != null) {
+			bool isRight = nodeRect.x >= parentNode.nodeRect.x + (parentNode.nodeRect.width * 0.5f);
 
-			var startPos = new Vector3 (inputNode.nodeRect.x + inputNode.nodeRect.width, 
-				inputNode.nodeRect.y + inputNode.nodeRect.height * 0.75f, 0f);
+			var startPos = new Vector3 (parentNode.nodeRect.x + parentNode.nodeRect.width, 
+				parentNode.nodeRect.y + parentNode.nodeRect.height * 0.75f, 0f);
 			var endPos = new Vector3(nodeRect.x, nodeRect.y + nodeRect.height * 0.75f, 0f);
 
 			float mnog = Vector3.Distance(startPos,endPos);
@@ -123,10 +128,6 @@ public class NodeUI  {
 			Handles.DrawBezier(startPos, endPos, startTangent, endTangent,Color.white, null, 2f);
 			Handles.EndGUI ();
 
-		} else {
-			inputNode = null;
 		}
-
-
 	}
 }

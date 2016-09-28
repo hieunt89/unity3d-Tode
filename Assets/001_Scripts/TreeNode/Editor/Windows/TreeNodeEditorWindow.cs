@@ -9,7 +9,7 @@ public class TreeNodeEditorWindow : EditorWindow {
 
 	public TreeUI currentTree = null;
 
-	private float viewPercentage = 0.75f;
+	private float viewPercentage = .75f;
 
 	public static void InitTowerNodeEditorWindow () {
 		currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow <TreeNodeEditorWindow> ();
@@ -19,7 +19,7 @@ public class TreeNodeEditorWindow : EditorWindow {
 
 
 	void OnGUI () {
-		if (workView == null || propertiesView == null) {
+		if (workView == null) { //|| propertiesView == null) {
 			CreateViews ();
 			return;
 		}
@@ -39,12 +39,19 @@ public class TreeNodeEditorWindow : EditorWindow {
 		if (currentWindow != null) {
 			currentWindow.workView = new TreeNodeWorkView ();
 			currentWindow.propertiesView = new TreeNodePropertiesView ();
+
+			TreeNodePopupWindow.InitTreeNodePopup ();
 		} else {
 			currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow <TreeNodeEditorWindow> ();
 		}
 	}
 
-	private void ProcessEvent (Event e) {
-
+	private void ProcessEvent (Event _e) {
+		if (_e.type == EventType.KeyDown && _e.keyCode == KeyCode.LeftArrow) {
+			viewPercentage -= 0.01f;
+		}
+		if (_e.type == EventType.KeyDown && _e.keyCode == KeyCode.LeftArrow) {
+			viewPercentage += 0.01f;
+		}
 	}
 }

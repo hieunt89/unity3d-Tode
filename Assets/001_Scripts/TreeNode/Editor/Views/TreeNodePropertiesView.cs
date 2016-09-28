@@ -9,9 +9,10 @@ public class TreeNodePropertiesView : ViewBase {
 	public TreeNodePropertiesView () : base () {
 	}
 
-	public override void UpdateView (Rect _editorRect, Rect _percentageRect, Event _e, TreeUI _currentGraph)
+	public override void UpdateView (Rect _editorRect, Rect _percentageRect, Event _e, TreeUI _currentTree)
 	{
-		base.UpdateView (_editorRect, _percentageRect, _e, _currentGraph);
+		
+		base.UpdateView (_editorRect, _percentageRect, _e, _currentTree);
 
 		GUI.Box (viewRect, viewTitle + " Properties", viewSkin.GetStyle ("ViewBg"));
 
@@ -20,19 +21,16 @@ public class TreeNodePropertiesView : ViewBase {
 		GUILayout.BeginHorizontal ();
 		GUILayout.Space (30);
 
-		if (_currentGraph != null) { //TODO: kiem tra lai current tree bi null khi unload va khi moi mo viewbase
-			if (!_currentGraph.showNodeProperties) {
-				// draw tree properties
-				currentTree.DrawTreeProperties ();
-			} else {
-				_currentGraph.selectedNode.DrawNodeProperties ();
+		if (_currentTree != null) {
+			if (_currentTree.showNodeProperties) {
+				_currentTree.selectedNode.DrawNodeProperties ();
 			}
 		}
 		GUILayout.Space (30);
 		GUILayout.EndHorizontal ();
 		GUILayout.EndArea ();
 
-		ProcessEvent (_e);
+//		ProcessEvent (_e);
 	}
 
 	public override void ProcessEvent (Event _e)

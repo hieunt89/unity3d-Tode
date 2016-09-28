@@ -53,25 +53,25 @@ public class TreeUI {
 		}
 	}
 
-	public void UpdateTreeUI (Event e, Rect viewRect, GUISkin viewSkin) {
+	public void UpdateTreeUI (Event _e, Rect _viewRect, GUISkin _viewSkin) {
 
-		ProcessEvents (e, viewRect);
+		ProcessEvents (_e, _viewRect);
 
 		if (nodes.Count > 0) {
 			for (int i = 0; i < nodes.Count; i++) {
-				nodes [i].UpdateNodeUI (e, viewRect, viewSkin);
+				nodes [i].UpdateNodeUI (_e, _viewRect, _viewSkin);
 			}
 		}
 
 		if (wantsConnection) {
 			if (startConnectionNode != null) {
-				DrawConnectionToMouse (e.mousePosition);
+				DrawConnectionToMouse (_e.mousePosition);
 			}
 		} else {
 
 		}
 
-		if (e.type == EventType.Layout) {
+		if (_e.type == EventType.Layout) {
 			if (selectedNode != null) {
 				showNodeProperties = true;
 			}
@@ -109,12 +109,10 @@ public class TreeUI {
 
 					if (!setNode) {
 						DeselectAllNodes ();
-//						startConnectionNode = null;
 					}
 
 					if (wantsConnection) {
 						wantsConnection = false;
-
 					}
 				}
 			}

@@ -5,7 +5,7 @@ using System;
 [Serializable]
 public class TreeNodeWorkView : ViewBase {
 	private Vector2 mousePosition;
-	private int deleteNodeId = 0;
+	private int selectedNodeId = 0;
 
 	public TreeNodeWorkView () : base () {
 	}
@@ -21,8 +21,8 @@ public class TreeNodeWorkView : ViewBase {
 		TreeNodeUtils.DrawGrid (viewRect, 20f, 0.1f, Color.white);
 
 		GUILayout.BeginArea (viewRect);
-		if (currentTree != null) {
-			currentTree.UpdateTreeUI (_e, viewRect, viewSkin);
+		if (_currentTree != null) {
+			_currentTree.UpdateTreeUI (_e, viewRect, viewSkin);
 		}
 
 		GUILayout.EndArea ();
@@ -51,13 +51,13 @@ public class TreeNodeWorkView : ViewBase {
 					mousePosition = e.mousePosition;
 
 					bool mouseOverNode = false;
-					deleteNodeId = 0;
+					selectedNodeId = 0;
 					if (currentTree != null) {
 						if (currentTree.nodes.Count > 0) {
 							for (int i = 0; i < currentTree.nodes.Count; i++) {
 								if (currentTree.nodes[i].nodeRect.Contains (mousePosition)) {
 									mouseOverNode = true;
-									deleteNodeId = i;
+									selectedNodeId = i;
 								}
 							}
 						}
@@ -66,7 +66,7 @@ public class TreeNodeWorkView : ViewBase {
 					if (!mouseOverNode) {
 						ProcessContextMenu(e, 0);
 					} else {
-						if (currentTree.nodes[deleteNodeId].nodeType != NodeType.RootNode) {
+						if (currentTree.nodes[selectedNodeId].nodeType != NodeType.RootNode) {
 							ProcessContextMenu(e, 1);
 						}
 					}
@@ -94,7 +94,10 @@ public class TreeNodeWorkView : ViewBase {
 
 		case 1:
 			if (currentTree != null){
-				menu.AddItem (new GUIContent ("Remove Node"), false, OnClickContextCallback, "4");
+				if (currentTree.nodes[selectedNodeId].parentNode != null)
+					menu.AddItem (new GUIContent ("Remove Parent"), false, OnClickContextCallback, "4");
+				if (currentTree.nodes[selectedNodeId].nodeType != NodeType.RootNode)
+					menu.AddItem (new GUIContent ("Remove Node"), false, OnClickContextCallback, "5");
 			}
 			break;
 		}
@@ -118,7 +121,10 @@ public class TreeNodeWorkView : ViewBase {
 			TreeNodeUtils.AddNode (currentTree, NodeType.Node, mousePosition);
 			break;
 		case "4":
-			TreeNodeUtils.RemoveNode(deleteNodeId, currentTree);
+			TreeNodeUtils.RemoveParentNode (selectedNodeId, currentTree);
+			break;
+		case "5":
+			TreeNodeUtils.RemoveNode(selectedNodeId, currentTree);
 			break;
 		}
 	}

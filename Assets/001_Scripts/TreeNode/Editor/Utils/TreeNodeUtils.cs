@@ -70,12 +70,12 @@ public static class TreeNodeUtils {
 
 	}
 
-	public static void RemoveNode (int nodeId, TreeUI currentTree) {
-		if (currentTree != null) {
-			if(currentTree.nodes.Count >= nodeId) {
-				NodeUI selectecNode = currentTree.nodes[nodeId];
+	public static void RemoveNode (int _nodeId, TreeUI _currentTree) {
+		if (_currentTree != null) {
+			if(_currentTree.nodes.Count >= _nodeId) {
+				NodeUI selectecNode = _currentTree.nodes[_nodeId];
 				if(selectecNode != null) {
-					currentTree.nodes.RemoveAt (nodeId);
+					_currentTree.nodes.RemoveAt (_nodeId);
 
 					// TODO: save data after remove
 				}
@@ -83,19 +83,32 @@ public static class TreeNodeUtils {
 		}
 	}
 
-	public static void DrawGrid (Rect viewRect, float gridSpacing, float gridOpacity, Color gridColor) {
-		int widthDivs = Mathf.CeilToInt (viewRect.width - gridSpacing);
-		int heightDivs = Mathf.CeilToInt (viewRect.height - gridSpacing);
+	public static void RemoveParentNode (int _nodeId, TreeUI _currentTree) {
+		if (_currentTree != null) {
+			if(_currentTree.nodes.Count >= _nodeId) {
+				NodeUI selectecNode = _currentTree.nodes[_nodeId];
+				if(selectecNode != null) {
+					_currentTree.nodes[_nodeId].parentNode = null;
+
+					// TODO: save data after remove
+				}
+			}
+		}
+	}
+
+	public static void DrawGrid (Rect _viewRect, float _gridSpacing, float _gridOpacity, Color _gridColor) {
+		int widthDivs = Mathf.CeilToInt (_viewRect.width - _gridSpacing);
+		int heightDivs = Mathf.CeilToInt (_viewRect.height - _gridSpacing);
 
 		Handles.BeginGUI ();
-		Handles.color = new Color (gridColor.r, gridColor.g, gridColor.b, gridOpacity);
+		Handles.color = new Color (_gridColor.r, _gridColor.g, _gridColor.b, _gridOpacity);
 
 		for (int x = 0; x < widthDivs; x++) {
-			Handles.DrawLine (new Vector3 (gridSpacing * x, 0f, 0f), new Vector3 (gridSpacing * x, viewRect.height, 0f));
+			Handles.DrawLine (new Vector3 (_gridSpacing * x, 0f, 0f), new Vector3 (_gridSpacing * x, _viewRect.height, 0f));
 		}
 
 		for (int y = 0; y < heightDivs; y++) {
-			Handles.DrawLine (new Vector3 (0f, gridSpacing * y, 0f), new Vector3 (viewRect.width, gridSpacing * y, 0f));
+			Handles.DrawLine (new Vector3 (0f, _gridSpacing * y, 0f), new Vector3 (_viewRect.width, _gridSpacing * y, 0f));
 		}
 		Handles.color = Color.white;
 		Handles.EndGUI ();
