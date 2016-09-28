@@ -35,7 +35,7 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 				float initAngle;
 				GetInitVelocityAndAngle(startPos, finalPos, e.projectileThrowing.travelTime, initHeight, out initVelocity, out initAngle);
 
-				e.AddProjectileThrowingParams (startPos, finalPos, initHeight, initVelocity, initAngle).AddProjectileThrowingTime(0f).AddDestination(e.position.value);
+				e.AddProjectileThrowingParams (startPos, finalPos, initHeight, initVelocity, initAngle).AddProjectileTime(0f).AddDestination(e.position.value);
 				if (GameManager.debug) {
 					Debug.DrawLine (e.target.e.position.value, e.projectileThrowingParams.end, Color.blue, Mathf.Infinity);
 					Debug.DrawLine (startPos, finalPos, Color.yellow, Mathf.Infinity);
@@ -46,11 +46,11 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 			if (e.position.value.y <= 0f) {
 				e.IsReachedEnd (true);
 			} else {
-				e.ReplaceProjectileThrowingTime (e.projectileThrowingTime.time + Time.deltaTime);
+				e.ReplaceProjectileTime (e.projectileTime.time + Time.deltaTime);
 				if (e.position.value == e.destination.value) {
 					e.ReplaceDestination (
 						GetNextDestination (
-							e.projectileThrowingTime.time,
+							e.projectileTime.time,
 							e.projectileThrowingParams.initVelocity,
 							e.projectileThrowingParams.height,
 							e.projectileThrowingParams.initAngle,

@@ -54,12 +54,14 @@ public class GameManager : MonoBehaviour {
 			//Projectile
 			.Add(pool.CreateSystem<ProjectileHomingSystem>())
 			.Add(pool.CreateSystem<ProjectileThrowingSystem>())
+			.Add(pool.CreateSystem<ProjectileLaserSystem>())
 			.Add(pool.CreateSystem<ProjectileReachEndSystem>())
 			
 			//View
 			.Add(pool.CreateSystem<TowerCreateViewSystem>())
 			.Add(pool.CreateSystem<EnemyCreateViewSystem>())
 			.Add(pool.CreateSystem<ProjectileCreateViewSystem>())
+			.Add(pool.CreateSystem<ProjectileLaserViewSystem>())
 			.Add(pool.CreateSystem<UpdateViewPositionSystem>())
 			.Add(pool.CreateSystem<UpdateLookDirectionSystem>())
 			.Add(pool.CreateSystem<HeathBarViewSystem>())

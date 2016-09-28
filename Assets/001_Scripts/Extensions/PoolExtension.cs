@@ -38,6 +38,9 @@ public static class PoolExtension {
 		case ProjectileType.throwing:
 			e.AddProjectileThrowing (prj.TravelTime);
 			break;
+		case ProjectileType.laser:
+			e.AddProjectileLaser (prj.TravelSpeed, prj.TravelTime);
+			break;
 		default:
 			break;
 		}

@@ -39,7 +39,7 @@ public class DataManager {
 	void LoadTowerTreeData(){
 		towerTrees = new List<Tree<string>> ();
 
-		Tree<string> t1 =  new Tree<string> ("tower0");
+		Tree<string> t1 =  new Tree<string> ("tower2");
 		t1.Root.AddChild ("tower1");
 		t1.Root.Children [0].AddChild ("tower0");
 		towerTrees.Add (t1);

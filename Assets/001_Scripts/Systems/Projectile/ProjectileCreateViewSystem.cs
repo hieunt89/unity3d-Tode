@@ -26,7 +26,7 @@ public class ProjectileCreateViewSystem : IReactiveSystem {
 	#region IReactiveSystem implementation
 	public TriggerOnEvent trigger {
 		get {
-			return Matcher.AllOf (Matcher.ProjectileMark).NoneOf(Matcher.MarkedForNoView).OnEntityAdded ();
+			return Matcher.AllOf (Matcher.ProjectileMark).OnEntityAdded ();
 		}
 	}
 	#endregion

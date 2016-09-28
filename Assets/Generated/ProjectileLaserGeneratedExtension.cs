@@ -12,17 +12,17 @@ namespace Entitas {
 
         public bool hasProjectileLaser { get { return HasComponent(ComponentIds.ProjectileLaser); } }
 
-        public Entity AddProjectileLaser(UnityEngine.Vector3 newStart, UnityEngine.Vector3 newEnd) {
+        public Entity AddProjectileLaser(float newTravelSpeed, float newTraveTime) {
             var component = CreateComponent<ProjectileLaser>(ComponentIds.ProjectileLaser);
-            component.start = newStart;
-            component.end = newEnd;
+            component.travelSpeed = newTravelSpeed;
+            component.travelTime = newTraveTime;
             return AddComponent(ComponentIds.ProjectileLaser, component);
         }
 
-        public Entity ReplaceProjectileLaser(UnityEngine.Vector3 newStart, UnityEngine.Vector3 newEnd) {
+        public Entity ReplaceProjectileLaser(float newTravelSpeed, float newTraveTime) {
             var component = CreateComponent<ProjectileLaser>(ComponentIds.ProjectileLaser);
-            component.start = newStart;
-            component.end = newEnd;
+            component.travelSpeed = newTravelSpeed;
+            component.travelTime = newTraveTime;
             ReplaceComponent(ComponentIds.ProjectileLaser, component);
             return this;
         }
