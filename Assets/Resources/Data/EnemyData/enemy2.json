@@ -1,0 +1,1 @@
+{"id":"enemy2","name":"skeleton","moveSpeed":2.0,"turnSpeed":5.0,"lifeCount":1,"goldWorth":5,"atkType":0,"atkSpeed":5.0,"minAtkDmg":3,"maxAtkDmg":7,"atkRange":0.0,"armors":[{"type":0,"reduction":30.0},{"type":1,"reduction":0.0}],"hp":5}

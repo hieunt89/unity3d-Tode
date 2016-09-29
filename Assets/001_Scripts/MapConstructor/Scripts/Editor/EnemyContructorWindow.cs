@@ -68,7 +68,7 @@ public class EnemyContructorWindow : EditorWindow {
 			{
 				GUILayout.BeginHorizontal();
 				EditorGUI.BeginChangeCheck ();
-				armorValues[i] =  EditorGUILayout.Slider(enemy.Armors [i].Type.ToString ().ToUpper () + " Armor Reduction", enemy.Armors [i].Reduction, 0f, 100f);
+				armorValues[i] = Mathf.Round(EditorGUILayout.Slider(enemy.Armors [i].Type.ToString ().ToUpper () + " Armor Reduction", enemy.Armors [i].Reduction, 0f, 100f));
 				if (EditorGUI.EndChangeCheck ()) {
 					enemy.Armors [i].Reduction = armorValues [i];
 				}
