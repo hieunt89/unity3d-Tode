@@ -10,7 +10,7 @@ public enum TreeType {
 }
 
 [Serializable]
-public class TreeUI {
+public class TreeUI : ScriptableObject{
 	public TreeType treeType;
 	public string treeName;
 	public Tree<string> treeData;
@@ -38,6 +38,7 @@ public class TreeUI {
 //		}
 
 		// load exist data based on tree type
+		// TODO: chuyen exist data ra global ?
 		switch (_treeType) {
 		case TreeType.Tower:
 			var data = DataManager.Instance.LoadAllData <TowerData> ();
@@ -77,13 +78,13 @@ public class TreeUI {
 			}
 		}
 
-//		EditorUtility.SetDirty (this);
+		EditorUtility.SetDirty (this);
 	}
 
 	public void DrawTreeProperties () {
 		EditorGUILayout.BeginVertical ();
 		EditorGUILayout.LabelField ("Name", treeName);
-		EditorGUILayout.LabelField ("Number of nodes", nodes.Count.ToString ());
+		EditorGUILayout.LabelField ("Name", nodes.Count.ToString ());
 		EditorGUILayout.EndVertical ();
 
 		// TODO : draw all nodes data :D

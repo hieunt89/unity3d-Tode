@@ -9,7 +9,7 @@ public enum NodeType {
 }
 
 [Serializable]
-public class NodeUI  {
+public class NodeUI : ScriptableObject {
 	public string nodeTitle = "Node";
 	public NodeType nodeType;
 	public Node<string> nodeData;
@@ -55,8 +55,18 @@ public class NodeUI  {
 			
 		nodeContentRect = new Rect(nodeRect.x, nodeRect.y + nodeRect.height, nodeRect.width, nodeRect.height);
 		GUI.Box (nodeContentRect, nodeData.Data, _viewSkin.GetStyle ("ContentDefault"));
-			
+
+		GUILayout.BeginArea (nodeContentRect);
+		EditorGUI.BeginChangeCheck ();
+		selectedIndex = EditorGUILayout.Popup (selectedIndex, currentTree.existIds.ToArray(), GUILayout.Width(nodeContentRect.width * 0.8f));
+		if (EditorGUI.EndChangeCheck ()) {
+			nodeData.Data = currentTree.existIds [selectedIndex];
+		}
+		GUILayout.EndArea ();
+
 		DrawInputConnection ();
+
+		EditorUtility.SetDirty (this);
 	}
 
 	public void DrawNodeProperties () {
@@ -68,7 +78,6 @@ public class NodeUI  {
 		if (EditorGUI.EndChangeCheck ()) {
 			nodeData.Data = currentTree.existIds [selectedIndex];
 		}
-
 		GUILayout.Space (30);
 		EditorGUILayout.EndHorizontal ();
 		EditorGUILayout.EndVertical ();

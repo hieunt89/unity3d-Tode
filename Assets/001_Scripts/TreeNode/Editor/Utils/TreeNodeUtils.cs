@@ -9,15 +9,20 @@ public static class TreeNodeUtils {
 		TreeUI currentTree = new TreeUI(treeType, treeName, new Tree<string> (""));
 
 		if (currentTree != null) {
-			// add root node
-			AddNode (currentTree, NodeType.RootNode, new Vector2(10f, 10f));
 
-			// TODO: save current tree to resource folders
+
+			AssetDatabase.CreateAsset (currentTree, TreeNodeConstants.DatabasePath + treeName + TreeNodeConstants.DataExtension);
+			AssetDatabase.SaveAssets ();
+			AssetDatabase.Refresh ();
 
 			TreeNodeEditorWindow currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow <TreeNodeEditorWindow> ();
 			if (currentWindow != null) {
 				currentWindow.currentTree = currentTree;
 			}
+
+			// add root node
+			AddNode (currentTree, NodeType.RootNode, new Vector2(10f, 10f));
+
 		} else {
 			EditorUtility.DisplayDialog ("Tree Node Message", "Unable to create new tree", "OK");
 		}
@@ -27,10 +32,21 @@ public static class TreeNodeUtils {
 	public static void LoadTree () {
 		TreeUI currentTree = null;
 
+		string treePath = EditorUtility.OpenFilePanel ("Load Tree", Application.dataPath + TreeNodeConstants.DatabasePath, "");
+//		Debug.Log (treePath);
+//		Debug.Log (Application.dataPath);
+		int appPathLength = Application.dataPath.Length;
+
+		string finalPath = treePath.Substring (appPathLength - TreeNodeConstants.DataExtension.Length);
+//		Debug.Log (finalPath);
 		// TODO: load tree from resource
 
+		currentTree = (TreeUI)AssetDatabase.LoadAssetAtPath (finalPath, typeof(TreeUI));
 		if (currentTree != null) {
-
+			TreeNodeEditorWindow currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow<TreeNodeEditorWindow> ();
+			if (currentWindow != null) {
+				currentWindow.currentTree = currentTree;
+			}
 		} else {
 			EditorUtility.DisplayDialog ("Tree Node Message", "Unable to load selected tree!", "OK");
 		}
@@ -43,28 +59,37 @@ public static class TreeNodeUtils {
 		}
 	}
 
-	public static void AddNode (TreeUI currentTree, NodeType nodeType, Vector2 position) {
-		if (currentTree != null) {
+	public static void SaveTree (TreeUI _currentTree) {
+		AssetDatabase.CreateAsset (_currentTree, TreeNodeConstants.DatabasePath + _currentTree.treeName + TreeNodeConstants.DataExtension);
+		AssetDatabase.SaveAssets ();
+		AssetDatabase.Refresh ();
+	}
+
+	public static void AddNode (TreeUI _currentTree, NodeType _nodeType, Vector2 _position) {
+		if (_currentTree != null) {
 			NodeUI newNode = null;
 			List <NodeUI> outputNodes = new List<NodeUI> ();
-			switch (nodeType) {
+			switch (_nodeType) {
 			case NodeType.RootNode:
-				newNode = new NodeUI("Root Node", nodeType, new Node<string> (currentTree.existIds[0]), null, outputNodes);
+				newNode = new NodeUI("Root Node", _nodeType, new Node<string> (_currentTree.existIds[0]), null, outputNodes);
 				break;
 			case NodeType.Node:
-				newNode = new NodeUI("Node", nodeType, new Node<string> (currentTree.existIds[0]), null, outputNodes);
+				newNode = new NodeUI("Node", _nodeType, new Node<string> (_currentTree.existIds[0]), null, outputNodes);
 				break;
 			default:
 				break;
 			}
 
 			if (newNode != null) {
-				newNode.InitNode (position);
+				newNode.InitNode (_position);
 
-				newNode.currentTree = currentTree;
-				currentTree.nodes.Add (newNode);
+				newNode.currentTree = _currentTree;
+				_currentTree.nodes.Add (newNode);
 
 				// TODO: save node 
+				AssetDatabase.AddObjectToAsset (newNode, _currentTree);
+				AssetDatabase.SaveAssets ();
+				AssetDatabase.Refresh ();
 			}
 		}
 

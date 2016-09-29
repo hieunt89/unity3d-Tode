@@ -24,6 +24,9 @@ public class TreeNodePropertiesView : ViewBase {
 		if (_currentTree != null) {
 			if (_currentTree.showNodeProperties) {
 				_currentTree.selectedNode.DrawNodeProperties ();
+			} else {
+//				_currentTree.DrawTreeProperties ();
+				EditorGUILayout.LabelField ("NONE");
 			}
 		}
 		GUILayout.Space (30);

@@ -23,8 +23,14 @@ public class TreeNodeWorkView : ViewBase {
 		GUILayout.BeginArea (viewRect);
 		if (_currentTree != null) {
 			_currentTree.UpdateTreeUI (_e, viewRect, viewSkin);
-		}
 
+			GUILayout.BeginHorizontal ();
+			if (GUI.Button (new Rect (viewRect.x + 10f, viewRect.y + viewRect.height - 30, 100f, 20f), "Save")) {
+				Debug.Log ("Save Tree");
+				TreeNodeUtils.SaveTree (currentTree);
+			}
+			EditorGUI.LabelField (new Rect (viewRect.x + 130f, viewRect.y + viewRect.height - 30, 100f, 20f), currentTree.nodes.Count + "nodes");
+		}
 		GUILayout.EndArea ();
 
 		ProcessEvent (_e);
@@ -112,7 +118,7 @@ public class TreeNodeWorkView : ViewBase {
 			TreeNodePopupWindow.InitTreeNodePopup ();
 			break;
 		case "1":
-			Debug.Log ("Load Tree");
+			TreeNodeUtils.LoadTree ();
 			break;
 		case "2":
 			TreeNodeUtils.UnloadTree ();
