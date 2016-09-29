@@ -9,12 +9,7 @@ public class ProjectileReachEndSystem : IReactiveSystem {
 	public void Execute (System.Collections.Generic.List<Entity> entities)
 	{
 		for (int i = 0; i < entities.Count; i++) {
-			var e = entities [i];
-			if(e.target.e.hasEnemy){
-				DamageEnemy (e, e.target.e);
-			}
-
-			e.IsMarkedForDestroy (true);
+			entities [i].IsMarkedForDestroy (true);
 		}
 	}
 
@@ -24,28 +19,9 @@ public class ProjectileReachEndSystem : IReactiveSystem {
 
 	public TriggerOnEvent trigger {
 		get {
-			return Matcher.AllOf (Matcher.Projectile, Matcher.ReachedEnd).NoneOf(Matcher.Tower).OnEntityAdded();
+			return Matcher.AllOf (Matcher.ProjectileMark, Matcher.ReachedEnd).OnEntityAdded();
 		}
 	}
 
 	#endregion
-
-	void DamageEnemy(Entity projectile, Entity enemy){
-		int damage = Random.Range (projectile.attackDamage.minDamage, projectile.attackDamage.maxDamage);
-		float reduction = GetDamageReduction (projectile.attack.attackType, enemy.armor.armorList);
-		damage = Mathf.CeilToInt(damage * reduction);
-		int hpLeft = Mathf.Clamp(enemy.hp.value - damage, 0, enemy.hpTotal.value);
-		enemy.ReplaceHp (hpLeft);
-	}
-
-	float GetDamageReduction(AttackType atkType, List<ArmorData> armors){
-		float result = 0f;
-		for (int i = 0; i < armors.Count; i++) {
-			if (armors [i].Type == atkType) {
-				result = 1 - armors[i].Reduction*0.01f;
-				break;
-			}
-		}
-		return result;
-	}
 }

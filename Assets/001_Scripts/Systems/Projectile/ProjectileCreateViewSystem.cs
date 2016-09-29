@@ -13,26 +13,40 @@ public class ProjectileCreateViewSystem : IReactiveSystem {
 		}
 	}
 	#endregion
+
 	#region IReactiveExecuteSystem implementation
 	public void Execute (System.Collections.Generic.List<Entity> entities)
 	{
-		GameObject go;
 		for (int i = 0; i < entities.Count; i++) {
-			var e = entities [i];
-			go = Lean.LeanPool.Spawn (Resources.Load<GameObject> ("Projectile/" + e.projectile.projectileId));
-			go.transform.position = e.position.value;
-			go.transform.rotation = Quaternion.LookRotation(e.destination.value - e.position.value);
-			go.transform.SetParent (projectileViewParent.transform, false);
-			e.AddView (go);
+			entities [i].AddCoroutine(CreateProjectileView(entities [i]));
 		}
 	}
 	#endregion
+
 	#region IReactiveSystem implementation
 	public TriggerOnEvent trigger {
 		get {
-			return Matcher.AllOf (Matcher.Projectile).NoneOf (Matcher.Tower).OnEntityAdded ();
+			return Matcher.AllOf (Matcher.ProjectileMark).OnEntityAdded ();
 		}
 	}
 	#endregion
-	
+
+	IEnumerator CreateProjectileView(Entity e){
+		var r = Resources.LoadAsync<GameObject> ("Projectile/" + e.projectile.projectileId);
+		while(!r.isDone){
+			yield return null;
+		}
+
+		if(r.asset == null){
+			if (GameManager.debug) {
+				Debug.Log ("Fail to load asset " + e.projectile.projectileId + " from Resources");
+			}
+			yield break;
+		}
+			
+		GameObject go = Lean.LeanPool.Spawn ( r.asset as GameObject );
+		go.transform.position = e.position.value;
+		go.transform.SetParent (projectileViewParent.transform, false);
+		e.AddView (go);
+	}
 }

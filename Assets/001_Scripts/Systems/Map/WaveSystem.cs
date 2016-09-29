@@ -15,7 +15,6 @@ public class WaveSystem : ISetPool, IInitializeSystem {
 
 	public void Initialize ()
 	{
-		
 		MapData map = DataManager.Instance.GetMapData ("map0");
 
 		_pool.CreateEntity().AddWave(map.Waves[0].Groups).AddId(map.Waves[0].Id);

@@ -27,6 +27,7 @@ public class TowerInitSystem : IInitializeSystem, ISetPool {
 				.AddId ("tower" + i)
 				.IsInteractable (true)
 				.AddPosition (tps[i].TowerPointPos)
+				.AddGold(0)
 				;
 		}
 	}

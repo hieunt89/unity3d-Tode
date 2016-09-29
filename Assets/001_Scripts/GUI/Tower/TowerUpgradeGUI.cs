@@ -3,32 +3,34 @@ using System.Collections;
 using Entitas;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using Lean;
 
 public class TowerUpgradeGUI : MonoBehaviour{
-
-	public GameObject btnTowerUpgradePrefab;
+	public GameObject prefab;
 	Entity currentSelected = null;
 
-	void Start(){
-		Messenger.AddListener (Events.Input.EMPTY_CLICK, ClearTowerUpgradeBtns);
-		Messenger.AddListener <Entity> (Events.Input.ENTITY_CLICK, CreateTowerUpgradeBtns);
+	void OnEnable(){
+		Messenger.AddListener (Events.Input.EMPTY_CLICK, HandleEmptyClick);
+		Messenger.AddListener <Entity> (Events.Input.ENTITY_CLICK, HandleEntityClick);
 		Messenger.AddListener <Node<string>> (Events.Input.TOWER_UPGRADE_BTN_CLICK, CreateTowerUpgradeEntity);
+		Messenger.AddListener (Events.Input.TOWER_UI_CLEAR, HandleEmptyClick);
 	}
 
-	void OnDestroy(){
-		Messenger.RemoveListener (Events.Input.EMPTY_CLICK, ClearTowerUpgradeBtns);
-		Messenger.RemoveListener <Entity> (Events.Input.ENTITY_CLICK, CreateTowerUpgradeBtns);
+	void OnDisable(){
+		Messenger.RemoveListener (Events.Input.EMPTY_CLICK, HandleEmptyClick);
+		Messenger.RemoveListener <Entity> (Events.Input.ENTITY_CLICK, HandleEntityClick);
 		Messenger.RemoveListener <Node<string>> (Events.Input.TOWER_UPGRADE_BTN_CLICK, CreateTowerUpgradeEntity);
+		Messenger.RemoveListener (Events.Input.TOWER_UI_CLEAR, HandleEmptyClick);
 	}
 
-	void CreateTowerUpgradeBtns(Entity e){
+	void HandleEntityClick(Entity e){
 		if (!e.hasTower && !e.isTowerBase) {
-			ClearTowerUpgradeBtns ();
+			HandleEmptyClick ();
 			return;
 		} else if (e == currentSelected) {
 			return;
 		} else {
-			ClearTowerUpgradeBtns ();
+			HandleEmptyClick ();
 		}
 
 		currentSelected = e;
@@ -45,29 +47,32 @@ public class TowerUpgradeGUI : MonoBehaviour{
 		}
 
 		for (int i = 0; i < upgrades.Count; i++) {
-			var data = DataManager.Instance.GetTowerData (upgrades[i].Data);
-			if(data != null){
-				var go = GameObject.Instantiate (btnTowerUpgradePrefab);
-				go.transform.SetParent (this.transform, false);
+			CreateTowerUpgradeBtn (upgrades [i]);
+		}
+	}
 
-				go.AddComponent<TowerUpgradeBtn> ().RegisterUpgradeBtn(upgrades[i], data.GoldRequired);
-				go.GetComponentInChildren<Text> ().text = "upgrade to " + upgrades[i].Data + " for " + data.GoldRequired + " gold";
-			}
+	void CreateTowerUpgradeBtn(Node<string> towerNode){
+		var data = DataManager.Instance.GetTowerData (towerNode.Data);
+		if(data != null){
+			var go = LeanPool.Spawn (prefab);
+			go.transform.SetParent (this.transform, false);
+			go.GetComponent<TowerUpgradeBtn> ().RegisterUpgradeBtn(towerNode, data.GoldRequired);
+			go.GetComponentInChildren<Text> ().text = "upgrade to " + towerNode.Data + " for " + data.GoldRequired + " gold";
 		}
 	}
 
 	void CreateTowerUpgradeEntity (Node<string> upgrade){
 		var data = DataManager.Instance.GetTowerData (upgrade.Data);
-		if(data != null){
+		if(data != null && currentSelected != null){
 			currentSelected.AddTowerUpgrade (data.BuildTime, upgrade);
 		}
-		ClearTowerUpgradeBtns ();
+		Messenger.Broadcast (Events.Input.TOWER_UI_CLEAR);
 	}
 
-	void ClearTowerUpgradeBtns(){
+	void HandleEmptyClick(){
 		currentSelected = null;
 		for (int i = 0; i < transform.childCount; i++) {
-			GameObject.Destroy (transform.GetChild (i).gameObject);
+			LeanPool.Despawn (transform.GetChild (i).gameObject);
 		}
 	}
 }

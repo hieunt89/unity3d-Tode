@@ -1,24 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
+//[ExecuteInEditMode]
 public class Test : MonoBehaviour {
-	public Material mat;
-	void Start () {
-		OnPostRender ();
-	}
-	void OnPostRender() {
-		if (!mat) {
-			Debug.LogError("Please Assign a material on the inspector");
-			return;
-		}
-		GL.PushMatrix();
-		mat.SetPass(0);
-		GL.LoadOrtho();
-		GL.Begin(GL.TRIANGLES);
-		GL.Vertex3(0, 0, 0);
-		GL.Vertex3(1, 1, 0);
-		GL.Vertex3(0, 1, 0);
-		GL.End();
-		GL.PopMatrix();
+	Tree<string> tree;
+	void Start(){
+		tree = new Tree<string> ();
+		Node<string> root = new Node<string> ("root");
+		tree.Root = root;
+
+		Node<string> n = new Node<string> ("test1");
+		Node<string> n2 = new Node<string> ("test2");
+
+		n.AddParent (root);
+		n.AddChild (n2);
+
+		Debug.Log(JsonUtility.ToJson (n));
+
+
 	}
 }
