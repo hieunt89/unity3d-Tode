@@ -1,9 +1,15 @@
 ﻿using UnityEngine;
-using System.Collections;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+using System;
 using System.Collections.Generic;
 
-public class Node <T> where T : class{
+[Serializable]
+public class Node <T> where T : class  {
+
 	public T Data;
+	public Node<T> parent;
 	public List<Node<T>> Children;
 
 	public Node (){
@@ -18,7 +24,13 @@ public class Node <T> where T : class{
 	public Node <T> AddChild(T data){
 		Node<T> n = new Node<T> (data);
 		Children.Add (n);
+		n.parent = this;
 		return this;
+	}
+
+	public void AddParent(Node<T> n){
+		this.parent = n;
+		n.Children.Add(this);
 	}
 
 	public Node <T> FindChildNodeByData (T data){
@@ -38,17 +50,3 @@ public class Node <T> where T : class{
 		return null;
 	}
 }
-
-public class Tree <T> where T : class{
-	public Node <T> Root;
-
-	public Tree (){
-		Root = new Node<T> ();
-	}
-
-	public Tree (T rootData)
-	{
-		Root = new Node<T> (rootData);
-	}
-}
-
