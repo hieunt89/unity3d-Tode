@@ -8,6 +8,12 @@ public class EnemyContructorWindow : EditorWindow {
 	List<EnemyData> existEnemies;
 	List<float> armorValues;
 
+	[MenuItem("Window/Enemy Constructor &E")]
+	public static void ShowWindow()
+	{
+		EditorWindow.GetWindow(typeof(EnemyContructorWindow));
+	}
+
 	void OnEnable () {
 
 		existEnemies = DataManager.Instance.LoadAllData<EnemyData> ();
@@ -92,11 +98,7 @@ public class EnemyContructorWindow : EditorWindow {
 		Repaint ();
 	}
 
-	[MenuItem("Window/Enemy Constructor %E")]
-	public static void ShowWindow()
-	{
-		EditorWindow.GetWindow(typeof(EnemyContructorWindow));
-	}
+
 
 	private bool CheckFields () {
 		var nameInput = !String.IsNullOrEmpty (enemy.Name);

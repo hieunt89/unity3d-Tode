@@ -16,6 +16,14 @@ public class TowerConstructorWindow : EditorWindow {
 	List<string> existTowerIds;
 	List<string> projectileIds;
 
+	int projectileIndex;
+
+	[MenuItem("Window/Tower Constructor &T")]
+	public static void ShowWindow()
+	{
+		EditorWindow.GetWindow(typeof(TowerConstructorWindow));
+	}
+
 	void OnEnable () {
 		
 		existTowers = DataManager.Instance.LoadAllData <TowerData>();
@@ -45,11 +53,6 @@ public class TowerConstructorWindow : EditorWindow {
 		}
 	}
 
-	[MenuItem("Window/Tower Constructor %T")]
-	public static void ShowWindow()
-	{
-		EditorWindow.GetWindow(typeof(TowerConstructorWindow));
-	}
 
 	void OnGUI()
 	{
@@ -58,7 +61,7 @@ public class TowerConstructorWindow : EditorWindow {
 		var id = EditorGUILayout.TextField ("Id", tower.Id);
 		var name = EditorGUILayout.TextField ("Name", tower.Name);
 		//		var prjType = EditorGUILayout.TextField ("projectile", towerConstructor.Tower.PrjType);
-//		projectileIndex = EditorGUILayout.Popup ("Projectile", projectileIndex, projectileIds.ToArray());
+		projectileIndex = EditorGUILayout.Popup ("Projectile", projectileIndex, projectileIds.ToArray());
 		var atkType = EditorGUILayout.EnumPopup ("Attack Type", tower.AtkType);
 		var atkRange = EditorGUILayout.FloatField ("Tower Range",tower.AtkRange);
 		var minDmg = EditorGUILayout.IntField ("Min Damage", tower.MinDmg);
@@ -70,8 +73,8 @@ public class TowerConstructorWindow : EditorWindow {
 		if (EditorGUI.EndChangeCheck ()) {
 			tower.Id = id;
 			tower.Name = name;
-//			tower.PrjTypeIndex = projectileIndex;
-//			tower.PrjType = projectileIds[projectileIndex];
+			tower.PrjTypeIndex = projectileIndex;
+			tower.PrjType = projectileIds[projectileIndex];
 			tower.AtkType = (AttackType) atkType;
 			tower.AtkRange = atkRange;
 			tower.MinDmg = minDmg;
