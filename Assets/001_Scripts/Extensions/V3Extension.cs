@@ -10,4 +10,8 @@ public static class V3Extension {
 		}
 	}
 
+	public static Vector3 ToEndFragment(this Vector3 start, Vector3 end, float fragment){
+		return (end - start) * fragment + start;
+	}
+
 }

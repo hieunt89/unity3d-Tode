@@ -27,19 +27,27 @@ public class ProjectileLaserSystem : IReactiveSystem, ISetPool {
 		for (int i = 0; i < ens.Length; i++) {
 			e = ens [i];
 			if(!e.hasDestination){
-				e.AddDestination(e.target.e.position.value)
-					.AddProjectileTime (0f);
+				e.AddDestination (e.position.value);
 			}
-			if(e.projectileTime.time >= e.projectileLaser.travelTime || !e.target.e.hasEnemy){
+			if((e.hasProjectileTime && e.projectileTime.time >= e.projectileLaser.travelTime) || !e.target.e.hasEnemy){
 				e.IsReachedEnd (true);
 				continue;
 			}
 			if(e.target.e.hasEnemy){
+				
+				var scaleFromPos = Vector3.Distance (e.destination.value, e.position.value) / Vector3.Distance (e.position.value, e.target.e.position.value + e.target.e.view.go.GetColliderCenterOffset ());
+				Debug.Log (Vector3.Distance (e.destination.value, e.position.value) + " " + Vector3.Distance (e.position.value, e.target.e.position.value + e.target.e.view.go.GetColliderCenterOffset ()) + " " + scaleFromPos);
 				e.ReplaceDestination (
-					((e.target.e.position.value + e.target.e.view.go.GetColliderCenterOffset()) - e.position.value) * Mathf.Clamp01(e.projectileTime.time*e.projectileLaser.travelSpeed) + e.position.value
+					e.position.value.ToEndFragment(e.target.e.position.value + e.target.e.view.go.GetColliderCenterOffset(), Mathf.Clamp01(e.projectileLaser.travelSpeed * Time.deltaTime + scaleFromPos))
 				);
 			}
-			e.ReplaceProjectileTime (e.projectileTime.time + Time.deltaTime);
+			if (Vector3.Distance(e.destination.value, e.target.e.position.value + e.target.e.view.go.GetColliderCenterOffset()) <= 0.2f && !e.hasProjectileTime) {
+				e.AddProjectileTime (0f);
+			}
+			if(e.hasProjectileTime){
+				e.ReplaceProjectileTime (e.projectileTime.time + Time.deltaTime);
+
+			}
 		}
 	}
 

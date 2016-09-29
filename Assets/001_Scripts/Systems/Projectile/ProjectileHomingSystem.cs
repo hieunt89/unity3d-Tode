@@ -28,7 +28,17 @@ public class ProjectileHomingSystem : IReactiveSystem, ISetPool {
 			if(!e.hasDestination){
 				e.AddDestination (e.target.e.position.value + e.target.e.view.go.GetColliderCenterOffset());
 			}
-			if (e.position.value == e.destination.value) {
+			if (e.position.value == e.destination.value) { //projectile reaches its target
+				
+				if(e.target.e.hasEnemy){
+					e.target.e.AddDamage (ProjectileHelper.GetDamage(
+						e.attackDamage.maxDamage,
+						e.attackDamage.minDamage,
+						e.attack.attackType,
+						e.target.e.armor.armorList
+					));
+				}
+
 				e.IsReachedEnd (true);
 				continue;
 			}

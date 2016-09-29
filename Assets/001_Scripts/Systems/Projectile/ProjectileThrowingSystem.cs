@@ -43,7 +43,17 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 			}
 			#endregion
 
-			if (e.position.value.y <= 0f) {
+			if (e.position.value.y <= 0f) { //projectile reaches ground
+
+				if(e.target.e.hasEnemy){
+					e.target.e.AddDamage (ProjectileHelper.GetDamage(
+						e.attackDamage.maxDamage,
+						e.attackDamage.minDamage,
+						e.attack.attackType,
+						e.target.e.armor.armorList
+					));
+				}
+
 				e.IsReachedEnd (true);
 			} else {
 				e.ReplaceProjectileTime (e.projectileTime.time + Time.deltaTime);
@@ -131,7 +141,7 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 
 		var startPoint = points [index];
 		var endPoint = points [index + 1];
-		var resultVector = ((endPoint - startPoint) * scaleOnVector) + startPoint;
+		var resultVector = startPoint.ToEndFragment (endPoint, scaleOnVector);
 
 		return resultVector;
 	}
@@ -161,7 +171,7 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 	Vector3 GetNextDestination(float t, float v, float h, float a, Vector3 start, Vector3 end){
 		var d = (end - start).magnitude;
 		var dX = v * t * Mathf.Cos (a * Mathf.Deg2Rad);
-		var vec = (end - start) * (dX / d) + start;
+		var vec = start.ToEndFragment (end, dX / d);
 
 		float x = vec.x;
 		float y = h + (v * t * Mathf.Sin (a * Mathf.Deg2Rad)) - (ConstantData.G * (Mathf.Pow (t, 2f)) / 2);

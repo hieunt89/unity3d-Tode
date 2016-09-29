@@ -25,50 +25,51 @@ public class GameManager : MonoBehaviour {
 			systems = new Systems ();
 		}
 		return systems
-			//Map
-			.Add(pool.CreateSystem<CoroutineSystem>())
-			.Add(pool.CreateSystem<TimeSystem>())
-			.Add(pool.CreateSystem<LifeSystem>())
-			.Add(pool.CreateSystem<GoldSystem>())
-			.Add(pool.CreateSystem<PathSystem>())
-			.Add(pool.CreateSystem<WaveSystem>())
-			
-			//Tower
-			.Add(pool.CreateSystem<TowerInitSystem>())
-			.Add(pool.CreateSystem<TowerUpgradeSystem>())
-			.Add(pool.CreateSystem<TowerBuildSystem>())
-			.Add(pool.CreateSystem<TowerStatsUpdateSystem>())
-			.Add(pool.CreateSystem<TowerCheckTargetSystem>())
-			.Add(pool.CreateSystem<TowerFindTargetSystem>())
-			.Add(pool.CreateSystem<TowerAttackSystem>())
-			.Add(pool.CreateSystem<TowerAttackCooldownSystem>())
-			.Add(pool.CreateSystem<TowerSellSystem>())
-			
-			//Enemy
-			.Add(pool.CreateSystem<EnemyInitSystem>())
-			.Add(pool.CreateSystem<EnemyActiveSystem>())
-			.Add(pool.CreateSystem<EnemyMoveSystem>())
-			.Add(pool.CreateSystem<EnemyReachEndSystem>())
-			.Add(pool.CreateSystem<EnemyDeadSystem>())
-			
-			//Projectile
-			.Add(pool.CreateSystem<ProjectileHomingSystem>())
-			.Add(pool.CreateSystem<ProjectileThrowingSystem>())
-			.Add(pool.CreateSystem<ProjectileLaserSystem>())
-			.Add(pool.CreateSystem<ProjectileReachEndSystem>())
-			
-			//View
-			.Add(pool.CreateSystem<TowerCreateViewSystem>())
-			.Add(pool.CreateSystem<EnemyCreateViewSystem>())
-			.Add(pool.CreateSystem<ProjectileCreateViewSystem>())
-			.Add(pool.CreateSystem<ProjectileLaserViewSystem>())
-			.Add(pool.CreateSystem<UpdateViewPositionSystem>())
-			.Add(pool.CreateSystem<UpdateLookDirectionSystem>())
-			.Add(pool.CreateSystem<HeathBarViewSystem>())
-			.Add(pool.CreateSystem<TowerProgressBarViewSystem>())
-			
-			//Destroy things
-			.Add(pool.CreateSystem<DestroyEntitySystem>())
+				//Map
+				.Add(pool.CreateSystem<CoroutineSystem>())
+				.Add(pool.CreateSystem<TimeSystem>())
+				.Add(pool.CreateSystem<LifeSystem>())
+				.Add(pool.CreateSystem<GoldSystem>())
+				.Add(pool.CreateSystem<PathSystem>())
+				.Add(pool.CreateSystem<WaveSystem>())
+				
+				//Tower
+				.Add(pool.CreateSystem<TowerInitSystem>())
+				.Add(pool.CreateSystem<TowerUpgradeSystem>())
+				.Add(pool.CreateSystem<TowerBuildSystem>())
+				.Add(pool.CreateSystem<TowerStatsUpdateSystem>())
+				.Add(pool.CreateSystem<TowerCheckTargetSystem>())
+				.Add(pool.CreateSystem<TowerFindTargetSystem>())
+				.Add(pool.CreateSystem<TowerAttackSystem>())
+				.Add(pool.CreateSystem<TowerAttackCooldownSystem>())
+				.Add(pool.CreateSystem<TowerSellSystem>())
+				
+				//Enemy
+				.Add(pool.CreateSystem<EnemyInitSystem>())
+				.Add(pool.CreateSystem<EnemyActiveSystem>())
+				.Add(pool.CreateSystem<EnemyMoveSystem>())
+				.Add(pool.CreateSystem<EnemyDamageSystem>())
+				.Add(pool.CreateSystem<EnemyReachEndSystem>())
+				.Add(pool.CreateSystem<EnemyDeadSystem>())
+				
+				//Projectile
+				.Add(pool.CreateSystem<ProjectileHomingSystem>())
+				.Add(pool.CreateSystem<ProjectileThrowingSystem>())
+				.Add(pool.CreateSystem<ProjectileLaserSystem>())
+				.Add(pool.CreateSystem<ProjectileReachEndSystem>())
+				
+				//View
+				.Add(pool.CreateSystem<TowerCreateViewSystem>())
+				.Add(pool.CreateSystem<EnemyCreateViewSystem>())
+				.Add(pool.CreateSystem<ProjectileCreateViewSystem>())
+				.Add(pool.CreateSystem<ProjectileLaserViewSystem>())
+				.Add(pool.CreateSystem<UpdateViewPositionSystem>())
+				.Add(pool.CreateSystem<UpdateLookDirectionSystem>())
+				.Add(pool.CreateSystem<HeathBarViewSystem>())
+				.Add(pool.CreateSystem<TowerProgressBarViewSystem>())
+				
+				//Destroy things
+				.Add(pool.CreateSystem<DestroyEntitySystem>())
 			;
 	}
 }

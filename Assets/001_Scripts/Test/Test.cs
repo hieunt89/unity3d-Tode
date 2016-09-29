@@ -14,5 +14,10 @@ public class Test : MonoBehaviour {
 		Node<string> n2 = new Node<string> ("test2");
 
 		n.AddParent (root);
+		n.AddChild (n2);
+
+		Debug.Log(JsonUtility.ToJson (n));
+
+
 	}
 }

@@ -15,46 +15,47 @@ public static class ComponentIds {
     public const int AttackRange = 5;
     public const int AttackSpeed = 6;
     public const int Coroutine = 7;
-    public const int Destination = 8;
-    public const int Enemy = 9;
-    public const int Gold = 10;
-    public const int GoldPlayer = 11;
-    public const int Hp = 12;
-    public const int HpTotal = 13;
-    public const int Id = 14;
-    public const int Interactable = 15;
-    public const int Level = 16;
-    public const int LifeCount = 17;
-    public const int LifePlayer = 18;
-    public const int MarkedForActive = 19;
-    public const int MarkedForDestroy = 20;
-    public const int MarkedForNoView = 21;
-    public const int MarkedForSell = 22;
-    public const int Movable = 23;
-    public const int Path = 24;
-    public const int PathLength = 25;
-    public const int PathReference = 26;
-    public const int Position = 27;
-    public const int Projectile = 28;
-    public const int ProjectileHoming = 29;
-    public const int ProjectileLaser = 30;
-    public const int ProjectileMark = 31;
-    public const int ProjectileThrowing = 32;
-    public const int ProjectileThrowingParams = 33;
-    public const int ProjectileTime = 34;
-    public const int ReachedEnd = 35;
-    public const int Target = 36;
-    public const int Tick = 37;
-    public const int Tower = 38;
-    public const int TowerBase = 39;
-    public const int TowerUpgrade = 40;
-    public const int TowerUpgradeProgress = 41;
-    public const int TurnSpeed = 42;
-    public const int View = 43;
-    public const int ViewSlider = 44;
-    public const int Wave = 45;
+    public const int Damage = 8;
+    public const int Destination = 9;
+    public const int Enemy = 10;
+    public const int Gold = 11;
+    public const int GoldPlayer = 12;
+    public const int Hp = 13;
+    public const int HpTotal = 14;
+    public const int Id = 15;
+    public const int Interactable = 16;
+    public const int Level = 17;
+    public const int LifeCount = 18;
+    public const int LifePlayer = 19;
+    public const int MarkedForActive = 20;
+    public const int MarkedForDestroy = 21;
+    public const int MarkedForNoView = 22;
+    public const int MarkedForSell = 23;
+    public const int Movable = 24;
+    public const int Path = 25;
+    public const int PathLength = 26;
+    public const int PathReference = 27;
+    public const int Position = 28;
+    public const int Projectile = 29;
+    public const int ProjectileHoming = 30;
+    public const int ProjectileLaser = 31;
+    public const int ProjectileMark = 32;
+    public const int ProjectileThrowing = 33;
+    public const int ProjectileThrowingParams = 34;
+    public const int ProjectileTime = 35;
+    public const int ReachedEnd = 36;
+    public const int Target = 37;
+    public const int Tick = 38;
+    public const int Tower = 39;
+    public const int TowerBase = 40;
+    public const int TowerUpgrade = 41;
+    public const int TowerUpgradeProgress = 42;
+    public const int TurnSpeed = 43;
+    public const int View = 44;
+    public const int ViewSlider = 45;
+    public const int Wave = 46;
 
-    public const int TotalComponents = 46;
+    public const int TotalComponents = 47;
 
     public static readonly string[] componentNames = {
         "Active",
@@ -65,6 +66,7 @@ public static class ComponentIds {
         "AttackRange",
         "AttackSpeed",
         "Coroutine",
+        "Damage",
         "Destination",
         "Enemy",
         "Gold",
@@ -114,6 +116,7 @@ public static class ComponentIds {
         typeof(AttackRange),
         typeof(AttackSpeed),
         typeof(Coroutine),
+        typeof(Damage),
         typeof(Destination),
         typeof(Enemy),
         typeof(Gold),
