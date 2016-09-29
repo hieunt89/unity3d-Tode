@@ -4,7 +4,15 @@ using System.Collections.Generic;
 
 [ExecuteInEditMode]
 public class Test : MonoBehaviour {
-	void Update(){
-		gameObject.GetColliderCenterOffset ();
+	Tree<string> tree;
+	void Start(){
+		tree = new Tree<string> ("root");
+	}
+
+	public void AddNode(){
+		Node<string> n = new Node<string> ("test1");
+		Node<string> n2 = new Node<string> ("test2");
+
+
 	}
 }
