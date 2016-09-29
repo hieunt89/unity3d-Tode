@@ -15,5 +15,10 @@ public class Tree <T> where T : class {
 	{
 		this.Root = new Node<T> (rootData);
 	}
+
+	public Tree ()
+	{
+		
+	}
 }
 

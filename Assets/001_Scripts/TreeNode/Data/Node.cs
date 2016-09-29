@@ -28,6 +28,12 @@ public class Node <T> where T : class  {
 		return this;
 	}
 
+	public Node <T> AddChild(Node<T> n){
+		this.Children.Add (n);
+		n.parent = this;
+		return this;
+	}
+
 	public void AddParent(Node<T> n){
 		this.parent = n;
 		n.Children.Add(this);
