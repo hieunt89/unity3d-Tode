@@ -5,38 +5,24 @@ using UnityEditor;
 using System;
 using System.Collections.Generic;
 
-public enum TreeType {
-	Tower
-}
-
 [Serializable]
 public class TreeUI {
-	public TreeType treeType;
-	public string treeName;
-	public Tree<string> treeData;
 
+	public Tree<string> treeData;
 	public List<NodeUI> nodes;
 	public NodeUI selectedNode;
 	public bool wantsConnection = false;
-	public NodeUI startConnectionNode;	// ???
+	public NodeUI startConnectionNode;
 	public bool showNodeProperties = false;
 
 	public List<string> existIds;
-//	private List<int> selectedIndexes;
 
-	public TreeUI (TreeType _treeType, string _treeName, Tree<string> _treeData) {
-		this.treeType = _treeType;
-		this.treeName = _treeName;
-		this.treeData = _treeData;
+	public TreeUI (TreeType _treeType, string _treeName) {
+		treeData = new Tree<string> (_treeType, _treeName, null);
 
 		if (nodes == null) {
 			nodes = new List<NodeUI> ();
 		}
-
-//		if (selectedIndexes == null) {
-//			selectedIndexes = new List<int> ();
-//		}
-
 		// load exist data based on tree type
 		// TODO: chuyen exist data ra global ?
 		switch (_treeType) {
@@ -83,7 +69,7 @@ public class TreeUI {
 
 	public void DrawTreeProperties () {
 		EditorGUILayout.BeginVertical ();
-		EditorGUILayout.LabelField ("Name", treeName);
+		EditorGUILayout.LabelField ("Name", treeData.treeName);
 		EditorGUILayout.LabelField ("Name", nodes.Count.ToString ());
 		EditorGUILayout.EndVertical ();
 
@@ -124,9 +110,9 @@ public class TreeUI {
 		bool isRight = _mousePosition.x >= startConnectionNode.nodeRect.x + startConnectionNode.nodeRect.width * 0.5f;
 
 		var startPos = new Vector3(isRight ? startConnectionNode.nodeRect.x + startConnectionNode.nodeRect.width :  startConnectionNode.nodeRect.x, 
-			startConnectionNode.nodeRect.y + startConnectionNode.nodeRect.height + startConnectionNode.nodeContentRect.height * .5f, 
-									0f);
-		var endPos = new Vector3(_mousePosition.x, _mousePosition.y, 0f);
+			startConnectionNode.nodeRect.y + startConnectionNode.nodeRect.height +  startConnectionNode.nodeContentRect .height * .5f, 
+									0);
+		var endPos = new Vector3(_mousePosition.x, _mousePosition.y, 0);
 
 		float mnog = Vector3.Distance(startPos,endPos);
 		Vector3 startTangent = startPos + (isRight ? Vector3.right : Vector3.left) * (mnog / 3f) ;

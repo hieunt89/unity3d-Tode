@@ -6,21 +6,18 @@ using System.IO;
 
 public static class TreeNodeUtils {
 
-	public static void CreateTree (TreeType treeType, string treeName) {
+	public static void CreateTree (TreeType _treeType, string _treeName) {
 		
-		TreeUI currentTree = new TreeUI(treeType, treeName, new Tree<string> (""));
+		TreeUI currentTree = new TreeUI(_treeType, _treeName);
 
 		if (currentTree != null) {
-
-			// TODO: Save tree data to binary file
-
 			TreeNodeEditorWindow currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow <TreeNodeEditorWindow> ();
 			if (currentWindow != null) {
 				currentWindow.currentTree = currentTree;
 			}
 
 			// add root node
-			AddNode (currentTree, NodeType.RootNode, new Vector2(10f, 10f));
+			AddNode (currentTree, NodeType.RootNode, new Vector2(20f, 20f));
 
 		} else {
 			EditorUtility.DisplayDialog ("Tree Node Message", "Unable to create new tree", "OK");
@@ -28,24 +25,31 @@ public static class TreeNodeUtils {
 
 	}
 
-//	public static void LoadTree () {
-//		TreeUI currentTree = null;
-//
-//		string treePath = EditorUtility.OpenFilePanel ("Load Tree", Application.dataPath + TreeNodeConstants.DatabasePath, "");
-//		int appPathLength = Application.dataPath.Length;
-//		string finalPath = treePath.Substring (appPathLength - TreeNodeConstants.DataExtension.Length);
-//
-////		currentTree = (TreeUI)AssetDatabase.LoadAssetAtPath (finalPath, typeof(TreeUI));
-//
-//		if (currentTree != null) {
-//			TreeNodeEditorWindow currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow<TreeNodeEditorWindow> ();
-//			if (currentWindow != null) {
-//				currentWindow.currentTree = currentTree;
-//			}
-//		} else {
-//			EditorUtility.DisplayDialog ("Tree Node Message", "Unable to load selected tree!", "OK");
-//		}
-//	}
+	public static  void LoadTree () {
+		Tree<string> treeData = null;
+		string treePath = EditorUtility.OpenFilePanel ("Load Tree", Application.dataPath + TreeNodeConstants.DatabasePath, "");
+		Debug.Log(treePath);
+		int appPathLength = Application.dataPath.Length;
+		string finalPath = treePath.Substring (appPathLength - TreeNodeConstants.DataExtension.Length);
+		Debug.Log (finalPath);
+
+		BinaryFormatter bf = new BinaryFormatter ();
+		FileStream file = File.Open (finalPath, FileMode.Open);
+		treeData = (Tree<string>) bf.Deserialize (file);
+		file.Close ();
+		if (treeData != null) {
+			TreeNodeEditorWindow currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow<TreeNodeEditorWindow> ();
+			if (currentWindow != null) {
+//				currentWindow.currentTree.treeData = treeData;
+			}
+		} else {
+			EditorUtility.DisplayDialog ("Tree Node Message", "Unable to load selected tree!", "OK");
+		}
+	}
+
+	public static void GenerateTreeUI (Tree<string> treeData) {
+		// TODO: generate tree ui + node ui base on tree data
+	}
 
 	public static void UnloadTree () {
 		TreeNodeEditorWindow currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow <TreeNodeEditorWindow> ();
@@ -56,27 +60,13 @@ public static class TreeNodeUtils {
 
 	public static void SaveTree (TreeUI _currentTree) {
 		BinaryFormatter bf = new BinaryFormatter ();
-		FileStream file = File.Create (Application.dataPath + TreeNodeConstants.DatabasePath + _currentTree.treeName + ".gd");
+		FileStream file = File.Create (Application.dataPath + TreeNodeConstants.DatabasePath + _currentTree.treeData.treeName + ".tree");
 		bf.Serialize (file, _currentTree.treeData);
 		file.Close ();
 		AssetDatabase.Refresh ();
 	}
 
-	public static Tree<string> LoadTree (string treeName) {
-		if (File.Exists (Application.dataPath + TreeNodeConstants.DatabasePath + treeName + ".gd")) {
-			BinaryFormatter bf = new BinaryFormatter ();
-			FileStream file = File.Open (Application.dataPath + TreeNodeConstants.DatabasePath + treeName + ".gd", FileMode.Open);
-			Tree<string> result = (Tree<string>) bf.Deserialize (file);
 
-			file.Close ();
-			if (result != null)
-				return result;
-			else
-				return null;
-		} else {
-			return null;
-		}
-	}
 
 	public static void AddNode (TreeUI _currentTree, NodeType _nodeType, Vector2 _position) {
 		if (_currentTree != null) {
@@ -85,6 +75,7 @@ public static class TreeNodeUtils {
 			switch (_nodeType) {
 			case NodeType.RootNode:
 				newNode = new NodeUI ("Root Node", _nodeType, new Node<string> (_currentTree.existIds [0]), null, outputNodes);
+				// assign data to root node
 				_currentTree.treeData.Root = newNode.nodeData;
 				break;
 			case NodeType.Node:
@@ -96,14 +87,8 @@ public static class TreeNodeUtils {
 
 			if (newNode != null) {
 				newNode.InitNode (_position);
-
 				newNode.currentTree = _currentTree;
 				_currentTree.nodes.Add (newNode);
-
-				// TODO: save node 
-//				AssetDatabase.AddObjectToAsset (newNode, _currentTree);
-//				AssetDatabase.SaveAssets ();
-//				AssetDatabase.Refresh ();
 			}
 		}
 

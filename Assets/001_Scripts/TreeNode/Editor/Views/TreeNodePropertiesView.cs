@@ -23,7 +23,7 @@ public class TreeNodePropertiesView : ViewBase {
 
 		if (_currentTree != null) {
 			if (_currentTree.showNodeProperties) {
-				_currentTree.selectedNode.DrawNodeProperties ();
+				_currentTree.selectedNode.DrawNodeProperties (_currentTree);
 			} else {
 //				_currentTree.DrawTreeProperties ();
 				EditorGUILayout.LabelField ("NONE");
@@ -33,7 +33,7 @@ public class TreeNodePropertiesView : ViewBase {
 		GUILayout.EndHorizontal ();
 		GUILayout.EndArea ();
 
-//		ProcessEvent (_e);
+		ProcessEvent (_e);
 	}
 
 	public override void ProcessEvent (Event _e)

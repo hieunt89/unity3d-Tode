@@ -24,14 +24,6 @@ public class TreeNodeWorkView : ViewBase {
 
 		if (_currentTree != null) {
 			_currentTree.UpdateTreeUI (_e, viewRect, viewSkin);
-
-			GUILayout.BeginHorizontal ();
-			if (GUI.Button (new Rect (viewRect.x + 10f, viewRect.y + viewRect.height - 30, 100f, 20f), "Save")) {
-				Debug.Log ("Save Tree");
-				TreeNodeUtils.SaveTree (currentTree);
-			}
-
-			EditorGUI.LabelField (new Rect (viewRect.x + 130f, viewRect.y + viewRect.height - 30, 100f, 20f), currentTree.nodes.Count + "nodes");
 		}
 		GUILayout.EndArea ();
 
@@ -92,18 +84,19 @@ public class TreeNodeWorkView : ViewBase {
 				menu.AddItem (new GUIContent ("Create Tree"), false, OnClickContextCallback, "0");
 				menu.AddItem (new GUIContent ("Load Tree"), false, OnClickContextCallback, "1");
 			} else {
-				menu.AddItem (new GUIContent("Unload Tree"), false, OnClickContextCallback, "2");
+				menu.AddItem (new GUIContent ("Add Node"), false, OnClickContextCallback, "2");
+				menu.AddItem (new GUIContent("Save Tree"), false, OnClickContextCallback, "3");
 				menu.AddSeparator ("");
-				menu.AddItem (new GUIContent ("Add Node"), false, OnClickContextCallback, "3");
+				menu.AddItem (new GUIContent("Unload Tree"), false, OnClickContextCallback, "4");
 			}
 			break;
 
 		case 1:
 			if (currentTree != null){
 				if (currentTree.nodes[selectedNodeId].parentNode != null)
-					menu.AddItem (new GUIContent ("Remove Parent"), false, OnClickContextCallback, "4");
+					menu.AddItem (new GUIContent ("Remove Parent"), false, OnClickContextCallback, "5");
 				if (currentTree.nodes[selectedNodeId].nodeType != NodeType.RootNode)
-					menu.AddItem (new GUIContent ("Remove Node"), false, OnClickContextCallback, "5");
+					menu.AddItem (new GUIContent ("Remove Node"), false, OnClickContextCallback, "6");
 			}
 			break;
 		}
@@ -118,18 +111,21 @@ public class TreeNodeWorkView : ViewBase {
 			TreeNodePopupWindow.InitTreeNodePopup ();
 			break;
 		case "1":
-			TreeNodeUtils.LoadTree ("arc");
+			TreeNodeUtils.LoadTree ();
 			break;
 		case "2":
-			TreeNodeUtils.UnloadTree ();
-			break;
-		case "3":
 			TreeNodeUtils.AddNode (currentTree, NodeType.Node, mousePosition);
 			break;
+		case "3":
+			TreeNodeUtils.SaveTree (currentTree);
+			break;
 		case "4":
-			TreeNodeUtils.RemoveParentNode (selectedNodeId, currentTree);
+			TreeNodeUtils.UnloadTree ();
 			break;
 		case "5":
+			TreeNodeUtils.RemoveParentNode (selectedNodeId, currentTree);
+			break;
+		case "6":
 			TreeNodeUtils.RemoveNode(selectedNodeId, currentTree);
 			break;
 		}
