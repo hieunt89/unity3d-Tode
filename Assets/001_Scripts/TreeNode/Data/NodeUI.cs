@@ -9,7 +9,7 @@ public enum NodeType {
 }
 
 [Serializable]
-public class NodeUI : ScriptableObject {
+public class NodeUI {
 	public string nodeTitle = "Node";
 	public NodeType nodeType;
 	public Node<string> nodeData;
@@ -66,7 +66,7 @@ public class NodeUI : ScriptableObject {
 
 		DrawInputConnection ();
 
-		EditorUtility.SetDirty (this);
+//		EditorUtility.SetDirty (this);
 	}
 
 	public void DrawNodeProperties () {
@@ -107,7 +107,11 @@ public class NodeUI : ScriptableObject {
 					for (int i = 0; i < currentTree.nodes.Count; i++) {
 						if (currentTree.nodes[i].nodeContentRect.Contains (_e.mousePosition)){
 							if (currentTree.nodes[i] != currentTree.startConnectionNode && currentTree.nodes[i].nodeType != NodeType.RootNode && currentTree.nodes[i].parentNode == null) {
+								// assign mouse over node ui to start connection node ui
 								currentTree.nodes[i].parentNode = currentTree.startConnectionNode;
+
+								// add mouse over node data to list of child nodedata in start connection nodedata
+								currentTree.startConnectionNode.nodeData.AddRelationship (currentTree.nodes [i].nodeData);
 							}
 						}
 					}

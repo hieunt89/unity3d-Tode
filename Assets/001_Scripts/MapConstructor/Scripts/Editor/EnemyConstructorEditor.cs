@@ -26,10 +26,7 @@ public class EnemyConstructorEditor : Editor {
 			});
 		}
 
-		armorValues = new List<float> ();
-		for (int i = 0; i < enemyConstructor.Enemy.Armors.Count; i++) {
-			armorValues.Add (0f);
-		}
+		InitArmorValues ();
 	}
 	bool toggleNextUpgrade;
 	public override void OnInspectorGUI (){
@@ -98,6 +95,7 @@ public class EnemyConstructorEditor : Editor {
 		GUI.enabled = true;
 		if (GUILayout.Button("Load")){
 			enemyConstructor.Enemy = DataManager.Instance.LoadData <EnemyData> ();
+			InitArmorValues ();
 		}
 		if (GUILayout.Button("Rest")){
 			enemyConstructor.Enemy =  new EnemyData ("enemy" + existEnemies.Count, new List<ArmorData>(){
@@ -115,5 +113,12 @@ public class EnemyConstructorEditor : Editor {
 		var nameInput = !String.IsNullOrEmpty (enemyConstructor.Enemy.Name);
 
 		return nameInput;
+	}
+
+	private void InitArmorValues () {
+		armorValues = new List<float> ();
+		for (int i = 0; i < enemyConstructor.Enemy.Armors.Count; i++) {
+			armorValues.Add (0f);
+		}
 	}
 }

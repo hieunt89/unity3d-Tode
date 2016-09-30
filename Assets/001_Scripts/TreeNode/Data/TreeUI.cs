@@ -10,7 +10,7 @@ public enum TreeType {
 }
 
 [Serializable]
-public class TreeUI : ScriptableObject{
+public class TreeUI {
 	public TreeType treeType;
 	public string treeName;
 	public Tree<string> treeData;
@@ -78,7 +78,7 @@ public class TreeUI : ScriptableObject{
 			}
 		}
 
-		EditorUtility.SetDirty (this);
+//		EditorUtility.SetDirty (this);
 	}
 
 	public void DrawTreeProperties () {

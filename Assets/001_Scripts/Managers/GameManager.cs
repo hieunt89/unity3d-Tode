@@ -40,8 +40,8 @@ public class GameManager : MonoBehaviour {
 				.Add(pool.CreateSystem<TowerStatsUpdateSystem>())
 				.Add(pool.CreateSystem<TowerCheckTargetSystem>())
 				.Add(pool.CreateSystem<TowerFindTargetSystem>())
-				.Add(pool.CreateSystem<TowerAttackSystem>())
 				.Add(pool.CreateSystem<TowerAttackCooldownSystem>())
+				.Add(pool.CreateSystem<TowerAttackSystem>())
 				.Add(pool.CreateSystem<TowerSellSystem>())
 
 				//Enemy

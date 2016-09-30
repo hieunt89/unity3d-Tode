@@ -1,7 +1,4 @@
 ﻿using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 using System;
 using System.Collections.Generic;
 
@@ -21,22 +18,17 @@ public class Node <T> where T : class  {
 		Children = new List<Node<T>> ();
 	}
 
-	public Node <T> AddChild(T data){
+	public Node <T> AddRelationship(T data){
 		Node<T> n = new Node<T> (data);
 		Children.Add (n);
 		n.parent = this;
 		return this;
 	}
 
-	public Node <T> AddChild(Node<T> n){
-		this.Children.Add (n);
-		n.parent = this;
+	public Node <T> AddRelationship(Node<T> nodeData){
+		Children.Add (nodeData);
+		nodeData.parent = this;
 		return this;
-	}
-
-	public void AddParent(Node<T> n){
-		this.parent = n;
-		n.Children.Add(this);
 	}
 
 	public Node <T> FindChildNodeByData (T data){

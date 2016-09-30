@@ -52,13 +52,9 @@ public class TowerUpgradeGUI : MonoBehaviour{
 	}
 
 	void CreateTowerUpgradeBtn(Node<string> towerNode){
-		var data = DataManager.Instance.GetTowerData (towerNode.Data);
-		if(data != null){
-			var go = LeanPool.Spawn (prefab);
-			go.transform.SetParent (this.transform, false);
-			go.GetComponent<TowerUpgradeBtn> ().RegisterUpgradeBtn(towerNode, data.GoldRequired);
-			go.GetComponentInChildren<Text> ().text = "upgrade to " + towerNode.Data + " for " + data.GoldRequired + " gold";
-		}
+		var go = LeanPool.Spawn (prefab);
+		go.transform.SetParent (this.transform, false);
+		go.GetComponent<TowerUpgradeBtn> ().RegisterUpgradeBtn(towerNode);
 	}
 
 	void CreateTowerUpgradeEntity (Node<string> upgrade){
@@ -71,6 +67,7 @@ public class TowerUpgradeGUI : MonoBehaviour{
 
 	void HandleEmptyClick(){
 		currentSelected = null;
+		Debug.Log (transform.childCount);
 		for (int i = 0; i < transform.childCount; i++) {
 			LeanPool.Despawn (transform.GetChild (i).gameObject);
 		}

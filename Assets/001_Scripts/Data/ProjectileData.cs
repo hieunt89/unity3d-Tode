@@ -10,6 +10,7 @@ public class ProjectileData {
 
 	[SerializeField] private float travelSpeed;
 	[SerializeField] private float duration;
+
 	[SerializeField] private float maxDmgBuildTime;
 	[SerializeField] private float tickInterval;
 

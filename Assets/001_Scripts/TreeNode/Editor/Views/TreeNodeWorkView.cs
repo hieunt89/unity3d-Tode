@@ -21,6 +21,7 @@ public class TreeNodeWorkView : ViewBase {
 		TreeNodeUtils.DrawGrid (viewRect, 20f, 0.1f, Color.white);
 
 		GUILayout.BeginArea (viewRect);
+
 		if (_currentTree != null) {
 			_currentTree.UpdateTreeUI (_e, viewRect, viewSkin);
 
@@ -29,6 +30,7 @@ public class TreeNodeWorkView : ViewBase {
 				Debug.Log ("Save Tree");
 				TreeNodeUtils.SaveTree (currentTree);
 			}
+
 			EditorGUI.LabelField (new Rect (viewRect.x + 130f, viewRect.y + viewRect.height - 30, 100f, 20f), currentTree.nodes.Count + "nodes");
 		}
 		GUILayout.EndArea ();
@@ -90,9 +92,7 @@ public class TreeNodeWorkView : ViewBase {
 				menu.AddItem (new GUIContent ("Create Tree"), false, OnClickContextCallback, "0");
 				menu.AddItem (new GUIContent ("Load Tree"), false, OnClickContextCallback, "1");
 			} else {
-				menu.AddSeparator ("");
 				menu.AddItem (new GUIContent("Unload Tree"), false, OnClickContextCallback, "2");
-
 				menu.AddSeparator ("");
 				menu.AddItem (new GUIContent ("Add Node"), false, OnClickContextCallback, "3");
 			}
@@ -118,7 +118,7 @@ public class TreeNodeWorkView : ViewBase {
 			TreeNodePopupWindow.InitTreeNodePopup ();
 			break;
 		case "1":
-			TreeNodeUtils.LoadTree ();
+			TreeNodeUtils.LoadTree ("arc");
 			break;
 		case "2":
 			TreeNodeUtils.UnloadTree ();
