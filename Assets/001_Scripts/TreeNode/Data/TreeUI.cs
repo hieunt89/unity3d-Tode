@@ -124,9 +124,9 @@ public class TreeUI {
 		bool isRight = _mousePosition.x >= startConnectionNode.nodeRect.x + startConnectionNode.nodeRect.width * 0.5f;
 
 		var startPos = new Vector3(isRight ? startConnectionNode.nodeRect.x + startConnectionNode.nodeRect.width :  startConnectionNode.nodeRect.x, 
-									startConnectionNode.nodeRect.y + startConnectionNode.nodeRect.height * .75f, 
-									0);
-		var endPos = new Vector3(_mousePosition.x, _mousePosition.y, 0);
+			startConnectionNode.nodeRect.y + startConnectionNode.nodeRect.height + startConnectionNode.nodeContentRect.height * .5f, 
+									0f);
+		var endPos = new Vector3(_mousePosition.x, _mousePosition.y, 0f);
 
 		float mnog = Vector3.Distance(startPos,endPos);
 		Vector3 startTangent = startPos + (isRight ? Vector3.right : Vector3.left) * (mnog / 3f) ;

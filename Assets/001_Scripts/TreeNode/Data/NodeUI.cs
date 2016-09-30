@@ -56,13 +56,13 @@ public class NodeUI {
 		nodeContentRect = new Rect(nodeRect.x, nodeRect.y + nodeRect.height, nodeRect.width, nodeRect.height);
 		GUI.Box (nodeContentRect, nodeData.Data, _viewSkin.GetStyle ("ContentDefault"));
 
-		GUILayout.BeginArea (nodeContentRect);
-		EditorGUI.BeginChangeCheck ();
-		selectedIndex = EditorGUILayout.Popup (selectedIndex, currentTree.existIds.ToArray(), GUILayout.Width(nodeContentRect.width * 0.8f));
-		if (EditorGUI.EndChangeCheck ()) {
-			nodeData.Data = currentTree.existIds [selectedIndex];
-		}
-		GUILayout.EndArea ();
+//		GUILayout.BeginArea (nodeContentRect);
+//		EditorGUI.BeginChangeCheck ();
+//		selectedIndex = EditorGUILayout.Popup (selectedIndex, currentTree.existIds.ToArray(), GUILayout.Width(nodeContentRect.width * 0.8f));
+//		if (EditorGUI.EndChangeCheck ()) {
+//			nodeData.Data = currentTree.existIds [selectedIndex];
+//		}
+//		GUILayout.EndArea ();
 
 		DrawInputConnection ();
 
@@ -74,9 +74,11 @@ public class NodeUI {
 		EditorGUILayout.BeginHorizontal ();
 		GUILayout.Space (30);
 		EditorGUI.BeginChangeCheck ();
-		selectedIndex = EditorGUILayout.Popup (selectedIndex, currentTree.existIds.ToArray());
-		if (EditorGUI.EndChangeCheck ()) {
-			nodeData.Data = currentTree.existIds [selectedIndex];
+		if (currentTree != null) {
+			selectedIndex = EditorGUILayout.Popup (selectedIndex, currentTree.existIds.ToArray ());
+			if (EditorGUI.EndChangeCheck ()) {
+				nodeData.Data = currentTree.existIds [selectedIndex];
+			}
 		}
 		GUILayout.Space (30);
 		EditorGUILayout.EndHorizontal ();
@@ -130,8 +132,8 @@ public class NodeUI {
 			bool isRight = nodeRect.x >= parentNode.nodeRect.x + (parentNode.nodeRect.width * 0.5f);
 
 			var startPos = new Vector3 (parentNode.nodeRect.x + parentNode.nodeRect.width, 
-				parentNode.nodeRect.y + parentNode.nodeRect.height * 0.75f, 0f);
-			var endPos = new Vector3(nodeRect.x, nodeRect.y + nodeRect.height * 0.75f, 0f);
+				parentNode.nodeRect.y + parentNode.nodeRect.height + parentNode.nodeContentRect.height * 0.5f, 0f);
+			var endPos = new Vector3(nodeRect.x, nodeRect.y + nodeRect.height + nodeContentRect.height * 0.5f, 0f);
 
 			float mnog = Vector3.Distance(startPos,endPos);
 			Vector3 startTangent = startPos + (isRight ? Vector3.right : Vector3.left) * (mnog / 3f) ;
