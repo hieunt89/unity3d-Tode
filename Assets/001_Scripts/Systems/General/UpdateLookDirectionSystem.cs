@@ -9,16 +9,18 @@ public class UpdateLookDirectionSystem : IReactiveSystem {
 	{
 		for (int i = 0; i < entities.Count; i++) {
 			var e = entities [i];
-
 			Vector3 targetDir = e.destination.value - e.position.value;
-			float step = e.turnable.turnSpeed * Time.deltaTime;
-			targetDir = Vector3.RotateTowards(e.view.go.transform.forward, targetDir, step, 0f);
-			if(GameManager.debug){
-				Debug.DrawRay(e.position.value, targetDir, Color.red);
+			if (e.hasTurnSpeed) {
+				float step = e.turnSpeed.value * Time.deltaTime;
+				targetDir = Vector3.RotateTowards (e.view.go.transform.forward, targetDir, step, 0f);
+				if (GameManager.debug) {
+					Debug.DrawRay (e.position.value, targetDir, Color.red);
+				}
 			}
-			e.view.go.transform.rotation = Quaternion.LookRotation(targetDir);
-
-//			e.view.go.transform.LookAt (e.destination.value);
+				
+			if (targetDir != Vector3.zero) {
+				e.view.go.transform.rotation = Quaternion.LookRotation (targetDir);
+			}
 		}
 	}
 
@@ -28,7 +30,7 @@ public class UpdateLookDirectionSystem : IReactiveSystem {
 
 	public TriggerOnEvent trigger {
 		get {
-			return Matcher.AllOf (Matcher.Position, Matcher.Destination, Matcher.View, Matcher.Turnable).OnEntityAdded ();
+			return Matcher.AllOf (Matcher.Position, Matcher.Destination, Matcher.View).OnEntityAdded ();
 		}
 	}
 

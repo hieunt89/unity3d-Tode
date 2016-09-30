@@ -41,7 +41,6 @@ public class ProjectileConstructorEditor : Editor {
 		if (projectileConstructor.Projectile.Type == ProjectileType.homing) {
 			projectileConstructor.Projectile.TravelTime = 0f;
 		}
-		var turnSpeed = EditorGUILayout.FloatField ("Turn Speed", projectileConstructor.Projectile.TurnSpeed);
 
 		GUI.enabled = projectileConstructor.Projectile.Type == ProjectileType.homing;
 		var travelSpeed = EditorGUILayout.FloatField ("Travel Speed", projectileConstructor.Projectile.TravelSpeed);
@@ -51,13 +50,14 @@ public class ProjectileConstructorEditor : Editor {
 		var travelTime = EditorGUILayout.FloatField ("Travel Time", projectileConstructor.Projectile.TravelTime);
 		GUI.enabled = true;
 
+
+
 		var range = EditorGUILayout.FloatField ("Range", projectileConstructor.Projectile.Range);
 		if (EditorGUI.EndChangeCheck()) {
 			projectileConstructor.Projectile.Id = id;
 			projectileConstructor.Projectile.Name = name;
 			projectileConstructor.Projectile.Type = type;
 			projectileConstructor.Projectile.TravelSpeed = travelSpeed;
-			projectileConstructor.Projectile.TurnSpeed = turnSpeed;
 			projectileConstructor.Projectile.TravelTime = travelTime;
 			projectileConstructor.Projectile.Range = range;
 		}

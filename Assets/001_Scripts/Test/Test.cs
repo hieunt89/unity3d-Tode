@@ -30,7 +30,11 @@ public class ChildData <T> where T : class {
 		childDatas.Add (_childData);
 	}
 
-	public void AddRelationship
+	public ChildData <T> AddRelationship(ChildData<T> _childData){
+		this.childDatas.Add (_childData);
+		_childData.parentData = this;
+		return this;
+	}
 }
 
 public class Test : MonoBehaviour {

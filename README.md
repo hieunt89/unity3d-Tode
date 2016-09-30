@@ -14,7 +14,8 @@ A prototype tower defense game made with Unity and Entitas v.0.31.1
 - [x] projectile and enemy look at destination
 - [x] health bar and build progress bar
 - [x] view object pooling
-- [] throwing projectile
+- [x] throwing projectile
+- [] view center offset?
 
 ## Additions References
 * [Mark down tutorial](http://www.markdowntutorial.com/)

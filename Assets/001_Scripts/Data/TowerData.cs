@@ -146,7 +146,7 @@ public class TowerData {
 		this.nextUpgrades = nextUpgrades;
 	}
 	
-	public TowerData (string id, string name, string prjType, AttackType atkType, float atkRange, int minDmg, int maxDmg, float atkSpeed, int goldWorth, List<string> nextUpgrades, float buildTime)
+	public TowerData (string id, string name, string prjType, AttackType atkType, float atkRange, int minDmg, int maxDmg, float atkSpeed, int goldRequired, List<string> nextUpgrades, float buildTime)
 	{
 		this.id = id;
 		this.name = name;
@@ -156,7 +156,7 @@ public class TowerData {
 		this.minDmg = minDmg;
 		this.maxDmg = maxDmg;
 		this.atkSpeed = atkSpeed;
-		this.goldRequired = goldWorth;
+		this.goldRequired = goldRequired;
 		this.nextUpgrades = nextUpgrades;
 		this.buildTime = buildTime;
 	}

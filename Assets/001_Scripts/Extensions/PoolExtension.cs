@@ -21,12 +21,12 @@ public static class PoolExtension {
 		}
 
 		Entity e = pool.CreateEntity ()
+			.IsProjectileMark(true)
 			.AddProjectile(projectileId)
 			.AddPosition(pos)
 			.AddAttack (atkType)
 			.AddAttackDamage (minDmg, maxDmg)
 			.AddTarget (target)
-			.AddTurnable (prj.TurnSpeed)
 			;
 		if(prj.Range > 0){
 			e.AddAttackRange (prj.Range);
@@ -37,6 +37,9 @@ public static class PoolExtension {
 			break;
 		case ProjectileType.throwing:
 			e.AddProjectileThrowing (prj.TravelTime);
+			break;
+		case ProjectileType.laser:
+			e.AddProjectileLaser (prj.TravelSpeed, prj.TravelTime);
 			break;
 		default:
 			break;
