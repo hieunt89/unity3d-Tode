@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-public class TreeNodePopupWindow : EditorWindow {
+public class TreeNodePopupWindow <T> : EditorWindow where T : class {
 
-	static TreeNodePopupWindow currentPopup;
+	static TreeNodePopupWindow<T> currentPopup;
 	string treeName = "Enter tree name ...";
 	TreeType treeType;
 
 	public static void InitTreeNodePopup () {
-		currentPopup = (TreeNodePopupWindow) EditorWindow.GetWindow <TreeNodePopupWindow> ();
+		currentPopup = (TreeNodePopupWindow<T>) EditorWindow.GetWindow <TreeNodePopupWindow<T>> ();
 		currentPopup.titleContent = new GUIContent ("Tree Node Popup");
 	}
 
@@ -25,7 +25,7 @@ public class TreeNodePopupWindow : EditorWindow {
 		GUILayout.BeginHorizontal ();
 		if (GUILayout.Button ("Create Tree", GUILayout.Height(40))){
 			if (!string.IsNullOrEmpty (treeName) && treeName != "Enter tree name ...") {
-				TreeNodeUtils.CreateTree (treeType, treeName);
+				TreeNodeUtils<T>.CreateTree (treeType, treeName);
 
 //				currentPopup.Close ();
 			} else {

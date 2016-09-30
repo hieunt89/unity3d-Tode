@@ -13,7 +13,7 @@ public enum TreeType {
 public class TreeUI {
 	public TreeType treeType;
 	public string treeName;
-	public Tree<string> treeData;
+//	public Tree<string> treeData;
 
 	public List<NodeUI> nodes;
 	public NodeUI selectedNode;
@@ -22,20 +22,15 @@ public class TreeUI {
 	public bool showNodeProperties = false;
 
 	public List<string> existIds;
-//	private List<int> selectedIndexes;
 
-	public TreeUI (TreeType _treeType, string _treeName, Tree<string> _treeData) {
+	public TreeUI (TreeType _treeType, string _treeName) { //, Tree<string> _treeData) {
 		this.treeType = _treeType;
 		this.treeName = _treeName;
-		this.treeData = _treeData;
+//		this.treeData = _treeData;
 
 		if (nodes == null) {
 			nodes = new List<NodeUI> ();
 		}
-
-//		if (selectedIndexes == null) {
-//			selectedIndexes = new List<int> ();
-//		}
 
 		// load exist data based on tree type
 		// TODO: chuyen exist data ra global ?
@@ -124,7 +119,7 @@ public class TreeUI {
 		bool isRight = _mousePosition.x >= startConnectionNode.nodeRect.x + startConnectionNode.nodeRect.width * 0.5f;
 
 		var startPos = new Vector3(isRight ? startConnectionNode.nodeRect.x + startConnectionNode.nodeRect.width :  startConnectionNode.nodeRect.x, 
-									startConnectionNode.nodeRect.y + startConnectionNode.nodeRect.height * .75f, 
+			startConnectionNode.nodeRect.y + startConnectionNode.nodeRect.height +  startConnectionNode.nodeContentRect .height * .5f, 
 									0);
 		var endPos = new Vector3(_mousePosition.x, _mousePosition.y, 0);
 

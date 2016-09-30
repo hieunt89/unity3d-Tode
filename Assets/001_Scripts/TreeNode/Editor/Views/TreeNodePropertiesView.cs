@@ -3,7 +3,7 @@ using UnityEditor;
 using System;
 
 [Serializable]
-public class TreeNodePropertiesView : ViewBase {
+public class TreeNodePropertiesView <T> : ViewBase <T> where T : class{
 
 	public bool showProperties = false;
 	public TreeNodePropertiesView () : base () {
@@ -23,7 +23,7 @@ public class TreeNodePropertiesView : ViewBase {
 
 		if (_currentTree != null) {
 			if (_currentTree.showNodeProperties) {
-				_currentTree.selectedNode.DrawNodeProperties ();
+				_currentTree.selectedNode.DrawNodeProperties (_currentTree);
 			} else {
 //				_currentTree.DrawTreeProperties ();
 				EditorGUILayout.LabelField ("NONE");

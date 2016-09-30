@@ -3,7 +3,7 @@ using UnityEditor;
 using System;
 
 [Serializable]
-public class TreeNodeWorkView : ViewBase {
+public class TreeNodeWorkView <T> : ViewBase <T> where T : class {
 	private Vector2 mousePosition;
 	private int selectedNodeId = 0;
 
@@ -17,8 +17,8 @@ public class TreeNodeWorkView : ViewBase {
 		GUI.Box (viewRect, viewTitle + " Tree", viewSkin.GetStyle("ViewBg"));
 
 		// draw grid
-		TreeNodeUtils.DrawGrid (viewRect, 60f, 0.15f, Color.white);
-		TreeNodeUtils.DrawGrid (viewRect, 20f, 0.1f, Color.white);
+		TreeNodeUtils<T>.DrawGrid (viewRect, 60f, 0.15f, Color.white);
+		TreeNodeUtils<T>.DrawGrid (viewRect, 20f, 0.1f, Color.white);
 
 		GUILayout.BeginArea (viewRect);
 
@@ -28,7 +28,7 @@ public class TreeNodeWorkView : ViewBase {
 			GUILayout.BeginHorizontal ();
 			if (GUI.Button (new Rect (viewRect.x + 10f, viewRect.y + viewRect.height - 30, 100f, 20f), "Save")) {
 				Debug.Log ("Save Tree");
-				TreeNodeUtils.SaveTree (currentTree);
+//				TreeNodeUtils<T>.SaveTree (currentTree);
 			}
 
 			EditorGUI.LabelField (new Rect (viewRect.x + 130f, viewRect.y + viewRect.height - 30, 100f, 20f), currentTree.nodes.Count + "nodes");
@@ -92,18 +92,19 @@ public class TreeNodeWorkView : ViewBase {
 				menu.AddItem (new GUIContent ("Create Tree"), false, OnClickContextCallback, "0");
 				menu.AddItem (new GUIContent ("Load Tree"), false, OnClickContextCallback, "1");
 			} else {
-				menu.AddItem (new GUIContent("Unload Tree"), false, OnClickContextCallback, "2");
+				menu.AddItem (new GUIContent ("Add Node"), false, OnClickContextCallback, "2");
+				menu.AddItem (new GUIContent("Save Tree"), false, OnClickContextCallback, "3");
 				menu.AddSeparator ("");
-				menu.AddItem (new GUIContent ("Add Node"), false, OnClickContextCallback, "3");
+				menu.AddItem (new GUIContent("Unload Tree"), false, OnClickContextCallback, "4");
 			}
 			break;
 
 		case 1:
 			if (currentTree != null){
 				if (currentTree.nodes[selectedNodeId].parentNode != null)
-					menu.AddItem (new GUIContent ("Remove Parent"), false, OnClickContextCallback, "4");
+					menu.AddItem (new GUIContent ("Remove Parent"), false, OnClickContextCallback, "5");
 				if (currentTree.nodes[selectedNodeId].nodeType != NodeType.RootNode)
-					menu.AddItem (new GUIContent ("Remove Node"), false, OnClickContextCallback, "5");
+					menu.AddItem (new GUIContent ("Remove Node"), false, OnClickContextCallback, "6");
 			}
 			break;
 		}
@@ -115,22 +116,25 @@ public class TreeNodeWorkView : ViewBase {
 	private void OnClickContextCallback (object obj) {
 		switch(obj.ToString()) {
 		case "0":
-			TreeNodePopupWindow.InitTreeNodePopup ();
+			TreeNodePopupWindow<T>.InitTreeNodePopup ();
 			break;
 		case "1":
-			TreeNodeUtils.LoadTree ("arc");
+			TreeNodeUtils<T>.LoadTree ();
 			break;
 		case "2":
-			TreeNodeUtils.UnloadTree ();
+//			TreeNodeUtils.SaveTree (currentTree.treeData, currentTree);
 			break;
 		case "3":
-			TreeNodeUtils.AddNode (currentTree, NodeType.Node, mousePosition);
+			TreeNodeUtils<T>.AddNode (currentTree, NodeType.Node, mousePosition);
 			break;
 		case "4":
-			TreeNodeUtils.RemoveParentNode (selectedNodeId, currentTree);
+			TreeNodeUtils<T>.UnloadTree ();
 			break;
 		case "5":
-			TreeNodeUtils.RemoveNode(selectedNodeId, currentTree);
+			TreeNodeUtils<T>.RemoveParentNode (selectedNodeId, currentTree);
+			break;
+		case "6":
+			TreeNodeUtils<T>.RemoveNode(selectedNodeId, currentTree);
 			break;
 		}
 	}

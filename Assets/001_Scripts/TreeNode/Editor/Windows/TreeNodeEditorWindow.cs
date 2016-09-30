@@ -1,18 +1,19 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using System;
 
-public class TreeNodeEditorWindow : EditorWindow {
+public class TreeNodeEditorWindow <T> : EditorWindow {
 
-	public static TreeNodeEditorWindow currentWindow;
-	public TreeNodeWorkView workView;
-	public TreeNodePropertiesView propertiesView;
+	public static TreeNodeEditorWindow <T> currentWindow;
+	public TreeNodeWorkView <string> workView;
+	public TreeNodePropertiesView <string> propertiesView;
 
 	public TreeUI currentTree = null;
 
 	private float viewPercentage = .75f;
 
 	public static void InitTowerNodeEditorWindow () {
-		currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow <TreeNodeEditorWindow> ();
+		currentWindow = (TreeNodeEditorWindow <T>)EditorWindow.GetWindow <TreeNodeEditorWindow<T>> ();
 		currentWindow.titleContent = new GUIContent ("Tree Node");
 		CreateViews ();
 	}
@@ -35,12 +36,16 @@ public class TreeNodeEditorWindow : EditorWindow {
 
 	private static void CreateViews () {
 		if (currentWindow != null) {
-			currentWindow.workView = new TreeNodeWorkView ();
-			currentWindow.propertiesView = new TreeNodePropertiesView ();
+			Type typeParameterType = typeof(T);
+			Debug.Log (typeParameterType);
 
-			TreeNodePopupWindow.InitTreeNodePopup ();
+
+//			currentWindow.workView = new TreeNodeWorkView <T> ();
+//			currentWindow.propertiesView = new TreeNodePropertiesView <T> ();
+
+			TreeNodePopupWindow<string>.InitTreeNodePopup ();
 		} else {
-			currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow <TreeNodeEditorWindow> ();
+			currentWindow = (TreeNodeEditorWindow<T>)EditorWindow.GetWindow <TreeNodeEditorWindow<T>> ();
 		}
 	}
 

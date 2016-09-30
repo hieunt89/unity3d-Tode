@@ -24,9 +24,6 @@ public class NodeUI {
 
 	protected GUISkin nodeSkin;
 
-	private float nodeWidth = 100f;
-	private float nodeHeight = 20f;
-
 	public NodeUI (string _nodeTitle, NodeType _nodeType, Node<string> _nodeData, NodeUI _parentNode, List<NodeUI> _childNodes) {
 		this.nodeTitle = _nodeTitle;
 		this.nodeType = _nodeType;
@@ -36,7 +33,7 @@ public class NodeUI {
 	}
 
 	public void InitNode (Vector2 position) {
-		nodeRect = new Rect (position.x, position.y, nodeWidth, nodeHeight);
+		nodeRect = new Rect (position.x, position.y, 100f, 20f);
 	}
 
 	public void UpdateNode (Event _e, Rect _viewRect) {
@@ -69,14 +66,14 @@ public class NodeUI {
 //		EditorUtility.SetDirty (this);
 	}
 
-	public void DrawNodeProperties () {
+	public void DrawNodeProperties (TreeUI _currentTree) {
 		EditorGUILayout.BeginVertical ();
 		EditorGUILayout.BeginHorizontal ();
 		GUILayout.Space (30);
 		EditorGUI.BeginChangeCheck ();
-		selectedIndex = EditorGUILayout.Popup (selectedIndex, currentTree.existIds.ToArray());
+		selectedIndex = EditorGUILayout.Popup (selectedIndex, _currentTree.existIds.ToArray());
 		if (EditorGUI.EndChangeCheck ()) {
-			nodeData.Data = currentTree.existIds [selectedIndex];
+			nodeData.Data = _currentTree.existIds [selectedIndex];
 		}
 		GUILayout.Space (30);
 		EditorGUILayout.EndHorizontal ();
@@ -130,8 +127,8 @@ public class NodeUI {
 			bool isRight = nodeRect.x >= parentNode.nodeRect.x + (parentNode.nodeRect.width * 0.5f);
 
 			var startPos = new Vector3 (parentNode.nodeRect.x + parentNode.nodeRect.width, 
-				parentNode.nodeRect.y + parentNode.nodeRect.height * 0.75f, 0f);
-			var endPos = new Vector3(nodeRect.x, nodeRect.y + nodeRect.height * 0.75f, 0f);
+				parentNode.nodeRect.y + parentNode.nodeRect.height + parentNode.nodeContentRect.height * 0.5f, 0f);
+			var endPos = new Vector3(nodeRect.x, nodeRect.y + nodeRect.height + parentNode.nodeContentRect.height * 0.5f, 0f);
 
 			float mnog = Vector3.Distance(startPos,endPos);
 			Vector3 startTangent = startPos + (isRight ? Vector3.right : Vector3.left) * (mnog / 3f) ;

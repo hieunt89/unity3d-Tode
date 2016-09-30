@@ -4,13 +4,14 @@ using System;
 using System.Collections;
 
 [Serializable]
-public class ViewBase {
+public class ViewBase <T> where T : class {
 
 	public string viewTitle;
 	public Rect viewRect;
 
 	protected GUISkin viewSkin;
 	protected TreeUI currentTree;
+	protected Tree<T> treeData;
 
 	public ViewBase () {
 		GetEditorSkin ();
