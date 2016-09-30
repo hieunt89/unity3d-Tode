@@ -58,6 +58,6 @@ public class EnemyCreateViewSystem : IReactiveSystem, IEnsureComponents {
 		go.transform.rotation = Quaternion.LookRotation(e.destination.value - e.position.value);
 		go.transform.SetParent (enemyViewParent.transform, false);
 
-		e.AddView (go);
+		e.AddView (go).AddViewCenterOffset(go.GetColliderCenterOffset());
 	}
 }

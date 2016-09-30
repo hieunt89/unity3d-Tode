@@ -22,57 +22,57 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 			return;
 		}
 			
-		Entity e;
+		Entity prj;
 		var ens = _groupPrjThrowing.GetEntities ();
 		for (int i = 0; i < ens.Length; i++) {
-			e = ens [i];
+			prj = ens [i];
 			#region calculate trajectory data
-			if(!e.hasProjectileThrowingParams){ 
-				var startPos = Vector3.ProjectOnPlane (e.position.value, Vector3.up);
-				var finalPos = GetEnemyFuturePosition (e.target.e, e.projectileThrowing.travelTime);
-				var initHeight = Vector3.Project (e.position.value, Vector3.down).magnitude;
+			if(!prj.hasProjectileThrowingParams){ 
+				var startPos = Vector3.ProjectOnPlane (prj.position.value, Vector3.up);
+				var finalPos = GetEnemyFuturePosition (prj.target.e, prj.projectileThrowing.duration);
+				var initHeight = Vector3.Project (prj.position.value, Vector3.down).magnitude;
 				float initVelocity;
 				float initAngle;
-				GetInitVelocityAndAngle(startPos, finalPos, e.projectileThrowing.travelTime, initHeight, out initVelocity, out initAngle);
+				GetInitVelocityAndAngle(startPos, finalPos, prj.projectileThrowing.duration, initHeight, out initVelocity, out initAngle);
 
-				e.AddProjectileThrowingParams (startPos, finalPos, initHeight, initVelocity, initAngle).AddProjectileTime(0f).AddDestination(e.position.value);
+				prj.AddProjectileThrowingParams (startPos, finalPos, initHeight, initVelocity, initAngle).AddProjectileTime(0f).AddDestination(prj.position.value);
 				if (GameManager.debug) {
-					Debug.DrawLine (e.target.e.position.value, e.projectileThrowingParams.end, Color.blue, Mathf.Infinity);
+					Debug.DrawLine (prj.target.e.position.value, prj.projectileThrowingParams.end, Color.blue, Mathf.Infinity);
 					Debug.DrawLine (startPos, finalPos, Color.yellow, Mathf.Infinity);
 				}
 			}
 			#endregion
 
-			if (e.position.value.y <= 0f) { //projectile reaches ground
+			if (prj.position.value.y <= 0f) { //projectile reaches ground
 
-				if(e.target.e.hasEnemy){
-					e.target.e.AddDamage (ProjectileHelper.GetDamage(
-						e.attackDamage.maxDamage,
-						e.attackDamage.minDamage,
-						e.attack.attackType,
-						e.target.e.armor.armorList
+				if(prj.target.e.hasEnemy){
+					prj.target.e.AddDamage (ProjectileHelper.RandomDamage(
+						prj.attackDamage.maxDamage,
+						prj.attackDamage.minDamage,
+						prj.attack.attackType,
+						prj.target.e.armor.armorList
 					));
 				}
 
-				e.IsReachedEnd (true);
+				prj.IsReachedEnd (true);
 			} else {
-				e.ReplaceProjectileTime (e.projectileTime.time + Time.deltaTime);
-				if (e.position.value == e.destination.value) {
-					e.ReplaceDestination (
+				prj.ReplaceProjectileTime (prj.projectileTime.time + Time.deltaTime);
+				if (prj.position.value == prj.destination.value) {
+					prj.ReplaceDestination (
 						GetNextDestination (
-							e.projectileTime.time,
-							e.projectileThrowingParams.initVelocity,
-							e.projectileThrowingParams.height,
-							e.projectileThrowingParams.initAngle,
-							e.projectileThrowingParams.start,
-							e.projectileThrowingParams.end
+							prj.projectileTime.time,
+							prj.projectileThrowingParams.initVelocity,
+							prj.projectileThrowingParams.height,
+							prj.projectileThrowingParams.initAngle,
+							prj.projectileThrowingParams.start,
+							prj.projectileThrowingParams.end
 						)
 					);
 				} else {
 					if (GameManager.debug) {
-						Debug.DrawLine (e.position.value, e.destination.value, Color.gray, Mathf.Infinity);
+						Debug.DrawLine (prj.position.value, prj.destination.value, Color.gray, Mathf.Infinity);
 					}
-					e.ReplacePosition (e.destination.value);
+					prj.ReplacePosition (prj.destination.value);
 				}
 			}
 		}

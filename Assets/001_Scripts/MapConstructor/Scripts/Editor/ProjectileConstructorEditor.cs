@@ -39,15 +39,15 @@ public class ProjectileConstructorEditor : Editor {
 		var type = (ProjectileType) EditorGUILayout.EnumPopup ("Type", projectileConstructor.Projectile.Type);
 
 		if (projectileConstructor.Projectile.Type == ProjectileType.homing) {
-			projectileConstructor.Projectile.TravelTime = 0f;
+			projectileConstructor.Projectile.Duration = 0f;
 		}
 
-		GUI.enabled = projectileConstructor.Projectile.Type == ProjectileType.homing;
+		GUI.enabled = projectileConstructor.Projectile.Type == ProjectileType.homing || projectileConstructor.Projectile.Type == ProjectileType.laser;
 		var travelSpeed = EditorGUILayout.FloatField ("Travel Speed", projectileConstructor.Projectile.TravelSpeed);
 		GUI.enabled = true;
 
-		GUI.enabled = projectileConstructor.Projectile.Type == ProjectileType.throwing;
-		var travelTime = EditorGUILayout.FloatField ("Travel Time", projectileConstructor.Projectile.TravelTime);
+		GUI.enabled = projectileConstructor.Projectile.Type == ProjectileType.throwing || projectileConstructor.Projectile.Type == ProjectileType.laser;
+		var travelTime = EditorGUILayout.FloatField ("Duration", projectileConstructor.Projectile.Duration);
 		GUI.enabled = true;
 
 
@@ -58,7 +58,7 @@ public class ProjectileConstructorEditor : Editor {
 			projectileConstructor.Projectile.Name = name;
 			projectileConstructor.Projectile.Type = type;
 			projectileConstructor.Projectile.TravelSpeed = travelSpeed;
-			projectileConstructor.Projectile.TravelTime = travelTime;
+			projectileConstructor.Projectile.Duration = travelTime;
 			projectileConstructor.Projectile.Range = range;
 		}
 

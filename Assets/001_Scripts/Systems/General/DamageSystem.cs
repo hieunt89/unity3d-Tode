@@ -3,7 +3,17 @@ using System.Collections;
 using Entitas;
 using System.Collections.Generic;
 
-public class EnemyDamageSystem : IReactiveSystem {
+public class DamageSystem : IReactiveSystem, IEnsureComponents {
+	#region IEnsureComponents implementation
+
+	public IMatcher ensureComponents {
+		get {
+			return Matcher.AllOf (Matcher.Hp, Matcher.HpTotal);
+		}
+	}
+
+	#endregion
+
 	#region IReactiveExecuteSystem implementation
 
 	public void Execute (System.Collections.Generic.List<Entity> entities)
@@ -20,7 +30,7 @@ public class EnemyDamageSystem : IReactiveSystem {
 
 	public TriggerOnEvent trigger {
 		get {
-			return Matcher.AllOf (Matcher.Enemy, Matcher.Damage).OnEntityAdded ();
+			return Matcher.Damage.OnEntityAdded ();
 		}
 	}
 
