@@ -5,39 +5,34 @@ using Lean;
 
 public class TowerRangeGUI : MonoBehaviour {
 	public GameObject rangeObject;
-	Entity currentSelected = null;
 
 	void OnEnable(){
-		Messenger.AddListener (Events.Input.EMPTY_CLICK, HandleEmptyClick);
-		Messenger.AddListener <Entity> (Events.Input.ENTITY_CLICK, HandleEntityClick);
-		Messenger.AddListener (Events.Input.TOWER_UI_CLEAR, HandleEmptyClick);
+		Messenger.AddListener (Events.Input.EMPTY_SELECT, HandleEmptyClick);
+		Messenger.AddListener (Events.Input.ENTITY_SELECT, HandleEntityClick);
+		Messenger.AddListener (Events.Input.ENTITY_DESELECT, HandleEmptyClick);
 		HandleEmptyClick ();
 	}
 
 	void OnDisable(){
-		Messenger.RemoveListener (Events.Input.EMPTY_CLICK, HandleEmptyClick);
-		Messenger.RemoveListener <Entity> (Events.Input.ENTITY_CLICK, HandleEntityClick);
-		Messenger.RemoveListener (Events.Input.TOWER_UI_CLEAR, HandleEmptyClick);
+		Messenger.RemoveListener (Events.Input.EMPTY_SELECT, HandleEmptyClick);
+		Messenger.RemoveListener (Events.Input.ENTITY_SELECT, HandleEntityClick);
+		Messenger.RemoveListener (Events.Input.ENTITY_DESELECT, HandleEmptyClick);
 	}
 
 	public void HandleEmptyClick(){
-		currentSelected = null;
 		rangeObject.SetActive (false);
 	}
 
-	public void HandleEntityClick(Entity e){
+	public void HandleEntityClick(){
+		var e = Pools.pool.currentSelected.e;
 		if (!e.hasTower) {
 			HandleEmptyClick ();
-			return;
-		} else if (e == currentSelected) {
 			return;
 		} else {
 			HandleEmptyClick ();
 		}
-	
-		currentSelected = e;
 
-		CreateTowerRange (currentSelected);
+		CreateTowerRange (e);
 	}
 
 	void CreateTowerRange(Entity e){

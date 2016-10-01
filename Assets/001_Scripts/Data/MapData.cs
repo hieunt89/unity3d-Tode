@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 [System.Serializable]
 public class MapData {
-	
+	public int initGold;
+
 	[SerializeField] public string id;
 
 	public string Id {

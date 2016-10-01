@@ -7,33 +7,28 @@ using Lean;
 
 public class TowerUpgradeGUI : MonoBehaviour{
 	public GameObject prefab;
-	Entity currentSelected = null;
 
 	void OnEnable(){
-		Messenger.AddListener (Events.Input.EMPTY_CLICK, HandleEmptyClick);
-		Messenger.AddListener <Entity> (Events.Input.ENTITY_CLICK, HandleEntityClick);
-		Messenger.AddListener <Node<string>> (Events.Input.TOWER_UPGRADE_BTN_CLICK, CreateTowerUpgradeEntity);
-		Messenger.AddListener (Events.Input.TOWER_UI_CLEAR, HandleEmptyClick);
+		Messenger.AddListener (Events.Input.EMPTY_SELECT, HandleEmptyClick);
+		Messenger.AddListener (Events.Input.ENTITY_SELECT, HandleEntityClick);
+		Messenger.AddListener (Events.Input.ENTITY_DESELECT, HandleEmptyClick);
 	}
 
 	void OnDisable(){
-		Messenger.RemoveListener (Events.Input.EMPTY_CLICK, HandleEmptyClick);
-		Messenger.RemoveListener <Entity> (Events.Input.ENTITY_CLICK, HandleEntityClick);
-		Messenger.RemoveListener <Node<string>> (Events.Input.TOWER_UPGRADE_BTN_CLICK, CreateTowerUpgradeEntity);
-		Messenger.RemoveListener (Events.Input.TOWER_UI_CLEAR, HandleEmptyClick);
+		Messenger.RemoveListener (Events.Input.EMPTY_SELECT, HandleEmptyClick);
+		Messenger.RemoveListener (Events.Input.ENTITY_SELECT, HandleEntityClick);
+		Messenger.RemoveListener (Events.Input.ENTITY_DESELECT, HandleEmptyClick);
 	}
 
-	void HandleEntityClick(Entity e){
+	void HandleEntityClick(){
+		var e = Pools.pool.currentSelected.e;
 		if (!e.hasTower && !e.isTowerBase) {
 			HandleEmptyClick ();
-			return;
-		} else if (e == currentSelected) {
 			return;
 		} else {
 			HandleEmptyClick ();
 		}
 
-		currentSelected = e;
 		List<Node<string>> upgrades;
 
 		if (e.isTowerBase) {
@@ -57,19 +52,9 @@ public class TowerUpgradeGUI : MonoBehaviour{
 		go.GetComponent<TowerUpgradeBtn> ().RegisterUpgradeBtn(towerNode);
 	}
 
-	void CreateTowerUpgradeEntity (Node<string> upgrade){
-		var data = DataManager.Instance.GetTowerData (upgrade.Data);
-		if(data != null && currentSelected != null){
-			currentSelected.AddTowerUpgrade (data.BuildTime, upgrade);
-		}
-		Messenger.Broadcast (Events.Input.TOWER_UI_CLEAR);
-	}
-
 	void HandleEmptyClick(){
-		currentSelected = null;
-		Debug.Log (transform.childCount);
-		for (int i = 0; i < transform.childCount; i++) {
-			LeanPool.Despawn (transform.GetChild (i).gameObject);
+		for (int i = 0; i < this.transform.childCount; i++) {
+			LeanPool.Despawn (this.transform.GetChild (i).gameObject, 0.001f);
 		}
 	}
 }

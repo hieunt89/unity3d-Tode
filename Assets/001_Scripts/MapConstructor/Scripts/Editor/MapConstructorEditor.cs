@@ -452,14 +452,14 @@ public class MapConstructorEditor : Editor {
 							enemyPopupIndexes[i][j] = EditorGUILayout.Popup (enemyPopupIndexes[i][j], enemyIds.ToArray(), GUILayout.Width (elementWidth));
 							var amount = EditorGUILayout.IntField (mapConstructor.Map.Waves[i].Groups[j].Amount,  GUILayout.Width (elementWidth));
 							var spawnInterval = EditorGUILayout.FloatField (mapConstructor.Map.Waves[i].Groups[j].SpawnInterval,  GUILayout.Width (elementWidth));
-							var waveDelay = EditorGUILayout.FloatField (mapConstructor.Map.Waves[i].Groups[j].WaveDelay, GUILayout.Width (elementWidth));
+							var waveDelay = EditorGUILayout.FloatField (mapConstructor.Map.Waves[i].Groups[j].GroupDelay, GUILayout.Width (elementWidth));
 							pathPopupIndexes[i][j] = EditorGUILayout.Popup (pathPopupIndexes[i][j], pathIds.ToArray(),  GUILayout.Width (elementWidth));
 							if (EditorGUI.EndChangeCheck()){
 								mapConstructor.Map.Waves[i].Groups[j].EnemyIdIndex = enemyPopupIndexes[i][j];
 								mapConstructor.Map.Waves[i].Groups[j].EnemyId = enemyIds[enemyPopupIndexes[i][j]];
 								mapConstructor.Map.Waves[i].Groups[j].Amount = amount;
 								mapConstructor.Map.Waves[i].Groups[j].SpawnInterval = spawnInterval;
-								mapConstructor.Map.Waves[i].Groups[j].WaveDelay = waveDelay;
+								mapConstructor.Map.Waves[i].Groups[j].GroupDelay = waveDelay;
 								mapConstructor.Map.Waves[i].Groups[j].PathIdIndex = pathPopupIndexes[i][j];
 								mapConstructor.Map.Waves[i].Groups[j].PathId = pathIds[pathPopupIndexes[i][j]];
 								EditorUtility.SetDirty(mapConstructor);

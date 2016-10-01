@@ -17,49 +17,51 @@ public static class ComponentIds {
     public const int AttackSpeed = 7;
     public const int Channeling = 8;
     public const int Coroutine = 9;
-    public const int Damage = 10;
-    public const int Destination = 11;
-    public const int Enemy = 12;
-    public const int Gold = 13;
-    public const int GoldPlayer = 14;
-    public const int Hp = 15;
-    public const int HpTotal = 16;
-    public const int Id = 17;
-    public const int Interactable = 18;
-    public const int Level = 19;
-    public const int LifeCount = 20;
-    public const int LifePlayer = 21;
-    public const int MarkedForActive = 22;
-    public const int MarkedForDestroy = 23;
-    public const int MarkedForNoView = 24;
-    public const int MarkedForSell = 25;
-    public const int Movable = 26;
-    public const int Origin = 27;
-    public const int Path = 28;
-    public const int PathLength = 29;
-    public const int PathReference = 30;
-    public const int Position = 31;
-    public const int Projectile = 32;
-    public const int ProjectileHoming = 33;
-    public const int ProjectileLaser = 34;
-    public const int ProjectileMark = 35;
-    public const int ProjectileThrowing = 36;
-    public const int ProjectileThrowingParams = 37;
-    public const int ProjectileTime = 38;
-    public const int ReachedEnd = 39;
-    public const int Target = 40;
-    public const int Tick = 41;
-    public const int Tower = 42;
-    public const int TowerBase = 43;
-    public const int TowerUpgrade = 44;
-    public const int TowerUpgradeProgress = 45;
-    public const int TurnSpeed = 46;
-    public const int View = 47;
-    public const int ViewCenterOffset = 48;
-    public const int ViewSlider = 49;
-    public const int Wave = 50;
+    public const int CurrentSelected = 10;
+    public const int Damage = 11;
+    public const int Destination = 12;
+    public const int Enemy = 13;
+    public const int Gold = 14;
+    public const int GoldPlayer = 15;
+    public const int Hp = 16;
+    public const int HpTotal = 17;
+    public const int Id = 18;
+    public const int Interactable = 19;
+    public const int Level = 20;
+    public const int LifeCount = 21;
+    public const int LifePlayer = 22;
+    public const int MarkedForActive = 23;
+    public const int MarkedForDestroy = 24;
+    public const int MarkedForNoView = 25;
+    public const int MarkedForSell = 26;
+    public const int Movable = 27;
+    public const int NextWave = 28;
+    public const int Origin = 29;
+    public const int Path = 30;
+    public const int PathLength = 31;
+    public const int PathReference = 32;
+    public const int Position = 33;
+    public const int Projectile = 34;
+    public const int ProjectileHoming = 35;
+    public const int ProjectileLaser = 36;
+    public const int ProjectileMark = 37;
+    public const int ProjectileThrowing = 38;
+    public const int ProjectileThrowingParams = 39;
+    public const int ProjectileTime = 40;
+    public const int ReachedEnd = 41;
+    public const int Target = 42;
+    public const int Tick = 43;
+    public const int Tower = 44;
+    public const int TowerBase = 45;
+    public const int TowerUpgrade = 46;
+    public const int TowerUpgradeProgress = 47;
+    public const int TurnSpeed = 48;
+    public const int View = 49;
+    public const int ViewCenterOffset = 50;
+    public const int ViewSlider = 51;
+    public const int Wave = 52;
 
-    public const int TotalComponents = 51;
+    public const int TotalComponents = 53;
 
     public static readonly string[] componentNames = {
         "Active",
@@ -72,6 +74,7 @@ public static class ComponentIds {
         "AttackSpeed",
         "Channeling",
         "Coroutine",
+        "CurrentSelected",
         "Damage",
         "Destination",
         "Enemy",
@@ -89,6 +92,7 @@ public static class ComponentIds {
         "MarkedForNoView",
         "MarkedForSell",
         "Movable",
+        "NextWave",
         "Origin",
         "Path",
         "PathLength",
@@ -126,6 +130,7 @@ public static class ComponentIds {
         typeof(AttackSpeed),
         typeof(Channeling),
         typeof(Coroutine),
+        typeof(CurrentSelected),
         typeof(Damage),
         typeof(Destination),
         typeof(Enemy),
@@ -143,6 +148,7 @@ public static class ComponentIds {
         typeof(MarkedForNoView),
         typeof(MarkedForSell),
         typeof(Movable),
+        typeof(NextWave),
         typeof(Origin),
         typeof(Path),
         typeof(PathLength),

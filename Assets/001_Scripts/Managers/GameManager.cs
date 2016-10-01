@@ -46,7 +46,6 @@ public class GameManager : MonoBehaviour {
 
 				//Enemy
 				.Add(pool.CreateSystem<EnemyInitSystem>())
-				.Add(pool.CreateSystem<EnemyActiveSystem>())
 				.Add(pool.CreateSystem<EnemyMoveSystem>())
 				.Add(pool.CreateSystem<EnemyReachEndSystem>())
 				.Add(pool.CreateSystem<EnemyDeadSystem>())
@@ -68,9 +67,10 @@ public class GameManager : MonoBehaviour {
 				.Add(pool.CreateSystem<TowerProgressBarViewSystem>())
 				
 				//General
+				.Add(pool.CreateSystem<EntityActiveSystem>())
+				.Add(pool.CreateSystem<EntityDestroySystem>())
 				.Add(pool.CreateSystem<AttackOverTimeSystem>())
 				.Add(pool.CreateSystem<DamageSystem>())
-				.Add(pool.CreateSystem<DestroyEntitySystem>())
 			;
 	}
 }

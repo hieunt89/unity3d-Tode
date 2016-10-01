@@ -5,8 +5,15 @@ using Entitas;
 public class InputManager : MonoBehaviour {
 	public bool debug = true;
 
-	void Start(){
+	void OnEnable(){
+		Pools.pool.SetCurrentSelected (null);
 		LeanTouch.OnFingerTap += HandleFingerTap;
+		Messenger.AddListener (Events.Input.ENTITY_DESELECT, HandleEntityDeselect);
+	}
+
+	void OnDisable(){
+		LeanTouch.OnFingerTap -= HandleFingerTap;
+		Messenger.RemoveListener (Events.Input.ENTITY_DESELECT, HandleEntityDeselect);
 	}
 
 	void HandleFingerTap (LeanFinger fg){
@@ -22,17 +29,23 @@ public class InputManager : MonoBehaviour {
 				Debug.Log ("hit " + hitInfo.collider.gameObject.name);
 			}
 			e = Pools.pool.GetEntityById (hitInfo.collider.gameObject.name);
-			if(e != null && e.isInteractable){
+			if(e != null && e.isInteractable && e != Pools.pool.currentSelected.e){
 				if (debug) {
 					Debug.Log ("hit entity " + e.id.value);
 				}
-				Messenger.Broadcast<Entity> (Events.Input.ENTITY_CLICK, e);
+				Pools.pool.ReplaceCurrentSelected (e);
+				Messenger.Broadcast (Events.Input.ENTITY_SELECT);
 			}
 		} else {
 			if (debug) {
 				Debug.Log ("hit nothing interactable");
 			}
-			Messenger.Broadcast (Events.Input.EMPTY_CLICK);
+			Pools.pool.ReplaceCurrentSelected (null);
+			Messenger.Broadcast (Events.Input.EMPTY_SELECT);
 		}
+	}
+
+	void HandleEntityDeselect(){
+		Pools.pool.ReplaceCurrentSelected (null);
 	}
 }

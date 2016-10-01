@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class WaveData {
 	[SerializeField] public string id;
 	[SerializeField] private List<WaveGroupData> groups;
+	[SerializeField] public float waveDelay;
 
 	public string Id {
 		get {
@@ -24,8 +25,9 @@ public class WaveData {
 		}
 	}
 
-    public WaveData (string _id, List<WaveGroupData> _groups){
-        id = _id;
-        groups = _groups;
+	public WaveData (string _id, List<WaveGroupData> _groups, float waveDelay = 1f){
+		this.id = _id;
+		this.groups = _groups;
+		this.waveDelay = waveDelay;
     }
 }

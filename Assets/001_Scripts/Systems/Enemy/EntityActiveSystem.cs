@@ -2,7 +2,7 @@
 using System.Collections;
 using Entitas;
 
-public class EnemyActiveSystem : IReactiveSystem, ISetPool {
+public class EntityActiveSystem : IReactiveSystem, ISetPool {
 	Pool _pool;
 	Group _groupActivable;
 	#region ISetPool implementation
@@ -23,11 +23,15 @@ public class EnemyActiveSystem : IReactiveSystem, ISetPool {
 			return;
 		}
 
-		var e = entities.SingleEntity ();
+		var eTime = entities.SingleEntity ();
 		var eActivable = _groupActivable.GetEntities ();
 		for (int i = 0; i < eActivable.Length; i++) {
-			if(e.tick.time >= eActivable[i].markedForActive.delayTime){
-				eActivable [i].RemoveMarkedForActive ().IsActive(true);
+			var e = eActivable [i];
+			if(eTime.tick.time >= e.markedForActive.delayTime){
+				e.RemoveMarkedForActive ().IsActive(true);
+				if(e.hasEnemy){
+					e.IsInteractable (true);
+				}
 			}
 		}
 	}
