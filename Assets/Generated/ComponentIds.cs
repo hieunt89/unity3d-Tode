@@ -21,47 +21,48 @@ public static class ComponentIds {
     public const int Damage = 11;
     public const int Destination = 12;
     public const int Enemy = 13;
-    public const int Gold = 14;
-    public const int GoldPlayer = 15;
-    public const int Hp = 16;
-    public const int HpTotal = 17;
-    public const int Id = 18;
-    public const int Interactable = 19;
-    public const int Level = 20;
+    public const int GamePause = 14;
+    public const int Gold = 15;
+    public const int GoldPlayer = 16;
+    public const int Hp = 17;
+    public const int HpTotal = 18;
+    public const int Id = 19;
+    public const int Interactable = 20;
     public const int LifeCount = 21;
     public const int LifePlayer = 22;
-    public const int MarkedForActive = 23;
-    public const int MarkedForDestroy = 24;
-    public const int MarkedForNoView = 25;
-    public const int MarkedForSell = 26;
-    public const int Movable = 27;
-    public const int NextWave = 28;
-    public const int Origin = 29;
-    public const int Path = 30;
-    public const int PathLength = 31;
-    public const int PathReference = 32;
-    public const int Position = 33;
-    public const int Projectile = 34;
-    public const int ProjectileHoming = 35;
-    public const int ProjectileLaser = 36;
-    public const int ProjectileMark = 37;
-    public const int ProjectileThrowing = 38;
-    public const int ProjectileThrowingParams = 39;
-    public const int ProjectileTime = 40;
-    public const int ReachedEnd = 41;
-    public const int Target = 42;
-    public const int Tick = 43;
-    public const int Tower = 44;
-    public const int TowerBase = 45;
-    public const int TowerUpgrade = 46;
-    public const int TowerUpgradeProgress = 47;
-    public const int TurnSpeed = 48;
-    public const int View = 49;
-    public const int ViewCenterOffset = 50;
-    public const int ViewSlider = 51;
-    public const int Wave = 52;
+    public const int Map = 23;
+    public const int MarkedForActive = 24;
+    public const int MarkedForDestroy = 25;
+    public const int MarkedForNoView = 26;
+    public const int MarkedForSell = 27;
+    public const int Movable = 28;
+    public const int NextWave = 29;
+    public const int Origin = 30;
+    public const int Path = 31;
+    public const int PathLength = 32;
+    public const int PathReference = 33;
+    public const int Position = 34;
+    public const int Projectile = 35;
+    public const int ProjectileHoming = 36;
+    public const int ProjectileLaser = 37;
+    public const int ProjectileMark = 38;
+    public const int ProjectileThrowing = 39;
+    public const int ProjectileThrowingParams = 40;
+    public const int ProjectileTime = 41;
+    public const int ReachedEnd = 42;
+    public const int Target = 43;
+    public const int Tick = 44;
+    public const int Tower = 45;
+    public const int TowerBase = 46;
+    public const int TowerUpgrade = 47;
+    public const int TowerUpgradeProgress = 48;
+    public const int TurnSpeed = 49;
+    public const int View = 50;
+    public const int ViewOffset = 51;
+    public const int ViewSlider = 52;
+    public const int Wave = 53;
 
-    public const int TotalComponents = 53;
+    public const int TotalComponents = 54;
 
     public static readonly string[] componentNames = {
         "Active",
@@ -78,15 +79,16 @@ public static class ComponentIds {
         "Damage",
         "Destination",
         "Enemy",
+        "GamePause",
         "Gold",
         "GoldPlayer",
         "Hp",
         "HpTotal",
         "Id",
         "Interactable",
-        "Level",
         "LifeCount",
         "LifePlayer",
+        "Map",
         "MarkedForActive",
         "MarkedForDestroy",
         "MarkedForNoView",
@@ -114,7 +116,7 @@ public static class ComponentIds {
         "TowerUpgradeProgress",
         "TurnSpeed",
         "View",
-        "ViewCenterOffset",
+        "ViewOffset",
         "ViewSlider",
         "Wave"
     };
@@ -134,15 +136,16 @@ public static class ComponentIds {
         typeof(Damage),
         typeof(Destination),
         typeof(Enemy),
+        typeof(GamePause),
         typeof(Gold),
         typeof(GoldPlayer),
         typeof(Hp),
         typeof(HpTotal),
         typeof(Id),
         typeof(Interactable),
-        typeof(Level),
         typeof(LifeCount),
         typeof(LifePlayer),
+        typeof(Map),
         typeof(MarkedForActive),
         typeof(MarkedForDestroy),
         typeof(MarkedForNoView),
@@ -170,7 +173,7 @@ public static class ComponentIds {
         typeof(TowerUpgradeProgress),
         typeof(TurnSpeed),
         typeof(View),
-        typeof(ViewCenterOffset),
+        typeof(ViewOffset),
         typeof(ViewSlider),
         typeof(Wave)
     };

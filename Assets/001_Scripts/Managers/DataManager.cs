@@ -32,7 +32,7 @@ public class DataManager {
 		LoadData <ProjectileData>(out projectileIdToData);
 		LoadData <TowerData> (out towerIdToData);
 		LoadData <EnemyData> (out enemyIdToData);
-		LoadData <MapData> (out mapIdToData);
+//		LoadData <MapData> (out mapIdToData);
 		LoadTowerTreeData ();
 	}
 
@@ -79,6 +79,10 @@ public class DataManager {
 		} else {
 			return null;
 		}
+	}
+
+	public MapData LoadMapData(string id){
+		return LoadDataById<MapData> (id);
 	}
 
 	public TowerData GetTowerData(string id){
@@ -163,6 +167,7 @@ public class DataManager {
 		return (T)JsonUtility.FromJson (file.text, typeof(T));
 	
 	}
+
 	#endregion json data
 
 }

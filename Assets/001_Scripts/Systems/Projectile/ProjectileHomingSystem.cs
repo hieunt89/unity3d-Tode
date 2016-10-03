@@ -26,7 +26,7 @@ public class ProjectileHomingSystem : IReactiveSystem, ISetPool {
 		for (int i = 0; i < ens.Length; i++) {
 			prj = ens [i];
 			if(!prj.hasDestination){
-				prj.AddDestination (prj.target.e.position.value + prj.target.e.viewCenterOffset.value);
+				prj.AddDestination (prj.target.e.position.value + prj.target.e.viewOffset.pivotToCenter);
 			}
 			if (prj.position.value == prj.destination.value) { //projectile reaches its target
 				
@@ -43,7 +43,7 @@ public class ProjectileHomingSystem : IReactiveSystem, ISetPool {
 				continue;
 			}
 			if(prj.target.e.hasEnemy){
-				prj.ReplaceDestination (prj.target.e.position.value + prj.target.e.viewCenterOffset.value);
+				prj.ReplaceDestination (prj.target.e.position.value + prj.target.e.viewOffset.pivotToCenter);
 			}
 			prj.ReplacePosition (Vector3.MoveTowards (prj.position.value, prj.destination.value, prj.projectileHoming.travelSpeed * Time.deltaTime));
 		}

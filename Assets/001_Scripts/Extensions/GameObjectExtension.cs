@@ -3,7 +3,7 @@ using System.Collections;
 
 public static class GameObjectExtension {
 
-	public static Vector3 GetColliderOffset(this GameObject go, bool isUp){
+	public static Vector3 SliderOffset(this GameObject go, bool isUp){
 		var rend = go.GetComponent<Collider> ();
 		if(rend == null){
 			return Vector3.up * (isUp ? 1 : -1);
@@ -13,7 +13,7 @@ public static class GameObjectExtension {
 		}
 	}
 
-	public static Vector3 GetColliderCenterOffset(this GameObject go){
+	public static Vector3 BotToCenterOffset(this GameObject go){
 		var rend = go.GetComponent<Collider> ();
 		if(rend == null){
 			return Vector3.zero;

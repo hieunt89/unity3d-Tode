@@ -16,7 +16,7 @@ public class PathSystem : IInitializeSystem, ISetPool{
 
 	public void Initialize ()
 	{
-		var paths = DataManager.Instance.GetMapData ("map0").Paths;
+		var paths = _pool.map.data.Paths;
 		if(paths == null){
 			return;
 		}

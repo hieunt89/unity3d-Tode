@@ -32,9 +32,9 @@ public class ProjectileLaserSystem : IReactiveSystem, ISetPool {
 			}
 
 			if (prj.origin.e.isActive && prj.origin.e.hasTarget && prj.origin.e.target.e == prj.target.e && prj.target.e.hasEnemy) {
-				var scaleFromPos = Vector3.Distance (prj.destination.value, prj.position.value) / Vector3.Distance (prj.position.value, prj.target.e.position.value + prj.target.e.viewCenterOffset.value);
+				var scaleFromPos = Vector3.Distance (prj.destination.value, prj.position.value) / Vector3.Distance (prj.position.value, prj.target.e.position.value + prj.target.e.viewOffset.pivotToCenter);
 				prj.ReplaceDestination (
-					prj.position.value.ToEndFragment (prj.target.e.position.value + prj.target.e.viewCenterOffset.value, Mathf.Clamp01 (prj.projectileLaser.travelSpeed * Time.deltaTime + scaleFromPos))
+					prj.position.value.ToEndFragment (prj.target.e.position.value + prj.target.e.viewOffset.pivotToCenter, Mathf.Clamp01 (prj.projectileLaser.travelSpeed * Time.deltaTime + scaleFromPos))
 				);
 			} else {
 				prj.IsReachedEnd (true).origin.e.IsChanneling (false);
@@ -57,7 +57,7 @@ public class ProjectileLaserSystem : IReactiveSystem, ISetPool {
 					prj.ReplaceAttackOverTime (damage, prj.projectileLaser.tickInterval)
 						.ReplaceProjectileTime (prj.projectileTime.time + Time.deltaTime);
 				}
-			} else if (prj.destination.value == (prj.target.e.position.value + prj.target.e.viewCenterOffset.value)) {
+			} else if (prj.destination.value == (prj.target.e.position.value + prj.target.e.viewOffset.pivotToCenter)) {
 				prj.AddProjectileTime (0f);
 			}
 		}

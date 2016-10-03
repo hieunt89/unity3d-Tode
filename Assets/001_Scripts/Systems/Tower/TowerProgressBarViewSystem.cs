@@ -27,7 +27,7 @@ public class TowerProgressBarViewSystem : IReactiveSystem, IInitializeSystem{
 			e = entities [i];
 			if (e.hasTowerUpgradeProgress) {
 				if(!e.hasViewSlider){
-					offset = e.view.go.GetColliderOffset (false);
+					offset = e.view.go.SliderOffset (false);
 					e.AddViewSlider (barGUI.CreateProgressBar (), offset);
 				}
 

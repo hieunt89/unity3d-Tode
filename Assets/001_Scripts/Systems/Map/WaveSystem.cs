@@ -19,7 +19,7 @@ public class WaveSystem : ISetPool, IInitializeSystem, IReactiveSystem {
 
 	public void Initialize ()
 	{
-		MapData map = DataManager.Instance.GetMapData ("map0");
+		MapData map = _pool.map.data;
 		waveList = new List<Entity> ();
 		float activeTime = _pool.tick.time;
 		for (int i = 0; i < map.Waves.Count; i++) {
