@@ -17,7 +17,7 @@ public class TowerUpgradeSystem : IReactiveSystem, ISetPool{
 	{
 		for (int i = 0; i < entities.Count; i++) {
 			var e = entities [i];
-			var cost = DataManager.Instance.GetTowerData (e.towerUpgrade.upgradeNode.Data).GoldRequired;
+			var cost = DataManager.Instance.GetTowerData (e.towerUpgrade.upgradeNode.data).GoldRequired;
 			if (_pool.goldPlayer.value < cost) {
 				e.RemoveTowerUpgrade ();
 			} else {

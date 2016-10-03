@@ -17,12 +17,20 @@ public static class TreeNodeUtils {
 			}
 
 			// add root node
-			AddNode (currentTree, NodeType.RootNode, new Vector2(20f, 20f));
+			AddNode (currentTree, NodeType.RootNode, new Vector2(50f, 50f));
 
 		} else {
 			EditorUtility.DisplayDialog ("Tree Node Message", "Unable to create new tree", "OK");
 		}
 
+	}
+
+	public static void SaveTree (TreeUI _currentTree) {
+		BinaryFormatter bf = new BinaryFormatter ();
+		FileStream file = File.Create (Application.dataPath + TreeNodeConstants.DatabasePath + _currentTree.treeData.treeName + ".tree");
+		bf.Serialize (file, _currentTree.treeData);
+		file.Close ();
+		AssetDatabase.Refresh ();
 	}
 
 	public static  void LoadTree () {
@@ -40,15 +48,42 @@ public static class TreeNodeUtils {
 		if (treeData != null) {
 			TreeNodeEditorWindow currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow<TreeNodeEditorWindow> ();
 			if (currentWindow != null) {
-//				currentWindow.currentTree.treeData = treeData;
+				TreeUI currentTree = new TreeUI(treeData.treeType, treeData.treeName);
+				currentTree.treeData = treeData;
+				currentWindow.currentTree = currentTree;
 			}
 		} else {
 			EditorUtility.DisplayDialog ("Tree Node Message", "Unable to load selected tree!", "OK");
 		}
 	}
 
-	public static void GenerateTreeUI (Tree<string> treeData) {
-		// TODO: generate tree ui + node ui base on tree data
+	public static void GenerateNodeUI (TreeUI _currentTree) {
+		Debug.Log ("generate node ui");
+		NodeUI rootNode = new NodeUI ("Root Node", NodeType.RootNode, _currentTree.treeData.Root, null, new List<NodeUI> ());
+
+		if (rootNode != null) {
+			rootNode.InitNode (new Vector2 (50f, 50f));
+			rootNode.currentTree = _currentTree;
+			_currentTree.nodes.Add (rootNode);
+		}
+
+		for (int i = 0; i < rootNode.nodeData.children.Count; i++) {
+			// TODO: how to recursive :(
+
+			NodeUI newNode = new NodeUI ("Node", NodeType.Node, rootNode.nodeData.children[i], rootNode, rootNode.childNodes);
+
+			if (newNode != null) {
+				newNode.InitNode (new Vector2 ((_currentTree.nodes.Count + 1) * 100f, (i+1) * 50f));
+				newNode.currentTree = _currentTree;
+				_currentTree.nodes.Add (newNode);
+			}
+
+		}
+
+	}
+
+	private static void DeQuy () {
+
 	}
 
 	public static void UnloadTree () {
@@ -57,16 +92,6 @@ public static class TreeNodeUtils {
 			currentWindow.currentTree = null;
 		}
 	}
-
-	public static void SaveTree (TreeUI _currentTree) {
-		BinaryFormatter bf = new BinaryFormatter ();
-		FileStream file = File.Create (Application.dataPath + TreeNodeConstants.DatabasePath + _currentTree.treeData.treeName + ".tree");
-		bf.Serialize (file, _currentTree.treeData);
-		file.Close ();
-		AssetDatabase.Refresh ();
-	}
-
-
 
 	public static void AddNode (TreeUI _currentTree, NodeType _nodeType, Vector2 _position) {
 		if (_currentTree != null) {
@@ -99,6 +124,9 @@ public static class TreeNodeUtils {
 			if(_currentTree.nodes.Count >= _nodeId) {
 				NodeUI selectecNode = _currentTree.nodes[_nodeId];
 				if(selectecNode != null) {
+//					var deleteNodeData = _currentTree.treeData.Root.FindChildNodeByData (_currentTree.nodes [_nodeId].nodeData.data);	// it does not work with duplicate data
+					// TODO: delete node data ?
+					_currentTree.nodes[_nodeId].nodeData = null;
 					_currentTree.nodes.RemoveAt (_nodeId);
 
 					// TODO: save data after remove
@@ -113,7 +141,7 @@ public static class TreeNodeUtils {
 				NodeUI selectecNode = _currentTree.nodes[_nodeId];
 				if(selectecNode != null) {
 					_currentTree.nodes[_nodeId].parentNode = null;
-
+					_currentTree.nodes [_nodeId].nodeData.parent = null;
 					// TODO: save data after remove
 				}
 			}

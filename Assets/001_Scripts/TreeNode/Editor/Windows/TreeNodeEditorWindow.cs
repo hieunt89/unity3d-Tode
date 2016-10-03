@@ -18,7 +18,6 @@ public class TreeNodeEditorWindow : EditorWindow {
 		CreateViews ();
 	}
 
-
 	void OnGUI () {
 		if (workView == null || propertiesView == null) {
 			CreateViews ();

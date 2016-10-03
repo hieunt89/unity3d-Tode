@@ -8,8 +8,6 @@ public class NodeBase {
 	public bool isSelected = false;
 	public string nodeName;
 	public Rect nodeRect;
-	public TreeUI tree;
-	
 
 	protected GUISkin nodeSkin;
 

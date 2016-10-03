@@ -51,7 +51,7 @@ public class NodeUI {
 		}
 			
 		nodeContentRect = new Rect(nodeRect.x, nodeRect.y + nodeRect.height, nodeRect.width, nodeRect.height);
-		GUI.Box (nodeContentRect, nodeData.Data, _viewSkin.GetStyle ("ContentDefault"));
+		GUI.Box (nodeContentRect, nodeData.data, _viewSkin.GetStyle ("ContentDefault"));
 
 		GUILayout.BeginArea (nodeContentRect);
 
@@ -69,7 +69,7 @@ public class NodeUI {
 		EditorGUI.BeginChangeCheck ();
 		selectedIndex = EditorGUILayout.Popup (selectedIndex, _currentTree.existIds.ToArray());
 		if (EditorGUI.EndChangeCheck ()) {
-			nodeData.Data = _currentTree.existIds [selectedIndex];
+			nodeData.data = _currentTree.existIds [selectedIndex];
 		}
 
 

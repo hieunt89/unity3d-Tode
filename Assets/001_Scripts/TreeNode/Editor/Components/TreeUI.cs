@@ -23,8 +23,9 @@ public class TreeUI {
 		if (nodes == null) {
 			nodes = new List<NodeUI> ();
 		}
-		// load exist data based on tree type
+
 		// TODO: chuyen exist data ra global ?
+		// load exist data based on tree type
 		switch (_treeType) {
 		case TreeType.Tower:
 			var data = DataManager.Instance.LoadAllData <TowerData> ();
@@ -43,6 +44,11 @@ public class TreeUI {
 	public void UpdateTreeUI (Event _e, Rect _viewRect, GUISkin _viewSkin) {
 
 		ProcessEvents (_e, _viewRect);
+
+		if (treeData != null && nodes.Count == 0) {
+			// TODO: genrate node ui
+			TreeNodeUtils.GenerateNodeUI(this);
+		}
 
 		if (nodes.Count > 0) {
 			for (int i = 0; i < nodes.Count; i++) {

@@ -39,7 +39,7 @@ public class TowerUpgradeGUI : MonoBehaviour{
 		if (e.isTowerBase) {
 			upgrades = DataManager.Instance.GetTowerRoots();
 		} else {
-			upgrades = e.tower.currentNode.Children;
+			upgrades = e.tower.currentNode.children;
 		}
 
 		if(upgrades == null){
@@ -52,17 +52,17 @@ public class TowerUpgradeGUI : MonoBehaviour{
 	}
 
 	void CreateTowerUpgradeBtn(Node<string> towerNode){
-		var data = DataManager.Instance.GetTowerData (towerNode.Data);
+		var data = DataManager.Instance.GetTowerData (towerNode.data);
 		if(data != null){
 			var go = LeanPool.Spawn (prefab);
 			go.transform.SetParent (this.transform, false);
 			go.GetComponent<TowerUpgradeBtn> ().RegisterUpgradeBtn(towerNode, data.GoldRequired);
-			go.GetComponentInChildren<Text> ().text = "upgrade to " + towerNode.Data + " for " + data.GoldRequired + " gold";
+			go.GetComponentInChildren<Text> ().text = "upgrade to " + towerNode.data + " for " + data.GoldRequired + " gold";
 		}
 	}
 
 	void CreateTowerUpgradeEntity (Node<string> upgrade){
-		var data = DataManager.Instance.GetTowerData (upgrade.Data);
+		var data = DataManager.Instance.GetTowerData (upgrade.data);
 		if(data != null && currentSelected != null){
 			currentSelected.AddTowerUpgrade (data.BuildTime, upgrade);
 		}
