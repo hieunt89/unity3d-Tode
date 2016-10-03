@@ -86,8 +86,11 @@ public class TowerConstructorWindow : EditorWindow {
 		}
 		GUI.enabled = true;
 		if (GUILayout.Button("Load")){
-			tower = DataManager.Instance.LoadData <TowerData> ();
-			projectileIndex = tower.PrjTypeIndex;
+			var data = DataManager.Instance.LoadData <TowerData> ();
+			if(data != null){
+				tower = data;
+				projectileIndex = tower.PrjTypeIndex;
+			}
 		}
 		if (GUILayout.Button("Reset")){
 			tower = new TowerData ("tower" + existTowers.Count);

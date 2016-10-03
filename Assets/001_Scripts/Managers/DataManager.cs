@@ -40,12 +40,12 @@ public class DataManager {
 		towerTrees = new List<Tree<string>> ();
 
 		Tree<string> t1 =  new Tree<string> ("tower2");
-		t1.Root.AddRelationship ("tower1");
-		t1.Root.Children [0].AddRelationship ("tower0");
+		t1.Root.AddChild ("tower1");
+		t1.Root.Children [0].AddChild ("tower0");
 
 		Tree<string> t2 =  new Tree<string> ("tower0");
-		t2.Root.AddRelationship ("tower1");
-		t2.Root.Children [0].AddRelationship ("tower2");
+		t2.Root.AddChild ("tower1");
+		t2.Root.Children [0].AddChild ("tower2");
 
 		towerTrees.Add (t1);
 		towerTrees.Add (t2);

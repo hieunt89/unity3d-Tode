@@ -86,7 +86,10 @@ public class EnemyContructorWindow : EditorWindow {
 		}
 		GUI.enabled = true;
 		if (GUILayout.Button("Load")){
-			enemy = DataManager.Instance.LoadData <EnemyData> ();
+			var data = DataManager.Instance.LoadData <EnemyData> ();
+			if(data != null){
+				enemy = data;
+			}
 		}
 		if (GUILayout.Button("Rest")){
 			enemy =  new EnemyData ("enemy" + existEnemies.Count, new List<ArmorData>(){

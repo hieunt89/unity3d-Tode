@@ -76,7 +76,10 @@ public class ProjectileConstructorWindow : EditorWindow {
 		GUI.enabled = true;
 
 		if (GUILayout.Button("Load")){
-			projectile = DataManager.Instance.LoadData <ProjectileData> ();
+			var data = DataManager.Instance.LoadData <ProjectileData> ();
+			if(data != null){
+				projectile = data;
+			}
 		}
 		if (GUILayout.Button("Reset")){
 			projectile = new ProjectileData ("projectile" + existProjectiles.Count);

@@ -111,7 +111,7 @@ public class NodeUI {
 								currentTree.nodes[i].parentNode = currentTree.startConnectionNode;
 
 								// add mouse over node data to list of child nodedata in start connection nodedata
-								currentTree.startConnectionNode.nodeData.AddRelationship (currentTree.nodes [i].nodeData);
+								currentTree.startConnectionNode.nodeData.AddChild (currentTree.nodes [i].nodeData);
 							}
 						}
 					}
