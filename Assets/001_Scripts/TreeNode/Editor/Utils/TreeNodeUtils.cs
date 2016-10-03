@@ -125,6 +125,9 @@ public static class TreeNodeUtils {
 				NodeUI selectecNode = _currentTree.nodes[_nodeId];
 				if(selectecNode != null) {
 //					var deleteNodeData = _currentTree.treeData.Root.FindChildNodeByData (_currentTree.nodes [_nodeId].nodeData.data);	// it does not work with duplicate data
+
+					//TODO: remove connection
+
 					// TODO: delete node data ?
 					_currentTree.nodes[_nodeId].nodeData = null;
 					_currentTree.nodes.RemoveAt (_nodeId);
