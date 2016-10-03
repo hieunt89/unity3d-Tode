@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour {
 		return systems
 				//Map
 				.Add(pool.CreateSystem<CoroutineSystem>())
+				.Add(pool.CreateSystem<MapSystem>())
 				.Add(pool.CreateSystem<TimeSystem>())
 				.Add(pool.CreateSystem<LifeSystem>())
 				.Add(pool.CreateSystem<GoldSystem>())
@@ -40,15 +41,13 @@ public class GameManager : MonoBehaviour {
 				.Add(pool.CreateSystem<TowerStatsUpdateSystem>())
 				.Add(pool.CreateSystem<TowerCheckTargetSystem>())
 				.Add(pool.CreateSystem<TowerFindTargetSystem>())
-				.Add(pool.CreateSystem<TowerAttackSystem>())
 				.Add(pool.CreateSystem<TowerAttackCooldownSystem>())
+				.Add(pool.CreateSystem<TowerAttackSystem>())
 				.Add(pool.CreateSystem<TowerSellSystem>())
-				
+
 				//Enemy
 				.Add(pool.CreateSystem<EnemyInitSystem>())
-				.Add(pool.CreateSystem<EnemyActiveSystem>())
 				.Add(pool.CreateSystem<EnemyMoveSystem>())
-				.Add(pool.CreateSystem<EnemyDamageSystem>())
 				.Add(pool.CreateSystem<EnemyReachEndSystem>())
 				.Add(pool.CreateSystem<EnemyDeadSystem>())
 				
@@ -68,8 +67,11 @@ public class GameManager : MonoBehaviour {
 				.Add(pool.CreateSystem<HeathBarViewSystem>())
 				.Add(pool.CreateSystem<TowerProgressBarViewSystem>())
 				
-				//Destroy things
-				.Add(pool.CreateSystem<DestroyEntitySystem>())
+				//General
+				.Add(pool.CreateSystem<EntityActiveSystem>())
+				.Add(pool.CreateSystem<EntityDestroySystem>())
+				.Add(pool.CreateSystem<AttackOverTimeSystem>())
+				.Add(pool.CreateSystem<DamageSystem>())
 			;
 	}
 }

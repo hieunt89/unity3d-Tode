@@ -14,7 +14,7 @@ public class WaveGroupData { // TODO: rename WaveGroupData
 
 	[SerializeField] private int amount;
 	[SerializeField] private float spawnInterval;
-	[SerializeField] private float waveDelay;
+	[SerializeField] private float groupDelay;
 
 	[SerializeField] private int pathIdIndex;
 	[SerializeField] private string pathId;
@@ -64,12 +64,12 @@ public class WaveGroupData { // TODO: rename WaveGroupData
         }
 	}
 
-	public float WaveDelay {
+	public float GroupDelay {
 		get {
-			return waveDelay;
+			return groupDelay;
 		}
         set {
-            waveDelay = value;
+            groupDelay = value;
         }
 	}
 
@@ -98,13 +98,13 @@ public class WaveGroupData { // TODO: rename WaveGroupData
 		this.pathId = pathId;
 	}
 
-	public WaveGroupData (string id, string enemyId, int amount, float spawnInterval, float waveDelay, string pathId)
+	public WaveGroupData (string id, string enemyId, int amount, float spawnInterval, float groupDelay, string pathId)
 	{
 		this.id = id;
 		this.enemyId = enemyId;
 		this.amount = amount;
 		this.spawnInterval = spawnInterval;
-		this.waveDelay = waveDelay;
+		this.groupDelay = groupDelay;
 		this.pathId = pathId;
 	}
 	

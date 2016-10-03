@@ -1,1 +1,1 @@
-{"id":"tower1","name":"archer","prjTypeIndex":0,"prjType":"projectile1","atkType":0,"atkRange":99999.0,"minDmg":5,"maxDmg":10,"atkSpeed":1.5,"goldRequired":100,"nextUpgradeIndexes":[1],"nextUpgrades":["tower1"],"buildTime":3.0}
+{"id":"tower1","name":" archer 1","prjTypeIndex":1,"prjType":"projectile1","atkType":1,"atkRange":6.0,"minDmg":5,"maxDmg":10,"atkSpeed":0.10000000149011612,"goldRequired":150,"nextUpgradeIndexes":[1],"nextUpgrades":["tower1"],"buildTime":1.0}

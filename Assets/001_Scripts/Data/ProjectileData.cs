@@ -6,9 +6,29 @@ public class ProjectileData {
 	[SerializeField] public string id;
 	[SerializeField] private string name;
 	[SerializeField] private ProjectileType type;
-	[SerializeField] private float travelSpeed;
-	[SerializeField] private float travelTime;
 	[SerializeField] private float range;
+
+	[SerializeField] private float travelSpeed;
+	[SerializeField] private float duration;
+
+	[SerializeField] private float maxDmgBuildTime;
+	[SerializeField] private float tickInterval;
+
+	public float MaxDmgBuildTime {
+		get {
+			return maxDmgBuildTime;
+		}set {
+			maxDmgBuildTime = value;
+		}
+	}
+
+	public float TickInterval {
+		get {
+			return tickInterval;
+		}set {
+			tickInterval = value;
+		}
+	}
 
 	public string Id {
 		get {
@@ -46,12 +66,12 @@ public class ProjectileData {
 		}
 	}
 
-	public float TravelTime {
+	public float Duration {
 		get {
-			return this.travelTime;
+			return this.duration;
 		}
 		set {
-			travelTime = value;
+			duration = value;
 		}
 	}
 
@@ -69,12 +89,12 @@ public class ProjectileData {
 		this.id = id;
 	}
 
-	public ProjectileData (string id, ProjectileType type, float travelSpeed, float travelTime, float range)
+	public ProjectileData (string id, ProjectileType type, float travelSpeed, float duration, float range)
 	{
 		this.id = id;
 		this.type = type;
 		this.travelSpeed = travelSpeed;
-		this.travelTime = travelTime;
+		this.duration = duration;
 		this.range = range;
 	}
 	

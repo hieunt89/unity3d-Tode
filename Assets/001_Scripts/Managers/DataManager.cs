@@ -32,18 +32,23 @@ public class DataManager {
 		LoadData <ProjectileData>(out projectileIdToData);
 		LoadData <TowerData> (out towerIdToData);
 		LoadData <EnemyData> (out enemyIdToData);
-		LoadData <MapData> (out mapIdToData);
+//		LoadData <MapData> (out mapIdToData);
 		LoadTowerTreeData ();
 	}
 
 	void LoadTowerTreeData(){
 		towerTrees = new List<Tree<string>> ();
 
-		Tree<string> t1 =  new Tree<string> ("tower0");
-		t1.Root.AddRelationship ("tower1");
-		t1.Root.children [0].AddRelationship ("tower0");
+		Tree<string> t1 =  new Tree<string> ("tower2");
+		t1.Root.AddChild ("tower1");
+		t1.Root.children [0].AddChild ("tower0");
+
+		Tree<string> t2 =  new Tree<string> ("tower0");
+		t2.Root.AddChild ("tower1");
+		t2.Root.children [0].AddChild ("tower2");
 
 		towerTrees.Add (t1);
+		towerTrees.Add (t2);
 	}
 
 	void LoadData <T> (out Dictionary<string, T> d){
@@ -74,6 +79,10 @@ public class DataManager {
 		} else {
 			return null;
 		}
+	}
+
+	public MapData LoadMapData(string id){
+		return LoadDataById<MapData> (id);
 	}
 
 	public TowerData GetTowerData(string id){
@@ -158,6 +167,7 @@ public class DataManager {
 		return (T)JsonUtility.FromJson (file.text, typeof(T));
 	
 	}
+
 	#endregion json data
 
 }

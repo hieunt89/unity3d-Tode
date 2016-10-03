@@ -16,7 +16,7 @@ public class TowerInitSystem : IInitializeSystem, ISetPool {
 
 	public void Initialize ()
 	{
-		var tps = DataManager.Instance.GetMapData ("map0").TowerPoints;
+		var tps = _pool.map.data.TowerPoints;
 		if(tps == null){
 			return;
 		}

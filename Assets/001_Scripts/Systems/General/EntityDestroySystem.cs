@@ -2,7 +2,7 @@
 using System.Collections;
 using Entitas;
 
-public class DestroyEntitySystem : IReactiveSystem, ISetPool {
+public class EntityDestroySystem : IReactiveSystem, ISetPool {
 	Pool _pool;
 	#region ISetPool implementation
 

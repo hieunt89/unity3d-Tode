@@ -12,15 +12,15 @@ namespace Entitas {
 
         public bool hasProjectileThrowing { get { return HasComponent(ComponentIds.ProjectileThrowing); } }
 
-        public Entity AddProjectileThrowing(float newTravelTime) {
+        public Entity AddProjectileThrowing(float newDuration) {
             var component = CreateComponent<ProjectileThrowing>(ComponentIds.ProjectileThrowing);
-            component.travelTime = newTravelTime;
+            component.duration = newDuration;
             return AddComponent(ComponentIds.ProjectileThrowing, component);
         }
 
-        public Entity ReplaceProjectileThrowing(float newTravelTime) {
+        public Entity ReplaceProjectileThrowing(float newDuration) {
             var component = CreateComponent<ProjectileThrowing>(ComponentIds.ProjectileThrowing);
-            component.travelTime = newTravelTime;
+            component.duration = newDuration;
             ReplaceComponent(ComponentIds.ProjectileThrowing, component);
             return this;
         }

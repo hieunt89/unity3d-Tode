@@ -17,39 +17,40 @@ public class ProjectileConstructorWindow : EditorWindow {
 	[MenuItem("Window/Projectile Constructor &P")]
 	public static void ShowWindow()
 	{
-		EditorWindow.GetWindow(typeof(TowerConstructorWindow));
+		EditorWindow.GetWindow(typeof(ProjectileConstructorWindow));
 	}
 
 	void OnEnable () {
-		projectile = new ProjectileData ("projectile" + existProjectiles.Count);
-
-
 		existProjectiles = DataManager.Instance.LoadAllData<ProjectileData>();
+
+		projectile = new ProjectileData ("projectile" + existProjectiles.Count);
 	}
 
 
 
 	void OnGUI()
 	{
-
 		EditorGUI.BeginChangeCheck ();
 		var id = EditorGUILayout.TextField ("id",  projectile.Id);
 		var name = EditorGUILayout.TextField ("Name", projectile.Name);
 		var type = (ProjectileType) EditorGUILayout.EnumPopup ("Type", projectile.Type);
 
 		if (projectile.Type == ProjectileType.homing) {
-			projectile.TravelTime = 0f;
+			projectile.Duration = 0f;
 		}
 
 		GUI.enabled = projectile.Type == ProjectileType.homing;
-		var travelSpeed = EditorGUILayout.FloatField ("Travel Speed", projectile.TravelSpeed);
+			var travelSpeed = EditorGUILayout.FloatField ("Travel Speed", projectile.TravelSpeed);
 		GUI.enabled = true;
 
-		GUI.enabled = projectile.Type == ProjectileType.throwing;
-		var travelTime = EditorGUILayout.FloatField ("Travel Time", projectile.TravelTime);
+		GUI.enabled = projectile.Type == ProjectileType.throwing || projectile.Type == ProjectileType.laser;
+		var duration = EditorGUILayout.FloatField ("Duration", projectile.Duration);
 		GUI.enabled = true;
 
-
+		GUI.enabled = projectile.Type == ProjectileType.laser;
+			var maxDmgBuildTime = EditorGUILayout.FloatField ("Time to reach maxDmg", projectile.MaxDmgBuildTime);
+			var tickInterval = EditorGUILayout.FloatField ("Tick interval", projectile.TickInterval);
+		GUI.enabled = true;
 
 		var range = EditorGUILayout.FloatField ("Range", projectile.Range);
 
@@ -58,25 +59,32 @@ public class ProjectileConstructorWindow : EditorWindow {
 			projectile.Name = name;
 			projectile.Type = type;
 			projectile.TravelSpeed = travelSpeed;
-			projectile.TravelTime = travelTime;
+			projectile.Duration = duration;
+			projectile.MaxDmgBuildTime = maxDmgBuildTime;
+			projectile.TickInterval = tickInterval;
 			projectile.Range = range;
 		}
 
 		GUILayout.Space(5);
 
-		GUILayout.BeginHorizontal ();
+//		GUILayout.BeginHorizontal ();
+
 		GUI.enabled = CheckFields ();
 		if (GUILayout.Button("Save")){
 			DataManager.Instance.SaveData (projectile);
 		}
 		GUI.enabled = true;
+
 		if (GUILayout.Button("Load")){
-			projectile = DataManager.Instance.LoadData <ProjectileData> ();
+			var data = DataManager.Instance.LoadData <ProjectileData> ();
+			if(data != null){
+				projectile = data;
+			}
 		}
 		if (GUILayout.Button("Reset")){
 			projectile = new ProjectileData ("projectile" + existProjectiles.Count);
 		}
-		GUILayout.EndHorizontal();
+//		GUILayout.EndHorizontal();
 
 		//		Repaint ();
 	}

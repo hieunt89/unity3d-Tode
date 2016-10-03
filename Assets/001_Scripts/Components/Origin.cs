@@ -2,6 +2,6 @@
 using System.Collections;
 using Entitas;
 
-public class Level : IComponent {
-	public int value;
+public class Origin : IComponent {
+	public Entity e;
 }

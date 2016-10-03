@@ -8,27 +8,43 @@ public class Node <T> where T : class  {
 	public T data;
 	public Node<T> parent;
 	public List<Node<T>> children;
+	public int depth;
 
-	public Node (T data) {
-		this.data = data;
-		this.children = new List<Node<T>> ();
+	public Node (T data){
+		data = data;
+		children = new List<Node<T>> ();
+		depth = 0;
 	}
 
-	public Node <T> AddRelationship(T data){
+	public Node <T> AddChild(T data){
 		Node<T> n = new Node<T> (data);
 		children.Add (n);
 		n.parent = this;
+		UpdateDepth (this);
+		return this;
+	}
+		
+	public Node <T> AddChild(Node<T> child){
+		children.Add (child);
+		child.parent = this;
+		UpdateDepth (this);
 		return this;
 	}
 
-	public Node <T> AddRelationship(Node<T> nodeData){
-		children.Add (nodeData);
-		nodeData.parent = this;
-		return this;
+	public void RemoveChild(Node<T> child){
+		child.parent.children.Remove (child);
+		child.parent = null;
 	}
 
 	public Node <T> FindChildNodeByData (T data){
 		return FindChildNodeByData (this, data);
+	}
+
+	void UpdateDepth(Node<T> parent){
+		for (int i = 0; i < parent.children.Count; i++) {
+			parent.children [i].depth = parent.depth + 1;
+			UpdateDepth (parent.children [i]);
+		}
 	}
 
 	Node <T> FindChildNodeByData(Node<T> node, T data){

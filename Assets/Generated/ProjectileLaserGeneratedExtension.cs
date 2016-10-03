@@ -12,17 +12,21 @@ namespace Entitas {
 
         public bool hasProjectileLaser { get { return HasComponent(ComponentIds.ProjectileLaser); } }
 
-        public Entity AddProjectileLaser(float newTravelSpeed, float newTravelTime) {
+        public Entity AddProjectileLaser(float newTravelSpeed, float newDuration, float newTickInterval, float newMaxDmgBuildTime) {
             var component = CreateComponent<ProjectileLaser>(ComponentIds.ProjectileLaser);
             component.travelSpeed = newTravelSpeed;
-            component.travelTime = newTravelTime;
+            component.duration = newDuration;
+            component.tickInterval = newTickInterval;
+            component.maxDmgBuildTime = newMaxDmgBuildTime;
             return AddComponent(ComponentIds.ProjectileLaser, component);
         }
 
-        public Entity ReplaceProjectileLaser(float newTravelSpeed, float newTravelTime) {
+        public Entity ReplaceProjectileLaser(float newTravelSpeed, float newDuration, float newTickInterval, float newMaxDmgBuildTime) {
             var component = CreateComponent<ProjectileLaser>(ComponentIds.ProjectileLaser);
             component.travelSpeed = newTravelSpeed;
-            component.travelTime = newTravelTime;
+            component.duration = newDuration;
+            component.tickInterval = newTickInterval;
+            component.maxDmgBuildTime = newMaxDmgBuildTime;
             ReplaceComponent(ComponentIds.ProjectileLaser, component);
             return this;
         }

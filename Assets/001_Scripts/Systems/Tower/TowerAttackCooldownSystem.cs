@@ -10,7 +10,7 @@ public class TowerAttackCooldownSystem : IReactiveSystem, ISetPool {
 	public void SetPool (Pool pool)
 	{
 		_pool = pool;
-		_groupTowerOnCooldown = _pool.GetGroup (Matcher.AllOf(Matcher.Tower, Matcher.AttackCooldown));
+		_groupTowerOnCooldown = _pool.GetGroup (Matcher.AllOf(Matcher.Tower, Matcher.AttackCooldown).NoneOf(Matcher.Channeling));
 	}
 
 	#endregion

@@ -15,66 +15,66 @@ public class EnemyInitSystem : IReactiveSystem, ISetPool
     {
         get
         {
-            return Matcher.Wave.OnEntityAdded ();
+			return Matcher.AllOf(Matcher.Wave, Matcher.Active).OnEntityAdded ();
         }
     }
 
 	void IReactiveExecuteSystem.Execute(List<Entity> entities)
     {
-		var e = entities.SingleEntity ();
-		float activeTime = _pool.tick.time;
-		WaveGroupData waveGroup;
-		Entity ePath;
-		EnemyData enemyData;
-		for (int i = 0; i < e.wave.groups.Count; i++) { //loop throu all wave group datas in wave
-			waveGroup = e.wave.groups[i];
-			activeTime = activeTime + waveGroup.WaveDelay;
-			ePath = _pool.GetEntityById(waveGroup.PathId);
-			if (ePath == null) { //continue if path not found
-				if (GameManager.debug) {
-					Debug.Log ("Path with id " + waveGroup.PathId + " is null");
-				}
-				continue;
-			}
-
-			for (int j = 0; j < waveGroup.Amount; j++) { //loop throu all enemies in wave group data
-				enemyData = DataManager.Instance.GetEnemyData (waveGroup.EnemyId);
-				if(enemyData == null){ //break if enemy data is null
+		for (int waveIndex = 0; waveIndex < entities.Count; waveIndex++) { // loop throu all active waves
+			var e = entities [waveIndex];
+			float activeTime = _pool.tick.time;
+			WaveGroupData waveGroup;
+			Entity ePath;
+			EnemyData enemyData;
+			for (int groupIndex = 0; groupIndex < e.wave.groups.Count; groupIndex++) { //loop throu all wave group datas in wave
+				waveGroup = e.wave.groups[groupIndex];
+				activeTime = activeTime + waveGroup.GroupDelay;
+				ePath = _pool.GetEntityById(waveGroup.PathId);
+				if (ePath == null) { //continue if path not found
 					if (GameManager.debug) {
-						Debug.Log ("Enemy with id " + waveGroup.EnemyId + " is null");
+						Debug.Log ("Path with id " + waveGroup.PathId + " is null");
 					}
-					break;
+					continue;
 				}
 
-				if (j != 0) { //do not add spawn interval on the first enemy in group
-					activeTime = activeTime + waveGroup.SpawnInterval;
-				}
+					for (int enemyIndex = 0; enemyIndex < waveGroup.Amount; enemyIndex++) { //loop throu all enemies in wave group data
+					enemyData = DataManager.Instance.GetEnemyData (waveGroup.EnemyId);
+					if(enemyData == null){ //break if enemy data is null
+						if (GameManager.debug) {
+							Debug.Log ("Enemy with id " + waveGroup.EnemyId + " is null");
+						}
+						break;
+					}
 
-				_pool.CreateEntity ()
-					.AddEnemy (waveGroup.EnemyId)
-					.AddId (e.id.value + "_group" + i + "_enemy" + j)
-					.AddPathReference (ePath)
-					.AddMarkedForActive (activeTime)
-					.IsInteractable (true)
-					.AddDestination (ePath.path.wayPoints [0])
-					.AddPosition (ePath.path.wayPoints [0])
-					.AddMovable (enemyData.MoveSpeed)
-					.AddTurnSpeed(enemyData.TurnSpeed)
-					.AddLifeCount (enemyData.LifeCount)
-					.AddGold (enemyData.GoldWorth)
-					.AddAttack (enemyData.AtkType)
-					.AddAttackSpeed(enemyData.AtkSpeed)
-					.AddAttackDamage(enemyData.MinAtkDmg, enemyData.MaxAtkDmg)
-					.AddAttackRange(enemyData.AtkRange)
-					.AddArmor(enemyData.Armors)
-					.AddHp (enemyData.Hp)
-					.AddHpTotal(enemyData.Hp)
-					;
+					if (enemyIndex != 0) { //do not add spawn interval on the first enemy in group
+						activeTime = activeTime + waveGroup.SpawnInterval;
+					}
+
+					_pool.CreateEntity ()
+						.AddEnemy (waveGroup.EnemyId)
+						.AddId (e.id.value + "_group" + groupIndex + "_enemy" + enemyIndex)
+						.AddPathReference (ePath)
+						.AddMarkedForActive (activeTime)
+						.AddDestination (ePath.path.wayPoints [0])
+						.AddPosition (ePath.path.wayPoints [0])
+						.AddMovable (enemyData.MoveSpeed)
+						.AddTurnSpeed(enemyData.TurnSpeed)
+						.AddLifeCount (enemyData.LifeCount)
+						.AddGold (enemyData.GoldWorth)
+						.AddAttack (enemyData.AtkType)
+						.AddAttackSpeed(enemyData.AtkSpeed)
+						.AddAttackDamage(enemyData.MinAtkDmg, enemyData.MaxAtkDmg)
+						.AddAttackRange(enemyData.AtkRange)
+						.AddArmor(enemyData.Armors)
+						.AddHp (enemyData.Hp)
+						.AddHpTotal(enemyData.Hp)
+						;
+				}
 			}
+
+			_pool.DestroyEntity (e);
 		}
-
-		_pool.DestroyEntity (e);
     }
-
 
 }

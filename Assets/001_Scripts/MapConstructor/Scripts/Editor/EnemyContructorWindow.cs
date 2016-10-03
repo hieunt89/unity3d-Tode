@@ -79,14 +79,17 @@ public class EnemyContructorWindow : EditorWindow {
 		EditorGUI.indentLevel--;
 		GUILayout.EndVertical();
 
-		GUILayout.BeginHorizontal ();
+//		GUILayout.BeginHorizontal ();
 		GUI.enabled = CheckFields ();
 		if (GUILayout.Button("Save")){
 			DataManager.Instance.SaveData (enemy);
 		}
 		GUI.enabled = true;
 		if (GUILayout.Button("Load")){
-			enemy = DataManager.Instance.LoadData <EnemyData> ();
+			var data = DataManager.Instance.LoadData <EnemyData> ();
+			if(data != null){
+				enemy = data;
+			}
 		}
 		if (GUILayout.Button("Rest")){
 			enemy =  new EnemyData ("enemy" + existEnemies.Count, new List<ArmorData>(){
@@ -94,7 +97,7 @@ public class EnemyContructorWindow : EditorWindow {
 				new ArmorData(AttackType.magical, 0f),
 			});
 		}
-		GUILayout.EndHorizontal ();
+//		GUILayout.EndHorizontal ();
 		Repaint ();
 	}
 

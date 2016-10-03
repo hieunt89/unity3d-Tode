@@ -22,31 +22,43 @@ public class ProjectileLaserSystem : IReactiveSystem, ISetPool {
 			return;
 		}
 			
-		Entity e;
+		Entity prj;
 		var ens = _groupPrjLaser.GetEntities ();
 		for (int i = 0; i < ens.Length; i++) {
-			e = ens [i];
-			if(!e.hasDestination){
-				e.AddDestination (e.position.value);
+			prj = ens [i];
+			if(!prj.hasDestination){
+				prj.AddDestination (prj.position.value);
+				prj.origin.e.IsChanneling (true);
 			}
-			if((e.hasProjectileTime && e.projectileTime.time >= e.projectileLaser.travelTime) || !e.target.e.hasEnemy){
-				e.IsReachedEnd (true);
+
+			if (prj.origin.e.isActive && prj.origin.e.hasTarget && prj.origin.e.target.e == prj.target.e && prj.target.e.hasEnemy) {
+				var scaleFromPos = Vector3.Distance (prj.destination.value, prj.position.value) / Vector3.Distance (prj.position.value, prj.target.e.position.value + prj.target.e.viewOffset.pivotToCenter);
+				prj.ReplaceDestination (
+					prj.position.value.ToEndFragment (prj.target.e.position.value + prj.target.e.viewOffset.pivotToCenter, Mathf.Clamp01 (prj.projectileLaser.travelSpeed * Time.deltaTime + scaleFromPos))
+				);
+			} else {
+				prj.IsReachedEnd (true).origin.e.IsChanneling (false);
 				continue;
 			}
-			if(e.target.e.hasEnemy){
-				
-				var scaleFromPos = Vector3.Distance (e.destination.value, e.position.value) / Vector3.Distance (e.position.value, e.target.e.position.value + e.target.e.view.go.GetColliderCenterOffset ());
-				Debug.Log (Vector3.Distance (e.destination.value, e.position.value) + " " + Vector3.Distance (e.position.value, e.target.e.position.value + e.target.e.view.go.GetColliderCenterOffset ()) + " " + scaleFromPos);
-				e.ReplaceDestination (
-					e.position.value.ToEndFragment(e.target.e.position.value + e.target.e.view.go.GetColliderCenterOffset(), Mathf.Clamp01(e.projectileLaser.travelSpeed * Time.deltaTime + scaleFromPos))
-				);
-			}
-			if (Vector3.Distance(e.destination.value, e.target.e.position.value + e.target.e.view.go.GetColliderCenterOffset()) <= 0.2f && !e.hasProjectileTime) {
-				e.AddProjectileTime (0f);
-			}
-			if(e.hasProjectileTime){
-				e.ReplaceProjectileTime (e.projectileTime.time + Time.deltaTime);
 
+			if (prj.hasProjectileTime) {
+				if (prj.projectileTime.time >= prj.projectileLaser.duration) {
+					prj.IsReachedEnd (true).origin.e.IsChanneling (false);
+					continue;
+				} else {
+					float dmgScale = Mathf.Clamp01(prj.projectileTime.time / prj.projectileLaser.maxDmgBuildTime);
+					int damage = ProjectileHelper.GetDamage (
+						prj.attackDamage.maxDamage, 
+						prj.attackDamage.minDamage,
+						dmgScale,
+						prj.attack.attackType,
+						prj.target.e.armor.armorList
+					);
+					prj.ReplaceAttackOverTime (damage, prj.projectileLaser.tickInterval)
+						.ReplaceProjectileTime (prj.projectileTime.time + Time.deltaTime);
+				}
+			} else if (prj.destination.value == (prj.target.e.position.value + prj.target.e.viewOffset.pivotToCenter)) {
+				prj.AddProjectileTime (0f);
 			}
 		}
 	}

@@ -11,8 +11,6 @@ public class TowerConstructorWindow : EditorWindow {
 	List<TowerData> existTowers;
 	List<ProjectileData> existProjectiles;
 
-	List<int> nextTowerIndexes;
-
 	List<string> existTowerIds;
 	List<string> projectileIds;
 
@@ -30,12 +28,6 @@ public class TowerConstructorWindow : EditorWindow {
 
 		tower = new TowerData("tower" + existTowers.Count, new List<int> (), new List<string> ());
 
-		if (tower.NextUpgradeIndexes.Count > 0) {
-			nextTowerIndexes = tower.NextUpgradeIndexes;
-		} else {
-			nextTowerIndexes = new List<int> ();
-		}
-
 		if (existTowers.Count > 0) {
 			existTowerIds = new List<string> ();
 			for (int i = 0; i < existTowers.Count; i++) {
@@ -51,6 +43,7 @@ public class TowerConstructorWindow : EditorWindow {
 				projectileIds.Add(existProjectiles[i].Id);
 			}
 		}
+
 	}
 
 
@@ -84,75 +77,28 @@ public class TowerConstructorWindow : EditorWindow {
 			tower.BuildTime = buildTime;
 		}
 
-		GUI.enabled = (existTowers.Count > 1);
-
-		GUILayout.BeginHorizontal();
-
-		EditorGUILayout.LabelField ("Next Upgrades");
-		if (GUILayout.Button("Add Upgrade")){	// TODO: check maximum upgrades = exist towers count
-			if (tower.NextUpgradeIndexes == null) {
-				tower.NextUpgradeIndexes = new List <int> ();
-			}
-			tower.NextUpgradeIndexes.Add (0);
-
-			if (tower.NextUpgrades == null) {
-				tower.NextUpgrades = new List <string> ();
-			}
-			tower.NextUpgrades.Add (existTowers [0].Id);
-
-			nextTowerIndexes.Add (0);
-		}
-		if (GUILayout.Button("Clear Upgrades")){
-			tower.NextUpgrades.Clear();
-			nextTowerIndexes.Clear ();
-		}
-
-		GUILayout.EndHorizontal();
-
-		if (tower.NextUpgrades != null && tower.NextUpgrades.Count > 0){
-			EditorGUI.indentLevel++;
-			for (int j = 0; j < tower.NextUpgrades.Count; j++)
-			{
-
-				GUILayout.BeginHorizontal();
-
-				EditorGUI.BeginChangeCheck();
-				nextTowerIndexes [j] = EditorGUILayout.Popup ("Branch " + (j + 1), nextTowerIndexes [j], existTowerIds.ToArray ());
-				if (EditorGUI.EndChangeCheck ()) {
-					tower.NextUpgradeIndexes [j] = nextTowerIndexes [j];
-					tower.NextUpgrades [j] = existTowerIds[nextTowerIndexes [j]];
-				}
-				//				EditorGUILayout.TextField ("Branch " + (j + 1), towerConstructor.Tower.NextUpgrade[j]);
-
-				if (GUILayout.Button("Remove Upgrade")){
-					tower.NextUpgrades.RemoveAt(j);
-					nextTowerIndexes.RemoveAt (j);
-				}
-
-				GUILayout.EndHorizontal();
-			}
-			EditorGUI.indentLevel--;
-		}
-		GUI.enabled = true;
-
 		GUILayout.Space(5);
 
-		GUILayout.BeginHorizontal ();
+//		GUILayout.BeginHorizontal ();
 		GUI.enabled = CheckFields ();
 		if (GUILayout.Button("Save")){
 			DataManager.Instance.SaveData (tower);
 		}
 		GUI.enabled = true;
 		if (GUILayout.Button("Load")){
-			tower = DataManager.Instance.LoadData <TowerData> ();
+			var data = DataManager.Instance.LoadData <TowerData> ();
+			if(data != null){
+				tower = data;
+				projectileIndex = tower.PrjTypeIndex;
+			}
 		}
 		if (GUILayout.Button("Reset")){
 			tower = new TowerData ("tower" + existTowers.Count);
-			nextTowerIndexes.Clear ();
 		}
-		GUILayout.EndHorizontal();
 
-//		Repaint ();
+//		GUILayout.EndHorizontal();
+
+		Repaint ();
 	}
 
 	private bool CheckFields () {

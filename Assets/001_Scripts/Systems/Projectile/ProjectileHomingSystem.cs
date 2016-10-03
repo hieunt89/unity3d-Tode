@@ -21,31 +21,31 @@ public class ProjectileHomingSystem : IReactiveSystem, ISetPool {
 			return;
 		}
 
-		Entity e;
-		var projectiles = _groupPrjHoming.GetEntities ();
-		for (int i = 0; i < projectiles.Length; i++) {
-			e = projectiles [i];
-			if(!e.hasDestination){
-				e.AddDestination (e.target.e.position.value + e.target.e.view.go.GetColliderCenterOffset());
+		Entity prj;
+		var ens = _groupPrjHoming.GetEntities ();
+		for (int i = 0; i < ens.Length; i++) {
+			prj = ens [i];
+			if(!prj.hasDestination){
+				prj.AddDestination (prj.target.e.position.value + prj.target.e.viewOffset.pivotToCenter);
 			}
-			if (e.position.value == e.destination.value) { //projectile reaches its target
+			if (prj.position.value == prj.destination.value) { //projectile reaches its target
 				
-				if(e.target.e.hasEnemy){
-					e.target.e.AddDamage (ProjectileHelper.GetDamage(
-						e.attackDamage.maxDamage,
-						e.attackDamage.minDamage,
-						e.attack.attackType,
-						e.target.e.armor.armorList
+				if(prj.target.e.hasEnemy){
+					prj.target.e.AddDamage (ProjectileHelper.RandomDamage(
+						prj.attackDamage.maxDamage,
+						prj.attackDamage.minDamage,
+						prj.attack.attackType,
+						prj.target.e.armor.armorList
 					));
 				}
 
-				e.IsReachedEnd (true);
+				prj.IsReachedEnd (true);
 				continue;
 			}
-			if(e.target.e.hasEnemy){
-				e.ReplaceDestination (e.target.e.position.value + e.target.e.view.go.GetColliderCenterOffset());
+			if(prj.target.e.hasEnemy){
+				prj.ReplaceDestination (prj.target.e.position.value + prj.target.e.viewOffset.pivotToCenter);
 			}
-			e.ReplacePosition (Vector3.MoveTowards (e.position.value, e.destination.value, e.projectileHoming.travelSpeed * Time.deltaTime));
+			prj.ReplacePosition (Vector3.MoveTowards (prj.position.value, prj.destination.value, prj.projectileHoming.travelSpeed * Time.deltaTime));
 		}
 	}
 	#endregion

@@ -7,18 +7,29 @@ public class TowerUpgradeBtn : MonoBehaviour {
 	Button _button;
 	float _goldRequire;
 
-	public void RegisterUpgradeBtn (Node<string> upgrade, float goldRequire)
+	public void RegisterUpgradeBtn (Node<string> upgrade)
 	{
-		_button = GetComponent<Button> ();
-		if (_button) {
-			_button.onClick.AddListener (() => {
-				Messenger.Broadcast<Node<string>> (Events.Input.TOWER_UPGRADE_BTN_CLICK, upgrade);
-			});
+		if (_button == null) {
+			_button = GetComponent<Button> ();
 		}
 
-		_goldRequire = goldRequire;
-		HandleGoldChange (Pools.pool.goldPlayer.value);
-		Messenger.AddListener<int> (Events.Game.GOLD_CHANGE, HandleGoldChange);
+		var data = DataManager.Instance.GetTowerData (upgrade.data);
+		if (data != null) {
+			_button.onClick.AddListener (() => {
+				var e = Pools.pool.currentSelected.e;
+				if(e != null){
+					e.AddTowerUpgrade (data.BuildTime, upgrade);
+				}
+				Messenger.Broadcast (Events.Input.ENTITY_DESELECT);
+			});
+			GetComponentInChildren<Text> ().text = "upgrade to " + data.Name + " for " + data.GoldRequired + " gold";
+
+			_goldRequire = data.GoldRequired;
+			HandleGoldChange (Pools.pool.goldPlayer.value);
+			Messenger.AddListener<int> (Events.Game.GOLD_CHANGE, HandleGoldChange);
+		} else if(GameManager.debug){
+			Debug.Log (upgrade.data + " is null");
+		}
 	}
 
 	void HandleGoldChange(int gold){
@@ -31,8 +42,6 @@ public class TowerUpgradeBtn : MonoBehaviour {
 
 	void OnDisable(){
 		Messenger.RemoveListener<int> (Events.Game.GOLD_CHANGE, HandleGoldChange);
-		if(_button){
-			_button.onClick.RemoveAllListeners ();
-		}
+		_button.onClick.RemoveAllListeners ();
 	}
 }
