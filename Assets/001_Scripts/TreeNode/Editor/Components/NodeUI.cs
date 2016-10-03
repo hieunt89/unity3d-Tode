@@ -102,12 +102,12 @@ public class NodeUI {
 					for (int i = 0; i < currentTree.nodes.Count; i++) {
 						if (currentTree.nodes[i].nodeContentRect.Contains (_e.mousePosition)){
 							if (currentTree.nodes[i] != currentTree.startConnectionNode && currentTree.nodes[i].nodeType != NodeType.RootNode && currentTree.nodes[i].parentNode == null) {
+								// add mouse over node to startconnection children node
+								currentTree.startConnectionNode.nodeData.AddChild (currentTree.nodes [i].nodeData);
+
 								// assign mouse over node ui to start connection node ui
 								currentTree.startConnectionNode.childNodes.Add(currentTree.nodes[i]);
 								currentTree.nodes[i].parentNode = currentTree.startConnectionNode;
-
-								// add mouse over node data to list of child nodedata in start connection nodedata
-								currentTree.startConnectionNode.nodeData.AddChild (currentTree.nodes [i].nodeData);
 							}
 						}
 					}

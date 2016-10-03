@@ -31,6 +31,11 @@ public class Node <T> where T : class  {
 		return this;
 	}
 
+	public void RemoveChild (Node<T> child) {
+		child.parent.children.Remove (child);
+		child.parent = null;
+	}
+
 	public Node <T> FindChildNodeByData (T data){
 		return FindChildNodeByData (this, data);
 	}
