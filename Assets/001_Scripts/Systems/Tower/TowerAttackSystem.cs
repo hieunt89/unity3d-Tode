@@ -10,7 +10,7 @@ public class TowerAttackSystem : IReactiveSystem, ISetPool {
 	public void SetPool (Pool pool)
 	{
 		_pool = pool;
-		_groupTowerReady = _pool.GetGroup (Matcher.AllOf (Matcher.Active, Matcher.Tower, Matcher.Target).NoneOf(Matcher.AttackCooldown, Matcher.Channeling));
+		_groupTowerReady = _pool.GetGroup (Matcher.AllOf (Matcher.Active, Matcher.Tower, Matcher.Target).NoneOf(Matcher.AttackCooldown, Matcher.Channeling, Matcher.Attacking));
 	}
 
 	#endregion
@@ -34,14 +34,15 @@ public class TowerAttackSystem : IReactiveSystem, ISetPool {
 			}
 
 			//attack
-			tower.AddAttackCooldown(tower.attackSpeed.value);
-			_pool.CreateProjectile (
-				tower.projectile.projectileId,
-				tower.position.value + Vector3.up,
-				tower.attack.attackType,
-				tower.attackDamage.minDamage,
-				tower.attackDamage.maxDamage,
-				tower.target.e).AddOrigin(towers [i]);
+			if (tower.hasViewAnim) {
+				tower.IsAttacking (true);
+				tower.viewAnim.anim.SetTrigger ("fire");
+				tower.AddCoroutine (StartAttack (tower, tower.target.e));
+			} else {
+				Debug.Log ("tower " + tower.id.value + " does not have animator");
+				AttackNow (tower, tower.target.e);
+			}
+
 		}
 	}
 
@@ -56,4 +57,23 @@ public class TowerAttackSystem : IReactiveSystem, ISetPool {
 	}
 
 	#endregion
+
+	IEnumerator StartAttack(Entity tower, Entity target){
+		while(tower.isAttacking){
+			yield return null;
+		}
+
+		AttackNow (tower, target);
+	}
+
+	void AttackNow(Entity tower, Entity target){
+		tower.AddAttackCooldown(tower.attackSpeed.value);
+		_pool.CreateProjectile (
+			tower.projectile.projectileId,
+			tower.position.value + Vector3.up,
+			tower.attack.attackType,
+			tower.attackDamage.minDamage,
+			tower.attackDamage.maxDamage,
+			target).AddOrigin(tower);
+	}
 }

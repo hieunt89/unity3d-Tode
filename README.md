@@ -17,7 +17,8 @@ A prototype tower defense game made with Unity and Entitas v.0.31.1
 - [x] throwing projectile
 - [x] view center offset?
 - [x] laser projectile
-- [] add init gold and init life in mapdata, wave delay in wave data
+- [x] add init gold and init life in mapdata, wave delay in wave data
+- [] add tower upgrade view
 
 ## Additions References
 * [Mark down tutorial](http://www.markdowntutorial.com/)

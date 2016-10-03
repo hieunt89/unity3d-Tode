@@ -28,8 +28,7 @@ public class TowerStatsUpdateSystem : IReactiveSystem, IEnsureComponents {
 					.ReplaceAttackRange (towerData.AtkRange)
 					.ReplaceAttackDamage (towerData.MinDmg, towerData.MaxDmg)
 					.ReplaceAttackSpeed (towerData.AtkSpeed)
-					.IsInteractable(true)
-					.IsActive (true);
+					;
 			} else {
 				tower.IsActive (false);
 			}

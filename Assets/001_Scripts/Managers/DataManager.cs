@@ -161,9 +161,7 @@ public class DataManager {
 
 	public T LoadDataById <T> (string id) {
 		var path = "Data/" + typeof(T).ToString() + "/" + id;
-		Debug.Log (path);
 		TextAsset file = Resources.Load <TextAsset> (path) as TextAsset;
-		Debug.Log (file.text);
 		return (T)JsonUtility.FromJson (file.text, typeof(T));
 	
 	}

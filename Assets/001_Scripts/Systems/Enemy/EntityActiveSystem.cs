@@ -29,9 +29,6 @@ public class EntityActiveSystem : IReactiveSystem, ISetPool {
 			var e = eActivable [i];
 			if(eTime.tick.time >= e.markedForActive.delayTime){
 				e.RemoveMarkedForActive ().IsActive(true);
-				if(e.hasEnemy){
-					e.IsInteractable (true);
-				}
 			}
 		}
 	}
@@ -47,7 +44,4 @@ public class EntityActiveSystem : IReactiveSystem, ISetPool {
 	}
 
 	#endregion
-
-
-
 }
