@@ -11,21 +11,21 @@ public class Node <T> where T : class  {
 	public int depth;
 
 	public Node (T data){
-		data = data;
-		children = new List<Node<T>> ();
-		depth = 0;
+		this.data = data;
+		this.children = new List<Node<T>> ();
+		this.depth = 0;
 	}
 
 	public Node <T> AddChild(T data){
 		Node<T> n = new Node<T> (data);
-		children.Add (n);
+		this.children.Add (n);
 		n.parent = this;
 		UpdateDepth (this);
 		return this;
 	}
 		
 	public Node <T> AddChild(Node<T> child){
-		children.Add (child);
+		this.children.Add (child);
 		child.parent = this;
 		UpdateDepth (this);
 		return this;
