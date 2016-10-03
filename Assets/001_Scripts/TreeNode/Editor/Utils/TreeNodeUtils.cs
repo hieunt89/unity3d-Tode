@@ -124,15 +124,26 @@ public static class TreeNodeUtils {
 			if(_currentTree.nodes.Count >= _nodeId) {
 				NodeUI selectecNode = _currentTree.nodes[_nodeId];
 				if(selectecNode != null) {
-//					var deleteNodeData = _currentTree.treeData.Root.FindChildNodeByData (_currentTree.nodes [_nodeId].nodeData.data);	// it does not work with duplicate data
+					// remove this node (parent) from its children node
+					for (int i = 0; i < _currentTree.nodes[_nodeId].nodeData.children.Count; i++) {
+						_currentTree.nodes[_nodeId].nodeData.children[i].parent = null;
+					}
+					// remove this node from its parent node
+					_currentTree.nodes[_nodeId].nodeData.parent.children.Remove (_currentTree.nodes[_nodeId].nodeData);
 
-					//TODO: remove connection
+					// remove its parent node data
+					_currentTree.nodes[_nodeId].nodeData.parent = null;
 
-					// TODO: delete node data ?
+					// remove this node data ?
 					_currentTree.nodes[_nodeId].nodeData = null;
-					_currentTree.nodes.RemoveAt (_nodeId);
 
-					// TODO: save data after remove
+					// remove node ui parent from child node ui
+					for (int i = 0; i < _currentTree.nodes[_nodeId].childNodes.Count; i++) {
+						_currentTree.nodes[_nodeId].childNodes[i].parentNode = null;
+					}
+
+					// remove this node ui from list 
+					_currentTree.nodes.RemoveAt (_nodeId);
 				}
 			}
 		}

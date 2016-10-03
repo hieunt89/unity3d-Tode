@@ -103,6 +103,7 @@ public class NodeUI {
 						if (currentTree.nodes[i].nodeContentRect.Contains (_e.mousePosition)){
 							if (currentTree.nodes[i] != currentTree.startConnectionNode && currentTree.nodes[i].nodeType != NodeType.RootNode && currentTree.nodes[i].parentNode == null) {
 								// assign mouse over node ui to start connection node ui
+								currentTree.startConnectionNode.childNodes.Add(currentTree.nodes[i]);
 								currentTree.nodes[i].parentNode = currentTree.startConnectionNode;
 
 								// add mouse over node data to list of child nodedata in start connection nodedata
