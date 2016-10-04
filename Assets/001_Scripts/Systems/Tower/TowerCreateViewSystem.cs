@@ -53,14 +53,15 @@ public class TowerCreateViewSystem : IReactiveSystem {
 		}
 		GameObject go = Lean.LeanPool.Spawn ( r.asset as GameObject );
 
-		EntityLink.Instance.AddLink (go, e);
-
 		if (!e.hasView) {
 			e.AddView (go);
 		} else {
+			EntityLink.Instance.RemoveLink (e.view.go);
 			Lean.LeanPool.Despawn (e.view.go);
 			e.ReplaceView (go);
 		}
+
+		EntityLink.Instance.AddLink (go, e);
 		e.IsActive (true).IsInteractable (true);
 
 		go.name = e.id.value;

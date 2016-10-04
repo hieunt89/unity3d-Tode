@@ -46,7 +46,7 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 			if (prj.position.value.y <= 0f) { //projectile reaches ground
 
 				if(prj.target.e.hasEnemy){
-					prj.target.e.AddDamage (ProjectileHelper.RandomDamage(
+					prj.target.e.AddDamage (CombatUtility.RandomDamage(
 						prj.attackDamage.maxDamage,
 						prj.attackDamage.minDamage,
 						prj.attack.attackType,
