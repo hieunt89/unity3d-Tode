@@ -1,44 +1,15 @@
 fileFormatVersion: 2
-guid: 4f0c67d0da011aa429aa5f140b30860f
-timeCreated: 1475459106
+guid: 684d9df9a12086445bc8c49dab07c9b7
+timeCreated: 1475545748
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: archer
-    100002: demo
-    100004: //RootNode
-    100006: barrack
-    100008: bombard
-    100010: wizard
-    100012: mage
-    400000: archer
-    400002: demo
-    400004: //RootNode
-    400006: barrack
-    400008: bombard
-    400010: wizard
-    400012: mage
-    2300000: archer
-    2300002: demo
-    2300004: barrack
-    2300006: bombard
-    2300008: wizard
-    2300010: mage
-    3300000: archer
-    3300002: demo
-    3300004: barrack
-    3300006: bombard
-    3300008: wizard
-    3300010: mage
-    4300000: archer
-    4300002: demo
-    4300004: bombard
-    4300006: barrack
-    4300008: wizard
-    4300010: mage
-    7400000: Default Take
-    9500000: //RootNode
+    100000: //RootNode
+    400000: //RootNode
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: bombard
   materials:
     importMaterials: 0
     materialName: 0
@@ -63,7 +34,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 100
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1
@@ -97,7 +68,7 @@ ModelImporter:
     rootMotionBoneName: 
     hasTranslationDoF: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 0
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
