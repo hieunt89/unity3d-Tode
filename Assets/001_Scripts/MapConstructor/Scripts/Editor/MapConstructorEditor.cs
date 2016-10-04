@@ -31,7 +31,7 @@ public class MapConstructorEditor : Editor {
 		mc = new SerializedObject(mapConstructor);
 
 		if (mapConstructor.Map == null)
-			mapConstructor.Map = new MapData("", new List<PathData>(), new List<TowerPointData>(), new List<WaveData>());
+			mapConstructor.Map = new MapData("", 0, 0, new List<PathData>(), new List<TowerPointData>(), new List<WaveData>());
 		CreateToggles ();
 
 		LoadExistData ();
