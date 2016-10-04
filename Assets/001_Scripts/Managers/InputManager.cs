@@ -28,7 +28,7 @@ public class InputManager : MonoBehaviour {
 			if(debug){
 				Debug.Log ("hit " + hitInfo.collider.gameObject.name);
 			}
-			e = hitInfo.collider.gameObject.GetComponent<EntityLink>().Link;
+			e = EntityLink.Instance.GetEntity (hitInfo.collider.gameObject);
 			if(e != null && e.isInteractable && e != Pools.pool.currentSelected.e){
 				if (debug) {
 					Debug.Log ("hit entity " + e.id.value);

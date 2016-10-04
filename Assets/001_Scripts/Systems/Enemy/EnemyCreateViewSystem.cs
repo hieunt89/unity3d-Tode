@@ -53,18 +53,7 @@ public class EnemyCreateViewSystem : IReactiveSystem, IEnsureComponents {
 
 		GameObject go = Lean.LeanPool.Spawn (r.asset as GameObject);
 
-		var link = go.GetComponent<EntityLink> ();
-		if(link == null){
-			link = go.AddComponent<EntityLink> ();
-		}
-		link.RegisterLink (e);
-
-		var anim = go.GetComponent<Animator> ();
-		if(anim != null){
-			e.ReplaceViewAnim (anim);
-		}else if (e.hasViewAnim){
-			e.RemoveViewAnim ();
-		}
+		EntityLink.Instance.AddLink (go, e);
 
 		e.IsInteractable (true);
 

@@ -34,9 +34,9 @@ public class TowerAttackSystem : IReactiveSystem, ISetPool {
 			}
 
 			//attack
-			if (tower.hasViewAnim) {
+			if (tower.view.Anim != null) {
 				tower.IsAttacking (true);
-				tower.viewAnim.anim.SetTrigger ("fire");
+				tower.view.Anim.SetTrigger ("fire");
 				tower.AddCoroutine (StartAttack (tower, tower.target.e));
 			} else {
 				Debug.Log ("tower " + tower.id.value + " does not have animator");
