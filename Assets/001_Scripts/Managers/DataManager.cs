@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System;
 using System.Reflection;
+using System.Runtime.Serialization.Formatters.Binary;
 
 public class DataManager {
 	#region Singleton
@@ -33,22 +34,20 @@ public class DataManager {
 		LoadData <TowerData> (out towerIdToData);
 		LoadData <EnemyData> (out enemyIdToData);
 //		LoadData <MapData> (out mapIdToData);
-		LoadTowerTreeData ();
+		LoadTreeData (TreeType.Towers);
 	}
 
-	void LoadTowerTreeData(){
+	void LoadTreeData(TreeType treeType){
 		towerTrees = new List<Tree<string>> ();
+		BinaryFormatter bf = new BinaryFormatter ();
 
-		Tree<string> t1 =  new Tree<string> ("tower2");
-		t1.Root.AddChild ("tower1");
-		t1.Root.children [0].AddChild ("tower0");
+		var texts = Resources.LoadAll<TextAsset> ("Tree/" + treeType.ToString ());
+		for (int i = 0; i < texts.Length; i++) {
+			Stream s = new MemoryStream(texts[i].bytes);
+			Tree<string> tree = bf.Deserialize (s) as Tree<string>;
+			towerTrees.Add (tree);
+		}
 
-		Tree<string> t2 =  new Tree<string> ("tower0");
-		t2.Root.AddChild ("tower1");
-		t2.Root.children [0].AddChild ("tower2");
-
-		towerTrees.Add (t1);
-		towerTrees.Add (t2);
 	}
 
 	void LoadData <T> (out Dictionary<string, T> d){

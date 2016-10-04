@@ -27,7 +27,7 @@ public static class TreeNodeUtils {
 
 	public static void SaveTree (TreeUI _currentTree) {
 		BinaryFormatter bf = new BinaryFormatter ();
-		FileStream file = File.Create (Application.dataPath + TreeNodeConstants.DatabasePath + _currentTree.treeData.treeName + ".tree");
+		FileStream file = File.Create (Application.dataPath + TreeNodeConstants.DatabasePath + _currentTree.treeData.treeType.ToString() + "/" + _currentTree.treeData.treeName + ".bytes");
 		bf.Serialize (file, _currentTree.treeData);
 		file.Close ();
 		AssetDatabase.Refresh ();
@@ -36,10 +36,10 @@ public static class TreeNodeUtils {
 	public static  void LoadTree () {
 		Tree<string> treeData = null;
 		string treePath = EditorUtility.OpenFilePanel ("Load Tree", Application.dataPath + TreeNodeConstants.DatabasePath, "");
-		Debug.Log(treePath);
 		int appPathLength = Application.dataPath.Length;
+		if (string.IsNullOrEmpty(treePath)) return;
+
 		string finalPath = treePath.Substring (appPathLength - TreeNodeConstants.DataExtension.Length);
-		Debug.Log (finalPath);
 
 		BinaryFormatter bf = new BinaryFormatter ();
 		FileStream file = File.Open (finalPath, FileMode.Open);
@@ -57,7 +57,7 @@ public static class TreeNodeUtils {
 		}
 	}
 
-	public static void GenerateNodeUI (TreeUI _currentTree) {
+	public static void GenerateNodes (TreeUI _currentTree) {
 		Debug.Log ("generate node ui");
 		NodeUI rootNode = new NodeUI ("Root Node", NodeType.RootNode, _currentTree.treeData.Root, null, new List<NodeUI> ());
 
@@ -65,24 +65,23 @@ public static class TreeNodeUtils {
 			rootNode.InitNode (new Vector2 (50f, 50f));
 			rootNode.currentTree = _currentTree;
 			_currentTree.nodes.Add (rootNode);
-		}
-
-		for (int i = 0; i < rootNode.nodeData.children.Count; i++) {
-			// TODO: how to recursive :(
-
-			NodeUI newNode = new NodeUI ("Node", NodeType.Node, rootNode.nodeData.children[i], rootNode, rootNode.childNodes);
-
-			if (newNode != null) {
-				newNode.InitNode (new Vector2 ((_currentTree.nodes.Count + 1) * 100f, (i+1) * 50f));
-				newNode.currentTree = _currentTree;
-				_currentTree.nodes.Add (newNode);
-			}
-
+			GenerateNodes (_currentTree, rootNode);
 		}
 
 	}
 
-	private static void DeQuy () {
+	private static void GenerateNodes (TreeUI _currentTree, NodeUI _parentNode) {
+		for (int i = 0; i < _parentNode.nodeData.children.Count; i++) {
+			NodeUI newNode = new NodeUI ("Node", NodeType.Node, _parentNode.nodeData.children[i], _parentNode, new List<NodeUI> ());
+			if (newNode != null) {
+				_parentNode.childNodes.Add (newNode);
+
+				newNode.InitNode(new Vector2((_parentNode.nodeRect.x + _parentNode.nodeRect.width) + _parentNode.nodeRect.width / 2, _parentNode.nodeRect.y + (_parentNode.nodeRect.height * 4 * i)));
+				newNode.currentTree = _currentTree;
+				_currentTree.nodes.Add (newNode);
+				GenerateNodes (_currentTree, newNode);
+			}
+		}
 
 	}
 
@@ -124,15 +123,26 @@ public static class TreeNodeUtils {
 			if(_currentTree.nodes.Count >= _nodeId) {
 				NodeUI selectecNode = _currentTree.nodes[_nodeId];
 				if(selectecNode != null) {
-//					var deleteNodeData = _currentTree.treeData.Root.FindChildNodeByData (_currentTree.nodes [_nodeId].nodeData.data);	// it does not work with duplicate data
+					// remove this node (parent) from its children node
+					for (int i = 0; i < _currentTree.nodes[_nodeId].nodeData.children.Count; i++) {
+						_currentTree.nodes[_nodeId].nodeData.children[i].parent = null;
+					}
+					// remove this node from its parent node
+					_currentTree.nodes[_nodeId].nodeData.parent.children.Remove (_currentTree.nodes[_nodeId].nodeData);
 
-					//TODO: remove connection
+					// remove its parent node data
+					_currentTree.nodes[_nodeId].nodeData.parent = null;
 
-					// TODO: delete node data ?
+					// remove this node data ?
 					_currentTree.nodes[_nodeId].nodeData = null;
-					_currentTree.nodes.RemoveAt (_nodeId);
 
-					// TODO: save data after remove
+					// remove node ui parent from child node ui
+					for (int i = 0; i < _currentTree.nodes[_nodeId].childNodes.Count; i++) {
+						_currentTree.nodes[_nodeId].childNodes[i].parentNode = null;
+					}
+
+					// remove this node ui from list 
+					_currentTree.nodes.RemoveAt (_nodeId);
 				}
 			}
 		}
@@ -143,9 +153,12 @@ public static class TreeNodeUtils {
 			if(_currentTree.nodes.Count >= _nodeId) {
 				NodeUI selectecNode = _currentTree.nodes[_nodeId];
 				if(selectecNode != null) {
+					// remove this node data from parent node's children data list
+					_currentTree.nodes[_nodeId].parentNode.nodeData.children.Remove(_currentTree.nodes[_nodeId].nodeData);
+					// remove this node's parent data
+					_currentTree.nodes[_nodeId].nodeData.parent = null;
+
 					_currentTree.nodes[_nodeId].parentNode = null;
-					_currentTree.nodes [_nodeId].nodeData.parent = null;
-					// TODO: save data after remove
 				}
 			}
 		}

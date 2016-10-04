@@ -31,7 +31,7 @@ public class Node <T> where T : class  {
 		return this;
 	}
 
-	public void RemoveChild(Node<T> child){
+	public void RemoveChild (Node<T> child) {
 		child.parent.children.Remove (child);
 		child.parent = null;
 	}

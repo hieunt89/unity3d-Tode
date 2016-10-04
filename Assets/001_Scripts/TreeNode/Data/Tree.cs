@@ -2,7 +2,8 @@
 using System;
 using System.Collections.Generic;
 public enum TreeType {
-	Tower
+	Towers,
+	Skills
 }
 [Serializable]
 public class Tree <T> where T : class {

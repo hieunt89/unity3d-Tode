@@ -166,7 +166,6 @@ public class MapConstructorEditor : Editor {
 						Vector3 point = mapConstructor.Map.Paths[i].Points[j];
 						
 						if (point != null) {
-							// TODO: waypoint data need and id to set a label for it view
 							Handles.Label (point + new Vector3(mapConstructor.pointSize * .5f, mapConstructor.pointSize * .5f, mapConstructor.pointSize * .5f), i+"-"+j, titleAStyle);
 							if (j == 0){
 								Handles.color = Color.green;
@@ -497,12 +496,6 @@ public class MapConstructorEditor : Editor {
 				CreatePopupIndexes ();
 
 				GetPathIds ();
-//				if (pathIds == null) {
-//					pathIds = new List<string> ();
-//					for (int i = 0; i < mapConstructor.Map.Paths.Count; i++) {
-//						pathIds.Add(mapConstructor.Map.Paths[i].Id);		
-//					}
-//				}
 			}
 		}
 		if (GUILayout.Button ("Reset")) {

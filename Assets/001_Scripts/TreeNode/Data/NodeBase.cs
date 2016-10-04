@@ -11,18 +11,6 @@ public class NodeBase {
 
 	protected GUISkin nodeSkin;
 
-	[Serializable]
-	public class NodeInput {
-		public bool isOccupied = false;
-		public NodeBase inputNode;
-	}
-
-	public class NodeOutput {
-		public bool isOccupied = false;
-
-		// TODO: there is multiple outputs
-	}
-
 	public virtual void InitNode () {
 		Debug.Log ("Init Node");
 	}

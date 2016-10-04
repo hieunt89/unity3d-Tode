@@ -8,7 +8,6 @@ public enum NodeType {
 	Node
 }
 
-[Serializable]
 public class NodeUI {
 	public string nodeTitle = "Node";
 	public NodeType nodeType;
@@ -102,11 +101,12 @@ public class NodeUI {
 					for (int i = 0; i < currentTree.nodes.Count; i++) {
 						if (currentTree.nodes[i].nodeContentRect.Contains (_e.mousePosition)){
 							if (currentTree.nodes[i] != currentTree.startConnectionNode && currentTree.nodes[i].nodeType != NodeType.RootNode && currentTree.nodes[i].parentNode == null) {
-								// assign mouse over node ui to start connection node ui
-								currentTree.nodes[i].parentNode = currentTree.startConnectionNode;
-
-								// add mouse over node data to list of child nodedata in start connection nodedata
+								// add mouse over node to startconnection children node
 								currentTree.startConnectionNode.nodeData.AddChild (currentTree.nodes [i].nodeData);
+
+								// assign mouse over node ui to start connection node ui
+								currentTree.startConnectionNode.childNodes.Add(currentTree.nodes[i]);
+								currentTree.nodes[i].parentNode = currentTree.startConnectionNode;
 							}
 						}
 					}
@@ -120,6 +120,7 @@ public class NodeUI {
 
 	//TODO: need to fix this bezier
 	// start and end point base on position of node
+	// draw arrow on bezier
 	private void DrawInputConnection () {
 		if (parentNode != null) {
 			bool isRight = nodeRect.x >= parentNode.nodeRect.x + (parentNode.nodeRect.width * 0.5f);
