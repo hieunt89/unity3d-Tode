@@ -12,15 +12,17 @@ namespace Entitas {
 
         public bool hasViewOffset { get { return HasComponent(ComponentIds.ViewOffset); } }
 
-        public Entity AddViewOffset(UnityEngine.Vector3 newPivotToCenter) {
+        public Entity AddViewOffset(UnityEngine.Vector3 newPivotToCenter, float newCenterToExtend) {
             var component = CreateComponent<ViewOffset>(ComponentIds.ViewOffset);
             component.pivotToCenter = newPivotToCenter;
+            component.centerToExtend = newCenterToExtend;
             return AddComponent(ComponentIds.ViewOffset, component);
         }
 
-        public Entity ReplaceViewOffset(UnityEngine.Vector3 newPivotToCenter) {
+        public Entity ReplaceViewOffset(UnityEngine.Vector3 newPivotToCenter, float newCenterToExtend) {
             var component = CreateComponent<ViewOffset>(ComponentIds.ViewOffset);
             component.pivotToCenter = newPivotToCenter;
+            component.centerToExtend = newCenterToExtend;
             ReplaceComponent(ComponentIds.ViewOffset, component);
             return this;
         }

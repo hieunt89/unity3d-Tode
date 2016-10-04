@@ -21,4 +21,13 @@ public static class GameObjectExtension {
 			return new Vector3(0f, rend.bounds.max.y/2, 0f);
 		}
 	}
+
+	public static float CenterToExtendDistance(this GameObject go){
+		var rend = go.GetComponent<Collider> ();
+		if(rend == null){
+			return 0f;
+		}else{
+			return rend.bounds.extents.magnitude;
+		}
+	}
 }

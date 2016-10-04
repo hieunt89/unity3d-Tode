@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using Entitas;
 
 public class CombatUtility{
 	public static int RandomDamage(int maxDmg, int minDmg, AttackType atkType, List<ArmorData> enemyArmors){
@@ -25,5 +26,33 @@ public class CombatUtility{
 		float reduction = GetDamageReduction (atkType, enemyArmors);
 		damage = Mathf.CeilToInt(damage * reduction);
 		return damage;
+	}
+
+	public static List<Entity> FindTargets(Entity attacker, Entity[] targets){
+		var targetableEnemies = new List<Entity> ();
+		for (int i = 0; i < targets.Length; i++) {
+			if( targets[i].position.value.IsInRange(attacker.position.value, attacker.attackRange.value) ){
+				targetableEnemies.Add (targets [i]);
+			}
+		}
+		return targetableEnemies;
+	}
+
+	public static Entity FindTarget(Entity attacker, Entity[] targets){
+		var targetableEnemies = new List<Entity> ();
+		for (int i = 0; i < targets.Length; i++) {
+			if( targets[i].position.value.IsInRange(attacker.position.value, attacker.attackRange.value) ){
+				targetableEnemies.Add (targets [i]);
+			}
+		}
+		return ChooseTarget (targetableEnemies);
+	}
+
+	public static Entity ChooseTarget(List<Entity> targets){
+		if (targets.Count > 0) {
+			return targets[Random.Range (0, targets.Count)];
+		} else {
+			return null;
+		}
 	}
 }

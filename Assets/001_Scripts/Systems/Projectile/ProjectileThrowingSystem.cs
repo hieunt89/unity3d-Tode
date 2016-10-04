@@ -42,20 +42,11 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 				}
 			}
 			#endregion
-
-			if (prj.position.value.y <= 0f) { //projectile reaches ground
-
-				if(prj.target.e.hasEnemy){
-					prj.target.e.AddDamage (CombatUtility.RandomDamage(
-						prj.attackDamage.maxDamage,
-						prj.attackDamage.minDamage,
-						prj.attack.attackType,
-						prj.target.e.armor.armorList
-					));
-				}
-
+			if (prj.target.e.hasEnemy && Vector3.Distance(prj.position.value, prj.target.e.position.value + prj.target.e.viewOffset.pivotToCenter) < prj.target.e.viewOffset.centerToExtend) {
 				prj.IsReachedEnd (true);
-			} else {
+			}else if (prj.position.value.y <= 0f) { //projectile reaches ground
+				prj.IsReachedEnd (true);
+			}else {
 				prj.ReplaceProjectileTime (prj.projectileTime.time + Time.deltaTime);
 				if (prj.position.value == prj.destination.value) {
 					prj.ReplaceDestination (

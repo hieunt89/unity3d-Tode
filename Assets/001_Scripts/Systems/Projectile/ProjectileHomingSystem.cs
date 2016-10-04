@@ -28,22 +28,15 @@ public class ProjectileHomingSystem : IReactiveSystem, ISetPool {
 			if(!prj.hasDestination){
 				prj.AddDestination (prj.target.e.position.value + prj.target.e.viewOffset.pivotToCenter);
 			}
-			if (prj.position.value == prj.destination.value) { //projectile reaches its target
-				
-				if(prj.target.e.hasEnemy){
-					prj.target.e.AddDamage (CombatUtility.RandomDamage(
-						prj.attackDamage.maxDamage,
-						prj.attackDamage.minDamage,
-						prj.attack.attackType,
-						prj.target.e.armor.armorList
-					));
+			if (prj.target.e.hasEnemy) {
+				prj.ReplaceDestination (prj.target.e.position.value + prj.target.e.viewOffset.pivotToCenter);
+				if (Vector3.Distance (prj.position.value, prj.destination.value) < prj.target.e.viewOffset.centerToExtend) {
+					prj.IsReachedEnd (true);
+					continue;
 				}
-
+			} else if (prj.position.value == prj.destination.value) { //projectile reaches its target
 				prj.IsReachedEnd (true);
 				continue;
-			}
-			if(prj.target.e.hasEnemy){
-				prj.ReplaceDestination (prj.target.e.position.value + prj.target.e.viewOffset.pivotToCenter);
 			}
 			prj.ReplacePosition (Vector3.MoveTowards (prj.position.value, prj.destination.value, prj.projectileHoming.travelSpeed * Time.deltaTime));
 		}
