@@ -57,7 +57,7 @@ public static class TreeNodeUtils {
 		}
 	}
 
-	public static void GenerateNodeUI (TreeUI _currentTree) {
+	public static void GenerateNodes (TreeUI _currentTree) {
 		Debug.Log ("generate node ui");
 		NodeUI rootNode = new NodeUI ("Root Node", NodeType.RootNode, _currentTree.treeData.Root, null, new List<NodeUI> ());
 
@@ -65,21 +65,21 @@ public static class TreeNodeUtils {
 			rootNode.InitNode (new Vector2 (50f, 50f));
 			rootNode.currentTree = _currentTree;
 			_currentTree.nodes.Add (rootNode);
-			GenerateNode (_currentTree, rootNode);
+			GenerateNodes (_currentTree, rootNode);
 		}
 
 	}
 
-	private static void GenerateNode (TreeUI _currentTree, NodeUI _parentNode) {
+	private static void GenerateNodes (TreeUI _currentTree, NodeUI _parentNode) {
 		for (int i = 0; i < _parentNode.nodeData.children.Count; i++) {
 			NodeUI newNode = new NodeUI ("Node", NodeType.Node, _parentNode.nodeData.children[i], _parentNode, new List<NodeUI> ());
 			if (newNode != null) {
 				_parentNode.childNodes.Add (newNode);
 
-				newNode.InitNode(new Vector2((_parentNode.nodeRect.x + _parentNode.nodeRect.width) + _parentNode.nodeRect.width, _parentNode.nodeRect.y + (_parentNode.nodeRect.height * 4 * i)));
+				newNode.InitNode(new Vector2((_parentNode.nodeRect.x + _parentNode.nodeRect.width) + _parentNode.nodeRect.width / 2, _parentNode.nodeRect.y + (_parentNode.nodeRect.height * 4 * i)));
 				newNode.currentTree = _currentTree;
 				_currentTree.nodes.Add (newNode);
-				GenerateNode (_currentTree, newNode);
+				GenerateNodes (_currentTree, newNode);
 			}
 		}
 

@@ -91,54 +91,6 @@ public class TowerConstructorEditor : Editor {
 			towerConstructor.Tower.BuildTime = buildTime;
 		}
 
-		GUI.enabled = (existTowers.Count > 1);
-		GUILayout.BeginHorizontal();
-		EditorGUILayout.LabelField ("Next Upgrades");
-		if (GUILayout.Button("Add Upgrade")){	// TODO: check maximum upgrades = exist towers count
-			if (towerConstructor.Tower.NextUpgradeIndexes == null) {
-				towerConstructor.Tower.NextUpgradeIndexes = new List <int> ();
-			}
-			towerConstructor.Tower.NextUpgradeIndexes.Add (0);
-
-			if (towerConstructor.Tower.NextUpgrades == null) {
-				towerConstructor.Tower.NextUpgrades = new List <string> ();
-			}
-			towerConstructor.Tower.NextUpgrades.Add (existTowers [0].Id);
-
-			nextTowerIndexes.Add (0);
-		}
-		if (GUILayout.Button("Clear Upgrades")){
-			towerConstructor.Tower.NextUpgrades.Clear();
-			nextTowerIndexes.Clear ();
-		}
-		GUILayout.EndHorizontal();
-
-		if (towerConstructor.Tower.NextUpgrades != null && towerConstructor.Tower.NextUpgrades.Count > 0){
-			EditorGUI.indentLevel++;
-			for (int j = 0; j < towerConstructor.Tower.NextUpgrades.Count; j++)
-			{
-
-				GUILayout.BeginHorizontal();
-
-				EditorGUI.BeginChangeCheck();
-				nextTowerIndexes [j] = EditorGUILayout.Popup ("Branch " + (j + 1), nextTowerIndexes [j], existTowerIds.ToArray ());
-				if (EditorGUI.EndChangeCheck ()) {
-					towerConstructor.Tower.NextUpgradeIndexes [j] = nextTowerIndexes [j];
-					towerConstructor.Tower.NextUpgrades [j] = existTowerIds[nextTowerIndexes [j]];
-				}
-//				EditorGUILayout.TextField ("Branch " + (j + 1), towerConstructor.Tower.NextUpgrade[j]);
-
-				if (GUILayout.Button("Remove Upgrade")){
-					towerConstructor.Tower.NextUpgrades.RemoveAt(j);
-					nextTowerIndexes.RemoveAt (j);
-				}
-
-				GUILayout.EndHorizontal();
-			}
-			EditorGUI.indentLevel--;
-		}
-		GUI.enabled = true;
-
 		GUILayout.EndVertical();
 		GUILayout.Space(5);
 

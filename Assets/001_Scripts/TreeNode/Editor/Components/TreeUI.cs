@@ -1,4 +1,7 @@
 ﻿using UnityEngine;
+using System.Collections;
+
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -16,8 +19,13 @@ public class TreeUI {
 	public bool showNodeProperties = false;
 
 	public List<string> existIds;
-
+//	List<TowerData> existData;
 	public TreeUI (TreeType _treeType, string _treeName) {
+//		
+//		Type customList = typeof(List<>).MakeGenericType(tempType);
+//		IList objectList = (IList)Activator.CreateInstance(customList);
+
+
 		treeData = new Tree<string> (_treeType, _treeName, null);
 
 		if (nodes == null) {
@@ -28,6 +36,15 @@ public class TreeUI {
 		// load exist data based on tree type
 		switch (_treeType) {
 		case TreeType.Tower:
+			Type x = typeof(TowerData);
+			Type listType = typeof(List<>).MakeGenericType(x);
+			var existData = Activator.CreateInstance(listType);
+
+//			var fooList = Activator
+//				.CreateInstance(typeof(List<>)
+//					.MakeGenericType(TowerData.GetType()));
+			Debug.Log (existData);
+			
 			var data = DataManager.Instance.LoadAllData <TowerData> ();
 			if (data != null){
 				existIds = new List<string> ();
@@ -41,13 +58,14 @@ public class TreeUI {
 		}
 	}
 
+
 	public void UpdateTreeUI (Event _e, Rect _viewRect, GUISkin _viewSkin) {
 
 		ProcessEvents (_e, _viewRect);
 
 		if (treeData != null && nodes.Count == 0) {
 			// TODO: genrate node ui
-			TreeNodeUtils.GenerateNodeUI(this);
+			TreeNodeUtils.GenerateNodes(this);
 		}
 
 		if (nodes.Count > 0) {

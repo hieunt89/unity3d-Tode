@@ -1,12 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 [System.Serializable]
-public class WaveGroupData { // TODO: rename WaveGroupData
-
-	// TODO: get index of enemyid string in list of enemyid (pre-defined)
-//	List<string> existEnemies;
-//	List<MapData> existMaps;
-
+public class WaveGroupData {
 	[SerializeField] private string id;
 
 	[SerializeField] private int enemyIdIndex;

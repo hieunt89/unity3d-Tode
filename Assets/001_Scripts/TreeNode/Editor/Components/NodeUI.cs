@@ -121,6 +121,7 @@ public class NodeUI {
 
 	//TODO: need to fix this bezier
 	// start and end point base on position of node
+	// draw arrow on bezier
 	private void DrawInputConnection () {
 		if (parentNode != null) {
 			bool isRight = nodeRect.x >= parentNode.nodeRect.x + (parentNode.nodeRect.width * 0.5f);
