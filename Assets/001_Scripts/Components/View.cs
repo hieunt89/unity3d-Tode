@@ -10,4 +10,10 @@ public class View : IComponent {
 			return go.GetComponent<Animator>();	
 		}
 	}
+
+	public Bounds ColliderBound{
+		get{ 
+			return go.GetComponent<Collider> ().bounds;
+		}
+	}
 }

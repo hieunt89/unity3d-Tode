@@ -21,26 +21,23 @@ public class ProjectileReachEndSystem : IReactiveSystem, ISetPool {
 	{
 		for (int i = 0; i < entities.Count; i++) {
 			var prj = entities [i];
+
+			var damage = CombatUtility.RandomDamage (
+				prj.attackDamage.maxDamage,
+				prj.attackDamage.minDamage
+			);
+			float reduceTo = 1f;
+
 			if (prj.hasAttackRange) {
 				var enemies = _groupActiveEnemy.GetEntities ();
 				var targets = CombatUtility.FindTargets (prj, enemies);
 				for (int j = 0; j < targets.Count; j++) {
-					var damage = CombatUtility.RandomDamage (
-						prj.attackDamage.maxDamage,
-						prj.attackDamage.minDamage,
-						prj.attack.attackType,
-						targets[i].armor.armorList
-					);
-					targets [j].AddDamage (damage);
+					reduceTo = CombatUtility.GetDamageReduction (prj.attack.attackType, targets [j].armor.armorList);
+					targets [j].AddDamage (CombatUtility.GetDamageAfterReduction(damage, reduceTo));
 				}
 			} else if(prj.target.e.hasEnemy){
-				var damage = CombatUtility.RandomDamage (
-					prj.attackDamage.maxDamage,
-					prj.attackDamage.minDamage,
-					prj.attack.attackType,
-					prj.target.e.armor.armorList
-				);
-				prj.target.e.AddDamage (damage);
+				reduceTo = CombatUtility.GetDamageReduction (prj.attack.attackType, prj.target.e.armor.armorList);
+				prj.target.e.AddDamage (CombatUtility.GetDamageAfterReduction(damage, reduceTo));
 			}	
 		prj.IsMarkedForDestroy (true);
 		}

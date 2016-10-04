@@ -30,7 +30,7 @@ public class ProjectileHomingSystem : IReactiveSystem, ISetPool {
 			}
 			if (prj.target.e.hasEnemy) {
 				prj.ReplaceDestination (prj.target.e.position.value + prj.target.e.viewOffset.pivotToCenter);
-				if (Vector3.Distance (prj.position.value, prj.destination.value) < prj.target.e.viewOffset.centerToExtend) {
+				if (prj.target.e.view.ColliderBound.Contains(prj.position.value)) {
 					prj.IsReachedEnd (true);
 					continue;
 				}

@@ -3,10 +3,18 @@ using UnityEngine;
 using Entitas;
 
 public class CombatUtility{
+	public static int GetDamageAfterReduction(int damage, float reduceTo){
+		return Mathf.CeilToInt(damage * reduceTo);
+	}
+
+	public static int RandomDamage(int maxDmg, int minDmg){
+		return Random.Range (minDmg, maxDmg);
+	}
+
 	public static int RandomDamage(int maxDmg, int minDmg, AttackType atkType, List<ArmorData> enemyArmors){
 		int damage = Random.Range (minDmg, maxDmg);
-		float reduction = GetDamageReduction (atkType, enemyArmors);
-		damage = Mathf.CeilToInt(damage * reduction);
+		float reduceTo = GetDamageReduction (atkType, enemyArmors);
+		damage = Mathf.CeilToInt(damage * reduceTo);
 		return damage;
 	}
 

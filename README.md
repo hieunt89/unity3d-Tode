@@ -19,7 +19,7 @@ A prototype tower defense game made with Unity and Entitas v.0.31.1
 - [x] laser projectile
 - [x] add init gold and init life in mapdata, wave delay in wave data
 - [x] prj range (aoe)
-- [] add enemy offset base on collider, checking prj reach offset
+- [x] add enemy offset base on collider, checking prj reach offset
 - [] add tower upgrade view
 
 ## Additions References

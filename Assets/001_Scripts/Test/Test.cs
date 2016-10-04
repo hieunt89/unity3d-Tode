@@ -6,6 +6,5 @@ using System;
 public class Test : MonoBehaviour {
 
 	void Update () {
-		gameObject.CenterToExtendDistance ();
 	}
 }
