@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 [System.Serializable]
-public class EnemyData {
+public class CharacterData {
 	[SerializeField] public string id;
 
 	[SerializeField] private string name;
@@ -135,12 +135,12 @@ public class EnemyData {
 		}
 	}
 
-	public EnemyData (string id, List<ArmorData> armors) {
+	public CharacterData (string id, List<ArmorData> armors) {
 		this.id = id;
 		this.armors = armors;
 	}
 
-	public EnemyData (string id, string name, float moveSpeed, float turnSpeed, int lifeCount, int goldWorth, AttackType atkType, float atkSpeed, int minAtkDmg, int maxAtkDmg, float atkRange, List<ArmorData> armors, int hp)
+	public CharacterData (string id, string name, float moveSpeed, float turnSpeed, int lifeCount, int goldWorth, AttackType atkType, float atkSpeed, int minAtkDmg, int maxAtkDmg, float atkRange, List<ArmorData> armors, int hp)
 	{
 		this.id = id;
 		this.name = name;

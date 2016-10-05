@@ -8,7 +8,7 @@ public class EnemyConstructorEditor : Editor {
 	EnemyConstructor enemyConstructor;
 	SerializedObject ec;
 
-	List<EnemyData> existEnemies;
+	List<CharacterData> existEnemies;
 
 	List<float> armorValues;
 
@@ -16,11 +16,11 @@ public class EnemyConstructorEditor : Editor {
 		enemyConstructor = (EnemyConstructor) target as EnemyConstructor;
 		ec = new SerializedObject(enemyConstructor);
 
-		existEnemies = DataManager.Instance.LoadAllData<EnemyData> ();
+		existEnemies = DataManager.Instance.LoadAllData<CharacterData> ();
 		// check exist enemies null
 
 		if (enemyConstructor.Enemy == null) {
-			enemyConstructor.Enemy = new EnemyData ("enemy" + existEnemies.Count, new List<ArmorData> () {
+			enemyConstructor.Enemy = new CharacterData ("enemy" + existEnemies.Count, new List<ArmorData> () {
 				new ArmorData (AttackType.physical, 0f),
 				new ArmorData (AttackType.magical, 0f),
 			});
@@ -94,11 +94,11 @@ public class EnemyConstructorEditor : Editor {
 		}
 		GUI.enabled = true;
 		if (GUILayout.Button("Load")){
-			enemyConstructor.Enemy = DataManager.Instance.LoadData <EnemyData> ();
+			enemyConstructor.Enemy = DataManager.Instance.LoadData <CharacterData> ();
 			InitArmorValues ();
 		}
 		if (GUILayout.Button("Rest")){
-			enemyConstructor.Enemy =  new EnemyData ("enemy" + existEnemies.Count, new List<ArmorData>(){
+			enemyConstructor.Enemy =  new CharacterData ("enemy" + existEnemies.Count, new List<ArmorData>(){
 				new ArmorData(AttackType.physical, 0f),
 				new ArmorData(AttackType.magical, 0f),
 			});

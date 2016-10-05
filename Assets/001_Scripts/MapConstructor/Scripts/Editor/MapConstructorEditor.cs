@@ -17,7 +17,7 @@ public class MapConstructorEditor : Editor {
 	private List<bool> toggleWaves;
 
 	List<MapData> existMaps;
-	List<EnemyData> existEnemies;
+	List<CharacterData> existEnemies;
 
 	List<List<int>> enemyPopupIndexes;
 	List<List<int>> pathPopupIndexes;
@@ -608,7 +608,7 @@ public class MapConstructorEditor : Editor {
 		existMaps = DataManager.Instance.LoadAllData <MapData> ();
 		GetPathIds ();
 
-		existEnemies = DataManager.Instance.LoadAllData <EnemyData> ();
+		existEnemies = DataManager.Instance.LoadAllData <CharacterData> ();
 		GetEnemyIds ();
 	}
 

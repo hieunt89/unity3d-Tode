@@ -25,14 +25,14 @@ public class DataManager {
 
 	Dictionary<string, ProjectileData> projectileIdToData;
 	Dictionary<string, TowerData> towerIdToData;
-	Dictionary<string, EnemyData> enemyIdToData;
+	Dictionary<string, CharacterData> characterIdToData;
 	Dictionary<string, MapData> mapIdToData;
 	List<Tree<string>> towerTrees;
 
 	public DataManager(){
 		LoadData <ProjectileData>(out projectileIdToData);
 		LoadData <TowerData> (out towerIdToData);
-		LoadData <EnemyData> (out enemyIdToData);
+		LoadData <CharacterData> (out characterIdToData);
 //		LoadData <MapData> (out mapIdToData);
 		LoadTreeData (TreeType.Towers);
 	}
@@ -100,9 +100,9 @@ public class DataManager {
 		}
 	}
 
-	public EnemyData GetEnemyData(string id){
-		if (enemyIdToData.ContainsKey (id)) {
-			return enemyIdToData [id];
+	public CharacterData GetCharacterData(string id){
+		if (characterIdToData.ContainsKey (id)) {
+			return characterIdToData [id];
 		} else {
 			return null;
 		}

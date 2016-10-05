@@ -2,7 +2,6 @@
 using UnityEditor;
 using System;
 
-[Serializable]
 public class TreeNodeWorkView : ViewBase {
 	private Vector2 mousePosition;
 	private int selectedNodeId = 0;

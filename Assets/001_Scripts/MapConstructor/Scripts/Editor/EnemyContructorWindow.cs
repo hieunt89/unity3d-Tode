@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System;
 
 public class EnemyContructorWindow : EditorWindow {
-	EnemyData enemy;
-	List<EnemyData> existEnemies;
+	CharacterData enemy;
+	List<CharacterData> existEnemies;
 	List<float> armorValues;
 
 	[MenuItem("Window/Enemy Constructor &E")]
@@ -16,10 +16,10 @@ public class EnemyContructorWindow : EditorWindow {
 
 	void OnEnable () {
 
-		existEnemies = DataManager.Instance.LoadAllData<EnemyData> ();
+		existEnemies = DataManager.Instance.LoadAllData<CharacterData> ();
 		// check exist enemies null
 
-		enemy = new EnemyData ("enemy" + existEnemies.Count, new List<ArmorData> () {
+		enemy = new CharacterData ("enemy" + existEnemies.Count, new List<ArmorData> () {
 			new ArmorData (AttackType.physical, 0f),
 			new ArmorData (AttackType.magical, 0f),
 		});
@@ -86,13 +86,13 @@ public class EnemyContructorWindow : EditorWindow {
 		}
 		GUI.enabled = true;
 		if (GUILayout.Button("Load")){
-			var data = DataManager.Instance.LoadData <EnemyData> ();
+			var data = DataManager.Instance.LoadData <CharacterData> ();
 			if(data != null){
 				enemy = data;
 			}
 		}
 		if (GUILayout.Button("Rest")){
-			enemy =  new EnemyData ("enemy" + existEnemies.Count, new List<ArmorData>(){
+			enemy =  new CharacterData ("enemy" + existEnemies.Count, new List<ArmorData>(){
 				new ArmorData(AttackType.physical, 0f),
 				new ArmorData(AttackType.magical, 0f),
 			});
