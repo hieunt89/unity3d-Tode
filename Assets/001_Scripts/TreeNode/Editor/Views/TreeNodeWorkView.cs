@@ -2,10 +2,10 @@
 using UnityEditor;
 using System;
 
-[Serializable]
 public class TreeNodeWorkView : ViewBase {
 	private Vector2 mousePosition;
 	private int selectedNodeId = 0;
+	private Vector2 scrollPosition;
 
 	public TreeNodeWorkView () : base () {
 	}
@@ -21,10 +21,12 @@ public class TreeNodeWorkView : ViewBase {
 		TreeNodeUtils.DrawGrid (viewRect, 20f, 0.1f, Color.white);
 
 		GUILayout.BeginArea (viewRect);
-
+		scrollPosition =  GUI.BeginScrollView(viewRect, scrollPosition, new Rect(0, 0, 1000, 1000));
 		if (_currentTree != null) {
 			_currentTree.UpdateTreeUI (_e, viewRect, viewSkin);
 		}
+		GUI.EndScrollView ();
+
 		GUILayout.EndArea ();
 
 		ProcessEvent (_e);

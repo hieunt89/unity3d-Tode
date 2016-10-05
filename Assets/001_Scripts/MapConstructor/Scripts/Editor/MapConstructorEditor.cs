@@ -31,7 +31,7 @@ public class MapConstructorEditor : Editor {
 		mc = new SerializedObject(mapConstructor);
 
 		if (mapConstructor.Map == null)
-			mapConstructor.Map = new MapData("", new List<PathData>(), new List<TowerPointData>(), new List<WaveData>());
+			mapConstructor.Map = new MapData("", 0, 0, new List<PathData>(), new List<TowerPointData>(), new List<WaveData>());
 		CreateToggles ();
 
 		LoadExistData ();
@@ -629,7 +629,8 @@ public class MapConstructorEditor : Editor {
 			}
 		}
 	}
-	void CreateToggles () {
+
+	private void CreateToggles () {
 		togglePaths = new List <bool> ();
 		toggleWaves = new List <bool> ();
 
@@ -648,6 +649,7 @@ public class MapConstructorEditor : Editor {
 			}
 		}
 	}
+
 	private void CreatePopupIndexes () {
 		enemyPopupIndexes = new List<List<int>> ();
 		pathPopupIndexes = new List<List<int>> ();

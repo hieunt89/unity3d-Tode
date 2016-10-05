@@ -11,6 +11,7 @@ public class TreeNodeEditorWindow : EditorWindow {
 	public TreeUI currentTree = null;
 
 	private float viewPercentage = .75f;
+//	private Vector2 scrollPosition;
 
 	public static void InitTowerNodeEditorWindow () {
 		currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow <TreeNodeEditorWindow> ();
@@ -25,14 +26,26 @@ public class TreeNodeEditorWindow : EditorWindow {
 		}
 
 		Event e = Event.current;
+
 		ProcessEvent (e);
+
+//		scrollPosition =  GUI.BeginScrollView(new Rect(0, 0, position.width, position.height), scrollPosition, new Rect(0, 0, 1000, 1000));
+
+		BeginWindows ();
 		workView.UpdateView (position, new Rect (0f, 0f, viewPercentage, 1f), e, currentTree);
 		propertiesView.UpdateView (new Rect (position.width, position.y, position.width, position.height), 
 			new Rect (viewPercentage, 0f, 1f - viewPercentage, 1f), e, currentTree);
 
+		EndWindows ();
+//		GUI.EndScrollView ();
+
 		Repaint ();
 	}
 
+//	void DoWindow (int windowId) {
+//		GUILayout.Button("Hi");
+//		GUI.DragWindow ();
+//	}
 	private static void CreateViews () {
 		if (currentWindow != null) {
 //			Type typeParameterType = typeof(T);

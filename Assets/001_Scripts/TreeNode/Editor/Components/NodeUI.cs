@@ -3,11 +3,6 @@ using UnityEditor;
 using System;
 using System.Collections.Generic;
 
-public enum NodeType {
-	RootNode,
-	Node
-}
-
 public class NodeUI {
 	public string nodeTitle = "Node";
 	public NodeType nodeType;
@@ -32,45 +27,52 @@ public class NodeUI {
 	}
 
 	public void InitNode (Vector2 position) {
-		nodeRect = new Rect (position.x, position.y, 100f, 20f);
+		nodeRect = new Rect (position.x, position.y, 100f, 40f);
 	}
 
 	public void UpdateNode (Event _e, Rect _viewRect) {
 		ProcessEvent (_e, _viewRect);
 	}
 
-	public void UpdateNodeUI (Event _e, Rect _viewRect, GUISkin _viewSkin) {
+	public void UpdateNodeUI (int nodeIndex, Event _e, Rect _viewRect, GUISkin _viewSkin) {
 		ProcessEvent (_e, _viewRect);
 		if (nodeData == null) return;
-		
-		if (!isSelected) {
-			GUI.Box (nodeRect, nodeTitle, _viewSkin.GetStyle ("NodeDefault"));
-		} else {
-			GUI.Box (nodeRect, nodeTitle, _viewSkin.GetStyle ("NodeSelected"));
-		}
+
+
+
+//		if (!isSelected) {
+//			GUI.Box (nodeRect, nodeTitle, _viewSkin.GetStyle ("NodeDefault"));
+		nodeRect = GUI.Window (nodeIndex, nodeRect, DoWindow, nodeTitle);
+//		} else {
+//			GUI.Box (nodeRect, nodeTitle, _viewSkin.GetStyle ("NodeSelected"));
+//		}
 			
-		nodeContentRect = new Rect(nodeRect.x, nodeRect.y + nodeRect.height, nodeRect.width, nodeRect.height);
-		GUI.Box (nodeContentRect, nodeData.data, _viewSkin.GetStyle ("ContentDefault"));
+//		nodeContentRect = new Rect(nodeRect.x, nodeRect.y + nodeRect.height, nodeRect.width, nodeRect.height);
+//		GUI.Box (nodeContentRect, nodeData.data, _viewSkin.GetStyle ("ContentDefault"));
 
-		GUILayout.BeginArea (nodeContentRect);
-
-		GUILayout.EndArea ();
+//		GUILayout.BeginArea (nodeContentRect);
+//		GUILayout.EndArea ();
 
 		DrawInputConnection ();
 
 //		EditorUtility.SetDirty (this);
 	}
 
+	void DoWindow (int windowId) {
+		
+		GUI.DragWindow ();
+	}
+
 	public void DrawNodeProperties (TreeUI _currentTree) {
 		EditorGUILayout.BeginVertical ();
 		EditorGUILayout.BeginHorizontal ();
 		GUILayout.Space (30);
+
 		EditorGUI.BeginChangeCheck ();
 		selectedIndex = EditorGUILayout.Popup (selectedIndex, _currentTree.existIds.ToArray());
 		if (EditorGUI.EndChangeCheck ()) {
 			nodeData.data = _currentTree.existIds [selectedIndex];
 		}
-
 
 		GUILayout.Space (30);
 		EditorGUILayout.EndHorizontal ();
@@ -78,17 +80,17 @@ public class NodeUI {
 	}
 
 	private void ProcessEvent (Event _e, Rect _viewRect) {
-		if (isSelected) {
-			if (_viewRect.Contains (_e.mousePosition)) {
-				if (_e.type == EventType.MouseDrag) {
-					nodeRect.x += _e.delta.x;
-					nodeRect.y += _e.delta.y;
-				}
-			}
-		}
+//		if (isSelected) {
+//			if (_viewRect.Contains (_e.mousePosition)) {
+//				if (_e.type == EventType.MouseDrag) {
+//					nodeRect.x += _e.delta.x;
+//					nodeRect.y += _e.delta.y;
+//				}
+//			}
+//		}
 
 		if (nodeContentRect.Contains (_e.mousePosition)) {
-			if (_e.type == EventType.MouseDrag) {
+			if (_e.type == EventType.MouseDrag && currentTree.selectedNode == null) {
 				if (currentTree.wantsConnection == false && currentTree.startConnectionNode == null) {
 					currentTree.wantsConnection = true;
 					currentTree.startConnectionNode = this;
@@ -118,9 +120,7 @@ public class NodeUI {
 		}
 	}
 
-	//TODO: need to fix this bezier
-	// start and end point base on position of node
-	// draw arrow on bezier
+	//TODO: draw better bezier
 	private void DrawInputConnection () {
 		if (parentNode != null) {
 			bool isRight = nodeRect.x >= parentNode.nodeRect.x + (parentNode.nodeRect.width * 0.5f);

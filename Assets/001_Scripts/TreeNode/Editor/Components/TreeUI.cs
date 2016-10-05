@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-
-
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -19,12 +17,9 @@ public class TreeUI {
 
 	public List<string> existIds;
 //	List<TowerData> existDatas;
+
+
 	public TreeUI (TreeType _treeType, string _treeName) {
-//		
-//		Type customList = typeof(List<>).MakeGenericType(tempType);
-//		IList objectList = (IList)Activator.CreateInstance(customList);
-
-
 		treeData = new Tree<string> (_treeType, _treeName, null);
 
 		if (nodes == null) {
@@ -35,14 +30,13 @@ public class TreeUI {
 		// load exist data based on tree type
 		switch (_treeType) {
 		case TreeType.Towers:
-			Type x = typeof(TowerData);
-			Type listType = typeof(List<>).MakeGenericType(x);
-			var existData = Activator.CreateInstance(listType);
+//			Type x = typeof(TowerData);
+//			Type listType = typeof(List<>).MakeGenericType(x);
+//			var existData = Activator.CreateInstance(listType);
 
 //			var fooList = Activator
 //				.CreateInstance(typeof(List<>)
 //					.MakeGenericType(TowerData.GetType()));
-			Debug.Log (existData);
 			
 			var data = DataManager.Instance.LoadAllData <TowerData> ();
 			if (data != null){
@@ -59,19 +53,18 @@ public class TreeUI {
 
 
 	public void UpdateTreeUI (Event _e, Rect _viewRect, GUISkin _viewSkin) {
-
 		ProcessEvents (_e, _viewRect);
-
+	
 		if (treeData != null && nodes.Count == 0) {
-			// TODO: genrate node ui
 			TreeNodeUtils.GenerateNodes(this);
 		}
 
 		if (nodes.Count > 0) {
 			for (int i = 0; i < nodes.Count; i++) {
-				nodes [i].UpdateNodeUI (_e, _viewRect, _viewSkin);
+				nodes [i].UpdateNodeUI (i, _e, _viewRect, _viewSkin);
 			}
 		}
+
 
 		if (wantsConnection) {
 			if (startConnectionNode != null) {
@@ -88,15 +81,6 @@ public class TreeUI {
 		}
 
 //		EditorUtility.SetDirty (this);
-	}
-
-	public void DrawTreeProperties () {
-		EditorGUILayout.BeginVertical ();
-		EditorGUILayout.LabelField ("Name", treeData.treeName);
-		EditorGUILayout.LabelField ("Name", nodes.Count.ToString ());
-		EditorGUILayout.EndVertical ();
-
-		// TODO : draw all nodes data :D
 	}
 
 	private void ProcessEvents (Event _e, Rect _viewRect) {

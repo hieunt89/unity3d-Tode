@@ -3,10 +3,12 @@ using System.Collections.Generic;
 
 [System.Serializable]
 public class MapData {
+	[SerializeField] public string id;
 	public int initGold;
 	public int initLife;
-
-	[SerializeField] public string id;
+	[SerializeField] private List<PathData> paths;
+	[SerializeField] private List<TowerPointData> towerPoints;
+	[SerializeField] private List<WaveData> waves;
 
 	public string Id {
 		get {
@@ -17,7 +19,23 @@ public class MapData {
 		}
 	}
 
-	[SerializeField] private List<PathData> paths;
+	public int InitGold {
+		get {
+			return this.initGold;
+		}
+		set {
+			initGold = value;
+		}
+	}
+
+	public int InitLife {
+		get {
+			return this.initLife;
+		}
+		set {
+			initLife = value;
+		}
+	}
 
 	public List<PathData> Paths {
 		get {
@@ -28,8 +46,6 @@ public class MapData {
 		}
 	}
 
-	[SerializeField] private List<TowerPointData> towerPoints;
-
 	public List<TowerPointData> TowerPoints {
 		get {
 			return towerPoints;
@@ -38,9 +54,6 @@ public class MapData {
 			towerPoints = value;
 		}
 	}
-
-
-	[SerializeField] private List<WaveData> waves;
 
 	public List<WaveData> Waves {
 		get {
@@ -51,9 +64,11 @@ public class MapData {
 		}
 	}	
 
-	public MapData (string id, List<PathData> paths, List<TowerPointData> towerPoints, List<WaveData> waves)
+	public MapData (string id, int initGold, int initLife, List<PathData> paths, List<TowerPointData> towerPoints, List<WaveData> waves)
 	{
 		this.id = id;
+		this.initGold = initGold;
+		this.initLife = initLife;
 		this.paths = paths;
 		this.towerPoints = towerPoints;
 		this.waves = waves;

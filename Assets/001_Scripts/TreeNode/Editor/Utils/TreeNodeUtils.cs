@@ -58,7 +58,6 @@ public static class TreeNodeUtils {
 	}
 
 	public static void GenerateNodes (TreeUI _currentTree) {
-		Debug.Log ("generate node ui");
 		NodeUI rootNode = new NodeUI ("Root Node", NodeType.RootNode, _currentTree.treeData.Root, null, new List<NodeUI> ());
 
 		if (rootNode != null) {
@@ -128,7 +127,8 @@ public static class TreeNodeUtils {
 						_currentTree.nodes[_nodeId].nodeData.children[i].parent = null;
 					}
 					// remove this node from its parent node
-					_currentTree.nodes[_nodeId].nodeData.parent.children.Remove (_currentTree.nodes[_nodeId].nodeData);
+					if (_currentTree.nodes[_nodeId].nodeData.parent != null)
+						_currentTree.nodes[_nodeId].nodeData.parent.children.Remove (_currentTree.nodes[_nodeId].nodeData);
 
 					// remove its parent node data
 					_currentTree.nodes[_nodeId].nodeData.parent = null;
