@@ -46,4 +46,9 @@ public static class PoolExtension {
 		}
 		return e;
 	}
+
+	public static Entity CreateSkill(this Pool pool, string skillId, Entity origin){
+		Entity e = pool.CreateEntity ();
+		return e;
+	}
 }

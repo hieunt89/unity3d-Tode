@@ -27,6 +27,7 @@ public class DataManager {
 	Dictionary<string, TowerData> towerIdToData;
 	Dictionary<string, CharacterData> characterIdToData;
 	Dictionary<string, MapData> mapIdToData;
+	Dictionary<string, Skill> skillIdToData;
 	List<Tree<string>> towerTrees;
 
 	public DataManager(){
