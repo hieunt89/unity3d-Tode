@@ -33,10 +33,10 @@ public class TreeNodeEditorWindow : EditorWindow {
 
 		BeginWindows ();
 		workView.UpdateView (position, new Rect (0f, 0f, viewPercentage, 1f), e, currentTree);
+		EndWindows ();
 		propertiesView.UpdateView (new Rect (position.width, position.y, position.width, position.height), 
 			new Rect (viewPercentage, 0f, 1f - viewPercentage, 1f), e, currentTree);
 
-		EndWindows ();
 //		GUI.EndScrollView ();
 
 		Repaint ();

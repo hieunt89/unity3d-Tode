@@ -40,28 +40,27 @@ public class NodeUI {
 
 
 
-//		if (!isSelected) {
-//			GUI.Box (nodeRect, nodeTitle, _viewSkin.GetStyle ("NodeDefault"));
-		nodeRect = GUI.Window (nodeIndex, nodeRect, DoWindow, nodeTitle);
-//		} else {
-//			GUI.Box (nodeRect, nodeTitle, _viewSkin.GetStyle ("NodeSelected"));
-//		}
+		if (!isSelected) {
+			GUI.Box (nodeRect, nodeTitle, _viewSkin.GetStyle ("NodeDefault"));
+//		nodeRect = GUI.Window (nodeIndex, nodeRect, DoWindow, nodeTitle);
+		} else {
+			GUI.Box (nodeRect, nodeTitle, _viewSkin.GetStyle ("NodeSelected"));
+		}
 			
-//		nodeContentRect = new Rect(nodeRect.x, nodeRect.y + nodeRect.height, nodeRect.width, nodeRect.height);
-//		GUI.Box (nodeContentRect, nodeData.data, _viewSkin.GetStyle ("ContentDefault"));
+		nodeContentRect = new Rect(nodeRect.x, nodeRect.y + nodeRect.height, nodeRect.width, nodeRect.height);
+		GUI.Box (nodeContentRect, nodeData.data, _viewSkin.GetStyle ("ContentDefault"));
 
 //		GUILayout.BeginArea (nodeContentRect);
 //		GUILayout.EndArea ();
 
-		DrawInputConnection ();
+		DrawNodeConnection ();
 
 //		EditorUtility.SetDirty (this);
 	}
 
-	void DoWindow (int windowId) {
-		
-		GUI.DragWindow ();
-	}
+//	void DoWindow (int windowId) {
+//		GUI.DragWindow ();
+//	}
 
 	public void DrawNodeProperties (TreeUI _currentTree) {
 		EditorGUILayout.BeginVertical ();
@@ -80,14 +79,14 @@ public class NodeUI {
 	}
 
 	private void ProcessEvent (Event _e, Rect _viewRect) {
-//		if (isSelected) {
-//			if (_viewRect.Contains (_e.mousePosition)) {
-//				if (_e.type == EventType.MouseDrag) {
-//					nodeRect.x += _e.delta.x;
-//					nodeRect.y += _e.delta.y;
-//				}
-//			}
-//		}
+		if (isSelected) {
+			if (_viewRect.Contains (_e.mousePosition)) {
+				if (_e.type == EventType.MouseDrag) {
+					nodeRect.x += _e.delta.x;
+					nodeRect.y += _e.delta.y;
+				}
+			}
+		}
 
 		if (nodeContentRect.Contains (_e.mousePosition)) {
 			if (_e.type == EventType.MouseDrag && currentTree.selectedNode == null) {
@@ -121,7 +120,7 @@ public class NodeUI {
 	}
 
 	//TODO: draw better bezier
-	private void DrawInputConnection () {
+	private void DrawNodeConnection () {
 		if (parentNode != null) {
 			bool isRight = nodeRect.x >= parentNode.nodeRect.x + (parentNode.nodeRect.width * 0.5f);
 

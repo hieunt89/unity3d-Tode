@@ -13,6 +13,7 @@ public class TreeNodeWorkView : ViewBase {
 	public override void UpdateView (Rect _editorRect, Rect _percentageRect, Event _e, TreeUI _currentTree)
 	{
 		base.UpdateView (_editorRect, _percentageRect, _e, _currentTree);
+		scrollPosition =  GUI.BeginScrollView(viewRect, scrollPosition, new Rect(0, 0, 1000, 1000));
 
 		GUI.Box (viewRect, viewTitle + " Tree", viewSkin.GetStyle("ViewBg"));
 
@@ -21,13 +22,12 @@ public class TreeNodeWorkView : ViewBase {
 		TreeNodeUtils.DrawGrid (viewRect, 20f, 0.1f, Color.white);
 
 		GUILayout.BeginArea (viewRect);
-		scrollPosition =  GUI.BeginScrollView(viewRect, scrollPosition, new Rect(0, 0, 1000, 1000));
 		if (_currentTree != null) {
 			_currentTree.UpdateTreeUI (_e, viewRect, viewSkin);
 		}
-		GUI.EndScrollView ();
 
 		GUILayout.EndArea ();
+		GUI.EndScrollView ();
 
 		ProcessEvent (_e);
 	}
