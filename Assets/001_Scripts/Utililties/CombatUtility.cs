@@ -36,20 +36,20 @@ public class CombatUtility{
 		return damage;
 	}
 
-	public static List<Entity> FindTargets(Entity attacker, Entity[] targets){
+	public static List<Entity> FindTargetsInRange(Entity attacker, Entity[] targets, float range){
 		var targetableEnemies = new List<Entity> ();
 		for (int i = 0; i < targets.Length; i++) {
-			if( targets[i].position.value.IsInRange(attacker.position.value, attacker.attackRange.value) ){
+			if( targets[i].position.value.IsInRange(attacker.position.value, range) ){
 				targetableEnemies.Add (targets [i]);
 			}
 		}
 		return targetableEnemies;
 	}
 
-	public static Entity FindTarget(Entity attacker, Entity[] targets){
+	public static Entity FindTargetInRange(Entity attacker, Entity[] targets, float range){
 		var targetableEnemies = new List<Entity> ();
 		for (int i = 0; i < targets.Length; i++) {
-			if( targets[i].position.value.IsInRange(attacker.position.value, attacker.attackRange.value) ){
+			if( targets[i].position.value.IsInRange(attacker.position.value, range) ){
 				targetableEnemies.Add (targets [i]);
 			}
 		}

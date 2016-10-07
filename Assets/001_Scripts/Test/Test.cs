@@ -2,9 +2,15 @@
 using System.Collections.Generic;
 using System;
 
-[ExecuteInEditMode]
 public class Test : MonoBehaviour {
 
-	void Update () {
+	void Start () {
+		DataManager dm = new DataManager ();
+		Skill s = DataManager.Instance.GetSkillData ("skill1");
+		CombatSkill cb = null;
+		if(s is CombatSkill){
+			cb = s as CombatSkill;
+		}
+		Debug.Log (cb.prjId);
 	}
 }

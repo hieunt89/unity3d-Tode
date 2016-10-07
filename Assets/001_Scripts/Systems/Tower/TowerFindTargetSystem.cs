@@ -30,7 +30,7 @@ public class TowerFindTargetSystem : IReactiveSystem, ISetPool {
 		var enemyEns = _groupActiveEnemy.GetEntities ();
 		Entity target;
 		for (int i = 0; i < towerEns.Length; i++) {
-			target = CombatUtility.FindTarget (towerEns[i], enemyEns);
+			target = CombatUtility.FindTargetInRange (towerEns[i], enemyEns, towerEns[i].attackRange.value);
 			if (target != null) {
 				towerEns [i].AddTarget (target);
 			}

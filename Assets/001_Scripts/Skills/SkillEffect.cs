@@ -7,11 +7,6 @@ public enum Effect{
 	HpReduce,
 	HpBuff,
 	MoveSpeedSlow,
-	MoveSpeedBuff,
-	AttackSpeedSlow,
-	AttackSpeedBuff,
-	AttackDamageReduce,
-	AttackDamageBuff,
 	ArmorReduce,
 	ArmorBuff
 }

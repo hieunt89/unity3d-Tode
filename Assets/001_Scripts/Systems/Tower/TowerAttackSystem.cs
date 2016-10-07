@@ -74,6 +74,7 @@ public class TowerAttackSystem : IReactiveSystem, ISetPool {
 			tower.attack.attackType,
 			tower.attackDamage.minDamage,
 			tower.attackDamage.maxDamage,
+			tower.aoe.value,
 			target).AddOrigin(tower);
 	}
 }
