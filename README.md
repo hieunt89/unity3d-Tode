@@ -18,7 +18,8 @@ A prototype tower defense game made with Unity and Entitas v.0.31.1
 - [x] view center offset?
 - [x] laser projectile
 - [x] add init gold and init life in mapdata, wave delay in wave data
-- [] add tower upgrade view
+- [x] prj range (aoe)
+- [x] add enemy offset base on collider, checking prj reach offset
 
 ## Additions References
 * [Mark down tutorial](http://www.markdowntutorial.com/)

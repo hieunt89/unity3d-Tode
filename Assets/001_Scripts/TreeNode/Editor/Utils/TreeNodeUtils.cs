@@ -117,52 +117,52 @@ public static class TreeNodeUtils {
 
 	}
 
-	public static void RemoveNode (int _nodeId, TreeUI _currentTree) {
-		if (_currentTree != null) {
-			if(_currentTree.nodes.Count >= _nodeId) {
-				NodeUI selectecNode = _currentTree.nodes[_nodeId];
-				if(selectecNode != null) {
-					// remove this node (parent) from its children node
-					for (int i = 0; i < _currentTree.nodes[_nodeId].nodeData.children.Count; i++) {
-						_currentTree.nodes[_nodeId].nodeData.children[i].parent = null;
-					}
-					// remove this node from its parent node
-					if (_currentTree.nodes[_nodeId].nodeData.parent != null)
-						_currentTree.nodes[_nodeId].nodeData.parent.children.Remove (_currentTree.nodes[_nodeId].nodeData);
+//	public static void RemoveNode (int _nodeId, TreeUI _currentTree) {
+//		if (_currentTree != null) {
+//			if(_currentTree.nodes.Count >= _nodeId) {
+//				NodeUI selectecNode = _currentTree.nodes[_nodeId];
+//				if(selectecNode != null) {
+//					// remove this node (parent) from its children node
+//					for (int i = 0; i < selectecNode.nodeData.children.Count; i++) {
+//						selectecNode.nodeData.children[i].parent = null;
+//					}
+//					// remove this node from its parent node
+//					if (selectecNode.nodeData.parent != null)
+//						selectecNode.nodeData.parent.children.Remove (selectecNode.nodeData);
+//
+//					// remove its parent node data
+//					selectecNode.nodeData.parent = null;
+//
+//					// remove this node data ?
+//					selectecNode.nodeData = null;
+//
+//					// remove node ui parent from child node ui
+//					for (int i = 0; i < selectecNode.childNodes.Count; i++) {
+//						selectecNode.childNodes[i].parentNode = null;
+//					}
+//
+//					// remove this node ui from list 
+//					_currentTree.nodes.RemoveAt (_nodeId);
+//				}
+//			}
+//		}
+//	}
 
-					// remove its parent node data
-					_currentTree.nodes[_nodeId].nodeData.parent = null;
-
-					// remove this node data ?
-					_currentTree.nodes[_nodeId].nodeData = null;
-
-					// remove node ui parent from child node ui
-					for (int i = 0; i < _currentTree.nodes[_nodeId].childNodes.Count; i++) {
-						_currentTree.nodes[_nodeId].childNodes[i].parentNode = null;
-					}
-
-					// remove this node ui from list 
-					_currentTree.nodes.RemoveAt (_nodeId);
-				}
-			}
-		}
-	}
-
-	public static void RemoveParentNode (int _nodeId, TreeUI _currentTree) {
-		if (_currentTree != null) {
-			if(_currentTree.nodes.Count >= _nodeId) {
-				NodeUI selectecNode = _currentTree.nodes[_nodeId];
-				if(selectecNode != null) {
-					// remove this node data from parent node's children data list
-					_currentTree.nodes[_nodeId].parentNode.nodeData.children.Remove(_currentTree.nodes[_nodeId].nodeData);
-					// remove this node's parent data
-					_currentTree.nodes[_nodeId].nodeData.parent = null;
-
-					_currentTree.nodes[_nodeId].parentNode = null;
-				}
-			}
-		}
-	}
+//	public static void RemoveParentNode (int _nodeId, TreeUI _currentTree) {
+//		if (_currentTree != null) {
+//			if(_currentTree.nodes.Count >= _nodeId) {
+//				NodeUI selectecNode = _currentTree.nodes[_nodeId];
+//				if(selectecNode != null) {
+//					// remove this node data from parent node's children data list
+//					_currentTree.nodes[_nodeId].parentNode.nodeData.children.Remove(_currentTree.nodes[_nodeId].nodeData);
+//					// remove this node's parent data
+//					_currentTree.nodes[_nodeId].nodeData.parent = null;
+//
+//					_currentTree.nodes[_nodeId].parentNode = null;
+//				}
+//			}
+//		}
+//	}
 
 	public static void DrawGrid (Rect _viewRect, float _gridSpacing, float _gridOpacity, Color _gridColor) {
 		int widthDivs = Mathf.CeilToInt (_viewRect.width - _gridSpacing);

@@ -1,1 +1,1 @@
-{"id":"projectile0","name":"arrow","type":1,"travelSpeed":2.0,"turnSpeed":5.0,"duration":1.0,"range":0.0}
+{"id":"projectile0","name":"arrow","type":1,"range":1.0,"travelSpeed":2.0,"duration":1.0,"maxDmgBuildTime":0.0,"tickInterval":0.0}

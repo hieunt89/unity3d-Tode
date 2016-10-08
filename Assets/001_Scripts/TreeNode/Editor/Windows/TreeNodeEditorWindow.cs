@@ -11,7 +11,7 @@ public class TreeNodeEditorWindow : EditorWindow {
 	public TreeUI currentTree = null;
 
 	private float viewPercentage = .75f;
-//	private Vector2 scrollPosition;
+	private Vector2 scrollPosition;
 
 	public static void InitTowerNodeEditorWindow () {
 		currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow <TreeNodeEditorWindow> ();
@@ -29,15 +29,15 @@ public class TreeNodeEditorWindow : EditorWindow {
 
 		ProcessEvent (e);
 
-//		scrollPosition =  GUI.BeginScrollView(new Rect(0, 0, position.width, position.height), scrollPosition, new Rect(0, 0, 1000, 1000));
-
+		scrollPosition =  GUI.BeginScrollView(new Rect(0f, 0f, position.width, position.height), scrollPosition, new Rect(0f, 0f, 1000, 1000)); // <-- need to customize this viewrect (expandable by nodes + offset)
 		BeginWindows ();
 		workView.UpdateView (position, new Rect (0f, 0f, viewPercentage, 1f), e, currentTree);
 		EndWindows ();
+		GUI.EndScrollView ();
+
 		propertiesView.UpdateView (new Rect (position.width, position.y, position.width, position.height), 
 			new Rect (viewPercentage, 0f, 1f - viewPercentage, 1f), e, currentTree);
 
-//		GUI.EndScrollView ();
 
 		Repaint ();
 	}
@@ -48,13 +48,8 @@ public class TreeNodeEditorWindow : EditorWindow {
 //	}
 	private static void CreateViews () {
 		if (currentWindow != null) {
-//			Type typeParameterType = typeof(T);
-//			Debug.Log (typeParameterType);
-
 			currentWindow.workView = new TreeNodeWorkView ();
 			currentWindow.propertiesView = new TreeNodePropertiesView ();
-
-			TreeNodePopupWindow.InitTreeNodePopup ();
 		} else {
 			currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow <TreeNodeEditorWindow> ();
 		}

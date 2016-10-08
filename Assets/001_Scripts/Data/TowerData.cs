@@ -13,11 +13,8 @@ public class TowerData {
 	[SerializeField] private int maxDmg;
 	[SerializeField] private float atkSpeed;
 	[SerializeField] private int goldRequired;
-
-	[SerializeField] private List<int> nextUpgradeIndexes;
-	[SerializeField] private List<string> nextUpgrades;
-
 	[SerializeField] private float buildTime;
+	[SerializeField] private float aoe;
 
 	public string Id {
 		get {
@@ -109,24 +106,6 @@ public class TowerData {
 		}
 	}
 
-	public List<int> NextUpgradeIndexes {
-		get {
-			return this.nextUpgradeIndexes;
-		}
-		set {
-			nextUpgradeIndexes = value;
-		}
-	}
-
-	public List<string> NextUpgrades {
-		get {
-			return this.nextUpgrades;
-		}
-		set {
-			nextUpgrades = value;
-		}
-	}
-
 	public float BuildTime {
 		get {
 			return this.buildTime;
@@ -136,17 +115,24 @@ public class TowerData {
 		}
 	}
 
+	public float Aoe {
+		get {
+			return aoe;
+		}
+		set{ 
+			aoe = value;
+		}
+	}
+
 	public TowerData (string id) {
 		this.id = id;
 	}
 
 	public TowerData (string id, List<int> nextUpgradeIndexes, List<string> nextUpgrades){
 		this.id = id;
-		this.nextUpgradeIndexes = nextUpgradeIndexes;
-		this.nextUpgrades = nextUpgrades;
 	}
 	
-	public TowerData (string id, string name, string prjType, AttackType atkType, float atkRange, int minDmg, int maxDmg, float atkSpeed, int goldRequired, List<string> nextUpgrades, float buildTime)
+	public TowerData (string id, string name, string prjType, AttackType atkType, float atkRange, int minDmg, int maxDmg, float atkSpeed, int goldRequired, float buildTime)
 	{
 		this.id = id;
 		this.name = name;
@@ -157,7 +143,6 @@ public class TowerData {
 		this.maxDmg = maxDmg;
 		this.atkSpeed = atkSpeed;
 		this.goldRequired = goldRequired;
-		this.nextUpgrades = nextUpgrades;
 		this.buildTime = buildTime;
 	}
 }

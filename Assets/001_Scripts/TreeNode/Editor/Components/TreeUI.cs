@@ -87,23 +87,23 @@ public class TreeUI {
 		if (_viewRect.Contains (_e.mousePosition)) {
 			if (_e.button == 0) {
 				if (_e.type == EventType.MouseDown) {
-					DeselectAllNodes ();
-
+//					DeselectAllNodes ();
+//
 					showNodeProperties = false;
-					bool setNode = false;
-					selectedNode = null;
-
-					for (int i = 0; i < nodes.Count; i++) {
-						if (nodes[i].nodeRect.Contains (_e.mousePosition)) {
-							nodes[i].isSelected = true;
-							selectedNode = nodes[i];
-							setNode = true;
-						}
-					}
-
-					if (!setNode) {
-						DeselectAllNodes ();
-					}
+//					bool setNode = false;
+//					selectedNode = null;
+//
+//					for (int i = 0; i < nodes.Count; i++) {
+//						if (nodes[i].nodeRect.Contains (_e.mousePosition)) {
+//							nodes[i].isSelected = true;
+//							selectedNode = nodes[i];
+//							setNode = true;
+//						}
+//					}
+//
+//					if (!setNode) {
+//						DeselectAllNodes ();
+//					}
 
 					if (wantsConnection) {
 						wantsConnection = false;
@@ -130,9 +130,9 @@ public class TreeUI {
 		Handles.EndGUI ();
 	}
 
-	private void DeselectAllNodes () {
-		for (int i = 0; i < nodes.Count; i++) {
-			nodes [i].isSelected = false;
-		}
-	}
+//	private void DeselectAllNodes () {
+//		for (int i = 0; i < nodes.Count; i++) {
+//			nodes [i].isSelected = false;
+//		}
+//	}
 }

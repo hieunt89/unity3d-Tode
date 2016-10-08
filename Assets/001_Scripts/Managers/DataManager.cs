@@ -6,6 +6,7 @@ using System.IO;
 using System;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Linq;
 
 public class DataManager {
 	#region Singleton
@@ -25,16 +26,49 @@ public class DataManager {
 
 	Dictionary<string, ProjectileData> projectileIdToData;
 	Dictionary<string, TowerData> towerIdToData;
-	Dictionary<string, EnemyData> enemyIdToData;
+	Dictionary<string, CharacterData> characterIdToData;
 	Dictionary<string, MapData> mapIdToData;
+	Dictionary<string, Skill> skillIdToData;
 	List<Tree<string>> towerTrees;
 
 	public DataManager(){
 		LoadData <ProjectileData>(out projectileIdToData);
 		LoadData <TowerData> (out towerIdToData);
-		LoadData <EnemyData> (out enemyIdToData);
-//		LoadData <MapData> (out mapIdToData);
+		LoadData <CharacterData> (out characterIdToData);
+		LoadData <MapData> (out mapIdToData);
 		LoadTreeData (TreeType.Towers);
+		LoadSkillData ();
+	}
+
+	void LoadSkillData(){
+		CombatSkill s = new CombatSkill ();
+		s.id = "skill1";
+		s.name = "fireball";
+		s.castRange = 6f;
+		s.cooldown = 3f;
+		s.aoe = 2f;
+		s.prjId = "projectile0";
+
+		List<SkillEffect> efl = new List<SkillEffect> ();
+		SkillEffect ef = new SkillEffect ();
+		ef.duration = 0f;
+		ef.effect = Effect.HpReduce;
+		ef.value = 100;
+
+		efl.Add (ef);
+
+		s.effectList = efl;
+
+		skillIdToData = new Dictionary<string, Skill> ();
+		skillIdToData.Add (s.id, s);
+	}
+
+	public Skill GetSkillData(string id){
+		if (skillIdToData.ContainsKey (id)) {
+			return skillIdToData [id];
+		} else {
+			return null;
+		}
 	}
 
 	void LoadTreeData(TreeType treeType){
@@ -47,7 +81,6 @@ public class DataManager {
 			Tree<string> tree = bf.Deserialize (s) as Tree<string>;
 			towerTrees.Add (tree);
 		}
-
 	}
 
 	void LoadData <T> (out Dictionary<string, T> d){
@@ -80,6 +113,14 @@ public class DataManager {
 		}
 	}
 
+	public MapData GetMapData(int index){
+		if (mapIdToData.Count > index) {
+			return mapIdToData.Values.ElementAt(index);
+		} else {
+			return null;
+		}
+	}
+
 	public MapData LoadMapData(string id){
 		return LoadDataById<MapData> (id);
 	}
@@ -100,9 +141,9 @@ public class DataManager {
 		}
 	}
 
-	public EnemyData GetEnemyData(string id){
-		if (enemyIdToData.ContainsKey (id)) {
-			return enemyIdToData [id];
+	public CharacterData GetCharacterData(string id){
+		if (characterIdToData.ContainsKey (id)) {
+			return characterIdToData [id];
 		} else {
 			return null;
 		}

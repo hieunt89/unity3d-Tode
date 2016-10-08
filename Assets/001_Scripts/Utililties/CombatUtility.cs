@@ -1,11 +1,20 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using Entitas;
 
 public class CombatUtility{
+	public static int GetDamageAfterReduction(int damage, float reduceTo){
+		return Mathf.CeilToInt(damage * reduceTo);
+	}
+
+	public static int RandomDamage(int maxDmg, int minDmg){
+		return Random.Range (minDmg, maxDmg);
+	}
+
 	public static int RandomDamage(int maxDmg, int minDmg, AttackType atkType, List<ArmorData> enemyArmors){
 		int damage = Random.Range (minDmg, maxDmg);
-		float reduction = GetDamageReduction (atkType, enemyArmors);
-		damage = Mathf.CeilToInt(damage * reduction);
+		float reduceTo = GetDamageReduction (atkType, enemyArmors);
+		damage = Mathf.CeilToInt(damage * reduceTo);
 		return damage;
 	}
 
@@ -25,5 +34,33 @@ public class CombatUtility{
 		float reduction = GetDamageReduction (atkType, enemyArmors);
 		damage = Mathf.CeilToInt(damage * reduction);
 		return damage;
+	}
+
+	public static List<Entity> FindTargetsInRange(Entity attacker, Entity[] targets, float range){
+		var targetableEnemies = new List<Entity> ();
+		for (int i = 0; i < targets.Length; i++) {
+			if( targets[i].position.value.IsInRange(attacker.position.value, range) ){
+				targetableEnemies.Add (targets [i]);
+			}
+		}
+		return targetableEnemies;
+	}
+
+	public static Entity FindTargetInRange(Entity attacker, Entity[] targets, float range){
+		var targetableEnemies = new List<Entity> ();
+		for (int i = 0; i < targets.Length; i++) {
+			if( targets[i].position.value.IsInRange(attacker.position.value, range) ){
+				targetableEnemies.Add (targets [i]);
+			}
+		}
+		return ChooseTarget (targetableEnemies);
+	}
+
+	public static Entity ChooseTarget(List<Entity> targets){
+		if (targets.Count > 0) {
+			return targets[Random.Range (0, targets.Count)];
+		} else {
+			return null;
+		}
 	}
 }

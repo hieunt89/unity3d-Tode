@@ -37,13 +37,13 @@ public class ProjectileLaserSystem : IReactiveSystem, ISetPool {
 					prj.position.value.ToEndFragment (prj.target.e.position.value + prj.target.e.viewOffset.pivotToCenter, Mathf.Clamp01 (prj.projectileLaser.travelSpeed * Time.deltaTime + scaleFromPos))
 				);
 			} else {
-				prj.IsReachedEnd (true).origin.e.IsChanneling (false);
+				prj.IsMarkedForDestroy (true).origin.e.IsChanneling (false);
 				continue;
 			}
 
 			if (prj.hasProjectileTime) {
 				if (prj.projectileTime.time >= prj.projectileLaser.duration) {
-					prj.IsReachedEnd (true).origin.e.IsChanneling (false);
+					prj.IsMarkedForDestroy (true).origin.e.IsChanneling (false);
 					continue;
 				} else {
 					float dmgScale = Mathf.Clamp01(prj.projectileTime.time / prj.projectileLaser.maxDmgBuildTime);

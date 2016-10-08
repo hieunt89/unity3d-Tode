@@ -26,7 +26,7 @@ public class EnemyInitSystem : IReactiveSystem, ISetPool
 			float activeTime = _pool.tick.time;
 			WaveGroupData waveGroup;
 			Entity ePath;
-			EnemyData enemyData;
+			CharacterData enemyData;
 			for (int groupIndex = 0; groupIndex < e.wave.groups.Count; groupIndex++) { //loop throu all wave group datas in wave
 				waveGroup = e.wave.groups[groupIndex];
 				activeTime = activeTime + waveGroup.GroupDelay;
@@ -39,7 +39,7 @@ public class EnemyInitSystem : IReactiveSystem, ISetPool
 				}
 
 					for (int enemyIndex = 0; enemyIndex < waveGroup.Amount; enemyIndex++) { //loop throu all enemies in wave group data
-					enemyData = DataManager.Instance.GetEnemyData (waveGroup.EnemyId);
+					enemyData = DataManager.Instance.GetCharacterData (waveGroup.EnemyId);
 					if(enemyData == null){ //break if enemy data is null
 						if (GameManager.debug) {
 							Debug.Log ("Enemy with id " + waveGroup.EnemyId + " is null");
