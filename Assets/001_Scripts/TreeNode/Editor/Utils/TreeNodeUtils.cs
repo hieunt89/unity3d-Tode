@@ -58,11 +58,10 @@ public static class TreeNodeUtils {
 	}
 
 	public static void GenerateNodes (TreeUI _currentTree) {
-		NodeUI rootNode = new NodeUI ("Root Node", NodeType.RootNode, _currentTree.treeData.Root, null, new List<NodeUI> ());
+		NodeUI rootNode = new NodeUI ("Root Node", NodeType.RootNode, _currentTree.treeData.Root, null, new List<NodeUI> (), _currentTree);
 
 		if (rootNode != null) {
 			rootNode.InitNode (new Vector2 (50f, 50f));
-			rootNode.currentTree = _currentTree;
 			_currentTree.nodes.Add (rootNode);
 			GenerateNodes (_currentTree, rootNode);
 		}
@@ -71,12 +70,12 @@ public static class TreeNodeUtils {
 
 	private static void GenerateNodes (TreeUI _currentTree, NodeUI _parentNode) {
 		for (int i = 0; i < _parentNode.nodeData.children.Count; i++) {
-			NodeUI newNode = new NodeUI ("Node", NodeType.Node, _parentNode.nodeData.children[i], _parentNode, new List<NodeUI> ());
+			NodeUI newNode = new NodeUI ("Node", NodeType.Node, _parentNode.nodeData.children[i], _parentNode, new List<NodeUI> (), _currentTree);
 			if (newNode != null) {
 				_parentNode.childNodes.Add (newNode);
 
 				newNode.InitNode(new Vector2((_parentNode.nodeRect.x + _parentNode.nodeRect.width) + _parentNode.nodeRect.width / 2, _parentNode.nodeRect.y + (_parentNode.nodeRect.height * 4 * i)));
-				newNode.currentTree = _currentTree;
+//				newNode.currentTree = _currentTree;
 				_currentTree.nodes.Add (newNode);
 				GenerateNodes (_currentTree, newNode);
 			}
@@ -94,15 +93,15 @@ public static class TreeNodeUtils {
 	public static void AddNode (TreeUI _currentTree, NodeType _nodeType, Vector2 _position) {
 		if (_currentTree != null) {
 			NodeUI newNode = null;
-			List <NodeUI> outputNodes = new List<NodeUI> ();
+			List <NodeUI> childNodes = new List<NodeUI> ();
 			switch (_nodeType) {
 			case NodeType.RootNode:
-				newNode = new NodeUI ("Root Node", _nodeType, new Node<string> (_currentTree.existIds [0]), null, outputNodes);
+				newNode = new NodeUI ("Root Node", _nodeType, new Node<string> (_currentTree.existIds [0]), null, childNodes, _currentTree);
 				// assign data to root node
 				_currentTree.treeData.Root = newNode.nodeData;
 				break;
 			case NodeType.Node:
-				newNode = new NodeUI("Node", _nodeType, new Node<string> (_currentTree.existIds[0]), null, outputNodes);
+				newNode = new NodeUI("Node", _nodeType, new Node<string> (_currentTree.existIds[0]), null, childNodes, _currentTree);
 				break;
 			default:
 				break;
@@ -114,9 +113,22 @@ public static class TreeNodeUtils {
 				_currentTree.nodes.Add (newNode);
 			}
 		}
-
 	}
 
+	public static void RemoveNode (NodeUI _node) {
+		for (int i = 0; i < _node.nodeData.children.Count; i++) {
+			_node.nodeData.children[i].parent = null;
+		}
+		if (_node.nodeData.parent != null)
+			_node.nodeData.parent.children.Remove (_node.nodeData);
+		_node.nodeData.parent = null;
+		_node.nodeData = null;
+
+		for (int i = 0; i < _node.childNodes.Count; i++) {
+			_node.childNodes[i].parentNode = null;
+		}
+		_node.currentTree.nodes.Remove (_node);
+	}
 //	public static void RemoveNode (int _nodeId, TreeUI _currentTree) {
 //		if (_currentTree != null) {
 //			if(_currentTree.nodes.Count >= _nodeId) {
@@ -148,6 +160,13 @@ public static class TreeNodeUtils {
 //		}
 //	}
 
+	public static void RemoveParentNode (NodeUI _node) {
+		_node.parentNode.nodeData.children.Remove(_node.nodeData);
+		// remove this node's parent data
+		_node.nodeData.parent = null;
+
+		_node.parentNode = null;
+	}
 //	public static void RemoveParentNode (int _nodeId, TreeUI _currentTree) {
 //		if (_currentTree != null) {
 //			if(_currentTree.nodes.Count >= _nodeId) {
