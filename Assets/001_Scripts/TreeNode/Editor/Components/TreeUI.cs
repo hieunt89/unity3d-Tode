@@ -16,8 +16,8 @@ public class TreeUI {
 	public bool showNodeProperties = false;
 
 	public List<string> existIds;
-//	List<TowerData> existDatas;
-
+	List<TowerData> towerData;
+	List<Skill> skillData;
 
 	public TreeUI (TreeType _treeType, string _treeName) {
 		treeData = new Tree<string> (_treeType, _treeName, null);
@@ -38,13 +38,16 @@ public class TreeUI {
 //				.CreateInstance(typeof(List<>)
 //					.MakeGenericType(TowerData.GetType()));
 			
-			var data = DataManager.Instance.LoadAllData <TowerData> ();
-			if (data != null){
+			towerData = DataManager.Instance.LoadAllData <TowerData> ();
+			if (towerData != null){
 				existIds = new List<string> ();
-				for (int i = 0; i < data.Count; i++) {
-					existIds.Add(data[i].Id);
+				for (int i = 0; i < towerData.Count; i++) {
+					existIds.Add(towerData[i].Id);
 				}
 			}
+			break;
+		case TreeType.Skills:
+			
 			break;
 		default:
 			break;
