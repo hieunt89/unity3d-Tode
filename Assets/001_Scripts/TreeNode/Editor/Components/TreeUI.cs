@@ -19,6 +19,7 @@ public class TreeUI {
 	List<TowerData> towerData;
 	List<Skill> skillData;
 
+	private NodeUI lastNodeUI;
 	public TreeUI (TreeType _treeType, string _treeName) {
 		treeData = new Tree<string> (_treeType, _treeName, null);
 
@@ -59,7 +60,7 @@ public class TreeUI {
 		ProcessEvents (_e, _viewRect);
 	
 		if (treeData != null && nodes.Count == 0) {
-			TreeNodeUtils.GenerateNodes(this);
+			GenerateNodes(this);
 		}
 
 		if (nodes.Count > 0) {
@@ -138,4 +139,30 @@ public class TreeUI {
 //			nodes [i].isSelected = false;
 //		}
 //	}
+
+	private void GenerateNodes (TreeUI _currentTree) {
+		NodeUI rootNode = new NodeUI ("Root Node", NodeType.RootNode, _currentTree.treeData.Root, null, new List<NodeUI> (), _currentTree);
+
+		if (rootNode != null) {
+			rootNode.InitNode (new Vector2 (50f, 50f));
+			_currentTree.nodes.Add (rootNode);
+			lastNodeUI = rootNode;
+			GenerateNodes (_currentTree, rootNode);
+		}
+
+	}
+
+	private void GenerateNodes (TreeUI _currentTree, NodeUI _parentNode) {
+		for (int i = 0; i < _parentNode.nodeData.children.Count; i++) {
+			NodeUI newNode = new NodeUI ("Node", NodeType.Node, _parentNode.nodeData.children[i], _parentNode, new List<NodeUI> (), _currentTree);
+			if (newNode != null) {
+				_parentNode.childNodes.Add (newNode);
+				newNode.InitNode (new Vector2 ((_parentNode.nodeRect.x + _parentNode.nodeRect.width) + _parentNode.nodeRect.width / 2, lastNodeUI.nodeRect.y +(_parentNode.nodeRect.height * 2 * i)));
+				_currentTree.nodes.Add (newNode);
+				lastNodeUI = newNode;
+				GenerateNodes (_currentTree, newNode);
+			}
+		}
+
+	}
 }

@@ -13,12 +13,17 @@ public class TreeNodeEditorWindow : EditorWindow {
 	private float viewPercentage = 1f;
 	private Vector2 scrollPosition;
 	private Rect virtualRect;
-	private float minX, minY, maxX, maxY;
+	private float virtualPadding = 20f;
+	private float virtualX, virtualY, virtualWidth, virtualHeight;
 
 	public static void InitTowerNodeEditorWindow () {
 		currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow <TreeNodeEditorWindow> ();
 		currentWindow.titleContent = new GUIContent ("Tree Node");
 		CreateViews ();
+	}
+	void OnEnable () {
+		virtualRect = new Rect (0f, 0f, position.width, position.height);
+		virtualX = virtualY = virtualWidth = virtualHeight = 0f;
 	}
 
 	void OnGUI () {
@@ -39,30 +44,28 @@ public class TreeNodeEditorWindow : EditorWindow {
 
 //		propertiesView.UpdateView (new Rect (position.width, position.y, position.width, position.height), 
 //			new Rect (viewPercentage, 0f, 1f - viewPercentage, 1f), e, currentTree);
+
 		UpdateVirtualRect ();
-//		Debug.Log (virtualRect);
 		Repaint ();
 	}
 
 	private void UpdateVirtualRect () {
 		if (currentTree != null) {
 			if (currentTree.nodes.Count > 0) {
-//				Debug.Log ("Update virtual rect");
-
-				minX = currentTree.nodes [0].nodeRect.x;
-				minY = currentTree.nodes [0].nodeRect.y;
+				virtualX = currentTree.nodes [0].nodeRect.x;
+				virtualY = currentTree.nodes [0].nodeRect.y;
 
 				for (int i = 0; i < currentTree.nodes.Count; i++) {
-					if (currentTree.nodes[i].nodeRect.x < minX)
-						minX = currentTree.nodes [i].nodeRect.x;
-					if (currentTree.nodes [i].nodeRect.y < minY)
-						minY = currentTree.nodes [i].nodeRect.y;
-					if (currentTree.nodes [i].nodeRect.x + currentTree.nodes [i].nodeRect.width > maxX)
-						maxX = currentTree.nodes [i].nodeRect.x + currentTree.nodes [i].nodeRect.width;
-					if (currentTree.nodes [i].nodeRect.y + currentTree.nodes [i].nodeRect.height > maxY)
-						maxY = currentTree.nodes [i].nodeRect.y + currentTree.nodes [i].nodeRect.height;
+					if (currentTree.nodes[i].nodeRect.x < virtualX)
+						virtualX = currentTree.nodes [i].nodeRect.x;
+					if (currentTree.nodes [i].nodeRect.y < virtualY)
+						virtualY = currentTree.nodes [i].nodeRect.y;
+					if (currentTree.nodes [i].nodeRect.x + currentTree.nodes [i].nodeRect.width > virtualWidth)
+						virtualWidth = currentTree.nodes [i].nodeRect.x + currentTree.nodes [i].nodeRect.width;
+					if (currentTree.nodes [i].nodeRect.y + currentTree.nodes [i].nodeRect.height > virtualHeight)
+						virtualHeight = currentTree.nodes [i].nodeRect.y + currentTree.nodes [i].nodeRect.height;
 				}
-				virtualRect = new Rect (minX - 20f, minY - 20f, maxX - minX, maxY - minY);
+				virtualRect = new Rect (virtualX - virtualPadding, virtualY - virtualPadding, virtualWidth - virtualX + virtualPadding, virtualHeight - virtualY + virtualPadding);
 			}
 		}
 	}
