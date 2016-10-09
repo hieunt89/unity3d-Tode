@@ -183,21 +183,31 @@ public static class TreeNodeUtils {
 //		}
 //	}
 
-	public static void DrawGrid (Rect _viewRect, float _gridSpacing, float _gridOpacity, Color _gridColor) {
-		int widthDivs = Mathf.CeilToInt (_viewRect.width - _gridSpacing);
-		int heightDivs = Mathf.CeilToInt (_viewRect.height - _gridSpacing);
+//	public static void DrawGrid (Rect _viewRect, float _gridSpacing, float _gridOpacity, Color _gridColor) {
+//		int widthDivs = Mathf.CeilToInt (_viewRect.width - _gridSpacing);
+//		int heightDivs = Mathf.CeilToInt (_viewRect.height - _gridSpacing);
+//		Handles.BeginGUI ();
+//		Handles.color = new Color (_gridColor.r, _gridColor.g, _gridColor.b, _gridOpacity);
+//
+//		for (int x = 0; x < widthDivs; x++) {
+//			Handles.DrawLine (new Vector3 (_gridSpacing * x, 0f, 0f), new Vector3 (_gridSpacing * x, _viewRect.height, 0f));
+//		}
+//
+//		for (int y = 0; y < heightDivs; y++) {
+//			Handles.DrawLine (new Vector3 (0f, _gridSpacing * y, 0f), new Vector3 (_viewRect.width, _gridSpacing * y, 0f));
+//		}
+//		Handles.color = Color.white;
+//		Handles.EndGUI ();
+//	}
 
-		Handles.BeginGUI ();
-		Handles.color = new Color (_gridColor.r, _gridColor.g, _gridColor.b, _gridOpacity);
-
-		for (int x = 0; x < widthDivs; x++) {
-			Handles.DrawLine (new Vector3 (_gridSpacing * x, 0f, 0f), new Vector3 (_gridSpacing * x, _viewRect.height, 0f));
+	public static string UppercaseFirst(string s)
+	{
+		// Check for empty string.
+		if (string.IsNullOrEmpty(s))
+		{
+			return string.Empty;
 		}
-
-		for (int y = 0; y < heightDivs; y++) {
-			Handles.DrawLine (new Vector3 (0f, _gridSpacing * y, 0f), new Vector3 (_viewRect.width, _gridSpacing * y, 0f));
-		}
-		Handles.color = Color.white;
-		Handles.EndGUI ();
+		// Return char and concat substring.
+		return char.ToUpper(s[0]) + s.Substring(1);
 	}
 }

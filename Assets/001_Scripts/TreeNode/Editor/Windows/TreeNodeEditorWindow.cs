@@ -13,8 +13,8 @@ public class TreeNodeEditorWindow : EditorWindow {
 	private float viewPercentage = 1f;
 	private Vector2 scrollPosition;
 	private Rect virtualRect;
-	private float virtualPadding = 20f;
-	private float virtualX, virtualY, virtualWidth, virtualHeight;
+	private float virtualPadding = 50f;
+	private float virtualX, virtualY, _virtualX, _virtualY;
 
 	public static void InitTowerNodeEditorWindow () {
 		currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow <TreeNodeEditorWindow> ();
@@ -23,7 +23,7 @@ public class TreeNodeEditorWindow : EditorWindow {
 	}
 	void OnEnable () {
 		virtualRect = new Rect (0f, 0f, position.width, position.height);
-		virtualX = virtualY = virtualWidth = virtualHeight = 0f;
+		virtualX = virtualY = _virtualX = _virtualY = 0f;
 	}
 
 	void OnGUI () {
@@ -36,16 +36,17 @@ public class TreeNodeEditorWindow : EditorWindow {
 
 		ProcessEvent (e);
 
+		UpdateVirtualRect ();
+		Debug.Log (virtualRect);
 		scrollPosition =  GUI.BeginScrollView(new Rect(0f, 0f, position.width, position.height), scrollPosition, virtualRect); // <-- need to customize this viewrect (expandable by nodes + offset)
 		BeginWindows ();
-		workView.UpdateView (position, new Rect (0f, 0f, viewPercentage, 1f), e, currentTree);
+		workView.UpdateView (virtualRect, new Rect (0f, 0f, viewPercentage, 1f), e, currentTree);
 		EndWindows ();
 		GUI.EndScrollView ();
 
 //		propertiesView.UpdateView (new Rect (position.width, position.y, position.width, position.height), 
 //			new Rect (viewPercentage, 0f, 1f - viewPercentage, 1f), e, currentTree);
 
-		UpdateVirtualRect ();
 		Repaint ();
 	}
 
@@ -56,16 +57,17 @@ public class TreeNodeEditorWindow : EditorWindow {
 				virtualY = currentTree.nodes [0].nodeRect.y;
 
 				for (int i = 0; i < currentTree.nodes.Count; i++) {
-					if (currentTree.nodes[i].nodeRect.x < virtualX)
+					if (currentTree.nodes[i].nodeRect.x <= virtualX)
 						virtualX = currentTree.nodes [i].nodeRect.x;
-					if (currentTree.nodes [i].nodeRect.y < virtualY)
+					if (currentTree.nodes [i].nodeRect.y <= virtualY)
 						virtualY = currentTree.nodes [i].nodeRect.y;
-					if (currentTree.nodes [i].nodeRect.x + currentTree.nodes [i].nodeRect.width > virtualWidth)
-						virtualWidth = currentTree.nodes [i].nodeRect.x + currentTree.nodes [i].nodeRect.width;
-					if (currentTree.nodes [i].nodeRect.y + currentTree.nodes [i].nodeRect.height > virtualHeight)
-						virtualHeight = currentTree.nodes [i].nodeRect.y + currentTree.nodes [i].nodeRect.height;
+					if (currentTree.nodes [i].nodeRect.x + currentTree.nodes [i].nodeRect.width >= _virtualX)
+						_virtualX = currentTree.nodes [i].nodeRect.x + currentTree.nodes [i].nodeRect.width;
+					if (currentTree.nodes [i].nodeRect.y + currentTree.nodes [i].nodeRect.height >= _virtualY)
+						_virtualY = currentTree.nodes [i].nodeRect.y + currentTree.nodes [i].nodeRect.height;
 				}
-				virtualRect = new Rect (virtualX - virtualPadding, virtualY - virtualPadding, virtualWidth - virtualX + virtualPadding, virtualHeight - virtualY + virtualPadding);
+				Debug.Log (_virtualX + " - " + virtualX + " + " + virtualPadding);
+				virtualRect = new Rect (virtualX - virtualPadding, virtualY - virtualPadding, _virtualX - virtualX + 2*virtualPadding, _virtualY - virtualY + 2*virtualPadding);
 			}
 		}
 	}

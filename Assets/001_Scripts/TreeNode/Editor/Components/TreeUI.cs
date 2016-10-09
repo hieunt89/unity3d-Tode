@@ -58,7 +58,7 @@ public class TreeUI {
 
 	public void UpdateTreeUI (Event _e, Rect _viewRect, GUISkin _viewSkin) {
 		ProcessEvents (_e, _viewRect);
-	
+		
 		if (treeData != null && nodes.Count == 0) {
 			GenerateNodes(this);
 		}
