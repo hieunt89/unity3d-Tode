@@ -3,5 +3,5 @@ using System.Collections;
 using Entitas;
 
 public class SkillComponent : IComponent {
-	public string skillId;
+	public Node<string> skillNode;
 }

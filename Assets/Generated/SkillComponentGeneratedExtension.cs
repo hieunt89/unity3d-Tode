@@ -12,15 +12,15 @@ namespace Entitas {
 
         public bool hasSkill { get { return HasComponent(ComponentIds.Skill); } }
 
-        public Entity AddSkill(string newSkillId) {
+        public Entity AddSkill(Node<string> newSkillNode) {
             var component = CreateComponent<SkillComponent>(ComponentIds.Skill);
-            component.skillId = newSkillId;
+            component.skillNode = newSkillNode;
             return AddComponent(ComponentIds.Skill, component);
         }
 
-        public Entity ReplaceSkill(string newSkillId) {
+        public Entity ReplaceSkill(Node<string> newSkillNode) {
             var component = CreateComponent<SkillComponent>(ComponentIds.Skill);
-            component.skillId = newSkillId;
+            component.skillNode = newSkillNode;
             ReplaceComponent(ComponentIds.Skill, component);
             return this;
         }

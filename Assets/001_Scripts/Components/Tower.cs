@@ -1,5 +1,5 @@
 ﻿using Entitas;
 
 public class Tower : IComponent {
-	public Node<string> currentNode;
+	public Node<string> towerNode;
 }

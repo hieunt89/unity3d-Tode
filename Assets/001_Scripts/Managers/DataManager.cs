@@ -30,6 +30,7 @@ public class DataManager {
 	Dictionary<string, MapData> mapIdToData;
 	Dictionary<string, Skill> skillIdToData;
 	List<Tree<string>> towerTrees;
+	Dictionary<string, Tree<string>> skillTrees;
 
 	public DataManager(){
 		LoadData <ProjectileData>(out projectileIdToData);
@@ -42,10 +43,13 @@ public class DataManager {
 
 	void LoadSkillData(){
 		CombatSkill s = new CombatSkill ();
-		s.id = "skill1";
-		s.name = "fireball";
+		s.id = "fb1";
+		s.name = "fireball level 1";
 		s.castRange = 6f;
 		s.cooldown = 3f;
+		s.expToNextLvl = 50;
+		s.cost = 100;
+
 		s.aoe = 2f;
 		s.prjId = "projectile0";
 
@@ -63,12 +67,14 @@ public class DataManager {
 		skillIdToData.Add (s.id, s);
 	}
 
-	public Skill GetSkillData(string id){
-		if (skillIdToData.ContainsKey (id)) {
-			return skillIdToData [id];
-		} else {
-			return null;
-		}
+	void LoadSkillTree(){
+		skillTrees = new Dictionary<string, Tree<string>> ();
+
+		Tree<string> tree = new Tree<string> ();
+		tree.treeName = "fireball_tree";
+		tree.Root = new Node<string> ("fb1");
+
+		skillTrees.Add (tree.treeName, tree);
 	}
 
 	void LoadTreeData(TreeType treeType){
@@ -94,6 +100,23 @@ public class DataManager {
 			d.Add (id, data);
 		}
 	}
+		
+	#region GetData
+	public Tree<string> GetSkillTree(string name){
+		if (skillTrees.ContainsKey (name)) {
+			return skillTrees [name];
+		} else {
+			return null;
+		}
+	}
+
+	public Skill GetSkillData(string id){
+		if (skillIdToData.ContainsKey (id)) {
+			return skillIdToData [id];
+		} else {
+			return null;
+		}
+	}
 
 	public List<Node<string>> GetTowerRoots(){
 		List <Node<string>> list = new List<Node<string>> ();
@@ -102,8 +125,6 @@ public class DataManager {
 		}
 		return list;
 	}
-
-//	public Tree
 
 	public MapData GetMapData(string id){
 		if (mapIdToData.ContainsKey (id)) {
@@ -119,10 +140,6 @@ public class DataManager {
 		} else {
 			return null;
 		}
-	}
-
-	public MapData LoadMapData(string id){
-		return LoadDataById<MapData> (id);
 	}
 
 	public TowerData GetTowerData(string id){
@@ -148,6 +165,7 @@ public class DataManager {
 			return null;
 		}
 	}
+	#endregion
 
 	#region json data
 	const string dataDirectory = "Assets/Resources/Data/";

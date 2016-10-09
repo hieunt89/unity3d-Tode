@@ -6,7 +6,7 @@ public class Test : MonoBehaviour {
 
 	void Start () {
 		DataManager dm = new DataManager ();
-		Skill s = DataManager.Instance.GetSkillData ("skill1");
+		Skill s = DataManager.Instance.GetSkillData ("fireball1");
 		CombatSkill cb = null;
 		if(s is CombatSkill){
 			cb = s as CombatSkill;
