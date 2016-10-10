@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Entitas;
 
-public class SummonSkill : Skill {
+public class SkillSummon : IComponent {
 	public string summonId;
 	public int summonCount;
-	public float duration;
 }

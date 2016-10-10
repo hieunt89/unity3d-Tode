@@ -9,7 +9,7 @@ public class ProjectileHomingSystem : IReactiveSystem, ISetPool {
 	public void SetPool (Pool pool)
 	{
 		_pool = pool;
-		_groupPrjHoming = _pool.GetGroup (Matcher.AllOf (Matcher.ProjectileMark, Matcher.Target, Matcher.ProjectileHoming).NoneOf (Matcher.ReachedEnd));
+		_groupPrjHoming = _pool.GetGroup (Matcher.AllOf (Matcher.ProjectileHoming, Matcher.Target).NoneOf (Matcher.ReachedEnd));
 	}
 
 	#endregion
@@ -38,7 +38,7 @@ public class ProjectileHomingSystem : IReactiveSystem, ISetPool {
 				prj.IsReachedEnd (true);
 				continue;
 			}
-			prj.ReplacePosition (Vector3.MoveTowards (prj.position.value, prj.destination.value, prj.projectileHoming.travelSpeed * Time.deltaTime));
+			prj.ReplacePosition (Vector3.MoveTowards (prj.position.value, prj.destination.value, prj.movable.speed * Time.deltaTime));
 		}
 	}
 	#endregion

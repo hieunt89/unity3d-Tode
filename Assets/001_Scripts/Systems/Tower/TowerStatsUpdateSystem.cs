@@ -29,6 +29,7 @@ public class TowerStatsUpdateSystem : IReactiveSystem, IEnsureComponents {
 					.ReplaceAttackDamage (towerData.MinDmg, towerData.MaxDmg)
 					.ReplaceAttackSpeed (towerData.AtkSpeed)
 					.ReplaceAoe(towerData.Aoe)
+//					.ReplaceSkillNodeList(DataManager.)
 					;
 			} else {
 				tower.IsActive (false);

@@ -26,7 +26,7 @@ public class TowerConstructorWindow : EditorWindow {
 		
 		existTowers = DataManager.Instance.LoadAllData <TowerData>();
 
-		tower = new TowerData("tower" + existTowers.Count, new List<int> (), new List<string> ());
+		tower = new TowerData("tower" + existTowers.Count);
 
 		if (existTowers.Count > 0) {
 			existTowerIds = new List<string> ();
@@ -51,6 +51,7 @@ public class TowerConstructorWindow : EditorWindow {
 	{
 
 		EditorGUI.BeginChangeCheck ();
+
 		var id = EditorGUILayout.TextField ("Id", tower.Id);
 		var name = EditorGUILayout.TextField ("Name", tower.Name);
 		//		var prjType = EditorGUILayout.TextField ("projectile", towerConstructor.Tower.PrjType);

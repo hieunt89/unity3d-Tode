@@ -22,53 +22,57 @@ public static class ComponentIds {
     public const int CurrentSelected = 12;
     public const int Damage = 13;
     public const int Destination = 14;
-    public const int Effect = 15;
-    public const int Enemy = 16;
-    public const int GamePause = 17;
-    public const int Gold = 18;
-    public const int GoldPlayer = 19;
-    public const int Hp = 20;
-    public const int HpTotal = 21;
-    public const int Id = 22;
-    public const int Interactable = 23;
-    public const int LifeCount = 24;
-    public const int LifePlayer = 25;
-    public const int Map = 26;
-    public const int MarkedForActive = 27;
-    public const int MarkedForDestroy = 28;
-    public const int MarkedForNoView = 29;
-    public const int MarkedForSell = 30;
-    public const int Movable = 31;
-    public const int NextWave = 32;
-    public const int Origin = 33;
-    public const int Path = 34;
-    public const int PathLength = 35;
-    public const int PathReference = 36;
-    public const int Position = 37;
-    public const int Projectile = 38;
-    public const int ProjectileHoming = 39;
-    public const int ProjectileLaser = 40;
-    public const int ProjectileMark = 41;
-    public const int ProjectileThrowing = 42;
-    public const int ProjectileThrowingParams = 43;
-    public const int ProjectileTime = 44;
-    public const int ReachedEnd = 45;
-    public const int Skill = 46;
-    public const int SkillEntityList = 47;
-    public const int SkillNodeList = 48;
-    public const int Target = 49;
-    public const int Tick = 50;
-    public const int Tower = 51;
-    public const int TowerBase = 52;
-    public const int TowerUpgrade = 53;
-    public const int TowerUpgradeProgress = 54;
-    public const int TurnSpeed = 55;
-    public const int View = 56;
-    public const int ViewOffset = 57;
-    public const int ViewSlider = 58;
-    public const int Wave = 59;
+    public const int Duration = 15;
+    public const int Effect = 16;
+    public const int Enemy = 17;
+    public const int GamePause = 18;
+    public const int Gold = 19;
+    public const int GoldPlayer = 20;
+    public const int Hp = 21;
+    public const int HpTotal = 22;
+    public const int Id = 23;
+    public const int Interactable = 24;
+    public const int Interval = 25;
+    public const int LifeCount = 26;
+    public const int LifePlayer = 27;
+    public const int Map = 28;
+    public const int MarkedForActive = 29;
+    public const int MarkedForDestroy = 30;
+    public const int MarkedForNoView = 31;
+    public const int MarkedForSell = 32;
+    public const int Movable = 33;
+    public const int NextWave = 34;
+    public const int Origin = 35;
+    public const int Path = 36;
+    public const int PathLength = 37;
+    public const int PathReference = 38;
+    public const int Position = 39;
+    public const int Projectile = 40;
+    public const int ProjectileHoming = 41;
+    public const int ProjectileLaser = 42;
+    public const int ProjectileMark = 43;
+    public const int ProjectileThrowing = 44;
+    public const int ProjectileThrowingParams = 45;
+    public const int ProjectileTime = 46;
+    public const int ReachedEnd = 47;
+    public const int SkillCombat = 48;
+    public const int Skill = 49;
+    public const int SkillEntityList = 50;
+    public const int SkillList = 51;
+    public const int SkillSummon = 52;
+    public const int Target = 53;
+    public const int Tick = 54;
+    public const int Tower = 55;
+    public const int TowerBase = 56;
+    public const int TowerUpgrade = 57;
+    public const int TowerUpgradeProgress = 58;
+    public const int TurnSpeed = 59;
+    public const int View = 60;
+    public const int ViewOffset = 61;
+    public const int ViewSlider = 62;
+    public const int Wave = 63;
 
-    public const int TotalComponents = 60;
+    public const int TotalComponents = 64;
 
     public static readonly string[] componentNames = {
         "Active",
@@ -86,6 +90,7 @@ public static class ComponentIds {
         "CurrentSelected",
         "Damage",
         "Destination",
+        "Duration",
         "Effect",
         "Enemy",
         "GamePause",
@@ -95,6 +100,7 @@ public static class ComponentIds {
         "HpTotal",
         "Id",
         "Interactable",
+        "Interval",
         "LifeCount",
         "LifePlayer",
         "Map",
@@ -117,9 +123,11 @@ public static class ComponentIds {
         "ProjectileThrowingParams",
         "ProjectileTime",
         "ReachedEnd",
+        "SkillCombat",
         "Skill",
         "SkillEntityList",
-        "SkillNodeList",
+        "SkillList",
+        "SkillSummon",
         "Target",
         "Tick",
         "Tower",
@@ -149,6 +157,7 @@ public static class ComponentIds {
         typeof(CurrentSelected),
         typeof(Damage),
         typeof(Destination),
+        typeof(Duration),
         typeof(EffectComponent),
         typeof(Enemy),
         typeof(GamePause),
@@ -158,6 +167,7 @@ public static class ComponentIds {
         typeof(HpTotal),
         typeof(Id),
         typeof(Interactable),
+        typeof(Interval),
         typeof(LifeCount),
         typeof(LifePlayer),
         typeof(Map),
@@ -180,9 +190,11 @@ public static class ComponentIds {
         typeof(ProjectileThrowingParams),
         typeof(ProjectileTime),
         typeof(ReachedEnd),
+        typeof(SkillCombat),
         typeof(SkillComponent),
         typeof(SkillEntityList),
-        typeof(SkillNodeList),
+        typeof(SkillList),
+        typeof(SkillSummon),
         typeof(Target),
         typeof(Tick),
         typeof(Tower),

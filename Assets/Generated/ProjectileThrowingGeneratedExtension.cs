@@ -8,25 +8,24 @@
 //------------------------------------------------------------------------------
 namespace Entitas {
     public partial class Entity {
-        public ProjectileThrowing projectileThrowing { get { return (ProjectileThrowing)GetComponent(ComponentIds.ProjectileThrowing); } }
+        static readonly ProjectileThrowing projectileThrowingComponent = new ProjectileThrowing();
 
-        public bool hasProjectileThrowing { get { return HasComponent(ComponentIds.ProjectileThrowing); } }
-
-        public Entity AddProjectileThrowing(float newDuration) {
-            var component = CreateComponent<ProjectileThrowing>(ComponentIds.ProjectileThrowing);
-            component.duration = newDuration;
-            return AddComponent(ComponentIds.ProjectileThrowing, component);
+        public bool isProjectileThrowing {
+            get { return HasComponent(ComponentIds.ProjectileThrowing); }
+            set {
+                if (value != isProjectileThrowing) {
+                    if (value) {
+                        AddComponent(ComponentIds.ProjectileThrowing, projectileThrowingComponent);
+                    } else {
+                        RemoveComponent(ComponentIds.ProjectileThrowing);
+                    }
+                }
+            }
         }
 
-        public Entity ReplaceProjectileThrowing(float newDuration) {
-            var component = CreateComponent<ProjectileThrowing>(ComponentIds.ProjectileThrowing);
-            component.duration = newDuration;
-            ReplaceComponent(ComponentIds.ProjectileThrowing, component);
+        public Entity IsProjectileThrowing(bool value) {
+            isProjectileThrowing = value;
             return this;
-        }
-
-        public Entity RemoveProjectileThrowing() {
-            return RemoveComponent(ComponentIds.ProjectileThrowing);
         }
     }
 

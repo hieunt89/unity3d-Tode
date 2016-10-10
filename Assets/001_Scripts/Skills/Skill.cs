@@ -2,6 +2,7 @@
 using System.Collections;
 
 public enum SkillType{
+	None,
 	Combat,
 	Summon
 }

@@ -127,10 +127,6 @@ public class TowerData {
 	public TowerData (string id) {
 		this.id = id;
 	}
-
-	public TowerData (string id, List<int> nextUpgradeIndexes, List<string> nextUpgrades){
-		this.id = id;
-	}
 	
 	public TowerData (string id, string name, string prjType, AttackType atkType, float atkRange, int minDmg, int maxDmg, float atkSpeed, int goldRequired, float buildTime)
 	{

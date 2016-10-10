@@ -10,7 +10,7 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 	public void SetPool (Pool pool)
 	{
 		_pool = pool;
-		_groupPrjThrowing = _pool.GetGroup (Matcher.AllOf (Matcher.ProjectileMark, Matcher.Target, Matcher.ProjectileThrowing).NoneOf(Matcher.ReachedEnd));
+		_groupPrjThrowing = _pool.GetGroup (Matcher.AllOf (Matcher.ProjectileThrowing, Matcher.Target).NoneOf(Matcher.ReachedEnd));
 	}
 	#endregion
 
@@ -29,11 +29,11 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 			#region calculate trajectory data
 			if(!prj.hasProjectileThrowingParams){ 
 				var startPos = Vector3.ProjectOnPlane (prj.position.value, Vector3.up);
-				var finalPos = GetEnemyFuturePosition (prj.target.e, prj.projectileThrowing.duration);
+				var finalPos = GetEnemyFuturePosition (prj.target.e, prj.duration.value);
 				var initHeight = Vector3.Project (prj.position.value, Vector3.down).magnitude;
 				float initVelocity;
 				float initAngle;
-				GetInitVelocityAndAngle(startPos, finalPos, prj.projectileThrowing.duration, initHeight, out initVelocity, out initAngle);
+				GetInitVelocityAndAngle(startPos, finalPos, prj.duration.value, initHeight, out initVelocity, out initAngle);
 
 				prj.AddProjectileThrowingParams (startPos, finalPos, initHeight, initVelocity, initAngle).AddProjectileTime(0f).AddDestination(prj.position.value);
 				if (GameManager.debug) {

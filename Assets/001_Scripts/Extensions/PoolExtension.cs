@@ -33,13 +33,18 @@ public static class PoolExtension {
 		}
 		switch (prj.Type) {
 		case ProjectileType.homing:
-			e.AddProjectileHoming (prj.TravelSpeed);
+			e.IsProjectileHoming(true)
+				.AddMovable(prj.TravelSpeed);
 			break;
 		case ProjectileType.throwing:
-			e.AddProjectileThrowing (prj.Duration);
+			e.IsProjectileThrowing (true)
+				.AddDuration(prj.Duration);
 			break;
 		case ProjectileType.laser:
-			e.AddProjectileLaser (prj.TravelSpeed, prj.Duration, prj.TickInterval, prj.MaxDmgBuildTime);
+			e.AddProjectileLaser (prj.MaxDmgBuildTime)
+				.AddDuration(prj.Duration)
+				.AddMovable(prj.TravelSpeed)
+				.AddInterval(prj.TickInterval);
 			break;
 		default:
 			break;

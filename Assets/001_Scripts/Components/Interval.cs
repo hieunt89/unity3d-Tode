@@ -2,5 +2,6 @@
 using System.Collections;
 using Entitas;
 
-public class ProjectileHoming : IComponent {
+public class Interval : IComponent {
+	public float value;
 }

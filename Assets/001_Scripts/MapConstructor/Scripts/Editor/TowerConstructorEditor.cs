@@ -23,7 +23,7 @@ public class TowerConstructorEditor : Editor {
 		existTowers = DataManager.Instance.LoadAllData <TowerData>();
 
 		if (towerConstructor.Tower == null)
-			towerConstructor.Tower = new TowerData("tower" + existTowers.Count, new List<int> (), new List<string> ());
+			towerConstructor.Tower = new TowerData("tower" + existTowers.Count);
 		
 		existProjectiles =  DataManager.Instance.LoadAllData <ProjectileData>();
 
