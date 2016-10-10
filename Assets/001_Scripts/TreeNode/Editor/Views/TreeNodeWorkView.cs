@@ -6,26 +6,58 @@ public class TreeNodeWorkView : ViewBase {
 	private Vector2 mousePosition;
 	private int selectedNodeId = 0;
 //	private Vector2 scrollPosition;
-
+	private TreeType treeType;
+	private string treeName = "Enter tree name ...";
 	public TreeNodeWorkView () : base () {
 	}
 
 	public override void UpdateView (Rect _editorRect, Rect _percentageRect, Event _e, TreeUI _currentTree)
 	{
 		base.UpdateView (_editorRect, _percentageRect, _e, _currentTree);
-		GUI.Label (_editorRect, viewTitle + " Tree");
-//		GUI.Box (viewRect, viewTitle + " Tree", viewSkin.GetStyle("ViewBg"));
+//		GUI.Label (_editorRect, viewTitle + " Tree");
 		// draw grid
 //		TreeNodeUtils.DrawGrid (viewRect, 60f, 0.15f, Color.white);
 //		TreeNodeUtils.DrawGrid (viewRect, 20f, 0.1f, Color.white);
 
 		GUILayout.BeginArea (viewRect);
+
 		if (_currentTree != null) {
+			GUI.Box (viewRect, viewTitle + " Tree", viewSkin.GetStyle("ViewBg"));
 			_currentTree.UpdateTreeUI (_e, viewRect, viewSkin);
+			ProcessEvent (_e);
+		} else {
+			var newTreeRect = new Rect (viewRect.width / 2 - 200f, viewRect.height / 2 - 100f, 400, 200);
+			GUI.Box (newTreeRect, "Create New Tree", viewSkin.GetStyle("ViewBg"));
+
+			GUILayout.BeginArea (newTreeRect);
+
+			GUILayout.BeginHorizontal ();
+			GUILayout.Space (12);
+
+			GUILayout.BeginVertical ();
+			GUILayout.Space (60);
+			treeType = (TreeType) EditorGUILayout.EnumPopup ("Tree Type", treeType);
+			treeName = EditorGUILayout.TextField ("Tree name", treeName);
+			GUILayout.Space (40);
+
+			GUILayout.BeginHorizontal ();
+			GUI.enabled = !string.IsNullOrEmpty (treeName) && treeName != "Enter tree name ...";
+			if (GUILayout.Button ("Create Tree", GUILayout.Height(40))){
+				TreeNodeUtils.CreateTree (treeType, treeName);
+			}
+			GUI.enabled = true;
+			if (GUILayout.Button ("Load Tree", GUILayout.Height(40))){
+				TreeNodeUtils.LoadTree ();
+			}
+			GUILayout.EndHorizontal ();
+			GUILayout.EndVertical ();
+			GUILayout.Space (12);
+			GUILayout.EndHorizontal ();
+			GUILayout.EndArea ();
 		}
+
 		GUILayout.EndArea ();
 
-		ProcessEvent (_e);
 	}
 
 	public override void ProcessEvent (Event e)
@@ -78,15 +110,15 @@ public class TreeNodeWorkView : ViewBase {
 
 		switch (contextId) {
 		case 0:
-			if (currentTree == null) {
-				menu.AddItem (new GUIContent ("Create Tree"), false, OnClickContextCallback, "0");
-				menu.AddItem (new GUIContent ("Load Tree"), false, OnClickContextCallback, "1");
-			} else {
+//			if (currentTree == null) {
+//				menu.AddItem (new GUIContent ("Create Tree"), false, OnClickContextCallback, "0");
+//				menu.AddItem (new GUIContent ("Load Tree"), false, OnClickContextCallback, "1");
+//			} else {
 				menu.AddItem (new GUIContent ("Add Node"), false, OnClickContextCallback, "2");
 				menu.AddItem (new GUIContent("Save Tree"), false, OnClickContextCallback, "3");
 				menu.AddSeparator ("");
 				menu.AddItem (new GUIContent("Unload Tree"), false, OnClickContextCallback, "4");
-			}
+//			}
 			break;
 
 //		case 1:
@@ -105,12 +137,12 @@ public class TreeNodeWorkView : ViewBase {
 
 	private void OnClickContextCallback (object obj) {
 		switch(obj.ToString()) {
-		case "0":
-			TreeNodePopupWindow.InitTreeNodePopup ();
-			break;
-		case "1":
-			TreeNodeUtils.LoadTree ();
-			break;
+//		case "0":
+//			TreeNodePopupWindow.InitTreeNodePopup ();
+//			break;
+//		case "1":
+//			TreeNodeUtils.LoadTree ();
+//			break;
 		case "2":
 			TreeNodeUtils.AddNode (currentTree, NodeType.Node, mousePosition);
 			break;

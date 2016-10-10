@@ -14,16 +14,17 @@ public class TreeNodeEditorWindow : EditorWindow {
 	private Vector2 scrollPosition;
 	private Rect virtualRect;
 	private float virtualPadding = 50f;
-	private float virtualX, virtualY, _virtualX, _virtualY;
+	private float minX, minY, maxX, maxY;
 
 	public static void InitTowerNodeEditorWindow () {
 		currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow <TreeNodeEditorWindow> ();
 		currentWindow.titleContent = new GUIContent ("Tree Node");
 		CreateViews ();
 	}
+
 	void OnEnable () {
 		virtualRect = new Rect (0f, 0f, position.width, position.height);
-		virtualX = virtualY = _virtualX = _virtualY = 0f;
+		minX = minY = maxX = maxY = 0f;
 	}
 
 	void OnGUI () {
@@ -36,13 +37,13 @@ public class TreeNodeEditorWindow : EditorWindow {
 
 		ProcessEvent (e);
 
-		UpdateVirtualRect ();
-		Debug.Log (virtualRect);
-		scrollPosition =  GUI.BeginScrollView(new Rect(0f, 0f, position.width, position.height), scrollPosition, virtualRect); // <-- need to customize this viewrect (expandable by nodes + offset)
+//		UpdateVirtualRect ();
+//		Debug.Log (virtualRect);
+//		scrollPosition =  GUI.BeginScrollView(new Rect(0f, 0f, position.width, position.height), scrollPosition, virtualRect); // <-- need to customize this viewrect (expandable by nodes + offset)
 		BeginWindows ();
 		workView.UpdateView (virtualRect, new Rect (0f, 0f, viewPercentage, 1f), e, currentTree);
 		EndWindows ();
-		GUI.EndScrollView ();
+//		GUI.EndScrollView ();
 
 //		propertiesView.UpdateView (new Rect (position.width, position.y, position.width, position.height), 
 //			new Rect (viewPercentage, 0f, 1f - viewPercentage, 1f), e, currentTree);
@@ -51,24 +52,27 @@ public class TreeNodeEditorWindow : EditorWindow {
 	}
 
 	private void UpdateVirtualRect () {
+
+		//TODO: find length between nodes
+
 		if (currentTree != null) {
 			if (currentTree.nodes.Count > 0) {
-				virtualX = currentTree.nodes [0].nodeRect.x;
-				virtualY = currentTree.nodes [0].nodeRect.y;
-
+				minX = currentTree.nodes [0].nodeRect.x;
+				minY = currentTree.nodes [0].nodeRect.y;
 				for (int i = 0; i < currentTree.nodes.Count; i++) {
-					if (currentTree.nodes[i].nodeRect.x <= virtualX)
-						virtualX = currentTree.nodes [i].nodeRect.x;
-					if (currentTree.nodes [i].nodeRect.y <= virtualY)
-						virtualY = currentTree.nodes [i].nodeRect.y;
-					if (currentTree.nodes [i].nodeRect.x + currentTree.nodes [i].nodeRect.width >= _virtualX)
-						_virtualX = currentTree.nodes [i].nodeRect.x + currentTree.nodes [i].nodeRect.width;
-					if (currentTree.nodes [i].nodeRect.y + currentTree.nodes [i].nodeRect.height >= _virtualY)
-						_virtualY = currentTree.nodes [i].nodeRect.y + currentTree.nodes [i].nodeRect.height;
+					if (currentTree.nodes[i].nodeRect.x <= minX)
+						minX = currentTree.nodes [i].nodeRect.x;
+					if (currentTree.nodes [i].nodeRect.y <= minY)
+						minY = currentTree.nodes [i].nodeRect.y;
+					if (currentTree.nodes [i].nodeRect.x + currentTree.nodes [i].nodeRect.width >= maxX)
+						maxX = currentTree.nodes [i].nodeRect.x + currentTree.nodes [i].nodeRect.width;
+					if (currentTree.nodes [i].nodeRect.y + currentTree.nodes [i].nodeRect.height >= maxY)
+						maxY = currentTree.nodes [i].nodeRect.y + currentTree.nodes [i].nodeRect.height;
 				}
-				Debug.Log (_virtualX + " - " + virtualX + " + " + virtualPadding);
-				virtualRect = new Rect (virtualX - virtualPadding, virtualY - virtualPadding, _virtualX - virtualX + 2*virtualPadding, _virtualY - virtualY + 2*virtualPadding);
+				virtualRect = Rect.MinMaxRect(minX - virtualPadding, minY - virtualPadding, maxX + virtualPadding, maxY + virtualPadding);
 			}
+		} else {
+			virtualRect = new Rect (0f, 0f, position.width, position.height);
 		}
 	}
 
@@ -82,8 +86,9 @@ public class TreeNodeEditorWindow : EditorWindow {
 	}
 
 	private void ProcessEvent (Event _e) {
-		// TODO: toggle properties or something with hotkey
-
+		if (_e.type == EventType.ScrollWheel) {
+			Debug.Log ("scroll wheel" + _e.delta);
+		}
 //		if (_e.type == EventType.KeyDown && _e.keyCode == KeyCode.LeftArrow) {
 //			viewPercentage -= 0.01f;
 //		}
