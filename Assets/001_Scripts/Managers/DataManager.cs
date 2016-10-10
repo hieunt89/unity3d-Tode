@@ -6,6 +6,7 @@ using System.IO;
 using System;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Linq;
 
 public class DataManager {
 	#region Singleton
@@ -29,48 +30,52 @@ public class DataManager {
 	Dictionary<string, MapData> mapIdToData;
 	Dictionary<string, Skill> skillIdToData;
 	List<Tree<string>> towerTrees;
+	Dictionary<string, Tree<string>> skillTrees;
 
 	public DataManager(){
 		LoadData <ProjectileData>(out projectileIdToData);
 		LoadData <TowerData> (out towerIdToData);
 		LoadData <CharacterData> (out characterIdToData);
-//		LoadData <MapData> (out mapIdToData);
+		LoadData <MapData> (out mapIdToData);
 		LoadTreeData (TreeType.Towers);
 		LoadSkillData ();
 	}
 
 	void LoadSkillData(){
-		CombatSkill s1 = new CombatSkill ();
-		s1.aoe = 1f;
-		s1.cooldown = 2f;
-		s1.range = 6f;
-		s1.prjId = "projectile0";
-		s1.id = "skill1";
+		CombatSkill s = new CombatSkill ();
+		s.id = "fb1";
+		s.name = "fireball level 1";
+		s.castRange = 6f;
+		s.cooldown = 3f;
+		s.expToNextLvl = 50;
+		s.cost = 100;
+
+		s.aoe = 2f;
+		s.prjId = "projectile0";
 
 		List<SkillEffect> efl = new List<SkillEffect> ();
-		SkillEffect e1 = new SkillEffect ();
-		e1.effect = Effect.HpReduce;
-		e1.duration = 0f;
-		e1.value = 100;
-		efl.Add (e1);
+		SkillEffect ef = new SkillEffect ();
+		ef.duration = 0f;
+		ef.effect = Effect.HpReduce;
+		ef.value = 100;
 
-		s1.effectList = efl;
+		efl.Add (ef);
+
+		s.effectList = efl;
 
 		skillIdToData = new Dictionary<string, Skill> ();
-		skillIdToData.Add (s1.id, s1);
+		skillIdToData.Add (s.id, s);
 	}
 
-//	public T GetSkill<T> (string id) where T : Skill{
-//		if (skillIdToData.ContainsKey (id)) {
-//			var skill = skillIdToData [id];
-//			if (skill is CombatSkill) {
-//				return skill as CombatSkill;
-//			} else if (skill is SummonSkill) {
-//				return skill as SummonSkill;
-//			}
-//		} 
-//		return null;
-//	}
+	void LoadSkillTree(){
+		skillTrees = new Dictionary<string, Tree<string>> ();
+
+		Tree<string> tree = new Tree<string> ();
+		tree.treeName = "fireball_tree";
+		tree.Root = new Node<string> ("fb1");
+
+		skillTrees.Add (tree.treeName, tree);
+	}
 
 	void LoadTreeData(TreeType treeType){
 		towerTrees = new List<Tree<string>> ();
@@ -95,6 +100,23 @@ public class DataManager {
 			d.Add (id, data);
 		}
 	}
+		
+	#region GetData
+	public Tree<string> GetSkillTree(string name){
+		if (skillTrees.ContainsKey (name)) {
+			return skillTrees [name];
+		} else {
+			return null;
+		}
+	}
+
+	public Skill GetSkillData(string id){
+		if (skillIdToData.ContainsKey (id)) {
+			return skillIdToData [id];
+		} else {
+			return null;
+		}
+	}
 
 	public List<Node<string>> GetTowerRoots(){
 		List <Node<string>> list = new List<Node<string>> ();
@@ -112,8 +134,12 @@ public class DataManager {
 		}
 	}
 
-	public MapData LoadMapData(string id){
-		return LoadDataById<MapData> (id);
+	public MapData GetMapData(int index){
+		if (mapIdToData.Count > index) {
+			return mapIdToData.Values.ElementAt(index);
+		} else {
+			return null;
+		}
 	}
 
 	public TowerData GetTowerData(string id){
@@ -139,6 +165,7 @@ public class DataManager {
 			return null;
 		}
 	}
+	#endregion
 
 	#region json data
 	const string dataDirectory = "Assets/Resources/Data/";

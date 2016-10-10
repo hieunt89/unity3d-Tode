@@ -37,7 +37,7 @@ public class TowerCreateViewSystem : IReactiveSystem {
 		if (e.isTowerBase) {
 			prefToLoad = "towerbase";
 		} else {
-			prefToLoad = e.tower.currentNode.data;
+			prefToLoad = e.tower.towerNode.data;
 		}
 
 		var r = Resources.LoadAsync<GameObject> ("Tower/" + prefToLoad);

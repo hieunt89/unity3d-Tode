@@ -2,12 +2,15 @@
 using System.Collections;
 
 public enum SkillType{
-	Summon,
-	Combat
+	Combat,
+	Summon
 }
 
 public abstract class Skill {
 	public string id;
+	public string name;
 	public float cooldown;
-	public float range;
+	public float castRange;
+	public int expToNextLvl;
+	public int cost;
 }

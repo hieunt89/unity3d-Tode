@@ -34,7 +34,7 @@ public class TowerUpgradeGUI : MonoBehaviour{
 		if (e.isTowerBase) {
 			upgrades = DataManager.Instance.GetTowerRoots();
 		} else {
-			upgrades = e.tower.currentNode.children;
+			upgrades = e.tower.towerNode.children;
 		}
 
 		if(upgrades == null){

@@ -52,14 +52,12 @@ public class ProjectileConstructorEditor : Editor {
 
 
 
-		var range = EditorGUILayout.FloatField ("Range", projectileConstructor.Projectile.Range);
 		if (EditorGUI.EndChangeCheck()) {
 			projectileConstructor.Projectile.Id = id;
 			projectileConstructor.Projectile.Name = name;
 			projectileConstructor.Projectile.Type = type;
 			projectileConstructor.Projectile.TravelSpeed = travelSpeed;
 			projectileConstructor.Projectile.Duration = travelTime;
-			projectileConstructor.Projectile.Range = range;
 		}
 
 		EditorGUI.indentLevel--;

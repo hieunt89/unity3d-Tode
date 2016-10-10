@@ -6,7 +6,6 @@ public class ProjectileData {
 	[SerializeField] public string id;
 	[SerializeField] private string name;
 	[SerializeField] private ProjectileType type;
-	[SerializeField] private float range;
 
 	[SerializeField] private float travelSpeed;
 	[SerializeField] private float duration;
@@ -74,28 +73,17 @@ public class ProjectileData {
 			duration = value;
 		}
 	}
-
 		
-	public float Range {
-		get {
-			return range;
-		}
-		set {
-			range = value;
-		}
-	}
-
 	public ProjectileData (string id) {
 		this.id = id;
 	}
 
-	public ProjectileData (string id, ProjectileType type, float travelSpeed, float duration, float range)
+	public ProjectileData (string id, ProjectileType type, float travelSpeed, float duration)
 	{
 		this.id = id;
 		this.type = type;
 		this.travelSpeed = travelSpeed;
 		this.duration = duration;
-		this.range = range;
 	}
 	
 }

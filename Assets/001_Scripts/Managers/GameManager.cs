@@ -56,6 +56,8 @@ public class GameManager : MonoBehaviour {
 				.Add(pool.CreateSystem<ProjectileThrowingSystem>())
 				.Add(pool.CreateSystem<ProjectileLaserSystem>())
 				.Add(pool.CreateSystem<ProjectileReachEndSystem>())
+
+				//Skill
 				
 				//View
 				.Add(pool.CreateSystem<TowerCreateViewSystem>())

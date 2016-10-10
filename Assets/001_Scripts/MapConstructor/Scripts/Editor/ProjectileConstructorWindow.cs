@@ -44,15 +44,13 @@ public class ProjectileConstructorWindow : EditorWindow {
 		GUI.enabled = true;
 
 		GUI.enabled = projectile.Type == ProjectileType.throwing || projectile.Type == ProjectileType.laser;
-		var duration = EditorGUILayout.FloatField ("Duration", projectile.Duration);
+			var duration = EditorGUILayout.FloatField ("Duration", projectile.Duration);
 		GUI.enabled = true;
 
 		GUI.enabled = projectile.Type == ProjectileType.laser;
 			var maxDmgBuildTime = EditorGUILayout.FloatField ("Time to reach maxDmg", projectile.MaxDmgBuildTime);
 			var tickInterval = EditorGUILayout.FloatField ("Tick interval", projectile.TickInterval);
 		GUI.enabled = true;
-
-		var range = EditorGUILayout.FloatField ("Range", projectile.Range);
 
 		if (EditorGUI.EndChangeCheck ()) {
 			projectile.Id = id;
@@ -62,7 +60,6 @@ public class ProjectileConstructorWindow : EditorWindow {
 			projectile.Duration = duration;
 			projectile.MaxDmgBuildTime = maxDmgBuildTime;
 			projectile.TickInterval = tickInterval;
-			projectile.Range = range;
 		}
 
 		GUILayout.Space(5);

@@ -62,6 +62,7 @@ public class TowerConstructorWindow : EditorWindow {
 		var atkSpeed = EditorGUILayout.FloatField ("Attack Speed", tower.AtkSpeed);
 		var goldRequired = EditorGUILayout.IntField ("Gold Cost", tower.GoldRequired);
 		var buildTime = EditorGUILayout.FloatField ("Build Time", tower.BuildTime);
+		var aoe = EditorGUILayout.FloatField ("AOE", tower.Aoe);
 
 		if (EditorGUI.EndChangeCheck ()) {
 			tower.Id = id;
@@ -75,6 +76,7 @@ public class TowerConstructorWindow : EditorWindow {
 			tower.AtkSpeed = atkSpeed;
 			tower.GoldRequired = goldRequired;
 			tower.BuildTime = buildTime;
+			tower.Aoe = aoe;
 		}
 
 		GUILayout.Space(5);

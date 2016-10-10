@@ -15,7 +15,6 @@ public class TowerConstructorEditor : Editor {
 	List<string> projectileIds;
 
 	int projectileIndex;
-	List<int> nextTowerIndexes;
 
 	void OnEnable(){
 		towerConstructor = (TowerConstructor) target as TowerConstructor;
@@ -37,12 +36,6 @@ public class TowerConstructorEditor : Editor {
 
 		GetProjectileIds ();
 		projectileIndex = towerConstructor.Tower.PrjTypeIndex;
-
-		if (towerConstructor.Tower.NextUpgradeIndexes.Count > 0) {
-			nextTowerIndexes = towerConstructor.Tower.NextUpgradeIndexes;
-		} else {
-			nextTowerIndexes = new List<int> ();
-		}
 	}
 
 	private void GetProjectileIds () {
@@ -105,7 +98,6 @@ public class TowerConstructorEditor : Editor {
 		}
 		if (GUILayout.Button("Reset")){
 			towerConstructor.Tower = new TowerData ("tower" + existTowers.Count);
-			nextTowerIndexes.Clear ();
 		}
 		GUILayout.EndHorizontal();
 
