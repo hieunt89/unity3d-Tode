@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Entitas;
+using System.Collections.Generic;
 
 public class TowerStatsUpdateSystem : IReactiveSystem, IEnsureComponents {
 	#region IEnsureComponents implementation
@@ -29,7 +30,7 @@ public class TowerStatsUpdateSystem : IReactiveSystem, IEnsureComponents {
 					.ReplaceAttackDamage (towerData.MinDmg, towerData.MaxDmg)
 					.ReplaceAttackSpeed (towerData.AtkSpeed)
 					.ReplaceAoe(towerData.Aoe)
-//					.ReplaceSkillNodeList(DataManager.)
+					.ReplaceSkillList(DataManager.Instance.GetSkillTrees("fireball_tree"))
 					;
 			} else {
 				tower.IsActive (false);

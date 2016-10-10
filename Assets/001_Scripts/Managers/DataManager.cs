@@ -39,6 +39,7 @@ public class DataManager {
 		LoadData <MapData> (out mapIdToData);
 		LoadTreeData (TreeType.Towers);
 		LoadSkillData ();
+		LoadSkillTree ();
 	}
 
 	void LoadSkillData(){
@@ -102,6 +103,17 @@ public class DataManager {
 	}
 		
 	#region GetData
+	public List<Tree<string>> GetSkillTrees(params string[] names){
+		List<Tree<string>> listTree = new List<Tree<string>> ();
+		for (int i = 0; i < names.Length; i++) {
+			var tree = GetSkillTree (names[i]);
+			if (tree != null) {
+				listTree.Add (tree);
+			}
+		}
+		return listTree;
+	}
+
 	public Tree<string> GetSkillTree(string name){
 		if (skillTrees.ContainsKey (name)) {
 			return skillTrees [name];
