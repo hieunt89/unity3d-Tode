@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System;
 
-[ExecuteInEditMode]
-public class Test : MonoBehaviour {
 
-	void Update () {
+public class Test : MonoBehaviour {
+	void Start(){
+//		DataManager n = new DataManager ();
+//		var s1 = DataManager.Instance.GetSkill ("skill1");
 	}
 }

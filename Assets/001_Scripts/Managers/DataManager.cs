@@ -36,7 +36,41 @@ public class DataManager {
 		LoadData <CharacterData> (out characterIdToData);
 //		LoadData <MapData> (out mapIdToData);
 		LoadTreeData (TreeType.Towers);
+		LoadSkillData ();
 	}
+
+	void LoadSkillData(){
+		CombatSkill s1 = new CombatSkill ();
+		s1.aoe = 1f;
+		s1.cooldown = 2f;
+		s1.range = 6f;
+		s1.prjId = "projectile0";
+		s1.id = "skill1";
+
+		List<SkillEffect> efl = new List<SkillEffect> ();
+		SkillEffect e1 = new SkillEffect ();
+		e1.effect = Effect.HpReduce;
+		e1.duration = 0f;
+		e1.value = 100;
+		efl.Add (e1);
+
+		s1.effectList = efl;
+
+		skillIdToData = new Dictionary<string, Skill> ();
+		skillIdToData.Add (s1.id, s1);
+	}
+
+//	public T GetSkill<T> (string id) where T : Skill{
+//		if (skillIdToData.ContainsKey (id)) {
+//			var skill = skillIdToData [id];
+//			if (skill is CombatSkill) {
+//				return skill as CombatSkill;
+//			} else if (skill is SummonSkill) {
+//				return skill as SummonSkill;
+//			}
+//		} 
+//		return null;
+//	}
 
 	void LoadTreeData(TreeType treeType){
 		towerTrees = new List<Tree<string>> ();
@@ -48,7 +82,6 @@ public class DataManager {
 			Tree<string> tree = bf.Deserialize (s) as Tree<string>;
 			towerTrees.Add (tree);
 		}
-
 	}
 
 	void LoadData <T> (out Dictionary<string, T> d){
@@ -70,8 +103,6 @@ public class DataManager {
 		}
 		return list;
 	}
-
-//	public Tree
 
 	public MapData GetMapData(string id){
 		if (mapIdToData.ContainsKey (id)) {
