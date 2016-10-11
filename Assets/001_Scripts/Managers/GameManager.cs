@@ -77,4 +77,12 @@ public class GameManager : MonoBehaviour {
 				.Add(pool.CreateSystem<DamageSystem>())
 			;
 	}
+
+	public void ToggleGamePause(){
+		if (Pools.pool.isGamePause) {
+			Pools.pool.isGamePause = false;
+		} else {
+			Pools.pool.isGamePause = true;
+		}
+	}
 }

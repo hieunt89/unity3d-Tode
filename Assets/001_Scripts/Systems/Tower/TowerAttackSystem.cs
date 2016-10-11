@@ -34,12 +34,7 @@ public class TowerAttackSystem : IReactiveSystem, ISetPool {
 			}
 
 			//attack
-			if (tower.view.Anim != null) {
-				tower.AddCoroutine (StartAttack (tower, tower.target.e));
-			} else {
-				Debug.Log ("tower " + tower.id.value + " does not have animator");
-				AttackNow (tower, tower.target.e);
-			}
+			tower.AddCoroutine (StartAttack (tower, tower.target.e));
 
 		}
 	}
@@ -58,20 +53,23 @@ public class TowerAttackSystem : IReactiveSystem, ISetPool {
 
 	IEnumerator StartAttack(Entity tower, Entity target){
 		tower.IsAttacking (true);
-		tower.view.Anim.SetTrigger (AnimTrigger.Fire);
-		tower.view.Anim.speed = tower.view.Anim.GetCurrentAnimatorStateInfo (0).length / tower.attackTime.value;
 
 		float time = 0f;
 		while(time < tower.attackTime.value){
-			time += Time.deltaTime;
+			if (!_pool.isGamePause) {
+				time += Time.deltaTime;
+			}
+			if (tower.view.Anim != null) {
+				tower.view.Anim.Play (AnimState.Fire, 0, time / tower.attackTime.value);
+			}
 			yield return null;
 		}
-
-		tower.IsAttacking (false);
-		tower.view.Anim.SetTrigger (AnimTrigger.Idle);
-		tower.view.Anim.speed = 1f;
-
+			
+		if (tower.view.Anim != null) {
+			tower.view.Anim.Play (AnimState.Idle);
+		}
 		AttackNow (tower, target);
+		tower.IsAttacking (false);
 	}
 
 	void AttackNow(Entity tower, Entity target){

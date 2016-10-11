@@ -1,5 +1,5 @@
-﻿public struct AnimTrigger{
-	enum Trigger {
+﻿public struct AnimState{
+	enum StateName {
 		fire,
 		die,
 		move,
@@ -8,25 +8,25 @@
 
 	public static string Fire{
 		get{ 
-			return Trigger.fire.ToString ();
+			return StateName.fire.ToString ();
 		}
 	}
 
 	public static string Die{
 		get{ 
-			return Trigger.die.ToString ();
+			return StateName.die.ToString ();
 		}
 	}
 
 	public static string Move{
 		get{ 
-			return Trigger.move.ToString ();
+			return StateName.move.ToString ();
 		}
 	}
 
 	public static string Idle{
 		get{ 
-			return Trigger.idle.ToString ();
+			return StateName.idle.ToString ();
 		}
 	}
 }
