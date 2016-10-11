@@ -61,6 +61,7 @@ public class TowerConstructorWindow : EditorWindow {
 		var minDmg = EditorGUILayout.IntField ("Min Damage", tower.MinDmg);
 		var maxDmg = EditorGUILayout.IntField ("Max Damage", tower.MaxDmg);
 		var atkSpeed = EditorGUILayout.FloatField ("Attack Speed", tower.AtkSpeed);
+		var atkTime = EditorGUILayout.FloatField ("Attack Time", tower.AtkTime);
 		var goldRequired = EditorGUILayout.IntField ("Gold Cost", tower.GoldRequired);
 		var buildTime = EditorGUILayout.FloatField ("Build Time", tower.BuildTime);
 		var aoe = EditorGUILayout.FloatField ("AOE", tower.Aoe);
@@ -75,6 +76,7 @@ public class TowerConstructorWindow : EditorWindow {
 			tower.MinDmg = minDmg;
 			tower.MaxDmg = maxDmg;
 			tower.AtkSpeed = atkSpeed;
+			tower.AtkTime = atkTime;
 			tower.GoldRequired = goldRequired;
 			tower.BuildTime = buildTime;
 			tower.Aoe = aoe;

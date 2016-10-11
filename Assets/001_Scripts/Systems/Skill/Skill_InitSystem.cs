@@ -55,6 +55,7 @@ public class Skill_InitSystem : IReactiveSystem, ISetPool {
 			.AddAttackSpeed(data.cooldown)
 			.AddAttackRange(data.castRange)
 			.AddGold(data.cost)
+			.IsActive(true)
 			;
 
 		if(data is CombatSkill){

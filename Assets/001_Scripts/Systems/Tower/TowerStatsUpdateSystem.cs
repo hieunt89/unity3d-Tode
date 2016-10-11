@@ -29,6 +29,7 @@ public class TowerStatsUpdateSystem : IReactiveSystem, IEnsureComponents {
 					.ReplaceAttackRange (towerData.AtkRange)
 					.ReplaceAttackDamage (towerData.MinDmg, towerData.MaxDmg)
 					.ReplaceAttackSpeed (towerData.AtkSpeed)
+					.ReplaceAttackTime(towerData.AtkTime)
 					.ReplaceAoe(towerData.Aoe)
 					.ReplaceSkillList(DataManager.Instance.GetSkillTrees("fireball_tree"))
 					;

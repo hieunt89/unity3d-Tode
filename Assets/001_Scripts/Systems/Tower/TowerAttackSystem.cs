@@ -35,11 +35,9 @@ public class TowerAttackSystem : IReactiveSystem, ISetPool {
 
 			//attack
 			if (tower.view.Anim != null) {
-				tower.IsAttacking (true);
-				tower.view.Anim.SetTrigger ("fire");
 				tower.AddCoroutine (StartAttack (tower, tower.target.e));
 			} else {
-				Debug.Log ("tower " + tower.id.value + " does not have attack animator");
+				Debug.Log ("tower " + tower.id.value + " does not have animator");
 				AttackNow (tower, tower.target.e);
 			}
 
@@ -59,9 +57,19 @@ public class TowerAttackSystem : IReactiveSystem, ISetPool {
 	#endregion
 
 	IEnumerator StartAttack(Entity tower, Entity target){
-		while(tower.isAttacking){
+		tower.IsAttacking (true);
+		tower.view.Anim.SetTrigger (AnimTrigger.Fire);
+		tower.view.Anim.speed = tower.view.Anim.GetCurrentAnimatorStateInfo (0).length / tower.attackTime.value;
+
+		float time = 0f;
+		while(time < tower.attackTime.value){
+			time += Time.deltaTime;
 			yield return null;
 		}
+
+		tower.IsAttacking (false);
+		tower.view.Anim.SetTrigger (AnimTrigger.Idle);
+		tower.view.Anim.speed = 1f;
 
 		AttackNow (tower, target);
 	}
