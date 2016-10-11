@@ -39,11 +39,11 @@ public class TreeNodeEditorWindow : EditorWindow {
 
 //		UpdateVirtualRect ();
 //		Debug.Log (virtualRect);
-//		scrollPosition =  GUI.BeginScrollView(new Rect(0f, 0f, position.width, position.height), scrollPosition, virtualRect); // <-- need to customize this viewrect (expandable by nodes + offset)
+		scrollPosition =  GUI.BeginScrollView(new Rect(0f, 0f, position.width, position.height), scrollPosition, virtualRect); // <-- need to customize this viewrect (expandable by nodes + offset)
 		BeginWindows ();
 		workView.UpdateView (virtualRect, new Rect (0f, 0f, viewPercentage, 1f), e, currentTree);
 		EndWindows ();
-//		GUI.EndScrollView ();
+		GUI.EndScrollView ();
 
 //		propertiesView.UpdateView (new Rect (position.width, position.y, position.width, position.height), 
 //			new Rect (viewPercentage, 0f, 1f - viewPercentage, 1f), e, currentTree);

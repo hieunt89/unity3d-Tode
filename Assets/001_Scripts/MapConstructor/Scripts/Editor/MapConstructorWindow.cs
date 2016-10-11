@@ -8,7 +8,7 @@ public class MapConstructorWindow : EditorWindow {
 	private MapData map;
 	private Event currentEvent;
 
-	private float pointSize;
+	private float pointSize = 1f;
 	private float maxPointSize;
 	private Color baseColor;
 	private Color pathColor;
@@ -33,7 +33,8 @@ public class MapConstructorWindow : EditorWindow {
     [MenuItem("Window/Map Constructor")]
     public static void ShowWindow()
     {
-        EditorWindow.GetWindow(typeof(MapConstructorWindow));
+//        EditorWindow.GetWindow(typeof(MapConstructorWindow));
+		EditorWindow.GetWindow <MapConstructorWindow> ("Map Editor", true);
     }
     
 	#region MONO
@@ -46,8 +47,17 @@ public class MapConstructorWindow : EditorWindow {
 				CreatePopupIndexes ();
 		GenerateStyle ();
 
-		var mapId = "map" + existMaps.Count;
-		map.Id = mapId;
+		map.Id =  "map" + existMaps.Count;;
+
+		pointSize = 1f;
+		baseColor = Color.magenta;
+	}
+	void OnFocus () {
+		SceneView.onSceneGUIDelegate -= this.OnSceneGUI;
+		SceneView.onSceneGUIDelegate += this.OnSceneGUI;
+	}
+	void OnDestroy () {
+		SceneView.onSceneGUIDelegate -= this.OnSceneGUI;
 	}
 	#endregion MONO
    
@@ -65,14 +75,18 @@ public class MapConstructorWindow : EditorWindow {
 
 		EditorGUI.BeginChangeCheck();
 		var id = EditorGUILayout.TextField ("Map Id", map.Id);
-//		var pointSize = EditorGUILayout.Slider("Point Size", pointSize, 0f, maxPointSize);
+		var initGold = EditorGUILayout.IntField ("Init Gold", map.InitGold);
+		var initLife = EditorGUILayout.IntField ("Init Life", map.InitLife);
+//		pointSize = EditorGUILayout.Slider("Point Size", pointSize, 0f, maxPointSize);
 //		var baseColor = EditorGUILayout.ColorField("Base Color", baseColor);
 //		var pathColor = EditorGUILayout.ColorField("Path Color", pathColor);
 //		var wayPointColor = EditorGUILayout.ColorField("Way Points Color", wayPointColor);
 //		var towerPointColor = EditorGUILayout.ColorField("Tower Points Color", towerPointColor);
 		if(EditorGUI.EndChangeCheck()){
 			map.Id = id;
-//			pointSize = pointSize;
+			map.InitGold = initGold;
+			map.initLife = initLife;
+//			pointSize = pointSize;	
 //			baseColor = baseColor;
 //			pathColor = pathColor;
 //			wayPointColor = wayPointColor;
@@ -111,10 +125,9 @@ public class MapConstructorWindow : EditorWindow {
 	}
 
 
-	public void OnSceneGUI (){
+	public void OnSceneGUI (SceneView _sceneView){
 		if (map == null)
 			return;
-
 		currentEvent = Event.current;
 
 		if (currentEvent.isKey && currentEvent.type == EventType.KeyDown && currentEvent.character == 'l'){
@@ -142,22 +155,22 @@ public class MapConstructorWindow : EditorWindow {
 //		Handles.Label (map.transform.position + new Vector3(map.pointSize, map.pointSize, map.pointSize), map.name);
 
 		// 2d gui on scene view
-		Handles.BeginGUI();
-		GUILayout.BeginArea(new Rect(10f, 10f, 180f, 28f), GUI.skin.box);
-		// if (GUILayout.Button("Create WP")){
-		// 	// CreateWayPoint (new Vector3(mapConstructor.wayPoints.Count, 0f, 0f));	// TODO: get current path id
-		// }
-		// if (GUILayout.Button("Create TP")){
-		// 	CreateTowerPoint (new Vector3(mapConstructor.towerPoints.Count, 0f, 1f));
-		// }
-
-		GUILayout.Space(5f);
-		GUILayout.BeginHorizontal();
-		GUILayout.Label ("Point Size");
-		pointSize = GUILayout.HorizontalSlider (pointSize, 0f, maxPointSize, GUILayout.MinWidth(100));
-		GUILayout.EndHorizontal();
-		GUILayout.EndArea();
-		Handles.EndGUI(); 
+//		Handles.BeginGUI();
+//		GUILayout.BeginArea(new Rect(10f, 10f, 180f, 28f), GUI.skin.box);
+//		// if (GUILayout.Button("Create WP")){
+//		// 	// CreateWayPoint (new Vector3(mapConstructor.wayPoints.Count, 0f, 0f));	// TODO: get current path id
+//		// }
+//		// if (GUILayout.Button("Create TP")){
+//		// 	CreateTowerPoint (new Vector3(mapConstructor.towerPoints.Count, 0f, 1f));
+//		// }
+//
+//		GUILayout.Space(5f);
+//		GUILayout.BeginHorizontal();
+//		GUILayout.Label ("Point Size");
+//		pointSize = GUILayout.HorizontalSlider (pointSize, 0f, maxPointSize, GUILayout.MinWidth(100));
+//		GUILayout.EndHorizontal();
+//		GUILayout.EndArea();
+//		Handles.EndGUI(); 
 
 		// render waypoints on scene view
 		if (map.Paths != null && map.Paths.Count > 0){
@@ -168,28 +181,26 @@ public class MapConstructorWindow : EditorWindow {
 					{
 						Vector3 point = map.Paths[i].Points[j];
 
-						if (point != null) {
-							Handles.Label (point + new Vector3(pointSize * .5f, pointSize * .5f, pointSize * .5f), i+"-"+j, titleAStyle);
-							if (j == 0){
-								Handles.color = Color.green;
-							} else if (j == map.Paths[i].Points.Count - 1) {
-								Handles.color = Color.red;
-							} else {
-								Handles.color = baseColor;
-							}
-
-							Handles.SphereCap (0, point, Quaternion.identity, pointSize * .5f);
-							// draw line between way points
-							if(j < map.Paths[i].Points.Count - 1) {
-								Handles.color = pathColor;
-								Vector3 newPoint = map.Paths[i].Points[j + 1];
-								Handles.DrawLine (point, newPoint);
-								Handles.color = baseColor;
-							}
-
-							map.Paths[i].Points[j] = Handles.FreeMoveHandle (point, Quaternion.identity, pointSize * .5f, Vector3.one, Handles.CircleCap);
-							//							point = Handles.PositionHandle (point, Quaternion.identity);
+						Handles.Label (point + new Vector3(pointSize * .5f, pointSize * .5f, pointSize * .5f), i+"-"+j, titleAStyle);
+						if (j == 0){
+							Handles.color = Color.green;
+						} else if (j == map.Paths[i].Points.Count - 1) {
+							Handles.color = Color.red;
+						} else {
+							Handles.color = baseColor;
 						}
+
+						Handles.SphereCap (j, point, Quaternion.identity, pointSize * .5f);
+						// draw line between way points
+						if(j < map.Paths[i].Points.Count - 1) {
+							Handles.color = pathColor;
+							Vector3 newPoint = map.Paths[i].Points[j + 1];
+							Handles.DrawLine (point, newPoint);
+							Handles.color = baseColor;
+						}
+
+						map.Paths[i].Points[j] = Handles.FreeMoveHandle (point, Quaternion.identity, pointSize * .5f, Vector3.one, Handles.CircleCap);
+						//							point = Handles.PositionHandle (point, Quaternion.identity);
 					}
 				}
 			}
@@ -201,14 +212,13 @@ public class MapConstructorWindow : EditorWindow {
 				// GameObject towerPoint = mapConstructor.towerPoints[i].towerPointGo;
 				Vector3 towerPoint = map.TowerPoints[i].TowerPointPos;
 
-				if (towerPoint != null) {
-					Handles.Label (towerPoint + new Vector3(pointSize * .5f, pointSize * .5f, pointSize * .5f), "t"+i, titleAStyle);
-					Handles.color = towerPointColor;
-					Handles.CubeCap (0, towerPoint, Quaternion.identity, pointSize * .5f);
-					Handles.color = baseColor;
+				Handles.Label (towerPoint + new Vector3(pointSize * .5f, pointSize * .5f, pointSize * .5f), "t"+i, titleAStyle);
+				Handles.color = towerPointColor;
+				Handles.CubeCap (0, towerPoint, Quaternion.identity, pointSize * .5f);
+				Handles.color = baseColor;
 
-					map.TowerPoints[i].TowerPointPos = Handles.FreeMoveHandle (towerPoint, Quaternion.identity, pointSize * .5f, Vector3.one, Handles.RectangleCap);
-				}
+				map.TowerPoints[i].TowerPointPos = Handles.FreeMoveHandle (towerPoint, Quaternion.identity, pointSize * .5f, Vector3.one, Handles.RectangleCap);
+
 			}
 		}
 
@@ -415,8 +425,8 @@ public class MapConstructorWindow : EditorWindow {
 		GUILayout.Space (5);
 
 		var elementWidth = EditorGUIUtility.currentViewWidth * .14f;
-		var posWidth = EditorGUIUtility.currentViewWidth * .6f;
-		var btnWidth = EditorGUIUtility.currentViewWidth * .1f;
+//		var posWidth = EditorGUIUtility.currentViewWidth * .6f;
+//		var btnWidth = EditorGUIUtility.currentViewWidth * .1f;
 
 		// render wave data
 		if (map.Waves!= null && map.Waves.Count > 0) {

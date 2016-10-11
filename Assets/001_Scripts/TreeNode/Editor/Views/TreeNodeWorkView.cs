@@ -4,7 +4,7 @@ using System;
 
 public class TreeNodeWorkView : ViewBase {
 	private Vector2 mousePosition;
-	private int selectedNodeId = 0;
+//	private int selectedNodeId = 0;
 //	private Vector2 scrollPosition;
 	private TreeType treeType;
 	private string treeName = "Enter tree name ...";

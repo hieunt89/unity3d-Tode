@@ -214,8 +214,8 @@ public class NodeUI {
 	{
 		float fHandleDistanceDouble = fHandleDistance * 2;
 
-		Vector3 startPos = new Vector3(start.x + start.width * vStartPercentage.x, start.y + start.height * vStartPercentage.y, 0);
-		Vector3 startTan = startPos + Vector3.right * (-fHandleDistance + fHandleDistanceDouble * vStartPercentage.x) + Vector3.up * (-fHandleDistance + fHandleDistanceDouble * vStartPercentage.y);
+//		Vector3 startPos = new Vector3(start.x + start.width * vStartPercentage.x, start.y + start.height * vStartPercentage.y, 0);
+//		Vector3 startTan = startPos + Vector3.right * (-fHandleDistance + fHandleDistanceDouble * vStartPercentage.x) + Vector3.up * (-fHandleDistance + fHandleDistanceDouble * vStartPercentage.y);
 
 		Vector3 endPos = new Vector3(end.x + end.width * vEndPercentage.x, end.y + end.height * vEndPercentage.y, 0);
 		Vector3 endTan = endPos + Vector3.right * (-fHandleDistance + fHandleDistanceDouble * vEndPercentage.x) + Vector3.up * (-fHandleDistance + fHandleDistanceDouble * vEndPercentage.y);
@@ -231,7 +231,7 @@ public class NodeUI {
 
 		Vector3 vHalfwayPoint = endPos  + vDelta.normalized * fLength * 0.5f;
 
-		Color shadowCol = new Color(0, 0, 0, 0.06f);
+//		Color shadowCol = new Color(0, 0, 0, 0.06f);
 
 //		for (int i = 0; i < 3; i++) // Draw a shadow
 //			Handles.DrawBezier(endPos, vArrowHeadEnd1, endPos, vHalfwayPoint, shadowCol, null, (i + 1) * 5);
