@@ -171,69 +171,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!1 &975331221
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 975331223}
-  - 114: {fileID: 975331222}
-  - 114: {fileID: 975331224}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &975331222
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 975331221}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bce3d75df5f334749a9a55fc8f3a9432, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &975331223
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 975331221}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.168, y: -1.509, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
---- !u!114 &975331224
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 975331221}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72afb5d3df5c146aab8ee4ef7bff8a82, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  windowRect0:
-    serializedVersion: 2
-    x: 20
-    y: 20
-    width: 120
-    height: 50
-  windowRect1:
-    serializedVersion: 2
-    x: 20
-    y: 100
-    width: 120
-    height: 50
 --- !u!1 &1431064413
 GameObject:
   m_ObjectHideFlags: 0
@@ -266,33 +203,49 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointSize: 1
   maxPointSize: 2
-  baseColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  pathColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  wayPointColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  towerPointColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  baseColor:
+    r: 0.5
+    g: 0.5
+    b: 0.5
+    a: 1
+  pathColor:
+    r: 0.5
+    g: 0.5
+    b: 0.5
+    a: 1
+  wayPointColor:
+    r: 0.5
+    g: 0.5
+    b: 0.5
+    a: 1
+  towerPointColor:
+    r: 0.5
+    g: 0.5
+    b: 0.5
+    a: 1
   map:
-    id: map1
+    id: 6d617031
     initGold: 0
     initLife: 0
     paths:
-    - id: p0
+    - id: 7030
       points: []
-    - id: p1
+    - id: 7031
       points: []
     towerPoints:
-    - id: t0
+    - id: 7430
       towerPointPos: {x: 0, y: 0, z: 0}
     waves:
-    - id: w0
+    - id: 7730
       groups:
-      - id: g0
+      - id: 6730
         enemyIdIndex: 0
-        enemyId: e0
+        enemyId: 6530
         amount: 0
         spawnInterval: 0
         groupDelay: 0
         pathIdIndex: 0
-        pathId: p0
+        pathId: 7030
       waveDelay: 0
 --- !u!114 &1431064416
 MonoBehaviour:
@@ -306,7 +259,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy:
-    id: e2
+    id: 6532
     name: 
     moveSpeed: 0
     turnSpeed: 0
@@ -342,6 +295,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9990a4b5fc9304c93b7707ef20ec3c08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tower:
+    id: 
+    name: 
+    prjTypeIndex: 0
+    prjType: 
+    atkType: 0
+    atkRange: 0
+    minDmg: 0
+    maxDmg: 0
+    atkSpeed: 0
+    goldRequired: 0
+    buildTime: 0
+    aoe: 0
 --- !u!114 &1431064419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -354,8 +320,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectile:
-    id: projectile1
-    name: arrow
+    id: 70726f6a656374696c6531
+    name: 6172726f77
     type: 0
     travelSpeed: 5
     duration: 0
