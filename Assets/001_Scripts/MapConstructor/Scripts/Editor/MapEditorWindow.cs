@@ -178,37 +178,69 @@ public class MapEditorWindow : EditorWindow {
 		Handles.EndGUI(); 
 
 		// render waypoints on scene view
-		if (map.Paths != null && map.Paths.Count > 0){
-			for (int i = 0; i < map.Paths.Count; i++)
-			{
-				if (map.Paths[i].Points.Count > 0){
-					for (int j = 0; j < map.Paths[i].Points.Count; j++)
-					{
-						Vector3 point = map.Paths[i].Points[j];
+////		if (map.Paths != null && map.Paths.Count > 0){
+//			for (int i = 0; i < map.Paths.Count; i++)
+//			{
+//				if (map.Paths[i].Points.Count > 0){
+//					for (int j = 0; j < map.Paths[i].Points.Count; j++)
+//					{
+//						Vector3 point = map.Paths[i].Points[j];
+//
+//						Handles.Label (point + new Vector3(pointSize * .5f, pointSize * .5f, pointSize * .5f), i+"-"+j, titleAStyle);
+//						if (j == 0){
+//							Handles.color = Color.green;
+//						} else if (j == map.Paths[i].Points.Count - 1) {
+//							Handles.color = Color.red;
+//						} else {
+//							Handles.color = baseColor;
+//						}
+//
+//						Handles.SphereCap (j, point, Quaternion.identity, pointSize * .5f);
+//						// draw line between way points
+//						if(j < map.Paths[i].Points.Count - 1) {
+//							Handles.color = pathColor;
+//							Vector3 newPoint = map.Paths[i].Points[j + 1];
+//							Handles.DrawLine (point, newPoint);
+//							Handles.color = baseColor;
+//						}
+//
+//						map.Paths[i].Points[j] = Handles.FreeMoveHandle (point, Quaternion.identity, pointSize * .5f, Vector3.one, Handles.CircleCap);
+//						//							point = Handles.PositionHandle (point, Quaternion.identity);
+//					}
+//				}
+//			}
+//		}
 
-						Handles.Label (point + new Vector3(pointSize * .5f, pointSize * .5f, pointSize * .5f), i+"-"+j, titleAStyle);
-						if (j == 0){
-							Handles.color = Color.green;
-						} else if (j == map.Paths[i].Points.Count - 1) {
-							Handles.color = Color.red;
-						} else {
-							Handles.color = baseColor;
-						}
-
-						Handles.SphereCap (j, point, Quaternion.identity, pointSize * .5f);
-						// draw line between way points
-						if(j < map.Paths[i].Points.Count - 1) {
-							Handles.color = pathColor;
-							Vector3 newPoint = map.Paths[i].Points[j + 1];
-							Handles.DrawLine (point, newPoint);
-							Handles.color = baseColor;
-						}
-
-						map.Paths[i].Points[j] = Handles.FreeMoveHandle (point, Quaternion.identity, pointSize * .5f, Vector3.one, Handles.CircleCap);
-						//							point = Handles.PositionHandle (point, Quaternion.identity);
+		if (map.Paths != null  && map.Paths.Count > 0){
+			for (int pathIndex = 0; pathIndex < map.Paths.Count; pathIndex++){				
+				Vector3 p0 = ShowPoint(pathIndex, 0);
+				for (int pointIndex = 1; pointIndex < map.Paths[pathIndex].ControlPointCount; pointIndex += 3) {
+					Vector3 p1 = ShowPoint(pathIndex, pointIndex);
+					Vector3 p2 = ShowPoint(pathIndex, pointIndex + 1);
+					Vector3 p3 = ShowPoint(pathIndex, pointIndex + 2);
+					
+					Handles.color = Color.gray;
+					Handles.DrawLine(p0, p1);
+					Handles.DrawLine(p2, p3);
+					
+					//			Handles.DrawBezier(p0, p3, p1, p2, Color.white, null, 2f);
+					
+					Handles.color = Color.white;
+					Vector3 lineStart = map.Paths[pathIndex].GetPoint(0f);
+					Handles.color = Color.green;
+					Handles.DrawLine(lineStart, lineStart + map.Paths[pathIndex].GetDirection(0f));
+					int steps = stepsPerCurve * map.Paths[pathIndex].CurveCount;
+					for (int stepIndex = 1; stepIndex <= steps; stepIndex++) {
+						Vector3 lineEnd = map.Paths[pathIndex].GetPoint(stepIndex / (float)steps);
+						Handles.color = Color.white;
+						Handles.DrawLine(lineStart, lineEnd);
+						Handles.color = Color.green;
+						Handles.DrawLine(lineEnd, lineEnd +  map.Paths[pathIndex].GetDirection(stepIndex / (float)steps));
+						lineStart = lineEnd;
 					}
+					p0 = p3;
 				}
-			}
+			}	
 		}
 		// render towerpoints on scene view
 		if (map.TowerPoints != null && map.TowerPoints.Count > 0){
@@ -230,6 +262,34 @@ public class MapEditorWindow : EditorWindow {
 		SceneView.RepaintAll();
 	}
 
+
+	private const int stepsPerCurve = 10;
+	private Vector3 ShowPoint (int pathIndex, int pointIndex) {
+		Vector3 point = map.Paths[pathIndex].GetControlPoint(pointIndex);
+
+		float size = HandleUtility.GetHandleSize(point);
+		if (pointIndex == 0) {
+			size *= 1.25f;
+		}
+
+		//		Handles.color = modeColors[(int)spline.GetControlPointMode(index)];
+		Handles.color = Color.yellow;
+		//		if (Handles.Button(point, handleRotation, size * handleSize, size * pickSize, Handles.DotCap)) {
+		//			selectedIndex = index;
+		//			Repaint();
+		//		}
+		//		if (selectedIndex == index) {
+		EditorGUI.BeginChangeCheck();
+		//			point = Handles.DoPositionHandle(point, handleRotation);
+		point = Handles.FreeMoveHandle(point, Quaternion.identity, .2f, Vector3.one, Handles.CircleCap);
+		if (EditorGUI.EndChangeCheck()) {
+//			Undo.RecordObject(spline, "Move Point");
+//			EditorUtility.SetDirty(spline);
+			map.Paths[pathIndex].SetControlPoint(pointIndex, point);
+		}
+		//		}
+		return point;
+	}
 	GUIStyle headerStyle = new GUIStyle();
 	GUIStyle bodyStyle = new GUIStyle();
 	GUIStyle footerStyle = new GUIStyle();
@@ -555,7 +615,7 @@ public class MapEditorWindow : EditorWindow {
 	private void CreatePath () {
 		if (map.Paths == null)
 			map.Paths = new List<PathData> ();
-		PathData pathData = new PathData("p" + map.Paths.Count, new List<Vector3> ()) ;
+		PathData pathData = new PathData("p" + map.Paths.Count) ;
 		map.Paths.Add(pathData);
 
 		if (pathIds == null) 
