@@ -171,159 +171,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!1 &1431064413
+--- !u!1 &1287812007
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 1431064417}
-  - 114: {fileID: 1431064418}
-  - 114: {fileID: 1431064416}
-  - 114: {fileID: 1431064419}
-  - 114: {fileID: 1431064414}
+  - 4: {fileID: 1287812009}
+  - 114: {fileID: 1287812008}
   m_Layer: 0
-  m_Name: Constructor
+  m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1431064414
+--- !u!114 &1287812008
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1431064413}
+  m_GameObject: {fileID: 1287812007}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d252a2ec81776f429d08b6baebb8509, type: 3}
+  m_Script: {fileID: 11500000, guid: 67ea3ce4c85ff4a48aa67692b4622533, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointSize: 1
-  maxPointSize: 2
-  baseColor:
-    r: 0.5
-    g: 0.5
-    b: 0.5
-    a: 1
-  pathColor:
-    r: 0.5
-    g: 0.5
-    b: 0.5
-    a: 1
-  wayPointColor:
-    r: 0.5
-    g: 0.5
-    b: 0.5
-    a: 1
-  towerPointColor:
-    r: 0.5
-    g: 0.5
-    b: 0.5
-    a: 1
-  map:
-    id: 6d617031
-    initGold: 0
-    initLife: 0
-    paths:
-    - id: 7030
-      points: []
-    - id: 7031
-      points: []
-    towerPoints:
-    - id: 7430
-      towerPointPos: {x: 0, y: 0, z: 0}
-    waves:
-    - id: 7730
-      groups:
-      - id: 6730
-        enemyIdIndex: 0
-        enemyId: 6530
-        amount: 0
-        spawnInterval: 0
-        groupDelay: 0
-        pathIdIndex: 0
-        pathId: 7030
-      waveDelay: 0
---- !u!114 &1431064416
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1431064413}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1f0f7c032eb64b8ca2e1cce97e2bdec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemy:
-    id: 6532
-    name: 
-    moveSpeed: 0
-    turnSpeed: 0
-    lifeCount: 0
-    goldWorth: 0
-    atkType: 0
-    atkSpeed: 0
-    minAtkDmg: 0
-    maxAtkDmg: 0
-    atkRange: 0
-    armors: []
-    hp: 0
---- !u!4 &1431064417
+  points:
+  - {x: 1.0489892, y: 1.0773002, z: 0}
+  - {x: 2.3879766, y: 3.2190473, z: -0.091828346}
+  - {x: 6.3436155, y: 3.0034435, z: 0.89844036}
+  - {x: 5.607288, y: 0.23407733, z: 0.93960905}
+  - {x: 4.6624374, y: -3.3195548, z: 0.9924364}
+  - {x: 6.7028418, y: -1.4158111, z: 0.0025923252}
+  - {x: 7.219018, y: 0.91866255, z: 0.4982767}
+  - {x: 7.566727, y: 2.4912214, z: 0.83218193}
+  - {x: 9.831021, y: 2.3548036, z: 1.3704138}
+  - {x: 10.219018, y: 0.91866255, z: 0.4982767}
+  modes: 
+--- !u!4 &1287812009
 Transform:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1431064413}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_GameObject: {fileID: 1287812007}
+  m_LocalRotation: {x: 0, y: 0, z: -0.009255102, w: 0.9999572}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
---- !u!114 &1431064418
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1431064413}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9990a4b5fc9304c93b7707ef20ec3c08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tower:
-    id: 
-    name: 
-    prjTypeIndex: 0
-    prjType: 
-    atkType: 0
-    atkRange: 0
-    minDmg: 0
-    maxDmg: 0
-    atkSpeed: 0
-    goldRequired: 0
-    buildTime: 0
-    aoe: 0
---- !u!114 &1431064419
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1431064413}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0ecdc3337887490fb972ec42f00fbad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectile:
-    id: 70726f6a656374696c6531
-    name: 6172726f77
-    type: 0
-    travelSpeed: 5
-    duration: 0
-    maxDmgBuildTime: 0
-    tickInterval: 0

@@ -3,7 +3,7 @@ using UnityEditor;
 using System.Collections.Generic;
 using System;
 
-public class MapConstructorWindow : EditorWindow {
+public class MapEditorWindow : EditorWindow {
 	
 	private MapData map;
 	private Event currentEvent;
@@ -30,11 +30,11 @@ public class MapConstructorWindow : EditorWindow {
 	List<string> enemyIds;
 	List<string> pathIds;
     
-    [MenuItem("Window/Map Constructor")]
+    [MenuItem("Window/Map Editor")]
     public static void ShowWindow()
     {
 //        EditorWindow.GetWindow(typeof(MapConstructorWindow));
-		EditorWindow.GetWindow <MapConstructorWindow> ("Map Editor", true);
+		EditorWindow.GetWindow <MapEditorWindow> ("Map Editor", true);
     }
     
 	#region MONO
