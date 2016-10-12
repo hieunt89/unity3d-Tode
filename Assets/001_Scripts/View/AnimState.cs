@@ -1,6 +1,7 @@
 ﻿public struct AnimState{
 	enum StateName {
 		fire,
+		cast,
 		die,
 		move,
 		idle
@@ -27,6 +28,12 @@
 	public static string Idle{
 		get{ 
 			return StateName.idle.ToString ();
+		}
+	}
+
+	public static string Cast{
+		get{ 
+			return StateName.cast.ToString ();
 		}
 	}
 }

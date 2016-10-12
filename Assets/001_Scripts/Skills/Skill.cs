@@ -12,6 +12,7 @@ public abstract class Skill {
 	public string name;
 	public float cooldown;
 	public float castRange;
+	public float castTime;
 	public int expToNextLvl;
 	public int cost;
 }

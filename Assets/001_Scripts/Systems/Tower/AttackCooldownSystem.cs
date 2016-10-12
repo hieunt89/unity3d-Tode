@@ -2,15 +2,15 @@
 using System.Collections;
 using Entitas;
 
-public class TowerAttackCooldownSystem : IReactiveSystem, ISetPool {
+public class AttackCooldownSystem : IReactiveSystem, ISetPool {
 	Pool _pool;
-	Group _groupTowerOnCooldown;
+	Group _groupOnCooldown;
 	#region ISetPool implementation
 
 	public void SetPool (Pool pool)
 	{
 		_pool = pool;
-		_groupTowerOnCooldown = _pool.GetGroup (Matcher.AllOf(Matcher.Tower, Matcher.AttackCooldown).NoneOf(Matcher.Channeling));
+		_groupOnCooldown = _pool.GetGroup (Matcher.AllOf(Matcher.AttackCooldown).NoneOf(Matcher.Channeling));
 	}
 
 	#endregion
@@ -19,11 +19,11 @@ public class TowerAttackCooldownSystem : IReactiveSystem, ISetPool {
 
 	public void Execute (System.Collections.Generic.List<Entity> entities)
 	{
-		if(_groupTowerOnCooldown.count <= 0){
+		if(_groupOnCooldown.count <= 0){
 			return;
 		}
 
-		var ens = _groupTowerOnCooldown.GetEntities ();
+		var ens = _groupOnCooldown.GetEntities ();
 		for (int i = 0; i < ens.Length; i++) {
 			var e = ens [i];
 			//check if tower attack is on cooldown

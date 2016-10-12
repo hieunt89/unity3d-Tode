@@ -14,23 +14,18 @@ public static class PoolExtension {
 		return null;
 	}
 
-	public static Entity CreateProjectile(this Pool pool, string projectileId, Vector3 pos, AttackType atkType, int minDmg, int maxDmg, float aoe, Entity target){
-		ProjectileData prj = DataManager.Instance.GetProjectileData (projectileId);
+	public static Entity CreateProjectile(this Pool pool, string prjId, Entity origin, Entity target){
+		ProjectileData prj = DataManager.Instance.GetProjectileData (prjId);
 		if (prj == null) {
 			return null;
 		}
 
 		Entity e = pool.CreateEntity ()
 			.IsProjectileMark(true)
-			.AddProjectile(projectileId)
-			.AddPosition(pos)
-			.AddAttack (atkType)
-			.AddAttackDamage (minDmg, maxDmg)
-			.AddTarget (target)
-			;
-		if(aoe > 0){
-			e.AddAoe (aoe);
-		}
+			.AddProjectile(prjId)
+			.AddPosition(origin.position.value + Vector3.up)
+			.AddOrigin(origin)
+			.AddTarget (target);
 		switch (prj.Type) {
 		case ProjectileType.homing:
 			e.IsProjectileHoming(true)
@@ -49,11 +44,6 @@ public static class PoolExtension {
 		default:
 			break;
 		}
-		return e;
-	}
-
-	public static Entity CreateSkill(this Pool pool, string skillId, Entity origin){
-		Entity e = pool.CreateEntity ();
 		return e;
 	}
 }

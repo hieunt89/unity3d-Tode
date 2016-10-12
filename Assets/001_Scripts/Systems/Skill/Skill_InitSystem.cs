@@ -31,6 +31,7 @@ public class Skill_InitSystem : IReactiveSystem, ISetPool {
 				eList.Add (CreateSkill(e.skillList.skillTrees[j].Root, e));
 			}
 			e.AddSkillEntityList (eList);
+			e.RemoveSkillList ();
 		}
 	}
 	#endregion
@@ -54,17 +55,16 @@ public class Skill_InitSystem : IReactiveSystem, ISetPool {
 			.AddOrigin (origin)
 			.AddAttackSpeed(data.cooldown)
 			.AddAttackRange(data.castRange)
+			.AddAttackTime(data.castTime)
 			.AddGold(data.cost)
 			.IsActive(true)
 			;
 
 		if(data is CombatSkill){
 			CombatSkill s = data as CombatSkill;
-			e.AddSkillCombat(s.effectList)
+			e.AddSkillCombat (s.effectList)
+				.AddAoe (s.aoe)
 				.AddProjectile (s.prjId);
-			if (s.aoe > 0) {
-				e.AddAoe (s.aoe);
-			}
 		}else if(data is SummonSkill){
 			SummonSkill s = data as SummonSkill;
 			e.AddSkillSummon (s.summonId, s.summonCount)

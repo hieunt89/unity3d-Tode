@@ -3,16 +3,16 @@ using System.Collections;
 using Entitas;
 using System.Collections.Generic;
 
-public class TowerFindTargetSystem : IReactiveSystem, ISetPool {
+public class FindTargetSystem : IReactiveSystem, ISetPool {
 	Pool _pool;
-	Group _groupActiveTower;
+	Group _groupActiveAttacker;
 	Group _groupActiveEnemy;
 	#region ISetPool implementation
 
 	public void SetPool (Pool pool)
 	{
 		_pool = pool;
-		_groupActiveTower = _pool.GetGroup (Matcher.AllOf (Matcher.Tower, Matcher.Active).NoneOf(Matcher.Target));
+		_groupActiveAttacker = _pool.GetGroup (Matcher.AllOf (Matcher.Active).AnyOf(Matcher.Tower, Matcher.Skill).NoneOf(Matcher.Target, Matcher.AttackCooldown));
 		_groupActiveEnemy = _pool.GetGroup (Matcher.AllOf (Matcher.Enemy, Matcher.Active));
 	}
 
@@ -22,17 +22,17 @@ public class TowerFindTargetSystem : IReactiveSystem, ISetPool {
 
 	public void Execute (List<Entity> entities)
 	{
-		if(_groupActiveTower.count <= 0 || _groupActiveEnemy.count <= 0){
+		if(_groupActiveAttacker.count <= 0 || _groupActiveEnemy.count <= 0){
 			return;
 		}
 
-		var towerEns = _groupActiveTower.GetEntities ();
+		var attackerEns = _groupActiveAttacker.GetEntities ();
 		var enemyEns = _groupActiveEnemy.GetEntities ();
-		Entity target;
-		for (int i = 0; i < towerEns.Length; i++) {
-			target = CombatUtility.FindTargetInRange (towerEns[i], enemyEns, towerEns[i].attackRange.value);
+		for (int i = 0; i < attackerEns.Length; i++) {
+			var origin = attackerEns [i].hasSkill ? attackerEns [i].origin.e : attackerEns [i];
+			var target = CombatUtility.FindTargetInRange (origin, enemyEns, attackerEns[i].attackRange.value);
 			if (target != null) {
-				towerEns [i].AddTarget (target);
+				attackerEns [i].AddTarget (target);
 			}
 		}
 	}
