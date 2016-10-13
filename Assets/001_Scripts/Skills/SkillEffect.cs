@@ -12,6 +12,7 @@ public enum Effect{
 }
 
 public class SkillEffect {
+	public string skillId;
 	public Effect effect;
 	public float value;
 	public float duration;

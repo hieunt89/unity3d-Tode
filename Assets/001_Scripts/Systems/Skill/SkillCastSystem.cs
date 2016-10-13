@@ -25,11 +25,11 @@ public class SkillCastSystem : IReactiveSystem, ISetPool {
 		for (int i = 0; i < skillEns.Length; i++) {
 			var skill = skillEns [i];
 			var origin = skill.origin.e;
-			if (!origin.isActive || origin.isAttacking || origin.isChanneling) {
+			if (!origin.isActive || origin.hasCoroutine || origin.isAttacking || origin.isChanneling) {
 				continue;
 			}
 
-			origin.AddCoroutine (CastSkill (origin, skill));
+			origin.AddCoroutine (CastSkill (origin, skill, skill.target.e));
 		}
 
 	}
@@ -42,7 +42,7 @@ public class SkillCastSystem : IReactiveSystem, ISetPool {
 	}
 	#endregion
 
-	IEnumerator CastSkill(Entity origin, Entity skill){
+	IEnumerator CastSkill(Entity origin, Entity skill, Entity target){
 		origin.IsAttacking (true);
 
 		float time = 0f;
@@ -60,21 +60,21 @@ public class SkillCastSystem : IReactiveSystem, ISetPool {
 			origin.view.Anim.Play (AnimState.Idle);
 		}
 
-		CastNow (origin, skill);
+		CastNow (origin, skill, target);
 		origin.IsAttacking (false);
 	}
 
-	void CastNow(Entity origin, Entity skill){
+	void CastNow(Entity origin, Entity skill, Entity target){
 		skill.AddAttackCooldown (skill.attackSpeed.value);
 		if (skill.hasSkillCombat) {
-			CastCombatSkill(origin, skill);
+			CastCombatSkill(origin, skill, target);
 		}else if (skill.hasSkillSummon) {
 			
 		}
 	}
 
-	void CastCombatSkill(Entity origin, Entity skill){
-		var e = _pool.CreateProjectile (skill.projectile.projectileId, origin, skill.target.e)
+	void CastCombatSkill(Entity origin, Entity skill, Entity target){
+		var e = _pool.CreateProjectile (skill.projectile.projectileId, origin, target)
 			.AddSkillCombat(skill.skillCombat.effectList)
 		;
 		if(skill.aoe.value > 0){

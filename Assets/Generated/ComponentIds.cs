@@ -24,40 +24,40 @@ public static class ComponentIds {
     public const int Damage = 14;
     public const int Destination = 15;
     public const int Duration = 16;
-    public const int Effect = 17;
-    public const int Enemy = 18;
-    public const int GamePause = 19;
-    public const int Gold = 20;
-    public const int GoldPlayer = 21;
-    public const int Hp = 22;
-    public const int HpTotal = 23;
-    public const int Id = 24;
-    public const int Interactable = 25;
-    public const int Interval = 26;
-    public const int LifeCount = 27;
-    public const int LifePlayer = 28;
-    public const int Map = 29;
-    public const int MarkedForActive = 30;
-    public const int MarkedForDestroy = 31;
-    public const int MarkedForNoView = 32;
-    public const int MarkedForSell = 33;
-    public const int Movable = 34;
-    public const int NextWave = 35;
-    public const int Origin = 36;
-    public const int Path = 37;
-    public const int PathLength = 38;
-    public const int PathReference = 39;
-    public const int Position = 40;
-    public const int Projectile = 41;
-    public const int ProjectileHoming = 42;
-    public const int ProjectileLaser = 43;
-    public const int ProjectileMark = 44;
-    public const int ProjectileThrowing = 45;
-    public const int ProjectileThrowingParams = 46;
-    public const int ProjectileTime = 47;
-    public const int ReachedEnd = 48;
-    public const int SkillCombat = 49;
-    public const int Skill = 50;
+    public const int Enemy = 17;
+    public const int GamePause = 18;
+    public const int Gold = 19;
+    public const int GoldPlayer = 20;
+    public const int Hp = 21;
+    public const int HpTotal = 22;
+    public const int Id = 23;
+    public const int Interactable = 24;
+    public const int Interval = 25;
+    public const int LifeCount = 26;
+    public const int LifePlayer = 27;
+    public const int Map = 28;
+    public const int MarkedForActive = 29;
+    public const int MarkedForDestroy = 30;
+    public const int MarkedForNoView = 31;
+    public const int MarkedForSell = 32;
+    public const int Movable = 33;
+    public const int NextWave = 34;
+    public const int Origin = 35;
+    public const int Path = 36;
+    public const int PathLength = 37;
+    public const int PathReference = 38;
+    public const int Position = 39;
+    public const int Projectile = 40;
+    public const int ProjectileHoming = 41;
+    public const int ProjectileLaser = 42;
+    public const int ProjectileMark = 43;
+    public const int ProjectileThrowing = 44;
+    public const int ProjectileThrowingParams = 45;
+    public const int ProjectileTime = 46;
+    public const int ReachedEnd = 47;
+    public const int SkillCombat = 48;
+    public const int Skill = 49;
+    public const int SkillEffects = 50;
     public const int SkillEntityList = 51;
     public const int SkillList = 52;
     public const int SkillSummon = 53;
@@ -93,7 +93,6 @@ public static class ComponentIds {
         "Damage",
         "Destination",
         "Duration",
-        "Effect",
         "Enemy",
         "GamePause",
         "Gold",
@@ -127,6 +126,7 @@ public static class ComponentIds {
         "ReachedEnd",
         "SkillCombat",
         "Skill",
+        "SkillEffects",
         "SkillEntityList",
         "SkillList",
         "SkillSummon",
@@ -161,7 +161,6 @@ public static class ComponentIds {
         typeof(Damage),
         typeof(Destination),
         typeof(Duration),
-        typeof(EffectComponent),
         typeof(Enemy),
         typeof(GamePause),
         typeof(Gold),
@@ -195,6 +194,7 @@ public static class ComponentIds {
         typeof(ReachedEnd),
         typeof(SkillCombat),
         typeof(SkillComponent),
+        typeof(SkillEffects),
         typeof(SkillEntityList),
         typeof(SkillList),
         typeof(SkillSummon),

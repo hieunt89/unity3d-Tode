@@ -47,15 +47,17 @@ public class DataManager {
 		s.id = "fb1";
 		s.name = "fireball level 1";
 		s.castRange = 6f;
+		s.castTime = 2f;
 		s.cooldown = 3f;
 		s.expToNextLvl = 50;
 		s.cost = 100;
 
 		s.aoe = 2f;
-		s.prjId = "projectile0";
+		s.prjId = "projectile1";
 
 		List<SkillEffect> efl = new List<SkillEffect> ();
 		SkillEffect ef = new SkillEffect ();
+		ef.skillId = s.id;
 		ef.duration = 0f;
 		ef.effect = Effect.HpReduce;
 		ef.value = 100;
