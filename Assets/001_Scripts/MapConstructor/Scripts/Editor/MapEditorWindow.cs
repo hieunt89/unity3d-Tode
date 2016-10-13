@@ -8,8 +8,9 @@ public class MapEditorWindow : EditorWindow {
 	private MapData map;
 	private Event currentEvent;
 
-	private float pointSize;
-	private float maxPointSize;
+	private float handleSize;
+	private float pickSize;
+	private float maxHandleSize;
 	private Color baseColor;
 	private Color pathColor;
 	private Color wayPointColor;
@@ -18,11 +19,17 @@ public class MapEditorWindow : EditorWindow {
 	private bool quickCreationMode = false;
 	private bool resetTool = false;
 
+	private int selectedPathIndex = -1;
+	private int selectedWaypointIndex = -1;
+	private int selectedTowerpointIndex = -1;
+
 	private List<bool> togglePaths;
 	private List<bool> toggleWaves;
 
 	List<MapData> existMaps;
 	List<CharacterData> existEnemies;
+	List<TowerData> existTowers;
+	List<float> towerRanges;
 
 	List<List<int>> enemyPopupIndexes;
 	List<List<int>> pathPopupIndexes;
@@ -47,10 +54,11 @@ public class MapEditorWindow : EditorWindow {
 				CreatePopupIndexes ();
 		GenerateStyle ();
 
-		map.Id =  "map" + existMaps.Count;;
+		map.Id =  "map" + existMaps.Count;
 
-		pointSize = 1f;
-		maxPointSize = 2f;
+		handleSize = .1f;
+		pickSize = handleSize * 2f;
+		maxHandleSize = handleSize * 2f;
 		baseColor = Color.white;
 		pathColor = Color.white;
 		wayPointColor = Color.white;
@@ -82,20 +90,16 @@ public class MapEditorWindow : EditorWindow {
 		var id = EditorGUILayout.TextField ("Map Id", map.Id);
 		var initGold = EditorGUILayout.IntField ("Init Gold", map.InitGold);
 		var initLife = EditorGUILayout.IntField ("Init Life", map.InitLife);
-		var pointSize = EditorGUILayout.Slider("Point Size", this.pointSize, 0f, this.maxPointSize);
-		var baseColor = EditorGUILayout.ColorField("Base Color", this.baseColor);
-		var pathColor = EditorGUILayout.ColorField("Path Color", this.pathColor);
-		var wayPointColor = EditorGUILayout.ColorField("Way Points Color", this.wayPointColor);
-		var towerPointColor = EditorGUILayout.ColorField("Tower Points Color", this.towerPointColor);
+
 		if(EditorGUI.EndChangeCheck()){
 			this.map.Id = id;
 			this.map.InitGold = initGold;
 			this.map.initLife = initLife;
-			this.pointSize = pointSize;	
-			this.baseColor = baseColor;
-			this.pathColor = pathColor;
-			this.wayPointColor = wayPointColor;
-			this.towerPointColor = towerPointColor;
+//			this.handleSize = pointSize;	
+//			this.baseColor = baseColor;
+//			this.pathColor = pathColor;
+//			this.wayPointColor = wayPointColor;
+//			this.towerPointColor = towerPointColor;
 			EditorUtility.SetDirty(this);
 		}
 
@@ -161,19 +165,19 @@ public class MapEditorWindow : EditorWindow {
 
 		// 2d gui on scene view
 		Handles.BeginGUI();
-		GUILayout.BeginArea(new Rect(10f, 10f, 180f, 28f), GUI.skin.box);
+		GUILayout.BeginArea(new Rect(10f, 10f, 250f, 110f), GUI.skin.box);
 		// if (GUILayout.Button("Create WP")){
 		// 	// CreateWayPoint (new Vector3(mapConstructor.wayPoints.Count, 0f, 0f));	// TODO: get current path id
 		// }
 		// if (GUILayout.Button("Create TP")){
 		// 	CreateTowerPoint (new Vector3(mapConstructor.towerPoints.Count, 0f, 1f));
 		// }
-
 		GUILayout.Space(5f);
-		GUILayout.BeginHorizontal();
-		GUILayout.Label ("Point Size");
-		this.pointSize = GUILayout.HorizontalSlider (this.pointSize, 0f, this.maxPointSize, GUILayout.MinWidth(100));
-		GUILayout.EndHorizontal();
+		this.handleSize = EditorGUILayout.Slider ("Point Size" ,this.handleSize, 0.01f, this.maxHandleSize);
+		this.baseColor = EditorGUILayout.ColorField("Base Color", this.baseColor);
+		this.pathColor = EditorGUILayout.ColorField("Path Color", this.pathColor);
+		this.wayPointColor = EditorGUILayout.ColorField("WP Color", this.wayPointColor);
+		this.towerPointColor = EditorGUILayout.ColorField("TP Color", this.towerPointColor);
 		GUILayout.EndArea();
 		Handles.EndGUI(); 
 
@@ -213,11 +217,11 @@ public class MapEditorWindow : EditorWindow {
 
 		if (map.Paths != null  && map.Paths.Count > 0){
 			for (int pathIndex = 0; pathIndex < map.Paths.Count; pathIndex++){				
-				Vector3 p0 = ShowPoint(pathIndex, 0);
+				Vector3 p0 = DrawWayPoint(pathIndex, 0);
 				for (int pointIndex = 1; pointIndex < map.Paths[pathIndex].ControlPointCount; pointIndex += 3) {
-					Vector3 p1 = ShowPoint(pathIndex, pointIndex);
-					Vector3 p2 = ShowPoint(pathIndex, pointIndex + 1);
-					Vector3 p3 = ShowPoint(pathIndex, pointIndex + 2);
+					Vector3 p1 = DrawWayPoint(pathIndex, pointIndex);
+					Vector3 p2 = DrawWayPoint(pathIndex, pointIndex + 1);
+					Vector3 p3 = DrawWayPoint(pathIndex, pointIndex + 2);
 					
 					Handles.color = Color.gray;
 					Handles.DrawLine(p0, p1);
@@ -225,14 +229,14 @@ public class MapEditorWindow : EditorWindow {
 					
 					//			Handles.DrawBezier(p0, p3, p1, p2, Color.white, null, 2f);
 					
-					Handles.color = Color.white;
+					Handles.color = baseColor;
 					Vector3 lineStart = map.Paths[pathIndex].GetPoint(0f);
 					Handles.color = Color.green;
 					Handles.DrawLine(lineStart, lineStart + map.Paths[pathIndex].GetDirection(0f));
 					int steps = stepsPerCurve * map.Paths[pathIndex].CurveCount;
 					for (int stepIndex = 1; stepIndex <= steps; stepIndex++) {
 						Vector3 lineEnd = map.Paths[pathIndex].GetPoint(stepIndex / (float)steps);
-						Handles.color = Color.white;
+						Handles.color = baseColor;
 						Handles.DrawLine(lineStart, lineEnd);
 						Handles.color = Color.green;
 						Handles.DrawLine(lineEnd, lineEnd +  map.Paths[pathIndex].GetDirection(stepIndex / (float)steps));
@@ -242,19 +246,32 @@ public class MapEditorWindow : EditorWindow {
 				}
 			}	
 		}
+
 		// render towerpoints on scene view
 		if (map.TowerPoints != null && map.TowerPoints.Count > 0){
-			for (int i = 0; i < map.TowerPoints.Count; i++)
+			for (int towerIndex = 0; towerIndex < map.TowerPoints.Count; towerIndex++)
 			{
 				// GameObject towerPoint = mapConstructor.towerPoints[i].towerPointGo;
-				Vector3 towerPoint = map.TowerPoints[i].TowerPointPos;
+				Vector3 towerPoint = map.TowerPoints[towerIndex].TowerPointPos;
 
-				Handles.Label (towerPoint + new Vector3(pointSize * .5f, pointSize * .5f, pointSize * .5f), "t"+i, titleAStyle);
-				Handles.color = towerPointColor;
-				Handles.CubeCap (0, towerPoint, Quaternion.identity, pointSize * .5f);
-				Handles.color = baseColor;
+				Handles.Label (towerPoint +  V3Extension.FloatToVector3(handleSize), "t"+towerIndex, titleAStyle);
 
-				map.TowerPoints[i].TowerPointPos = Handles.FreeMoveHandle (towerPoint, Quaternion.identity, pointSize * .5f, Vector3.one, Handles.RectangleCap);
+				if (Handles.Button (towerPoint, Quaternion.identity, handleSize, pickSize, Handles.CubeCap)) {
+					selectedTowerpointIndex = towerIndex;
+					Repaint();
+				}
+				if (selectedTowerpointIndex == towerIndex) {
+					Handles.color = towerPointColor;
+					Handles.CubeCap (towerIndex, towerPoint, Quaternion.identity, handleSize);
+					Handles.color = baseColor;
+					Handles.DrawWireDisc (towerPoint, Vector3.up, 5f);
+
+					EditorGUI.BeginChangeCheck();
+					towerPoint = Handles.FreeMoveHandle (towerPoint, Quaternion.identity, handleSize, Vector3.one, Handles.RectangleCap);
+					if (EditorGUI.EndChangeCheck()) {
+						map.TowerPoints[towerIndex].TowerPointPos = towerPoint;
+					}
+				}
 
 			}
 		}
@@ -264,30 +281,32 @@ public class MapEditorWindow : EditorWindow {
 
 
 	private const int stepsPerCurve = 10;
-	private Vector3 ShowPoint (int pathIndex, int pointIndex) {
+	private Vector3 DrawWayPoint (int pathIndex, int pointIndex) {
 		Vector3 point = map.Paths[pathIndex].GetControlPoint(pointIndex);
-
-		float size = HandleUtility.GetHandleSize(point);
-		if (pointIndex == 0) {
-			size *= 1.25f;
-		}
-
+		Handles.Label (point + new Vector3(handleSize, handleSize, handleSize), pathIndex+"-"+pointIndex, titleAStyle);
+//		float size = HandleUtility.GetHandleSize(point);
+//		Debug.Log (size);
+//		if (pointIndex == 0) {
+//			size *= 1.25f;
+//		}
+//
 		//		Handles.color = modeColors[(int)spline.GetControlPointMode(index)];
-		Handles.color = Color.yellow;
-		//		if (Handles.Button(point, handleRotation, size * handleSize, size * pickSize, Handles.DotCap)) {
-		//			selectedIndex = index;
-		//			Repaint();
-		//		}
-		//		if (selectedIndex == index) {
-		EditorGUI.BeginChangeCheck();
-		//			point = Handles.DoPositionHandle(point, handleRotation);
-		point = Handles.FreeMoveHandle(point, Quaternion.identity, .2f, Vector3.one, Handles.CircleCap);
-		if (EditorGUI.EndChangeCheck()) {
-//			Undo.RecordObject(spline, "Move Point");
-//			EditorUtility.SetDirty(spline);
-			map.Paths[pathIndex].SetControlPoint(pointIndex, point);
+		Handles.color = wayPointColor;
+		if (Handles.Button(point, Quaternion.identity, handleSize, pickSize, Handles.SphereCap)) {
+			selectedPathIndex = pathIndex;
+			selectedWaypointIndex = pointIndex;
+			Repaint();
 		}
-		//		}
+		if (selectedPathIndex == pathIndex && selectedWaypointIndex == pointIndex) {
+			EditorGUI.BeginChangeCheck();
+//			point = Handles.DoPositionHandle(point,  Quaternion.identity);
+			point = Handles.FreeMoveHandle(point, Quaternion.identity, handleSize, Vector3.one, Handles.CircleCap);
+			if (EditorGUI.EndChangeCheck()) {
+	//			Undo.RecordObject(spline, "Move Point");
+	//			EditorUtility.SetDirty(spline);
+				map.Paths[pathIndex].SetControlPoint(pointIndex, point);
+			}
+		}
 		return point;
 	}
 	GUIStyle headerStyle = new GUIStyle();
@@ -370,7 +389,7 @@ public class MapEditorWindow : EditorWindow {
 					map.Paths.RemoveAt (i);
 					pathIds.RemoveAt (i);
 
-					GetPathIds ();
+					UpdatePathID ();
 					continue;
 				}
 				if(GUILayout.Button("Add WP", GUILayout.MinWidth (85), GUILayout.MaxWidth (85))) {
@@ -573,7 +592,7 @@ public class MapEditorWindow : EditorWindow {
 				CreateToggles ();
 				CreatePopupIndexes ();
 
-				GetPathIds ();
+				UpdatePathID ();
 			}
 		}
 		if (GUILayout.Button ("Reset")) {
@@ -683,23 +702,23 @@ public class MapEditorWindow : EditorWindow {
 
 	void LoadExistData () {
 		existMaps = DataManager.Instance.LoadAllData <MapData> ();
-		GetPathIds ();
+		UpdatePathID ();
 
 		existEnemies = DataManager.Instance.LoadAllData <CharacterData> ();
 		GetEnemyIds ();
+
+		existTowers = DataManager.Instance.LoadAllData <TowerData> ();
 	}
 
 	private void GetEnemyIds () {
-		if (existEnemies.Count > 0) {
-			enemyIds = new List<string> ();
-			for (int i = 0; i < existEnemies.Count; i++) {
-				enemyIds.Add(existEnemies[i].Id);
-			}
+		enemyIds = new List<string> ();
+		for (int i = 0; i < existEnemies.Count; i++) {
+			enemyIds.Add(existEnemies[i].Id);
 		}
 	}
 
-	private void GetPathIds () {
-		if (map.Paths.Count > 0) {
+	private void UpdatePathID () {
+		if (map != null) {
 			pathIds = new List<string> ();
 			for (int i = 0; i < map.Paths.Count; i++) {
 				pathIds.Add(map.Paths[i].Id);		

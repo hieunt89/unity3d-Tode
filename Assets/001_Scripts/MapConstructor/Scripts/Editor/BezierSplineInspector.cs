@@ -8,7 +8,7 @@ public class BezierSplineInspector : Editor {
 
 	private BezierSpline spline;
 	private Transform handleTransform;
-	private Quaternion handleRotation;
+//	private Quaternion handleRotation;
 
 	public override void OnInspectorGUI () {
 //		DrawDefaultInspector();
@@ -47,8 +47,8 @@ public class BezierSplineInspector : Editor {
 	private void OnSceneGUI () {
 		spline = target as BezierSpline;
 		handleTransform = spline.transform;
-		handleRotation = Tools.pivotRotation == PivotRotation.Local ?
-			handleTransform.rotation : Quaternion.identity;
+//		handleRotation = Tools.pivotRotation == PivotRotation.Local ?
+//			handleTransform.rotation : Quaternion.identity;
 
 		Vector3 p0 = ShowPoint(0);
 		for (int i = 1; i < spline.ControlPointCount; i += 3) {

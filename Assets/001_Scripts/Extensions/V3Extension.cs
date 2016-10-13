@@ -14,4 +14,8 @@ public static class V3Extension {
 		return (end - start) * fragment + start;
 	}
 
+	public static Vector3 FloatToVector3 (float value){
+		return new Vector3(value, value, value);
+	}
+
 }
