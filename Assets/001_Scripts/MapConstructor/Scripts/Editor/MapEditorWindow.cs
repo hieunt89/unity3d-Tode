@@ -363,15 +363,15 @@ public class MapEditorWindow : EditorWindow {
 		EditorGUILayout.BeginVertical("box");
 		EditorGUI.indentLevel++;
 		EditorGUILayout.BeginHorizontal ();
-		EditorGUILayout.LabelField("Path", titleBStyle);
+		GUILayout.Label("Path", mapEditorSkin.GetStyle("LabelA"));
 		GUILayout.FlexibleSpace ();
-		if (GUILayout.Button ("Create Path", GUILayout.MinWidth (85), GUILayout.MaxWidth (85))) {
+		if(GUILayout.Button("",  mapEditorSkin.GetStyle("AddButton"), GUILayout.MinWidth(16), GUILayout.MinHeight (16))) {
 			CreatePath ();
 			togglePaths.Add (false);
 		}
 
 		GUI.enabled = (map.Paths != null && map.Paths.Count > 0);
-		if (GUILayout.Button ("Clear Paths", GUILayout.MinWidth (85), GUILayout.MaxWidth (85))) {
+		if(GUILayout.Button("",  mapEditorSkin.GetStyle("ClearButton"), GUILayout.MinWidth(16), GUILayout.MinHeight (16))) {
 			ClearPaths();
 		}
 		GUI.enabled = true;
@@ -388,19 +388,17 @@ public class MapEditorWindow : EditorWindow {
 			for (int i = 0; i < map.Paths.Count; i++)
 			{
 				EditorGUILayout.BeginHorizontal();
-//				var pIdWidth = EditorGUIUtility.currentViewWidth * .3f;
-
-//				EditorGUIUtility.labelWidth = pIdWidth * .5f;
-//				EditorGUILayout.LabelField ("Path Id", map.Paths[i].Id);
-				GUILayout.Label (map.Paths[i].Id);
+				
+				GUILayout.Label (map.Paths[i].Id, mapEditorSkin.GetStyle("LabelB"));
 				if(GUILayout.Button("", mapEditorSkin.GetStyle("RemoveButton"), GUILayout.MinWidth(16), GUILayout.MinHeight (16))) {
 
-					map.Paths.RemoveAt (i);
+					map.Paths.RemoveAt (i);	
 					pathIds.RemoveAt (i);
 
 					UpdatePathID ();
 					continue;
 				}
+				GUILayout.Label (map.Paths[i].Points.Count + " nodes",  mapEditorSkin.GetStyle("LabelC"));
 //				if(GUILayout.Button("Remove", GUILayout.MinWidth (85), GUILayout.MaxWidth (85))) {
 
 
@@ -417,22 +415,21 @@ public class MapEditorWindow : EditorWindow {
 					AlignWayPoints(i);	
 				}
 				EditorGUILayout.EndHorizontal();
-
-
-
-				if (map.Paths[i].Points != null && map.Paths[i].Points.Count > 0) {
+			}
+			if (selectedPathIndex >= 0 && selectedPathIndex < map.Paths.Count) {
+				if (map.Paths[selectedPathIndex].Points != null && map.Paths[selectedPathIndex].Points.Count > 0) {
 					if (selectedWaypointIndex >= 0 && selectedWaypointIndex < map.Paths[selectedPathIndex].Points.Count) {
-						EditorGUILayout.LabelField("Selected Way Point");
+						GUILayout.Label ("Selected Way Point",  mapEditorSkin.GetStyle("LabelC"));
 						EditorGUI.indentLevel++;
 						EditorGUILayout.BeginVertical("box");
-						EditorGUILayout.LabelField ("path " + selectedPathIndex + " point " + selectedWaypointIndex); 
+						GUILayout.Label ("path " + selectedPathIndex + " point " + selectedWaypointIndex); 
 						EditorGUI.BeginChangeCheck();
 						var position = EditorGUILayout.Vector3Field("Pos", map.Paths[selectedPathIndex].Points[selectedWaypointIndex]);
 						if(EditorGUI.EndChangeCheck()){
 							map.Paths[selectedPathIndex].Points[selectedWaypointIndex] = position;
 							EditorUtility.SetDirty(this);
 						}
-//						if(GUILayout.Button("", mapEditorSkin.GetStyle("RemoveButton"), GUILayout.MinWidth(16), GUILayout.MinHeight (16))) {
+						//						if(GUILayout.Button("", mapEditorSkin.GetStyle("RemoveButton"), GUILayout.MinWidth(16), GUILayout.MinHeight (16))) {
 						if(GUILayout.Button("Remove")) {
 							map.Paths[selectedPathIndex].Points.RemoveAt(selectedWaypointIndex);
 						}
