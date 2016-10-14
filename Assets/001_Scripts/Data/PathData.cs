@@ -4,7 +4,7 @@ using System.Collections.Generic;
 [System.Serializable]
 public class PathData {
 	[SerializeField] public string id;
-	[SerializeField] private List<Vector3> points;
+	[SerializeField] private List<Vector3> controlPoints;
 
 	public string Id {
 		get {
@@ -15,59 +15,65 @@ public class PathData {
 		}
 	}
 
-	public List<Vector3> Points {
+	public List<Vector3> ControlPoints {
 		get {
-			return points;
+			return controlPoints;
 		}
 		set {
-			points = value;
+			controlPoints = value;
+		}
+	}
+	public List<Vector3> WayPoints {
+		get {
+			// TODO: convert control points to waypoints
+			return new List<Vector3> ();
 		}
 	}
 
 	public PathData (string _pathId){
 		id = _pathId;
-		points = new List<Vector3> ();
-		points.Add(new Vector3(1f, 0f, 0f));
-		points.Add(new Vector3(2f, 0f, 0f));
-		points.Add(new Vector3(3f, 0f, 0f));
-		points.Add(new Vector3(4f, 0f, 0f));
+		controlPoints = new List<Vector3> ();
+		controlPoints.Add(new Vector3(1f, 0f, 0f));
+		controlPoints.Add(new Vector3(2f, 0f, 0f));
+		controlPoints.Add(new Vector3(3f, 0f, 0f));
+		controlPoints.Add(new Vector3(4f, 0f, 0f));
 	}
 
 	public PathData (string _pathId, List<Vector3> _points){
 		id = _pathId;
-		points = _points;
+		controlPoints = _points;
 	}
 
 //	[SerializeField] private Vector3[] points;
 
 	public int CurveCount {
 		get {
-			return (points.Count - 1) / 3;
+			return (controlPoints.Count - 1) / 3;
 		}
 	}
 
 	public int ControlPointCount {
 		get {
-			return points.Count;
+			return controlPoints.Count;
 		}
 	}
 
 	public Vector3 GetControlPoint (int index) {
-		return points[index];
+		return controlPoints[index];
 	}
 
 	public void SetControlPoint (int index, Vector3 point) {
 		if (index % 3 == 0) {
-			Vector3 delta = point - points[index];
+			Vector3 delta = point - controlPoints[index];
 
 			if (index > 0) {
-				points[index - 1] += delta;
+				controlPoints[index - 1] += delta;
 			}
-			if (index + 1 < points.Count) {
-				points[index + 1] += delta;
+			if (index + 1 < controlPoints.Count) {
+				controlPoints[index + 1] += delta;
 			}
 		}
-		points[index] = point;
+		controlPoints[index] = point;
 		EnforceMode(index);
 	}
 
@@ -75,7 +81,7 @@ public class PathData {
 		int i;
 		if (t >= 1f) {
 			t = 1f;
-			i = points.Count - 4;
+			i = controlPoints.Count - 4;
 		}
 		else {
 			t = Mathf.Clamp01(t) * CurveCount;
@@ -84,14 +90,14 @@ public class PathData {
 			i *= 3;
 		}
 		return Bezier.GetPoint(
-			points[i], points[i + 1], points[i + 2], points[i + 3], t);
+			controlPoints[i], controlPoints[i + 1], controlPoints[i + 2], controlPoints[i + 3], t);
 	}
 
 	public Vector3 GetVelocity (float t) {
 		int i;
 		if (t >= 1f) {
 			t = 1f;
-			i = points.Count - 4;
+			i = controlPoints.Count - 4;
 		}
 		else {
 			t = Mathf.Clamp01(t) * CurveCount;
@@ -100,49 +106,50 @@ public class PathData {
 			i *= 3;
 		}
 		return Bezier.GetFirstDerivative(
-			points[i], points[i + 1], points[i + 2], points[i + 3], t);
+			controlPoints[i], controlPoints[i + 1], controlPoints[i + 2], controlPoints[i + 3], t);
 	}
 
 	public Vector3 GetDirection (float t) {
 		return GetVelocity(t).normalized;
 	}
 
-	public void AddCurve () {
-		Vector3 point = points[points.Count - 1];
-//		Array.Resize(ref points, points.Length + 3);
-		point.x += 1f;
-//		points[points.Length - 3] = point;
-		points.Add (point);
-		point.x += 1f;
-//		points[points.Length - 2] = point;
-		points.Add (point);
-		point.x += 1f;
-//		points[points.Length - 1] = point;
-		points.Add (point);
+	// TODO: move to map editor or Bezier 
+//	public void AddCurve () {
+//		Vector3 point = controlPoints[controlPoints.Count - 1];
+////		Array.Resize(ref points, points.Length + 3);
+//		point.x += 1f;
+////		points[points.Length - 3] = point;
+//		controlPoints.Add (point);
+//		point.x += 1f;
+////		points[points.Length - 2] = point;
+//		controlPoints.Add (point);
+//		point.x += 1f;
+////		points[points.Length - 1] = point;
+//		controlPoints.Add (point);
+//
+//		//		Array.Resize(ref modes, modes.Length + 1);
+//		//		modes[modes.Length - 1] = modes[modes.Length - 2];
+//		EnforceMode(controlPoints.Count - 4);
+//	}
 
-		//		Array.Resize(ref modes, modes.Length + 1);
-		//		modes[modes.Length - 1] = modes[modes.Length - 2];
-		EnforceMode(points.Count - 4);
-	}
-
-	public void Reset () {
-//		points = new Vector3[] {
-//			new Vector3(1f, 0f, 0f),
-//			new Vector3(2f, 0f, 0f),
-//			new Vector3(3f, 0f, 0f),
-//			new Vector3(4f, 0f, 0f)
-//		};
-		points = new List<Vector3> ();
-		points.Add(new Vector3(1f, 0f, 0f));
-		points.Add(new Vector3(2f, 0f, 0f));
-		points.Add(new Vector3(3f, 0f, 0f));
-		points.Add(new Vector3(4f, 0f, 0f));
-
-		//		modes = new BezierControlPointMode[] {
-		//			BezierControlPointMode.Free,
-		//			BezierControlPointMode.Free
-		//		};
-	}
+//	public void Reset () {
+////		points = new Vector3[] {
+////			new Vector3(1f, 0f, 0f),
+////			new Vector3(2f, 0f, 0f),
+////			new Vector3(3f, 0f, 0f),
+////			new Vector3(4f, 0f, 0f)
+////		};
+//		controlPoints = new List<Vector3> ();
+//		controlPoints.Add(new Vector3(1f, 0f, 0f));
+//		controlPoints.Add(new Vector3(2f, 0f, 0f));
+//		controlPoints.Add(new Vector3(3f, 0f, 0f));
+//		controlPoints.Add(new Vector3(4f, 0f, 0f));
+//
+//		//		modes = new BezierControlPointMode[] {
+//		//			BezierControlPointMode.Free,
+//		//			BezierControlPointMode.Free
+//		//		};
+//	}
 
 	//	public BezierControlPointMode GetControlPointMode (int index) {
 	//		return modes[(index + 1) / 3];
@@ -153,6 +160,7 @@ public class PathData {
 	//		EnforceMode(index);
 	//	}
 
+	// TODO: move to map editor or Bezier 
 	private void EnforceMode (int index) {
 		//		int modeIndex = (index + 1) / 3;
 
@@ -190,12 +198,12 @@ public class PathData {
 			//			}
 		}
 
-		Vector3 middle = points[middleIndex];
-		Vector3 enforcedTangent = middle - points[fixedIndex];
+		Vector3 middle = controlPoints[middleIndex];
+		Vector3 enforcedTangent = middle - controlPoints[fixedIndex];
 		//		if (mode == BezierControlPointMode.Aligned) {
-		enforcedTangent = enforcedTangent.normalized * Vector3.Distance(middle, points[enforcedIndex]);
+		enforcedTangent = enforcedTangent.normalized * Vector3.Distance(middle, controlPoints[enforcedIndex]);
 		//		}
-		points[enforcedIndex] = middle + enforcedTangent;
+		controlPoints[enforcedIndex] = middle + enforcedTangent;
 
 	}
 }

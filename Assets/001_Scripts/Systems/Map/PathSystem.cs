@@ -25,10 +25,10 @@ public class PathSystem : IInitializeSystem, ISetPool{
 			var path = paths [i];
 			List <Vector3> wayPoints = new List<Vector3> ();
 			List <float> pathLength = new List<float> ();
-			for (int j = 0; j < path.Points.Count; j++) {
-				wayPoints.Add (path.Points [j]);
+			for (int j = 0; j < path.ControlPoints.Count; j++) {
+				wayPoints.Add (path.ControlPoints [j]);
 				if(j > 0){
-					var length = (path.Points[j] - path.Points[j - 1]).magnitude;
+					var length = (path.ControlPoints[j] - path.ControlPoints[j - 1]).magnitude;
 					pathLength.Add (length);
 				}
 			}

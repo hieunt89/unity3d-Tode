@@ -28,7 +28,7 @@ public class MapEditorWindow : EditorWindow {
 
 	List<MapData> existMaps;
 	List<CharacterData> existEnemies;
-	List<TowerData> existTowers;
+//	List<TowerData> existTowers;
 	List<float> towerRanges;
 
 	List<List<int>> enemyPopupIndexes;
@@ -361,9 +361,10 @@ public class MapEditorWindow : EditorWindow {
 
 	private void OnPathInspectorGUI () {
 		EditorGUILayout.BeginVertical("box");
-		EditorGUI.indentLevel++;
+//		EditorGUI.indentLevel++;
 		EditorGUILayout.BeginHorizontal ();
 		GUILayout.Label("Path", mapEditorSkin.GetStyle("LabelA"));
+		GUILayout.Label("(" + map.Paths.Count + " paths)", mapEditorSkin.GetStyle("LabelC"));
 		GUILayout.FlexibleSpace ();
 		if(GUILayout.Button("",  mapEditorSkin.GetStyle("AddButton"), GUILayout.MinWidth(16), GUILayout.MinHeight (16))) {
 			CreatePath ();
@@ -378,13 +379,9 @@ public class MapEditorWindow : EditorWindow {
 
 		EditorGUILayout.EndHorizontal();
 		GUILayout.Space (5);
-//
-//		var wpIdWidth = EditorGUIUtility.currentViewWidth * .1f;
-//		var posWidth = EditorGUIUtility.currentViewWidth * .6f;
-//		var btnWidth = EditorGUIUtility.currentViewWidth * .1f;
 
 		if (map.Paths != null && map.Paths.Count > 0) {
-			EditorGUI.indentLevel++;
+			EditorGUILayout.BeginVertical("box");
 			for (int i = 0; i < map.Paths.Count; i++)
 			{
 				EditorGUILayout.BeginHorizontal();
@@ -398,15 +395,15 @@ public class MapEditorWindow : EditorWindow {
 					UpdatePathID ();
 					continue;
 				}
-				GUILayout.Label (map.Paths[i].Points.Count + " nodes",  mapEditorSkin.GetStyle("LabelC"));
+				GUILayout.Label ("(" + map.Paths[i].ControlPoints.Count + " points)",  mapEditorSkin.GetStyle("LabelC"));
 //				if(GUILayout.Button("Remove", GUILayout.MinWidth (85), GUILayout.MaxWidth (85))) {
 
 
 				GUILayout.FlexibleSpace ();
 				if(GUILayout.Button("",  mapEditorSkin.GetStyle("AddButton"), GUILayout.MinWidth(16), GUILayout.MinHeight (16))) {
-					CreateWayPoint (i, new Vector3(map.Paths[i].Points.Count, 0f, i + 1));
+					CreateWayPoint (i, new Vector3(map.Paths[i].ControlPoints.Count, 0f, i + 1));
 				}
-				GUI.enabled = (map.Paths[i].Points.Count > 0);
+				GUI.enabled = (map.Paths[i].ControlPoints.Count > 0);
 				if(GUILayout.Button("",  mapEditorSkin.GetStyle("ClearButton"), GUILayout.MinWidth(16), GUILayout.MinHeight (16))) {
 					ClearWayPoints(i);	
 				}
@@ -416,40 +413,39 @@ public class MapEditorWindow : EditorWindow {
 				}
 				EditorGUILayout.EndHorizontal();
 			}
+			EditorGUILayout.EndVertical ();
+
 			if (selectedPathIndex >= 0 && selectedPathIndex < map.Paths.Count) {
-				if (map.Paths[selectedPathIndex].Points != null && map.Paths[selectedPathIndex].Points.Count > 0) {
-					if (selectedWaypointIndex >= 0 && selectedWaypointIndex < map.Paths[selectedPathIndex].Points.Count) {
-						GUILayout.Label ("Selected Way Point",  mapEditorSkin.GetStyle("LabelC"));
-						EditorGUI.indentLevel++;
+				if (map.Paths[selectedPathIndex].ControlPoints != null && map.Paths[selectedPathIndex].ControlPoints.Count > 0) {
+					if (selectedWaypointIndex >= 0 && selectedWaypointIndex < map.Paths[selectedPathIndex].ControlPoints.Count) {
 						EditorGUILayout.BeginVertical("box");
+						GUILayout.Label ("Selected Way Point",  mapEditorSkin.GetStyle("LabelC"));
 						GUILayout.Label ("path " + selectedPathIndex + " point " + selectedWaypointIndex); 
 						EditorGUI.BeginChangeCheck();
-						var position = EditorGUILayout.Vector3Field("Pos", map.Paths[selectedPathIndex].Points[selectedWaypointIndex]);
+						var position = EditorGUILayout.Vector3Field("Position", map.Paths[selectedPathIndex].ControlPoints[selectedWaypointIndex]);
 						if(EditorGUI.EndChangeCheck()){
-							map.Paths[selectedPathIndex].Points[selectedWaypointIndex] = position;
+							map.Paths[selectedPathIndex].ControlPoints[selectedWaypointIndex] = position;
 							EditorUtility.SetDirty(this);
 						}
 						//						if(GUILayout.Button("", mapEditorSkin.GetStyle("RemoveButton"), GUILayout.MinWidth(16), GUILayout.MinHeight (16))) {
 						if(GUILayout.Button("Remove")) {
-							map.Paths[selectedPathIndex].Points.RemoveAt(selectedWaypointIndex);
+							map.Paths[selectedPathIndex].ControlPoints.RemoveAt(selectedWaypointIndex);
 						}
 						EditorGUILayout.EndVertical();
-						EditorGUI.indentLevel--;
 					}
 				}
 			}
-			EditorGUI.indentLevel--;
 		}
-		EditorGUI.indentLevel--;
+//		EditorGUI.indentLevel--;
 		EditorGUILayout.EndVertical();
 	}
 
 	private void OnTowerPointInspectorGUI () {
 		EditorGUILayout.BeginVertical("box");
-		EditorGUI.indentLevel++;
 
 		EditorGUILayout.BeginHorizontal ();
-		EditorGUILayout.LabelField("Tower Point", titleBStyle);
+		GUILayout.Label("Tower Point", mapEditorSkin.GetStyle("LabelA"));
+		GUILayout.Label("(" + map.TowerPoints.Count + " points)", mapEditorSkin.GetStyle("LabelC"));
 
 		GUILayout.FlexibleSpace ();
 
@@ -469,15 +465,15 @@ public class MapEditorWindow : EditorWindow {
 			AlignTowerPoints();
 		}
 		EditorGUILayout.EndHorizontal();
+
 		GUILayout.Space (5);
 
 		if (map.TowerPoints != null && map.TowerPoints.Count > 0){
 
 			if (selectedTowerpointIndex >= 0 && selectedTowerpointIndex < map.TowerPoints.Count) {
-				EditorGUILayout.LabelField("Selected Tower Point");
-				EditorGUI.indentLevel++;
 				EditorGUILayout.BeginVertical("box");
-				EditorGUILayout.LabelField ("t" + selectedTowerpointIndex);
+				GUILayout.Label ("Selected Tower Point", mapEditorSkin.GetStyle("LabelC"));
+				GUILayout.Label ("t" + selectedTowerpointIndex);
 
 				EditorGUI.BeginChangeCheck();
 				var pos = EditorGUILayout.Vector3Field ("Pos", map.TowerPoints[selectedTowerpointIndex].TowerPointPos);
@@ -490,10 +486,8 @@ public class MapEditorWindow : EditorWindow {
 					map.TowerPoints.RemoveAt(selectedTowerpointIndex);
 				}
 				EditorGUILayout.EndVertical();
-				EditorGUI.indentLevel--;
 			}
-		}		
-		EditorGUI.indentLevel--;
+		}
 		EditorGUILayout.EndVertical();
 	}
 
@@ -656,17 +650,17 @@ public class MapEditorWindow : EditorWindow {
 	}
 
 	private void CreateWayPoint (int pathIndex, Vector3 position) {
-		map.Paths[pathIndex].Points.Add(position);
+		map.Paths[pathIndex].ControlPoints.Add(position);
 	}
 
 	private void ClearWayPoints(int pathIndex) {
-		map.Paths[pathIndex].Points.Clear();
+		map.Paths[pathIndex].ControlPoints.Clear();
 	}
 
 	private void AlignWayPoints(int pathIndex) {
-		for (int j = 0; j < map.Paths[pathIndex].Points.Count; j++)
+		for (int j = 0; j < map.Paths[pathIndex].ControlPoints.Count; j++)
 		{
-			map.Paths[pathIndex].Points[j] = new Vector3(map.Paths[pathIndex].Points[j].x, 0f, map.Paths[pathIndex].Points[j].z);
+			map.Paths[pathIndex].ControlPoints[j] = new Vector3(map.Paths[pathIndex].ControlPoints[j].x, 0f, map.Paths[pathIndex].ControlPoints[j].z);
 		}
 	}
 
@@ -711,7 +705,7 @@ public class MapEditorWindow : EditorWindow {
 		existEnemies = DataManager.Instance.LoadAllData <CharacterData> ();
 		GetEnemyIds ();
 
-		existTowers = DataManager.Instance.LoadAllData <TowerData> ();
+//		existTowers = DataManager.Instance.LoadAllData <TowerData> ();
 	}
 
 	private void GetEnemyIds () {
