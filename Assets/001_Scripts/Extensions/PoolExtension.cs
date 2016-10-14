@@ -22,7 +22,6 @@ public static class PoolExtension {
 
 		Entity e = pool.CreateEntity ()
 			.IsProjectileMark(true)
-			.AddProjectile(prjId)
 			.AddPosition(origin.position.value + Vector3.up)
 			.AddOrigin(origin)
 			.AddTarget (target);

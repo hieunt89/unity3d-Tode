@@ -58,22 +58,24 @@ public static class ComponentIds {
     public const int SkillCombat = 48;
     public const int Skill = 49;
     public const int SkillEffects = 50;
-    public const int SkillEntityList = 51;
-    public const int SkillList = 52;
-    public const int SkillSummon = 53;
-    public const int Target = 54;
-    public const int Tick = 55;
-    public const int Tower = 56;
-    public const int TowerBase = 57;
-    public const int TowerUpgrade = 58;
-    public const int TowerUpgradeProgress = 59;
-    public const int TurnSpeed = 60;
-    public const int View = 61;
-    public const int ViewOffset = 62;
-    public const int ViewSlider = 63;
-    public const int Wave = 64;
+    public const int SkillEffectWatcher = 51;
+    public const int SkillEntityList = 52;
+    public const int SkillList = 53;
+    public const int SkillSummon = 54;
+    public const int SkillWatcherList = 55;
+    public const int Target = 56;
+    public const int Tick = 57;
+    public const int Tower = 58;
+    public const int TowerBase = 59;
+    public const int TowerUpgrade = 60;
+    public const int TowerUpgradeProgress = 61;
+    public const int TurnSpeed = 62;
+    public const int View = 63;
+    public const int ViewOffset = 64;
+    public const int ViewSlider = 65;
+    public const int Wave = 66;
 
-    public const int TotalComponents = 65;
+    public const int TotalComponents = 67;
 
     public static readonly string[] componentNames = {
         "Active",
@@ -127,9 +129,11 @@ public static class ComponentIds {
         "SkillCombat",
         "Skill",
         "SkillEffects",
+        "SkillEffectWatcher",
         "SkillEntityList",
         "SkillList",
         "SkillSummon",
+        "SkillWatcherList",
         "Target",
         "Tick",
         "Tower",
@@ -195,9 +199,11 @@ public static class ComponentIds {
         typeof(SkillCombat),
         typeof(SkillComponent),
         typeof(SkillEffects),
+        typeof(SkillEffectWatcher),
         typeof(SkillEntityList),
         typeof(SkillList),
         typeof(SkillSummon),
+        typeof(SkillWatcherList),
         typeof(Target),
         typeof(Tick),
         typeof(Tower),

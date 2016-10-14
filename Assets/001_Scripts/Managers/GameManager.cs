@@ -64,6 +64,7 @@ public class GameManager : MonoBehaviour {
 				//Skill
 				.Add(pool.CreateSystem<Skill_InitSystem>())
 				.Add(pool.CreateSystem<SkillCastSystem>())
+				.Add(pool.CreateSystem<SkillEffectWatcherInitSystem>())
 				
 				//View
 				.Add(pool.CreateSystem<TowerCreateViewSystem>())

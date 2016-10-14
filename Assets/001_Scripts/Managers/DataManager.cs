@@ -50,6 +50,7 @@ public class DataManager {
 		s.castTime = 2f;
 		s.cooldown = 3f;
 		s.expToNextLvl = 50;
+		s.damage = 200;
 		s.cost = 100;
 
 		s.aoe = 2f;
@@ -58,9 +59,10 @@ public class DataManager {
 		List<SkillEffect> efl = new List<SkillEffect> ();
 		SkillEffect ef = new SkillEffect ();
 		ef.skillId = s.id;
-		ef.duration = 0f;
-		ef.effect = Effect.HpReduce;
-		ef.value = 100;
+		ef.duration = 3f;
+		ef.effect = Effect.DOT;
+		ef.interval = 1f;
+		ef.value = 50;
 
 		efl.Add (ef);
 

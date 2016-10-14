@@ -76,6 +76,7 @@ public class SkillCastSystem : IReactiveSystem, ISetPool {
 	void CastCombatSkill(Entity origin, Entity skill, Entity target){
 		var e = _pool.CreateProjectile (skill.projectile.projectileId, origin, target)
 			.AddSkillCombat(skill.skillCombat.effectList)
+//			.AddAttackDamage(skill
 		;
 		if(skill.aoe.value > 0){
 			e.AddAoe (skill.aoe.value);

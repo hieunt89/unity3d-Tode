@@ -51,19 +51,23 @@ public class ProjectileReachEndSystem : IReactiveSystem, ISetPool {
 			prj.attackDamage.maxDamage,
 			prj.attackDamage.minDamage
 		);
-		float reduceTo = 1f;
 
 		if (prj.hasAoe) {
 			var enemies = _groupActiveEnemy.GetEntities ();
 			var targets = CombatUtility.FindTargetsInRange (prj, enemies, prj.aoe.value);
 			for (int j = 0; j < targets.Count; j++) {
-				reduceTo = CombatUtility.GetDamageReduction (prj.attack.attackType, targets [j].armor.armorList);
-				targets [j].AddDamage (CombatUtility.GetDamageAfterReduction(damage, reduceTo));
+				ApplyDamage (damage, prj, targets [j]);
 			}
 		} else if(prj.target.e.hasEnemy){
-			reduceTo = CombatUtility.GetDamageReduction (prj.attack.attackType, prj.target.e.armor.armorList);
-			prj.target.e.AddDamage (CombatUtility.GetDamageAfterReduction(damage, reduceTo));
+			ApplyDamage (damage, prj, prj.target.e);
 		}	
+	}
+
+	void ApplyDamage(int damage, Entity prj, Entity target){
+		if (!target.hasDamage) {
+			var reduceTo = CombatUtility.GetDamageReduction (prj.attack.attackType, target.armor.armorList);
+			target.AddDamage (CombatUtility.GetDamageAfterReduction (damage, reduceTo));
+		}
 	}
 
 	void ProjectileSkill(Entity prj){
@@ -76,7 +80,6 @@ public class ProjectileReachEndSystem : IReactiveSystem, ISetPool {
 		} else if(prj.target.e.hasEnemy){
 			ApplyEffect (prj, prj.target.e);	
 		}
-		
 	}
 
 	void ApplyEffect(Entity prj, Entity target){

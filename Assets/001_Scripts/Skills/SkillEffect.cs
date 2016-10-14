@@ -4,11 +4,9 @@ using System.Collections;
 public enum Effect{
 	Root,
 	Stun,
-	HpReduce,
-	HpBuff,
+	DOT,
 	MoveSpeedSlow,
-	ArmorReduce,
-	ArmorBuff
+	ArmorReduce
 }
 
 public class SkillEffect {
