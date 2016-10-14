@@ -23,20 +23,20 @@ public class PathData {
 			controlPoints = value;
 		}
 	}
-	public List<Vector3> WayPoints {
-		get {
-			// TODO: convert control points to waypoints
-			return new List<Vector3> ();
-		}
-	}
+//	public List<Vector3> WayPoints {
+//		get {
+//			// TODO: convert control points to waypoints
+//			return new List<Vector3> ();
+//		}
+//	}
 
-	public PathData (string _pathId){
+	public PathData (int _id, string _pathId){
 		id = _pathId;
 		controlPoints = new List<Vector3> ();
-		controlPoints.Add(new Vector3(1f, 0f, 0f));
-		controlPoints.Add(new Vector3(2f, 0f, 0f));
-		controlPoints.Add(new Vector3(3f, 0f, 0f));
-		controlPoints.Add(new Vector3(4f, 0f, 0f));
+		controlPoints.Add(new Vector3(1f, _id, 0f));
+		controlPoints.Add(new Vector3(2f, _id, 0f));
+		controlPoints.Add(new Vector3(3f, _id, 0f));
+		controlPoints.Add(new Vector3(4f, _id, 0f));
 	}
 
 	public PathData (string _pathId, List<Vector3> _points){
@@ -52,29 +52,39 @@ public class PathData {
 		}
 	}
 
+//	public List<Vector3> GetCurve  (int _index) {
+//		List<Vector3> curve = new List<Vector3> ();
+//
+//		int curveIndex = _index == ControlPointCount - 1 ? CurveCount - 1 :_index / 3;
+//		for (int i = 0; i <= 3; i++) {
+//			curve.Add(controlPoints[curveIndex * 3 + i]);
+//		}
+//		return curve;
+//	}
+
 	public int ControlPointCount {
 		get {
 			return controlPoints.Count;
 		}
 	}
 
-	public Vector3 GetControlPoint (int index) {
-		return controlPoints[index];
+	public Vector3 GetControlPoint (int _index) {
+		return controlPoints[_index];
 	}
 
-	public void SetControlPoint (int index, Vector3 point) {
-		if (index % 3 == 0) {
-			Vector3 delta = point - controlPoints[index];
+	public void SetControlPoint (int _index, Vector3 _point) {
+		if (_index % 3 == 0) {
+			Vector3 delta = _point - controlPoints[_index];
 
-			if (index > 0) {
-				controlPoints[index - 1] += delta;
+			if (_index > 0) {
+				controlPoints[_index - 1] += delta;
 			}
-			if (index + 1 < controlPoints.Count) {
-				controlPoints[index + 1] += delta;
+			if (_index + 1 < controlPoints.Count) {
+				controlPoints[_index + 1] += delta;
 			}
 		}
-		controlPoints[index] = point;
-		EnforceMode(index);
+		controlPoints[_index] = _point;
+		EnforceMode(_index);
 	}
 
 	public Vector3 GetPoint (float t) {
@@ -113,24 +123,29 @@ public class PathData {
 		return GetVelocity(t).normalized;
 	}
 
-	// TODO: move to map editor or Bezier 
-//	public void AddCurve () {
-//		Vector3 point = controlPoints[controlPoints.Count - 1];
-////		Array.Resize(ref points, points.Length + 3);
-//		point.x += 1f;
-////		points[points.Length - 3] = point;
-//		controlPoints.Add (point);
-//		point.x += 1f;
-////		points[points.Length - 2] = point;
-//		controlPoints.Add (point);
-//		point.x += 1f;
-////		points[points.Length - 1] = point;
-//		controlPoints.Add (point);
-//
-//		//		Array.Resize(ref modes, modes.Length + 1);
-//		//		modes[modes.Length - 1] = modes[modes.Length - 2];
-//		EnforceMode(controlPoints.Count - 4);
-//	}
+// TODO: move to map editor or Bezier 
+	public void AddCurve () {
+		if (controlPoints.Count <= 0) {
+
+
+		} else {
+			Vector3 point = controlPoints [controlPoints.Count - 1];
+			//		Array.Resize(ref points, points.Length + 3);
+			point.x += 1f;
+			//		points[points.Length - 3] = point;
+			controlPoints.Add (point);
+			point.x += 1f;
+			//		points[points.Length - 2] = point;
+			controlPoints.Add (point);
+			point.x += 1f;
+			//		points[points.Length - 1] = point;
+			controlPoints.Add (point);
+		}
+
+		//		Array.Resize(ref modes, modes.Length + 1);
+		//		modes[modes.Length - 1] = modes[modes.Length - 2];
+		EnforceMode(controlPoints.Count - 4);
+	}
 
 //	public void Reset () {
 ////		points = new Vector3[] {
