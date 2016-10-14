@@ -379,27 +379,23 @@ public class MapEditorWindow : EditorWindow {
 						EditorGUILayout.BeginVertical("box");
 						GUILayout.Label ("Selected Curve",  mapEditorSkin.GetStyle("LabelC"));
 
-						int curveIndex = selectedWaypointIndex == map.Paths[selectedPathIndex].ControlPointCount - 1 ? map.Paths[selectedPathIndex].CurveCount - 1 : selectedWaypointIndex / 3;
+						int selectedCurveIndex = selectedWaypointIndex == map.Paths[selectedPathIndex].ControlPointCount - 1 ? map.Paths[selectedPathIndex].CurveCount - 1 : selectedWaypointIndex / 3;
 						for (int i = 0; i <= 3; i++) {
-//							map.Paths[selectedPathIndex].ControlPoints[curveIndex * 3 + i];
-
 							EditorGUILayout.BeginHorizontal ();
 							if(GUILayout.Button("",  mapEditorSkin.GetStyle("RemoveButton"), GUILayout.MinWidth(16), GUILayout.MinHeight (16))) {
-								map.Paths[selectedPathIndex].ControlPoints.RemoveRange(0, 3);//curveIndex * 3 + i);
-								selectedPathIndex = -1;
-								selectedWaypointIndex = -1;
+								RemoveCurve(selectedPathIndex, selectedCurveIndex);
 								return;
 							}
-							GUILayout.Label ("path " + selectedPathIndex + " point " + (curveIndex * 3 + i), mapEditorSkin.GetStyle("LabelB")); 
+							GUILayout.Label ("path " + selectedPathIndex + " point " + (selectedCurveIndex * 3 + i), mapEditorSkin.GetStyle("LabelB")); 
 							GUILayout.FlexibleSpace();
 							EditorGUI.BeginChangeCheck();
 							//						var position = EditorGUILayout.Vector3Field("Position", map.Paths[selectedPathIndex].ControlPoints[selectedWaypointIndex]);
 							GUILayout.Label ("x");
-							var posX = EditorGUILayout.FloatField (map.Paths[selectedPathIndex].ControlPoints[curveIndex * 3 + i].x, GUILayout.MaxWidth(60));
+							var posX = EditorGUILayout.FloatField (map.Paths[selectedPathIndex].ControlPoints[selectedCurveIndex * 3 + i].x, GUILayout.MaxWidth(60));
 							GUILayout.Label ("y");
-							var posY = EditorGUILayout.FloatField (map.Paths[selectedPathIndex].ControlPoints[curveIndex * 3 + i].y, GUILayout.MaxWidth(60));
+							var posY = EditorGUILayout.FloatField (map.Paths[selectedPathIndex].ControlPoints[selectedCurveIndex * 3 + i].y, GUILayout.MaxWidth(60));
 							GUILayout.Label ("z");
-							var posZ = EditorGUILayout.FloatField (map.Paths[selectedPathIndex].ControlPoints[curveIndex * 3 + i].z, GUILayout.MaxWidth(60));
+							var posZ = EditorGUILayout.FloatField (map.Paths[selectedPathIndex].ControlPoints[selectedCurveIndex * 3 + i].z, GUILayout.MaxWidth(60));
 							if(EditorGUI.EndChangeCheck()){
 								map.Paths[selectedPathIndex].ControlPoints[selectedWaypointIndex] = new Vector3(posX, posY, posZ);
 								EditorUtility.SetDirty(this);
@@ -419,6 +415,15 @@ public class MapEditorWindow : EditorWindow {
 		EditorGUILayout.EndVertical();
 	}
 
+	private void RemoveCurve (int selectedPathIndex, int selectedCurveIndex) {
+		if (map.Paths[selectedPathIndex].CurveCount > 1) {
+			map.Paths[selectedPathIndex].ControlPoints.RemoveRange(selectedCurveIndex * 3, 3);//curveIndex * 3 + i);
+		} else {
+			map.Paths[selectedPathIndex].ControlPoints.RemoveRange(selectedCurveIndex * 3, 4);
+		}
+		selectedPathIndex = -1;
+		selectedWaypointIndex = -1;
+	}
 	private void OnTowerPointInspectorGUI () {
 		EditorGUILayout.BeginVertical("box");
 
