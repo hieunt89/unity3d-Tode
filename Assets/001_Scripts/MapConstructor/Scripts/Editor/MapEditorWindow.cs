@@ -26,7 +26,6 @@ public class MapEditorWindow : EditorWindow {
 	List<MapData> existMaps;
 	List<CharacterData> existEnemies;
 //	List<TowerData> existTowers;
-	List<float> towerRanges;
 
 	List<List<int>> enemyPopupIndexes;
 	List<List<int>> pathPopupIndexes;
@@ -35,6 +34,7 @@ public class MapEditorWindow : EditorWindow {
 	List<string> pathIds;
     
 	private int stepsPerCurve = 10;
+	private float towerRange = 5;
 
 	private GUISkin mapEditorSkin;
 
@@ -61,6 +61,9 @@ public class MapEditorWindow : EditorWindow {
 		pathColor = Color.white;
 		wayPointColor = Color.white;
 		towerPointColor = Color.white;
+
+		stepsPerCurve = EditorPrefs.GetInt ("StepPerCurve");
+		towerRange = EditorPrefs.GetFloat ("TowerRange");
 
 		selectedPathIndex = -1;
 		selectedWaypointIndex = -1;
@@ -425,17 +428,22 @@ public class MapEditorWindow : EditorWindow {
 
 		// 2d gui on scene view
 		Handles.BeginGUI();
-		GUILayout.BeginArea(new Rect(10f, 10f, 250f, 110f), GUI.skin.box);
+		GUILayout.BeginArea(new Rect(10f, 10f, 250f, 120f), GUI.skin.box);
 		GUILayout.Space(5f);
 		this.handleSize = EditorGUILayout.Slider ("Point Size" ,this.handleSize, 0.01f, this.maxHandleSize);
 		this.pathColor = EditorGUILayout.ColorField("Path Color", this.pathColor);
 		this.wayPointColor = EditorGUILayout.ColorField("WP Color", this.wayPointColor);
 		this.towerPointColor = EditorGUILayout.ColorField("TP Color", this.towerPointColor);
+
 		EditorGUI.BeginChangeCheck ();
-		int _stepsPerCurve = EditorGUILayout.IntSlider ("Curve Smooth", stepsPerCurve, 4 , 20);
+		int _stepsPerCurve = EditorGUILayout.IntSlider ("Step Per Curve", stepsPerCurve, 4 , 20);
+		float _towerRange = EditorGUILayout.Slider ("Tower Range", towerRange, 1, 10);
 		if (EditorGUI.EndChangeCheck ()) {
 			this.stepsPerCurve = _stepsPerCurve;
 			EditorPrefs.SetInt ("StepPerCurve", stepsPerCurve);
+
+			this.towerRange = _towerRange;
+			EditorPrefs.SetFloat ("TowerRange", towerRange);
 		}
 		GUILayout.EndArea();
 		Handles.EndGUI(); 
@@ -520,12 +528,13 @@ public class MapEditorWindow : EditorWindow {
 		Handles.Label (towerPoint +  V3Extension.FloatToVector3(handleSize), "t"+towerIndex, mapEditorSkin.GetStyle("LabelB"));
 
 		Handles.color = towerPointColor;
-		if (Handles.Button (towerPoint, Quaternion.LookRotation(Vector3.up), handleSize, pickSize, Handles.CylinderCap)) {
+//		if (Handles.Button (towerPoint, Quaternion.LookRotation(Vector3.up), handleSize, pickSize, Handles.CylinderCap)) {
+		if (Handles.Button (towerPoint, Quaternion.identity, handleSize, pickSize, Handles.CubeCap)) {
 			selectedTowerpointIndex = towerIndex;
 			Repaint();
 		}
 		if (selectedTowerpointIndex == towerIndex) {
-			Handles.DrawWireDisc (towerPoint, Vector3.up, 5f);
+			Handles.DrawWireDisc (towerPoint, Vector3.up, towerRange);
 			EditorGUI.BeginChangeCheck();
 			towerPoint = Handles.FreeMoveHandle (towerPoint, Quaternion.identity, handleSize, Vector3.one, Handles.RectangleCap);
 			if (EditorGUI.EndChangeCheck()) {
@@ -568,7 +577,7 @@ public class MapEditorWindow : EditorWindow {
 	}
 
 	private void AddCurve (int pathIndex) {
-		map.Paths[pathIndex].AddCurve ();
+		map.Paths[pathIndex].AddCurve (pathIndex);
 	}
 
 	private void RemoveCurve (int selectedPathIndex, int selectedCurveIndex) {

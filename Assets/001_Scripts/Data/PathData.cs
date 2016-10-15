@@ -41,10 +41,10 @@ public class PathData {
 	public PathData (int _id, string _pathId){
 		id = _pathId;
 		controlPoints = new List<Vector3> ();
-		controlPoints.Add(new Vector3(1f, _id, 0f));
-		controlPoints.Add(new Vector3(2f, _id, 0f));
-		controlPoints.Add(new Vector3(3f, _id, 0f));
-		controlPoints.Add(new Vector3(4f, _id, 0f));
+		controlPoints.Add(new Vector3(0f, 0f, _id + 1));
+		controlPoints.Add(new Vector3(1f, 0f, _id + 1));
+		controlPoints.Add(new Vector3(2f, 0f, _id + 1));
+		controlPoints.Add(new Vector3(3f, 0f, _id + 1));
 	}
 
 	public int CurveCount {
@@ -114,7 +114,7 @@ public class PathData {
 		return GetVelocity(t).normalized;
 	}
 
-	public void AddCurve () {
+	public void AddCurve (int _pathIndex) {
 		if (controlPoints.Count >= 4) {
 			Vector3 point = controlPoints [controlPoints.Count - 1];
 			point.x += 1f;
@@ -124,7 +124,13 @@ public class PathData {
 			point.x += 1f;
 			controlPoints.Add (point);
 
-			EnforceMode(controlPoints.Count - 4);
+			EnforceMode (controlPoints.Count - 4);
+		} else {
+			controlPoints = new List<Vector3> ();
+			controlPoints.Add(new Vector3(0f, 0f, _pathIndex + 1));
+			controlPoints.Add(new Vector3(1f, 0f, _pathIndex + 1));
+			controlPoints.Add(new Vector3(2f, 0f, _pathIndex + 1));
+			controlPoints.Add(new Vector3(3f, 0f, _pathIndex + 1));
 		}
 	}
 
