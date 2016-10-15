@@ -34,7 +34,7 @@ public class MapEditorWindow : EditorWindow {
 	List<string> enemyIds;
 	List<string> pathIds;
     
-	private const int stepsPerCurve = 10;
+	private int stepsPerCurve = 10;
 
 	private GUISkin mapEditorSkin;
 
@@ -425,12 +425,18 @@ public class MapEditorWindow : EditorWindow {
 
 		// 2d gui on scene view
 		Handles.BeginGUI();
-		GUILayout.BeginArea(new Rect(10f, 10f, 250f, 90f), GUI.skin.box);
+		GUILayout.BeginArea(new Rect(10f, 10f, 250f, 110f), GUI.skin.box);
 		GUILayout.Space(5f);
 		this.handleSize = EditorGUILayout.Slider ("Point Size" ,this.handleSize, 0.01f, this.maxHandleSize);
 		this.pathColor = EditorGUILayout.ColorField("Path Color", this.pathColor);
 		this.wayPointColor = EditorGUILayout.ColorField("WP Color", this.wayPointColor);
 		this.towerPointColor = EditorGUILayout.ColorField("TP Color", this.towerPointColor);
+		EditorGUI.BeginChangeCheck ();
+		int _stepsPerCurve = EditorGUILayout.IntSlider ("Curve Smooth", stepsPerCurve, 4 , 20);
+		if (EditorGUI.EndChangeCheck ()) {
+			this.stepsPerCurve = _stepsPerCurve;
+			EditorPrefs.SetInt ("StepPerCurve", stepsPerCurve);
+		}
 		GUILayout.EndArea();
 		Handles.EndGUI(); 
 
