@@ -57,33 +57,31 @@ public static class TreeNodeUtils {
 		}
 	}
 
-	public static void GenerateNodes (TreeUI _currentTree) {
-		Debug.Log ("generate node ui");
-		NodeUI rootNode = new NodeUI ("Root Node", NodeType.RootNode, _currentTree.treeData.Root, null, new List<NodeUI> ());
-
-		if (rootNode != null) {
-			rootNode.InitNode (new Vector2 (50f, 50f));
-			rootNode.currentTree = _currentTree;
-			_currentTree.nodes.Add (rootNode);
-			GenerateNodes (_currentTree, rootNode);
-		}
-
-	}
-
-	private static void GenerateNodes (TreeUI _currentTree, NodeUI _parentNode) {
-		for (int i = 0; i < _parentNode.nodeData.children.Count; i++) {
-			NodeUI newNode = new NodeUI ("Node", NodeType.Node, _parentNode.nodeData.children[i], _parentNode, new List<NodeUI> ());
-			if (newNode != null) {
-				_parentNode.childNodes.Add (newNode);
-
-				newNode.InitNode(new Vector2((_parentNode.nodeRect.x + _parentNode.nodeRect.width) + _parentNode.nodeRect.width / 2, _parentNode.nodeRect.y + (_parentNode.nodeRect.height * 4 * i)));
-				newNode.currentTree = _currentTree;
-				_currentTree.nodes.Add (newNode);
-				GenerateNodes (_currentTree, newNode);
-			}
-		}
-
-	}
+//	public static void GenerateNodes (TreeUI _currentTree) {
+//		NodeUI rootNode = new NodeUI ("Root Node", NodeType.RootNode, _currentTree.treeData.Root, null, new List<NodeUI> (), _currentTree);
+//
+//		if (rootNode != null) {
+//			rootNode.InitNode (new Vector2 (50f, 50f));
+//			_currentTree.nodes.Add (rootNode);
+//			GenerateNodes (_currentTree, rootNode);
+//		}
+//
+//	}
+//
+//	private static void GenerateNodes (TreeUI _currentTree, NodeUI _parentNode) {
+//		for (int i = 0; i < _parentNode.nodeData.children.Count; i++) {
+//			NodeUI newNode = new NodeUI ("Node", NodeType.Node, _parentNode.nodeData.children[i], _parentNode, new List<NodeUI> (), _currentTree);
+//			if (newNode != null) {
+//				_parentNode.childNodes.Add (newNode);
+//
+//				newNode.InitNode(new Vector2((_parentNode.nodeRect.x + _parentNode.nodeRect.width) + _parentNode.nodeRect.width / 2, _parentNode.nodeRect.y + (_parentNode.nodeRect.height * 4 * i)));
+//
+//				_currentTree.nodes.Add (newNode);
+//				GenerateNodes (_currentTree, newNode);
+//			}
+//		}
+//
+//	}
 
 	public static void UnloadTree () {
 		TreeNodeEditorWindow currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow <TreeNodeEditorWindow> ();
@@ -95,15 +93,15 @@ public static class TreeNodeUtils {
 	public static void AddNode (TreeUI _currentTree, NodeType _nodeType, Vector2 _position) {
 		if (_currentTree != null) {
 			NodeUI newNode = null;
-			List <NodeUI> outputNodes = new List<NodeUI> ();
+			List <NodeUI> childNodes = new List<NodeUI> ();
 			switch (_nodeType) {
 			case NodeType.RootNode:
-				newNode = new NodeUI ("Root Node", _nodeType, new Node<string> (_currentTree.existIds [0]), null, outputNodes);
+				newNode = new NodeUI ("Root Node", _nodeType, new Node<string> (_currentTree.existIds [0]), null, childNodes, _currentTree);
 				// assign data to root node
 				_currentTree.treeData.Root = newNode.nodeData;
 				break;
 			case NodeType.Node:
-				newNode = new NodeUI("Node", _nodeType, new Node<string> (_currentTree.existIds[0]), null, outputNodes);
+				newNode = new NodeUI("Node", _nodeType, new Node<string> (_currentTree.existIds[0]), null, childNodes, _currentTree);
 				break;
 			default:
 				break;
@@ -115,70 +113,101 @@ public static class TreeNodeUtils {
 				_currentTree.nodes.Add (newNode);
 			}
 		}
-
 	}
 
-	public static void RemoveNode (int _nodeId, TreeUI _currentTree) {
-		if (_currentTree != null) {
-			if(_currentTree.nodes.Count >= _nodeId) {
-				NodeUI selectecNode = _currentTree.nodes[_nodeId];
-				if(selectecNode != null) {
-					// remove this node (parent) from its children node
-					for (int i = 0; i < _currentTree.nodes[_nodeId].nodeData.children.Count; i++) {
-						_currentTree.nodes[_nodeId].nodeData.children[i].parent = null;
-					}
-					// remove this node from its parent node
-					_currentTree.nodes[_nodeId].nodeData.parent.children.Remove (_currentTree.nodes[_nodeId].nodeData);
-
-					// remove its parent node data
-					_currentTree.nodes[_nodeId].nodeData.parent = null;
-
-					// remove this node data ?
-					_currentTree.nodes[_nodeId].nodeData = null;
-
-					// remove node ui parent from child node ui
-					for (int i = 0; i < _currentTree.nodes[_nodeId].childNodes.Count; i++) {
-						_currentTree.nodes[_nodeId].childNodes[i].parentNode = null;
-					}
-
-					// remove this node ui from list 
-					_currentTree.nodes.RemoveAt (_nodeId);
-				}
-			}
+	public static void RemoveNode (NodeUI _node) {
+		for (int i = 0; i < _node.nodeData.children.Count; i++) {
+			_node.nodeData.children[i].parent = null;
 		}
+		if (_node.nodeData.parent != null)
+			_node.nodeData.parent.children.Remove (_node.nodeData);
+		_node.nodeData.parent = null;
+		_node.nodeData = null;
+
+		for (int i = 0; i < _node.childNodes.Count; i++) {
+			_node.childNodes[i].parentNode = null;
+		}
+		_node.currentTree.nodes.Remove (_node);
 	}
+//	public static void RemoveNode (int _nodeId, TreeUI _currentTree) {
+//		if (_currentTree != null) {
+//			if(_currentTree.nodes.Count >= _nodeId) {
+//				NodeUI selectecNode = _currentTree.nodes[_nodeId];
+//				if(selectecNode != null) {
+//					// remove this node (parent) from its children node
+//					for (int i = 0; i < selectecNode.nodeData.children.Count; i++) {
+//						selectecNode.nodeData.children[i].parent = null;
+//					}
+//					// remove this node from its parent node
+//					if (selectecNode.nodeData.parent != null)
+//						selectecNode.nodeData.parent.children.Remove (selectecNode.nodeData);
+//
+//					// remove its parent node data
+//					selectecNode.nodeData.parent = null;
+//
+//					// remove this node data ?
+//					selectecNode.nodeData = null;
+//
+//					// remove node ui parent from child node ui
+//					for (int i = 0; i < selectecNode.childNodes.Count; i++) {
+//						selectecNode.childNodes[i].parentNode = null;
+//					}
+//
+//					// remove this node ui from list 
+//					_currentTree.nodes.RemoveAt (_nodeId);
+//				}
+//			}
+//		}
+//	}
 
-	public static void RemoveParentNode (int _nodeId, TreeUI _currentTree) {
-		if (_currentTree != null) {
-			if(_currentTree.nodes.Count >= _nodeId) {
-				NodeUI selectecNode = _currentTree.nodes[_nodeId];
-				if(selectecNode != null) {
-					// remove this node data from parent node's children data list
-					_currentTree.nodes[_nodeId].parentNode.nodeData.children.Remove(_currentTree.nodes[_nodeId].nodeData);
-					// remove this node's parent data
-					_currentTree.nodes[_nodeId].nodeData.parent = null;
+	public static void RemoveParentNode (NodeUI _node) {
+		_node.parentNode.nodeData.children.Remove(_node.nodeData);
+		// remove this node's parent data
+		_node.nodeData.parent = null;
 
-					_currentTree.nodes[_nodeId].parentNode = null;
-				}
-			}
-		}
+		_node.parentNode = null;
 	}
+//	public static void RemoveParentNode (int _nodeId, TreeUI _currentTree) {
+//		if (_currentTree != null) {
+//			if(_currentTree.nodes.Count >= _nodeId) {
+//				NodeUI selectecNode = _currentTree.nodes[_nodeId];
+//				if(selectecNode != null) {
+//					// remove this node data from parent node's children data list
+//					_currentTree.nodes[_nodeId].parentNode.nodeData.children.Remove(_currentTree.nodes[_nodeId].nodeData);
+//					// remove this node's parent data
+//					_currentTree.nodes[_nodeId].nodeData.parent = null;
+//
+//					_currentTree.nodes[_nodeId].parentNode = null;
+//				}
+//			}
+//		}
+//	}
 
-	public static void DrawGrid (Rect _viewRect, float _gridSpacing, float _gridOpacity, Color _gridColor) {
-		int widthDivs = Mathf.CeilToInt (_viewRect.width - _gridSpacing);
-		int heightDivs = Mathf.CeilToInt (_viewRect.height - _gridSpacing);
+//	public static void DrawGrid (Rect _viewRect, float _gridSpacing, float _gridOpacity, Color _gridColor) {
+//		int widthDivs = Mathf.CeilToInt (_viewRect.width - _gridSpacing);
+//		int heightDivs = Mathf.CeilToInt (_viewRect.height - _gridSpacing);
+//		Handles.BeginGUI ();
+//		Handles.color = new Color (_gridColor.r, _gridColor.g, _gridColor.b, _gridOpacity);
+//
+//		for (int x = 0; x < widthDivs; x++) {
+//			Handles.DrawLine (new Vector3 (_gridSpacing * x, 0f, 0f), new Vector3 (_gridSpacing * x, _viewRect.height, 0f));
+//		}
+//
+//		for (int y = 0; y < heightDivs; y++) {
+//			Handles.DrawLine (new Vector3 (0f, _gridSpacing * y, 0f), new Vector3 (_viewRect.width, _gridSpacing * y, 0f));
+//		}
+//		Handles.color = Color.white;
+//		Handles.EndGUI ();
+//	}
 
-		Handles.BeginGUI ();
-		Handles.color = new Color (_gridColor.r, _gridColor.g, _gridColor.b, _gridOpacity);
-
-		for (int x = 0; x < widthDivs; x++) {
-			Handles.DrawLine (new Vector3 (_gridSpacing * x, 0f, 0f), new Vector3 (_gridSpacing * x, _viewRect.height, 0f));
+	public static string UppercaseFirst(string s)
+	{
+		// Check for empty string.
+		if (string.IsNullOrEmpty(s))
+		{
+			return string.Empty;
 		}
-
-		for (int y = 0; y < heightDivs; y++) {
-			Handles.DrawLine (new Vector3 (0f, _gridSpacing * y, 0f), new Vector3 (_viewRect.width, _gridSpacing * y, 0f));
-		}
-		Handles.color = Color.white;
-		Handles.EndGUI ();
+		// Return char and concat substring.
+		return char.ToUpper(s[0]) + s.Substring(1);
 	}
 }

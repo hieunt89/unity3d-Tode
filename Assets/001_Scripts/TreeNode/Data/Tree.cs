@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
+
 public enum TreeType {
 	Towers,
 	Skills
 }
+
 [Serializable]
 public class Tree <T> where T : class {
 	public TreeType treeType;

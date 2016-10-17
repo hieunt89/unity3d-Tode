@@ -13,7 +13,7 @@ public class TreeNodePropertiesView : ViewBase {
 		
 		base.UpdateView (_editorRect, _percentageRect, _e, _currentTree);
 
-		GUI.Box (viewRect, viewTitle + " Properties", viewSkin.GetStyle ("ViewBg"));
+//		GUI.Box (viewRect, viewTitle + " Properties", viewSkin.GetStyle ("ViewBg"));
 
 		GUILayout.BeginArea (viewRect);
 		GUILayout.Space (30);

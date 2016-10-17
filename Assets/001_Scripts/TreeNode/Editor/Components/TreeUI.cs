@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-
-
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -18,13 +16,11 @@ public class TreeUI {
 	public bool showNodeProperties = false;
 
 	public List<string> existIds;
-//	List<TowerData> existDatas;
+	List<TowerData> towerData;
+	List<Skill> skillData;
+
+	private NodeUI lastNodeUI;
 	public TreeUI (TreeType _treeType, string _treeName) {
-//		
-//		Type customList = typeof(List<>).MakeGenericType(tempType);
-//		IList objectList = (IList)Activator.CreateInstance(customList);
-
-
 		treeData = new Tree<string> (_treeType, _treeName, null);
 
 		if (nodes == null) {
@@ -35,22 +31,24 @@ public class TreeUI {
 		// load exist data based on tree type
 		switch (_treeType) {
 		case TreeType.Towers:
-			Type x = typeof(TowerData);
-			Type listType = typeof(List<>).MakeGenericType(x);
-			var existData = Activator.CreateInstance(listType);
+//			Type x = typeof(TowerData);
+//			Type listType = typeof(List<>).MakeGenericType(x);
+//			var existData = Activator.CreateInstance(listType);
 
 //			var fooList = Activator
 //				.CreateInstance(typeof(List<>)
 //					.MakeGenericType(TowerData.GetType()));
-			Debug.Log (existData);
 			
-			var data = DataManager.Instance.LoadAllData <TowerData> ();
-			if (data != null){
+			towerData = DataManager.Instance.LoadAllData <TowerData> ();
+			if (towerData != null){
 				existIds = new List<string> ();
-				for (int i = 0; i < data.Count; i++) {
-					existIds.Add(data[i].Id);
+				for (int i = 0; i < towerData.Count; i++) {
+					existIds.Add(towerData[i].Id);
 				}
 			}
+			break;
+		case TreeType.Skills:
+			
 			break;
 		default:
 			break;
@@ -59,19 +57,18 @@ public class TreeUI {
 
 
 	public void UpdateTreeUI (Event _e, Rect _viewRect, GUISkin _viewSkin) {
-
 		ProcessEvents (_e, _viewRect);
-
+		
 		if (treeData != null && nodes.Count == 0) {
-			// TODO: genrate node ui
-			TreeNodeUtils.GenerateNodes(this);
+			GenerateNodes(this);
 		}
 
 		if (nodes.Count > 0) {
 			for (int i = 0; i < nodes.Count; i++) {
-				nodes [i].UpdateNodeUI (_e, _viewRect, _viewSkin);
+				nodes [i].UpdateNodeUI (i, _e, _viewRect, _viewSkin);
 			}
 		}
+
 
 		if (wantsConnection) {
 			if (startConnectionNode != null) {
@@ -90,36 +87,27 @@ public class TreeUI {
 //		EditorUtility.SetDirty (this);
 	}
 
-	public void DrawTreeProperties () {
-		EditorGUILayout.BeginVertical ();
-		EditorGUILayout.LabelField ("Name", treeData.treeName);
-		EditorGUILayout.LabelField ("Name", nodes.Count.ToString ());
-		EditorGUILayout.EndVertical ();
-
-		// TODO : draw all nodes data :D
-	}
-
 	private void ProcessEvents (Event _e, Rect _viewRect) {
 		if (_viewRect.Contains (_e.mousePosition)) {
 			if (_e.button == 0) {
 				if (_e.type == EventType.MouseDown) {
-					DeselectAllNodes ();
-
+//					DeselectAllNodes ();
+//
 					showNodeProperties = false;
-					bool setNode = false;
-					selectedNode = null;
-
-					for (int i = 0; i < nodes.Count; i++) {
-						if (nodes[i].nodeRect.Contains (_e.mousePosition)) {
-							nodes[i].isSelected = true;
-							selectedNode = nodes[i];
-							setNode = true;
-						}
-					}
-
-					if (!setNode) {
-						DeselectAllNodes ();
-					}
+//					bool setNode = false;
+//					selectedNode = null;
+//
+//					for (int i = 0; i < nodes.Count; i++) {
+//						if (nodes[i].nodeRect.Contains (_e.mousePosition)) {
+//							nodes[i].isSelected = true;
+//							selectedNode = nodes[i];
+//							setNode = true;
+//						}
+//					}
+//
+//					if (!setNode) {
+//						DeselectAllNodes ();
+//					}
 
 					if (wantsConnection) {
 						wantsConnection = false;
@@ -146,9 +134,35 @@ public class TreeUI {
 		Handles.EndGUI ();
 	}
 
-	private void DeselectAllNodes () {
-		for (int i = 0; i < nodes.Count; i++) {
-			nodes [i].isSelected = false;
+//	private void DeselectAllNodes () {
+//		for (int i = 0; i < nodes.Count; i++) {
+//			nodes [i].isSelected = false;
+//		}
+//	}
+
+	private void GenerateNodes (TreeUI _currentTree) {
+		NodeUI rootNode = new NodeUI ("Root Node", NodeType.RootNode, _currentTree.treeData.Root, null, new List<NodeUI> (), _currentTree);
+
+		if (rootNode != null) {
+			rootNode.InitNode (new Vector2 (50f, 50f));
+			_currentTree.nodes.Add (rootNode);
+			lastNodeUI = rootNode;
+			GenerateNodes (_currentTree, rootNode);
 		}
+
+	}
+
+	private void GenerateNodes (TreeUI _currentTree, NodeUI _parentNode) {
+		for (int i = 0; i < _parentNode.nodeData.children.Count; i++) {
+			NodeUI newNode = new NodeUI ("Node", NodeType.Node, _parentNode.nodeData.children[i], _parentNode, new List<NodeUI> (), _currentTree);
+			if (newNode != null) {
+				_parentNode.childNodes.Add (newNode);
+				newNode.InitNode (new Vector2 ((_parentNode.nodeRect.x + _parentNode.nodeRect.width) + _parentNode.nodeRect.width / 2, lastNodeUI.nodeRect.y +(_parentNode.nodeRect.height * 2 * i)));
+				_currentTree.nodes.Add (newNode);
+				lastNodeUI = newNode;
+				GenerateNodes (_currentTree, newNode);
+			}
+		}
+
 	}
 }
