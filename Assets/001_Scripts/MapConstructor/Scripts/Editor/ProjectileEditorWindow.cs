@@ -14,10 +14,11 @@ public class ProjectileEditorWindow : EditorWindow {
 
 	int projectileIndex;
 
-	[MenuItem("Window/Projectile Constructor &P")]
+	[MenuItem("Window/Projectile Editor &P")]
 	public static void ShowWindow()
 	{
-		EditorWindow.GetWindow(typeof(ProjectileEditorWindow));
+		var projectileEditorWindow = EditorWindow.GetWindow <TowerEditorWindow> ("Projectile Editor", true);
+		projectileEditorWindow.minSize = new Vector2 (400, 600); 
 	}
 
 	void OnEnable () {
@@ -83,7 +84,7 @@ public class ProjectileEditorWindow : EditorWindow {
 		}
 //		GUILayout.EndHorizontal();
 
-		//		Repaint ();
+		Repaint ();
 	}
 
 	private bool CheckFields () {

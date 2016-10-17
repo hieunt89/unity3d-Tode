@@ -8,10 +8,11 @@ public class CharacterEditorWindow : EditorWindow {
 	List<CharacterData> existEnemies;
 	List<float> armorValues;
 
-	[MenuItem("Window/Enemy Constructor &E")]
+	[MenuItem("Window/Character Editor &E")]
 	public static void ShowWindow()
 	{
-		EditorWindow.GetWindow(typeof(CharacterEditorWindow));
+		var characterEditorWindow = EditorWindow.GetWindow <TowerEditorWindow> ("Character Editor", true);
+		characterEditorWindow.minSize = new Vector2 (400, 600);
 	}
 
 	void OnEnable () {

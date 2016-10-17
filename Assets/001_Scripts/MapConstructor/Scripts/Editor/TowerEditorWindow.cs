@@ -19,7 +19,8 @@ public class TowerEditorWindow : EditorWindow {
 	[MenuItem("Window/Tower Editor &T")]
 	public static void ShowWindow()
 	{
-		EditorWindow.GetWindow <TowerEditorWindow> ("Tower Editor",true);
+		var towerEditorWindow = EditorWindow.GetWindow <TowerEditorWindow> ("Tower Editor", true);
+		towerEditorWindow.minSize = new Vector2 (400, 600);
 	}
 
 	void OnEnable () {

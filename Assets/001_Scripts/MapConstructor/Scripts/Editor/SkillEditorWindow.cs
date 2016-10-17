@@ -106,8 +106,8 @@ public class SkillEditorWindow: EditorWindow {
 				EditorGUI.BeginChangeCheck ();
 				GUILayout.BeginHorizontal ();
 				var _effectType = (EffectType) EditorGUILayout.EnumPopup ("Effect Type", combatSkill.effectList[i].effectType);
-				GUILayout.FlexibleSpace ();
-				if (GUILayout.Button ("Remove")) {
+//				GUILayout.FlexibleSpace ();
+				if (GUILayout.Button ("Remove", GUILayout.MaxWidth (80))) {
 					combatSkill.effectList.RemoveAt(i);
 					continue;
 				}
