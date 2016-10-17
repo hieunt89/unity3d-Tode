@@ -3,7 +3,7 @@ using UnityEditor;
 using System.Collections.Generic;
 using System;
 
-public class EnemyContructorWindow : EditorWindow {
+public class EnemyEditorWindow : EditorWindow {
 	CharacterData enemy;
 	List<CharacterData> existEnemies;
 	List<float> armorValues;
@@ -11,7 +11,7 @@ public class EnemyContructorWindow : EditorWindow {
 	[MenuItem("Window/Enemy Constructor &E")]
 	public static void ShowWindow()
 	{
-		EditorWindow.GetWindow(typeof(EnemyContructorWindow));
+		EditorWindow.GetWindow(typeof(EnemyEditorWindow));
 	}
 
 	void OnEnable () {

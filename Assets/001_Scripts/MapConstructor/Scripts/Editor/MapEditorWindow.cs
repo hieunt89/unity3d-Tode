@@ -62,8 +62,17 @@ public class MapEditorWindow : EditorWindow {
 		wayPointColor = Color.white;
 		towerPointColor = Color.white;
 
-		stepsPerCurve = EditorPrefs.GetInt ("StepPerCurve");
-		towerRange = EditorPrefs.GetFloat ("TowerRange");
+		if (EditorPrefs.HasKey ("StepPerCurve")) {
+			stepsPerCurve = EditorPrefs.GetInt ("StepPerCurve");
+		} else {
+			stepsPerCurve = 4;
+		}
+
+		if (EditorPrefs.HasKey ("TowerRange")) {
+			towerRange = EditorPrefs.GetFloat ("TowerRange");
+		} else {
+			towerRange = 1;
+		}
 
 		selectedPathIndex = -1;
 		selectedWaypointIndex = -1;

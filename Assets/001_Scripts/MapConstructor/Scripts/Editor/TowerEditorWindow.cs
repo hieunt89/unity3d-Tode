@@ -5,13 +5,13 @@ using System.Collections.Generic;
 using UnityEditor;
 using System;
 
-public class TowerConstructorWindow : EditorWindow {
+public class TowerEditorWindow : EditorWindow {
 	
 	TowerData tower;
 	List<TowerData> existTowers;
 	List<ProjectileData> existProjectiles;
 
-	List<string> existTowerIds;
+//	List<string> existTowerIds;
 	List<string> projectileIds;
 
 	int projectileIndex;
@@ -19,7 +19,7 @@ public class TowerConstructorWindow : EditorWindow {
 	[MenuItem("Window/Tower Constructor &T")]
 	public static void ShowWindow()
 	{
-		EditorWindow.GetWindow(typeof(TowerConstructorWindow));
+		EditorWindow.GetWindow(typeof(TowerEditorWindow));
 	}
 
 	void OnEnable () {
@@ -28,12 +28,12 @@ public class TowerConstructorWindow : EditorWindow {
 
 		tower = new TowerData("tower" + existTowers.Count, new List<int> (), new List<string> ());
 
-		if (existTowers.Count > 0) {
-			existTowerIds = new List<string> ();
-			for (int i = 0; i < existTowers.Count; i++) {
-				existTowerIds.Add(existTowers[i].Id);
-			}
-		}
+//		if (existTowers.Count > 0) {
+//			existTowerIds = new List<string> ();
+//			for (int i = 0; i < existTowers.Count; i++) {
+//				existTowerIds.Add(existTowers[i].Id);
+//			}
+//		}
 
 		existProjectiles =  DataManager.Instance.LoadAllData <ProjectileData>();
 
