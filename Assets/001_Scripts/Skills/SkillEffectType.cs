@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public enum EffectType{
 	Root,
@@ -8,6 +7,7 @@ public enum EffectType{
 	ArmorReduce
 }
 
+[System.Serializable]
  public class SkillEffect {
 	public string skillId;
 	public EffectType effectType;
