@@ -5,21 +5,21 @@ using System.Collections.Generic;
 using UnityEditor;
 using System;
 
-public class TowerConstructorWindow : EditorWindow {
+public class TowerEditorWindow : EditorWindow {
 	
 	TowerData tower;
 	List<TowerData> existTowers;
 	List<ProjectileData> existProjectiles;
 
-	List<string> existTowerIds;
+//	List<string> existTowerIds;
 	List<string> projectileIds;
 
 	int projectileIndex;
 
-	[MenuItem("Window/Tower Constructor &T")]
+	[MenuItem("Window/Tower Editor &T")]
 	public static void ShowWindow()
 	{
-		EditorWindow.GetWindow(typeof(TowerConstructorWindow));
+		EditorWindow.GetWindow <TowerEditorWindow> ("Tower Editor",true);
 	}
 
 	void OnEnable () {
@@ -28,12 +28,12 @@ public class TowerConstructorWindow : EditorWindow {
 
 		tower = new TowerData("tower" + existTowers.Count);
 
-		if (existTowers.Count > 0) {
-			existTowerIds = new List<string> ();
-			for (int i = 0; i < existTowers.Count; i++) {
-				existTowerIds.Add(existTowers[i].Id);
-			}
-		}
+//		if (existTowers.Count > 0) {
+//			existTowerIds = new List<string> ();
+//			for (int i = 0; i < existTowers.Count; i++) {
+//				existTowerIds.Add(existTowers[i].Id);
+//			}
+//		}
 
 		existProjectiles =  DataManager.Instance.LoadAllData <ProjectileData>();
 
@@ -69,8 +69,8 @@ public class TowerConstructorWindow : EditorWindow {
 		if (EditorGUI.EndChangeCheck ()) {
 			tower.Id = id;
 			tower.Name = name;
-			tower.PrjTypeIndex = projectileIndex;
-			tower.PrjType = projectileIds[projectileIndex];
+			tower.ProjectileIndex = projectileIndex;
+			tower.ProjectileId = projectileIds[projectileIndex];
 			tower.AtkType = (AttackType) atkType;
 			tower.AtkRange = atkRange;
 			tower.MinDmg = minDmg;
@@ -94,7 +94,7 @@ public class TowerConstructorWindow : EditorWindow {
 			var data = DataManager.Instance.LoadData <TowerData> ();
 			if(data != null){
 				tower = data;
-				projectileIndex = tower.PrjTypeIndex;
+				projectileIndex = tower.ProjectileIndex;
 			}
 		}
 		if (GUILayout.Button("Reset")){

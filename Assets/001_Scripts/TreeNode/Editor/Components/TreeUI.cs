@@ -17,7 +17,7 @@ public class TreeUI {
 
 	public List<string> existIds;
 	List<TowerData> towerData;
-	List<Skill> skillData;
+	List<SkillData> skillData;
 
 	private NodeUI lastNodeUI;
 	public TreeUI (TreeType _treeType, string _treeName) {

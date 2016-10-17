@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using System;
 
-public class ProjectileConstructorWindow : EditorWindow {
+public class ProjectileEditorWindow : EditorWindow {
 
 	ProjectileData projectile;
 	List<ProjectileData> existProjectiles;
@@ -17,7 +17,7 @@ public class ProjectileConstructorWindow : EditorWindow {
 	[MenuItem("Window/Projectile Constructor &P")]
 	public static void ShowWindow()
 	{
-		EditorWindow.GetWindow(typeof(ProjectileConstructorWindow));
+		EditorWindow.GetWindow(typeof(ProjectileEditorWindow));
 	}
 
 	void OnEnable () {

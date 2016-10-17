@@ -7,7 +7,7 @@ public enum SkillType{
 	Summon
 }
 
-public abstract class Skill {
+public abstract class SkillData {
 	public string id;
 	public string name;
 	public float cooldown;
