@@ -24,7 +24,7 @@ public class TowerStatsUpdateSystem : IReactiveSystem, IEnsureComponents {
 			towerData = DataManager.Instance.GetTowerData (tower.tower.towerNode.data);
 			if (towerData != null) {
 				tower
-					.ReplaceProjectile (towerData.PrjType)
+					.ReplaceProjectile (towerData.ProjectileId)
 					.ReplaceAttack (towerData.AtkType)
 					.ReplaceAttackRange (towerData.AtkRange)
 					.ReplaceAttackDamageRange (towerData.MinDmg, towerData.MaxDmg)

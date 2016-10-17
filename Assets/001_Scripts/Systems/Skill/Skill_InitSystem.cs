@@ -60,15 +60,15 @@ public class Skill_InitSystem : IReactiveSystem, ISetPool {
 			.IsActive(true)
 			;
 
-		if(data is CombatSkill){
-			CombatSkill s = data as CombatSkill;
+		if(data is CombatSkillData){
+			CombatSkillData s = data as CombatSkillData;
 			e.AddSkillCombat (s.effectList)
-				.AddAttack(s.damageType)
+				.AddAttack(s.attackType)
 				.AddAttackDamage(s.damage)
 				.AddAoe (s.aoe)
-				.AddProjectile (s.prjId);
-		}else if(data is SummonSkill){
-			SummonSkill s = data as SummonSkill;
+				.AddProjectile (s.projectileId);
+		}else if(data is SummonSkillData){
+			SummonSkillData s = data as SummonSkillData;
 			e.AddSkillSummon (s.summonId, s.summonCount)
 				.AddDuration (s.duration);
 		}

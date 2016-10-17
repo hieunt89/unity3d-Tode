@@ -16,10 +16,10 @@ public class TowerEditorWindow : EditorWindow {
 
 	int projectileIndex;
 
-	[MenuItem("Window/Tower Constructor &T")]
+	[MenuItem("Window/Tower Editor &T")]
 	public static void ShowWindow()
 	{
-		EditorWindow.GetWindow(typeof(TowerEditorWindow));
+		EditorWindow.GetWindow <TowerEditorWindow> ("Tower Editor",true);
 	}
 
 	void OnEnable () {
@@ -69,8 +69,8 @@ public class TowerEditorWindow : EditorWindow {
 		if (EditorGUI.EndChangeCheck ()) {
 			tower.Id = id;
 			tower.Name = name;
-			tower.PrjTypeIndex = projectileIndex;
-			tower.PrjType = projectileIds[projectileIndex];
+			tower.ProjectileIndex = projectileIndex;
+			tower.ProjectileId = projectileIds[projectileIndex];
 			tower.AtkType = (AttackType) atkType;
 			tower.AtkRange = atkRange;
 			tower.MinDmg = minDmg;
@@ -94,7 +94,7 @@ public class TowerEditorWindow : EditorWindow {
 			var data = DataManager.Instance.LoadData <TowerData> ();
 			if(data != null){
 				tower = data;
-				projectileIndex = tower.PrjTypeIndex;
+				projectileIndex = tower.ProjectileIndex;
 			}
 		}
 		if (GUILayout.Button("Reset")){

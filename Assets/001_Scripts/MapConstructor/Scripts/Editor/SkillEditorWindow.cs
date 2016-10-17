@@ -1,13 +1,159 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using System.Collections.Generic;
+using System;
 
 
-public class SkillEditorWindow : EditorWindow {
+public class SkillEditorWindow: EditorWindow {
 
+	CombatSkillData combatSkill;
+	SummonSkillData summonSkill;
 
+	SkillType skillType;
+
+	List<CombatSkillData> existCombatSkills;
+
+	List<SummonSkillData> existSummonSkills;
+
+	List<ProjectileData> existProjectiles;
+	List<string> projectileIds;
+	int projectileIndex;
 
 	[MenuItem ("Window/Skill Editor &S")]
 	public static void ShowWindow () {
-		EditorWindow.GetWindow(typeof(SkillEditorWindow));
+		var skillEditorWindow = EditorWindow.GetWindow <SkillEditorWindow> ("Skill Editor", true);
+		skillEditorWindow.minSize = new Vector2 (400, 600);
+	}
+
+	void OnFocus () {
+//		Debug.Log ("On Focus");
+
+		existCombatSkills = DataManager.Instance.LoadAllData <CombatSkillData> ();
+
+		existSummonSkills = DataManager.Instance.LoadAllData <SummonSkillData> ();
+
+		existProjectiles = DataManager.Instance.LoadAllData <ProjectileData> ();
+		if (existProjectiles.Count > 0) {
+			projectileIds = new List<string> ();
+			for (int i = 0; i < existProjectiles.Count; i++) {
+				projectileIds.Add(existProjectiles[i].Id);
+			}
+		}
+	}
+
+	void OnEnable () {
+
+	}
+
+	void OnGUI () {
+		skillType = (SkillType) EditorGUILayout.EnumPopup (skillType);
+		switch (skillType) {
+		case SkillType.None:
+			break;
+		case SkillType.Combat:
+			if (combatSkill == null)
+				combatSkill = new CombatSkillData ("skill" + existCombatSkills.Count);
+			DrawCombatSkillEditor ();
+			break;
+		case SkillType.Summon:
+			if (summonSkill == null)
+				summonSkill = new SummonSkillData ("skill" + existSummonSkills.Count);
+			DrawSummonSkillEditor ();
+			break;
+		}
+		Repaint ();
+	}
+
+	private void DrawCombatSkillEditor () {
+		EditorGUI.BeginChangeCheck ();
+		var _combatSkillId = EditorGUILayout.TextField ("Id", combatSkill.id);
+		var _combatSkillName = EditorGUILayout.TextField ("Name", combatSkill.name);
+		var _combatSkillCoolDown = EditorGUILayout.FloatField ("Cooldown", combatSkill.cooldown);
+		var _combatSkillCastRange = EditorGUILayout.FloatField ("Cast Range", combatSkill.castRange);
+		var _combatSkillCastTime = EditorGUILayout.FloatField ("Cast Time", combatSkill.castTime);
+		var _combatSkillExpToNextLvl = EditorGUILayout.IntField ("Exp to Next Lvl", combatSkill.expToNextLvl);
+		var _combatSkillCost = EditorGUILayout.IntField ("Cost", combatSkill.cost);
+		projectileIndex = EditorGUILayout.Popup ("Project Id", projectileIndex, projectileIds.ToArray());
+		var _combatSkillAOE = EditorGUILayout.FloatField ("AOE", combatSkill.aoe);
+		var _combatSkillAttackType = (AttackType) EditorGUILayout.EnumPopup ("Attack Type", combatSkill.attackType);
+		var _combatSkillDamage = EditorGUILayout.IntField ("Damage", combatSkill.damage);
+
+		// TODO: list skill effect
+
+		if (EditorGUI.EndChangeCheck ()) {
+			combatSkill.id = _combatSkillId;
+			combatSkill.name = _combatSkillName;
+			combatSkill.cooldown = _combatSkillCoolDown;
+			combatSkill.castRange = _combatSkillCastRange;
+			combatSkill.castTime = _combatSkillCastTime;
+			combatSkill.expToNextLvl = _combatSkillExpToNextLvl;
+			combatSkill.cost = _combatSkillCost;
+			combatSkill.projectileId = projectileIds[projectileIndex];
+			combatSkill.aoe = _combatSkillAOE;
+			combatSkill.attackType = _combatSkillAttackType;
+			combatSkill.damage = _combatSkillDamage;
+		}
+		GUILayout.Space(5);
+
+		GUI.enabled = !String.IsNullOrEmpty (combatSkill.name); 
+		if (GUILayout.Button("Save")){
+			DataManager.Instance.SaveData (combatSkill);
+		}
+		GUI.enabled = true;
+		if (GUILayout.Button("Load")){
+			var data = DataManager.Instance.LoadData <CombatSkillData> ();
+			if(data != null){
+				combatSkill = data;
+				projectileIndex = combatSkill.projectileIndex;
+			}
+		}
+		if (GUILayout.Button("Reset")){
+			combatSkill = new CombatSkillData ();
+		}
+	}
+
+	private void DrawSummonSkillEditor () {
+		EditorGUI.BeginChangeCheck ();
+		var _summonSkillId = EditorGUILayout.TextField ("Id", summonSkill.id);
+		var _summonSkillName = EditorGUILayout.TextField ("Name", summonSkill.name);
+		var _summonSkillCoolDown = EditorGUILayout.FloatField ("Cooldown", summonSkill.cooldown);
+		var _summonSkillCastRange = EditorGUILayout.FloatField ("Cast Range", summonSkill.castRange);
+		var _summonSkillCastTime = EditorGUILayout.FloatField ("Cast Time", summonSkill.castTime);
+		var _summonSkillExpToNextLvl = EditorGUILayout.IntField ("Exp to Next Lvl", summonSkill.expToNextLvl);
+		var _summonSkillCost = EditorGUILayout.IntField ("Cost", summonSkill.cost);
+		var _summonSkillSummonId = EditorGUILayout.TextField ("AOE", summonSkill.summonId);
+		var _summonSkillSummonCount = EditorGUILayout.IntField ("Attack Type", summonSkill.summonCount);
+		var _summonSkillDuration = EditorGUILayout.FloatField ("Damage", summonSkill.duration);
+
+		// TODO: list skill effect
+
+		if (EditorGUI.EndChangeCheck ()) {
+			summonSkill.id = _summonSkillId;
+			summonSkill.name = _summonSkillName;
+			summonSkill.cooldown = _summonSkillCoolDown;
+			summonSkill.castRange = _summonSkillCastRange;
+			summonSkill.castTime = _summonSkillCastTime;
+			summonSkill.expToNextLvl = _summonSkillExpToNextLvl;
+			summonSkill.cost = _summonSkillCost;
+			summonSkill.summonId = _summonSkillSummonId;
+			summonSkill.summonCount = _summonSkillSummonCount;
+			summonSkill.duration = _summonSkillDuration;
+		}
+		GUILayout.Space(5);
+
+		GUI.enabled = !String.IsNullOrEmpty (summonSkill.name);
+		if (GUILayout.Button("Save")){
+			DataManager.Instance.SaveData (combatSkill);
+		}
+		GUI.enabled = true;
+		if (GUILayout.Button("Load")){
+			var data = DataManager.Instance.LoadData <SummonSkillData> ();
+			if(data != null){
+				summonSkill = data;
+			}
+		}
+		if (GUILayout.Button("Reset")){
+			summonSkill = new SummonSkillData ();
+		}
 	}
 }

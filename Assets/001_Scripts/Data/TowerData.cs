@@ -5,8 +5,8 @@ using System.Collections.Generic;
 public class TowerData {
 	[SerializeField] public string id;
 	[SerializeField] private string name;
-	[SerializeField] private int prjTypeIndex;
-	[SerializeField] private string prjType;
+	[SerializeField] private int projectileIndex;
+	[SerializeField] private string projectileId;
 	[SerializeField] private AttackType atkType;
 	[SerializeField] private float atkRange;
 	[SerializeField] private int minDmg;
@@ -35,21 +35,21 @@ public class TowerData {
 		}
 	}
 
-	public int PrjTypeIndex {
+	public int ProjectileIndex {
 		get {
-			return this.prjTypeIndex;
+			return this.projectileIndex;
 		}
 		set {
-			prjTypeIndex = value;
+			projectileIndex = value;
 		}
 	}
 
-	public string PrjType {
+	public string ProjectileId {
 		get {
-			return this.prjType;
+			return this.projectileId;
 		}
 		set {
-			prjType = value;
+			projectileId = value;
 		}
 	}
 

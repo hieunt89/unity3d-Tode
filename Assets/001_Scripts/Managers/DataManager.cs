@@ -28,7 +28,7 @@ public class DataManager {
 	Dictionary<string, TowerData> towerIdToData;
 	Dictionary<string, CharacterData> characterIdToData;
 	Dictionary<string, MapData> mapIdToData;
-	Dictionary<string, Skill> skillIdToData;
+	Dictionary<string, SkillData> skillIdToData;
 	List<Tree<string>> towerTrees;
 	Dictionary<string, Tree<string>> skillTrees;
 
@@ -43,19 +43,19 @@ public class DataManager {
 	}
 
 	void LoadSkillData(){
-		CombatSkill s = new CombatSkill ();
+		CombatSkillData s = new CombatSkillData ();
 		s.id = "fb1";
 		s.name = "fireball level 1";
 		s.castRange = 6f;
 		s.castTime = 2f;
 		s.cooldown = 3f;
 		s.expToNextLvl = 50;
-		s.damageType = AttackType.magical;
+		s.attackType = AttackType.magical;
 		s.damage = 200;
 		s.cost = 100;
 
 		s.aoe = 2f;
-		s.prjId = "projectile1";
+		s.projectileId = "projectile1";
 
 		List<SkillEffect> efl = new List<SkillEffect> ();
 		SkillEffect ef = new SkillEffect ();
@@ -68,7 +68,7 @@ public class DataManager {
 
 		s.effectList = efl;
 
-		skillIdToData = new Dictionary<string, Skill> ();
+		skillIdToData = new Dictionary<string, SkillData> ();
 		skillIdToData.Add (s.id, s);
 	}
 
@@ -126,7 +126,7 @@ public class DataManager {
 		}
 	}
 
-	public Skill GetSkillData(string id){
+	public SkillData GetSkillData(string id){
 		if (skillIdToData.ContainsKey (id)) {
 			return skillIdToData [id];
 		} else {
