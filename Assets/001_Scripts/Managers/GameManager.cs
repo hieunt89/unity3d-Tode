@@ -33,15 +33,19 @@ public class GameManager : MonoBehaviour {
 				.Add(pool.CreateSystem<GoldSystem>())
 				.Add(pool.CreateSystem<PathSystem>())
 				.Add(pool.CreateSystem<WaveSystem>())
-				
+
+				//Combat
+				.Add(pool.CreateSystem<CheckTargetSystem>())
+				.Add(pool.CreateSystem<FindTargetSystem>())
+				.Add(pool.CreateSystem<AttackOverTimeSystem>())
+				.Add(pool.CreateSystem<AttackCooldownSystem>())
+				.Add(pool.CreateSystem<DamageSystem>())
+
 				//Tower
 				.Add(pool.CreateSystem<TowerInitSystem>())
 				.Add(pool.CreateSystem<TowerUpgradeSystem>())
 				.Add(pool.CreateSystem<TowerBuildSystem>())
 				.Add(pool.CreateSystem<TowerStatsUpdateSystem>())
-				.Add(pool.CreateSystem<TowerCheckTargetSystem>())
-				.Add(pool.CreateSystem<TowerFindTargetSystem>())
-				.Add(pool.CreateSystem<TowerAttackCooldownSystem>())
 				.Add(pool.CreateSystem<TowerAttackSystem>())
 				.Add(pool.CreateSystem<TowerSellSystem>())
 
@@ -56,6 +60,11 @@ public class GameManager : MonoBehaviour {
 				.Add(pool.CreateSystem<ProjectileThrowingSystem>())
 				.Add(pool.CreateSystem<ProjectileLaserSystem>())
 				.Add(pool.CreateSystem<ProjectileReachEndSystem>())
+
+				//Skill
+				.Add(pool.CreateSystem<Skill_InitSystem>())
+				.Add(pool.CreateSystem<SkillCastSystem>())
+				.Add(pool.CreateSystem<SkillEffectWatcherInitSystem>())
 				
 				//View
 				.Add(pool.CreateSystem<TowerCreateViewSystem>())
@@ -70,8 +79,14 @@ public class GameManager : MonoBehaviour {
 				//General
 				.Add(pool.CreateSystem<EntityActiveSystem>())
 				.Add(pool.CreateSystem<EntityDestroySystem>())
-				.Add(pool.CreateSystem<AttackOverTimeSystem>())
-				.Add(pool.CreateSystem<DamageSystem>())
 			;
+	}
+
+	public void ToggleGamePause(){
+		if (Pools.pool.isGamePause) {
+			Pools.pool.isGamePause = false;
+		} else {
+			Pools.pool.isGamePause = true;
+		}
 	}
 }

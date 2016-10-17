@@ -25,10 +25,13 @@ public class EntityLink {
 
 	public Entity GetEntity(GameObject go){
 		if (goToEntity.ContainsKey (go)) {
-			return goToEntity [go];
-		} else {
-			return null;
+			if (goToEntity [go] != null) {
+				return goToEntity [go];
+			} else {
+				goToEntity.Remove (go);
+			}
 		}
+		return null;
 	}
 
 	public void AddLink(GameObject go, Entity e){

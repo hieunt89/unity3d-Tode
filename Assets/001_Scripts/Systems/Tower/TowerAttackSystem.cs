@@ -34,15 +34,9 @@ public class TowerAttackSystem : IReactiveSystem, ISetPool {
 			}
 
 			//attack
-			if (tower.view.Anim != null) {
-				tower.IsAttacking (true);
-				tower.view.Anim.SetTrigger ("fire");
-				tower.AddCoroutine (StartAttack (tower, tower.target.e));
-			} else {
-				Debug.Log ("tower " + tower.id.value + " does not have attack animator");
-				AttackNow (tower, tower.target.e);
+			if (!tower.hasCoroutine) {
+				tower.AddCoroutine (Attack (tower));
 			}
-
 		}
 	}
 
@@ -58,23 +52,42 @@ public class TowerAttackSystem : IReactiveSystem, ISetPool {
 
 	#endregion
 
-	IEnumerator StartAttack(Entity tower, Entity target){
-		while(tower.isAttacking){
+	IEnumerator Attack(Entity tower){
+		tower.IsAttacking (true);
+
+		float time = 0f;
+		while(time < tower.attackTime.value){
+			if (!_pool.isGamePause) {
+				time += Time.deltaTime;
+			}
+			if (tower.view.Anim != null) {
+				tower.view.Anim.Play (AnimState.Fire, 0, time / tower.attackTime.value);
+			}
 			yield return null;
 		}
+			
+		if (tower.view.Anim != null) {
+			tower.view.Anim.Play (AnimState.Idle);
+		}
 
-		AttackNow (tower, target);
+		if (tower.hasTarget) {
+			AttackNow (tower, tower.target.e);
+		}
+		tower.IsAttacking (false);
 	}
 
 	void AttackNow(Entity tower, Entity target){
 		tower.AddAttackCooldown(tower.attackSpeed.value);
-		_pool.CreateProjectile (
-			tower.projectile.projectileId,
-			tower.position.value + Vector3.up,
-			tower.attack.attackType,
-			tower.attackDamage.minDamage,
-			tower.attackDamage.maxDamage,
-			tower.aoe.value,
-			target).AddOrigin(tower);
+		var damage = CombatUtility.RandomDamage (
+			tower.attackDamageRange.maxDmg,
+			tower.attackDamageRange.minDmg
+		);
+		var e = _pool.CreateProjectile (tower.projectile.projectileId, tower, target)
+			.AddAttack (tower.attack.attackType)
+			.AddAttackDamage (damage)
+			;
+		if(tower.aoe.value > 0){
+			e.AddAoe (tower.aoe.value);
+		}
 	}
 }

@@ -12,6 +12,7 @@ public class TowerData {
 	[SerializeField] private int minDmg;
 	[SerializeField] private int maxDmg;
 	[SerializeField] private float atkSpeed;
+	[SerializeField] private float atkTime;
 	[SerializeField] private int goldRequired;
 	[SerializeField] private float buildTime;
 	[SerializeField] private float aoe;
@@ -97,6 +98,14 @@ public class TowerData {
 		}
 	}
 
+	public float AtkTime {
+		get {
+			return atkTime;
+		}set{ 
+			atkTime = value;
+		}
+	}
+
 	public int GoldRequired {
 		get {
 			return this.goldRequired;
@@ -126,23 +135,5 @@ public class TowerData {
 
 	public TowerData (string id) {
 		this.id = id;
-	}
-
-	public TowerData (string id, List<int> nextUpgradeIndexes, List<string> nextUpgrades){
-		this.id = id;
-	}
-	
-	public TowerData (string id, string name, string prjType, AttackType atkType, float atkRange, int minDmg, int maxDmg, float atkSpeed, int goldRequired, float buildTime)
-	{
-		this.id = id;
-		this.name = name;
-		this.prjType = prjType;
-		this.atkType = atkType;
-		this.atkRange = atkRange;
-		this.minDmg = minDmg;
-		this.maxDmg = maxDmg;
-		this.atkSpeed = atkSpeed;
-		this.goldRequired = goldRequired;
-		this.buildTime = buildTime;
 	}
 }

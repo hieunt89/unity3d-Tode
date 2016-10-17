@@ -5,5 +5,7 @@ using System.Collections.Generic;
 public class CombatSkill : Skill {
 	public string prjId;
 	public float aoe;
+	public AttackType damageType;
+	public int damage;
 	public List<SkillEffect> effectList;
 }

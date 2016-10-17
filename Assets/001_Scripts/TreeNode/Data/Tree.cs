@@ -13,6 +13,9 @@ public class Tree <T> where T : class {
 	public string treeName;
 	public Node <T> Root;
 
+	public Tree(){
+	}
+
 	public Tree (T rootData)
 	{
 		this.Root = new Node<T> (rootData);

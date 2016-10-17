@@ -18,24 +18,24 @@ AnimationClip:
       serializedVersion: 2
       m_Curve:
       - time: 0
-        value: {x: 0, y: 0.5, z: 0}
-        inSlope: {x: 0, y: 0.666, z: 0}
-        outSlope: {x: 0, y: 0.666, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        inSlope: {x: 0, y: 1.44, z: 0}
+        outSlope: {x: 0, y: 1.44, z: 0}
         tangentMode: 0
       - time: 0.5
-        value: {x: 0, y: 0.833, z: 0}
+        value: {x: 0, y: 0.72, z: 0}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
       - time: 1
-        value: {x: 0, y: 0.5, z: 0}
-        inSlope: {x: 0, y: -0.666, z: 0}
-        outSlope: {x: 0, y: -0.666, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        inSlope: {x: 0, y: -1.44, z: 0}
+        outSlope: {x: 0, y: -1.44, z: 0}
         tangentMode: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: cube
+    path: tower
   m_ScaleCurves: []
   m_FloatCurves: []
   m_PPtrCurves: []
@@ -46,7 +46,7 @@ AnimationClip:
     m_Extent: {x: 0, y: 0, z: 0}
   m_ClipBindingConstant:
     genericBindings:
-    - path: 821998008
+    - path: 1577756512
       attribute: 1
       script: {fileID: 0}
       classID: 4
@@ -96,32 +96,32 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: cube
+    path: tower
     classID: 4
     script: {fileID: 0}
   - curve:
       serializedVersion: 2
       m_Curve:
       - time: 0
-        value: 0.5
-        inSlope: 0.666
-        outSlope: 0.666
+        value: 0
+        inSlope: 1.44
+        outSlope: 1.44
         tangentMode: 10
       - time: 0.5
-        value: 0.833
+        value: 0.72
         inSlope: 0
         outSlope: 0
         tangentMode: 10
       - time: 1
-        value: 0.5
-        inSlope: -0.666
-        outSlope: -0.666
+        value: 0
+        inSlope: -1.44
+        outSlope: -1.44
         tangentMode: 10
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: cube
+    path: tower
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -146,7 +146,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: cube
+    path: tower
     classID: 4
     script: {fileID: 0}
   m_EulerEditorCurves: []

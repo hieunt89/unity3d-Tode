@@ -2,7 +2,7 @@
 using System.Collections;
 using Entitas;
 
-public class CoroutineSystem : IExecuteSystem, ISetPool {
+public class CoroutineSystem : IExecuteSystem, ISetPool{
 	#region ISetPool implementation
 	Pool _pool;
 	Group _groupCoroutine;

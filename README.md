@@ -20,6 +20,9 @@ A prototype tower defense game made with Unity and Entitas v.0.31.1
 - [x] add init gold and init life in mapdata, wave delay in wave data
 - [x] prj range (aoe)
 - [x] add enemy offset base on collider, checking prj reach offset
+- [] add targetable component to systems
+- [] update entitas
+- [] write docs for all components and systems
 
 ## Additions References
 * [Mark down tutorial](http://www.markdowntutorial.com/)
