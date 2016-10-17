@@ -38,38 +38,42 @@ public class DataManager {
 		LoadData <CharacterData> (out characterIdToData);
 		LoadData <MapData> (out mapIdToData);
 		LoadTreeData (TreeType.Towers);
+
 		LoadSkillData ();
 		LoadSkillTree ();
 	}
 
 	void LoadSkillData(){
-		CombatSkillData s = new CombatSkillData ();
-		s.id = "fb1";
-		s.name = "fireball level 1";
-		s.castRange = 6f;
-		s.castTime = 2f;
-		s.cooldown = 3f;
-		s.expToNextLvl = 50;
-		s.attackType = AttackType.magical;
-		s.damage = 200;
-		s.cost = 100;
-
-		s.aoe = 2f;
-		s.projectileId = "projectile1";
-
-		List<SkillEffect> efl = new List<SkillEffect> ();
-		SkillEffect ef = new SkillEffect ();
-		ef.skillId = s.id;
-		ef.duration = 5f;
-		ef.effect = Effect.MoveSpeedSlow;
-		ef.value = 50;
-
-		efl.Add (ef);
-
-		s.effectList = efl;
+//		CombatSkillData s = new CombatSkillData ();
+//		s.id = "fb1";
+//		s.name = "fireball level 1";
+//		s.castRange = 6f;
+//		s.castTime = 2f;
+//		s.cooldown = 3f;
+//		s.expToNextLvl = 50;
+//		s.attackType = AttackType.magical;
+//		s.damage = 200;
+//		s.cost = 100;
+//
+//		s.aoe = 2f;
+//		s.projectileId = "projectile1";
+//
+//		List<SkillEffect> efl = new List<SkillEffect> ();
+//		SkillEffect ef = new SkillEffect ();
+//		ef.skillId = s.id;
+//		ef.duration = 5f;
+//		ef.effect = Effect.MoveSpeedSlow;
+//		ef.value = 50;
+//
+//		efl.Add (ef);
+//
+//		s.effectList = efl;
 
 		skillIdToData = new Dictionary<string, SkillData> ();
-		skillIdToData.Add (s.id, s);
+		var combatSkills = LoadAllData<CombatSkillData> ();
+		for (int i = 0; i < combatSkills.Count; i++) {
+			skillIdToData.Add (combatSkills[i].id, combatSkills[i]);
+		}
 	}
 
 	void LoadSkillTree(){
@@ -77,7 +81,7 @@ public class DataManager {
 
 		Tree<string> tree = new Tree<string> ();
 		tree.treeName = "fireball_tree";
-		tree.Root = new Node<string> ("fb1");
+		tree.Root = new Node<string> ("skill0");
 
 		skillTrees.Add (tree.treeName, tree);
 	}
