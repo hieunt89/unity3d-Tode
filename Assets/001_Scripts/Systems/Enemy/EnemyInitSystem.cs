@@ -64,7 +64,7 @@ public class EnemyInitSystem : IReactiveSystem, ISetPool
 						.AddGold (enemyData.GoldWorth)
 						.AddAttack (enemyData.AtkType)
 						.AddAttackSpeed(enemyData.AtkSpeed)
-						.AddAttackDamage(enemyData.MinAtkDmg, enemyData.MaxAtkDmg)
+						.AddAttackDamageRange(enemyData.MinAtkDmg, enemyData.MaxAtkDmg)
 						.AddAttackRange(enemyData.AtkRange)
 						.AddArmor(enemyData.Armors)
 						.AddHp (enemyData.Hp)

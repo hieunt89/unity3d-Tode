@@ -48,8 +48,8 @@ public class ProjectileLaserSystem : IReactiveSystem, ISetPool {
 				} else {
 					float dmgScale = Mathf.Clamp01(prj.projectileTime.time / prj.projectileLaser.maxDmgBuildTime);
 					int damage = CombatUtility.GetDamage (
-						prj.attackDamage.maxDamage, 
-						prj.attackDamage.minDamage,
+						prj.origin.e.attackDamageRange.maxDmg, 
+						prj.origin.e.attackDamageRange.minDmg,
 						dmgScale,
 						prj.attack.attackType,
 						prj.target.e.armor.armorList

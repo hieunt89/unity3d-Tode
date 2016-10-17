@@ -25,9 +25,9 @@ public class ProjectileHomingSystem : IReactiveSystem, ISetPool {
 		var ens = _groupPrjHoming.GetEntities ();
 		for (int i = 0; i < ens.Length; i++) {
 			prj = ens [i];
-			if(!prj.hasDestination){
+			if (!prj.hasDestination) {
 				prj.AddDestination (prj.target.e.position.value + prj.target.e.viewOffset.pivotToCenter);
-			}
+			} 
 			if (prj.target.e.hasEnemy) {
 				prj.ReplaceDestination (prj.target.e.position.value + prj.target.e.viewOffset.pivotToCenter);
 				if (prj.target.e.view.ColliderBound.Contains(prj.position.value)) {

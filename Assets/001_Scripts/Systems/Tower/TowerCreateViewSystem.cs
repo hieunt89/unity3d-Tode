@@ -16,6 +16,9 @@ public class TowerCreateViewSystem : IReactiveSystem {
 	void IReactiveExecuteSystem.Execute (System.Collections.Generic.List<Entity> entities)
 	{
 		for (int i = 0; i < entities.Count; i++) {
+			if (entities [i].hasCoroutine) {
+				entities [i].RemoveCoroutine ();
+			}
 			entities [i].AddCoroutine(CreateTowerView(entities [i]));
 		}
 	}
@@ -26,7 +29,7 @@ public class TowerCreateViewSystem : IReactiveSystem {
 
 	TriggerOnEvent IReactiveSystem.trigger {
 		get {
-			return Matcher.AnyOf(Matcher.Tower, Matcher.TowerBase).OnEntityAdded();
+			return Matcher.AnyOf(Matcher.Tower, Matcher.TowerBase, Matcher.TowerUpgrading).OnEntityAdded();
 		}
 	}
 
@@ -36,6 +39,8 @@ public class TowerCreateViewSystem : IReactiveSystem {
 		string prefToLoad;
 		if (e.isTowerBase) {
 			prefToLoad = "towerbase";
+		}else if (e.isTowerUpgrading) {
+			prefToLoad = "towerupgrade";
 		} else {
 			prefToLoad = e.tower.towerNode.data;
 		}

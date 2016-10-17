@@ -27,12 +27,20 @@ public class TowerStatsUpdateSystem : IReactiveSystem, IEnsureComponents {
 					.ReplaceProjectile (towerData.PrjType)
 					.ReplaceAttack (towerData.AtkType)
 					.ReplaceAttackRange (towerData.AtkRange)
-					.ReplaceAttackDamage (towerData.MinDmg, towerData.MaxDmg)
+					.ReplaceAttackDamageRange (towerData.MinDmg, towerData.MaxDmg)
 					.ReplaceAttackSpeed (towerData.AtkSpeed)
 					.ReplaceAttackTime(towerData.AtkTime)
 					.ReplaceAoe(towerData.Aoe)
 					.ReplaceSkillList(DataManager.Instance.GetSkillTrees("fireball_tree"))
+					.IsActive(true)
+					.IsInteractable(true)
 					;
+				if (tower.isAttacking) {
+					tower.IsAttacking (false);
+				}
+				if (tower.hasAttackCooldown) {
+					tower.RemoveAttackCooldown ();
+				}
 			} else {
 				tower.IsActive (false);
 			}

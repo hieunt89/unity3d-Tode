@@ -29,7 +29,9 @@ public class SkillCastSystem : IReactiveSystem, ISetPool {
 				continue;
 			}
 
-			origin.AddCoroutine (CastSkill (origin, skill, skill.target.e));
+			if (!origin.hasCoroutine) {
+				origin.AddCoroutine (CastSkill (origin, skill));
+			}
 		}
 
 	}
@@ -42,7 +44,7 @@ public class SkillCastSystem : IReactiveSystem, ISetPool {
 	}
 	#endregion
 
-	IEnumerator CastSkill(Entity origin, Entity skill, Entity target){
+	IEnumerator CastSkill(Entity origin, Entity skill){
 		origin.IsAttacking (true);
 
 		float time = 0f;
@@ -60,7 +62,9 @@ public class SkillCastSystem : IReactiveSystem, ISetPool {
 			origin.view.Anim.Play (AnimState.Idle);
 		}
 
-		CastNow (origin, skill, target);
+		if (skill.hasTarget) {
+			CastNow (origin, skill, skill.target.e);
+		}
 		origin.IsAttacking (false);
 	}
 
@@ -76,7 +80,8 @@ public class SkillCastSystem : IReactiveSystem, ISetPool {
 	void CastCombatSkill(Entity origin, Entity skill, Entity target){
 		var e = _pool.CreateProjectile (skill.projectile.projectileId, origin, target)
 			.AddSkillCombat(skill.skillCombat.effectList)
-//			.AddAttackDamage(skill
+			.AddAttackDamage(skill.attackDamage.dmg)
+			.AddAttack(skill.attack.attackType)
 		;
 		if(skill.aoe.value > 0){
 			e.AddAoe (skill.aoe.value);

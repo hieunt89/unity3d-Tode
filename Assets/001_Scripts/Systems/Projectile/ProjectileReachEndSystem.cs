@@ -47,19 +47,14 @@ public class ProjectileReachEndSystem : IReactiveSystem, ISetPool {
 	#endregion
 
 	void ProjectileDamage(Entity prj){
-		var damage = CombatUtility.RandomDamage (
-			prj.attackDamage.maxDamage,
-			prj.attackDamage.minDamage
-		);
-
 		if (prj.hasAoe) {
 			var enemies = _groupActiveEnemy.GetEntities ();
 			var targets = CombatUtility.FindTargetsInRange (prj, enemies, prj.aoe.value);
 			for (int j = 0; j < targets.Count; j++) {
-				ApplyDamage (damage, prj, targets [j]);
+				ApplyDamage (prj.attackDamage.dmg, prj, targets [j]);
 			}
 		} else if(prj.target.e.hasEnemy){
-			ApplyDamage (damage, prj, prj.target.e);
+			ApplyDamage (prj.attackDamage.dmg, prj, prj.target.e);
 		}	
 	}
 

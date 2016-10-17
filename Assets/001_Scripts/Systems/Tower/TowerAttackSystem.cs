@@ -34,8 +34,9 @@ public class TowerAttackSystem : IReactiveSystem, ISetPool {
 			}
 
 			//attack
-			tower.AddCoroutine (Attack (tower, tower.target.e));
-
+			if (!tower.hasCoroutine) {
+				tower.AddCoroutine (Attack (tower));
+			}
 		}
 	}
 
@@ -51,7 +52,7 @@ public class TowerAttackSystem : IReactiveSystem, ISetPool {
 
 	#endregion
 
-	IEnumerator Attack(Entity tower, Entity target){
+	IEnumerator Attack(Entity tower){
 		tower.IsAttacking (true);
 
 		float time = 0f;
@@ -68,15 +69,22 @@ public class TowerAttackSystem : IReactiveSystem, ISetPool {
 		if (tower.view.Anim != null) {
 			tower.view.Anim.Play (AnimState.Idle);
 		}
-		AttackNow (tower, target);
+
+		if (tower.hasTarget) {
+			AttackNow (tower, tower.target.e);
+		}
 		tower.IsAttacking (false);
 	}
 
 	void AttackNow(Entity tower, Entity target){
 		tower.AddAttackCooldown(tower.attackSpeed.value);
+		var damage = CombatUtility.RandomDamage (
+			tower.attackDamageRange.maxDmg,
+			tower.attackDamageRange.minDmg
+		);
 		var e = _pool.CreateProjectile (tower.projectile.projectileId, tower, target)
 			.AddAttack (tower.attack.attackType)
-			.AddAttackDamage (tower.attackDamage.minDamage, tower.attackDamage.maxDamage)
+			.AddAttackDamage (damage)
 			;
 		if(tower.aoe.value > 0){
 			e.AddAoe (tower.aoe.value);

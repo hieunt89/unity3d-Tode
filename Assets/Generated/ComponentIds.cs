@@ -13,69 +13,72 @@ public static class ComponentIds {
     public const int Attack = 3;
     public const int AttackCooldown = 4;
     public const int AttackDamage = 5;
-    public const int Attacking = 6;
-    public const int AttackOverTime = 7;
-    public const int AttackRange = 8;
-    public const int AttackSpeed = 9;
-    public const int AttackTime = 10;
-    public const int Channeling = 11;
-    public const int Coroutine = 12;
-    public const int CurrentSelected = 13;
-    public const int Damage = 14;
-    public const int Destination = 15;
-    public const int Duration = 16;
-    public const int Enemy = 17;
-    public const int GamePause = 18;
-    public const int Gold = 19;
-    public const int GoldPlayer = 20;
-    public const int Hp = 21;
-    public const int HpTotal = 22;
-    public const int Id = 23;
-    public const int Interactable = 24;
-    public const int Interval = 25;
-    public const int LifeCount = 26;
-    public const int LifePlayer = 27;
-    public const int Map = 28;
-    public const int MarkedForActive = 29;
-    public const int MarkedForDestroy = 30;
-    public const int MarkedForNoView = 31;
-    public const int MarkedForSell = 32;
-    public const int Movable = 33;
-    public const int NextWave = 34;
-    public const int Origin = 35;
-    public const int Path = 36;
-    public const int PathLength = 37;
-    public const int PathReference = 38;
-    public const int Position = 39;
-    public const int Projectile = 40;
-    public const int ProjectileHoming = 41;
-    public const int ProjectileLaser = 42;
-    public const int ProjectileMark = 43;
-    public const int ProjectileThrowing = 44;
-    public const int ProjectileThrowingParams = 45;
-    public const int ProjectileTime = 46;
-    public const int ReachedEnd = 47;
-    public const int SkillCombat = 48;
-    public const int Skill = 49;
-    public const int SkillEffects = 50;
-    public const int SkillEffectWatcher = 51;
-    public const int SkillEntityList = 52;
-    public const int SkillList = 53;
-    public const int SkillSummon = 54;
-    public const int SkillWatcherList = 55;
-    public const int Target = 56;
-    public const int Tick = 57;
-    public const int Tower = 58;
-    public const int TowerBase = 59;
-    public const int TowerUpgrade = 60;
-    public const int TowerUpgradeProgress = 61;
-    public const int TurnSpeed = 62;
-    public const int View = 63;
-    public const int ViewOffset = 64;
-    public const int ViewSlider = 65;
-    public const int Wave = 66;
+    public const int AttackDamageRange = 6;
+    public const int Attacking = 7;
+    public const int AttackOverTime = 8;
+    public const int AttackRange = 9;
+    public const int AttackSpeed = 10;
+    public const int AttackTime = 11;
+    public const int Channeling = 12;
+    public const int Coroutine = 13;
+    public const int CurrentSelected = 14;
+    public const int Damage = 15;
+    public const int Destination = 16;
+    public const int Duration = 17;
+    public const int Enemy = 18;
+    public const int GamePause = 19;
+    public const int Gold = 20;
+    public const int GoldPlayer = 21;
+    public const int Hp = 22;
+    public const int HpTotal = 23;
+    public const int Id = 24;
+    public const int Interactable = 25;
+    public const int Interval = 26;
+    public const int LifeCount = 27;
+    public const int LifePlayer = 28;
+    public const int Map = 29;
+    public const int MarkedForActive = 30;
+    public const int MarkedForDestroy = 31;
+    public const int MarkedForNoView = 32;
+    public const int MarkedForSell = 33;
+    public const int Movable = 34;
+    public const int NextWave = 35;
+    public const int Origin = 36;
+    public const int Path = 37;
+    public const int PathLength = 38;
+    public const int PathReference = 39;
+    public const int Position = 40;
+    public const int Projectile = 41;
+    public const int ProjectileHoming = 42;
+    public const int ProjectileLaser = 43;
+    public const int ProjectileMark = 44;
+    public const int ProjectileThrowing = 45;
+    public const int ProjectileThrowingParams = 46;
+    public const int ProjectileTime = 47;
+    public const int ReachedEnd = 48;
+    public const int SkillCombat = 49;
+    public const int Skill = 50;
+    public const int SkillEffects = 51;
+    public const int SkillEffectWatcher = 52;
+    public const int SkillEntityList = 53;
+    public const int SkillList = 54;
+    public const int SkillSummon = 55;
+    public const int SkillWatcherList = 56;
+    public const int Target = 57;
+    public const int Tick = 58;
+    public const int Tower = 59;
+    public const int TowerBase = 60;
+    public const int TowerReset = 61;
+    public const int TowerUpgrade = 62;
+    public const int TowerUpgradeProgress = 63;
+    public const int TowerUpgrading = 64;
+    public const int TurnSpeed = 65;
+    public const int View = 66;
+    public const int ViewOffset = 67;
+    public const int ViewSlider = 68;
+    public const int Wave = 69;
 
-    public const int TotalComponents = 67;
+    public const int TotalComponents = 70;
 
     public static readonly string[] componentNames = {
         "Active",
@@ -84,6 +87,7 @@ public static class ComponentIds {
         "Attack",
         "AttackCooldown",
         "AttackDamage",
+        "AttackDamageRange",
         "Attacking",
         "AttackOverTime",
         "AttackRange",
@@ -138,8 +142,10 @@ public static class ComponentIds {
         "Tick",
         "Tower",
         "TowerBase",
+        "TowerReset",
         "TowerUpgrade",
         "TowerUpgradeProgress",
+        "TowerUpgrading",
         "TurnSpeed",
         "View",
         "ViewOffset",
@@ -154,6 +160,7 @@ public static class ComponentIds {
         typeof(Attack),
         typeof(AttackCooldown),
         typeof(AttackDamage),
+        typeof(AttackDamageRange),
         typeof(Attacking),
         typeof(AttackOverTime),
         typeof(AttackRange),
@@ -208,8 +215,10 @@ public static class ComponentIds {
         typeof(Tick),
         typeof(Tower),
         typeof(TowerBase),
+        typeof(TowerReset),
         typeof(TowerUpgrade),
         typeof(TowerUpgradeProgress),
+        typeof(TowerUpgrading),
         typeof(TurnSpeed),
         typeof(View),
         typeof(ViewOffset),

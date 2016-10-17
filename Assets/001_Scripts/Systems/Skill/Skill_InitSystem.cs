@@ -63,6 +63,8 @@ public class Skill_InitSystem : IReactiveSystem, ISetPool {
 		if(data is CombatSkill){
 			CombatSkill s = data as CombatSkill;
 			e.AddSkillCombat (s.effectList)
+				.AddAttack(s.damageType)
+				.AddAttackDamage(s.damage)
 				.AddAoe (s.aoe)
 				.AddProjectile (s.prjId);
 		}else if(data is SummonSkill){

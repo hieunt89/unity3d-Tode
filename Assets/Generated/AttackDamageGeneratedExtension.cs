@@ -12,17 +12,15 @@ namespace Entitas {
 
         public bool hasAttackDamage { get { return HasComponent(ComponentIds.AttackDamage); } }
 
-        public Entity AddAttackDamage(int newMinDamage, int newMaxDamage) {
+        public Entity AddAttackDamage(int newDmg) {
             var component = CreateComponent<AttackDamage>(ComponentIds.AttackDamage);
-            component.minDamage = newMinDamage;
-            component.maxDamage = newMaxDamage;
+            component.dmg = newDmg;
             return AddComponent(ComponentIds.AttackDamage, component);
         }
 
-        public Entity ReplaceAttackDamage(int newMinDamage, int newMaxDamage) {
+        public Entity ReplaceAttackDamage(int newDmg) {
             var component = CreateComponent<AttackDamage>(ComponentIds.AttackDamage);
-            component.minDamage = newMinDamage;
-            component.maxDamage = newMaxDamage;
+            component.dmg = newDmg;
             ReplaceComponent(ComponentIds.AttackDamage, component);
             return this;
         }
