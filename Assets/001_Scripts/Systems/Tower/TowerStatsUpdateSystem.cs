@@ -32,15 +32,7 @@ public class TowerStatsUpdateSystem : IReactiveSystem, IEnsureComponents {
 					.ReplaceAttackTime(towerData.AtkTime)
 					.ReplaceAoe(towerData.Aoe)
 					.ReplaceSkillList(DataManager.Instance.GetSkillTrees("fireball_tree"))
-					.IsActive(true)
-					.IsInteractable(true)
 					;
-				if (tower.isAttacking) {
-					tower.IsAttacking (false);
-				}
-				if (tower.hasAttackCooldown) {
-					tower.RemoveAttackCooldown ();
-				}
 			} else {
 				tower.IsActive (false);
 			}

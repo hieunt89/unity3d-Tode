@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour {
 				.Add(pool.CreateSystem<TowerStatsUpdateSystem>())
 				.Add(pool.CreateSystem<TowerAttackSystem>())
 				.Add(pool.CreateSystem<TowerSellSystem>())
+				.Add(pool.CreateSystem<TowerResetSystem>())
 
 				//Enemy
 				.Add(pool.CreateSystem<EnemyInitSystem>())

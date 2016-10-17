@@ -18,13 +18,6 @@ public class Skill_InitSystem : IReactiveSystem, ISetPool {
 	{
 		for (int i = 0; i < entities.Count; i++) {
 			var e = entities [i];
-
-			if (e.hasSkillEntityList) {
-				for (int j = 0; j < e.skillEntityList.skillEntities.Count; j++) {
-					e.skillEntityList.skillEntities [j].IsActive(false).IsMarkedForDestroy (true);
-				}
-				e.RemoveSkillEntityList ();
-			}
 				
 			var eList = new List<Entity> ();
 			for (int j = 0; j < e.skillList.skillTrees.Count; j++) {

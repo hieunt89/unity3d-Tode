@@ -19,16 +19,8 @@ public class TowerSellSystem : IReactiveSystem, ISetPool {
 			e = entities [i];
 
 			_pool.ReplaceGoldPlayer (_pool.goldPlayer.value + e.gold.value);
-			e.RemoveTower ().IsTowerBase (true).ReplaceGold(0).IsActive(false).IsMarkedForSell(false);
-			if (e.isAttacking) {
-				e.IsAttacking (false);
-			}
-			if (e.hasAttackCooldown) {
-				e.RemoveAttackCooldown ();
-			}
-			if (e.hasCoroutine) {
-				e.RemoveCoroutine ();
-			}
+			e.IsTowerReset(true).IsActive(false).IsInteractable(false).RemoveTower ().IsTowerBase (true).ReplaceGold(0).IsMarkedForSell(false);
+
 		}
 	}
 	#endregion

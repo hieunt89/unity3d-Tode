@@ -16,9 +16,6 @@ public class TowerCreateViewSystem : IReactiveSystem {
 	void IReactiveExecuteSystem.Execute (System.Collections.Generic.List<Entity> entities)
 	{
 		for (int i = 0; i < entities.Count; i++) {
-			if (entities [i].hasCoroutine) {
-				entities [i].RemoveCoroutine ();
-			}
 			entities [i].AddCoroutine(CreateTowerView(entities [i]));
 		}
 	}
@@ -66,8 +63,10 @@ public class TowerCreateViewSystem : IReactiveSystem {
 			e.ReplaceView (go);
 		}
 
-		EntityLink.Instance.AddLink (go, e);
-		e.IsActive (true).IsInteractable (true);
+		if (e.hasTower || e.isTowerBase) {
+			EntityLink.Instance.AddLink (go, e);
+			e.IsActive (true).IsInteractable (true);
+		}
 
 		go.name = e.id.value;
 		go.transform.position = e.position.value;

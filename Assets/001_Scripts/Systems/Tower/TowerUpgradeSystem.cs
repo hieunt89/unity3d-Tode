@@ -21,15 +21,12 @@ public class TowerUpgradeSystem : IReactiveSystem, ISetPool{
 			if (_pool.goldPlayer.value < cost) {
 				e.RemoveTowerUpgrade ();
 			} else {
-				e.IsActive (false).IsInteractable (false);
+				e.IsTowerReset(true).IsActive (false).IsInteractable (false);
 				if (e.isTowerBase) {
 					e.IsTowerBase (false);
 				}
 				if (e.hasTower) {
 					e.RemoveTower ();
-				}
-				if (e.hasCoroutine) {
-					e.RemoveCoroutine ();
 				}
 				_pool.ReplaceGoldPlayer (_pool.goldPlayer.value - cost);
 				e.ReplaceGold(e.gold.value + cost).AddTowerUpgradeProgress (0f).IsTowerUpgrading(true);
