@@ -32,7 +32,7 @@ public class SkillEffectWatcherInitSystem : IReactiveSystem, ISetPool {
 				for (int k = 0; k < watchers.Count; k++) {
 					var oldEf = watchers [k].skillEffectWatcher.effect;
 
-					if (string.Equals (newEf.skillId, oldEf.skillId) && newEf.effect == oldEf.effect) {
+					if (string.Equals (newEf.skillId, oldEf.skillId) && newEf.effectType == oldEf.effectType) {
 						watchers [k].IsMarkedForDestroy (true);
 						watchers.RemoveAt (k);
 					}

@@ -53,6 +53,8 @@ public class SkillEditorWindow: EditorWindow {
 		case SkillType.Combat:
 			if (combatSkill == null)
 				combatSkill = new CombatSkillData ("skill" + existCombatSkills.Count);
+			if (combatSkill.effectList == null)
+				combatSkill.effectList = new List<SkillEffect> ();
 			DrawCombatSkillEditor ();
 			break;
 		case SkillType.Summon:
@@ -63,8 +65,10 @@ public class SkillEditorWindow: EditorWindow {
 		}
 		Repaint ();
 	}
-
+	bool toggleSkillEffect;
 	private void DrawCombatSkillEditor () {
+		
+
 		EditorGUI.BeginChangeCheck ();
 		var _combatSkillId = EditorGUILayout.TextField ("Id", combatSkill.id);
 		var _combatSkillName = EditorGUILayout.TextField ("Name", combatSkill.name);
@@ -92,6 +96,36 @@ public class SkillEditorWindow: EditorWindow {
 			combatSkill.aoe = _combatSkillAOE;
 			combatSkill.attackType = _combatSkillAttackType;
 			combatSkill.damage = _combatSkillDamage;
+		}
+
+		GUILayout.Space(5);
+		toggleSkillEffect = EditorGUILayout.Foldout (toggleSkillEffect, "Skill Effect");
+		if (toggleSkillEffect) {
+			GUILayout.BeginVertical("box");
+			for (int i = 0; i < combatSkill.effectList.Count; i++) {
+				EditorGUI.BeginChangeCheck ();
+				GUILayout.BeginHorizontal ();
+				var _effectType = (EffectType) EditorGUILayout.EnumPopup ("Effect Type", combatSkill.effectList[i].effectType);
+				GUILayout.FlexibleSpace ();
+				if (GUILayout.Button ("Remove")) {
+					combatSkill.effectList.RemoveAt(i);
+					continue;
+				}
+				GUILayout.EndHorizontal ();
+				var _effectValue = EditorGUILayout.FloatField ("Value", combatSkill.effectList[i].value);
+				var _effectDuration = EditorGUILayout.FloatField ("Duration", combatSkill.effectList[i].duration);
+				if (EditorGUI.EndChangeCheck ()) {
+					combatSkill.effectList[i].effectType = _effectType;
+					combatSkill.effectList[i].value = _effectValue;
+					combatSkill.effectList[i].duration = _effectDuration;
+				}
+				GUILayout.Space(5);
+
+			}
+			if (GUILayout.Button("Add New Skill Effect")){
+				combatSkill.effectList.Add (new SkillEffect ()); 
+			}
+			GUILayout.EndVertical();
 		}
 		GUILayout.Space(5);
 
