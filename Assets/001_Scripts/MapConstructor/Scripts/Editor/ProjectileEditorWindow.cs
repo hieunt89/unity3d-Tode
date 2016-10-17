@@ -17,8 +17,12 @@ public class ProjectileEditorWindow : EditorWindow {
 	[MenuItem("Window/Projectile Editor &P")]
 	public static void ShowWindow()
 	{
-		var projectileEditorWindow = EditorWindow.GetWindow <TowerEditorWindow> ("Projectile Editor", true);
+		var projectileEditorWindow = EditorWindow.GetWindow <ProjectileEditorWindow> ("Projectile Editor", true);
 		projectileEditorWindow.minSize = new Vector2 (400, 600); 
+	}
+
+	void OnFocus () {
+		existProjectiles = DataManager.Instance.LoadAllData<ProjectileData>();
 	}
 
 	void OnEnable () {
@@ -26,8 +30,6 @@ public class ProjectileEditorWindow : EditorWindow {
 
 		projectile = new ProjectileData ("projectile" + existProjectiles.Count);
 	}
-
-
 
 	void OnGUI()
 	{

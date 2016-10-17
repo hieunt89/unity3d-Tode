@@ -23,18 +23,8 @@ public class TowerEditorWindow : EditorWindow {
 		towerEditorWindow.minSize = new Vector2 (400, 600);
 	}
 
-	void OnEnable () {
-		
+	void OnFocus () {
 		existTowers = DataManager.Instance.LoadAllData <TowerData>();
-
-		tower = new TowerData("tower" + existTowers.Count);
-
-//		if (existTowers.Count > 0) {
-//			existTowerIds = new List<string> ();
-//			for (int i = 0; i < existTowers.Count; i++) {
-//				existTowerIds.Add(existTowers[i].Id);
-//			}
-//		}
 
 		existProjectiles =  DataManager.Instance.LoadAllData <ProjectileData>();
 
@@ -44,10 +34,16 @@ public class TowerEditorWindow : EditorWindow {
 				projectileIds.Add(existProjectiles[i].Id);
 			}
 		}
-
 	}
 
+	void OnEnable () {
+		existTowers = DataManager.Instance.LoadAllData <TowerData>();
 
+		existProjectiles =  DataManager.Instance.LoadAllData <ProjectileData>();
+
+		tower = new TowerData("tower" + existTowers.Count);
+
+	}
 	void OnGUI()
 	{
 
@@ -92,11 +88,11 @@ public class TowerEditorWindow : EditorWindow {
 		}
 		GUI.enabled = true;
 		if (GUILayout.Button("Load")){
-			var data = DataManager.Instance.LoadData <TowerData> ();
-			if(data != null){
-				tower = data;
-				projectileIndex = tower.ProjectileIndex;
+			tower = DataManager.Instance.LoadData <TowerData> ();
+			if(tower == null){
+				tower = new TowerData("tower" + existTowers.Count);
 			}
+			projectileIndex = tower.ProjectileIndex;
 		}
 		if (GUILayout.Button("Reset")){
 			tower = new TowerData ("tower" + existTowers.Count);

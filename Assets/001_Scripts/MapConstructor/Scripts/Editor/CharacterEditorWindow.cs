@@ -4,96 +4,105 @@ using System.Collections.Generic;
 using System;
 
 public class CharacterEditorWindow : EditorWindow {
-	CharacterData enemy;
-	List<CharacterData> existEnemies;
+	CharacterData character;
+	List<CharacterData> existCharacters;
 	List<float> armorValues;
 
 	[MenuItem("Window/Character Editor &E")]
 	public static void ShowWindow()
 	{
-		var characterEditorWindow = EditorWindow.GetWindow <TowerEditorWindow> ("Character Editor", true);
+		var characterEditorWindow = EditorWindow.GetWindow <CharacterEditorWindow> ("Character Editor", true);
 		characterEditorWindow.minSize = new Vector2 (400, 600);
 	}
 
+	void OnFocus () {
+		existCharacters = DataManager.Instance.LoadAllData<CharacterData> ();
+	}
 	void OnEnable () {
-
-		existEnemies = DataManager.Instance.LoadAllData<CharacterData> ();
+		existCharacters = DataManager.Instance.LoadAllData<CharacterData> ();
 		// check exist enemies null
 
-		enemy = new CharacterData ("enemy" + existEnemies.Count, new List<ArmorData> () {
+		character = new CharacterData ("character" + existCharacters.Count, new List<ArmorData> () {
 			new ArmorData (AttackType.physical, 0f),
 			new ArmorData (AttackType.magical, 0f),
 		});
 
 		armorValues = new List<float> ();
-		for (int i = 0; i < enemy.Armors.Count; i++) {
+		for (int i = 0; i < character.Armors.Count; i++) {
 			armorValues.Add (0f);
 		}
 	}
 
 	void OnGUI () {
-		GUILayout.BeginVertical("box");
-		EditorGUI.indentLevel++;
+//		GUILayout.BeginVertical("box");
+//		EditorGUI.indentLevel++;
 
 		EditorGUI.BeginChangeCheck ();
-		var id = EditorGUILayout.TextField ("id", enemy.Id);
-		var name = EditorGUILayout.TextField ("Name", enemy.Name);
-		var hp = EditorGUILayout.IntField ("Hit Point", enemy.Hp);
-		var moveSpeed = EditorGUILayout.FloatField ("Move Speed", enemy.MoveSpeed);
-		var turnSpeed = EditorGUILayout.FloatField ("Turn Speed", enemy.TurnSpeed);
-		var lifeCount = EditorGUILayout.IntField ("Life Count", enemy.LifeCount);
-		var goldWorth = EditorGUILayout.IntField ("Gold Worth", enemy.GoldWorth);
-		var atkType = (AttackType) EditorGUILayout.EnumPopup ("Attack Type", enemy.AtkType);
-		var atkSpeed = EditorGUILayout.FloatField ("Attack Speed", enemy.AtkSpeed);
-		var minAtkDmg = EditorGUILayout.IntField ("Min Attack Damage", enemy.MinAtkDmg);
-		var maxAtkDmg = EditorGUILayout.IntField ("Max Attack Damage", enemy.MaxAtkDmg);
-		var atkRange = EditorGUILayout.FloatField ("Attack Range", enemy.AtkRange);
+		var id = EditorGUILayout.TextField ("id", character.Id);
+		var name = EditorGUILayout.TextField ("Name", character.Name);
+		var hp = EditorGUILayout.IntField ("Hit Point", character.Hp);
+		var moveSpeed = EditorGUILayout.FloatField ("Move Speed", character.MoveSpeed);
+		var turnSpeed = EditorGUILayout.FloatField ("Turn Speed", character.TurnSpeed);
+		var lifeCount = EditorGUILayout.IntField ("Life Count", character.LifeCount);
+		var goldWorth = EditorGUILayout.IntField ("Gold Worth", character.GoldWorth);
+		var atkType = (AttackType) EditorGUILayout.EnumPopup ("Attack Type", character.AtkType);
+		var atkSpeed = EditorGUILayout.FloatField ("Attack Speed", character.AtkSpeed);
+		var minAtkDmg = EditorGUILayout.IntField ("Min Attack Damage", character.MinAtkDmg);
+		var maxAtkDmg = EditorGUILayout.IntField ("Max Attack Damage", character.MaxAtkDmg);
+		var atkRange = EditorGUILayout.FloatField ("Attack Range", character.AtkRange);
 
 		if (EditorGUI.EndChangeCheck ()) {
-			enemy.Id = id;
-			enemy.Name = name;
-			enemy.Hp = hp;
-			enemy.MoveSpeed = moveSpeed;
-			enemy.TurnSpeed = turnSpeed;
-			enemy.LifeCount = lifeCount;
-			enemy.GoldWorth = goldWorth;
-			enemy.AtkType = atkType;
-			enemy.AtkSpeed = atkSpeed;
-			enemy.MinAtkDmg = minAtkDmg;
-			enemy.MaxAtkDmg = maxAtkDmg;
-			enemy.AtkRange = atkRange;
+			character.Id = id;
+			character.Name = name;
+			character.Hp = hp;
+			character.MoveSpeed = moveSpeed;
+			character.TurnSpeed = turnSpeed;
+			character.LifeCount = lifeCount;
+			character.GoldWorth = goldWorth;
+			character.AtkType = atkType;
+			character.AtkSpeed = atkSpeed;
+			character.MinAtkDmg = minAtkDmg;
+			character.MaxAtkDmg = maxAtkDmg;
+			character.AtkRange = atkRange;
 		}
 
-		if (enemy.Armors != null && enemy.Armors.Count > 0){
-			for (int i = 0; i < enemy.Armors.Count; i++)
+		if (character.Armors != null && character.Armors.Count > 0){
+			for (int i = 0; i < character.Armors.Count; i++)
 			{
 				GUILayout.BeginHorizontal();
 				EditorGUI.BeginChangeCheck ();
-				armorValues[i] = Mathf.Round(EditorGUILayout.Slider(enemy.Armors [i].Type.ToString ().ToUpper () + " Armor Reduction", enemy.Armors [i].Reduction, 0f, 100f));
+				armorValues[i] = Mathf.Round(EditorGUILayout.Slider(character.Armors [i].Type.ToString ().ToUpper () + " Armor Reduction", character.Armors [i].Reduction, 0f, 100f));
 				if (EditorGUI.EndChangeCheck ()) {
-					enemy.Armors [i].Reduction = armorValues [i];
+					character.Armors [i].Reduction = armorValues [i];
 				}
 				GUILayout.EndHorizontal();
 			}
 		}
 
-		EditorGUI.indentLevel--;
-		GUILayout.EndVertical();
+//		EditorGUI.indentLevel--;
+//		GUILayout.EndVertical();
 
 //		GUILayout.BeginHorizontal ();
 		GUI.enabled = CheckFields ();
 		if (GUILayout.Button("Save")){
-			DataManager.Instance.SaveData (enemy);
+			DataManager.Instance.SaveData (character);
 		}
 		GUI.enabled = true;
 		if (GUILayout.Button("Load")){
-			var data = DataManager.Instance.LoadData <CharacterData> ();
-			if(data != null){
-				enemy = data;
+			character = DataManager.Instance.LoadData <CharacterData> ();
+			if(character == null){
+				character = new CharacterData ("character" + existCharacters.Count, new List<ArmorData> () {
+					new ArmorData (AttackType.physical, 0f),
+					new ArmorData (AttackType.magical, 0f),
+				});
+			}
+			armorValues = new List<float> ();
+			for (int i = 0; i < character.Armors.Count; i++) {
+				armorValues.Add (0f);
 			}
 		}
 		if (GUILayout.Button("Rest")){
-			enemy =  new CharacterData ("enemy" + existEnemies.Count, new List<ArmorData>(){
+			character =  new CharacterData ("character" + existCharacters.Count, new List<ArmorData>(){
 				new ArmorData(AttackType.physical, 0f),
 				new ArmorData(AttackType.magical, 0f),
 			});
@@ -105,7 +114,7 @@ public class CharacterEditorWindow : EditorWindow {
 
 
 	private bool CheckFields () {
-		var nameInput = !String.IsNullOrEmpty (enemy.Name);
+		var nameInput = !String.IsNullOrEmpty (character.Name);
 
 		return nameInput;
 	}
