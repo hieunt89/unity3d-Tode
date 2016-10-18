@@ -106,8 +106,8 @@ public class SkillEditorWindow: EditorWindow {
 				EditorGUI.BeginChangeCheck ();
 				GUILayout.BeginHorizontal ();
 				var _effectType = (EffectType) EditorGUILayout.EnumPopup ("Effect Type", combatSkill.effectList[i].effectType);
-				GUILayout.FlexibleSpace ();
-				if (GUILayout.Button ("Remove")) {
+//				GUILayout.FlexibleSpace ();
+				if (GUILayout.Button ("Remove", GUILayout.MaxWidth (80))) {
 					combatSkill.effectList.RemoveAt(i);
 					continue;
 				}
@@ -129,7 +129,7 @@ public class SkillEditorWindow: EditorWindow {
 		}
 		GUILayout.Space(5);
 
-		GUI.enabled = !String.IsNullOrEmpty (combatSkill.name); 
+		GUI.enabled = !String.IsNullOrEmpty (combatSkill.name) && combatSkill.effectList.Count > 0; 
 		if (GUILayout.Button("Save")){
 			Debug.Log (combatSkill.effectList.Count);
 			DataManager.Instance.SaveData (combatSkill);

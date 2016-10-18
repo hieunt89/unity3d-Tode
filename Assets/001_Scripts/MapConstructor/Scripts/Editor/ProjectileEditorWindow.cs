@@ -14,10 +14,15 @@ public class ProjectileEditorWindow : EditorWindow {
 
 	int projectileIndex;
 
-	[MenuItem("Window/Projectile Constructor &P")]
+	[MenuItem("Window/Projectile Editor &P")]
 	public static void ShowWindow()
 	{
-		EditorWindow.GetWindow(typeof(ProjectileEditorWindow));
+		var projectileEditorWindow = EditorWindow.GetWindow <ProjectileEditorWindow> ("Projectile Editor", true);
+		projectileEditorWindow.minSize = new Vector2 (400, 600); 
+	}
+
+	void OnFocus () {
+		existProjectiles = DataManager.Instance.LoadAllData<ProjectileData>();
 	}
 
 	void OnEnable () {
@@ -25,8 +30,6 @@ public class ProjectileEditorWindow : EditorWindow {
 
 		projectile = new ProjectileData ("projectile" + existProjectiles.Count);
 	}
-
-
 
 	void OnGUI()
 	{
@@ -83,7 +86,7 @@ public class ProjectileEditorWindow : EditorWindow {
 		}
 //		GUILayout.EndHorizontal();
 
-		//		Repaint ();
+		Repaint ();
 	}
 
 	private bool CheckFields () {

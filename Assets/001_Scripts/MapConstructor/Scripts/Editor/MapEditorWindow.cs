@@ -81,6 +81,7 @@ public class MapEditorWindow : EditorWindow {
 	}
 
 	void OnFocus () {
+		LoadExistData ();
 		SceneView.onSceneGUIDelegate -= this.OnSceneGUI;
 		SceneView.onSceneGUIDelegate += this.OnSceneGUI;
 	}
@@ -402,12 +403,14 @@ public class MapEditorWindow : EditorWindow {
 		GUI.enabled = true;
 		if (GUILayout.Button ("Load")) {
 			map = DataManager.Instance.LoadData <MapData> ();
-			if (map != null) {
-				CreateToggles ();
-				CreatePopupIndexes ();
-
-				UpdatePathID ();
+			if (map == null) {
+				map = new MapData("", 0, 0, new List<PathData>(), new List<TowerPointData>(), new List<WaveData>());
+				map.Id =  "map" + existMaps.Count;
 			}
+			CreateToggles ();
+			CreatePopupIndexes ();
+
+			UpdatePathID ();
 		}
 		if (GUILayout.Button ("Reset")) {
 			ResetData();

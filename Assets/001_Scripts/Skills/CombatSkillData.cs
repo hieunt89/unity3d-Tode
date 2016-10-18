@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
+[System.Serializable]
 public class CombatSkillData : SkillData {
 	public int projectileIndex;
 	public string projectileId;
