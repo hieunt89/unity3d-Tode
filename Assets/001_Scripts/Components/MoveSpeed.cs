@@ -2,6 +2,6 @@
 using System.Collections;
 using Entitas;
 
-public class Movable : IComponent {
+public class MoveSpeed : IComponent {
 	public float speed;
 }

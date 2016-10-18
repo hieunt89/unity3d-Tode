@@ -41,7 +41,7 @@ public static class ComponentIds {
     public const int MarkedForDestroy = 31;
     public const int MarkedForNoView = 32;
     public const int MarkedForSell = 33;
-    public const int Movable = 34;
+    public const int MoveSpeed = 34;
     public const int NextWave = 35;
     public const int Origin = 36;
     public const int Path = 37;
@@ -188,7 +188,7 @@ public static class ComponentIds {
         typeof(MarkedForDestroy),
         typeof(MarkedForNoView),
         typeof(MarkedForSell),
-        typeof(Movable),
+        typeof(MoveSpeed),
         typeof(NextWave),
         typeof(Origin),
         typeof(Path),

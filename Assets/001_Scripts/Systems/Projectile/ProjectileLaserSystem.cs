@@ -34,7 +34,7 @@ public class ProjectileLaserSystem : IReactiveSystem, ISetPool {
 			if (prj.origin.e.isActive && prj.origin.e.hasTarget && prj.origin.e.target.e == prj.target.e && prj.target.e.hasEnemy) {
 				var scaleFromPos = Vector3.Distance (prj.destination.value, prj.position.value) / Vector3.Distance (prj.position.value, prj.target.e.position.value + prj.target.e.viewOffset.pivotToCenter);
 				prj.ReplaceDestination (
-					prj.position.value.ToEndFragment (prj.target.e.position.value + prj.target.e.viewOffset.pivotToCenter, Mathf.Clamp01 (prj.movable.speed * Time.deltaTime + scaleFromPos))
+					prj.position.value.ToEndFragment (prj.target.e.position.value + prj.target.e.viewOffset.pivotToCenter, Mathf.Clamp01 (prj.moveSpeed.speed * Time.deltaTime + scaleFromPos))
 				);
 			} else {
 				prj.IsMarkedForDestroy (true).origin.e.IsChanneling (false);

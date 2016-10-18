@@ -103,7 +103,7 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 		var points = e.pathReference.e.path.wayPoints;
 		var distanceBtwPoints = e.pathReference.e.pathLength.distances;
 		var enemyDistanceFromStart = GetEnemyTraveledDistance(e);
-		var distanceToTravel = enemyDistanceFromStart + e.movable.speed * timeToContact;
+		var distanceToTravel = enemyDistanceFromStart + e.moveSpeed.speed * timeToContact;
 
 		var totalDistance = 0f;
 		for (int i = 0; i < distanceBtwPoints.Count; i++) {

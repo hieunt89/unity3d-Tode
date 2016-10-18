@@ -8,40 +8,40 @@
 //------------------------------------------------------------------------------
 namespace Entitas {
     public partial class Entity {
-        public Movable movable { get { return (Movable)GetComponent(ComponentIds.Movable); } }
+        public MoveSpeed moveSpeed { get { return (MoveSpeed)GetComponent(ComponentIds.MoveSpeed); } }
 
-        public bool hasMovable { get { return HasComponent(ComponentIds.Movable); } }
+        public bool hasMovable { get { return HasComponent(ComponentIds.MoveSpeed); } }
 
-        public Entity AddMovable(float newSpeed) {
-            var component = CreateComponent<Movable>(ComponentIds.Movable);
+        public Entity AddMoveSpeed(float newSpeed) {
+            var component = CreateComponent<MoveSpeed>(ComponentIds.MoveSpeed);
             component.speed = newSpeed;
-            return AddComponent(ComponentIds.Movable, component);
+            return AddComponent(ComponentIds.MoveSpeed, component);
         }
 
-        public Entity ReplaceMovable(float newSpeed) {
-            var component = CreateComponent<Movable>(ComponentIds.Movable);
+        public Entity ReplaceMoveSpeed(float newSpeed) {
+            var component = CreateComponent<MoveSpeed>(ComponentIds.MoveSpeed);
             component.speed = newSpeed;
-            ReplaceComponent(ComponentIds.Movable, component);
+            ReplaceComponent(ComponentIds.MoveSpeed, component);
             return this;
         }
 
-        public Entity RemoveMovable() {
-            return RemoveComponent(ComponentIds.Movable);
+        public Entity RemoveMoveSpeed() {
+            return RemoveComponent(ComponentIds.MoveSpeed);
         }
     }
 
     public partial class Matcher {
-        static IMatcher _matcherMovable;
+        static IMatcher _matcherMoveSpeed;
 
-        public static IMatcher Movable {
+        public static IMatcher MoveSpeed {
             get {
-                if (_matcherMovable == null) {
-                    var matcher = (Matcher)Matcher.AllOf(ComponentIds.Movable);
+                if (_matcherMoveSpeed == null) {
+                    var matcher = (Matcher)Matcher.AllOf(ComponentIds.MoveSpeed);
                     matcher.componentNames = ComponentIds.componentNames;
-                    _matcherMovable = matcher;
+                    _matcherMoveSpeed = matcher;
                 }
 
-                return _matcherMovable;
+                return _matcherMoveSpeed;
             }
         }
     }

@@ -115,6 +115,7 @@ public class SkillEditorWindow: EditorWindow {
 				var _effectValue = EditorGUILayout.FloatField ("Value", combatSkill.effectList[i].value);
 				var _effectDuration = EditorGUILayout.FloatField ("Duration", combatSkill.effectList[i].duration);
 				if (EditorGUI.EndChangeCheck ()) {
+					combatSkill.effectList[i].skillId = combatSkill.id;
 					combatSkill.effectList[i].effectType = _effectType;
 					combatSkill.effectList[i].value = _effectValue;
 					combatSkill.effectList[i].duration = _effectDuration;
@@ -129,7 +130,7 @@ public class SkillEditorWindow: EditorWindow {
 		}
 		GUILayout.Space(5);
 
-		GUI.enabled = !String.IsNullOrEmpty (combatSkill.name) && combatSkill.effectList.Count > 0; 
+		GUI.enabled = !String.IsNullOrEmpty (combatSkill.name) && combatSkill.effectList != null; 
 		if (GUILayout.Button("Save")){
 			DataManager.Instance.SaveData (combatSkill);
 		}
@@ -142,7 +143,7 @@ public class SkillEditorWindow: EditorWindow {
 			}
 		}
 		if (GUILayout.Button("Reset")){
-			combatSkill = new CombatSkillData ();
+			combatSkill = new CombatSkillData ("skill" + existCombatSkills.Count);
 		}
 	}
 
@@ -187,7 +188,7 @@ public class SkillEditorWindow: EditorWindow {
 			}
 		}
 		if (GUILayout.Button("Reset")){
-			summonSkill = new SummonSkillData ();
+			summonSkill = new SummonSkillData ("skill" + existSummonSkills.Count);
 		}
 	}
 }
