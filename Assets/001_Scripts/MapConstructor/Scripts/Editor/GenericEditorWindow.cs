@@ -5,9 +5,10 @@ using System.Reflection;
 
 public interface IGenericWindow {
 	void OnGUI ();
+	void ResetGUI ();
 }
 
-public class GenericWindow <T> : IGenericWindow {
+public class GenericWindow <T> : IGenericWindow where T : class {
 	
 	T _data;
 
@@ -33,9 +34,12 @@ public class GenericWindow <T> : IGenericWindow {
 				EditorGUILayout.FloatField (fields[i].Name, (float) fields[i].GetValue(_data));
 				break;
 			}
-//			GUILayout.Label (fields[i].Attributes + " / " + fields[i].FieldType + " / " + fields[i].Name);
-
 		}
+	}
+
+	public void ResetGUI () {
+		Debug.Log ("Reset");
+		_data = null;
 	}
 }
 
@@ -61,15 +65,31 @@ public class GenericEditorWindow: EditorWindow {
 	}
 
 	void OnGUI () {
-		if (genericWindow == null) {
-			if ( GUILayout.Button("TowerData")) {
-				Type = typeof(TowerData);
-//				var data = DataManager.Instance.LoadData <TowerData> ();
 
-//				Type = data.GetType ();
+//		EditorGUILayout.
+		if (genericWindow == null) {
+			if (GUILayout.Button("TowerData")) {
+				Type = typeof(TowerData);
+			}
+			if (GUILayout.Button("CharacterData")) {
+				Type = typeof(CharacterData);
+			}
+			if (GUILayout.Button("ProjectileData")) {
+				Type = typeof(ProjectileData);
+			}
+			if (GUILayout.Button("CombatSkillData")) {
+				Type = typeof(CombatSkillData);
+			}
+			if (GUILayout.Button("SummonSkillData")) {
+				Type = typeof(SummonSkillData);
 			}
 			return;
 		}
 		(genericWindow as IGenericWindow).OnGUI ();
+		if (GUILayout.Button("Reset")) {
+			(genericWindow as IGenericWindow).ResetGUI ();
+			genericWindow = null;
+		}
+
 	}
 }

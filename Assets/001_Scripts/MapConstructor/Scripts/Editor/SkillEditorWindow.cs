@@ -52,14 +52,12 @@ public class SkillEditorWindow: EditorWindow {
 			break;
 		case SkillType.Combat:
 			if (combatSkill == null)
-				combatSkill = new CombatSkillData ("skill" + existCombatSkills.Count);
-			if (combatSkill.effectList == null)
-				combatSkill.effectList = new List<SkillEffect> ();
+				combatSkill = new CombatSkillData ("combatskill" + existCombatSkills.Count);
 			DrawCombatSkillEditor ();
 			break;
 		case SkillType.Summon:
 			if (summonSkill == null)
-				summonSkill = new SummonSkillData ("skill" + existSummonSkills.Count);
+				summonSkill = new SummonSkillData ("summonskill" + existSummonSkills.Count);
 			DrawSummonSkillEditor ();
 			break;
 		}
@@ -143,7 +141,7 @@ public class SkillEditorWindow: EditorWindow {
 			}
 		}
 		if (GUILayout.Button("Reset")){
-			combatSkill = new CombatSkillData ();
+			combatSkill = new CombatSkillData ("combatskill" + existCombatSkills.Count);
 		}
 	}
 
@@ -178,7 +176,7 @@ public class SkillEditorWindow: EditorWindow {
 
 		GUI.enabled = !String.IsNullOrEmpty (summonSkill.name);
 		if (GUILayout.Button("Save")){
-			DataManager.Instance.SaveData (combatSkill);
+			DataManager.Instance.SaveData (summonSkill);
 		}
 		GUI.enabled = true;
 		if (GUILayout.Button("Load")){
@@ -188,7 +186,7 @@ public class SkillEditorWindow: EditorWindow {
 			}
 		}
 		if (GUILayout.Button("Reset")){
-			summonSkill = new SummonSkillData ();
+			summonSkill = new SummonSkillData ("summonskill" + existSummonSkills.Count);
 		}
 	}
 }

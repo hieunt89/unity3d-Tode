@@ -197,9 +197,10 @@ public class DataManager {
 
 		FieldInfo field = typeof(T).GetField("id");
 		string id = (string) field.GetValue(data);
-		Debug.Log (dataDirectory + data.ToString());
-
-		File.WriteAllText (dataDirectory + "/" + data.ToString () + "/"  + id + ".json", jsonString);
+		if (!Directory.Exists (dataDirectory + data.ToString ())) {
+			Directory.CreateDirectory (dataDirectory + data.ToString ());
+		}
+		File.WriteAllText (dataDirectory + data.ToString () + "/"  + id + ".json", jsonString);
 
 //		var path = EditorUtility.SaveFilePanel("Save " + data.ToString(), dataDirectory + data.ToString(), id +".json", "json");
 
