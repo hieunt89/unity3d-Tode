@@ -131,6 +131,7 @@ public class SkillEditorWindow: EditorWindow {
 
 		GUI.enabled = !String.IsNullOrEmpty (combatSkill.name); 
 		if (GUILayout.Button("Save")){
+			Debug.Log (combatSkill.effectList.Count);
 			DataManager.Instance.SaveData (combatSkill);
 		}
 		GUI.enabled = true;
