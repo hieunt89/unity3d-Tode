@@ -2,8 +2,10 @@
 using UnityEditor;
 using System;
 using System.Reflection;
+using System.Collections.Generic;
 
 public interface IGenericWindow {
+	void OnFocus ();
 	void OnGUI ();
 	void ResetGUI ();
 }
@@ -11,8 +13,15 @@ public interface IGenericWindow {
 public class GenericWindow <T> : IGenericWindow where T : class {
 	
 	T _data;
+	List<T> existData;
+
+	public void OnFocus () {
+	}
 
 	public void OnGUI () {
+		if (existData == null) {
+			existData = DataManager.Instance.LoadAllData <T> ();
+		}
 		if (_data == null)
 			_data = DataManager.Instance.LoadData <T> ();
 		FieldInfo[] fields = _data.GetType().GetFields (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
@@ -21,20 +30,48 @@ public class GenericWindow <T> : IGenericWindow where T : class {
 			var typeCode = Type.GetTypeCode(fields[i].FieldType);
 			switch (typeCode) {
 			case TypeCode.String:
-				EditorGUILayout.TextField(fields[i].Name, fields[i].GetValue(_data).ToString ());
+				EditorGUI.BeginChangeCheck ();
+				var _textValue = EditorGUILayout.TextField (fields [i].Name, fields [i].GetValue (_data).ToString ());
+				if (EditorGUI.EndChangeCheck ()) {
+					_data.GetType ().GetField (fields [i].Name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).SetValue (_data, _textValue);
+				}
 				break;
 			case TypeCode.Int32:
 				if (fields[i].FieldType == typeof(AttackType)) {
-					EditorGUILayout.EnumPopup (fields[i].Name, (AttackType) fields[i].GetValue(_data));
+					EditorGUI.BeginChangeCheck ();
+					var _enumValue = EditorGUILayout.EnumPopup (fields[i].Name, (AttackType) fields[i].GetValue(_data));
+					if (EditorGUI.EndChangeCheck ()) {
+						_data.GetType ().GetField (fields [i].Name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).SetValue (_data, _enumValue);
+					}
 				} else {
-					EditorGUILayout.IntField (fields[i].Name, (Int32) fields[i].GetValue(_data));
+					EditorGUI.BeginChangeCheck ();
+					var _intValue = EditorGUILayout.IntField (fields[i].Name, (Int32) fields[i].GetValue(_data));
+					if (EditorGUI.EndChangeCheck ()) {
+						_data.GetType ().GetField (fields [i].Name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).SetValue (_data, _intValue);
+					}
 				}
+
+
 				break;
 			case TypeCode.Single:
-				EditorGUILayout.FloatField (fields[i].Name, (float) fields[i].GetValue(_data));
+				EditorGUI.BeginChangeCheck ();
+				var _floatValue = EditorGUILayout.FloatField (fields[i].Name, (float) fields[i].GetValue(_data));
+				if (EditorGUI.EndChangeCheck ()) {
+					_data.GetType ().GetField (fields [i].Name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).SetValue (_data, _floatValue);
+				}
 				break;
 			}
 		}
+
+		if (GUILayout.Button ("Save")) {
+			DataManager.Instance.SaveData <T> (_data);
+		}
+		if (GUILayout.Button ("Load")) {
+			_data = DataManager.Instance.LoadData <T> ();
+		}
+//		if (GUILayout.Button ("Save")) {
+//
+//		}
 	}
 
 	public void ResetGUI () {
@@ -58,7 +95,7 @@ public class GenericEditorWindow: EditorWindow {
 		}
 	}
 
-	[MenuItem("Generic Editor/Open Editor &T")]
+	[MenuItem("Generic Editor/Open Editor")]
 	public static void ShowWindow()
 	{
 		EditorWindow.GetWindow <GenericEditorWindow> ("Generic Editor",true);
@@ -91,5 +128,6 @@ public class GenericEditorWindow: EditorWindow {
 			genericWindow = null;
 		}
 
+		Repaint ();
 	}
 }
