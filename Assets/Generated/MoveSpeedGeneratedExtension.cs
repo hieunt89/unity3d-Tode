@@ -10,7 +10,7 @@ namespace Entitas {
     public partial class Entity {
         public MoveSpeed moveSpeed { get { return (MoveSpeed)GetComponent(ComponentIds.MoveSpeed); } }
 
-        public bool hasMovable { get { return HasComponent(ComponentIds.MoveSpeed); } }
+        public bool hasMoveSpeed { get { return HasComponent(ComponentIds.MoveSpeed); } }
 
         public Entity AddMoveSpeed(float newSpeed) {
             var component = CreateComponent<MoveSpeed>(ComponentIds.MoveSpeed);

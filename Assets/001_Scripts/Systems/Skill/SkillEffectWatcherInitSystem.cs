@@ -32,13 +32,14 @@ public class SkillEffectWatcherInitSystem : IReactiveSystem, ISetPool {
 					var oldEf = watchers [k].skillEffectWatcher.effect;
 
 					if (string.Equals (newEf.skillId, oldEf.skillId) && newEf.effectType == oldEf.effectType) {
-						watchers [k].IsMarkedForDestroy (true);
 						watchers.RemoveAt (k);
+						watchers [k].IsMarkedForDestroy (true);
 					}
 				}
 
 				watchers.Add(_pool.CreateEntity ().AddSkillEffectWatcher (target, newEf));
 			}
+
 			target.ReplaceSkillWatcherList (watchers);
 			target.RemoveSkillEffects ();
 		}

@@ -33,10 +33,21 @@ public class SkillEffectWatcherSystem : IReactiveSystem, ISetPool {
 				watcher.ReplaceDuration (watcher.duration.value -= Time.deltaTime);
 			}
 
+			if (!watcher.skillEffectWatcher.target.hasSkillWatcherList) {
+				watcher.IsMarkedForDestroy (true);
+				continue;
+			}
+
 			if (watcher.duration.value <= 0) {
 				ProcessEffect (watcher.skillEffectWatcher, watcher.skillEffectWatcher.target, false);
+
+				var origin = watcher.skillEffectWatcher.target;
+				var watcherList = origin.skillWatcherList.watchers;
+				watcherList.Remove (watcher);
+				origin.ReplaceSkillWatcherList (watcherList);
+
 				watcher.IsMarkedForDestroy (true);
-				return;
+				continue;
 			}
 		}
 	}
@@ -62,8 +73,10 @@ public class SkillEffectWatcherSystem : IReactiveSystem, ISetPool {
 			ProcessMovmentSpeed (watcher, target, isApplying);
 			break;
 		case EffectType.Root:
+			ProcessRoot (watcher, target, isApplying);
 			break;
 		case EffectType.Stun:
+			ProcessStun (watcher, target, isApplying);
 			break;
 		default:
 			break;
@@ -76,12 +89,12 @@ public class SkillEffectWatcherSystem : IReactiveSystem, ISetPool {
 			for (int i = 0; i < armors.Count; i++) {
 				if (armors[i].Type == AttackType.physical) {
 					if (isApplying) {
-						watcher.Changes = armors [i].Reduction;
+						var temp = armors [i].Reduction;
 						armors [i].Reduction = armors [i].Reduction * watcher.effect.value / 100;
-						watcher.Changes = watcher.Changes / armors [i].Reduction;
+						watcher.SetChanges(temp / armors [i].Reduction);
 						target.ReplaceArmor (armors);
 					} else {
-						armors [i].Reduction = watcher.Changes * armors [i].Reduction;
+						armors [i].Reduction = watcher.GetChanges() * armors [i].Reduction;
 						target.ReplaceArmor (armors);
 					}
 				}
@@ -90,21 +103,34 @@ public class SkillEffectWatcherSystem : IReactiveSystem, ISetPool {
 	}
 
 	void ProcessMovmentSpeed(SkillEffectWatcher watcher, Entity target, bool isApplying){
-		if (target.hasMovable) {
+		if (target.hasMoveSpeed) {
 			float speed = target.moveSpeed.speed;
 			if (isApplying) {
-				watcher.Changes = speed;
+				var temp = speed;
 				speed = speed * watcher.effect.value / 100;
-				watcher.Changes = watcher.Changes / speed;
+				watcher.SetChanges(temp / speed);
 				target.ReplaceMoveSpeed (speed);
 			} else {
-				speed = watcher.Changes * speed;
+				speed = watcher.GetChanges() * speed;
 				target.ReplaceMoveSpeed (speed);
 			}
 		}
 	}
 
 	void ProcessRoot(SkillEffectWatcher watcher, Entity target, bool isApplying){
-		
+		if (isApplying) {
+			target.IsRooted (true);
+		} else {
+			target.IsRooted (false);
+		}
 	}
+
+	void ProcessStun(SkillEffectWatcher watcher, Entity target, bool isApplying){
+		if (isApplying) {
+			target.IsStunned (true);
+		} else {
+			target.IsStunned (false);
+		}
+	}
+
 }

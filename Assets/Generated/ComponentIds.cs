@@ -39,23 +39,23 @@ public static class ComponentIds {
     public const int Map = 29;
     public const int MarkedForActive = 30;
     public const int MarkedForDestroy = 31;
-    public const int MarkedForNoView = 32;
-    public const int MarkedForSell = 33;
-    public const int MoveSpeed = 34;
-    public const int NextWave = 35;
-    public const int Origin = 36;
-    public const int Path = 37;
-    public const int PathLength = 38;
-    public const int PathReference = 39;
-    public const int Position = 40;
-    public const int Projectile = 41;
-    public const int ProjectileHoming = 42;
-    public const int ProjectileLaser = 43;
-    public const int ProjectileMark = 44;
-    public const int ProjectileThrowing = 45;
-    public const int ProjectileThrowingParams = 46;
-    public const int ProjectileTime = 47;
-    public const int ReachedEnd = 48;
+    public const int MarkedForSell = 32;
+    public const int MoveSpeed = 33;
+    public const int NextWave = 34;
+    public const int Origin = 35;
+    public const int Path = 36;
+    public const int PathLength = 37;
+    public const int PathReference = 38;
+    public const int Position = 39;
+    public const int Projectile = 40;
+    public const int ProjectileHoming = 41;
+    public const int ProjectileLaser = 42;
+    public const int ProjectileMark = 43;
+    public const int ProjectileThrowing = 44;
+    public const int ProjectileThrowingParams = 45;
+    public const int ProjectileTime = 46;
+    public const int ReachedEnd = 47;
+    public const int Rooted = 48;
     public const int SkillCombat = 49;
     public const int Skill = 50;
     public const int SkillEffects = 51;
@@ -64,21 +64,23 @@ public static class ComponentIds {
     public const int SkillList = 54;
     public const int SkillSummon = 55;
     public const int SkillWatcherList = 56;
-    public const int Target = 57;
-    public const int Tick = 58;
-    public const int Tower = 59;
-    public const int TowerBase = 60;
-    public const int TowerReset = 61;
-    public const int TowerUpgrade = 62;
-    public const int TowerUpgradeProgress = 63;
-    public const int TowerUpgrading = 64;
-    public const int TurnSpeed = 65;
-    public const int View = 66;
-    public const int ViewOffset = 67;
-    public const int ViewSlider = 68;
-    public const int Wave = 69;
+    public const int Stunned = 57;
+    public const int Target = 58;
+    public const int Targetable = 59;
+    public const int Tick = 60;
+    public const int Tower = 61;
+    public const int TowerBase = 62;
+    public const int TowerReset = 63;
+    public const int TowerUpgrade = 64;
+    public const int TowerUpgradeProgress = 65;
+    public const int TowerUpgrading = 66;
+    public const int TurnSpeed = 67;
+    public const int View = 68;
+    public const int ViewOffset = 69;
+    public const int ViewSlider = 70;
+    public const int Wave = 71;
 
-    public const int TotalComponents = 70;
+    public const int TotalComponents = 72;
 
     public static readonly string[] componentNames = {
         "Active",
@@ -113,9 +115,8 @@ public static class ComponentIds {
         "Map",
         "MarkedForActive",
         "MarkedForDestroy",
-        "MarkedForNoView",
         "MarkedForSell",
-        "Movable",
+        "MoveSpeed",
         "NextWave",
         "Origin",
         "Path",
@@ -130,6 +131,7 @@ public static class ComponentIds {
         "ProjectileThrowingParams",
         "ProjectileTime",
         "ReachedEnd",
+        "Rooted",
         "SkillCombat",
         "Skill",
         "SkillEffects",
@@ -138,7 +140,9 @@ public static class ComponentIds {
         "SkillList",
         "SkillSummon",
         "SkillWatcherList",
+        "Stunned",
         "Target",
+        "Targetable",
         "Tick",
         "Tower",
         "TowerBase",
@@ -186,7 +190,6 @@ public static class ComponentIds {
         typeof(Map),
         typeof(MarkedForActive),
         typeof(MarkedForDestroy),
-        typeof(MarkedForNoView),
         typeof(MarkedForSell),
         typeof(MoveSpeed),
         typeof(NextWave),
@@ -203,6 +206,7 @@ public static class ComponentIds {
         typeof(ProjectileThrowingParams),
         typeof(ProjectileTime),
         typeof(ReachedEnd),
+        typeof(Rooted),
         typeof(SkillCombat),
         typeof(SkillComponent),
         typeof(SkillEffects),
@@ -211,7 +215,9 @@ public static class ComponentIds {
         typeof(SkillList),
         typeof(SkillSummon),
         typeof(SkillWatcherList),
+        typeof(Stunned),
         typeof(Target),
+        typeof(Targetable),
         typeof(Tick),
         typeof(Tower),
         typeof(TowerBase),
