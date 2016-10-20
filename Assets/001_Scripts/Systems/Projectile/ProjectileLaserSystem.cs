@@ -41,12 +41,12 @@ public class ProjectileLaserSystem : IReactiveSystem, ISetPool {
 				continue;
 			}
 
-			if (prj.hasProjectileTime) {
-				if (prj.projectileTime.time >= prj.duration.value) {
+			if (prj.hasDuration) {
+				if (prj.duration.value >= prj.projectileLaser.duration) {
 					prj.IsMarkedForDestroy (true).origin.e.IsChanneling (false);
 					continue;
 				} else {
-					float dmgScale = Mathf.Clamp01(prj.projectileTime.time / prj.projectileLaser.maxDmgBuildTime);
+					float dmgScale = Mathf.Clamp01(prj.duration.value / prj.projectileLaser.maxDmgBuildTime);
 					int damage = CombatUtility.GetDamage (
 						prj.origin.e.attackDamageRange.maxDmg, 
 						prj.origin.e.attackDamageRange.minDmg,
@@ -55,10 +55,10 @@ public class ProjectileLaserSystem : IReactiveSystem, ISetPool {
 						prj.target.e.armor.armorList
 					);
 					prj.ReplaceAttackOverTime (damage, prj.interval.value)
-						.ReplaceProjectileTime (prj.projectileTime.time + Time.deltaTime);
+						.ReplaceDuration (prj.duration.value + Time.deltaTime);
 				}
 			} else if (prj.destination.value == (prj.target.e.position.value + prj.target.e.viewOffset.pivotToCenter)) {
-				prj.AddProjectileTime (0f);
+				prj.AddDuration (0f);
 			}
 		}
 	}

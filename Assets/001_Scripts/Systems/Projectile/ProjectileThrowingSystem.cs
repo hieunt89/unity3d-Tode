@@ -29,13 +29,13 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 			#region calculate trajectory data
 			if(!prj.hasProjectileThrowingParams){ 
 				var startPos = Vector3.ProjectOnPlane (prj.position.value, Vector3.up);
-				var finalPos = GetEnemyFuturePosition (prj.target.e, prj.duration.value);
+				var finalPos = GetEnemyFuturePosition (prj.target.e, prj.projectileThrowing.travelTime);
 				var initHeight = Vector3.Project (prj.position.value, Vector3.down).magnitude;
 				float initVelocity;
 				float initAngle;
-				GetInitVelocityAndAngle(startPos, finalPos, prj.duration.value, initHeight, out initVelocity, out initAngle);
+				GetInitVelocityAndAngle(startPos, finalPos, prj.projectileThrowing.travelTime, initHeight, out initVelocity, out initAngle);
 
-				prj.AddProjectileThrowingParams (startPos, finalPos, initHeight, initVelocity, initAngle).AddProjectileTime(0f).AddDestination(prj.position.value);
+				prj.AddProjectileThrowingParams (startPos, finalPos, initHeight, initVelocity, initAngle).AddDuration(0f).AddDestination(prj.position.value);
 				if (GameManager.debug) {
 					Debug.DrawLine (prj.target.e.position.value, prj.projectileThrowingParams.end, Color.blue, Mathf.Infinity);
 					Debug.DrawLine (startPos, finalPos, Color.yellow, Mathf.Infinity);
@@ -45,11 +45,11 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 			if ((prj.target.e.hasEnemy && prj.target.e.view.ColliderBound.Contains(prj.position.value) ) || prj.position.value.y <= 0f) {
 				prj.IsReachedEnd (true);
 			}else {
-				prj.ReplaceProjectileTime (prj.projectileTime.time + Time.deltaTime);
+				prj.ReplaceDuration (prj.duration.value + Time.deltaTime);
 				if (prj.position.value == prj.destination.value) {
 					prj.ReplaceDestination (
 						GetNextDestination (
-							prj.projectileTime.time,
+							prj.duration.value,
 							prj.projectileThrowingParams.initVelocity,
 							prj.projectileThrowingParams.height,
 							prj.projectileThrowingParams.initAngle,

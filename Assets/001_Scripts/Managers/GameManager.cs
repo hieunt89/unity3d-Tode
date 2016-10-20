@@ -39,7 +39,6 @@ public class GameManager : MonoBehaviour {
 				.Add(pool.CreateSystem<FindTargetSystem>())
 				.Add(pool.CreateSystem<AttackOverTimeSystem>())
 				.Add(pool.CreateSystem<AttackCooldownSystem>())
-				.Add(pool.CreateSystem<DamageSystem>())
 
 				//Tower
 				.Add(pool.CreateSystem<TowerInitSystem>())
@@ -63,7 +62,7 @@ public class GameManager : MonoBehaviour {
 				.Add(pool.CreateSystem<ProjectileReachEndSystem>())
 
 				//Skill
-				.Add(pool.CreateSystem<Skill_InitSystem>())
+				.Add(pool.CreateSystem<SkillInitSystem>())
 				.Add(pool.CreateSystem<SkillCastSystem>())
 				.Add(pool.CreateSystem<SkillEffectWatcherInitSystem>())
 				.Add(pool.CreateSystem<SkillEffectWatcherSystem>())

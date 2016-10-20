@@ -4,5 +4,5 @@ using Entitas;
 using System.Collections.Generic;
 
 public class SkillCombat : IComponent {
-	public List<SkillEffect> effectList;
+	public List<SkillEffect> effects;
 }

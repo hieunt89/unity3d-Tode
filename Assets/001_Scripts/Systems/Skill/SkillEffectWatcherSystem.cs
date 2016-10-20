@@ -33,7 +33,7 @@ public class SkillEffectWatcherSystem : IReactiveSystem, ISetPool {
 				watcher.ReplaceDuration (watcher.duration.value -= Time.deltaTime);
 			}
 
-			if (!watcher.skillEffectWatcher.target.hasSkillWatcherList) {
+			if (!watcher.skillEffectWatcher.target.hasSkillEffectWatcherList) {
 				watcher.IsMarkedForDestroy (true);
 				continue;
 			}
@@ -42,9 +42,9 @@ public class SkillEffectWatcherSystem : IReactiveSystem, ISetPool {
 				ProcessEffect (watcher.skillEffectWatcher, watcher.skillEffectWatcher.target, false);
 
 				var origin = watcher.skillEffectWatcher.target;
-				var watcherList = origin.skillWatcherList.watchers;
+				var watcherList = origin.skillEffectWatcherList.watchers;
 				watcherList.Remove (watcher);
-				origin.ReplaceSkillWatcherList (watcherList);
+				origin.ReplaceSkillEffectWatcherList (watcherList);
 
 				watcher.IsMarkedForDestroy (true);
 				continue;

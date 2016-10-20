@@ -34,7 +34,7 @@ public class AttackOverTimeSystem : IReactiveSystem, ISetPool {
 				}
 				continue;
 			} else {
-				e.target.e.AddDamage (e.attackOverTime.damage);
+				e.target.e.BeDamaged (e.attackOverTime.damage);
 				e.AddAttackCooldown (e.attackOverTime.tickInterval);
 			}
 

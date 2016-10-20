@@ -12,15 +12,15 @@ namespace Entitas {
 
         public bool hasSkillCombat { get { return HasComponent(ComponentIds.SkillCombat); } }
 
-        public Entity AddSkillCombat(System.Collections.Generic.List<SkillEffect> newEffectList) {
+        public Entity AddSkillCombat(System.Collections.Generic.List<SkillEffect> newEffects) {
             var component = CreateComponent<SkillCombat>(ComponentIds.SkillCombat);
-            component.effectList = newEffectList;
+            component.effects = newEffects;
             return AddComponent(ComponentIds.SkillCombat, component);
         }
 
-        public Entity ReplaceSkillCombat(System.Collections.Generic.List<SkillEffect> newEffectList) {
+        public Entity ReplaceSkillCombat(System.Collections.Generic.List<SkillEffect> newEffects) {
             var component = CreateComponent<SkillCombat>(ComponentIds.SkillCombat);
-            component.effectList = newEffectList;
+            component.effects = newEffects;
             ReplaceComponent(ComponentIds.SkillCombat, component);
             return this;
         }

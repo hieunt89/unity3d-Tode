@@ -1,1 +1,1 @@
-{"id":"projectile2","name":"arrow","type":2,"range":0.0,"travelSpeed":5.0,"duration":6.0,"maxDmgBuildTime":4.0,"tickInterval":0.10000000149011612}
+{"id":"projectile2","name":"laser","type":2,"travelSpeed":5.0,"duration":6.0,"maxDmgBuildTime":4.0,"tickInterval":0.10000000149011612}

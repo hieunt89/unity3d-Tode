@@ -3,7 +3,7 @@ using System.Collections;
 using Entitas;
 using System.Collections.Generic;
 
-public class Skill_InitSystem : IReactiveSystem, ISetPool {
+public class SkillInitSystem : IReactiveSystem, ISetPool {
 	#region ISetPool implementation
 	Pool _pool;
 	public void SetPool (Pool pool)

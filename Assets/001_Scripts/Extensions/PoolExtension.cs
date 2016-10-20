@@ -32,12 +32,10 @@ public static class PoolExtension {
 				.AddMoveSpeed(prj.TravelSpeed);
 			break;
 		case ProjectileType.throwing:
-			e.IsProjectileThrowing (true)
-				.AddDuration(prj.Duration);
+			e.AddProjectileThrowing (prj.Duration);
 			break;
 		case ProjectileType.laser:
-			e.AddProjectileLaser (prj.MaxDmgBuildTime)
-				.AddDuration(prj.Duration)
+			e.AddProjectileLaser (prj.MaxDmgBuildTime, prj.Duration)
 				.AddMoveSpeed(prj.TravelSpeed)
 				.AddInterval(prj.TickInterval);
 			break;
