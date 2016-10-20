@@ -8,10 +8,10 @@ public class TreeNodePropertiesView : ViewBase {
 	public TreeNodePropertiesView () : base () {
 	}
 
-	public override void UpdateView (Rect _editorRect, Rect _percentageRect, Event _e, TreeUI _currentTree)
+	public override void UpdateView (Rect _editorRect, Rect _percentageRect, Event _e, TreeUI _currentTree, GenericTreeUI _currentGenericTreeUI)
 	{
 		
-		base.UpdateView (_editorRect, _percentageRect, _e, _currentTree);
+		base.UpdateView (_editorRect, _percentageRect, _e, _currentTree, _currentGenericTreeUI);
 
 //		GUI.Box (viewRect, viewTitle + " Properties", viewSkin.GetStyle ("ViewBg"));
 

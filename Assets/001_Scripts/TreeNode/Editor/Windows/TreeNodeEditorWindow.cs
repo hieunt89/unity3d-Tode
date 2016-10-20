@@ -9,6 +9,7 @@ public class TreeNodeEditorWindow : EditorWindow {
 	public TreeNodePropertiesView propertiesView;
 
 	public TreeUI currentTree = null;
+	public GenericTreeUI currentGenericTree = null;
 
 	private float viewPercentage = 1f;
 	private Vector2 scrollPosition;
@@ -41,7 +42,7 @@ public class TreeNodeEditorWindow : EditorWindow {
 //		Debug.Log (virtualRect);
 		scrollPosition =  GUI.BeginScrollView(new Rect(0f, 0f, position.width, position.height), scrollPosition, virtualRect); // <-- need to customize this viewrect (expandable by nodes + offset)
 		BeginWindows ();
-		workView.UpdateView (virtualRect, new Rect (0f, 0f, viewPercentage, 1f), e, currentTree);
+		workView.UpdateView (virtualRect, new Rect (0f, 0f, viewPercentage, 1f), e, currentTree, currentGenericTree);
 		EndWindows ();
 		GUI.EndScrollView ();
 

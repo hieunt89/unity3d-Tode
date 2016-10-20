@@ -10,18 +10,21 @@ public class ViewBase {
 
 	protected GUISkin viewSkin;
 	protected TreeUI currentTree;
+	protected GenericTreeUI currentGenericTree;
 
 	public ViewBase () {
 		GetEditorSkin ();
 	}
 
-	public virtual void UpdateView (Rect _editorRect, Rect _percentageRect, Event _e, TreeUI _currentTree) {
+	public virtual void UpdateView (Rect _editorRect, Rect _percentageRect, Event _e, TreeUI _currentTree, GenericTreeUI _currentGenericTree) {
 		if (viewSkin == null) {
 			GetEditorSkin ();
 			return;
 		}
 
 		this.currentTree = _currentTree;
+		this.currentGenericTree = _currentGenericTree;
+
 		if (currentTree != null && currentTree.treeData != null) {
 			viewTitle = TreeNodeUtils.UppercaseFirst(currentTree.treeData.treeName);
 		} else {

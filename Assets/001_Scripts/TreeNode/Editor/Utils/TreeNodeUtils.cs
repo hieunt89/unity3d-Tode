@@ -9,11 +9,12 @@ public static class TreeNodeUtils {
 	public static void CreateTree (TreeType _treeType, string _treeName) {
 		
 		TreeUI currentTree = new TreeUI(_treeType, _treeName);
-
+		GenericTreeUI currentGenericTree = new GenericTreeUI ();
 		if (currentTree != null) {
 			TreeNodeEditorWindow currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow <TreeNodeEditorWindow> ();
 			if (currentWindow != null) {
 				currentWindow.currentTree = currentTree;
+				currentWindow.currentGenericTree = currentGenericTree;
 			}
 
 			// add root node
@@ -50,38 +51,16 @@ public static class TreeNodeUtils {
 			if (currentWindow != null) {
 				TreeUI currentTree = new TreeUI(treeData.treeType, treeData.treeName);
 				currentTree.treeData = treeData;
+
+				GenericTreeUI currentGenericTree = new GenericTreeUI ();
+
 				currentWindow.currentTree = currentTree;
+				currentWindow.currentGenericTree = currentGenericTree;
 			}
 		} else {
 			EditorUtility.DisplayDialog ("Tree Node Message", "Unable to load selected tree!", "OK");
 		}
 	}
-
-//	public static void GenerateNodes (TreeUI _currentTree) {
-//		NodeUI rootNode = new NodeUI ("Root Node", NodeType.RootNode, _currentTree.treeData.Root, null, new List<NodeUI> (), _currentTree);
-//
-//		if (rootNode != null) {
-//			rootNode.InitNode (new Vector2 (50f, 50f));
-//			_currentTree.nodes.Add (rootNode);
-//			GenerateNodes (_currentTree, rootNode);
-//		}
-//
-//	}
-//
-//	private static void GenerateNodes (TreeUI _currentTree, NodeUI _parentNode) {
-//		for (int i = 0; i < _parentNode.nodeData.children.Count; i++) {
-//			NodeUI newNode = new NodeUI ("Node", NodeType.Node, _parentNode.nodeData.children[i], _parentNode, new List<NodeUI> (), _currentTree);
-//			if (newNode != null) {
-//				_parentNode.childNodes.Add (newNode);
-//
-//				newNode.InitNode(new Vector2((_parentNode.nodeRect.x + _parentNode.nodeRect.width) + _parentNode.nodeRect.width / 2, _parentNode.nodeRect.y + (_parentNode.nodeRect.height * 4 * i)));
-//
-//				_currentTree.nodes.Add (newNode);
-//				GenerateNodes (_currentTree, newNode);
-//			}
-//		}
-//
-//	}
 
 	public static void UnloadTree () {
 		TreeNodeEditorWindow currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow <TreeNodeEditorWindow> ();

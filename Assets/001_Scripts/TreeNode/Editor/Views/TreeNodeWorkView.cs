@@ -11,20 +11,23 @@ public class TreeNodeWorkView : ViewBase {
 	public TreeNodeWorkView () : base () {
 	}
 
-	public override void UpdateView (Rect _editorRect, Rect _percentageRect, Event _e, TreeUI _currentTree)
+	public override void UpdateView (Rect _editorRect, Rect _percentageRect, Event _e, TreeUI _currentTree, GenericTreeUI _currentGenericTree)
 	{
-		base.UpdateView (_editorRect, _percentageRect, _e, _currentTree);
+		base.UpdateView (_editorRect, _percentageRect, _e, _currentTree, _currentGenericTree);
 //		GUI.Label (_editorRect, viewTitle + " Tree");
 		// draw grid
 //		TreeNodeUtils.DrawGrid (viewRect, 60f, 0.15f, Color.white);
 //		TreeNodeUtils.DrawGrid (viewRect, 20f, 0.1f, Color.white);
 
 		GUILayout.BeginArea (viewRect);
+		if (currentGenericTree != null) {
+			currentGenericTree.UpdateTreeUI (_e, viewRect, viewSkin);
+		}
 
-		if (_currentTree != null) {
-			GUI.Box (viewRect, viewTitle + " Tree", viewSkin.GetStyle("ViewBg"));
-			_currentTree.UpdateTreeUI (_e, viewRect, viewSkin);
-			ProcessEvent (_e);
+		if (currentTree != null) {
+//			GUI.Box (viewRect, viewTitle + " Tree", viewSkin.GetStyle("ViewBg"));
+//			currentTree.UpdateTreeUI (_e, viewRect, viewSkin);
+//			ProcessEvent (_e);
 		} else {
 			var newTreeRect = new Rect (viewRect.width / 2 - 200f, viewRect.height / 2 - 100f, 400, 200);
 			GUI.Box (newTreeRect, "Create New Tree", viewSkin.GetStyle("ViewBg"));
