@@ -4,22 +4,10 @@ using Entitas;
 using UnityEngine.UI;
 using Lean;
 
-public class TowerSellGUI : MonoBehaviour {
+public class TowerSellGUI : HandleEnitityGUI {
 	public GameObject prefab;
 
-	void OnEnable(){
-		Messenger.AddListener (Events.Input.EMPTY_SELECT, HandleEmptyClick);
-		Messenger.AddListener (Events.Input.ENTITY_SELECT, HandleEntityClick);
-		Messenger.AddListener (Events.Input.ENTITY_DESELECT, HandleEmptyClick);
-	}
-
-	void OnDisable(){
-		Messenger.RemoveListener (Events.Input.EMPTY_SELECT, HandleEmptyClick);
-		Messenger.RemoveListener (Events.Input.ENTITY_SELECT, HandleEntityClick);
-		Messenger.RemoveListener (Events.Input.ENTITY_DESELECT, HandleEmptyClick);
-	}
-
-	void HandleEntityClick(){
+	public override void HandleEntityClick(){
 		var e = Pools.pool.currentSelected.e;
 		if (!e.hasTower) {
 			HandleEmptyClick ();
@@ -33,7 +21,7 @@ public class TowerSellGUI : MonoBehaviour {
 		go.GetComponent<TowerSellBtn> ().RegisterSellBtn (e);
 	}
 
-	void HandleEmptyClick(){
+	public override void HandleEmptyClick(){
 		for (int i = 0; i < transform.childCount; i++) {
 			LeanPool.Despawn (transform.GetChild (i).gameObject);
 		}

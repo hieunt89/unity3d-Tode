@@ -49,7 +49,7 @@ public class SkillInitSystem : IReactiveSystem, ISetPool {
 			.AddAttackSpeed(data.cooldown)
 			.AddAttackRange(data.castRange)
 			.AddAttackTime(data.castTime)
-			.AddGold(data.cost)
+			.AddGold(data.goldCost)
 			.IsActive(true)
 			;
 

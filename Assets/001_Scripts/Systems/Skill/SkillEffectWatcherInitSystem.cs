@@ -28,16 +28,20 @@ public class SkillEffectWatcherInitSystem : IReactiveSystem, ISetPool {
 			for (int j = 0; j < target.skillEffects.effects.Count; j++) {
 				var newEf = target.skillEffects.effects [j];
 
-				for (int k = 0; k < watchers.Count; k++) {
-					var oldEf = watchers [k].skillEffectWatcher.effect;
+				if (watchers.Count > 0) {
+					for (int k = 0; k < watchers.Count; k++) {
+						var oldEf = watchers [k].skillEffectWatcher.effect;
 
-					if (string.Equals (newEf.skillId, oldEf.skillId) && newEf.effectType == oldEf.effectType) {
-						watchers [k].IsMarkedForDestroy (true);
-						watchers.RemoveAt (k);
+						if (string.Equals (newEf.skillId, oldEf.skillId) && newEf.effectType == oldEf.effectType) {
+							watchers [k].ReplaceDuration (newEf.duration);
+						} else {
+							watchers.Add (_pool.CreateEntity ().AddSkillEffectWatcher (target, newEf));
+						}
 					}
+				} else {
+					watchers.Add (_pool.CreateEntity ().AddSkillEffectWatcher (target, newEf));
 				}
 
-				watchers.Add(_pool.CreateEntity ().AddSkillEffectWatcher (target, newEf));
 			}
 
 			target.ReplaceSkillEffectWatcherList (watchers);

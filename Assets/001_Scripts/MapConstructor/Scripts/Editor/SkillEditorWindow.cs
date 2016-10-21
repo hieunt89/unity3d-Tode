@@ -75,8 +75,7 @@ public class SkillEditorWindow: EditorWindow {
 		var _combatSkillCoolDown = EditorGUILayout.FloatField ("Cooldown", combatSkill.cooldown);
 		var _combatSkillCastRange = EditorGUILayout.FloatField ("Cast Range", combatSkill.castRange);
 		var _combatSkillCastTime = EditorGUILayout.FloatField ("Cast Time", combatSkill.castTime);
-		var _combatSkillExpToNextLvl = EditorGUILayout.IntField ("Exp to Next Lvl", combatSkill.expToNextLvl);
-		var _combatSkillCost = EditorGUILayout.IntField ("Cost", combatSkill.cost);
+		var _combatSkillCost = EditorGUILayout.IntField ("Cost", combatSkill.goldCost);
 		projectileIndex = EditorGUILayout.Popup ("Project Id", projectileIndex, projectileIds.ToArray());
 		var _combatSkillAOE = EditorGUILayout.FloatField ("AOE", combatSkill.aoe);
 		var _combatSkillAttackType = (AttackType) EditorGUILayout.EnumPopup ("Attack Type", combatSkill.attackType);
@@ -90,8 +89,7 @@ public class SkillEditorWindow: EditorWindow {
 			combatSkill.cooldown = _combatSkillCoolDown;
 			combatSkill.castRange = _combatSkillCastRange;
 			combatSkill.castTime = _combatSkillCastTime;
-			combatSkill.expToNextLvl = _combatSkillExpToNextLvl;
-			combatSkill.cost = _combatSkillCost;
+			combatSkill.goldCost = _combatSkillCost;
 			combatSkill.projectileId = projectileIds[projectileIndex];
 			combatSkill.aoe = _combatSkillAOE;
 			combatSkill.attackType = _combatSkillAttackType;
@@ -154,8 +152,7 @@ public class SkillEditorWindow: EditorWindow {
 		var _summonSkillCoolDown = EditorGUILayout.FloatField ("Cooldown", summonSkill.cooldown);
 		var _summonSkillCastRange = EditorGUILayout.FloatField ("Cast Range", summonSkill.castRange);
 		var _summonSkillCastTime = EditorGUILayout.FloatField ("Cast Time", summonSkill.castTime);
-		var _summonSkillExpToNextLvl = EditorGUILayout.IntField ("Exp to Next Lvl", summonSkill.expToNextLvl);
-		var _summonSkillCost = EditorGUILayout.IntField ("Cost", summonSkill.cost);
+		var _summonSkillCost = EditorGUILayout.IntField ("Cost", summonSkill.goldCost);
 		var _summonSkillSummonId = EditorGUILayout.TextField ("AOE", summonSkill.summonId);
 		var _summonSkillSummonCount = EditorGUILayout.IntField ("Attack Type", summonSkill.summonCount);
 		var _summonSkillDuration = EditorGUILayout.FloatField ("Damage", summonSkill.duration);
@@ -168,8 +165,7 @@ public class SkillEditorWindow: EditorWindow {
 			summonSkill.cooldown = _summonSkillCoolDown;
 			summonSkill.castRange = _summonSkillCastRange;
 			summonSkill.castTime = _summonSkillCastTime;
-			summonSkill.expToNextLvl = _summonSkillExpToNextLvl;
-			summonSkill.cost = _summonSkillCost;
+			summonSkill.goldCost = _summonSkillCost;
 			summonSkill.summonId = _summonSkillSummonId;
 			summonSkill.summonCount = _summonSkillSummonCount;
 			summonSkill.duration = _summonSkillDuration;

@@ -9,7 +9,7 @@ public class TowerBuildSystem : IReactiveSystem, ISetPool {
 	public void SetPool (Pool pool)
 	{
 		_pool = pool;
-		_groupTowerUpgrading = _pool.GetGroup (Matcher.AllOf(Matcher.TowerUpgrade, Matcher.TowerUpgradeProgress));
+		_groupTowerUpgrading = _pool.GetGroup (Matcher.AllOf(Matcher.TowerUpgrade, Matcher.Duration));
 	}
 
 	#endregion
@@ -25,13 +25,13 @@ public class TowerBuildSystem : IReactiveSystem, ISetPool {
 		for (int i = 0; i < upgrades.Length; i++) {
 			var e = upgrades [i];
 
-			if (e.towerUpgradeProgress.progress < e.towerUpgrade.upgradeTime) {
-				e.ReplaceTowerUpgradeProgress (e.towerUpgradeProgress.progress + Time.deltaTime);
+			if (e.duration.value < e.towerUpgrade.upgradeTime) {
+				e.ReplaceDuration (e.duration.value + Time.deltaTime);
 			} else {
 				e.IsTowerUpgrading(false)
-				.ReplaceTower (e.towerUpgrade.upgradeNode)
-				.RemoveTowerUpgrade ()
-				.RemoveTowerUpgradeProgress ()
+					.ReplaceTower (e.towerUpgrade.upgradeNode)
+					.RemoveTowerUpgrade ()
+					.RemoveDuration ()
 				;
 			}
 		}
