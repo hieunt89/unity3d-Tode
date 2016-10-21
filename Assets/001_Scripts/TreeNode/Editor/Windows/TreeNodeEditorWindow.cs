@@ -17,9 +17,9 @@ public class TreeNodeEditorWindow : EditorWindow {
 	private float virtualPadding = 50f;
 	private float minX, minY, maxX, maxY;
 
-	public static void InitTowerNodeEditorWindow () {
+	public static void InitNodeEditorWindow () {
 		currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow <TreeNodeEditorWindow> ();
-		currentWindow.titleContent = new GUIContent ("Tree Node");
+		currentWindow.titleContent = new GUIContent ("Node Editor");
 		CreateViews ();
 	}
 

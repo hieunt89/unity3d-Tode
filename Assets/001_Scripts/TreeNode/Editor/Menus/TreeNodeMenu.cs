@@ -3,8 +3,8 @@ using UnityEditor;
 
 public static class TreeNodeMenu {
 
-	[MenuItem ("Tree Node Editor/Tree Node Editor")]
-	public static void InitTowerNodeEditor () {
-		TreeNodeEditorWindow.InitTowerNodeEditorWindow ();
+	[MenuItem ("Node Editor/Node Editor")]
+	public static void InitNodeEditor () {
+		TreeNodeEditorWindow.InitNodeEditorWindow ();
 	}
 }

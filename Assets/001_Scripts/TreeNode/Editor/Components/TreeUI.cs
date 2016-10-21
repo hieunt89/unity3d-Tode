@@ -7,44 +7,38 @@ using System;
 using System.Collections.Generic;
 
 public interface IGenericTree {
-	void CreateTree (Type _type);
+	void CreateTree ();
 	void UpdateTreeUI (Event _e, Rect _viewRect, GUISkin _viewSkin);
 }
 
 public class GenericTree <T> : IGenericTree {
 
 	public Tree <T> treeData;
-	public List<NodeUI> nodes;
-	private NodeUI lastNodeUI;
+	public List <GenericNode <T>> nodes;
+	private GenericNode <T> lastNodeUI;
+	public GenericNode <T> startConnectionNode;
 
 	public bool showNodeProperties = false;
 	public bool wantsConnection = false;
 
-//	public GenericTree ()
-//	{
-//		this.treeData = new Tree <T> ();
-//	}
-	
-	public void CreateTree (Type _type)
+	public void CreateTree ()
 	{
-		this.treeData = new Tree <T> ();
-		Debug.Log ("Create tree");
+		this.treeData = new Tree <T> ("test tree", null);
 	}
 
 	public void UpdateTreeUI (Event _e, Rect _viewRect, GUISkin _viewSkin)
 	{
-//		Debug.Log ("Update Tree UI");
 		ProcessEvents (_e, _viewRect);
 
-//		if (treeData != null && nodes.Count == 0) {
-//			GenerateNodes(this);
-//		}
-//
-//		if (nodes.Count > 0) {
-//			for (int i = 0; i < nodes.Count; i++) {
-//				nodes [i].UpdateNodeUI (i, _e, _viewRect, _viewSkin);
-//			}
-//		}
+		if (treeData != null && nodes.Count == 0) {
+//			GenerateNodes();
+		}
+
+		if (nodes.Count > 0) {
+			for (int i = 0; i < nodes.Count; i++) {
+				nodes [i].UpdateNodeUI (i, _e, _viewRect, _viewSkin);
+			}
+		}
 	}
 
 	private void ProcessEvents (Event _e, Rect _viewRect) {
@@ -61,29 +55,29 @@ public class GenericTree <T> : IGenericTree {
 		}
 	}
 
-	private void GenerateNodes (TreeUI _currentTree) {
-		NodeUI rootNode = new NodeUI ("Root Node", NodeType.RootNode, _currentTree.treeData.Root, null, new List<NodeUI> (), _currentTree);
-
-		if (rootNode != null) {
-			rootNode.InitNode (new Vector2 (50f, 50f));
-			_currentTree.nodes.Add (rootNode);
-			lastNodeUI = rootNode;
-			GenerateNodes (_currentTree, rootNode);
-		}
+	private void GenerateNodes () {
+//		GenericNode <T> rootNode = new GenericNode <T> ("Root Node", NodeType.RootNode, treeData.Root, null, new List<GenericNode <T>> ());
+//
+//		if (rootNode != null) {
+//			rootNode.nodeRect = new Rect (50f, 50f, 100f, 40f);
+//			nodes.Add (rootNode);
+//			lastNodeUI = rootNode;
+//			GenerateNodes (rootNode);
+//		}
 
 	}
 
-	private void GenerateNodes (TreeUI _currentTree, NodeUI _parentNode) {
-		for (int i = 0; i < _parentNode.nodeData.children.Count; i++) {
-			NodeUI newNode = new NodeUI ("Node", NodeType.Node, _parentNode.nodeData.children[i], _parentNode, new List<NodeUI> (), _currentTree);
-			if (newNode != null) {
-				_parentNode.childNodes.Add (newNode);
-				newNode.InitNode (new Vector2 ((_parentNode.nodeRect.x + _parentNode.nodeRect.width) + _parentNode.nodeRect.width / 2, lastNodeUI.nodeRect.y +(_parentNode.nodeRect.height * 2 * i)));
-				_currentTree.nodes.Add (newNode);
-				lastNodeUI = newNode;
-				GenerateNodes (_currentTree, newNode);
-			}
-		}
+	private void GenerateNodes (GenericNode <T> _parentNode) {
+//		for (int i = 0; i < _parentNode.nodeData.children.Count; i++) {
+//			GenericNode <T> newNode = new GenericNode <T> ("Node", NodeType.Node, _parentNode.nodeData.children[i], _parentNode, new List<GenericNode <T>> ());
+//			if (newNode != null) {
+//				_parentNode.childNodes.Add (newNode);
+//				newNode.nodeRect = new Rect ((_parentNode.nodeRect.x + _parentNode.nodeRect.width) + _parentNode.nodeRect.width / 2, lastNodeUI.nodeRect.y +(_parentNode.nodeRect.height * 2 * i), 100f, 40f);
+//				nodes.Add (newNode);
+//				lastNodeUI = newNode;
+//				GenerateNodes (newNode);
+//			}
+//		}
 
 	}
 }
@@ -93,24 +87,23 @@ public class GenericTreeUI {
 	object genericTree = null;
 
 	Type _type = null;
-
-	public Type Type {
-		get { return _type.GetGenericArguments()[0]; }
-		set {
-			_type = typeof(GenericTree <>).MakeGenericType(value);
-
-			genericTree = Activator.CreateInstance(_type);
-
-		}
-	}
-
+//
+//	public Type Type {
+//		get { return _type.GetGenericArguments()[0]; }
+//		set {
+//			_type = typeof(GenericTree <>).MakeGenericType(value);
+//
+//			genericTree = Activator.CreateInstance(_type);
+//
+//		}
+//	}
 	public void UpdateTreeUI (Event _e, Rect _viewRect, GUISkin _viewSkin) {
 		if (genericTree == null) {
 			if (GUILayout.Button("TowerData")) {
 //				Type = typeof(TowerData);
 				_type = typeof(GenericTree <>).MakeGenericType(typeof(TowerData));
 				genericTree = Activator.CreateInstance(_type);
-				(genericTree as IGenericTree).CreateTree (Type);
+				(genericTree as IGenericTree).CreateTree ();
 			}
 			return;
 		}

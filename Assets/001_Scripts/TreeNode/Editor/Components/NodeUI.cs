@@ -3,6 +3,106 @@ using UnityEditor;
 using System;
 using System.Collections.Generic;
 
+public interface IGenericNode {
+	void CreateNode ();
+	void UpdateNodeUI (int nodeIndex, Event _e, Rect _viewRect, GUISkin _viewSkin);
+}
+public class GenericNode <T> : IGenericNode {
+	public Node<T> nodeData;
+	public Rect nodeRect;
+	public GenericTree <T> currentTree;
+
+	public GenericNode <T> parentNode;
+	public List<GenericNode <T>> childNodes;
+
+	public void CreateNode () {
+
+	}
+
+	public void UpdateNodeUI (int nodeIndex, Event _e, Rect _viewRect, GUISkin _viewSkin) {
+		nodeRect = GUI.Window (nodeIndex, nodeRect, NodeWindow, "Node");
+	}
+
+	void NodeWindow (int _windowId) {
+		Event e = Event.current;
+		ProcessEvent (e, _windowId);
+		//		EditorGUILayout.LabelField (nodeData.data);
+		EditorGUI.BeginChangeCheck ();
+//		popUpSelectedIndex = EditorGUILayout.Popup (popUpSelectedIndex, currentTree.existIds.ToArray());
+		if (EditorGUI.EndChangeCheck ()) {
+//			nodeData.data = currentTree.existIds [popUpSelectedIndex];
+		}
+		GUI.DragWindow ();
+	}
+
+	private void ProcessEvent (Event _e, int _windowId) {
+		if (_e.button == 1) {
+			if (_e.type == EventType.MouseDown) {
+				ProcessNodeContextMenu (_e);
+			}
+		}
+
+		if (_e.button == 0) {
+			if (_e.type == EventType.MouseDown) {
+				// do selected node
+				//				currentTree.selectedNode = this;
+
+				// check mouse over any node
+				if (currentTree.startConnectionNode != null) {
+					//					if (this.nodeRect.Contains (e.mousePosition)) {
+					if (currentTree.nodes[_windowId] != currentTree.startConnectionNode && currentTree.nodes[_windowId].nodeData.depth != 0 && currentTree.nodes[_windowId].parentNode == null) {
+						// add mouse over node to startconnection children node
+						currentTree.startConnectionNode.nodeData.AddChild (currentTree.nodes [_windowId].nodeData);
+
+						// assign mouse over node ui to start connection node ui
+						currentTree.startConnectionNode.childNodes.Add(currentTree.nodes[_windowId]);
+						currentTree.nodes[_windowId].parentNode = currentTree.startConnectionNode;
+					}
+					//					}
+				}
+
+				currentTree.wantsConnection = false;
+				currentTree.startConnectionNode = null;
+			}
+		}
+	}
+
+	private void ProcessNodeContextMenu (Event _e) {
+		GenericMenu menu = new GenericMenu ();
+		menu.AddItem (new GUIContent ("Add Child"), false, OnClickContextCallback, "0");
+		menu.AddItem (new GUIContent ("Remove Parent"), false, OnClickContextCallback, "1");
+		menu.AddItem (new GUIContent ("Remove Node"), false, OnClickContextCallback, "2");
+
+		menu.ShowAsContext ();
+		_e.Use ();
+	}
+
+	private void OnClickContextCallback (object obj) {
+		switch (obj.ToString ()) {
+		case "0":
+			if (currentTree.wantsConnection == false && currentTree.startConnectionNode == null) {
+				currentTree.wantsConnection = true;
+				currentTree.startConnectionNode = this;
+			}
+			break;
+		case "1":
+//			TreeNodeUtils.RemoveParentNode (this);
+			break;
+		case "2":
+//			TreeNodeUtils.RemoveNode (this);
+			break;
+		}
+	}
+}
+//public class GenericNodeUI {
+//
+//	public Rect nodeRect;
+//
+//	public void UpdateNodeUI (int nodeIndex, Event _e, Rect _viewRect, GUISkin _viewSkin) {
+//
+//	}
+//}
+
 public class NodeUI {
 	public string nodeTitle = "Node";
 	public NodeType nodeType;
@@ -121,8 +221,8 @@ public class NodeUI {
 				currentTree.startConnectionNode = null;
 			}
 		}
-
 	}
+
 //	private void ProcessEvent (Event _e, Rect _viewRect) {
 //		if (isSelected) {
 //			if (_viewRect.Contains (_e.mousePosition)) {
@@ -172,6 +272,7 @@ public class NodeUI {
 		menu.ShowAsContext ();
 		_e.Use ();
 	}
+
 	private void OnClickContextCallback (object obj) {
 		switch (obj.ToString ()) {
 		case "0":
