@@ -45,9 +45,15 @@ public class DataManager {
 
 	void LoadSkillData(){
 		skillIdToData = new Dictionary<string, SkillData> ();
+
 		var combatSkills = LoadAllData<CombatSkillData> ();
 		for (int i = 0; i < combatSkills.Count; i++) {
 			skillIdToData.Add (combatSkills[i].id, combatSkills[i]);
+		}
+
+		var summonSkills = LoadAllData<SummonSkillData> ();
+		for (int i = 0; i < summonSkills.Count; i++) {
+			skillIdToData.Add (summonSkills[i].id, summonSkills[i]);
 		}
 	}
 
@@ -57,6 +63,7 @@ public class DataManager {
 		Tree<string> tree = new Tree<string> ();
 		tree.treeName = "fireball_tree";
 		tree.Root = new Node<string> ("skill0");
+		tree.Root.AddChild (new Node<string> ("skill1"));
 
 		skillTrees.Add (tree.treeName, tree);
 	}

@@ -70,7 +70,7 @@ public class SkillEffectWatcherSystem : IReactiveSystem, ISetPool {
 			ProcessPhysicArmor (watcher, target, isApplying);
 			break;
 		case EffectType.MoveSpeedSlow:
-			ProcessMovmentSpeed (watcher, target, isApplying);
+			ProcessMovementSpeed (watcher, target, isApplying);
 			break;
 		case EffectType.Root:
 			ProcessRoot (watcher, target, isApplying);
@@ -90,7 +90,7 @@ public class SkillEffectWatcherSystem : IReactiveSystem, ISetPool {
 				if (armors[i].Type == AttackType.physical) {
 					if (isApplying) {
 						var temp = armors [i].Reduction;
-						armors [i].Reduction = armors [i].Reduction * watcher.effect.value / 100;
+						armors [i].Reduction = armors [i].Reduction * (1 - watcher.effect.value / 100);
 						watcher.SetChanges(temp / armors [i].Reduction);
 						target.ReplaceArmor (armors);
 					} else {
@@ -102,12 +102,12 @@ public class SkillEffectWatcherSystem : IReactiveSystem, ISetPool {
 		}
 	}
 
-	void ProcessMovmentSpeed(SkillEffectWatcher watcher, Entity target, bool isApplying){
+	void ProcessMovementSpeed(SkillEffectWatcher watcher, Entity target, bool isApplying){
 		if (target.hasMoveSpeed) {
 			float speed = target.moveSpeed.speed;
 			if (isApplying) {
 				var temp = speed;
-				speed = speed * watcher.effect.value / 100;
+				speed = speed * (1 - watcher.effect.value / 100);
 				watcher.SetChanges(temp / speed);
 				target.ReplaceMoveSpeed (speed);
 			} else {

@@ -62,22 +62,23 @@ public static class ComponentIds {
     public const int SkillEntityList = 52;
     public const int SkillList = 53;
     public const int SkillSummon = 54;
-    public const int Stunned = 55;
-    public const int Target = 56;
-    public const int Targetable = 57;
-    public const int Tick = 58;
-    public const int Tower = 59;
-    public const int TowerBase = 60;
-    public const int TowerReset = 61;
-    public const int TowerUpgrade = 62;
-    public const int TowerUpgrading = 63;
-    public const int TurnSpeed = 64;
-    public const int View = 65;
-    public const int ViewOffset = 66;
-    public const int ViewSlider = 67;
-    public const int Wave = 68;
+    public const int SkillUpgrade = 55;
+    public const int Stunned = 56;
+    public const int Target = 57;
+    public const int Targetable = 58;
+    public const int Tick = 59;
+    public const int Tower = 60;
+    public const int TowerBase = 61;
+    public const int TowerReset = 62;
+    public const int TowerUpgrade = 63;
+    public const int TowerUpgrading = 64;
+    public const int TurnSpeed = 65;
+    public const int View = 66;
+    public const int ViewOffset = 67;
+    public const int ViewSlider = 68;
+    public const int Wave = 69;
 
-    public const int TotalComponents = 69;
+    public const int TotalComponents = 70;
 
     public static readonly string[] componentNames = {
         "Active",
@@ -135,6 +136,7 @@ public static class ComponentIds {
         "SkillEntityList",
         "SkillList",
         "SkillSummon",
+        "SkillUpgrade",
         "Stunned",
         "Target",
         "Targetable",
@@ -207,6 +209,7 @@ public static class ComponentIds {
         typeof(SkillEntityList),
         typeof(SkillList),
         typeof(SkillSummon),
+        typeof(SkillUpgrade),
         typeof(Stunned),
         typeof(Target),
         typeof(Targetable),

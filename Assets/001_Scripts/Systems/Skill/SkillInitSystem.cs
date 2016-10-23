@@ -38,33 +38,15 @@ public class SkillInitSystem : IReactiveSystem, ISetPool {
 	#endregion
 
 	Entity CreateSkill(Node<string> skillNode, Entity origin){
-		var data = DataManager.Instance.GetSkillData (skillNode.data);
-		if (data == null) {
+		var skillData = DataManager.Instance.GetSkillData (skillNode.data);
+		if (skillData == null) {
 			return null;
 		}
 
 		var e = _pool.CreateEntity ()
-			.AddSkill (skillNode)
 			.AddOrigin (origin)
-			.AddAttackSpeed(data.cooldown)
-			.AddAttackRange(data.castRange)
-			.AddAttackTime(data.castTime)
-			.AddGold(data.goldCost)
-			.IsActive(true)
-			;
-
-		if(data is CombatSkillData){
-			CombatSkillData s = data as CombatSkillData;
-			e.AddSkillCombat (s.effectList)
-				.AddAttack(s.attackType)
-				.AddAttackDamage(s.damage)
-				.AddAoe (s.aoe)
-				.AddProjectile (s.projectileId);
-		}else if(data is SummonSkillData){
-			SummonSkillData s = data as SummonSkillData;
-			e.AddSkillSummon (s.summonId, s.summonCount)
-				.AddDuration (s.duration);
-		}
+			.AddSkill (skillNode)
+			.ReplaceSkillStats (skillData);
 
 		return e;
 	}
