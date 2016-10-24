@@ -2,13 +2,27 @@
 using UnityEditor;
 using System;
 
-public class TreeNodeWorkView : ViewBase {
+public class WorkView : ViewBase {
 	private Vector2 mousePosition;
 //	private int selectedNodeId = 0;
 //	private Vector2 scrollPosition;
 	private TreeType treeType;
 	private string treeName = "Enter tree name ...";
-	public TreeNodeWorkView () : base () {
+	public WorkView () : base () {
+	}
+
+	public override void UpdateView<T> (Rect _viewRect, Rect _percentageRect, Event _event, GenericTree<T> _currentTree)
+	{
+		base.UpdateView (_viewRect, _percentageRect, _event, _currentTree);
+
+		if (_currentTree != null) {
+			GUI.Box (viewRect, viewTitle + " Tree", viewSkin.GetStyle("ViewBg"));
+
+			_currentTree.UpdateGenericTree <T> (_event, _percentageRect, viewSkin);
+
+			ProcessEvent (_event);
+
+		}
 	}
 
 	public override void UpdateView (Rect _editorRect, Rect _percentageRect, Event _e, TreeUI _currentTree)
@@ -23,7 +37,7 @@ public class TreeNodeWorkView : ViewBase {
 
 		if (_currentTree != null) {
 			GUI.Box (viewRect, viewTitle + " Tree", viewSkin.GetStyle("ViewBg"));
-			_currentTree.UpdateTreeUI (_e, viewRect, viewSkin);
+//			currentTree.UpdateTreeUI (_e, viewRect, viewSkin);
 			ProcessEvent (_e);
 		} else {
 			var newTreeRect = new Rect (viewRect.width / 2 - 200f, viewRect.height / 2 - 100f, 400, 200);
@@ -43,11 +57,11 @@ public class TreeNodeWorkView : ViewBase {
 			GUILayout.BeginHorizontal ();
 			GUI.enabled = !string.IsNullOrEmpty (treeName) && treeName != "Enter tree name ...";
 			if (GUILayout.Button ("Create Tree", GUILayout.Height(40))){
-				TreeNodeUtils.CreateTree (treeType, treeName);
+				TreeEditorUtils.CreateTree (treeType, treeName);
 			}
 			GUI.enabled = true;
 			if (GUILayout.Button ("Load Tree", GUILayout.Height(40))){
-				TreeNodeUtils.LoadTree ();
+				TreeEditorUtils.LoadTree ();
 			}
 			GUILayout.EndHorizontal ();
 			GUILayout.EndVertical ();
@@ -144,13 +158,13 @@ public class TreeNodeWorkView : ViewBase {
 //			TreeNodeUtils.LoadTree ();
 //			break;
 		case "2":
-			TreeNodeUtils.AddNode (currentTree, NodeType.Node, mousePosition);
+//			TreeNodeUtils.AddNode (currentTree, NodeType.Node, mousePosition);
 			break;
 		case "3":
-			TreeNodeUtils.SaveTree (currentTree);
+//			TreeNodeUtils.SaveTree (currentTree);
 			break;
 		case "4":
-			TreeNodeUtils.UnloadTree ();
+//			TreeNodeUtils.UnloadTree ();
 			break;
 //		case "5":
 //			TreeNodeUtils.RemoveParentNode (selectedNodeId, currentTree);

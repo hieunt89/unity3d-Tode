@@ -25,7 +25,7 @@ public class TreeNodePopupWindow : EditorWindow {
 		GUILayout.BeginHorizontal ();
 		if (GUILayout.Button ("Create Tree", GUILayout.Height(40))){
 			if (!string.IsNullOrEmpty (treeName) && treeName != "Enter tree name ...") {
-				TreeNodeUtils.CreateTree (treeType, treeName);
+				TreeEditorUtils.CreateTree (treeType, treeName);
 			} else {
 				EditorUtility.DisplayDialog ("Tree Node Message", "Please enter a valid tree name", "OK");
 			}

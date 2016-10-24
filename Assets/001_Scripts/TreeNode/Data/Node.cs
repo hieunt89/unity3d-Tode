@@ -8,7 +8,7 @@ public enum NodeType {
 }
 
 [Serializable]
-public class Node <T> where T : class  {
+public class Node <T> {
 
 	public T data;
 	public Node<T> parent;
@@ -41,9 +41,9 @@ public class Node <T> where T : class  {
 		child.parent = null;
 	}
 
-	public Node <T> FindChildNodeByData (T data){
-		return FindChildNodeByData (this, data);
-	}
+//	public Node <T> FindChildNodeByData (T data){
+//		return FindChildNodeByData (this, data);
+//	}
 
 	void UpdateDepth(Node<T> parent){
 		for (int i = 0; i < parent.children.Count; i++) {
@@ -52,16 +52,16 @@ public class Node <T> where T : class  {
 		}
 	}
 
-	Node <T> FindChildNodeByData(Node<T> node, T data){
-		for (int i = 0; i < node.children.Count; i++) {
-			if(node.children[i].data == data){
-				return node.children [i];
-			}
-			var result = node.children [i].FindChildNodeByData (node.children [i], data);
-			if(result != null){
-				return result;
-			}
-		}
-		return null;
-	}
+//	Node <T> FindChildNodeByData(Node<T> node, T data){
+//		for (int i = 0; i < node.children.Count; i++) {
+//			if(node.children[i].data == data){
+//				return node.children [i];
+//			}
+//			var result = node.children [i].FindChildNodeByData (node.children [i], data);
+//			if(result != null){
+//				return result;
+//			}
+//		}
+//		return null;
+//	}
 }

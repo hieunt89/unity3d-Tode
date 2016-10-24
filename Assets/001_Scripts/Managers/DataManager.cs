@@ -37,7 +37,7 @@ public class DataManager {
 		LoadData <TowerData> (out towerIdToData);
 		LoadData <CharacterData> (out characterIdToData);
 		LoadData <MapData> (out mapIdToData);
-		LoadTreeData (TreeType.Towers);
+//		LoadTreeData (TreeType.Towers);
 
 		LoadSkillData ();
 		LoadSkillTree ();
@@ -86,17 +86,17 @@ public class DataManager {
 		skillTrees.Add (tree.treeName, tree);
 	}
 
-	void LoadTreeData(TreeType treeType){
-		towerTrees = new List<Tree<string>> ();
-		BinaryFormatter bf = new BinaryFormatter ();
-
-		var texts = Resources.LoadAll<TextAsset> ("Tree/" + treeType.ToString ());
-		for (int i = 0; i < texts.Length; i++) {
-			Stream s = new MemoryStream(texts[i].bytes);
-			Tree<string> tree = bf.Deserialize (s) as Tree<string>;
-			towerTrees.Add (tree);
-		}
-	}
+//	void LoadTreeData(TreeType treeType){
+//		towerTrees = new List<Tree<string>> ();
+//		BinaryFormatter bf = new BinaryFormatter ();
+//
+//		var texts = Resources.LoadAll<TextAsset> ("Tree/" + treeType.ToString ());
+//		for (int i = 0; i < texts.Length; i++) {
+//			Stream s = new MemoryStream(texts[i].bytes);
+//			Tree<string> tree = bf.Deserialize (s) as Tree<string>;
+//			towerTrees.Add (tree);
+//		}
+//	}
 
 	void LoadData <T> (out Dictionary<string, T> d){
 		d = new Dictionary<string, T> ();
