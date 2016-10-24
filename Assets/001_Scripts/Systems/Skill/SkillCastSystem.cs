@@ -69,7 +69,9 @@ public class SkillCastSystem : IReactiveSystem, ISetPool {
 	}
 
 	void CastNow(Entity origin, Entity skill, Entity target){
-		skill.AddAttackCooldown (skill.attackSpeed.value);
+		if (!skill.hasAttackCooldown) {
+			skill.AddAttackCooldown (skill.attackSpeed.value);
+		}
 		if (skill.hasSkillCombat) {
 			CastCombatSkill(origin, skill, target);
 		}else if (skill.hasSkillSummon) {

@@ -1,1 +1,1 @@
-{"id":"skill1","name":"fire ball lvl2","cooldown":5.0,"castRange":5.0,"castTime":3.0,"goldCost":100,"projectileIndex":0,"projectileId":"projectile1","aoe":2.0,"attackType":1,"damage":200,"effectList":[{"skillId":"skill1","effectType":2,"value":70.0,"duration":2.0}]}
+{"id":"skill1","name":"fire ball lvl2","cooldown":2.0,"castRange":5.0,"castTime":2.0,"goldCost":100,"projectileIndex":0,"projectileId":"projectile1","aoe":2.0,"attackType":1,"damage":10,"effectList":[{"skillId":"skill1","effectType":2,"value":70.0,"duration":10.0}]}
