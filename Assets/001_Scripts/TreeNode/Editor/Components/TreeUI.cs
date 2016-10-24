@@ -17,7 +17,8 @@ public class TreeUI {
 
 	public List<string> existIds;
 	List<TowerData> towerData;
-	List<SkillData> skillData;
+	List<CombatSkillData> combatSkillData;
+	List<SummonSkillData> summonSkillData;
 
 	private NodeUI lastNodeUI;
 	public TreeUI (TreeType _treeType, string _treeName) {
@@ -47,8 +48,23 @@ public class TreeUI {
 				}
 			}
 			break;
-		case TreeType.Skills:
-			
+		case TreeType.CombatSkills:
+			combatSkillData = DataManager.Instance.LoadAllData <CombatSkillData> ();
+			if (combatSkillData != null){
+				existIds = new List<string> ();
+				for (int i = 0; i < combatSkillData.Count; i++) {
+					existIds.Add(combatSkillData[i].id);
+				}
+			}
+			break;
+		case TreeType.SummonSkills:
+			summonSkillData = DataManager.Instance.LoadAllData <SummonSkillData> ();
+			if (summonSkillData != null){
+				existIds = new List<string> ();
+				for (int i = 0; i < summonSkillData.Count; i++) {
+					existIds.Add(summonSkillData[i].id);
+				}
+			}
 			break;
 		default:
 			break;

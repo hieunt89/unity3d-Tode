@@ -16,6 +16,7 @@ public class TowerData {
 	[SerializeField] private int goldRequired;
 	[SerializeField] private float buildTime;
 	[SerializeField] private float aoe;
+	private List<string> treeSkillNames;
 
 	public string Id {
 		get {
@@ -130,6 +131,14 @@ public class TowerData {
 		}
 		set{ 
 			aoe = value;
+		}
+	}
+
+	public List<string> TreeSkillNames {
+		get {
+			return treeSkillNames;
+		}set{ 
+			treeSkillNames = value;
 		}
 	}
 

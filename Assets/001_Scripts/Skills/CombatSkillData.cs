@@ -18,7 +18,6 @@ public class CombatSkillData : SkillData {
 	{
 		id = _skillId;
 		effectList = new List<SkillEffect> ();
-
 	}
 	
 }

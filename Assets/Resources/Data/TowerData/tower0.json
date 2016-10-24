@@ -1,1 +1,1 @@
-{"id":"tower0","name":"archer 0","projectileIndex":0,"projectileId":"projectile0","atkType":0,"atkRange":5.0,"minDmg":5,"maxDmg":10,"atkSpeed":0.10000000149011612,"atkTime":0.5,"goldRequired":100,"buildTime":1.0,"aoe":1.0}
+{"id":"tower0","name":"archer 0","projectileIndex":0,"projectileId":"projectile0","atkType":0,"atkRange":5.0,"minDmg":5,"maxDmg":10,"atkSpeed":0.1,"atkTime":0.5,"goldRequired":100,"buildTime":1.0,"aoe":1.0}
