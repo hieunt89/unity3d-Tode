@@ -27,6 +27,9 @@ public static class TreeNodeUtils {
 
 	public static void SaveTree (TreeUI _currentTree) {
 		BinaryFormatter bf = new BinaryFormatter ();
+		if (!Directory.Exists (Application.dataPath + TreeNodeConstants.DatabasePath + _currentTree.treeData.treeType.ToString())) {
+			Directory.CreateDirectory (Application.dataPath + TreeNodeConstants.DatabasePath + _currentTree.treeData.treeType.ToString());
+		}
 		FileStream file = File.Create (Application.dataPath + TreeNodeConstants.DatabasePath + _currentTree.treeData.treeType.ToString() + "/" + _currentTree.treeData.treeName + ".bytes");
 		bf.Serialize (file, _currentTree.treeData);
 		file.Close ();
