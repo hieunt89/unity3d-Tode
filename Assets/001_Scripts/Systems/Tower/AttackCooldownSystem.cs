@@ -23,13 +23,14 @@ public class AttackCooldownSystem : IReactiveSystem, ISetPool {
 			return;
 		}
 
+		var tickEn = entities.SingleEntity ();
 		var ens = _groupOnCooldown.GetEntities ();
 		for (int i = 0; i < ens.Length; i++) {
 			var e = ens [i];
 			//check if tower attack is on cooldown
 			if (e.hasAttackCooldown) {
 				if (e.attackCooldown.time > 0) {
-					e.ReplaceAttackCooldown (e.attackCooldown.time - Time.deltaTime);
+					e.ReplaceAttackCooldown (e.attackCooldown.time - tickEn.tick.change);
 				} else {
 					e.RemoveAttackCooldown ();
 				}

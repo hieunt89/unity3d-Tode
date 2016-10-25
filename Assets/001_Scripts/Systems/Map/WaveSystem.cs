@@ -21,7 +21,7 @@ public class WaveSystem : ISetPool, IInitializeSystem, IReactiveSystem {
 	{
 		MapData map = _pool.map.data;
 		waveList = new List<Entity> ();
-		float activeTime = _pool.tick.time;
+		float activeTime = _pool.tick.change;
 		for (int i = 0; i < map.Waves.Count; i++) {
 			activeTime += map.Waves [i].waveDelay;
 			var e = _pool.CreateEntity()

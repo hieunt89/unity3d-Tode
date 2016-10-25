@@ -22,6 +22,7 @@ public class AttackOverTimeSystem : IReactiveSystem, ISetPool {
 			return;
 		}
 
+		var tickEn = entities.SingleEntity ();
 		var ens	= _groupDOT.GetEntities ();
 		for (int i = 0; i < ens.Length; i++) {
 			var e = ens [i];
@@ -30,7 +31,7 @@ public class AttackOverTimeSystem : IReactiveSystem, ISetPool {
 				if (e.attackCooldown.time <= 0) {
 					e.RemoveAttackCooldown ();
 				} else {
-					e.ReplaceAttackCooldown (e.attackCooldown.time -= Time.deltaTime);
+					e.ReplaceAttackCooldown (e.attackCooldown.time -= tickEn.tick.change);
 				}
 				continue;
 			} else {

@@ -21,12 +21,13 @@ public class TowerBuildSystem : IReactiveSystem, ISetPool {
 			return;
 		}
 
+		var tickEn = entities.SingleEntity ();
 		var upgrades = _groupTowerUpgrading.GetEntities ();
 		for (int i = 0; i < upgrades.Length; i++) {
 			var e = upgrades [i];
 
 			if (e.duration.value < e.towerUpgrade.upgradeTime) {
-				e.ReplaceDuration (e.duration.value + Time.deltaTime);
+				e.ReplaceDuration (e.duration.value + tickEn.tick.change);
 			} else {
 				e.IsTowerUpgrading(false)
 					.ReplaceTower (e.towerUpgrade.upgradeNode)

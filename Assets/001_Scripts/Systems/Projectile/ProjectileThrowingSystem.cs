@@ -22,6 +22,7 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 			return;
 		}
 			
+		var tickEn = entities.SingleEntity ();
 		Entity prj;
 		var ens = _groupPrjThrowing.GetEntities ();
 		for (int i = 0; i < ens.Length; i++) {
@@ -45,7 +46,7 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 			if ((prj.target.e.hasEnemy && prj.target.e.view.ColliderBound.Contains(prj.position.value) ) || prj.position.value.y <= 0f) {
 				prj.IsReachedEnd (true);
 			}else {
-				prj.ReplaceDuration (prj.duration.value + Time.deltaTime);
+				prj.ReplaceDuration (prj.duration.value + tickEn.tick.change);
 				if (prj.position.value == prj.destination.value) {
 					prj.ReplaceDestination (
 						GetNextDestination (

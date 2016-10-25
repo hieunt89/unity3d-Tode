@@ -20,6 +20,11 @@ public class EnemyMoveSystem : IReactiveSystem, ISetPool {
 
 	public void Execute (List<Entity> entities)
 	{
+		if (_groupEnemyMovable.count <= 0) {
+			return;
+		}
+
+		var tickEn = entities.SingleEntity ();
 		var ens = _groupEnemyMovable.GetEntities ();
 		for (int i = 0; i < ens.Length; i++) {
 			var enemy = ens [i];
@@ -32,7 +37,7 @@ public class EnemyMoveSystem : IReactiveSystem, ISetPool {
 					enemy.ReplaceDestination (target);
 				}
 			}
-			enemy.ReplacePosition (Vector3.MoveTowards (enemy.position.value, enemy.destination.value, enemy.moveSpeed.speed * Time.deltaTime));
+			enemy.ReplacePosition (Vector3.MoveTowards (enemy.position.value, enemy.destination.value, enemy.moveSpeed.speed * tickEn.tick.change));
 		}
 	}
 

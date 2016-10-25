@@ -23,7 +23,7 @@ public class EnemyInitSystem : IReactiveSystem, ISetPool
     {
 		for (int waveIndex = 0; waveIndex < entities.Count; waveIndex++) { // loop throu all active waves
 			var e = entities [waveIndex];
-			float activeTime = _pool.tick.time;
+			float activeTime = _pool.tick.change;
 			WaveGroupData waveGroup;
 			Entity ePath;
 			CharacterData enemyData;

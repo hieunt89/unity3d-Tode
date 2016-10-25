@@ -67,18 +67,20 @@ public static class ComponentIds {
     public const int Target = 57;
     public const int Targetable = 58;
     public const int Tick = 59;
-    public const int Tower = 60;
-    public const int TowerBase = 61;
-    public const int TowerReset = 62;
-    public const int TowerUpgrade = 63;
-    public const int TowerUpgrading = 64;
-    public const int TurnSpeed = 65;
-    public const int View = 66;
-    public const int ViewOffset = 67;
-    public const int ViewSlider = 68;
-    public const int Wave = 69;
+    public const int TimeSpeed = 60;
+    public const int TimeTotal = 61;
+    public const int Tower = 62;
+    public const int TowerBase = 63;
+    public const int TowerReset = 64;
+    public const int TowerUpgrade = 65;
+    public const int TowerUpgrading = 66;
+    public const int TurnSpeed = 67;
+    public const int View = 68;
+    public const int ViewOffset = 69;
+    public const int ViewSlider = 70;
+    public const int Wave = 71;
 
-    public const int TotalComponents = 70;
+    public const int TotalComponents = 72;
 
     public static readonly string[] componentNames = {
         "Active",
@@ -141,6 +143,8 @@ public static class ComponentIds {
         "Target",
         "Targetable",
         "Tick",
+        "TimeSpeed",
+        "TimeTotal",
         "Tower",
         "TowerBase",
         "TowerReset",
@@ -214,6 +218,8 @@ public static class ComponentIds {
         typeof(Target),
         typeof(Targetable),
         typeof(Tick),
+        typeof(TimeSpeed),
+        typeof(TimeTotal),
         typeof(Tower),
         typeof(TowerBase),
         typeof(TowerReset),

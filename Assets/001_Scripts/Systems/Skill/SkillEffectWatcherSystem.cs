@@ -22,6 +22,7 @@ public class SkillEffectWatcherSystem : IReactiveSystem, ISetPool {
 			return;
 		}
 
+		var tickEn = entities.SingleEntity ();
 		var watchers = _groupEfWatchers.GetEntities ();
 		for (int i = 0; i < watchers.Length; i++) {
 			var watcher = watchers [i];
@@ -30,7 +31,7 @@ public class SkillEffectWatcherSystem : IReactiveSystem, ISetPool {
 				watcher.AddDuration (watcher.skillEffectWatcher.effect.duration);
 				ProcessEffect (watcher.skillEffectWatcher, watcher.skillEffectWatcher.target, true);
 			} else {
-				watcher.ReplaceDuration (watcher.duration.value -= Time.deltaTime);
+				watcher.ReplaceDuration (watcher.duration.value -= tickEn.tick.change);
 			}
 
 			if (!watcher.skillEffectWatcher.target.hasSkillEffectWatcherList) {
@@ -41,10 +42,10 @@ public class SkillEffectWatcherSystem : IReactiveSystem, ISetPool {
 			if (watcher.duration.value <= 0) {
 				ProcessEffect (watcher.skillEffectWatcher, watcher.skillEffectWatcher.target, false);
 
-				var origin = watcher.skillEffectWatcher.target;
-				var watcherList = origin.skillEffectWatcherList.watchers;
+				var target = watcher.skillEffectWatcher.target;
+				var watcherList = target.skillEffectWatcherList.watchers;
 				watcherList.Remove (watcher);
-				origin.ReplaceSkillEffectWatcherList (watcherList);
+				target.ReplaceSkillEffectWatcherList (watcherList);
 
 				watcher.IsMarkedForDestroy (true);
 				continue;

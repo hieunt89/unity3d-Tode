@@ -17,7 +17,9 @@ public class TimeSystem : IInitializeSystem, IExecuteSystem, ISetPool {
 	public void Execute ()
 	{
 		if(!_pool.isGamePause){
-			_pool.ReplaceTick (_pool.tick.time + Time.deltaTime);
+			var e = _pool.tickEntity;
+			e.ReplaceTick (Time.deltaTime * e.timeSpeed.value);
+			e.ReplaceTimeTotal (e.timeTotal.value + e.tick.change);
 		}
 	}
 
@@ -28,6 +30,8 @@ public class TimeSystem : IInitializeSystem, IExecuteSystem, ISetPool {
 	public void Initialize ()
 	{
 		_pool.ReplaceTick (0f);
+		_pool.tickEntity.AddTimeSpeed (1.0f);
+		_pool.tickEntity.AddTimeTotal (0f);
 	}
 
 	#endregion

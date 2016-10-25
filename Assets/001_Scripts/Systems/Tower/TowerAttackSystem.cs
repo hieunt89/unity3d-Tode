@@ -56,7 +56,7 @@ public class TowerAttackSystem : IReactiveSystem, ISetPool {
 		float time = 0f;
 		while(time < tower.attackTime.value){
 			if (!_pool.isGamePause) {
-				time += Time.deltaTime;
+				time += _pool.tick.change;
 			}
 			if (tower.view.Anim != null) {
 				tower.view.Anim.Play (AnimState.Fire, 0, time / tower.attackTime.value);
