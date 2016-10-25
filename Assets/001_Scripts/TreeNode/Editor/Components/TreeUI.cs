@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Reflection;
-
-
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -24,18 +22,22 @@ public class GenericTree <T> {
 
 	public GenericTree (string _treeName) {
 		existData = DataManager.Instance.LoadAllData <T> ();
-		if (existData != null) {
+		if (existData.Count > 0) {
 			existIds = new List<string> ();
 			for (int i = 0; i < existData.Count; i++) {
-				FieldInfo field = typeof(T).GetField("id", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-				string id = (string) field.GetValue(existData[i]);
-				existIds.Add(id);
+				FieldInfo field = typeof(T).GetField ("id", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+				string id = (string)field.GetValue (existData [i]);
+				existIds.Add (id);
 			}
+		} else {
+			// do popup craete rootnode data
+			GenericTreePopupWindow.InitGenericTreePopup(typeof(T));
+			return;
 		}
 
 		treeData = new Tree<T> (_treeName, null);
 
-		GenericNode <T> rootNode = new GenericNode<T> ("Root Node", new Node<T> (existData [0]), null, new List<GenericNode<T>> (), this);
+		var rootNode = new GenericNode<T> ("Root Node", new Node<T> (existData [0]), null, new List<GenericNode<T>> (), this);
 		nodes = new List<GenericNode<T>> ();
 		nodes.Add(rootNode);
 
