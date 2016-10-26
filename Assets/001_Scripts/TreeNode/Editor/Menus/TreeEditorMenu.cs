@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-public static class TreeNodeMenu {
+public static class TreeEditorMenu {
 
-	[MenuItem ("Tree Node Editor/Tree Node Editor")]
+	[MenuItem ("Tree Editor/Open")]
 	public static void InitTowerNodeEditor () {
 		TreeEditorWindow.InitTowerNodeEditorWindow ();
 	}

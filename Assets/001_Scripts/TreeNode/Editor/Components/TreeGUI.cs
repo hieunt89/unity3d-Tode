@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 
 public class TreeGUI {
-
 	public Tree<string> treeData;
 	public List<NodeGUI> nodes;
 	public NodeGUI selectedNode;
@@ -22,7 +21,7 @@ public class TreeGUI {
 	List<SummonSkillData> summonSkillData;
 
 	public TreeGUI (TreeType _treeType, string _treeName) {
-		treeData = new Tree<string> (_treeType, _treeName, null);
+		treeData = new Tree<string> (_treeType, _treeName);
 
 		if (nodes == null) {
 			nodes = new List<NodeGUI> ();
@@ -32,14 +31,6 @@ public class TreeGUI {
 		// load exist data based on tree type
 		switch (_treeType) {
 		case TreeType.Towers:
-//			Type x = typeof(TowerData);
-//			Type listType = typeof(List<>).MakeGenericType(x);
-//			var existData = Activator.CreateInstance(listType);
-
-//			var fooList = Activator
-//				.CreateInstance(typeof(List<>)
-//					.MakeGenericType(TowerData.GetType()));
-			
 			towerData = DataManager.Instance.LoadAllData <TowerData> ();
 			if (towerData != null){
 				existIds = new List<string> ();
@@ -75,7 +66,7 @@ public class TreeGUI {
 		ProcessEvents (_e, _viewRect);
 		
 		if (treeData != null && nodes.Count == 0) {
-			GenerateNodes(this);
+			GenerateNodes();
 		}
 
 		if (nodes.Count > 0) {
@@ -117,7 +108,7 @@ public class TreeGUI {
 		bool isRight = _mousePosition.x >= startConnectionNode.nodeRect.x + startConnectionNode.nodeRect.width * 0.5f;
 
 		var startPos = new Vector3(isRight ? startConnectionNode.nodeRect.x + startConnectionNode.nodeRect.width :  startConnectionNode.nodeRect.x, 
-			startConnectionNode.nodeRect.y + startConnectionNode.nodeRect.height +  startConnectionNode.nodeContentRect .height * .5f, 
+									startConnectionNode.nodeRect.y + startConnectionNode.nodeRect.height +  startConnectionNode.nodeRect .height * .5f, 
 									0);
 		var endPos = new Vector3(_mousePosition.x, _mousePosition.y, 0);
 

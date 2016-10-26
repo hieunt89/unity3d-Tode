@@ -17,8 +17,8 @@ public class TreeEditorWindow : EditorWindow {
 	private float minX, minY, maxX, maxY;
 
 	public static void InitTowerNodeEditorWindow () {
-		currentWindow = (TreeEditorWindow)EditorWindow.GetWindow <TreeEditorWindow> ();
-		currentWindow.titleContent = new GUIContent ("Tree Editor");
+		currentWindow = (TreeEditorWindow)EditorWindow.GetWindow <TreeEditorWindow> ("Tree Editor", true);
+		currentWindow.minSize = new Vector2 (500f, 400f);
 		CreateViews ();
 	}
 
