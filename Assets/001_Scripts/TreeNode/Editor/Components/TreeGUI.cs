@@ -11,16 +11,16 @@ public class TreeGUI {
 	public Tree<string> treeData;
 	public List<NodeGUI> nodes;
 	public NodeGUI selectedNode;
-	public bool wantsConnection = false;
+	private NodeGUI lastNodeUI;
 	public NodeGUI startConnectionNode;
+	public bool wantsConnection = false;
 	public bool showNodeProperties = false;
-
 	public List<string> existIds;
+
 	List<TowerData> towerData;
 	List<CombatSkillData> combatSkillData;
 	List<SummonSkillData> summonSkillData;
 
-	private NodeGUI lastNodeUI;
 	public TreeGUI (TreeType _treeType, string _treeName) {
 		treeData = new Tree<string> (_treeType, _treeName, null);
 
@@ -71,7 +71,6 @@ public class TreeGUI {
 		}
 	}
 
-
 	public void UpdateTreeUI (Event _e, Rect _viewRect, GUISkin _viewSkin) {
 		ProcessEvents (_e, _viewRect);
 		
@@ -85,13 +84,10 @@ public class TreeGUI {
 			}
 		}
 
-
 		if (wantsConnection) {
 			if (startConnectionNode != null) {
 				DrawConnectionToMouse (_e.mousePosition);
 			}
-		} else {
-
 		}
 
 		if (_e.type == EventType.Layout) {
@@ -107,23 +103,7 @@ public class TreeGUI {
 		if (_viewRect.Contains (_e.mousePosition)) {
 			if (_e.button == 0) {
 				if (_e.type == EventType.MouseDown) {
-//					DeselectAllNodes ();
-//
 					showNodeProperties = false;
-//					bool setNode = false;
-//					selectedNode = null;
-//
-//					for (int i = 0; i < nodes.Count; i++) {
-//						if (nodes[i].nodeRect.Contains (_e.mousePosition)) {
-//							nodes[i].isSelected = true;
-//							selectedNode = nodes[i];
-//							setNode = true;
-//						}
-//					}
-//
-//					if (!setNode) {
-//						DeselectAllNodes ();
-//					}
 
 					if (wantsConnection) {
 						wantsConnection = false;
@@ -150,35 +130,23 @@ public class TreeGUI {
 		Handles.EndGUI ();
 	}
 
-//	private void DeselectAllNodes () {
-//		for (int i = 0; i < nodes.Count; i++) {
-//			nodes [i].isSelected = false;
-//		}
-//	}
-
-	private void GenerateNodes (TreeGUI _currentTree) {
+	private void GenerateNodes () {
 		var nodeRect = new Rect(50f, 50f, 100f, 40f);
-		NodeGUI rootNode = new NodeGUI (_currentTree.treeData.Root, nodeRect, null, _currentTree);
-
+		NodeGUI rootNode = new NodeGUI (this.treeData.Root, nodeRect, null, this);
 		if (rootNode != null) {
-//			rootNode.InitNodeGUI (new Vector2 (50f, 50f));
-			_currentTree.nodes.Add (rootNode);
 			lastNodeUI = rootNode;
-			GenerateNodes (_currentTree, rootNode);
+			GenerateNodes (rootNode);
 		}
-
 	}
 
-	private void GenerateNodes (TreeGUI _currentTree, NodeGUI _parentNode) {
+	private void GenerateNodes (NodeGUI _parentNode) {
 		for (int i = 0; i < _parentNode.nodeData.children.Count; i++) {
 			var nodeRect = new Rect ((_parentNode.nodeRect.x + _parentNode.nodeRect.width) + _parentNode.nodeRect.width / 2, lastNodeUI.nodeRect.y +(_parentNode.nodeRect.height * 2 * i), 100f, 40f);
-			NodeGUI newNode = new NodeGUI (_parentNode.nodeData.children[i], nodeRect, _parentNode, _currentTree);
+			NodeGUI newNode = new NodeGUI (_parentNode.nodeData.children[i], nodeRect, _parentNode, this);
 			if (newNode != null) {
 				_parentNode.childNodes.Add (newNode);
-//				newNode.InitNodeGUI (new Vector2 ((_parentNode.nodeRect.x + _parentNode.nodeRect.width) + _parentNode.nodeRect.width / 2, lastNodeUI.nodeRect.y +(_parentNode.nodeRect.height * 2 * i)));
-				_currentTree.nodes.Add (newNode);
 				lastNodeUI = newNode;
-				GenerateNodes (_currentTree, newNode);
+				GenerateNodes (newNode);
 			}
 		}
 
