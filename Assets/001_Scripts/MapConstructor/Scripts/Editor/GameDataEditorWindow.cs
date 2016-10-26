@@ -19,7 +19,7 @@ public class GameDataWindow <T> : IGameDataWindow where T : class {
 
 		// TODO: use object field
 		for (int i = 0; i < fields.Length; i++) {
-			EditorGUILayout.PropertyField (fields[i], true);
+//			EditorGUILayout.PropertyField ();
 		}
 
 //		for (int i = 0; i < fields.Length; i++) {
