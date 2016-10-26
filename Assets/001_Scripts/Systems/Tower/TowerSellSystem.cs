@@ -19,7 +19,7 @@ public class TowerSellSystem : IReactiveSystem, ISetPool {
 			e = entities [i];
 
 			_pool.ReplaceGoldPlayer (_pool.goldPlayer.value + e.gold.value);
-			e.IsTowerReset(true).IsActive(false).IsInteractable(false).RemoveTower ().IsTowerBase (true).ReplaceGold(0).IsMarkedForSell(false);
+			e.IsTowerReset(true).IsActive(false).IsInteractable(false).RemoveTower().IsTowerBase (true).ReplaceGold(0).IsMarkedForSell(false);
 
 		}
 	}

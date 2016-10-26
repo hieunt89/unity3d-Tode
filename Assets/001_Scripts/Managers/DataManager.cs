@@ -44,35 +44,16 @@ public class DataManager {
 	}
 
 	void LoadSkillData(){
-//		CombatSkillData s = new CombatSkillData ();
-//		s.id = "fb1";
-//		s.name = "fireball level 1";
-//		s.castRange = 6f;
-//		s.castTime = 2f;
-//		s.cooldown = 3f;
-//		s.expToNextLvl = 50;
-//		s.attackType = AttackType.magical;
-//		s.damage = 200;
-//		s.cost = 100;
-//
-//		s.aoe = 2f;
-//		s.projectileId = "projectile1";
-//
-//		List<SkillEffect> efl = new List<SkillEffect> ();
-//		SkillEffect ef = new SkillEffect ();
-//		ef.skillId = s.id;
-//		ef.duration = 5f;
-//		ef.effect = Effect.MoveSpeedSlow;
-//		ef.value = 50;
-//
-//		efl.Add (ef);
-//
-//		s.effectList = efl;
-
 		skillIdToData = new Dictionary<string, SkillData> ();
+
 		var combatSkills = LoadAllData<CombatSkillData> ();
 		for (int i = 0; i < combatSkills.Count; i++) {
 			skillIdToData.Add (combatSkills[i].id, combatSkills[i]);
+		}
+
+		var summonSkills = LoadAllData<SummonSkillData> ();
+		for (int i = 0; i < summonSkills.Count; i++) {
+			skillIdToData.Add (summonSkills[i].id, summonSkills[i]);
 		}
 	}
 
@@ -82,6 +63,7 @@ public class DataManager {
 		Tree<string> tree = new Tree<string> ();
 		tree.treeName = "fireball_tree";
 		tree.Root = new Node<string> ("skill0");
+		tree.Root.AddChild (new Node<string> ("skill1"));
 
 		skillTrees.Add (tree.treeName, tree);
 	}

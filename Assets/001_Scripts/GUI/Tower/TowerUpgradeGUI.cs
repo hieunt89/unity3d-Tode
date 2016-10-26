@@ -5,22 +5,10 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using Lean;
 
-public class TowerUpgradeGUI : MonoBehaviour{
+public class TowerUpgradeGUI : HandleEnitityGUI{
 	public GameObject prefab;
 
-	void OnEnable(){
-		Messenger.AddListener (Events.Input.EMPTY_SELECT, HandleEmptyClick);
-		Messenger.AddListener (Events.Input.ENTITY_SELECT, HandleEntityClick);
-		Messenger.AddListener (Events.Input.ENTITY_DESELECT, HandleEmptyClick);
-	}
-
-	void OnDisable(){
-		Messenger.RemoveListener (Events.Input.EMPTY_SELECT, HandleEmptyClick);
-		Messenger.RemoveListener (Events.Input.ENTITY_SELECT, HandleEntityClick);
-		Messenger.RemoveListener (Events.Input.ENTITY_DESELECT, HandleEmptyClick);
-	}
-
-	void HandleEntityClick(){
+	public override void HandleEntityClick(){
 		var e = Pools.pool.currentSelected.e;
 		if (!e.hasTower && !e.isTowerBase) {
 			HandleEmptyClick ();
@@ -52,7 +40,7 @@ public class TowerUpgradeGUI : MonoBehaviour{
 		go.GetComponent<TowerUpgradeBtn> ().RegisterUpgradeBtn(towerNode);
 	}
 
-	void HandleEmptyClick(){
+	public override void HandleEmptyClick(){
 		for (int i = 0; i < this.transform.childCount; i++) {
 			LeanPool.Despawn (this.transform.GetChild (i).gameObject, 0.001f);
 		}

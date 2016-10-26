@@ -4,7 +4,8 @@ public enum EffectType{
 	Root,
 	Stun,
 	MoveSpeedSlow,
-	ArmorReduce
+	PhysicArmorReduce,
+	MagicArmorReduce
 }
 
 [System.Serializable]

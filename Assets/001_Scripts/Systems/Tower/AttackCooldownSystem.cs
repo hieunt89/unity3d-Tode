@@ -10,7 +10,7 @@ public class AttackCooldownSystem : IReactiveSystem, ISetPool {
 	public void SetPool (Pool pool)
 	{
 		_pool = pool;
-		_groupOnCooldown = _pool.GetGroup (Matcher.AllOf(Matcher.AttackCooldown).NoneOf(Matcher.Channeling));
+		_groupOnCooldown = _pool.GetGroup (Matcher.AllOf(Matcher.AttackCooldown, Matcher.Active).NoneOf(Matcher.Channeling));
 	}
 
 	#endregion

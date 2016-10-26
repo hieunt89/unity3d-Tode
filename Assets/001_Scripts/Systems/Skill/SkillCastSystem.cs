@@ -79,7 +79,7 @@ public class SkillCastSystem : IReactiveSystem, ISetPool {
 
 	void CastCombatSkill(Entity origin, Entity skill, Entity target){
 		var e = _pool.CreateProjectile (skill.projectile.projectileId, origin, target)
-			.AddSkillCombat(skill.skillCombat.effectList)
+			.AddSkillCombat(skill.skillCombat.effects)
 			.AddAttackDamage(skill.attackDamage.dmg)
 			.AddAttack(skill.attack.attackType)
 		;

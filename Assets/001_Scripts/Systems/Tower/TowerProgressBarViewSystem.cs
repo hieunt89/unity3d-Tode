@@ -25,14 +25,14 @@ public class TowerProgressBarViewSystem : IReactiveSystem, IInitializeSystem{
 		Entity e;
 		for (int i = 0; i < entities.Count; i++) {
 			e = entities [i];
-			if (e.hasTowerUpgradeProgress) {
+			if (e.hasDuration) {
 				if(!e.hasViewSlider){
 					offset = e.view.go.SliderOffset (false);
 					e.AddViewSlider (barGUI.CreateProgressBar (), offset);
 				}
 
 				e.viewSlider.bar.transform.position = Camera.main.WorldToScreenPoint (e.position.value + e.viewSlider.offset);
-				e.viewSlider.bar.value = e.towerUpgradeProgress.progress / e.towerUpgrade.upgradeTime;
+				e.viewSlider.bar.value = e.duration.value / e.towerUpgrade.upgradeTime;
 			} else {
 				if (e.hasViewSlider) {
 					Lean.LeanPool.Despawn (e.viewSlider.bar.gameObject);
@@ -48,7 +48,7 @@ public class TowerProgressBarViewSystem : IReactiveSystem, IInitializeSystem{
 
 	public TriggerOnEvent trigger {
 		get {
-			return Matcher.TowerUpgradeProgress.OnEntityAddedOrRemoved ();
+			return Matcher.AllOf(Matcher.TowerUpgrading, Matcher.Duration).OnEntityAddedOrRemoved ();
 		}
 	}
 

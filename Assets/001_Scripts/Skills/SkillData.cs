@@ -13,6 +13,5 @@ public abstract class SkillData {
 	public float cooldown;
 	public float castRange;
 	public float castTime;
-	public int expToNextLvl;
-	public int cost;
+	public int goldCost;
 }

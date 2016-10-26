@@ -22,55 +22,55 @@ public static class ComponentIds {
     public const int Channeling = 12;
     public const int Coroutine = 13;
     public const int CurrentSelected = 14;
-    public const int Damage = 15;
-    public const int Destination = 16;
-    public const int Duration = 17;
-    public const int Enemy = 18;
-    public const int GamePause = 19;
-    public const int Gold = 20;
-    public const int GoldPlayer = 21;
-    public const int Hp = 22;
-    public const int HpTotal = 23;
-    public const int Id = 24;
-    public const int Interactable = 25;
-    public const int Interval = 26;
-    public const int LifeCount = 27;
-    public const int LifePlayer = 28;
-    public const int Map = 29;
-    public const int MarkedForActive = 30;
-    public const int MarkedForDestroy = 31;
-    public const int MarkedForNoView = 32;
-    public const int MarkedForSell = 33;
-    public const int Movable = 34;
-    public const int NextWave = 35;
-    public const int Origin = 36;
-    public const int Path = 37;
-    public const int PathLength = 38;
-    public const int PathReference = 39;
-    public const int Position = 40;
-    public const int Projectile = 41;
-    public const int ProjectileHoming = 42;
-    public const int ProjectileLaser = 43;
-    public const int ProjectileMark = 44;
-    public const int ProjectileThrowing = 45;
-    public const int ProjectileThrowingParams = 46;
-    public const int ProjectileTime = 47;
-    public const int ReachedEnd = 48;
-    public const int SkillCombat = 49;
-    public const int Skill = 50;
-    public const int SkillEffects = 51;
-    public const int SkillEffectWatcher = 52;
-    public const int SkillEntityList = 53;
-    public const int SkillList = 54;
-    public const int SkillSummon = 55;
-    public const int SkillWatcherList = 56;
+    public const int Destination = 15;
+    public const int Duration = 16;
+    public const int Enemy = 17;
+    public const int GamePause = 18;
+    public const int Gold = 19;
+    public const int GoldPlayer = 20;
+    public const int Hp = 21;
+    public const int HpTotal = 22;
+    public const int Id = 23;
+    public const int Interactable = 24;
+    public const int Interval = 25;
+    public const int LifeCount = 26;
+    public const int LifePlayer = 27;
+    public const int Map = 28;
+    public const int MarkedForActive = 29;
+    public const int MarkedForDestroy = 30;
+    public const int MarkedForSell = 31;
+    public const int MoveSpeed = 32;
+    public const int NextWave = 33;
+    public const int Origin = 34;
+    public const int Path = 35;
+    public const int PathLength = 36;
+    public const int PathReference = 37;
+    public const int Position = 38;
+    public const int Projectile = 39;
+    public const int ProjectileHoming = 40;
+    public const int ProjectileLaser = 41;
+    public const int ProjectileMark = 42;
+    public const int ProjectileThrowing = 43;
+    public const int ProjectileThrowingParams = 44;
+    public const int ReachedEnd = 45;
+    public const int Rooted = 46;
+    public const int SkillCombat = 47;
+    public const int Skill = 48;
+    public const int SkillEffects = 49;
+    public const int SkillEffectWatcher = 50;
+    public const int SkillEffectWatcherList = 51;
+    public const int SkillEntityList = 52;
+    public const int SkillList = 53;
+    public const int SkillSummon = 54;
+    public const int SkillUpgrade = 55;
+    public const int Stunned = 56;
     public const int Target = 57;
-    public const int Tick = 58;
-    public const int Tower = 59;
-    public const int TowerBase = 60;
-    public const int TowerReset = 61;
-    public const int TowerUpgrade = 62;
-    public const int TowerUpgradeProgress = 63;
+    public const int Targetable = 58;
+    public const int Tick = 59;
+    public const int Tower = 60;
+    public const int TowerBase = 61;
+    public const int TowerReset = 62;
+    public const int TowerUpgrade = 63;
     public const int TowerUpgrading = 64;
     public const int TurnSpeed = 65;
     public const int View = 66;
@@ -96,7 +96,6 @@ public static class ComponentIds {
         "Channeling",
         "Coroutine",
         "CurrentSelected",
-        "Damage",
         "Destination",
         "Duration",
         "Enemy",
@@ -113,9 +112,8 @@ public static class ComponentIds {
         "Map",
         "MarkedForActive",
         "MarkedForDestroy",
-        "MarkedForNoView",
         "MarkedForSell",
-        "Movable",
+        "MoveSpeed",
         "NextWave",
         "Origin",
         "Path",
@@ -128,23 +126,25 @@ public static class ComponentIds {
         "ProjectileMark",
         "ProjectileThrowing",
         "ProjectileThrowingParams",
-        "ProjectileTime",
         "ReachedEnd",
+        "Rooted",
         "SkillCombat",
         "Skill",
         "SkillEffects",
         "SkillEffectWatcher",
+        "SkillEffectWatcherList",
         "SkillEntityList",
         "SkillList",
         "SkillSummon",
-        "SkillWatcherList",
+        "SkillUpgrade",
+        "Stunned",
         "Target",
+        "Targetable",
         "Tick",
         "Tower",
         "TowerBase",
         "TowerReset",
         "TowerUpgrade",
-        "TowerUpgradeProgress",
         "TowerUpgrading",
         "TurnSpeed",
         "View",
@@ -169,7 +169,6 @@ public static class ComponentIds {
         typeof(Channeling),
         typeof(Coroutine),
         typeof(CurrentSelected),
-        typeof(Damage),
         typeof(Destination),
         typeof(Duration),
         typeof(Enemy),
@@ -186,9 +185,8 @@ public static class ComponentIds {
         typeof(Map),
         typeof(MarkedForActive),
         typeof(MarkedForDestroy),
-        typeof(MarkedForNoView),
         typeof(MarkedForSell),
-        typeof(Movable),
+        typeof(MoveSpeed),
         typeof(NextWave),
         typeof(Origin),
         typeof(Path),
@@ -201,23 +199,25 @@ public static class ComponentIds {
         typeof(ProjectileMark),
         typeof(ProjectileThrowing),
         typeof(ProjectileThrowingParams),
-        typeof(ProjectileTime),
         typeof(ReachedEnd),
+        typeof(Rooted),
         typeof(SkillCombat),
         typeof(SkillComponent),
         typeof(SkillEffects),
         typeof(SkillEffectWatcher),
+        typeof(SkillEffectWatcherList),
         typeof(SkillEntityList),
         typeof(SkillList),
         typeof(SkillSummon),
-        typeof(SkillWatcherList),
+        typeof(SkillUpgrade),
+        typeof(Stunned),
         typeof(Target),
+        typeof(Targetable),
         typeof(Tick),
         typeof(Tower),
         typeof(TowerBase),
         typeof(TowerReset),
         typeof(TowerUpgrade),
-        typeof(TowerUpgradeProgress),
         typeof(TowerUpgrading),
         typeof(TurnSpeed),
         typeof(View),

@@ -7,9 +7,9 @@ public enum TreeType {
 	CombatSkills,
 	SummonSkills
 }
-	
+
 [Serializable]
-public class Tree <T> { //where T : class {
+public class Tree <T> where T : class {
 	public TreeType treeType;
 	public string treeName;
 	public Node <T> Root;
@@ -17,23 +17,15 @@ public class Tree <T> { //where T : class {
 	public Tree(){
 	}
 
-//	public Tree (T rootData)
-//	{
-//		this.Root = new Node<T> (rootData);
-//	}
-	public Tree (string treeName, Node<T> root)
+	public Tree (T rootData)
 	{
-		this.treeName = treeName;
-		this.Root = root;
+		this.Root = new Node<T> (rootData);
 	}
-	
-	public Tree (TreeType treeType, string treeName, Node<T> root)
+
+	public Tree (TreeType treeType, string treeName)
 	{
 		this.treeType = treeType;
 		this.treeName = treeName;
-		this.Root = root;
 	}
-	
-
 }
 

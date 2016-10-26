@@ -58,7 +58,7 @@ public class EnemyInitSystem : IReactiveSystem, ISetPool
 						.AddMarkedForActive (activeTime)
 						.AddDestination (ePath.path.wayPoints [0])
 						.AddPosition (ePath.path.wayPoints [0])
-						.AddMovable (enemyData.MoveSpeed)
+						.AddMoveSpeed (enemyData.MoveSpeed)
 						.AddTurnSpeed(enemyData.TurnSpeed)
 						.AddLifeCount (enemyData.LifeCount)
 						.AddGold (enemyData.GoldWorth)

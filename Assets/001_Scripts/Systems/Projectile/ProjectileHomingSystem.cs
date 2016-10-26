@@ -38,7 +38,7 @@ public class ProjectileHomingSystem : IReactiveSystem, ISetPool {
 				prj.IsReachedEnd (true);
 				continue;
 			}
-			prj.ReplacePosition (Vector3.MoveTowards (prj.position.value, prj.destination.value, prj.movable.speed * Time.deltaTime));
+			prj.ReplacePosition (Vector3.MoveTowards (prj.position.value, prj.destination.value, prj.moveSpeed.speed * Time.deltaTime));
 		}
 	}
 	#endregion

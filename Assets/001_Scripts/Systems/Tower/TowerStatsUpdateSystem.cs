@@ -31,7 +31,7 @@ public class TowerStatsUpdateSystem : IReactiveSystem, IEnsureComponents {
 					.ReplaceAttackSpeed (towerData.AtkSpeed)
 					.ReplaceAttackTime(towerData.AtkTime)
 					.ReplaceAoe(towerData.Aoe)
-					.ReplaceSkillList(DataManager.Instance.GetSkillTrees("fireball_tree"))
+					.ReplaceSkillList(DataManager.Instance.GetSkillTrees("fireball_tree", "fireball_tree"))
 					;
 			} else {
 				tower.IsActive (false);

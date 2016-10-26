@@ -59,10 +59,8 @@ public class ProjectileReachEndSystem : IReactiveSystem, ISetPool {
 	}
 
 	void ApplyDamage(int damage, Entity prj, Entity target){
-		if (!target.hasDamage) {
-			var reduceTo = CombatUtility.GetDamageReduction (prj.attack.attackType, target.armor.armorList);
-			target.AddDamage (CombatUtility.GetDamageAfterReduction (damage, reduceTo));
-		}
+		var reduceTo = CombatUtility.GetDamageReduction (prj.attack.attackType, target.armor.armorList);
+		target.BeDamaged (CombatUtility.GetDamageAfterReduction (damage, reduceTo));
 	}
 
 	void ProjectileSkill(Entity prj){
@@ -79,7 +77,7 @@ public class ProjectileReachEndSystem : IReactiveSystem, ISetPool {
 
 	void ApplyEffect(Entity prj, Entity target){
 		if (!target.hasSkillEffects) {
-			target.AddSkillEffects (prj.skillCombat.effectList);	
+			target.AddSkillEffects (prj.skillCombat.effects);	
 		}
 	}
 }
