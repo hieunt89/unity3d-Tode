@@ -95,25 +95,10 @@ public static class TreeNodeUtils {
 
 	public static void AddNode (TreeGUI _currentTree, NodeType _nodeType, Vector2 _position) {
 		if (_currentTree != null) {
-			NodeGUI newNode = null;
-			List <NodeGUI> childNodes = new List<NodeGUI> ();
-			switch (_nodeType) {
-			case NodeType.RootNode:
-				newNode = new NodeGUI (new Node<string> (_currentTree.existIds [0]), null, childNodes, _currentTree);
-				// assign data to root node
+			var nodeRect = new Rect (_position.x, _position.y, 100f, 40f);
+			var newNode = new NodeGUI (new Node<string> (_currentTree.existIds [0]), nodeRect, null, _currentTree);
+			if (_nodeType == NodeType.RootNode) {
 				_currentTree.treeData.Root = newNode.nodeData;
-				break;
-			case NodeType.Node:
-				newNode = new NodeGUI(new Node<string> (_currentTree.existIds[0]), null, childNodes, _currentTree);
-				break;
-			default:
-				break;
-			}
-
-			if (newNode != null) {
-				newNode.InitNode (_position);
-				newNode.currentTree = _currentTree;
-				_currentTree.nodes.Add (newNode);
 			}
 		}
 	}

@@ -2,10 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-public enum NodeType {
-	RootNode,
-	Node
-}
+
 
 [Serializable]
 public class Node <T> where T : class  {

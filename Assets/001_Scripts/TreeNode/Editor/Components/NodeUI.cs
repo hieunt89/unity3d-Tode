@@ -3,6 +3,11 @@ using UnityEditor;
 using System;
 using System.Collections.Generic;
 
+public enum NodeType {
+	RootNode,
+	Node
+}
+
 public class NodeGUI {
 	public Node<string> nodeData;
 	public int popUpSelectedIndex;
@@ -16,11 +21,17 @@ public class NodeGUI {
 
 	protected GUISkin nodeSkin;
 
-	public NodeGUI (Node<string> _nodeData, NodeGUI _parentNode, List<NodeGUI> _childNodes, TreeGUI _currentTree) {
+	private float nodeWidth = 100f;
+	private float nodeHeight = 400f;
+
+	public NodeGUI (Node<string> _nodeData, Rect _nodeRect, NodeGUI _parentNode, TreeGUI _currentTree) {
 		this.nodeData = _nodeData;
+		this.nodeRect = _nodeRect;
 		this.parentNode = _parentNode;
-		this.childNodes = _childNodes;
+		this.childNodes = new List<NodeGUI>();
 		this.currentTree = _currentTree;
+
+		currentTree.nodes.Add (this);
 
 		for (int i = 0; i < currentTree.existIds.Count; i++) {
 			if (nodeData.data.Equals (currentTree.existIds [i])) {
@@ -29,32 +40,18 @@ public class NodeGUI {
 		}
 	}
 
-	public void InitNode (Vector2 position) {
-		nodeRect = new Rect (position.x, position.y, 100f, 40f);
+	public void InitNodeGUI (Vector2 position) {
+		nodeRect = new Rect (position.x, position.y, nodeWidth, nodeHeight);
 	}
 
 	public void UpdateNode (Event _e, Rect _viewRect) {
-//		ProcessEvent (_e, _viewRect);
 	}
 
 	public void UpdateNodeUI (int nodeIndex, Event _e, Rect _viewRect, GUISkin _viewSkin) {
-//		ProcessEvent (_e, _viewRect);
 		if (nodeData == null) return;
 
 
-
-//		if (!isSelected) {
-//			GUI.Box (nodeRect, nodeTitle, _viewSkin.GetStyle ("NodeDefault"));
 		nodeRect = GUI.Window (nodeIndex, nodeRect, NodeWindow, nodeData.depth == 0 ? "Root" : "Node");
-//		} else {
-//			GUI.Box (nodeRect, nodeTitle, _viewSkin.GetStyle ("NodeSelected"));
-//		}
-//			
-//		nodeContentRect = new Rect(nodeRect.x, nodeRect.y + nodeRect.height, nodeRect.width, nodeRect.height);
-//		GUI.Box (nodeContentRect, nodeData.data, _viewSkin.GetStyle ("ContentDefault"));
-
-//		GUILayout.BeginArea (nodeContentRect);
-//		GUILayout.EndArea ();
 
 		DrawNodeConnection ();
 
@@ -64,7 +61,6 @@ public class NodeGUI {
 	void NodeWindow (int _windowId) {
 		Event e = Event.current;
 		ProcessEvent (e, _windowId);
-//		EditorGUILayout.LabelField (nodeData.data);
 		EditorGUI.BeginChangeCheck ();
 		popUpSelectedIndex = EditorGUILayout.Popup (popUpSelectedIndex, currentTree.existIds.ToArray());
 		if (EditorGUI.EndChangeCheck ()) {

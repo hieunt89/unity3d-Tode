@@ -157,10 +157,11 @@ public class TreeGUI {
 //	}
 
 	private void GenerateNodes (TreeGUI _currentTree) {
-		NodeGUI rootNode = new NodeGUI (_currentTree.treeData.Root, null, new List<NodeGUI> (), _currentTree);
+		var nodeRect = new Rect(50f, 50f, 100f, 40f);
+		NodeGUI rootNode = new NodeGUI (_currentTree.treeData.Root, nodeRect, null, _currentTree);
 
 		if (rootNode != null) {
-			rootNode.InitNode (new Vector2 (50f, 50f));
+//			rootNode.InitNodeGUI (new Vector2 (50f, 50f));
 			_currentTree.nodes.Add (rootNode);
 			lastNodeUI = rootNode;
 			GenerateNodes (_currentTree, rootNode);
@@ -170,10 +171,11 @@ public class TreeGUI {
 
 	private void GenerateNodes (TreeGUI _currentTree, NodeGUI _parentNode) {
 		for (int i = 0; i < _parentNode.nodeData.children.Count; i++) {
-			NodeGUI newNode = new NodeGUI (_parentNode.nodeData.children[i], _parentNode, new List<NodeGUI> (), _currentTree);
+			var nodeRect = new Rect ((_parentNode.nodeRect.x + _parentNode.nodeRect.width) + _parentNode.nodeRect.width / 2, lastNodeUI.nodeRect.y +(_parentNode.nodeRect.height * 2 * i), 100f, 40f);
+			NodeGUI newNode = new NodeGUI (_parentNode.nodeData.children[i], nodeRect, _parentNode, _currentTree);
 			if (newNode != null) {
 				_parentNode.childNodes.Add (newNode);
-				newNode.InitNode (new Vector2 ((_parentNode.nodeRect.x + _parentNode.nodeRect.width) + _parentNode.nodeRect.width / 2, lastNodeUI.nodeRect.y +(_parentNode.nodeRect.height * 2 * i)));
+//				newNode.InitNodeGUI (new Vector2 ((_parentNode.nodeRect.x + _parentNode.nodeRect.width) + _parentNode.nodeRect.width / 2, lastNodeUI.nodeRect.y +(_parentNode.nodeRect.height * 2 * i)));
 				_currentTree.nodes.Add (newNode);
 				lastNodeUI = newNode;
 				GenerateNodes (_currentTree, newNode);
