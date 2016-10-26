@@ -3,7 +3,7 @@ using UnityEditor;
 
 public static class TreeEditorMenu {
 
-	[MenuItem ("Tree Editor/Open")]
+	[MenuItem ("Tree/Open Editor")]
 	public static void InitTowerNodeEditor () {
 		TreeEditorWindow.InitTowerNodeEditorWindow ();
 	}

@@ -23,7 +23,7 @@ public class ViewBase {
 
 		this.currentTree = _currentTree;
 		if (currentTree != null && currentTree.treeData != null) {
-			viewTitle = TreeNodeUtils.UppercaseFirst(currentTree.treeData.treeName);
+			viewTitle = TreeEditorUtils.UppercaseFirst(currentTree.treeData.treeName);
 		} else {
 			viewTitle = "No";
 		}

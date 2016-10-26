@@ -128,10 +128,10 @@ public class NodeGUI {
 			}
 			break;
 		case "1":
-			TreeNodeUtils.RemoveParentNode (this);
+			TreeEditorUtils.RemoveParentNode (this);
 			break;
 		case "2":
-			TreeNodeUtils.RemoveNode (this);
+			TreeEditorUtils.RemoveNode (this);
 			break;
 		}
 	}

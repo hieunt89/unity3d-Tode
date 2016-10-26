@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
-public static class TreeNodeUtils {
+public static class TreeEditorUtils {
 
 	public static void CreateTree (TreeType _treeType, string _treeName) {
 		
