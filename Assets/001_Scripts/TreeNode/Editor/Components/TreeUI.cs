@@ -30,16 +30,16 @@ public class GenericTree <T> {
 				existIds.Add (id);
 			}
 		} else {
-			// do popup craete rootnode data
-			GenericTreePopupWindow.InitGenericTreePopup(typeof(T));
-			return;
+//			// do popup craete rootnode data
+//			GenericTreePopupWindow.InitGenericTreePopup(typeof(T));
+//			return;
 		}
 
 		treeData = new Tree<T> (_treeName, null);
 
-		var rootNode = new GenericNode<T> ("Root Node", new Node<T> (existData [0]), null, new List<GenericNode<T>> (), this);
+//		var rootNode = new GenericNode<T> ("Root Node", new Node<T> (existData [0]), null, new List<GenericNode<T>> (), this);
 		nodes = new List<GenericNode<T>> ();
-		nodes.Add(rootNode);
+//		nodes.Add(rootNode);
 
 	}
 
@@ -52,7 +52,7 @@ public class GenericTree <T> {
 
 		if (nodes.Count > 0) {
 			for (int i = 0; i < nodes.Count; i++) {
-				nodes [i].UpdateGenericNode <T> (i, _e, _viewRect, _viewSkin);
+				nodes [i].UpdateGenericNode <T> (i, _e, _viewRect, _viewSkin, this<T>);
 			}
 		}
 
@@ -99,25 +99,25 @@ public class GenericTree <T> {
 	}
 
 	private void GenerateNodes () {
-//		NodeUI rootNode = new NodeUI ("Root Node", NodeType.RootNode, _currentTree.treeData.Root, null, new List<NodeUI> (), _currentTree);
-//		if (rootNode != null) {
-//			rootNode.InitNode (new Vector2 (50f, 50f));
-//			_currentTree.nodes.Add (rootNode);
-//			lastNodeUI = rootNode;
-//			GenerateNodes (_currentTree, rootNode);
-//		}
+		GenericNode <T> rootNode = new GenericNode<T> (treeData.Root, null);
+		if (rootNode != null) {
+			rootNode.nodeRect = new Rect (50f, 50f, 100f, 40f);
+			this.nodes.Add (rootNode);
+			lastNodeUI = rootNode;
+			GenerateNodes (rootNode);
+		}
 	}
 
 	private void GenerateNodes (GenericNode <T> _parentNode) {
 		for (int i = 0; i < _parentNode.nodeData.children.Count; i++) {
-//			NodeUI newNode = new NodeUI ("Node", NodeType.Node, _parentNode.nodeData.children[i], _parentNode, new List<NodeUI> (), _currentTree);
-//			if (newNode != null) {
-//				_parentNode.childNodes.Add (newNode);
-//				newNode.InitNode (new Vector2 ((_parentNode.nodeRect.x + _parentNode.nodeRect.width) + _parentNode.nodeRect.width / 2, lastNodeUI.nodeRect.y +(_parentNode.nodeRect.height * 2 * i)));
-//				_currentTree.nodes.Add (newNode);
-//				lastNodeUI = newNode;
-//				GenerateNodes (_currentTree, newNode);
-//			}
+			GenericNode<T> newNode = new GenericNode<T> (_parentNode.nodeData.children[i], _parentNode);
+			if (newNode != null) {
+				_parentNode.childNodes.Add (newNode);
+				newNode.nodeRect = new Rect ((_parentNode.nodeRect.x + _parentNode.nodeRect.width) + _parentNode.nodeRect.width / 2, lastNodeUI.nodeRect.y +(_parentNode.nodeRect.height * 2 * i), 100f, 50f);
+				this.nodes.Add (newNode);
+				lastNodeUI = newNode;
+				GenerateNodes (newNode);
+			}
 		}
 
 	}

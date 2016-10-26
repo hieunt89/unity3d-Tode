@@ -4,7 +4,7 @@ using System;
 
 [Serializable]
 public class CustomData {
-	int id;
+	string id;
 }
 
 public interface IGenericTreeWindow {
@@ -14,20 +14,20 @@ public interface IGenericTreeWindow {
 
 public class GenericTreeWindow <T> : IGenericTreeWindow {
 
-	#region Singleton
-	private static GenericTreeWindow <T> instance = null;
-	public static GenericTreeWindow <T> Instance
-	{
-		get
-		{
-			if (instance == null)
-			{
-				instance = new GenericTreeWindow <T>();
-			}
-			return instance;
-		}
-	}
-	#endregion
+//	#region Singleton
+//	private static GenericTreeWindow <T> instance = null;
+//	public static GenericTreeWindow <T> Instance
+//	{
+//		get
+//		{
+//			if (instance == null)
+//			{
+//				instance = new GenericTreeWindow <T>();
+//			}
+//			return instance;
+//		}
+//	}
+//	#endregion
 
 	public WorkView workView;
 	public PropertiesView propertiesView;
@@ -40,6 +40,7 @@ public class GenericTreeWindow <T> : IGenericTreeWindow {
 		propertiesView = new PropertiesView();
 
 		currentTree = new GenericTree<T>(_treeName);
+		TreeEditorUtils.CreateTree <T> (currentTree);
 	}
 
 	public void OnGUI ()
@@ -97,7 +98,7 @@ public class GenericTreeEditorWindow : EditorWindow {
 
 	void OnGUI () {
 //		scrollPosition =  GUI.BeginScrollView(new Rect(0f, 0f, position.width, position.height), scrollPosition, virtualRect); // <-- need to customize this viewrect (expandable by nodes + offset)
-//		BeginWindows ();
+		BeginWindows ();
 		if (genericWindow == null) {
 			treeName = EditorGUILayout.TextField ("Tree Name", treeName);
 			treeType = (TreeType) EditorGUILayout.EnumPopup (treeType);
@@ -125,7 +126,7 @@ public class GenericTreeEditorWindow : EditorWindow {
 			return;
 		}
 		(genericWindow as IGenericTreeWindow).OnGUI ();
-//		EndWindows ();
+		EndWindows ();
 //		GUI.EndScrollView ();
 
 		Repaint ();

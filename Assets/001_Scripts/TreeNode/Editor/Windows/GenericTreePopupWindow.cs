@@ -21,12 +21,13 @@ public class GenericTreePopupWindow : EditorWindow {
 
 	object genericPopup;
 	Type type;
-	Type givenType;
+	static Type givenType;
 
 	public static void InitGenericTreePopup (Type _type) {
 //		type = typeof(GenericTreePopup <>).MakeGenericType(typeof(CustomData));
 //		genericPopup = Activator.CreateInstance(type);
 //		(genericPopup as IGenericTreeWindow).InitGUI ();
+		givenType = _type;
 		var currentPopup = (GenericTreePopupWindow)EditorWindow.GetWindow <GenericTreePopupWindow> ("Root", true);
 
 	}

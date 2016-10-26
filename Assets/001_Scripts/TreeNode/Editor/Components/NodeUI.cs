@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 public class GenericNode <T> {
 
-	public string nodeTitle;
 	public GenericTree <T> currentTree;
 	public Node<T> nodeData;
 	public GenericNode<T> parentNode;
@@ -16,17 +15,17 @@ public class GenericNode <T> {
 	public int popUpSelectedIndex;
 
 
-	public GenericNode (string _nodeTitle, Node<T> _nodeData, GenericNode<T> _parentNode, List<GenericNode<T>> _childNodes, GenericTree<T> _currentTree) {
-		
-	}
-	
-
-	public void InitGenericNode <T> () {
-
+	public GenericNode (Node<T> _nodeData, GenericNode<T> _parentNode) {
+		nodeData = _nodeData;
+		parentNode = _parentNode;
+//		currentTree = _currentTree;
+		childNodes = new List<GenericNode<T>> ();
 	}
 
-	public void UpdateGenericNode <T> (int nodeIndex, Event _e, Rect _viewRect, GUISkin _viewSkin) {
-		nodeRect = GUI.Window (nodeIndex, nodeRect, NodeWindow, nodeTitle);
+	public void UpdateGenericNode <T> (int nodeIndex, Event _e, Rect _viewRect, GUISkin _viewSkin, GenericTree<T> _currentTree) {
+		if (nodeData == null) return;
+		currentTree = _currentTree;
+		nodeRect = GUI.Window (nodeIndex, nodeRect, NodeWindow, nodeData.depth == 0 ? "Root" : "Node");
 	}
 
 	void NodeWindow (int _windowId) {
@@ -34,7 +33,7 @@ public class GenericNode <T> {
 		ProcessEvent (e, _windowId);
 		//		EditorGUILayout.LabelField (nodeData.data);
 		popUpSelectedIndex = EditorGUILayout.Popup (popUpSelectedIndex, currentTree.existIds.ToArray());
-//		nodeData.data = currentTree.existData[currentTree.existIds [popUpSelectedIndex]];
+		nodeData.data = currentTree.existData[popUpSelectedIndex];
 		GUI.DragWindow ();
 	}
 

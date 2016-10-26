@@ -13,10 +13,15 @@ public class GenericWindow <T> : IGenericWindow where T : class {
 	T _data;
 
 	public void OnGUI () {
-		if (_data == null)
+		if (_data == null){
 			_data = DataManager.Instance.LoadData <T> ();
+			return;
+		}
+
 		FieldInfo[] fields = _data.GetType().GetFields (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 		for (int i = 0; i < fields.Length; i++) {
+
+			// TODO: using objectfield
 //			Debug.Log (fields[i].Attributes + " / " + fields[i].FieldType + " / " + fields[i].Name);
 			var typeCode = Type.GetTypeCode(fields[i].FieldType);
 			switch (typeCode) {
@@ -34,6 +39,14 @@ public class GenericWindow <T> : IGenericWindow where T : class {
 				EditorGUILayout.FloatField (fields[i].Name, (float) fields[i].GetValue(_data));
 				break;
 			}
+		}
+//		GUI.enabled = CheckFields ();
+		if (GUILayout.Button("Save")){
+			DataManager.Instance.SaveData (_data);
+		}
+//		GUI.enabled = true;
+		if (GUILayout.Button("Load")){
+			_data = DataManager.Instance.LoadData <T> ();
 		}
 	}
 
@@ -68,6 +81,9 @@ public class GenericEditorWindow: EditorWindow {
 
 //		EditorGUILayout.
 		if (genericWindow == null) {
+			if (GUILayout.Button("CustomData")) {
+				Type = typeof(CustomData);
+			}
 			if (GUILayout.Button("TowerData")) {
 				Type = typeof(TowerData);
 			}
@@ -86,6 +102,8 @@ public class GenericEditorWindow: EditorWindow {
 			return;
 		}
 		(genericWindow as IGenericWindow).OnGUI ();
+
+
 		if (GUILayout.Button("Reset")) {
 			(genericWindow as IGenericWindow).ResetGUI ();
 			genericWindow = null;

@@ -6,6 +6,22 @@ using System.IO;
 
 public static class TreeEditorUtils {
 
+	public static void CreateTree <T> (GenericTree<T> currentTree) {
+		if (currentTree != null) {
+			AddNode <T> (currentTree, new Vector2 (50f, 50f));
+		} else {
+			EditorUtility.DisplayDialog ("Tree Node Message", "Unable to create new tree", "OK");
+		}
+	}
+
+	public static void AddNode <T> (GenericTree<T> _currentTree, Vector2 _nodePosition) {
+		if (_currentTree != null) {
+			GenericNode <T> newNode = null;
+			newNode = new GenericNode<T> (new Node<T> (_currentTree.existData[0]), null);
+			_currentTree.treeData.Root = newNode.nodeData;
+		}
+	}
+
 	public static void CreateTree (TreeType _treeType, string _treeName) {
 		
 		TreeUI currentTree = new TreeUI(_treeName);
