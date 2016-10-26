@@ -24,10 +24,10 @@ public class TowerSkillUpgradeGUI : HandleEnitityGUI {
 			if (!skillEntity.isActive) {
 				CreateTowerSkillUpgradeBtn (this.transform ,skillEntity, skillEntity.skill.skillNode);
 			}else if (skillEntity.skill.skillNode.children.Count > 0) {
-				var go = LeanPool.Spawn (prefabGroup);
-				go.transform.SetParent (this.transform, false);
+				var group = LeanPool.Spawn (prefabGroup);
+				group.transform.SetParent (this.transform, false);
 				for (int j = 0; j < skillEntity.skill.skillNode.children.Count; j++) {
-					CreateTowerSkillUpgradeBtn (go.transform ,skillEntity, skillEntity.skill.skillNode.children[j]);
+					CreateTowerSkillUpgradeBtn (group.transform, skillEntity, skillEntity.skill.skillNode.children[j]);
 				}
 			}
 		}

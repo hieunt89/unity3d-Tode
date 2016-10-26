@@ -21,6 +21,7 @@ public class ProjectileHomingSystem : IReactiveSystem, ISetPool {
 			return;
 		}
 
+		var tickEn = entities.SingleEntity ();
 		Entity prj;
 		var ens = _groupPrjHoming.GetEntities ();
 		for (int i = 0; i < ens.Length; i++) {
@@ -38,7 +39,7 @@ public class ProjectileHomingSystem : IReactiveSystem, ISetPool {
 				prj.IsReachedEnd (true);
 				continue;
 			}
-			prj.ReplacePosition (Vector3.MoveTowards (prj.position.value, prj.destination.value, prj.moveSpeed.speed * Time.deltaTime));
+			prj.ReplacePosition (Vector3.MoveTowards (prj.position.value, prj.destination.value, prj.moveSpeed.speed * tickEn.tick.change));
 		}
 	}
 	#endregion

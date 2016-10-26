@@ -26,9 +26,9 @@ public class GameManager : MonoBehaviour {
 		}
 		return systems
 				//Map
+				.Add(pool.CreateSystem<TimeSystem>())
 				.Add(pool.CreateSystem<CoroutineSystem>())
 				.Add(pool.CreateSystem<MapSystem>())
-				.Add(pool.CreateSystem<TimeSystem>())
 				.Add(pool.CreateSystem<LifeSystem>())
 				.Add(pool.CreateSystem<GoldSystem>())
 				.Add(pool.CreateSystem<PathSystem>())

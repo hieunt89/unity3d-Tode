@@ -50,7 +50,7 @@ public class SkillCastSystem : IReactiveSystem, ISetPool {
 		float time = 0f;
 		while (time < skill.attackTime.value) {
 			if (!_pool.isGamePause) {
-				time += Time.deltaTime;
+				time += _pool.tick.change;
 			}
 			if (origin.view.Anim != null) {
 				origin.view.Anim.Play (AnimState.Cast, 0, time / skill.attackTime.value);
@@ -69,7 +69,9 @@ public class SkillCastSystem : IReactiveSystem, ISetPool {
 	}
 
 	void CastNow(Entity origin, Entity skill, Entity target){
-		skill.AddAttackCooldown (skill.attackSpeed.value);
+		if (!skill.hasAttackCooldown) {
+			skill.AddAttackCooldown (skill.attackSpeed.value);
+		}
 		if (skill.hasSkillCombat) {
 			CastCombatSkill(origin, skill, target);
 		}else if (skill.hasSkillSummon) {

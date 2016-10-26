@@ -27,7 +27,7 @@ public class EntityActiveSystem : IReactiveSystem, ISetPool {
 		var eActivable = _groupActivable.GetEntities ();
 		for (int i = 0; i < eActivable.Length; i++) {
 			var e = eActivable [i];
-			if(eTime.tick.time >= e.markedForActive.delayTime){
+			if(eTime.timeTotal.value >= e.markedForActive.delayTime){
 				e.RemoveMarkedForActive ().IsActive(true);
 			}
 		}

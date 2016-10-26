@@ -14,13 +14,13 @@ namespace Entitas {
 
         public Entity AddTick(float newTime) {
             var component = CreateComponent<Tick>(ComponentIds.Tick);
-            component.time = newTime;
+            component.change = newTime;
             return AddComponent(ComponentIds.Tick, component);
         }
 
         public Entity ReplaceTick(float newTime) {
             var component = CreateComponent<Tick>(ComponentIds.Tick);
-            component.time = newTime;
+            component.change = newTime;
             ReplaceComponent(ComponentIds.Tick, component);
             return this;
         }

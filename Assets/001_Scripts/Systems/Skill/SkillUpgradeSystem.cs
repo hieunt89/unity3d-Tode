@@ -24,10 +24,6 @@ public class SkillUpgradeSystem : IReactiveSystem, ISetPool {
 				if (!skill.isActive) {
 					skill.IsActive (true);
 				} else {
-					if (skill.origin.e.hasCoroutine && skill.origin.e.isAttacking) {
-						skill.origin.e.RemoveCoroutine ();
-						skill.origin.e.IsAttacking (false);
-					}
 					skill.ReplaceSkill (skill.skillUpgrade.upgradeNode)
 						.ReplaceSkillStats (skillData);
 				}

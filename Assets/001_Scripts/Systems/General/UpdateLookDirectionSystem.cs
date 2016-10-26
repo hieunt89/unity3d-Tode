@@ -2,7 +2,16 @@
 using System.Collections;
 using Entitas;
 
-public class UpdateLookDirectionSystem : IReactiveSystem {
+public class UpdateLookDirectionSystem : IReactiveSystem, ISetPool {
+	#region ISetPool implementation
+	Pool _pool;
+	public void SetPool (Pool pool)
+	{
+		_pool = pool;
+	}
+
+	#endregion
+
 	#region IReactiveExecuteSystem implementation
 
 	public void Execute (System.Collections.Generic.List<Entity> entities)
@@ -11,7 +20,7 @@ public class UpdateLookDirectionSystem : IReactiveSystem {
 			var e = entities [i];
 			Vector3 targetDir = e.destination.value - e.position.value;
 			if (e.hasTurnSpeed) {
-				float step = e.turnSpeed.value * Time.deltaTime;
+				float step = e.turnSpeed.value * _pool.tick.change;
 				targetDir = Vector3.RotateTowards (e.view.go.transform.forward, targetDir, step, 0f);
 				if (GameManager.debug) {
 					Debug.DrawRay (e.position.value, targetDir, Color.red);

@@ -6,6 +6,7 @@
 	}
 
 	public enum Game{
-		GOLD_CHANGE
+		GOLD_CHANGE,
+		LIFE_CHANGE
 	}
 }
