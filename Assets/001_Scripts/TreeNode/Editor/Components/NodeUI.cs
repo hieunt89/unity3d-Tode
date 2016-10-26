@@ -3,24 +3,20 @@ using UnityEditor;
 using System;
 using System.Collections.Generic;
 
-public class NodeUI {
-	public string nodeTitle = "Node";
-	public NodeType nodeType;
+public class NodeGUI {
 	public Node<string> nodeData;
 	public int popUpSelectedIndex;
 	public bool isSelected = false;
 	public Rect nodeRect;
 	public Rect nodeContentRect;
-	public TreeUI currentTree;
+	public TreeGUI currentTree;
 
-	public NodeUI parentNode;
-	public List<NodeUI> childNodes;
+	public NodeGUI parentNode;
+	public List<NodeGUI> childNodes;
 
 	protected GUISkin nodeSkin;
 
-	public NodeUI (string _nodeTitle, NodeType _nodeType, Node<string> _nodeData, NodeUI _parentNode, List<NodeUI> _childNodes, TreeUI _currentTree) {
-		this.nodeTitle = _nodeTitle;
-		this.nodeType = _nodeType;
+	public NodeGUI (Node<string> _nodeData, NodeGUI _parentNode, List<NodeGUI> _childNodes, TreeGUI _currentTree) {
 		this.nodeData = _nodeData;
 		this.parentNode = _parentNode;
 		this.childNodes = _childNodes;
@@ -49,7 +45,7 @@ public class NodeUI {
 
 //		if (!isSelected) {
 //			GUI.Box (nodeRect, nodeTitle, _viewSkin.GetStyle ("NodeDefault"));
-		nodeRect = GUI.Window (nodeIndex, nodeRect, NodeWindow, nodeTitle);
+		nodeRect = GUI.Window (nodeIndex, nodeRect, NodeWindow, nodeData.depth == 0 ? "Root" : "Node");
 //		} else {
 //			GUI.Box (nodeRect, nodeTitle, _viewSkin.GetStyle ("NodeSelected"));
 //		}
@@ -77,7 +73,7 @@ public class NodeUI {
 		GUI.DragWindow ();
 	}
 
-	public void DrawNodeProperties (TreeUI _currentTree) {
+	public void DrawNodeProperties (TreeGUI _currentTree) {
 		EditorGUILayout.BeginVertical ();
 		EditorGUILayout.BeginHorizontal ();
 		GUILayout.Space (30);
@@ -106,7 +102,7 @@ public class NodeUI {
 				// check mouse over any node
 				if (currentTree.startConnectionNode != null) {
 					//					if (this.nodeRect.Contains (e.mousePosition)) {
-					if (currentTree.nodes[_windowId] != currentTree.startConnectionNode && currentTree.nodes[_windowId].nodeType != NodeType.RootNode && currentTree.nodes[_windowId].parentNode == null) {
+					if (currentTree.nodes[_windowId] != currentTree.startConnectionNode && currentTree.nodes[_windowId].nodeData.depth != 0 && currentTree.nodes[_windowId].parentNode == null) {
 						// add mouse over node to startconnection children node
 						currentTree.startConnectionNode.nodeData.AddChild (currentTree.nodes [_windowId].nodeData);
 

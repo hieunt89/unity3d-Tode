@@ -6,13 +6,13 @@ using UnityEditor;
 using System;
 using System.Collections.Generic;
 
-public class TreeUI {
+public class TreeGUI {
 
 	public Tree<string> treeData;
-	public List<NodeUI> nodes;
-	public NodeUI selectedNode;
+	public List<NodeGUI> nodes;
+	public NodeGUI selectedNode;
 	public bool wantsConnection = false;
-	public NodeUI startConnectionNode;
+	public NodeGUI startConnectionNode;
 	public bool showNodeProperties = false;
 
 	public List<string> existIds;
@@ -20,12 +20,12 @@ public class TreeUI {
 	List<CombatSkillData> combatSkillData;
 	List<SummonSkillData> summonSkillData;
 
-	private NodeUI lastNodeUI;
-	public TreeUI (TreeType _treeType, string _treeName) {
+	private NodeGUI lastNodeUI;
+	public TreeGUI (TreeType _treeType, string _treeName) {
 		treeData = new Tree<string> (_treeType, _treeName, null);
 
 		if (nodes == null) {
-			nodes = new List<NodeUI> ();
+			nodes = new List<NodeGUI> ();
 		}
 
 		// TODO: chuyen exist data ra global ?
@@ -156,8 +156,8 @@ public class TreeUI {
 //		}
 //	}
 
-	private void GenerateNodes (TreeUI _currentTree) {
-		NodeUI rootNode = new NodeUI ("Root Node", NodeType.RootNode, _currentTree.treeData.Root, null, new List<NodeUI> (), _currentTree);
+	private void GenerateNodes (TreeGUI _currentTree) {
+		NodeGUI rootNode = new NodeGUI (_currentTree.treeData.Root, null, new List<NodeGUI> (), _currentTree);
 
 		if (rootNode != null) {
 			rootNode.InitNode (new Vector2 (50f, 50f));
@@ -168,9 +168,9 @@ public class TreeUI {
 
 	}
 
-	private void GenerateNodes (TreeUI _currentTree, NodeUI _parentNode) {
+	private void GenerateNodes (TreeGUI _currentTree, NodeGUI _parentNode) {
 		for (int i = 0; i < _parentNode.nodeData.children.Count; i++) {
-			NodeUI newNode = new NodeUI ("Node", NodeType.Node, _parentNode.nodeData.children[i], _parentNode, new List<NodeUI> (), _currentTree);
+			NodeGUI newNode = new NodeGUI (_parentNode.nodeData.children[i], _parentNode, new List<NodeGUI> (), _currentTree);
 			if (newNode != null) {
 				_parentNode.childNodes.Add (newNode);
 				newNode.InitNode (new Vector2 ((_parentNode.nodeRect.x + _parentNode.nodeRect.width) + _parentNode.nodeRect.width / 2, lastNodeUI.nodeRect.y +(_parentNode.nodeRect.height * 2 * i)));

@@ -11,7 +11,7 @@ public class TreeNodeWorkView : ViewBase {
 	public TreeNodeWorkView () : base () {
 	}
 
-	public override void UpdateView (Rect _editorRect, Rect _percentageRect, Event _e, TreeUI _currentTree)
+	public override void UpdateView (Rect _editorRect, Rect _percentageRect, Event _e, TreeGUI _currentTree)
 	{
 		base.UpdateView (_editorRect, _percentageRect, _e, _currentTree);
 //		GUI.Label (_editorRect, viewTitle + " Tree");
@@ -21,9 +21,9 @@ public class TreeNodeWorkView : ViewBase {
 
 		GUILayout.BeginArea (viewRect);
 
-		if (_currentTree != null) {
-			GUI.Box (viewRect, viewTitle + " Tree", viewSkin.GetStyle("ViewBg"));
-			_currentTree.UpdateTreeUI (_e, viewRect, viewSkin);
+		if (currentTree != null) {
+//			GUI.Box (viewRect, viewTitle + " Tree", viewSkin.GetStyle("ViewBg"));
+			currentTree.UpdateTreeUI (_e, viewRect, viewSkin);
 			ProcessEvent (_e);
 		} else {
 			var newTreeRect = new Rect (viewRect.width / 2 - 200f, viewRect.height / 2 - 100f, 400, 200);

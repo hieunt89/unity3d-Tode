@@ -5,6 +5,6 @@ public static class TreeNodeMenu {
 
 	[MenuItem ("Tree Node Editor/Tree Node Editor")]
 	public static void InitTowerNodeEditor () {
-		TreeNodeEditorWindow.InitTowerNodeEditorWindow ();
+		TreeEditorWindow.InitTowerNodeEditorWindow ();
 	}
 }

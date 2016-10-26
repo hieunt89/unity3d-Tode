@@ -2,13 +2,13 @@
 using UnityEditor;
 using System;
 
-public class TreeNodeEditorWindow : EditorWindow {
+public class TreeEditorWindow : EditorWindow {
 
-	public static TreeNodeEditorWindow currentWindow;
+	public static TreeEditorWindow currentWindow;
 	public TreeNodeWorkView workView;
 	public TreeNodePropertiesView propertiesView;
 
-	public TreeUI currentTree = null;
+	public TreeGUI currentTree = null;
 
 	private float viewPercentage = 1f;
 	private Vector2 scrollPosition;
@@ -17,8 +17,8 @@ public class TreeNodeEditorWindow : EditorWindow {
 	private float minX, minY, maxX, maxY;
 
 	public static void InitTowerNodeEditorWindow () {
-		currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow <TreeNodeEditorWindow> ();
-		currentWindow.titleContent = new GUIContent ("Tree Node");
+		currentWindow = (TreeEditorWindow)EditorWindow.GetWindow <TreeEditorWindow> ();
+		currentWindow.titleContent = new GUIContent ("Tree Editor");
 		CreateViews ();
 	}
 
@@ -81,7 +81,7 @@ public class TreeNodeEditorWindow : EditorWindow {
 			currentWindow.workView = new TreeNodeWorkView ();
 			currentWindow.propertiesView = new TreeNodePropertiesView ();
 		} else {
-			currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow <TreeNodeEditorWindow> ();
+			currentWindow = (TreeEditorWindow)EditorWindow.GetWindow <TreeEditorWindow> ();
 		}
 	}
 
