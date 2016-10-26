@@ -35,9 +35,9 @@ public class TreeEditorWindow : EditorWindow {
 
 		Event e = Event.current;
 
-		ProcessEvent (e);
+//		ProcessEvent (e);
 
-//		UpdateVirtualRect ();
+		UpdateVirtualRect ();
 //		Debug.Log (virtualRect);
 		scrollPosition =  GUI.BeginScrollView(new Rect(0f, 0f, position.width, position.height), scrollPosition, virtualRect); // <-- need to customize this viewrect (expandable by nodes + offset)
 		BeginWindows ();
@@ -87,7 +87,6 @@ public class TreeEditorWindow : EditorWindow {
 
 	private void ProcessEvent (Event _e) {
 		if (_e.type == EventType.ScrollWheel) {
-			Debug.Log ("scroll wheel" + _e.delta);
 		}
 //		if (_e.type == EventType.KeyDown && _e.keyCode == KeyCode.LeftArrow) {
 //			viewPercentage -= 0.01f;

@@ -58,11 +58,10 @@ public class NodeGUI {
 	void NodeWindow (int _windowId) {
 		Event e = Event.current;
 		ProcessEvent (e, _windowId);
-		EditorGUI.BeginChangeCheck ();
+
 		popUpSelectedIndex = EditorGUILayout.Popup (popUpSelectedIndex, currentTree.existIds.ToArray());
-		if (EditorGUI.EndChangeCheck ()) {
-			nodeData.data = currentTree.existIds [popUpSelectedIndex];
-		}
+		nodeData.data = currentTree.existIds [popUpSelectedIndex];
+
 		GUI.DragWindow ();
 	}
 
