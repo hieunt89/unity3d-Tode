@@ -1,0 +1,56 @@
+﻿using UnityEngine;
+using System.Collections;
+using Entitas;
+using System.Collections.Generic;
+
+public class TowerStatsUpdateSystem : IReactiveSystem, IEnsureComponents {
+	#region IEnsureComponents implementation
+
+	public IMatcher ensureComponents {
+		get {
+			return Matcher.Tower;
+		}
+	}
+
+	#endregion
+
+	#region IReactiveExecuteSystem implementation
+
+	public void Execute (System.Collections.Generic.List<Entity> entities)
+	{
+		TowerData towerData;
+		for (int i = 0; i < entities.Count; i++) {
+			var tower = entities [i];
+			towerData = DataManager.Instance.GetTowerData (tower.tower.towerNode.data);
+			if (towerData != null) {
+				tower
+					.ReplaceProjectile (towerData.ProjectileId)
+					.ReplaceAttack (towerData.AtkType)
+					.ReplaceAttackRange (towerData.AtkRange)
+					.ReplaceAttackDamageRange (towerData.MinDmg, towerData.MaxDmg)
+					.ReplaceAttackSpeed (towerData.AtkSpeed)
+					.ReplaceAttackTime(towerData.AtkTime)
+					.ReplaceAoe(towerData.Aoe)
+					.ReplaceSkillList(DataManager.Instance.GetSkillTrees("fireball_tree", "fireball_tree"))
+					;
+			} else {
+				tower.IsActive (false);
+			}
+		}
+
+	}
+
+	#endregion
+
+	#region IReactiveSystem implementation
+
+	public TriggerOnEvent trigger {
+		get {
+			return Matcher.Tower.OnEntityAdded ();
+		}
+	}
+
+	#endregion
+
+
+}

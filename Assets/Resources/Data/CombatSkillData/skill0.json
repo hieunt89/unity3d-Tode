@@ -1,0 +1,1 @@
+{"id":"skill0","name":"fire ball lvl1","cooldown":2.0,"castRange":5.0,"castTime":2.0,"goldCost":50,"projectileIndex":0,"projectileId":"projectile1","aoe":2.0,"attackType":1,"damage":10,"effectList":[{"skillId":"skill0","effectType":2,"value":50.0,"duration":10.0}]}

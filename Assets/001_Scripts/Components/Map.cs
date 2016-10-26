@@ -4,9 +4,6 @@ using Entitas;
 using Entitas.CodeGenerator;
 
 [SingleEntity]
-public class Map : IComponent{
-	public int width;
-	public int height;
-
-	public GameObject view;
+public class Map : IComponent {
+	public MapData data;
 }

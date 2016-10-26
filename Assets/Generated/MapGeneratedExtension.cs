@@ -12,19 +12,15 @@ namespace Entitas {
 
         public bool hasMap { get { return HasComponent(ComponentIds.Map); } }
 
-        public Entity AddMap(int newWidth, int newHeight, UnityEngine.GameObject newView) {
+        public Entity AddMap(MapData newData) {
             var component = CreateComponent<Map>(ComponentIds.Map);
-            component.width = newWidth;
-            component.height = newHeight;
-            component.view = newView;
+            component.data = newData;
             return AddComponent(ComponentIds.Map, component);
         }
 
-        public Entity ReplaceMap(int newWidth, int newHeight, UnityEngine.GameObject newView) {
+        public Entity ReplaceMap(MapData newData) {
             var component = CreateComponent<Map>(ComponentIds.Map);
-            component.width = newWidth;
-            component.height = newHeight;
-            component.view = newView;
+            component.data = newData;
             ReplaceComponent(ComponentIds.Map, component);
             return this;
         }
@@ -41,22 +37,22 @@ namespace Entitas {
 
         public bool hasMap { get { return mapEntity != null; } }
 
-        public Entity SetMap(int newWidth, int newHeight, UnityEngine.GameObject newView) {
+        public Entity SetMap(MapData newData) {
             if (hasMap) {
                 throw new EntitasException("Could not set map!\n" + this + " already has an entity with Map!",
                     "You should check if the pool already has a mapEntity before setting it or use pool.ReplaceMap().");
             }
             var entity = CreateEntity();
-            entity.AddMap(newWidth, newHeight, newView);
+            entity.AddMap(newData);
             return entity;
         }
 
-        public Entity ReplaceMap(int newWidth, int newHeight, UnityEngine.GameObject newView) {
+        public Entity ReplaceMap(MapData newData) {
             var entity = mapEntity;
             if (entity == null) {
-                entity = SetMap(newWidth, newHeight, newView);
+                entity = SetMap(newData);
             } else {
-                entity.ReplaceMap(newWidth, newHeight, newView);
+                entity.ReplaceMap(newData);
             }
 
             return entity;
