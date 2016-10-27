@@ -2,49 +2,121 @@
 using UnityEditor;
 using System;
 using System.Reflection;
+using System.Collections.Generic;
+using System.Collections;
+
+public enum Gender {
+	MALE,
+	FEMALE
+}
+
+public enum LANGUAGE {
+	C,
+	CPP,
+	PYTHON,
+	JAVA
+}
+
+[Serializable]
+public class CustomData : ScriptableObject {
+	public int id;
+	public string name;
+	public Gender gender;
+	[SerializeField] public List<Skill> skills;
+}
+
+[Serializable]
+public class Skill {
+	public int id;
+	public LANGUAGE language;
+	public float year;
+
+	public Skill (int id, LANGUAGE language, float year)
+	{
+		this.id = id;
+		this.language = language;
+		this.year = year;
+	}
+
+}
 
 public interface IGameDataWindow {
+	void OnInit ();
 	void OnGUI ();
 	void ResetGUI ();
 }
 
-public class GameDataWindow <T> : IGameDataWindow where T : class {
+public class GameDataWindow <T> : IGameDataWindow where T : ScriptableObject {
 	
-	T _data;
+	T data;
+
+	SerializedObject so;
+	List<string> props;
+	List<string> nestedProps;
+
+	bool toggle;
+
+	public void OnInit ()
+	{
+		data = ScriptableObject.CreateInstance<T> ();
+		
+		so = new SerializedObject (data);
+
+		FieldInfo[] fields = data.GetType().GetFields (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+		props = new List<string> ();
+		for (int i = 0; i < fields.Length; i++) {
+			props.Add (fields [i].Name);
+			if (typeof(IList).IsAssignableFrom(fields[i].FieldType)) {	// check if this is a list
+				nestedProps = new List<string> ();
+				FieldInfo[] nestedFields = fields[i].FieldType.GetGenericArguments()[0].GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);	// get fields of items in the list
+				for (int j = 0; j < nestedFields.Length; j++) {
+					nestedProps.Add (nestedFields [j].Name);
+				}
+			}
+		}
+		Debug.Log (props.Count);
+		Debug.Log (nestedProps.Count);
+
+	}
 
 	public void OnGUI () {
-		if (_data == null)
-			_data = DataManager.Instance.LoadData <T> ();
-		FieldInfo[] fields = _data.GetType().GetFields (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+		if (data == null) {
+			data = DataManager.Instance.LoadData <T> ();
+			return;
+		}	
+		so.Update ();
 
-		// TODO: use object field
-		for (int i = 0; i < fields.Length; i++) {
-//			EditorGUILayout.PropertyField ();
+		for (int propIndex = 0; propIndex < props.Count; propIndex++) {
+			var sp = so.FindProperty (props [propIndex]);
+			if (!sp.hasVisibleChildren) {
+				EditorGUILayout.PropertyField (sp);
+			} else {
+				toggle = EditorGUILayout.Foldout (toggle, sp.displayName);
+				if (toggle) {
+					for (int spIndex = 0; spIndex < sp.CountInProperty(); spIndex++) {
+						GUILayout.BeginVertical ("box");
+						var item = sp.GetArrayElementAtIndex (spIndex);
+						for (int itemIndex = 0; itemIndex < nestedProps.Count; itemIndex++) {
+							var nestedSP = item.FindPropertyRelative (nestedProps[itemIndex]);
+							EditorGUILayout.PropertyField (nestedSP);
+						}
+						GUILayout.EndVertical ();
+					}
+				}
+			}
 		}
 
-//		for (int i = 0; i < fields.Length; i++) {
-////			Debug.Log (fields[i].Attributes + " / " + fields[i].FieldType + " / " + fields[i].Name);
-//			var typeCode = Type.GetTypeCode(fields[i].FieldType);
-//			switch (typeCode) {
-//			case TypeCode.String:
-//				EditorGUILayout.TextField(fields[i].Name, fields[i].GetValue(_data).ToString ());
-//				break;
-//			case TypeCode.Int32:
-//				if (fields[i].FieldType == typeof(AttackType)) {
-//					EditorGUILayout.EnumPopup (fields[i].Name, (AttackType) fields[i].GetValue(_data));
-//				} else {
-//					EditorGUILayout.IntField (fields[i].Name, (Int32) fields[i].GetValue(_data));
-//				}
-//				break;
-//			case TypeCode.Single:
-//				EditorGUILayout.FloatField (fields[i].Name, (float) fields[i].GetValue(_data));
-//				break;
-//			}
-//		}
+		if (GUILayout.Button("Save")) {
+			DataManager.Instance.SaveData <T> (data);
+		}
+		if (GUILayout.Button("Load")) {
+			data = DataManager.Instance.LoadData <T> ();
+		}
+		so.ApplyModifiedProperties();
 	}
 
 	public void ResetGUI () {
-		_data = null;
+		data = null;
 	}
 }
 
@@ -67,7 +139,6 @@ public class GameDataEditorWindow : EditorWindow {
 	{
 		var window = EditorWindow.GetWindow <GameDataEditorWindow> ("Game Data Editor",true);
 		window.minSize = new Vector2 (500, 400);
-		window.Show ();
 	}
 
 	void OnGUI () {
@@ -75,21 +146,30 @@ public class GameDataEditorWindow : EditorWindow {
 //		EditorGUILayout.
 		if (genericWindow == null) {
 			GUILayout.Label ("Select Game Data");
-			if (GUILayout.Button("TowerData")) {
-				Type = typeof(TowerData);
+			if (GUILayout.Button("CustomData")) {
+				Type = typeof(CustomData);
+				(genericWindow as IGameDataWindow).OnInit ();
 			}
-			if (GUILayout.Button("CharacterData")) {
-				Type = typeof(CharacterData);
-			}
-			if (GUILayout.Button("ProjectileData")) {
-				Type = typeof(ProjectileData);
-			}
-			if (GUILayout.Button("CombatSkillData")) {
-				Type = typeof(CombatSkillData);
-			}
-			if (GUILayout.Button("SummonSkillData")) {
-				Type = typeof(SummonSkillData);
-			}
+//			if (GUILayout.Button("TowerData")) {
+//				Type = typeof(TowerData);
+//				(genericWindow as IGameDataWindow).OnInit ();
+//			}
+//			if (GUILayout.Button("CharacterData")) {
+//				Type = typeof(CharacterData);
+//				(genericWindow as IGameDataWindow).OnInit ();
+//			}
+//			if (GUILayout.Button("ProjectileData")) {
+//				Type = typeof(ProjectileData);
+//				(genericWindow as IGameDataWindow).OnInit ();
+//			}
+//			if (GUILayout.Button("CombatSkillData")) {
+//				Type = typeof(CombatSkillData);
+//				(genericWindow as IGameDataWindow).OnInit ();
+//			}
+//			if (GUILayout.Button("SummonSkillData")) {
+//				Type = typeof(SummonSkillData);
+//				(genericWindow as IGameDataWindow).OnInit ();
+//			}
 			return;
 		}
 		(genericWindow as IGameDataWindow).OnGUI ();
