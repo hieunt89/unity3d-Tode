@@ -21,21 +21,7 @@ public class TowerStatsUpdateSystem : IReactiveSystem, IEnsureComponents {
 		TowerData towerData;
 		for (int i = 0; i < entities.Count; i++) {
 			var tower = entities [i];
-			towerData = DataManager.Instance.GetTowerData (tower.tower.towerNode.data);
-			if (towerData != null) {
-				tower
-					.ReplaceProjectile (towerData.ProjectileId)
-					.ReplaceAttack (towerData.AtkType)
-					.ReplaceAttackRange (towerData.AtkRange)
-					.ReplaceAttackDamageRange (towerData.MinDmg, towerData.MaxDmg)
-					.ReplaceAttackSpeed (towerData.AtkSpeed)
-					.ReplaceAttackTime(towerData.AtkTime)
-					.ReplaceAoe(towerData.Aoe)
-					.ReplaceSkillList(DataManager.Instance.GetSkillTrees("fireball_tree", "fireball_tree"))
-					;
-			} else {
-				tower.IsActive (false);
-			}
+			tower.ReplaceTowerStats (DataManager.Instance.GetTowerData (tower.tower.towerNode.data));
 		}
 
 	}
