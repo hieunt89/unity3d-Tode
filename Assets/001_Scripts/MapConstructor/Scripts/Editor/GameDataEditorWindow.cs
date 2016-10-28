@@ -59,14 +59,19 @@ public class GameDataWindow <T> : IGameDataWindow where T : ScriptableObject {
 	public void OnInit ()
 	{
 		data = ScriptableObject.CreateInstance<T> ();
-		
+
 		so = new SerializedObject (data);
 
 		FieldInfo[] fields = data.GetType().GetFields (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
+
 		props = new List<string> ();
 		for (int i = 0; i < fields.Length; i++) {
 			props.Add (fields [i].Name);
 			if (typeof(IList).IsAssignableFrom(fields[i].FieldType)) {	// check if this is a list
+				Debug.Log (fields[i].Name + " / " + data.GetType().GetField(fields[i].Name));
+//				fields [i].FieldType.GetGenericArguments () [0];
+//				data.GetType ().GetField (fields [i].Name) = new List <> (); //typeof(data.GetType().GetField(fields[i].Name).GetType())> ();
 				nestedProps = new List<string> ();
 				FieldInfo[] nestedFields = fields[i].FieldType.GetGenericArguments()[0].GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);	// get fields of items in the list
 				for (int j = 0; j < nestedFields.Length; j++) {
@@ -93,7 +98,8 @@ public class GameDataWindow <T> : IGameDataWindow where T : ScriptableObject {
 			} else {
 				toggle = EditorGUILayout.Foldout (toggle, sp.displayName);
 				if (toggle) {
-					for (int spIndex = 0; spIndex < sp.CountInProperty(); spIndex++) {
+//					Debug.Log ();
+					for (int spIndex = 0; spIndex < sp.arraySize; spIndex++) {
 						GUILayout.BeginVertical ("box");
 						var item = sp.GetArrayElementAtIndex (spIndex);
 						for (int itemIndex = 0; itemIndex < nestedProps.Count; itemIndex++) {

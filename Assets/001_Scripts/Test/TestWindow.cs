@@ -76,7 +76,7 @@ public class TestWindow : EditorWindow {
 		FieldInfo[] skillFields = data.skills[0].GetType ().GetFields (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 		nestedProps = new List<string> ();
 		for (int i = 0; i < skillFields.Length; i++) {
-			props.Add (fields [i].Name);
+			nestedProps.Add (skillFields [i].Name);
 		}
 	}
 
@@ -92,18 +92,16 @@ public class TestWindow : EditorWindow {
 			if (!sp.hasVisibleChildren) {
 				EditorGUILayout.PropertyField (sp);
 			} else {
-				if (sp.arraySize > 0) {
-					toggle = EditorGUILayout.Foldout (toggle, sp.displayName);
-					if (toggle) {
-						for (int spIndex = 0; spIndex < sp.arraySize; spIndex++) {
-							GUILayout.BeginVertical ("box");
-							var item = sp.GetArrayElementAtIndex (spIndex);
-							for (int itemIndex = 0; itemIndex < nestedProps.Count; itemIndex++) {
-								var nestedSP = item.FindPropertyRelative (nestedProps[itemIndex]);
-								EditorGUILayout.PropertyField (nestedSP);
-							}
-							GUILayout.EndVertical ();
+				toggle = EditorGUILayout.Foldout (toggle, sp.displayName);
+				if (toggle) {
+					for (int spIndex = 0; spIndex < sp.arraySize; spIndex++) {
+						GUILayout.BeginVertical ("box");
+						var item = sp.GetArrayElementAtIndex (spIndex);
+						for (int itemIndex = 0; itemIndex < nestedProps.Count; itemIndex++) {
+							var nestedSP = item.FindPropertyRelative (nestedProps[itemIndex]);
+							EditorGUILayout.PropertyField (nestedSP);
 						}
+						GUILayout.EndVertical ();
 					}
 				}
 			}
