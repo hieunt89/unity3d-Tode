@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
-public static class TreeNodeUtils {
+public static class TreeEditorUtils {
 
 	public static void CreateTree (TreeType _treeType, string _treeName) {
 		
-		TreeUI currentTree = new TreeUI(_treeType, _treeName);
+		TreeGUI currentTree = new TreeGUI(_treeType, _treeName);
 
 		if (currentTree != null) {
-			TreeNodeEditorWindow currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow <TreeNodeEditorWindow> ();
+			TreeEditorWindow currentWindow = (TreeEditorWindow)EditorWindow.GetWindow <TreeEditorWindow> ();
 			if (currentWindow != null) {
 				currentWindow.currentTree = currentTree;
 			}
@@ -25,7 +25,7 @@ public static class TreeNodeUtils {
 
 	}
 
-	public static void SaveTree (TreeUI _currentTree) {
+	public static void SaveTree (TreeGUI _currentTree) {
 		BinaryFormatter bf = new BinaryFormatter ();
 		if (!Directory.Exists (Application.dataPath + TreeNodeConstants.DatabasePath + _currentTree.treeData.treeType.ToString())) {
 			Directory.CreateDirectory (Application.dataPath + TreeNodeConstants.DatabasePath + _currentTree.treeData.treeType.ToString());
@@ -49,9 +49,9 @@ public static class TreeNodeUtils {
 		treeData = (Tree<string>) bf.Deserialize (file);
 		file.Close ();
 		if (treeData != null) {
-			TreeNodeEditorWindow currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow<TreeNodeEditorWindow> ();
+			TreeEditorWindow currentWindow = (TreeEditorWindow)EditorWindow.GetWindow<TreeEditorWindow> ();
 			if (currentWindow != null) {
-				TreeUI currentTree = new TreeUI(treeData.treeType, treeData.treeName);
+				TreeGUI currentTree = new TreeGUI(treeData.treeType, treeData.treeName);
 				currentTree.treeData = treeData;
 				currentWindow.currentTree = currentTree;
 			}
@@ -60,65 +60,24 @@ public static class TreeNodeUtils {
 		}
 	}
 
-//	public static void GenerateNodes (TreeUI _currentTree) {
-//		NodeUI rootNode = new NodeUI ("Root Node", NodeType.RootNode, _currentTree.treeData.Root, null, new List<NodeUI> (), _currentTree);
-//
-//		if (rootNode != null) {
-//			rootNode.InitNode (new Vector2 (50f, 50f));
-//			_currentTree.nodes.Add (rootNode);
-//			GenerateNodes (_currentTree, rootNode);
-//		}
-//
-//	}
-//
-//	private static void GenerateNodes (TreeUI _currentTree, NodeUI _parentNode) {
-//		for (int i = 0; i < _parentNode.nodeData.children.Count; i++) {
-//			NodeUI newNode = new NodeUI ("Node", NodeType.Node, _parentNode.nodeData.children[i], _parentNode, new List<NodeUI> (), _currentTree);
-//			if (newNode != null) {
-//				_parentNode.childNodes.Add (newNode);
-//
-//				newNode.InitNode(new Vector2((_parentNode.nodeRect.x + _parentNode.nodeRect.width) + _parentNode.nodeRect.width / 2, _parentNode.nodeRect.y + (_parentNode.nodeRect.height * 4 * i)));
-//
-//				_currentTree.nodes.Add (newNode);
-//				GenerateNodes (_currentTree, newNode);
-//			}
-//		}
-//
-//	}
-
 	public static void UnloadTree () {
-		TreeNodeEditorWindow currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow <TreeNodeEditorWindow> ();
+		TreeEditorWindow currentWindow = (TreeEditorWindow)EditorWindow.GetWindow <TreeEditorWindow> ();
 		if (currentWindow != null) {
 			currentWindow.currentTree = null;
 		}
 	}
 
-	public static void AddNode (TreeUI _currentTree, NodeType _nodeType, Vector2 _position) {
+	public static void AddNode (TreeGUI _currentTree, NodeType _nodeType, Vector2 _position) {
 		if (_currentTree != null) {
-			NodeUI newNode = null;
-			List <NodeUI> childNodes = new List<NodeUI> ();
-			switch (_nodeType) {
-			case NodeType.RootNode:
-				newNode = new NodeUI ("Root Node", _nodeType, new Node<string> (_currentTree.existIds [0]), null, childNodes, _currentTree);
-				// assign data to root node
+			var nodeRect = new Rect (_position.x, _position.y, 100f, 40f);
+			var newNode = new NodeGUI (new Node<string> (_currentTree.existIds [0]), nodeRect, null, _currentTree);
+			if (_nodeType == NodeType.RootNode) {
 				_currentTree.treeData.Root = newNode.nodeData;
-				break;
-			case NodeType.Node:
-				newNode = new NodeUI("Node", _nodeType, new Node<string> (_currentTree.existIds[0]), null, childNodes, _currentTree);
-				break;
-			default:
-				break;
-			}
-
-			if (newNode != null) {
-				newNode.InitNode (_position);
-				newNode.currentTree = _currentTree;
-				_currentTree.nodes.Add (newNode);
 			}
 		}
 	}
 
-	public static void RemoveNode (NodeUI _node) {
+	public static void RemoveNode (NodeGUI _node) {
 		for (int i = 0; i < _node.nodeData.children.Count; i++) {
 			_node.nodeData.children[i].parent = null;
 		}
@@ -163,7 +122,7 @@ public static class TreeNodeUtils {
 //		}
 //	}
 
-	public static void RemoveParentNode (NodeUI _node) {
+	public static void RemoveParentNode (NodeGUI _node) {
 		_node.parentNode.nodeData.children.Remove(_node.nodeData);
 		// remove this node's parent data
 		_node.nodeData.parent = null;

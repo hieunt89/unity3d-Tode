@@ -9,13 +9,13 @@ public class ViewBase {
 	public Rect viewRect;
 
 	protected GUISkin viewSkin;
-	protected TreeUI currentTree;
+	protected TreeGUI currentTree;
 
 	public ViewBase () {
 		GetEditorSkin ();
 	}
 
-	public virtual void UpdateView (Rect _editorRect, Rect _percentageRect, Event _e, TreeUI _currentTree) {
+	public virtual void UpdateView (Rect _editorRect, Rect _percentageRect, Event _e, TreeGUI _currentTree) {
 		if (viewSkin == null) {
 			GetEditorSkin ();
 			return;
@@ -23,7 +23,7 @@ public class ViewBase {
 
 		this.currentTree = _currentTree;
 		if (currentTree != null && currentTree.treeData != null) {
-			viewTitle = TreeNodeUtils.UppercaseFirst(currentTree.treeData.treeName);
+			viewTitle = TreeEditorUtils.UppercaseFirst(currentTree.treeData.treeName);
 		} else {
 			viewTitle = "No";
 		}

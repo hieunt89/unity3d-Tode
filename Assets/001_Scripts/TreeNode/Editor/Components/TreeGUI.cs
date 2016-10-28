@@ -6,40 +6,31 @@ using UnityEditor;
 using System;
 using System.Collections.Generic;
 
-public class TreeUI {
-
+public class TreeGUI {
 	public Tree<string> treeData;
-	public List<NodeUI> nodes;
-	public NodeUI selectedNode;
+	public List<NodeGUI> nodes;
+	public NodeGUI selectedNode;
+	private NodeGUI lastNodeUI;
+	public NodeGUI startConnectionNode;
 	public bool wantsConnection = false;
-	public NodeUI startConnectionNode;
 	public bool showNodeProperties = false;
-
 	public List<string> existIds;
+
 	List<TowerData> towerData;
 	List<CombatSkillData> combatSkillData;
 	List<SummonSkillData> summonSkillData;
 
-	private NodeUI lastNodeUI;
-	public TreeUI (TreeType _treeType, string _treeName) {
-		treeData = new Tree<string> (_treeType, _treeName, null);
+	public TreeGUI (TreeType _treeType, string _treeName) {
+		treeData = new Tree<string> (_treeType, _treeName);
 
 		if (nodes == null) {
-			nodes = new List<NodeUI> ();
+			nodes = new List<NodeGUI> ();
 		}
 
 		// TODO: chuyen exist data ra global ?
 		// load exist data based on tree type
 		switch (_treeType) {
 		case TreeType.Towers:
-//			Type x = typeof(TowerData);
-//			Type listType = typeof(List<>).MakeGenericType(x);
-//			var existData = Activator.CreateInstance(listType);
-
-//			var fooList = Activator
-//				.CreateInstance(typeof(List<>)
-//					.MakeGenericType(TowerData.GetType()));
-			
 			towerData = DataManager.Instance.LoadAllData <TowerData> ();
 			if (towerData != null){
 				existIds = new List<string> ();
@@ -71,12 +62,11 @@ public class TreeUI {
 		}
 	}
 
-
 	public void UpdateTreeUI (Event _e, Rect _viewRect, GUISkin _viewSkin) {
 		ProcessEvents (_e, _viewRect);
 		
 		if (treeData != null && nodes.Count == 0) {
-			GenerateNodes(this);
+			GenerateNodes();
 		}
 
 		if (nodes.Count > 0) {
@@ -85,13 +75,10 @@ public class TreeUI {
 			}
 		}
 
-
 		if (wantsConnection) {
 			if (startConnectionNode != null) {
 				DrawConnectionToMouse (_e.mousePosition);
 			}
-		} else {
-
 		}
 
 		if (_e.type == EventType.Layout) {
@@ -107,23 +94,7 @@ public class TreeUI {
 		if (_viewRect.Contains (_e.mousePosition)) {
 			if (_e.button == 0) {
 				if (_e.type == EventType.MouseDown) {
-//					DeselectAllNodes ();
-//
 					showNodeProperties = false;
-//					bool setNode = false;
-//					selectedNode = null;
-//
-//					for (int i = 0; i < nodes.Count; i++) {
-//						if (nodes[i].nodeRect.Contains (_e.mousePosition)) {
-//							nodes[i].isSelected = true;
-//							selectedNode = nodes[i];
-//							setNode = true;
-//						}
-//					}
-//
-//					if (!setNode) {
-//						DeselectAllNodes ();
-//					}
 
 					if (wantsConnection) {
 						wantsConnection = false;
@@ -137,7 +108,7 @@ public class TreeUI {
 		bool isRight = _mousePosition.x >= startConnectionNode.nodeRect.x + startConnectionNode.nodeRect.width * 0.5f;
 
 		var startPos = new Vector3(isRight ? startConnectionNode.nodeRect.x + startConnectionNode.nodeRect.width :  startConnectionNode.nodeRect.x, 
-			startConnectionNode.nodeRect.y + startConnectionNode.nodeRect.height +  startConnectionNode.nodeContentRect .height * .5f, 
+									startConnectionNode.nodeRect.y + startConnectionNode.nodeRect.height +  startConnectionNode.nodeRect .height * .5f, 
 									0);
 		var endPos = new Vector3(_mousePosition.x, _mousePosition.y, 0);
 
@@ -150,33 +121,23 @@ public class TreeUI {
 		Handles.EndGUI ();
 	}
 
-//	private void DeselectAllNodes () {
-//		for (int i = 0; i < nodes.Count; i++) {
-//			nodes [i].isSelected = false;
-//		}
-//	}
-
-	private void GenerateNodes (TreeUI _currentTree) {
-		NodeUI rootNode = new NodeUI ("Root Node", NodeType.RootNode, _currentTree.treeData.Root, null, new List<NodeUI> (), _currentTree);
-
+	private void GenerateNodes () {
+		var nodeRect = new Rect(50f, 50f, 100f, 40f);
+		NodeGUI rootNode = new NodeGUI (this.treeData.Root, nodeRect, null, this);
 		if (rootNode != null) {
-			rootNode.InitNode (new Vector2 (50f, 50f));
-			_currentTree.nodes.Add (rootNode);
 			lastNodeUI = rootNode;
-			GenerateNodes (_currentTree, rootNode);
+			GenerateNodes (rootNode);
 		}
-
 	}
 
-	private void GenerateNodes (TreeUI _currentTree, NodeUI _parentNode) {
+	private void GenerateNodes (NodeGUI _parentNode) {
 		for (int i = 0; i < _parentNode.nodeData.children.Count; i++) {
-			NodeUI newNode = new NodeUI ("Node", NodeType.Node, _parentNode.nodeData.children[i], _parentNode, new List<NodeUI> (), _currentTree);
+			var nodeRect = new Rect ((_parentNode.nodeRect.x + _parentNode.nodeRect.width) + _parentNode.nodeRect.width / 2, lastNodeUI.nodeRect.y +(_parentNode.nodeRect.height * 2 * i), 100f, 40f);
+			NodeGUI newNode = new NodeGUI (_parentNode.nodeData.children[i], nodeRect, _parentNode, this);
 			if (newNode != null) {
 				_parentNode.childNodes.Add (newNode);
-				newNode.InitNode (new Vector2 ((_parentNode.nodeRect.x + _parentNode.nodeRect.width) + _parentNode.nodeRect.width / 2, lastNodeUI.nodeRect.y +(_parentNode.nodeRect.height * 2 * i)));
-				_currentTree.nodes.Add (newNode);
 				lastNodeUI = newNode;
-				GenerateNodes (_currentTree, newNode);
+				GenerateNodes (newNode);
 			}
 		}
 

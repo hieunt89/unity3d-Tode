@@ -2,13 +2,13 @@
 using UnityEditor;
 using System;
 
-public class TreeNodeEditorWindow : EditorWindow {
+public class TreeEditorWindow : EditorWindow {
 
-	public static TreeNodeEditorWindow currentWindow;
+	public static TreeEditorWindow currentWindow;
 	public TreeNodeWorkView workView;
 	public TreeNodePropertiesView propertiesView;
 
-	public TreeUI currentTree = null;
+	public TreeGUI currentTree = null;
 
 	private float viewPercentage = 1f;
 	private Vector2 scrollPosition;
@@ -17,8 +17,8 @@ public class TreeNodeEditorWindow : EditorWindow {
 	private float minX, minY, maxX, maxY;
 
 	public static void InitTowerNodeEditorWindow () {
-		currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow <TreeNodeEditorWindow> ();
-		currentWindow.titleContent = new GUIContent ("Tree Node");
+		currentWindow = (TreeEditorWindow)EditorWindow.GetWindow <TreeEditorWindow> ("Tree Editor", true);
+		currentWindow.minSize = new Vector2 (500f, 400f);
 		CreateViews ();
 	}
 
@@ -35,9 +35,9 @@ public class TreeNodeEditorWindow : EditorWindow {
 
 		Event e = Event.current;
 
-		ProcessEvent (e);
+//		ProcessEvent (e);
 
-//		UpdateVirtualRect ();
+		UpdateVirtualRect ();
 //		Debug.Log (virtualRect);
 		scrollPosition =  GUI.BeginScrollView(new Rect(0f, 0f, position.width, position.height), scrollPosition, virtualRect); // <-- need to customize this viewrect (expandable by nodes + offset)
 		BeginWindows ();
@@ -81,13 +81,12 @@ public class TreeNodeEditorWindow : EditorWindow {
 			currentWindow.workView = new TreeNodeWorkView ();
 			currentWindow.propertiesView = new TreeNodePropertiesView ();
 		} else {
-			currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow <TreeNodeEditorWindow> ();
+			currentWindow = (TreeEditorWindow)EditorWindow.GetWindow <TreeEditorWindow> ();
 		}
 	}
 
 	private void ProcessEvent (Event _e) {
 		if (_e.type == EventType.ScrollWheel) {
-			Debug.Log ("scroll wheel" + _e.delta);
 		}
 //		if (_e.type == EventType.KeyDown && _e.keyCode == KeyCode.LeftArrow) {
 //			viewPercentage -= 0.01f;

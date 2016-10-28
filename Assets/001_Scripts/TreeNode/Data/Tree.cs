@@ -22,13 +22,10 @@ public class Tree <T> where T : class {
 		this.Root = new Node<T> (rootData);
 	}
 
-	public Tree (TreeType treeType, string treeName, Node<T> root)
+	public Tree (TreeType treeType, string treeName)
 	{
 		this.treeType = treeType;
 		this.treeName = treeName;
-		this.Root = root;
 	}
-	
-
 }
 
