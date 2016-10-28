@@ -18,7 +18,6 @@ public class TowerStatsUpdateSystem : IReactiveSystem, IEnsureComponents {
 
 	public void Execute (System.Collections.Generic.List<Entity> entities)
 	{
-		TowerData towerData;
 		for (int i = 0; i < entities.Count; i++) {
 			var tower = entities [i];
 			tower.ReplaceTowerStats (DataManager.Instance.GetTowerData (tower.tower.towerNode.data));
