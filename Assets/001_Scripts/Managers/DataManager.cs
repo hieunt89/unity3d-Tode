@@ -33,14 +33,14 @@ public class DataManager {
 	Dictionary<string, Tree<string>> skillTrees;
 
 	public DataManager(){
-		LoadData <ProjectileData>(out projectileIdToData);
-		LoadData <TowerData> (out towerIdToData);
-		LoadData <CharacterData> (out characterIdToData);
-		LoadData <MapData> (out mapIdToData);
-		LoadTreeData (TreeType.Towers);
-
-		LoadSkillData ();
-		LoadSkillTree ();
+//		LoadData <ProjectileData>(out projectileIdToData);
+//		LoadData <TowerData> (out towerIdToData);
+//		LoadData <CharacterData> (out characterIdToData);
+//		LoadData <MapData> (out mapIdToData);
+//		LoadTreeData (TreeType.Towers);
+//
+//		LoadSkillData ();
+//		LoadSkillTree ();
 	}
 
 	void LoadSkillData(){
@@ -177,23 +177,15 @@ public class DataManager {
 		var jsonString = JsonUtility.ToJson(data);
 		Debug.Log(jsonString);
 
+		if (!Directory.Exists (dataDirectory + data.GetType().Name)) {
+			Directory.CreateDirectory (dataDirectory + data.GetType().Name);
+		}
+
 		FieldInfo field = typeof(T).GetField("id");
 		string id = (string) field.GetValue(data);
-		if (!Directory.Exists (dataDirectory + data.ToString ())) {
-			Directory.CreateDirectory (dataDirectory + data.ToString ());
-		}
-		File.WriteAllText (dataDirectory + data.ToString () + "/"  + id + ".json", jsonString);
 
-//		var path = EditorUtility.SaveFilePanel("Save " + data.ToString(), dataDirectory + data.ToString(), id +".json", "json");
+		File.WriteAllText (dataDirectory + data.GetType().Name + "/"  + id + ".json", jsonString);
 
-//		if (!string.IsNullOrEmpty(path))
-//		{
-//			using (FileStream fs = new FileStream (path, FileMode.Create)) {
-//				using (StreamWriter writer = new StreamWriter(fs)) {
-//					writer.Write(jsonString);
-//				}
-//			}
-//		}
 		AssetDatabase.Refresh();
 	}
 
@@ -203,7 +195,7 @@ public class DataManager {
 		var reader = new WWW("file:///" + path);
 		while(!reader.isDone){
 		}
-
+		Debug.Log (reader.text);
 		return (T) JsonUtility.FromJson (reader.text, typeof(T));
 	}
 
@@ -213,8 +205,8 @@ public class DataManager {
 		TextAsset[] files = Resources.LoadAll <TextAsset> (path) as TextAsset[];
 		if (files != null && files.Length > 0) {
 			for (int i = 0; i < files.Length; i++) {
-				T datum = (T)JsonUtility.FromJson (files [i].text, typeof(T));
-				list.Add (datum);
+				T data = (T)JsonUtility.FromJson (files [i].text, typeof(T));
+				list.Add (data);
 			}
 		}
 		return list;

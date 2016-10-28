@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 
 [System.Serializable]
-public class CharacterData {
+public class CharacterData : ScriptableObject {
 	[SerializeField] public string id;
-
 	[SerializeField] private string name;
 	[SerializeField] private float moveSpeed;
 	[SerializeField] private float turnSpeed;
