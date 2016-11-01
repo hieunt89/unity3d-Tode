@@ -19,12 +19,17 @@ public enum LANGUAGE {
 	JAVA
 }
 
+public class FinalCustomData {
+	public string id;
+	public string name;
+ 	public Gender gender;
+ 	public List<Skill> skills;
+
+}
+
 [Serializable]
 public class CustomData : ScriptableObject {
-	[SerializeField] public string id;
-	[SerializeField] public string name;
-	[SerializeField] public Gender gender;
-	[SerializeField] public List<Skill> skills;
+	FinalCustomData finalData;
 }
 
 [Serializable]
@@ -54,6 +59,7 @@ public class GameDataWindow <T> : IGameDataWindow where T : ScriptableObject {
 	public void OnInit ()
 	{
 		data = ScriptableObject.CreateInstance<T> ();
+		
 		Type dataType = data.GetType ();
 		FieldInfo[] dataFields = dataType.GetFields (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
@@ -82,7 +88,7 @@ public class GameDataWindow <T> : IGameDataWindow where T : ScriptableObject {
 
 	public void OnGUI () {
 		if (data == null) {
-			data = DataManager.Instance.LoadData <T> ();
+//			data = DataManager.Instance.LoadData <T> ();
 			return;
 		}	
 		so.Update ();
