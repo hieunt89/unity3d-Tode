@@ -116,7 +116,7 @@ public class DataManager {
 		if (skillIdToData.ContainsKey (id)) {
 			return skillIdToData [id];
 		} else {
-			return null;
+			return SkillData.Null;
 		}
 	}
 
