@@ -13,6 +13,7 @@ public class ProjectileEditorWindow : EditorWindow {
 	List<string> projectileIds;
 
 	int projectileIndex;
+	IDataUtils dataUtils;
 
 	[MenuItem("Tode/Projectile Editor &P")]
 	public static void ShowWindow()
@@ -21,14 +22,17 @@ public class ProjectileEditorWindow : EditorWindow {
 		projectileEditorWindow.minSize = new Vector2 (400, 600); 
 	}
 
-	void OnFocus () {
-		existProjectiles = DataManager.Instance.LoadAllData<ProjectileData>();
-	}
 
 	void OnEnable () {
-		existProjectiles = DataManager.Instance.LoadAllData<ProjectileData>();
+		dataUtils = DIContainer.GetModule <IDataUtils> ();
+
+		existProjectiles = dataUtils.LoadAllData<ProjectileData>();
 
 		projectile = new ProjectileData ("projectile" + existProjectiles.Count);
+	}
+
+	void OnFocus () {
+		existProjectiles = dataUtils.LoadAllData<ProjectileData>();
 	}
 
 	void OnGUI()
@@ -71,12 +75,12 @@ public class ProjectileEditorWindow : EditorWindow {
 
 		GUI.enabled = CheckFields ();
 		if (GUILayout.Button("Save")){
-			DataManager.Instance.SaveData (projectile);
+			dataUtils.SaveData (projectile);
 		}
 		GUI.enabled = true;
 
 		if (GUILayout.Button("Load")){
-			var data = DataManager.Instance.LoadData <ProjectileData> ();
+			var data = dataUtils.LoadData <ProjectileData> ();
 			if(data != null){
 				projectile = data;
 			}

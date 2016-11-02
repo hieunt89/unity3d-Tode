@@ -7,6 +7,7 @@ public class CharacterEditorWindow : EditorWindow {
 	CharacterData character;
 	List<CharacterData> existCharacters;
 	List<float> armorValues;
+	IDataUtils dataUtils;
 
 	[MenuItem("Tode/Character Editor &E")]
 	public static void ShowWindow()
@@ -15,11 +16,14 @@ public class CharacterEditorWindow : EditorWindow {
 		characterEditorWindow.minSize = new Vector2 (400, 600);
 	}
 
+
 	void OnFocus () {
-		existCharacters = DataManager.Instance.LoadAllData<CharacterData> ();
+		existCharacters = dataUtils.LoadAllData<CharacterData> ();
 	}
 	void OnEnable () {
-		existCharacters = DataManager.Instance.LoadAllData<CharacterData> ();
+		dataUtils = DIContainer.GetModule <IDataUtils> ();
+
+		existCharacters = dataUtils.LoadAllData<CharacterData> ();
 		// check exist enemies null
 
 		character = new CharacterData ("character" + existCharacters.Count);
@@ -82,11 +86,11 @@ public class CharacterEditorWindow : EditorWindow {
 //		GUILayout.BeginHorizontal ();
 		GUI.enabled = CheckFields ();
 		if (GUILayout.Button("Save")){
-			DataManager.Instance.SaveData (character);
+			dataUtils.SaveData (character);
 		}
 		GUI.enabled = true;
 		if (GUILayout.Button("Load")){
-			character = DataManager.Instance.LoadData <CharacterData> ();
+			character = dataUtils.LoadData <CharacterData> ();
 			if(character == null){
 				character = new CharacterData ("character" + existCharacters.Count);
 			}

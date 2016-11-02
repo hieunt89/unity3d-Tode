@@ -8,9 +8,13 @@ public class GameManager : MonoBehaviour {
 	Systems _systems;
 
 	void Start() {
+		DIContainer.BindModules ();
+
 		debug = showDebug;
 		_systems = CreateSystems(Pools.pool);
 		_systems.Initialize();
+
+
 	}
 
 	void Update() {

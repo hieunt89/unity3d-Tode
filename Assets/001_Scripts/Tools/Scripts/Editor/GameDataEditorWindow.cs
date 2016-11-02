@@ -46,7 +46,7 @@ public interface IGameDataWindow {
 	void ResetGUI ();
 }
 
-public class GameDataWindow <T> : IGameDataWindow where T : ScriptableObject {
+public class GameDataWindow <T> : IGameDataWindow, IInjectDataUtils where T : ScriptableObject {
 	
 	T data;
 
@@ -55,6 +55,13 @@ public class GameDataWindow <T> : IGameDataWindow where T : ScriptableObject {
 	List<string> nestedProps;
 
 	bool toggle;
+
+	IDataUtils dataUtils;
+
+	public void SetDataUtils (IDataUtils dataUtils)
+	{
+		this.dataUtils = dataUtils;
+	}
 
 	public void OnInit ()
 	{
@@ -126,10 +133,10 @@ public class GameDataWindow <T> : IGameDataWindow where T : ScriptableObject {
 		}
 
 		if (GUILayout.Button("Save")) {
-			DataManager.Instance.SaveData <T> (data);
+			dataUtils.SaveData <T> (data);
 		}
 		if (GUILayout.Button("Load")) {
-			data = DataManager.Instance.LoadData <T> ();
+			data = dataUtils.LoadData <T> ();
 		}
 		so.ApplyModifiedProperties();
 	}
