@@ -59,16 +59,17 @@ public class EnemyInitSystem : IReactiveSystem, ISetPool
 						.AddDestination (ePath.path.wayPoints [0])
 						.AddPosition (ePath.path.wayPoints [0])
 						.AddMoveSpeed (enemyData.MoveSpeed)
-						.AddTurnSpeed(enemyData.TurnSpeed)
+						.AddTurnSpeed (enemyData.TurnSpeed)
 						.AddLifeCount (enemyData.LifeCount)
 						.AddGold (enemyData.GoldWorth)
 						.AddAttack (enemyData.AtkType)
-						.AddAttackSpeed(enemyData.AtkSpeed)
-						.AddAttackDamageRange(enemyData.MinAtkDmg, enemyData.MaxAtkDmg)
-						.AddAttackRange(enemyData.AtkRange)
-						.AddArmor(enemyData.Armors)
+						.AddAttackSpeed (enemyData.AtkSpeed)
+						.AddAttackDamageRange (enemyData.MinAtkDmg, enemyData.MaxAtkDmg)
+						.AddAttackRange (enemyData.AtkRange)
+						.AddArmor (enemyData.Armors)
 						.AddHp (enemyData.Hp)
-						.AddHpTotal(enemyData.Hp)
+						.AddHpTotal (enemyData.Hp)
+						.IsTargetable (true)
 						;
 				}
 			}

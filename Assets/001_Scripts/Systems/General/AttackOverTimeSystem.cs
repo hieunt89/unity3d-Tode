@@ -34,11 +34,12 @@ public class AttackOverTimeSystem : IReactiveSystem, ISetPool {
 					e.ReplaceAttackCooldown (e.attackCooldown.time -= tickEn.tick.change);
 				}
 				continue;
-			} else {
+			} else if (e.target.e.isTargetable) {
 				e.target.e.BeDamaged (e.attackOverTime.damage);
 				e.AddAttackCooldown (e.attackOverTime.tickInterval);
+			} else {
+				e.RemoveAttackOverTime ();
 			}
-
 		}
 	}
 

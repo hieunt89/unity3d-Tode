@@ -36,6 +36,4 @@ public class TowerStatsUpdateSystem : IReactiveSystem, IEnsureComponents {
 	}
 
 	#endregion
-
-
 }

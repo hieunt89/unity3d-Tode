@@ -19,17 +19,21 @@ public class SkillUpgradeSystem : IReactiveSystem, ISetPool {
 			var skill = entities [i];
 
 			var skillData = DataManager.Instance.GetSkillData (skill.skillUpgrade.upgradeNode.data);
-			var cost = skillData.goldCost;
-			if (_pool.goldPlayer.value >= cost) {
-				if (!skill.isActive) {
-					skill.IsActive (true);
-				} else {
-					skill.ReplaceSkill (skill.skillUpgrade.upgradeNode)
-						.ReplaceSkillStats (skillData);
+
+			if (skillData != null) {
+				var cost = skillData.goldCost;
+				if (_pool.goldPlayer.value >= cost) {
+					if (!skill.isActive) {
+						skill.IsActive (true);
+					} else {
+						skill.ReplaceSkill (skill.skillUpgrade.upgradeNode)
+							.ReplaceSkillStats (skillData);
+					}
+					_pool.ReplaceGoldPlayer (_pool.goldPlayer.value - cost);
+					skill.origin.e.ReplaceGold (skill.origin.e.gold.value + cost);
 				}
-				_pool.ReplaceGoldPlayer (_pool.goldPlayer.value - cost);
-				skill.origin.e.ReplaceGold (skill.origin.e.gold.value + cost);
 			}
+
 			skill.RemoveSkillUpgrade ();
 		}
 	}
@@ -41,5 +45,4 @@ public class SkillUpgradeSystem : IReactiveSystem, ISetPool {
 		}
 	}
 	#endregion
-	
 }

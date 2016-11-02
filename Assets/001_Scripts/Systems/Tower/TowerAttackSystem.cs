@@ -28,7 +28,7 @@ public class TowerAttackSystem : IReactiveSystem, ISetPool {
 			var tower = towers [i];
 
 			//ensure enemy exist
-			if(!tower.target.e.hasEnemy){
+			if(!tower.target.e.isTargetable){
 				tower.RemoveTarget ();
 				continue;
 			}

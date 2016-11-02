@@ -53,7 +53,7 @@ public class ProjectileReachEndSystem : IReactiveSystem, ISetPool {
 			for (int j = 0; j < targets.Count; j++) {
 				ApplyDamage (prj.attackDamage.dmg, prj, targets [j]);
 			}
-		} else if(prj.target.e.hasEnemy){
+		} else if(prj.target.e.isTargetable){
 			ApplyDamage (prj.attackDamage.dmg, prj, prj.target.e);
 		}	
 	}
@@ -70,7 +70,7 @@ public class ProjectileReachEndSystem : IReactiveSystem, ISetPool {
 			for (int i = 0; i < targets.Count; i++) {
 				ApplyEffect (prj, targets [i]);
 			}
-		} else if(prj.target.e.hasEnemy){
+		} else if(prj.target.e.isTargetable){
 			ApplyEffect (prj, prj.target.e);	
 		}
 	}

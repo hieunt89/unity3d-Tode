@@ -13,7 +13,7 @@ public class FindTargetSystem : IReactiveSystem, ISetPool {
 	{
 		_pool = pool;
 		_groupActiveAttacker = _pool.GetGroup (Matcher.AllOf (Matcher.Active).AnyOf(Matcher.Tower, Matcher.Skill).NoneOf(Matcher.Target, Matcher.AttackCooldown));
-		_groupActiveEnemy = _pool.GetGroup (Matcher.AllOf (Matcher.Enemy, Matcher.Active));
+		_groupActiveEnemy = _pool.GetGroup (Matcher.AllOf (Matcher.Enemy, Matcher.Active, Matcher.Targetable));
 	}
 
 	#endregion
