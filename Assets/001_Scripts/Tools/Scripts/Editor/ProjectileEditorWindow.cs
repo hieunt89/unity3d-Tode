@@ -14,7 +14,7 @@ public class ProjectileEditorWindow : EditorWindow {
 
 	int projectileIndex;
 
-	[MenuItem("Window/Projectile Editor &P")]
+	[MenuItem("Tode/Projectile Editor &P")]
 	public static void ShowWindow()
 	{
 		var projectileEditorWindow = EditorWindow.GetWindow <ProjectileEditorWindow> ("Projectile Editor", true);

@@ -19,15 +19,13 @@ public class SkillEditorWindow: EditorWindow {
 	List<string> projectileIds;
 	int projectileIndex;
 
-	[MenuItem ("Window/Skill Editor &S")]
+	[MenuItem ("Tode/Skill Editor &S")]
 	public static void ShowWindow () {
 		var skillEditorWindow = EditorWindow.GetWindow <SkillEditorWindow> ("Skill Editor", true);
 		skillEditorWindow.minSize = new Vector2 (400, 600);
 	}
 
 	void OnFocus () {
-//		Debug.Log ("On Focus");
-
 		existCombatSkills = DataManager.Instance.LoadAllData <CombatSkillData> ();
 
 		existSummonSkills = DataManager.Instance.LoadAllData <SummonSkillData> ();

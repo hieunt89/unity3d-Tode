@@ -16,7 +16,7 @@ public class TowerEditorWindow : EditorWindow {
 
 	int projectileIndex;
 
-	[MenuItem("Window/Tower Editor &T")]
+	[MenuItem("Tode/Tower Editor &T")]
 	public static void ShowWindow()
 	{
 		var towerEditorWindow = EditorWindow.GetWindow <TowerEditorWindow> ("Tower Editor", true);

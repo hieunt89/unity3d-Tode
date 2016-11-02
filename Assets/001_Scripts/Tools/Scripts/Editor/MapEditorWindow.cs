@@ -38,7 +38,7 @@ public class MapEditorWindow : EditorWindow {
 
 	private GUISkin mapEditorSkin;
 
-    [MenuItem("Window/Map Editor")]
+    [MenuItem("Tode/Map Editor")]
     public static void ShowWindow()
     {
 		MapEditorWindow mapEditorWindow = EditorWindow.GetWindow <MapEditorWindow> ("Map Editor", true);

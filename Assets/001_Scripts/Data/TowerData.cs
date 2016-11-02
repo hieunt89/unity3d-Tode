@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 
 [Serializable]
-public class TowerData : ScriptableObject {
+public class TowerData {
 	[SerializeField] public string id;
 	[SerializeField] private string name;
 	[SerializeField] private int projectileIndex;

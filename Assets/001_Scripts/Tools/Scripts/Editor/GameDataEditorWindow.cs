@@ -153,7 +153,7 @@ public class GameDataEditorWindow : EditorWindow {
 		}
 	}
 
-	[MenuItem("Game Data/Open Editor &T")]
+	[MenuItem("Beta/Game Data Editor &G")]
 	public static void ShowWindow()
 	{
 		var window = EditorWindow.GetWindow <GameDataEditorWindow> ("Game Data Editor",true);
