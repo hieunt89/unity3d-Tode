@@ -19,28 +19,28 @@ AnimationClip:
       m_Curve:
       - time: 0
         value: {x: 0, y: 0, z: 0}
-        inSlope: {x: 0, y: 0, z: 3.6000001}
-        outSlope: {x: 0, y: 0, z: 3.6000001}
+        inSlope: {x: 0, y: 0, z: 3.4499998}
+        outSlope: {x: 0, y: 0, z: 3.4499998}
         tangentMode: 0
       - time: 0.33333334
-        value: {x: 0, y: 0, z: 1.2}
-        inSlope: {x: 0, y: 0, z: -1.8000001}
-        outSlope: {x: 0, y: 0, z: -1.8000001}
+        value: {x: 0, y: 0, z: 1.15}
+        inSlope: {x: 0, y: 0, z: -1.98}
+        outSlope: {x: 0, y: 0, z: -1.98}
         tangentMode: 0
       - time: 0.6666667
-        value: {x: 0, y: 0, z: -1.2}
-        inSlope: {x: 0, y: 0, z: -1.8}
-        outSlope: {x: 0, y: 0, z: -1.8}
+        value: {x: 0, y: 0, z: -1.32}
+        inSlope: {x: 0, y: 0, z: -1.7249998}
+        outSlope: {x: 0, y: 0, z: -1.7249998}
         tangentMode: 0
       - time: 1
         value: {x: 0, y: 0, z: 0}
-        inSlope: {x: 0, y: 0, z: 3.6000004}
-        outSlope: {x: 0, y: 0, z: 3.6000004}
+        inSlope: {x: 0, y: 0, z: 3.9600003}
+        outSlope: {x: 0, y: 0, z: 3.9600003}
         tangentMode: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: tower
+    path: 
   m_ScaleCurves: []
   m_FloatCurves: []
   m_PPtrCurves: []
@@ -51,7 +51,7 @@ AnimationClip:
     m_Extent: {x: 0, y: 0, z: 0}
   m_ClipBindingConstant:
     genericBindings:
-    - path: 1577756512
+    - path: 0
       attribute: 1
       script: {fileID: 0}
       classID: 4
@@ -106,7 +106,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: tower
+    path: 
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -136,7 +136,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: tower
+    path: 
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -144,33 +144,33 @@ AnimationClip:
       m_Curve:
       - time: 0
         value: 0
-        inSlope: 3.6000001
-        outSlope: 3.6000001
+        inSlope: 3.4499998
+        outSlope: 3.4499998
         tangentMode: 10
       - time: 0.33333334
-        value: 1.2
-        inSlope: -1.8000001
-        outSlope: -1.8000001
+        value: 1.15
+        inSlope: -1.98
+        outSlope: -1.98
         tangentMode: 10
       - time: 0.6666667
-        value: -1.2
-        inSlope: -1.8
-        outSlope: -1.8
+        value: -1.32
+        inSlope: -1.7249998
+        outSlope: -1.7249998
         tangentMode: 10
       - time: 1
         value: 0
-        inSlope: 3.6000004
-        outSlope: 3.6000004
+        inSlope: 3.9600003
+        outSlope: 3.9600003
         tangentMode: 10
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: tower
+    path: 
     classID: 4
     script: {fileID: 0}
   m_EulerEditorCurves: []
-  m_HasGenericRootTransform: 0
+  m_HasGenericRootTransform: 1
   m_HasMotionFloatCurves: 0
   m_GenerateMotionCurves: 0
   m_Events: []

@@ -51,27 +51,21 @@ public class TowerAttackSystem : IReactiveSystem, ISetPool {
 	#endregion
 
 	IEnumerator Attack(Entity tower){
-		tower.IsAttacking (true);
+		tower.ReplaceAttackingParams (AnimState.Fire, tower.attackTime.value);
+		tower.AddAttacking (0f);
 
-		float time = 0f;
-		while(time < tower.attackTime.value){
+		while(tower.attacking.spentTime < tower.attackTime.value){
 			if (!_pool.isGamePause) {
-				time += _pool.tick.change;
-			}
-			if (tower.view.Anim != null) {
-				tower.view.Anim.Play (AnimState.Fire, 0, time / tower.attackTime.value);
+				tower.ReplaceAttacking (tower.attacking.spentTime + _pool.tick.change);
 			}
 			yield return null;
-		}
-			
-		if (tower.view.Anim != null) {
-			tower.view.Anim.Play (AnimState.Idle);
 		}
 
 		if (tower.hasTarget) {
 			AttackNow (tower, tower.target.e);
 		}
-		tower.IsAttacking (false);
+
+		tower.RemoveAttacking ();
 	}
 
 	void AttackNow(Entity tower, Entity target){

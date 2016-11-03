@@ -8,13 +8,13 @@ public class GameManager : MonoBehaviour {
 	Systems _systems;
 
 	void Start() {
+		#if !UNITY_EDITOR
 		DIContainer.BindModules ();
+		#endif
 
 		debug = showDebug;
 		_systems = CreateSystems(Pools.pool);
 		_systems.Initialize();
-
-
 	}
 
 	void Update() {
@@ -79,6 +79,7 @@ public class GameManager : MonoBehaviour {
 				.Add(pool.CreateSystem<ProjectileLaserViewSystem>())
 				.Add(pool.CreateSystem<UpdateViewPositionSystem>())
 				.Add(pool.CreateSystem<UpdateLookDirectionSystem>())
+				.Add(pool.CreateSystem<UpdateAttackingViewSystem>())
 				.Add(pool.CreateSystem<HeathBarViewSystem>())
 				.Add(pool.CreateSystem<TowerProgressBarViewSystem>())
 				

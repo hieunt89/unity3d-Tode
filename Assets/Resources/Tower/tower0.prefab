@@ -1,8 +1,23 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &175662
+--- !u!1 &154594
 GameObject:
   m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 410046}
+  m_Layer: 0
+  m_Name: element1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &175662
+GameObject:
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
@@ -10,6 +25,7 @@ GameObject:
   - 4: {fileID: 453060}
   - 33: {fileID: 3328190}
   - 23: {fileID: 2302084}
+  - 95: {fileID: 9511226}
   m_Layer: 0
   m_Name: tower
   m_TagString: Untagged
@@ -26,7 +42,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 473016}
   - 65: {fileID: 6546902}
-  - 95: {fileID: 9502918}
   m_Layer: 0
   m_Name: tower0
   m_TagString: Untagged
@@ -34,6 +49,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &410046
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 154594}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_Children:
+  - {fileID: 453060}
+  m_Father: {fileID: 473016}
+  m_RootOrder: 0
 --- !u!4 &453060
 Transform:
   m_ObjectHideFlags: 1
@@ -44,7 +72,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 473016}
+  m_Father: {fileID: 410046}
   m_RootOrder: 0
 --- !u!4 &473016
 Transform:
@@ -54,9 +82,9 @@ Transform:
   m_GameObject: {fileID: 198310}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 453060}
+  - {fileID: 410046}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!23 &2302084
@@ -102,15 +130,15 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 2.3679998, z: 2}
-  m_Center: {x: 0, y: 1.1879982, z: 0}
---- !u!95 &9502918
+  m_Size: {x: 1, y: 1.184, z: 1}
+  m_Center: {x: 0, y: 0.593999, z: 0}
+--- !u!95 &9511226
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 198310}
+  m_GameObject: {fileID: 175662}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 93f2edf79a9f8467db24a70e645b2bec, type: 2}

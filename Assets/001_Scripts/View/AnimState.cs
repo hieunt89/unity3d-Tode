@@ -4,7 +4,8 @@
 		cast,
 		die,
 		move,
-		idle
+		idle, 
+		wound
 	}
 
 	public static string Fire{
@@ -34,6 +35,12 @@
 	public static string Cast{
 		get{ 
 			return StateName.cast.ToString ();
+		}
+	}
+
+	public static string Wound{
+		get{ 
+			return StateName.wound.ToString ();
 		}
 	}
 }

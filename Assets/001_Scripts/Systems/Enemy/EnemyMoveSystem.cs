@@ -37,6 +37,9 @@ public class EnemyMoveSystem : IReactiveSystem, ISetPool {
 					enemy.ReplaceDestination (target);
 				}
 			}
+//			if (enemy.hasView && !enemy.view.Anim.GetCurrentAnimatorStateInfo(0).IsName(AnimState.Move)) {
+//				enemy.view.Anim.Play (AnimState.Move);
+//			}
 			enemy.ReplacePosition (Vector3.MoveTowards (enemy.position.value, enemy.destination.value, enemy.moveSpeed.speed * tickEn.tick.change));
 		}
 	}

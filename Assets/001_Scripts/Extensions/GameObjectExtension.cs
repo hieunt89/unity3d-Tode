@@ -15,6 +15,8 @@ public static class GameObjectExtension {
 
 	public static Vector3 BotToCenterOffset(this GameObject go){
 		var rend = go.GetComponent<Collider> ();
+		Debug.DrawLine (go.transform.position, new Vector3 (2f, 2f, 2f), Color.red, Mathf.Infinity);
+
 		if(rend == null){
 			return Vector3.zero;
 		}else{
