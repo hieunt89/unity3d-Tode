@@ -16,7 +16,9 @@ public class TowerEditorWindow : EditorWindow {
 
 	int projectileIndex;
 
-	[MenuItem("Window/Tower Editor &T")]
+	IDataUtils dataUtils;
+
+	[MenuItem("Tode/Tower Editor &T")]
 	public static void ShowWindow()
 	{
 		var towerEditorWindow = EditorWindow.GetWindow <TowerEditorWindow> ("Tower Editor", true);
@@ -24,9 +26,10 @@ public class TowerEditorWindow : EditorWindow {
 	}
 
 	void OnFocus () {
-		existTowers = DataManager.Instance.LoadAllData <TowerData>();
+		dataUtils = DIContainer.GetModule <IDataUtils> ();
+		existTowers = dataUtils.LoadAllData <TowerData>();
 
-		existProjectiles =  DataManager.Instance.LoadAllData <ProjectileData>();
+		existProjectiles =  dataUtils.LoadAllData <ProjectileData>();
 
 		if (existProjectiles.Count > 0) {
 			projectileIds = new List<string> ();
@@ -37,9 +40,10 @@ public class TowerEditorWindow : EditorWindow {
 	}
 
 	void OnEnable () {
-		existTowers = DataManager.Instance.LoadAllData <TowerData>();
+		dataUtils = DIContainer.GetModule <IDataUtils> ();
+		existTowers = dataUtils.LoadAllData <TowerData>();
 
-		existProjectiles =  DataManager.Instance.LoadAllData <ProjectileData>();
+		existProjectiles =  dataUtils.LoadAllData <ProjectileData>();
 
 		tower = new TowerData("tower" + existTowers.Count);
 
@@ -84,11 +88,11 @@ public class TowerEditorWindow : EditorWindow {
 //		GUILayout.BeginHorizontal ();
 		GUI.enabled = CheckFields ();
 		if (GUILayout.Button("Save")){
-			DataManager.Instance.SaveData (tower);
+			dataUtils.SaveData (tower);
 		}
 		GUI.enabled = true;
 		if (GUILayout.Button("Load")){
-			tower = DataManager.Instance.LoadData <TowerData> ();
+			tower = dataUtils.LoadData <TowerData> ();
 			if(tower == null){
 				tower = new TowerData("tower" + existTowers.Count);
 			}

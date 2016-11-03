@@ -6,7 +6,7 @@ using UnityEditor;
 using System;
 using System.Collections.Generic;
 
-public class TreeGUI {
+public class TreeGUI : IInjectDataUtils {
 	public Tree<string> treeData;
 	public List<NodeGUI> nodes;
 	public NodeGUI selectedNode;
@@ -20,7 +20,15 @@ public class TreeGUI {
 	List<CombatSkillData> combatSkillData;
 	List<SummonSkillData> summonSkillData;
 
+	IDataUtils dataUtils;
+	public void SetDataUtils (IDataUtils dataUtils)
+	{
+		this.dataUtils = dataUtils;
+	}
+
 	public TreeGUI (TreeType _treeType, string _treeName) {
+		SetDataUtils (DIContainer.GetModule<IDataUtils> ());
+
 		treeData = new Tree<string> (_treeType, _treeName);
 
 		if (nodes == null) {
@@ -31,7 +39,7 @@ public class TreeGUI {
 		// load exist data based on tree type
 		switch (_treeType) {
 		case TreeType.Towers:
-			towerData = DataManager.Instance.LoadAllData <TowerData> ();
+			towerData = dataUtils.LoadAllData <TowerData> ();
 			if (towerData != null){
 				existIds = new List<string> ();
 				for (int i = 0; i < towerData.Count; i++) {
@@ -40,7 +48,7 @@ public class TreeGUI {
 			}
 			break;
 		case TreeType.CombatSkills:
-			combatSkillData = DataManager.Instance.LoadAllData <CombatSkillData> ();
+			combatSkillData = dataUtils.LoadAllData <CombatSkillData> ();
 			if (combatSkillData != null){
 				existIds = new List<string> ();
 				for (int i = 0; i < combatSkillData.Count; i++) {
@@ -49,7 +57,7 @@ public class TreeGUI {
 			}
 			break;
 		case TreeType.SummonSkills:
-			summonSkillData = DataManager.Instance.LoadAllData <SummonSkillData> ();
+			summonSkillData = dataUtils.LoadAllData <SummonSkillData> ();
 			if (summonSkillData != null){
 				existIds = new List<string> ();
 				for (int i = 0; i < summonSkillData.Count; i++) {

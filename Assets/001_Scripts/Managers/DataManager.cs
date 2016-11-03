@@ -24,6 +24,8 @@ public class DataManager {
 	}
 	#endregion
 
+	IDataUtils dataUtils;
+
 	Dictionary<string, ProjectileData> projectileIdToData;
 	Dictionary<string, TowerData> towerIdToData;
 	Dictionary<string, CharacterData> characterIdToData;
@@ -33,6 +35,7 @@ public class DataManager {
 	Dictionary<string, Tree<string>> skillTrees;
 
 	public DataManager(){
+		dataUtils = DIContainer.GetModule <IDataUtils> ();
 		LoadData <ProjectileData>(out projectileIdToData);
 		LoadData <TowerData> (out towerIdToData);
 		LoadData <CharacterData> (out characterIdToData);
@@ -46,12 +49,12 @@ public class DataManager {
 	void LoadSkillData(){
 		skillIdToData = new Dictionary<string, SkillData> ();
 
-		var combatSkills = LoadAllData<CombatSkillData> ();
+		var combatSkills = dataUtils.LoadAllData<CombatSkillData> ();
 		for (int i = 0; i < combatSkills.Count; i++) {
 			skillIdToData.Add (combatSkills[i].id, combatSkills[i]);
 		}
 
-		var summonSkills = LoadAllData<SummonSkillData> ();
+		var summonSkills = dataUtils.LoadAllData<SummonSkillData> ();
 		for (int i = 0; i < summonSkills.Count; i++) {
 			skillIdToData.Add (summonSkills[i].id, summonSkills[i]);
 		}
@@ -83,7 +86,7 @@ public class DataManager {
 	void LoadData <T> (out Dictionary<string, T> d){
 		d = new Dictionary<string, T> ();
 
-		List<T> datas = LoadAllData<T> ();
+		List<T> datas = dataUtils.LoadAllData<T> ();
 
 		foreach (T data in datas) {
 			FieldInfo field = typeof(T).GetField("id");
@@ -168,65 +171,5 @@ public class DataManager {
 		}
 	}
 	#endregion
-
-	#region json data
-	const string dataDirectory = "Assets/Resources/Data/";
-
-	public void SaveData<T> (T data) {
-
-		var jsonString = JsonUtility.ToJson(data);
-		Debug.Log(jsonString);
-
-		FieldInfo field = typeof(T).GetField("id");
-		string id = (string) field.GetValue(data);
-		if (!Directory.Exists (dataDirectory + data.ToString ())) {
-			Directory.CreateDirectory (dataDirectory + data.ToString ());
-		}
-		File.WriteAllText (dataDirectory + data.ToString () + "/"  + id + ".json", jsonString);
-
-//		var path = EditorUtility.SaveFilePanel("Save " + data.ToString(), dataDirectory + data.ToString(), id +".json", "json");
-
-//		if (!string.IsNullOrEmpty(path))
-//		{
-//			using (FileStream fs = new FileStream (path, FileMode.Create)) {
-//				using (StreamWriter writer = new StreamWriter(fs)) {
-//					writer.Write(jsonString);
-//				}
-//			}
-//		}
-		AssetDatabase.Refresh();
-	}
-
-	public T LoadData<T> () {
-		var path = EditorUtility.OpenFilePanel("Load " +  typeof(T).ToString(), dataDirectory +  typeof(T).ToString(), "json");
-
-		var reader = new WWW("file:///" + path);
-		while(!reader.isDone){
-		}
-
-		return (T) JsonUtility.FromJson (reader.text, typeof(T));
-	}
-
-	public List<T> LoadAllData <T> () {
-		var list = new List<T> ();
-		var path = "Data/" + typeof(T).ToString();
-		TextAsset[] files = Resources.LoadAll <TextAsset> (path) as TextAsset[];
-		if (files != null && files.Length > 0) {
-			for (int i = 0; i < files.Length; i++) {
-				T datum = (T)JsonUtility.FromJson (files [i].text, typeof(T));
-				list.Add (datum);
-			}
-		}
-		return list;
-	}
-
-	public T LoadDataById <T> (string id) {
-		var path = "Data/" + typeof(T).ToString() + "/" + id;
-		TextAsset file = Resources.Load <TextAsset> (path) as TextAsset;
-		return (T)JsonUtility.FromJson (file.text, typeof(T));
-	
-	}
-
-	#endregion json data
 
 }

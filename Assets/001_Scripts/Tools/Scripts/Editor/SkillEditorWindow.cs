@@ -18,21 +18,20 @@ public class SkillEditorWindow: EditorWindow {
 	List<ProjectileData> existProjectiles;
 	List<string> projectileIds;
 	int projectileIndex;
+	IDataUtils dataUtils;
 
-	[MenuItem ("Window/Skill Editor &S")]
+	[MenuItem ("Tode/Skill Editor &S")]
 	public static void ShowWindow () {
 		var skillEditorWindow = EditorWindow.GetWindow <SkillEditorWindow> ("Skill Editor", true);
 		skillEditorWindow.minSize = new Vector2 (400, 600);
 	}
 
 	void OnFocus () {
-//		Debug.Log ("On Focus");
+		existCombatSkills = dataUtils.LoadAllData <CombatSkillData> ();
 
-		existCombatSkills = DataManager.Instance.LoadAllData <CombatSkillData> ();
+		existSummonSkills = dataUtils.LoadAllData <SummonSkillData> ();
 
-		existSummonSkills = DataManager.Instance.LoadAllData <SummonSkillData> ();
-
-		existProjectiles = DataManager.Instance.LoadAllData <ProjectileData> ();
+		existProjectiles = dataUtils.LoadAllData <ProjectileData> ();
 		if (existProjectiles.Count > 0) {
 			projectileIds = new List<string> ();
 			for (int i = 0; i < existProjectiles.Count; i++) {
@@ -42,7 +41,7 @@ public class SkillEditorWindow: EditorWindow {
 	}
 
 	void OnEnable () {
-
+		dataUtils = DIContainer.GetModule <IDataUtils> ();
 	}
 
 	void OnGUI () {
@@ -128,12 +127,12 @@ public class SkillEditorWindow: EditorWindow {
 
 		GUI.enabled = !String.IsNullOrEmpty (combatSkill.name) && combatSkill.effectList != null; 
 		if (GUILayout.Button("Save")){
-			Debug.Log (combatSkill.effectList.Count);
-			DataManager.Instance.SaveData (combatSkill);
+//			Debug.Log (combatSkill.effectList.Count);
+			dataUtils.SaveData (combatSkill);
 		}
 		GUI.enabled = true;
 		if (GUILayout.Button("Load")){
-			var data = DataManager.Instance.LoadData <CombatSkillData> ();
+			var data = dataUtils.LoadData <CombatSkillData> ();
 			if(data != null){
 				combatSkill = data;
 				projectileIndex = combatSkill.projectileIndex;
@@ -173,11 +172,11 @@ public class SkillEditorWindow: EditorWindow {
 
 		GUI.enabled = !String.IsNullOrEmpty (summonSkill.name);
 		if (GUILayout.Button("Save")){
-			DataManager.Instance.SaveData (summonSkill);
+			dataUtils.SaveData (summonSkill);
 		}
 		GUI.enabled = true;
 		if (GUILayout.Button("Load")){
-			var data = DataManager.Instance.LoadData <SummonSkillData> ();
+			var data = dataUtils.LoadData <SummonSkillData> ();
 			if(data != null){
 				summonSkill = data;
 			}

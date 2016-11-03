@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
 
-[System.Serializable]
-public class TowerData{
+[Serializable]
+public class TowerData {
 	[SerializeField] public string id;
 	[SerializeField] private string name;
 	[SerializeField] private int projectileIndex;
@@ -16,7 +17,7 @@ public class TowerData{
 	[SerializeField] private int goldRequired;
 	[SerializeField] private float buildTime;
 	[SerializeField] private float aoe;
-	private List<string> treeSkillNames;
+	[SerializeField] private List<string> treeSkillNames;
 
 	public string Id {
 		get {

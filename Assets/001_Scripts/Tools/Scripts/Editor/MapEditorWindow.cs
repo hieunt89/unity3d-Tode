@@ -38,7 +38,9 @@ public class MapEditorWindow : EditorWindow {
 
 	private GUISkin mapEditorSkin;
 
-    [MenuItem("Window/Map Editor")]
+	IDataUtils dataUtils;
+
+    [MenuItem("Tode/Map Editor")]
     public static void ShowWindow()
     {
 		MapEditorWindow mapEditorWindow = EditorWindow.GetWindow <MapEditorWindow> ("Map Editor", true);
@@ -47,6 +49,8 @@ public class MapEditorWindow : EditorWindow {
     
 	#region MONO
 	void OnEnable () {
+		dataUtils = DIContainer.GetModule <IDataUtils> ();
+
 		map = new MapData("", 0, 0, new List<PathData>(), new List<TowerPointData>(), new List<WaveData>());
 		LoadExistData ();
 
@@ -397,12 +401,12 @@ public class MapEditorWindow : EditorWindow {
 
 		GUI.enabled = CheckFields();
 		if (GUILayout.Button ("Save")) {
-			DataManager.Instance.SaveData(map);
+			dataUtils.SaveData(map);
 			//			LoadExistData ();
 		}
 		GUI.enabled = true;
 		if (GUILayout.Button ("Load")) {
-			map = DataManager.Instance.LoadData <MapData> ();
+			map = dataUtils.LoadData <MapData> ();
 			if (map == null) {
 				map = new MapData("", 0, 0, new List<PathData>(), new List<TowerPointData>(), new List<WaveData>());
 				map.Id =  "map" + existMaps.Count;
@@ -656,10 +660,10 @@ public class MapEditorWindow : EditorWindow {
 	}
 
 	void LoadExistData () {
-		existMaps = DataManager.Instance.LoadAllData <MapData> ();
+		existMaps = dataUtils.LoadAllData <MapData> ();
 		UpdatePathID ();
 
-		existEnemies = DataManager.Instance.LoadAllData <CharacterData> ();
+		existEnemies = dataUtils.LoadAllData <CharacterData> ();
 		GetEnemyIds ();
 
 //		existTowers = DataManager.Instance.LoadAllData <TowerData> ();

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 [System.Serializable]
 public class CharacterData {
 	[SerializeField] public string id;
-
 	[SerializeField] private string name;
 	[SerializeField] private float moveSpeed;
 	[SerializeField] private float turnSpeed;
@@ -135,25 +134,29 @@ public class CharacterData {
 		}
 	}
 
-	public CharacterData (string id, List<ArmorData> armors) {
+	public CharacterData (string id) {
 		this.id = id;
-		this.armors = armors;
+		this.armors = new List<ArmorData> () {
+			new ArmorData (AttackType.physical, 0f),
+			new ArmorData (AttackType.magical, 0f),
+		};
+
 	}
 
-	public CharacterData (string id, string name, float moveSpeed, float turnSpeed, int lifeCount, int goldWorth, AttackType atkType, float atkSpeed, int minAtkDmg, int maxAtkDmg, float atkRange, List<ArmorData> armors, int hp)
-	{
-		this.id = id;
-		this.name = name;
-		this.moveSpeed = moveSpeed;
-		this.turnSpeed = turnSpeed;
-		this.lifeCount = lifeCount;
-		this.goldWorth = goldWorth;
-		this.atkType = atkType;
-		this.atkSpeed = atkSpeed;
-		this.minAtkDmg = minAtkDmg;
-		this.maxAtkDmg = maxAtkDmg;
-		this.atkRange = atkRange;
-		this.armors = armors;
-		this.hp = hp;
-	}
+//	public CharacterData (string id, string name, float moveSpeed, float turnSpeed, int lifeCount, int goldWorth, AttackType atkType, float atkSpeed, int minAtkDmg, int maxAtkDmg, float atkRange, List<ArmorData> armors, int hp)
+//	{
+//		this.id = id;
+//		this.name = name;
+//		this.moveSpeed = moveSpeed;
+//		this.turnSpeed = turnSpeed;
+//		this.lifeCount = lifeCount;
+//		this.goldWorth = goldWorth;
+//		this.atkType = atkType;
+//		this.atkSpeed = atkSpeed;
+//		this.minAtkDmg = minAtkDmg;
+//		this.maxAtkDmg = maxAtkDmg;
+//		this.atkRange = atkRange;
+//		this.armors = armors;
+//		this.hp = hp;
+//	}
 }
