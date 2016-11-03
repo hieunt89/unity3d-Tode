@@ -9,31 +9,49 @@ public static class EntityExtension {
 			int hpLeft = Mathf.Clamp(e.hp.value - damage, 0, e.hpTotal.value);
 			e.ReplaceHp (hpLeft);
 		}
+
 		return e;
 	}
 
 	public static Entity ReplaceSkillStats(this Entity e, SkillData data){
-		if (e.hasSkill) {
-			e
-				.ReplaceAttackSpeed(data.cooldown)
-				.ReplaceAttackRange(data.castRange)
-				.ReplaceAttackTime(data.castTime)
-				.ReplaceGold(data.goldCost)
-				.ReplaceAttackCooldown(data.cooldown)
-				;
+		if (e.hasSkill && data != null) {
+			e.ReplaceAttackSpeed (data.cooldown)
+			.ReplaceAttackRange (data.castRange)
+			.ReplaceAttackTime (data.castTime)
+			.ReplaceGold (data.goldCost)
+			.ReplaceAttackCooldown (data.cooldown);
 
-			if(data is CombatSkillData){
+			if (data is CombatSkillData) {
 				CombatSkillData s = data as CombatSkillData;
 				e.ReplaceSkillCombat (s.effectList)
-					.ReplaceAttack(s.attackType)
-					.ReplaceAttackDamage(s.damage)
+					.ReplaceAttack (s.attackType)
+					.ReplaceAttackDamage (s.damage)
 					.ReplaceAoe (s.aoe)
 					.ReplaceProjectile (s.projectileId);
-			}else if(data is SummonSkillData){
+			} else if (data is SummonSkillData) {
 				SummonSkillData s = data as SummonSkillData;
 				e.ReplaceSkillSummon (s.summonId, s.summonCount)
 					.ReplaceDuration (s.duration);
 			}
+		} else {
+			e.IsActive (false);
+		}
+
+		return e;
+	}
+
+	public static Entity ReplaceTowerStats(this Entity e, TowerData data){
+		if (e.hasTower && data != null) {
+			e.ReplaceProjectile (data.ProjectileId)
+			.ReplaceAttack (data.AtkType)
+			.ReplaceAttackRange (data.AtkRange)
+			.ReplaceAttackDamageRange (data.MinDmg, data.MaxDmg)
+			.ReplaceAttackSpeed (data.AtkSpeed)
+			.ReplaceAttackTime (data.AtkTime)
+			.ReplaceAoe (data.Aoe)
+			.ReplaceSkillList (DataManager.Instance.GetSkillTrees ("fireball_tree", "fireball_tree"));
+		} else {
+			e.IsActive (false);
 		}
 
 		return e;
