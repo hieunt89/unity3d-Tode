@@ -35,16 +35,15 @@ public class DataManager {
 	Dictionary<string, Tree<string>> skillTrees;
 
 	public DataManager(){
-//		SetDataUtils (DIContainer.GetModule <IDataUtils> ());
 		dataUtils = DIContainer.GetModule <IDataUtils> ();
-//		LoadData <ProjectileData>(out projectileIdToData);
-//		LoadData <TowerData> (out towerIdToData);
-//		LoadData <CharacterData> (out characterIdToData);
-//		LoadData <MapData> (out mapIdToData);
-//		LoadTreeData (TreeType.Towers);
-//
-//		LoadSkillData ();
-//		LoadSkillTree ();
+		LoadData <ProjectileData>(out projectileIdToData);
+		LoadData <TowerData> (out towerIdToData);
+		LoadData <CharacterData> (out characterIdToData);
+		LoadData <MapData> (out mapIdToData);
+		LoadTreeData (TreeType.Towers);
+
+		LoadSkillData ();
+		LoadSkillTree ();
 	}
 
 	void LoadSkillData(){
