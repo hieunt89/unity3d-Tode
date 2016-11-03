@@ -36,6 +36,9 @@ public class MapEditorWindow : EditorWindow {
 	private int stepsPerCurve = 10;
 	private float towerRange = 5;
 
+	private bool isTerrainSetup;
+	private UnityEngine.Object terrainGo;
+
 	private GUISkin mapEditorSkin;
 
 	IDataUtils dataUtils;
@@ -110,46 +113,65 @@ public class MapEditorWindow : EditorWindow {
 		EditorGUILayout.LabelField ("MAP CONSTRUCTOR", mapEditorSkin.GetStyle("Header"), GUILayout.MinHeight (40));
 
 		EditorGUILayout.BeginVertical ();
+
 		EditorGUILayout.Space();
 
-		EditorGUI.BeginChangeCheck();
-		var id = EditorGUILayout.TextField ("Map Id", map.Id);
-		var initGold = EditorGUILayout.IntField ("Init Gold", map.InitGold);
-		var initLife = EditorGUILayout.IntField ("Init Life", map.InitLife);
+	//		EditorGUI.BeginChangeCheck();
+		this.map.Id = EditorGUILayout.TextField ("Map Id", map.Id);
+		this.terrainGo = EditorGUILayout.ObjectField ("Terrain GO", this.terrainGo, typeof(GameObject), true);
+		this.map.InitGold = EditorGUILayout.IntField ("Init Gold", map.InitGold);
+		this.map.initLife = EditorGUILayout.IntField ("Init Life", map.InitLife);
 
-		if(EditorGUI.EndChangeCheck()){
-			this.map.Id = id;
-			this.map.InitGold = initGold;
-			this.map.initLife = initLife;
-			EditorUtility.SetDirty(this);
+	//		if(EditorGUI.EndChangeCheck()){
+	//			this.map.Id = id;
+	//			this.map.InitGold = initGold;
+	//			this.map.initLife = initLife;
+	//			EditorUtility.SetDirty(this);
+	//		}
+		if (terrainGo == null) {
+			EditorGUILayout.Space();
+
+			OnImportTerrainGUI ();
+		} else {
+			EditorGUILayout.Space();
+
+			OnPathInspectorGUI ();
+
+			EditorGUILayout.Space();
+
+			OnTowerPointInspectorGUI();
+
+			EditorGUILayout.Space();
+
+			GUI.enabled = (map.Paths != null && map.Paths.Count > 0);
+			OnWaveInspectorGUI();
+			GUI.enabled = true;
+
+			if (map != null)
+				OnDataInspectorGUI ();
+			
 		}
-
-		EditorGUILayout.Space();
-
-		OnPathInspectorGUI ();
-
-		EditorGUILayout.Space();
-
-		OnTowerPointInspectorGUI();
-
-		EditorGUILayout.Space();
-
-		GUI.enabled = (map.Paths != null && map.Paths.Count > 0);
-		OnWaveInspectorGUI();
-		GUI.enabled = true;
-
-		if (map != null)
-			OnDataInspectorGUI ();
-		
 		EditorGUILayout.EndVertical ();
-
-		EditorGUILayout.LabelField ("fdj", mapEditorSkin.GetStyle("Footer"), GUILayout.MinHeight (20));
-
-		EditorGUILayout.Space();
-
 		Repaint ();
 	}
 		
+	private void OnImportTerrainGUI () {
+		EditorGUILayout.BeginVertical("box");
+		GUILayout.Label("Import Terrain", mapEditorSkin.GetStyle("LabelA"));
+
+		EditorGUILayout.Space ();
+
+//		GUI.enabled = terrainGo != null;
+			if(GUILayout.Button("Create")) {
+				terrainGo =	new GameObject (map.id);
+			}
+//		GUI.enabled = true;
+
+		EditorGUILayout.Space ();
+
+		EditorGUILayout.EndVertical ();
+	}
+
 	private void OnPathInspectorGUI () {
 		EditorGUILayout.BeginVertical("box");
 		EditorGUILayout.BeginHorizontal ();
@@ -434,7 +456,7 @@ public class MapEditorWindow : EditorWindow {
 
 		var waveInput = map.Waves != null && map.Waves.Count > 0;
 
-		return mapIdInput && pathInput && towerPointInput && waveInput;
+		return terrainGo && mapIdInput && pathInput && towerPointInput && waveInput;
 
 	}
 
@@ -652,6 +674,8 @@ public class MapEditorWindow : EditorWindow {
 	}
 
 	private void ResetData() {
+
+
 		ClearPaths();
 		ClearTowerPoints();
 		ClearWaves();
