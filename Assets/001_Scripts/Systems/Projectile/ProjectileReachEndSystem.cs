@@ -53,14 +53,16 @@ public class ProjectileReachEndSystem : IReactiveSystem, ISetPool {
 			for (int j = 0; j < targets.Count; j++) {
 				ApplyDamage (prj.attackDamage.dmg, prj, targets [j]);
 			}
-		} else if(prj.target.e.isTargetable){
+		} else {
 			ApplyDamage (prj.attackDamage.dmg, prj, prj.target.e);
 		}	
 	}
 
 	void ApplyDamage(int damage, Entity prj, Entity target){
-		var reduceTo = CombatUtility.GetDamageReduction (prj.attack.attackType, target.armor.armorList);
-		target.BeDamaged (CombatUtility.GetDamageAfterReduction (damage, reduceTo));
+		if (target.isAttackable) {
+			var reduceTo = CombatUtility.GetDamageReduction (prj.attack.attackType, target.armor.armorList);
+			target.BeDamaged (CombatUtility.GetDamageAfterReduction (damage, reduceTo));
+		}
 	}
 
 	void ProjectileSkill(Entity prj){
@@ -70,13 +72,13 @@ public class ProjectileReachEndSystem : IReactiveSystem, ISetPool {
 			for (int i = 0; i < targets.Count; i++) {
 				ApplyEffect (prj, targets [i]);
 			}
-		} else if(prj.target.e.isTargetable){
+		} else {
 			ApplyEffect (prj, prj.target.e);	
 		}
 	}
 
 	void ApplyEffect(Entity prj, Entity target){
-		if (!target.hasSkillEffects) {
+		if (target.isAttackable && !target.hasSkillEffects) {
 			target.AddSkillEffects (prj.skillCombat.effects);	
 		}
 	}

@@ -12,15 +12,15 @@ namespace Entitas {
 
         public bool hasTimeSpeed { get { return HasComponent(ComponentIds.TimeSpeed); } }
 
-        public Entity AddTimeSpeed(float newSpeed) {
+        public Entity AddTimeSpeed(float newValue) {
             var component = CreateComponent<TimeSpeed>(ComponentIds.TimeSpeed);
-            component.value = newSpeed;
+            component.value = newValue;
             return AddComponent(ComponentIds.TimeSpeed, component);
         }
 
-        public Entity ReplaceTimeSpeed(float newSpeed) {
+        public Entity ReplaceTimeSpeed(float newValue) {
             var component = CreateComponent<TimeSpeed>(ComponentIds.TimeSpeed);
-            component.value = newSpeed;
+            component.value = newValue;
             ReplaceComponent(ComponentIds.TimeSpeed, component);
             return this;
         }

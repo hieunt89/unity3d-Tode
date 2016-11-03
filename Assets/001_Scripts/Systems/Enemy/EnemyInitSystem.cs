@@ -70,6 +70,7 @@ public class EnemyInitSystem : IReactiveSystem, ISetPool
 						.AddHp (enemyData.Hp)
 						.AddHpTotal (enemyData.Hp)
 						.IsTargetable (true)
+						.IsAttackable(true)
 						;
 				}
 			}
