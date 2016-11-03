@@ -42,6 +42,7 @@ public class MapEditorWindow : EditorWindow {
 	private GUISkin mapEditorSkin;
 
 	IDataUtils dataUtils;
+	IPrefabUtils prefabUtils;
 
     [MenuItem("Tode/Map Editor")]
     public static void ShowWindow()
@@ -53,6 +54,7 @@ public class MapEditorWindow : EditorWindow {
 	#region MONO
 	void OnEnable () {
 		dataUtils = DIContainer.GetModule <IDataUtils> ();
+		prefabUtils = DIContainer.GetModule <IPrefabUtils> ();
 
 		map = new MapData("", 0, 0, new List<PathData>(), new List<TowerPointData>(), new List<WaveData>());
 		LoadExistData ();
@@ -157,7 +159,7 @@ public class MapEditorWindow : EditorWindow {
 		
 	private void OnImportTerrainGUI () {
 		EditorGUILayout.BeginVertical("box");
-		GUILayout.Label("Import Terrain", mapEditorSkin.GetStyle("LabelA"));
+		GUILayout.Label("Create Terrain GameObject", mapEditorSkin.GetStyle("LabelA"));
 
 		EditorGUILayout.Space ();
 
@@ -424,7 +426,8 @@ public class MapEditorWindow : EditorWindow {
 		GUI.enabled = CheckFields();
 		if (GUILayout.Button ("Save")) {
 			dataUtils.SaveData(map);
-			//			LoadExistData ();
+			prefabUtils.SavePrefab (terrainGo as GameObject);
+			// TODO: Save map prefab;
 		}
 		GUI.enabled = true;
 		if (GUILayout.Button ("Load")) {
@@ -456,7 +459,7 @@ public class MapEditorWindow : EditorWindow {
 
 		var waveInput = map.Waves != null && map.Waves.Count > 0;
 
-		return terrainGo && mapIdInput && pathInput && towerPointInput && waveInput;
+		return terrainGo  && mapIdInput && pathInput && towerPointInput && waveInput;
 
 	}
 
@@ -674,8 +677,6 @@ public class MapEditorWindow : EditorWindow {
 	}
 
 	private void ResetData() {
-
-
 		ClearPaths();
 		ClearTowerPoints();
 		ClearWaves();

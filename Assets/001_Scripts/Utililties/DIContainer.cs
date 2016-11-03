@@ -9,6 +9,7 @@ public class DIContainer {
 
 	public static void BindModules(){
 		DIContainer.SetModule<IDataUtils> (new JsonUtils ());
+		DIContainer.SetModule<IPrefabUtils> (new PrefabUtils ());
 	}
 
 	public static void SetModule<T>(object module) {
