@@ -28,10 +28,7 @@ public class TowerEditorWindow : EditorWindow {
 	}
 
 	void OnFocus () {
-		prefabUtils = DIContainer.GetModule <IPrefabUtils> ();
-		dataUtils = DIContainer.GetModule <IDataUtils> ();
 		existTowers = dataUtils.LoadAllData <TowerData>();
-
 		existProjectiles =  dataUtils.LoadAllData <ProjectileData>();
 
 		if (existProjectiles.Count > 0) {
@@ -43,9 +40,10 @@ public class TowerEditorWindow : EditorWindow {
 	}
 
 	void OnEnable () {
+		prefabUtils = DIContainer.GetModule <IPrefabUtils> ();
 		dataUtils = DIContainer.GetModule <IDataUtils> ();
-		existTowers = dataUtils.LoadAllData <TowerData>();
 
+		existTowers = dataUtils.LoadAllData <TowerData>();
 		existProjectiles =  dataUtils.LoadAllData <ProjectileData>();
 
 		tower = new TowerData("tower" + existTowers.Count);
@@ -59,60 +57,87 @@ public class TowerEditorWindow : EditorWindow {
 		tower.Id = EditorGUILayout.TextField ("Id", tower.Id);
 		tower.Name = EditorGUILayout.TextField ("Name", tower.Name);
 
-		if (towerGo == null) {
+		towerGo = EditorGUILayout.ObjectField ("Tower GO", towerGo, typeof(GameObject), true);
+		GUI.enabled = towerGo == null && tower.Id.Length > 0;
 			if (GUILayout.Button ("Create Tower GO")) {
 				towerGo = new GameObject (tower.Id);
 			}
-		} else {
-			towerGo = EditorGUILayout.ObjectField ("Tower GO", towerGo, typeof(GameObject), true);
+		GUI.enabled = true;
 
-			projectileIndex = EditorGUILayout.Popup ("Projectile", projectileIndex, projectileIds.ToArray());
-			tower.ProjectileIndex = projectileIndex;
-			tower.ProjectileId = projectileIds[projectileIndex];
+		projectileIndex = EditorGUILayout.Popup ("Projectile", projectileIndex, projectileIds.ToArray());
+		tower.ProjectileIndex = projectileIndex;
+		tower.ProjectileId = projectileIds[projectileIndex];
 
-			tower.AtkType =  (AttackType) EditorGUILayout.EnumPopup ("Attack Type", tower.AtkType);
-			tower.AtkRange = EditorGUILayout.FloatField ("Tower Range",tower.AtkRange);
-			tower.MinDmg = EditorGUILayout.IntField ("Min Damage", tower.MinDmg);
-			tower.MaxDmg = EditorGUILayout.IntField ("Max Damage", tower.MaxDmg);
-			tower.AtkSpeed = EditorGUILayout.FloatField ("Attack Speed", tower.AtkSpeed);
-			tower.AtkTime = EditorGUILayout.FloatField ("Attack Time", tower.AtkTime);
-			tower.GoldRequired = EditorGUILayout.IntField ("Gold Cost", tower.GoldRequired);
-			tower.BuildTime = EditorGUILayout.FloatField ("Build Time", tower.BuildTime);
-			tower.Aoe = EditorGUILayout.FloatField ("AOE", tower.Aoe);
+		tower.AtkType =  (AttackType) EditorGUILayout.EnumPopup ("Attack Type", tower.AtkType);
+		tower.AtkRange = EditorGUILayout.FloatField ("Tower Range",tower.AtkRange);
+		tower.MinDmg = EditorGUILayout.IntField ("Min Damage", tower.MinDmg);
+		tower.MaxDmg = EditorGUILayout.IntField ("Max Damage", tower.MaxDmg);
+		tower.AtkSpeed = EditorGUILayout.FloatField ("Attack Speed", tower.AtkSpeed);
+		tower.AtkTime = EditorGUILayout.FloatField ("Attack Time", tower.AtkTime);
+		tower.GoldRequired = EditorGUILayout.IntField ("Gold Cost", tower.GoldRequired);
+		tower.BuildTime = EditorGUILayout.FloatField ("Build Time", tower.BuildTime);
+		tower.Aoe = EditorGUILayout.FloatField ("AOE", tower.Aoe);
 
-	//		if (EditorGUI.EndChangeCheck ()) {
-	//			tower.Id = id;
-	//			tower.Name = name;
-	//			tower.ProjectileIndex = projectileIndex;
-	//			tower.ProjectileId = projectileIds[projectileIndex];
-	//			tower.AtkType = (AttackType) atkType;
-	//			tower.AtkRange = atkRange;
-	//			tower.MinDmg = minDmg;
-	//			tower.MaxDmg = maxDmg;
-	//			tower.AtkSpeed = atkSpeed;
-	//			tower.AtkTime = atkTime;
-	//			tower.GoldRequired = goldRequired;
-	//			tower.BuildTime = buildTime;
-	//			tower.Aoe = aoe;
-	//		}
+//		if (EditorGUI.EndChangeCheck ()) {
+//			tower.Id = id;
+//			tower.Name = name;
+//			tower.ProjectileIndex = projectileIndex;
+//			tower.ProjectileId = projectileIds[projectileIndex];
+//			tower.AtkType = (AttackType) atkType;
+//			tower.AtkRange = atkRange;
+//			tower.MinDmg = minDmg;
+//			tower.MaxDmg = maxDmg;
+//			tower.AtkSpeed = atkSpeed;
+//			tower.AtkTime = atkTime;
+//			tower.GoldRequired = goldRequired;
+//			tower.BuildTime = buildTime;
+//			tower.Aoe = aoe;
+//		} 
 
-			GUILayout.Space(5);
+		GUILayout.Space(5);
 
-	//		GUILayout.BeginHorizontal ();
-			GUI.enabled = CheckInputFields ();
-			if (GUILayout.Button("Save")){
-				dataUtils.SaveData (tower);
-				prefabUtils.SavePrefab (towerGo as GameObject);
+//		GUILayout.BeginHorizontal ();
+		GUI.enabled = CheckInputFields ();
+		if (GUILayout.Button("Save")){
+			dataUtils.CreateData (tower);
+			prefabUtils.CreatePrefab (towerGo as GameObject);
+		}
+		GUI.enabled = true;
+
+		if (GUILayout.Button("Load")){
+			tower = dataUtils.LoadData <TowerData> ();
+			if(tower == null){
+				tower = new TowerData("tower" + existTowers.Count);
 			}
-			GUI.enabled = true;
-			if (GUILayout.Button("Load")){
-				tower = dataUtils.LoadData <TowerData> ();
-				if(tower == null){
-					tower = new TowerData("tower" + existTowers.Count);
+
+			if (towerGo) {
+				DestroyImmediate (towerGo);
+			}
+			towerGo = prefabUtils.InstantiatePrefab (ConstantString.PrefabPath + tower.Id + ".prefab");
+
+			projectileIndex = tower.ProjectileIndex;
+		}
+
+		if (GUILayout.Button("Reset")){
+			if (EditorUtility.DisplayDialog ("Are you sure?", 
+				"Do you want to reset " + tower.Id + " data?",
+				"Yes", "No")) {
+				tower = new TowerData ("tower" + existTowers.Count);
+				if (towerGo) {
+					DestroyImmediate (towerGo);
 				}
-				projectileIndex = tower.ProjectileIndex;
 			}
-			if (GUILayout.Button("Reset")){
+		}
+
+		if (GUILayout.Button("Delete")){
+			if (EditorUtility.DisplayDialog ("Are you sure?", 
+				"Do you want to delete " + tower.Id + " data?",
+				"Yes", "No")) {
+				if (towerGo) {
+					DestroyImmediate (towerGo);
+				}
+				dataUtils.DeleteData (ConstantString.DataPath + tower.GetType().Name + "/" + tower.Id + ".json");
+				prefabUtils.DeletePrefab (ConstantString.PrefabPath + tower.Id + ".prefab");
 				tower = new TowerData ("tower" + existTowers.Count);
 			}
 		}

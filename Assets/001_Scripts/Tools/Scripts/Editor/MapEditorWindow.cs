@@ -56,8 +56,8 @@ public class MapEditorWindow : EditorWindow {
 		dataUtils = DIContainer.GetModule <IDataUtils> ();
 		prefabUtils = DIContainer.GetModule <IPrefabUtils> ();
 
-		map = new MapData("", 0, 0, new List<PathData>(), new List<TowerPointData>(), new List<WaveData>());
 		LoadExistData ();
+		map = new MapData("map" + existMaps.Count);
 
 		CreateToggles ();
 		CreatePopupIndexes ();
@@ -118,60 +118,40 @@ public class MapEditorWindow : EditorWindow {
 
 		EditorGUILayout.Space();
 
-	//		EditorGUI.BeginChangeCheck();
 		this.map.Id = EditorGUILayout.TextField ("Map Id", map.Id);
-		this.terrainGo = EditorGUILayout.ObjectField ("Terrain GO", this.terrainGo, typeof(GameObject), true);
 		this.map.InitGold = EditorGUILayout.IntField ("Init Gold", map.InitGold);
 		this.map.initLife = EditorGUILayout.IntField ("Init Life", map.InitLife);
 
-	//		if(EditorGUI.EndChangeCheck()){
-	//			this.map.Id = id;
-	//			this.map.InitGold = initGold;
-	//			this.map.initLife = initLife;
-	//			EditorUtility.SetDirty(this);
-	//		}
-		if (terrainGo == null) {
-			EditorGUILayout.Space();
+		this.terrainGo = EditorGUILayout.ObjectField ("Terrain GO", this.terrainGo, typeof(GameObject), true);
 
-			OnImportTerrainGUI ();
-		} else {
-			EditorGUILayout.Space();
+		EditorGUILayout.Space();
 
-			OnPathInspectorGUI ();
-
-			EditorGUILayout.Space();
-
-			OnTowerPointInspectorGUI();
-
-			EditorGUILayout.Space();
-
-			GUI.enabled = (map.Paths != null && map.Paths.Count > 0);
-			OnWaveInspectorGUI();
-			GUI.enabled = true;
-
-			if (map != null)
-				OnDataInspectorGUI ();
-			
-		}
-		EditorGUILayout.EndVertical ();
-		Repaint ();
-	}
-		
-	private void OnImportTerrainGUI () {
-		EditorGUILayout.BeginVertical("box");
-		GUILayout.Label("Create Terrain GameObject", mapEditorSkin.GetStyle("LabelA"));
-
-		EditorGUILayout.Space ();
-
-//		GUI.enabled = terrainGo != null;
-			if(GUILayout.Button("Create")) {
+		GUI.enabled = terrainGo == null && map.Id.Length > 0;
+			if(GUILayout.Button("Create Terrain GO")) {
 				terrainGo =	new GameObject (map.id);
 			}
-//		GUI.enabled = true;
+		GUI.enabled = true;
 
-		EditorGUILayout.Space ();
+		EditorGUILayout.Space();
 
+		OnPathInspectorGUI ();
+
+		EditorGUILayout.Space();
+
+		OnTowerPointInspectorGUI();
+
+		EditorGUILayout.Space();
+
+		GUI.enabled = (map.Paths != null && map.Paths.Count > 0);
+		OnWaveInspectorGUI();
+		GUI.enabled = true;
+
+	
+
+		if (map != null)
+			OnDataInspectorGUI ();
 		EditorGUILayout.EndVertical ();
+		Repaint ();
 	}
 
 	private void OnPathInspectorGUI () {
@@ -425,27 +405,45 @@ public class MapEditorWindow : EditorWindow {
 
 		GUI.enabled = CheckFields();
 		if (GUILayout.Button ("Save")) {
-			dataUtils.SaveData(map);
-			prefabUtils.SavePrefab (terrainGo as GameObject);
+			dataUtils.CreateData(map);
+			prefabUtils.CreatePrefab (terrainGo as GameObject);
 			// TODO: Save map prefab;
 		}
 		GUI.enabled = true;
 		if (GUILayout.Button ("Load")) {
 			map = dataUtils.LoadData <MapData> ();
 			if (map == null) {
-				map = new MapData("", 0, 0, new List<PathData>(), new List<TowerPointData>(), new List<WaveData>());
-				map.Id =  "map" + existMaps.Count;
+				map = new MapData("map" + existMaps.Count);
 			}
+
+			if (terrainGo != null) {
+				DestroyImmediate (terrainGo);
+			}
+			terrainGo = prefabUtils.InstantiatePrefab (ConstantString.PrefabPath + map.Id + ".prefab");
+
 			CreateToggles ();
 			CreatePopupIndexes ();
 
 			UpdatePathID ();
 		}
 		if (GUILayout.Button ("Reset")) {
-			ResetData();
-//			mc.ApplyModifiedProperties();	// ????
+			if (EditorUtility.DisplayDialog ("Are you sure?", 
+				"Do you want to reset map data?",
+				"Yes", "No")) {
+				ResetData();
+			}
+		}
 
-			// TODO: confirm windows
+		if (GUILayout.Button ("Delete")) {
+			if (EditorUtility.DisplayDialog ("Are you sure?", 
+				"Do you want to delete map data?",
+				"Yes", "No")) {
+				if (terrainGo) {
+					DestroyImmediate (terrainGo);
+				}
+				dataUtils.DeleteData (ConstantString.DataPath + map.GetType().Name + "/" + map.Id + ".json");
+				prefabUtils.DeletePrefab (ConstantString.PrefabPath + map.Id + ".prefab");
+			}
 		}
 		EditorGUILayout.EndHorizontal();
 	}
@@ -459,7 +457,7 @@ public class MapEditorWindow : EditorWindow {
 
 		var waveInput = map.Waves != null && map.Waves.Count > 0;
 
-		return terrainGo  && mapIdInput && pathInput && towerPointInput && waveInput;
+		return terrainGo && mapIdInput && pathInput && towerPointInput && waveInput;
 
 	}
 
@@ -677,6 +675,9 @@ public class MapEditorWindow : EditorWindow {
 	}
 
 	private void ResetData() {
+		if (terrainGo) {
+			DestroyImmediate (terrainGo);
+		}
 		ClearPaths();
 		ClearTowerPoints();
 		ClearWaves();

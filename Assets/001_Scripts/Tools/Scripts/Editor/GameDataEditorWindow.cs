@@ -133,7 +133,7 @@ public class GameDataWindow <T> : IGameDataWindow, IInjectDataUtils where T : Sc
 		}
 
 		if (GUILayout.Button("Save")) {
-			dataUtils.SaveData <T> (data);
+			dataUtils.CreateData <T> (data);
 		}
 		if (GUILayout.Button("Load")) {
 			data = dataUtils.LoadData <T> ();

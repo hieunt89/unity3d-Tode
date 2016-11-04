@@ -128,7 +128,7 @@ public class SkillEditorWindow: EditorWindow {
 		GUI.enabled = !String.IsNullOrEmpty (combatSkill.name) && combatSkill.effectList != null; 
 		if (GUILayout.Button("Save")){
 //			Debug.Log (combatSkill.effectList.Count);
-			dataUtils.SaveData (combatSkill);
+			dataUtils.CreateData (combatSkill);
 		}
 		GUI.enabled = true;
 		if (GUILayout.Button("Load")){
@@ -172,7 +172,7 @@ public class SkillEditorWindow: EditorWindow {
 
 		GUI.enabled = !String.IsNullOrEmpty (summonSkill.name);
 		if (GUILayout.Button("Save")){
-			dataUtils.SaveData (summonSkill);
+			dataUtils.CreateData (summonSkill);
 		}
 		GUI.enabled = true;
 		if (GUILayout.Button("Load")){

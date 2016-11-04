@@ -78,12 +78,11 @@ public class ProjectileData {
 		this.id = id;
 	}
 
-	public ProjectileData (string id, ProjectileType type, float travelSpeed, float duration)
-	{
-		this.id = id;
-		this.type = type;
-		this.travelSpeed = travelSpeed;
-		this.duration = duration;
-	}
-	
+//	public ProjectileData (string id, ProjectileType type, float travelSpeed, float duration)
+//	{
+//		this.id = id;
+//		this.type = type;
+//		this.travelSpeed = travelSpeed;
+//		this.duration = duration;
+//	}
 }

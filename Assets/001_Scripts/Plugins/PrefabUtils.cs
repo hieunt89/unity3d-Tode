@@ -8,22 +8,23 @@ public interface IInjectPrefabUtils {
 }
 
 public interface IPrefabUtils {
-	void SavePrefab (GameObject obj);
-	void SavePrefabs (GameObject[] objects);
+	void CreatePrefab (GameObject obj);
+//	void CreatePrefabs (GameObject[] objects);
+	GameObject InstantiatePrefab (string path);
+	void DeletePrefab (string path);
 }
 
 public class PrefabUtils : IPrefabUtils {
-	public const string path = "Assets/Resources/Prefabs/";
 
-	public void SavePrefab (GameObject obj)
+	public void CreatePrefab (GameObject obj)
 	{
 		CheckDirectory ();
 
-		var finalPath = path +  obj.name + ".prefab";
+		var finalPath = ConstantString.PrefabPath +  obj.name + ".prefab";
 
 		if (AssetDatabase.LoadAssetAtPath (finalPath, typeof(GameObject))) {
 			if (EditorUtility.DisplayDialog ("Are you sure?", 
-				    "The prefab is already exists. Do you want to overwrite it?",
+					obj.name + ".prefab" + " is already exists. Do you want to overwrite it?",
 				    "Yes", "No")) {
 				CreateNewPrefab (obj, finalPath);
 			}
@@ -32,33 +33,50 @@ public class PrefabUtils : IPrefabUtils {
 		}
 	}
 
-	public void  SavePrefabs (GameObject[] objects)
-	{
-		CheckDirectory ();
-
-		foreach (var obj in objects) {
-			var finalPath = path +  obj.name + ".prefab";
-			if (AssetDatabase.LoadAssetAtPath (finalPath, typeof(GameObject))) {
-				if (EditorUtility.DisplayDialog ("Are you sure?", 
-					    "The prefab is already exists. Do you want to overwrite it?",
-					    "Yes", "No")) {
-					CreateNewPrefab (obj, finalPath);
-				}
-			} else {
-				CreateNewPrefab (obj, finalPath);
-			}
-		}
-	}
+//	public void CreatePrefabs (GameObject[] objects)
+//	{
+//		CheckDirectory ();
+//
+//		foreach (var obj in objects) {
+//			var finalPath = ConstantString.PrefabPath +  obj.name + ".prefab";
+//			if (AssetDatabase.LoadAssetAtPath (finalPath, typeof(GameObject))) {
+//				if (EditorUtility.DisplayDialog ("Are you sure?", 
+//					    "The prefab is already exists. Do you want to overwrite it?",
+//					    "Yes", "No")) {
+//					CreateNewPrefab (obj, finalPath);
+//				}
+//			} else {
+//				CreateNewPrefab (obj, finalPath);
+//			}
+//		}
+//	}
 
 	private void CheckDirectory () {
-		if (!Directory.Exists (path)) {
-			Directory.CreateDirectory (path);
+		if (!Directory.Exists (ConstantString.PrefabPath)) {
+			Directory.CreateDirectory (ConstantString.PrefabPath);
 		}
 	}
 
 	private void CreateNewPrefab (GameObject obj, string finalPath) {
-		Debug.Log (finalPath);
-		var prefab = PrefabUtility.CreateEmptyPrefab (finalPath);
-		PrefabUtility.ReplacePrefab (obj, prefab, ReplacePrefabOptions.ConnectToPrefab);
+//		var prefab = PrefabUtility.CreateEmptyPrefab (finalPath);
+//		PrefabUtility.ReplacePrefab (obj, prefab, ReplacePrefabOptions.ConnectToPrefab);
+		PrefabUtility.CreatePrefab (finalPath, obj, ReplacePrefabOptions.Default);
+	}
+
+	public GameObject InstantiatePrefab(string path) {	
+		var go = AssetDatabase.LoadMainAssetAtPath(path);
+		if (go != null) {
+			EditorGUIUtility.PingObject (go);
+				
+			if (PrefabUtility.GetPrefabType(go) == PrefabType.Prefab || PrefabUtility.GetPrefabType(go) == PrefabType.ModelPrefab) {
+				var clone = PrefabUtility.InstantiatePrefab(go as GameObject) as GameObject; 
+				return clone;
+			} 
+		}
+		return null;
+	}
+
+	public void DeletePrefab (string path) {
+		AssetDatabase.DeleteAsset (path);
 	}
 }
