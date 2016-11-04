@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour {
 				.Add(pool.CreateSystem<EnemyInitSystem>())
 				.Add(pool.CreateSystem<EnemyMoveSystem>())
 				.Add(pool.CreateSystem<EnemyReachEndSystem>())
-				.Add(pool.CreateSystem<EnemyDeadSystem>())
+				.Add(pool.CreateSystem<EnemyWatchHpSystem>())
 				
 				//Projectile
 				.Add(pool.CreateSystem<ProjectileHomingSystem>())
@@ -83,6 +83,8 @@ public class GameManager : MonoBehaviour {
 				//View mecanim
 				.Add(pool.CreateSystem<MecanimAttackingSystem>())
 				.Add(pool.CreateSystem<MecanimMoveSystem>())
+				.Add(pool.CreateSystem<MecanimWoundSystem>())
+				.Add(pool.CreateSystem<MecanimDyingSystem>())
 
 				//View overlay bar
 				.Add(pool.CreateSystem<HeathBarViewSystem>())

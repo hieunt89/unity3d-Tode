@@ -22,7 +22,7 @@ public class MecanimAttackingSystem : IReactiveSystem, IEnsureComponents {
 				var anims = e.view.Anim;
 				if (e.hasAttacking) {
 					for (int j = 0; j < anims.Length; j++) {
-						anims[j].Play (e.attackingParams.stateToPlay, 0, e.attacking.spentTime / e.attackingParams.duration);
+						anims [j].Play (e.attackingParams.stateToPlay, 0, e.attacking.spentTime / e.attackingParams.duration);
 					}
 				} else {
 					for (int j = 0; j < anims.Length; j++) {

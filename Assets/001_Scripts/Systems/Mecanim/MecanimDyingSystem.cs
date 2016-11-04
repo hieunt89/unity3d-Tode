@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Entitas;
-public class MecanimMoveSystem : IReactiveSystem, IEnsureComponents {
+
+public class MecanimDyingSystem : IReactiveSystem, IEnsureComponents {
 	#region IEnsureComponents implementation
 
 	public IMatcher ensureComponents {
@@ -13,6 +14,7 @@ public class MecanimMoveSystem : IReactiveSystem, IEnsureComponents {
 	#endregion
 
 	#region IReactiveExecuteSystem implementation
+
 	public void Execute (System.Collections.Generic.List<Entity> entities)
 	{
 		for (int i = 0; i < entities.Count; i++) {
@@ -20,29 +22,22 @@ public class MecanimMoveSystem : IReactiveSystem, IEnsureComponents {
 
 			if (e.view.Anim != null) {
 				var anims = e.view.Anim;
-				if (e.isMovable) {
-					for (int j = 0; j < anims.Length; j++) {
-						if (!anims[j].GetCurrentAnimatorStateInfo(0).IsName(AnimState.Move)) {
-							anims [j].SetTrigger (AnimTrigger.Move);
-						}
-					}
-				} else {
-					for (int j = 0; j < anims.Length; j++) {
-						if (!anims [j].GetCurrentAnimatorStateInfo (0).IsName (AnimState.Idle)) {
-							anims [j].SetTrigger (AnimTrigger.Idle);
-						}
-					}
+				for (int j = 0; j < anims.Length; j++) {
+					anims [j].Play (AnimState.Die, 0, e.dying.timeSpent / e.dyingTime.value);
 				}
 			}
 		}
 	}
+
 	#endregion
 
 	#region IReactiveSystem implementation
+
 	public TriggerOnEvent trigger {
 		get {
-			return Matcher.Movable.OnEntityAddedOrRemoved ();
+			return Matcher.Dying.OnEntityAdded ();
 		}
 	}
+
 	#endregion
 }

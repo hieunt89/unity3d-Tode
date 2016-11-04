@@ -48,9 +48,11 @@ public class CharacterEditorWindow : EditorWindow {
 		var goldWorth = EditorGUILayout.IntField ("Gold Worth", character.GoldWorth);
 		var atkType = (AttackType) EditorGUILayout.EnumPopup ("Attack Type", character.AtkType);
 		var atkSpeed = EditorGUILayout.FloatField ("Attack Speed", character.AtkSpeed);
+		var atkTime = EditorGUILayout.FloatField ("Attack Time", character.AtkTime);
 		var minAtkDmg = EditorGUILayout.IntField ("Min Attack Damage", character.MinAtkDmg);
 		var maxAtkDmg = EditorGUILayout.IntField ("Max Attack Damage", character.MaxAtkDmg);
 		var atkRange = EditorGUILayout.FloatField ("Attack Range", character.AtkRange);
+		var dyingTime = EditorGUILayout.FloatField ("Dying Time", character.DyingTime);
 
 		if (EditorGUI.EndChangeCheck ()) {
 			character.Id = id;
@@ -62,9 +64,11 @@ public class CharacterEditorWindow : EditorWindow {
 			character.GoldWorth = goldWorth;
 			character.AtkType = atkType;
 			character.AtkSpeed = atkSpeed;
+			character.AtkTime = atkTime;
 			character.MinAtkDmg = minAtkDmg;
 			character.MaxAtkDmg = maxAtkDmg;
 			character.AtkRange = atkRange;
+			character.DyingTime = dyingTime;
 		}
 
 		if (character.Armors != null && character.Armors.Count > 0){

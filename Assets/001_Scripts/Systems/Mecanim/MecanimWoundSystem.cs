@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Entitas;
-public class MecanimMoveSystem : IReactiveSystem, IEnsureComponents {
+
+public class MecanimWoundSystem : IReactiveSystem, IEnsureComponents {
 	#region IEnsureComponents implementation
 
 	public IMatcher ensureComponents {
@@ -13,6 +14,7 @@ public class MecanimMoveSystem : IReactiveSystem, IEnsureComponents {
 	#endregion
 
 	#region IReactiveExecuteSystem implementation
+
 	public void Execute (System.Collections.Generic.List<Entity> entities)
 	{
 		for (int i = 0; i < entities.Count; i++) {
@@ -20,29 +22,28 @@ public class MecanimMoveSystem : IReactiveSystem, IEnsureComponents {
 
 			if (e.view.Anim != null) {
 				var anims = e.view.Anim;
-				if (e.isMovable) {
-					for (int j = 0; j < anims.Length; j++) {
-						if (!anims[j].GetCurrentAnimatorStateInfo(0).IsName(AnimState.Move)) {
-							anims [j].SetTrigger (AnimTrigger.Move);
-						}
-					}
-				} else {
-					for (int j = 0; j < anims.Length; j++) {
-						if (!anims [j].GetCurrentAnimatorStateInfo (0).IsName (AnimState.Idle)) {
-							anims [j].SetTrigger (AnimTrigger.Idle);
-						}
+				for (int j = 0; j < anims.Length; j++) {
+					if (!anims[j].GetCurrentAnimatorStateInfo(1).IsName(AnimState.Wound)) {
+						anims [j].SetTrigger (AnimTrigger.Wound);
 					}
 				}
 			}
+
+			e.IsWounded (false);
 		}
 	}
+
 	#endregion
 
 	#region IReactiveSystem implementation
+
 	public TriggerOnEvent trigger {
 		get {
-			return Matcher.Movable.OnEntityAddedOrRemoved ();
+			return Matcher.Wounded.OnEntityAdded ();
 		}
 	}
+
 	#endregion
+
+
 }

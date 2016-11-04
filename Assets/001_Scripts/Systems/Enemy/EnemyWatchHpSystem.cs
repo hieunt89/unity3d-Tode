@@ -2,7 +2,7 @@
 using System.Collections;
 using Entitas;
 
-public class EnemyDeadSystem : ISetPool, IReactiveSystem, IEnsureComponents {
+public class EnemyWatchHpSystem : ISetPool, IReactiveSystem, IEnsureComponents {
 	#region ISetPool implementation
 	Pool _pool;
 	public void SetPool (Pool pool)
@@ -15,7 +15,7 @@ public class EnemyDeadSystem : ISetPool, IReactiveSystem, IEnsureComponents {
 
 	public IMatcher ensureComponents {
 		get {
-			return Matcher.Hp;
+			return Matcher.AllOf(Matcher.Hp, Matcher.Active);
 		}
 	}
 
@@ -30,11 +30,19 @@ public class EnemyDeadSystem : ISetPool, IReactiveSystem, IEnsureComponents {
 				if(e.hasGold){
 					_pool.ReplaceGoldPlayer (_pool.goldPlayer.value + e.gold.value);
 				}
-				e.IsMarkedForDestroy (true);;
+				e.IsActive(false).IsAttackable(false).IsTargetable(false).IsInteractable(false).IsMovable(false);
+				if (e.hasCoroutine) {
+					e.RemoveCoroutine ();
+				}
+				if(e.hasViewSlider){
+					Lean.LeanPool.Despawn (e.viewSlider.bar.gameObject);
+				}
+				e.AddCoroutine (StartDying (e));
 			}
 		}
 	}
 	#endregion
+
 	#region IReactiveSystem implementation
 	public TriggerOnEvent trigger {
 		get {
@@ -42,5 +50,19 @@ public class EnemyDeadSystem : ISetPool, IReactiveSystem, IEnsureComponents {
 		}
 	}
 	#endregion
-	
+
+	IEnumerator StartDying(Entity e){
+		if (!e.hasDyingTime) {
+			e.IsMarkedForDestroy (true);
+			yield break;
+		}
+
+		e.AddDying (0f);
+		while(e.dying.timeSpent < e.dyingTime.value){
+			e.ReplaceDying (e.dying.timeSpent + _pool.tick.change);
+			yield return null;
+		}
+
+		e.IsMarkedForDestroy (true);
+	}
 }

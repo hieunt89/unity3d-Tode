@@ -2,7 +2,7 @@
 using System.Collections;
 using Entitas;
 
-public class EnemyCreateViewSystem : IReactiveSystem, IEnsureComponents {
+public class EnemyCreateViewSystem : IReactiveSystem {
 	#region Constructor
 	GameObject enemyViewParent;
 	public EnemyCreateViewSystem(){
@@ -12,15 +12,6 @@ public class EnemyCreateViewSystem : IReactiveSystem, IEnsureComponents {
 			enemyViewParent.transform.position = Vector3.zero;
 		}
 	}
-	#endregion
-	#region IEnsureComponents implementation
-
-	public IMatcher ensureComponents {
-		get {
-			return Matcher.Enemy;
-		}
-	}
-
 	#endregion
 
 	#region IReactiveExecuteSystem implementation
