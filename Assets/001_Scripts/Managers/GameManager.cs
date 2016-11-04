@@ -79,7 +79,12 @@ public class GameManager : MonoBehaviour {
 				.Add(pool.CreateSystem<ProjectileLaserViewSystem>())
 				.Add(pool.CreateSystem<UpdateViewPositionSystem>())
 				.Add(pool.CreateSystem<UpdateLookDirectionSystem>())
-				.Add(pool.CreateSystem<UpdateAttackingViewSystem>())
+
+				//View mecanim
+				.Add(pool.CreateSystem<MecanimAttackingSystem>())
+				.Add(pool.CreateSystem<MecanimMoveSystem>())
+
+				//View overlay bar
 				.Add(pool.CreateSystem<HeathBarViewSystem>())
 				.Add(pool.CreateSystem<TowerProgressBarViewSystem>())
 				
@@ -87,13 +92,5 @@ public class GameManager : MonoBehaviour {
 				.Add(pool.CreateSystem<EntityActiveSystem>())
 				.Add(pool.CreateSystem<EntityDestroySystem>())
 			;
-	}
-
-	public void ToggleGamePause(){
-		if (Pools.pool.isGamePause) {
-			Pools.pool.isGamePause = false;
-		} else {
-			Pools.pool.isGamePause = true;
-		}
 	}
 }

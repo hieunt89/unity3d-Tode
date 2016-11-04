@@ -58,13 +58,13 @@ public class TowerCreateViewSystem : IReactiveSystem {
 		if (!e.hasView) {
 			e.AddView (go);
 		} else {
-			EntityLink.Instance.RemoveLink (e.view.go);
+			EntityLink.RemoveLink (e.view.go);
 			Lean.LeanPool.Despawn (e.view.go);
 			e.ReplaceView (go);
 		}
 
 		if (e.hasTower || e.isTowerBase) {
-			EntityLink.Instance.AddLink (go, e);
+			EntityLink.AddLink (go, e);
 			e.IsActive (true).IsInteractable (true);
 		}
 

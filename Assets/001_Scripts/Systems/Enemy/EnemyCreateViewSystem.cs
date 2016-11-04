@@ -53,15 +53,16 @@ public class EnemyCreateViewSystem : IReactiveSystem, IEnsureComponents {
 
 		GameObject go = Lean.LeanPool.Spawn (r.asset as GameObject);
 
-		EntityLink.Instance.AddLink (go, e);
-
-		e.IsInteractable (true);
+		EntityLink.AddLink (go, e);
 
 		go.name = e.id.value;
 		go.transform.position = e.position.value;
 		go.transform.rotation = Quaternion.LookRotation(e.destination.value - e.position.value);
 		go.transform.SetParent (enemyViewParent.transform, false);
 
-		e.AddView (go).AddViewOffset(go.BotToCenterOffset());
+		e.AddView (go)
+			.AddViewOffset(go.BotToCenterOffset())
+			.IsInteractable (true)
+			.IsMovable (true);
 	}
 }

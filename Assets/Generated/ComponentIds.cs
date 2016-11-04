@@ -27,20 +27,20 @@ public static class ComponentIds {
     public const int Destination = 17;
     public const int Duration = 18;
     public const int Enemy = 19;
-    public const int GamePause = 20;
-    public const int Gold = 21;
-    public const int GoldPlayer = 22;
-    public const int Hp = 23;
-    public const int HpTotal = 24;
-    public const int Id = 25;
-    public const int Interactable = 26;
-    public const int Interval = 27;
-    public const int LifeCount = 28;
-    public const int LifePlayer = 29;
-    public const int Map = 30;
-    public const int MarkedForActive = 31;
-    public const int MarkedForDestroy = 32;
-    public const int MarkedForSell = 33;
+    public const int Gold = 20;
+    public const int GoldPlayer = 21;
+    public const int Hp = 22;
+    public const int HpTotal = 23;
+    public const int Id = 24;
+    public const int Interactable = 25;
+    public const int Interval = 26;
+    public const int LifeCount = 27;
+    public const int LifePlayer = 28;
+    public const int Map = 29;
+    public const int MarkedForActive = 30;
+    public const int MarkedForDestroy = 31;
+    public const int MarkedForSell = 32;
+    public const int Movable = 33;
     public const int MoveSpeed = 34;
     public const int NextWave = 35;
     public const int Origin = 36;
@@ -105,7 +105,6 @@ public static class ComponentIds {
         "Destination",
         "Duration",
         "Enemy",
-        "GamePause",
         "Gold",
         "GoldPlayer",
         "Hp",
@@ -119,6 +118,7 @@ public static class ComponentIds {
         "MarkedForActive",
         "MarkedForDestroy",
         "MarkedForSell",
+        "Movable",
         "MoveSpeed",
         "NextWave",
         "Origin",
@@ -182,7 +182,6 @@ public static class ComponentIds {
         typeof(Destination),
         typeof(Duration),
         typeof(Enemy),
-        typeof(GamePause),
         typeof(Gold),
         typeof(GoldPlayer),
         typeof(Hp),
@@ -196,6 +195,7 @@ public static class ComponentIds {
         typeof(MarkedForActive),
         typeof(MarkedForDestroy),
         typeof(MarkedForSell),
+        typeof(Movable),
         typeof(MoveSpeed),
         typeof(NextWave),
         typeof(Origin),

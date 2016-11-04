@@ -49,9 +49,7 @@ public class SkillCastSystem : IReactiveSystem, ISetPool {
 		origin.AddAttacking (0f);
 
 		while (origin.attacking.spentTime < skill.attackTime.value) {
-			if (!_pool.isGamePause) {
-				origin.ReplaceAttacking (origin.attacking.spentTime + _pool.tick.change);
-			}
+			origin.ReplaceAttacking (origin.attacking.spentTime + _pool.tick.change);
 			yield return null;
 		}
 

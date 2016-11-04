@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System;
 
+[ExecuteInEditMode]
 public class Test : MonoBehaviour {
-	[ExecuteInEditMode]
+	
 	void Update () {
 		gameObject.BotToCenterOffset ();
 	}

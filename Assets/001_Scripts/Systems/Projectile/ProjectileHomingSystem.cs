@@ -31,7 +31,7 @@ public class ProjectileHomingSystem : IReactiveSystem, ISetPool {
 			} 
 			if (prj.target.e.isTargetable) {
 				prj.ReplaceDestination (prj.target.e.position.value + prj.target.e.viewOffset.pivotToCenter);
-				if (prj.target.e.view.ColliderBound.Contains(prj.position.value)) {
+				if (prj.target.e.view.Collider.bounds.Contains(prj.position.value)) {
 					prj.IsReachedEnd (true);
 					continue;
 				}

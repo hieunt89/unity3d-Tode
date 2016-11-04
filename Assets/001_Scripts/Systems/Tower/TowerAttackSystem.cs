@@ -55,9 +55,7 @@ public class TowerAttackSystem : IReactiveSystem, ISetPool {
 		tower.AddAttacking (0f);
 
 		while(tower.attacking.spentTime < tower.attackTime.value){
-			if (!_pool.isGamePause) {
-				tower.ReplaceAttacking (tower.attacking.spentTime + _pool.tick.change);
-			}
+			tower.ReplaceAttacking (tower.attacking.spentTime + _pool.tick.change);
 			yield return null;
 		}
 

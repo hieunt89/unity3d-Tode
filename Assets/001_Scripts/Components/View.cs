@@ -7,21 +7,15 @@ public class View : IComponent {
 
 	Animator[] anim;
 	public Animator[] Anim{
-		get{ 
-			if (anim == null) {
-				anim = go.GetComponentsInChildren<Animator>();
-			}
-			return anim;
+		get{
+			return anim != null ? anim : go.GetComponentsInChildren<Animator>();
 		}
 	}
 
-	Bounds bounds;
-	public Bounds ColliderBound{
-		get{ 
-			if (bounds == null) {
-				bounds = go.GetComponent<Collider> ().bounds;
-			}
-			return bounds;
+	Collider collider;
+	public Collider Collider{
+		get{
+			return collider != null ? collider : go.GetComponent<Collider> ();
 		}
 	}
 }

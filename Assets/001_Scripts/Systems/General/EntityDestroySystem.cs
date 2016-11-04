@@ -20,7 +20,7 @@ public class EntityDestroySystem : IReactiveSystem, ISetPool {
 		for (int i = 0; i < entities.Count; i++) {
 			var e = entities [i];
 			if(e.hasView){
-				EntityLink.Instance.RemoveLink (e.view.go);
+				EntityLink.RemoveLink (e.view.go);
 				Lean.LeanPool.Despawn (e.view.go);
 			}
 			if(e.hasViewSlider){

@@ -11,7 +11,7 @@ public class EnemyMoveSystem : IReactiveSystem, ISetPool {
 	public void SetPool (Pool pool)
 	{
 		_pool = pool;
-		_groupEnemyMovable = _pool.GetGroup(Matcher.AllOf(Matcher.Enemy, Matcher.MoveSpeed, Matcher.PathReference, Matcher.Active));
+		_groupEnemyMovable = _pool.GetGroup(Matcher.AllOf(Matcher.Enemy, Matcher.Movable, Matcher.PathReference, Matcher.Active));
 	}
 
 	#endregion
@@ -37,9 +37,7 @@ public class EnemyMoveSystem : IReactiveSystem, ISetPool {
 					enemy.ReplaceDestination (target);
 				}
 			}
-//			if (enemy.hasView && !enemy.view.Anim.GetCurrentAnimatorStateInfo(0).IsName(AnimState.Move)) {
-//				enemy.view.Anim.Play (AnimState.Move);
-//			}
+
 			enemy.ReplacePosition (Vector3.MoveTowards (enemy.position.value, enemy.destination.value, enemy.moveSpeed.speed * tickEn.tick.change));
 		}
 	}
