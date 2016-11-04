@@ -107,7 +107,7 @@ public class ProjectileEditorWindow : EditorWindow {
 			if (EditorUtility.DisplayDialog ("Are you sure?", 
 				"Do you want to reset " + projectile.Id + " data?",
 				"Yes", "No")) {
-				projectile = new TowerData ("projectile" + existProjectiles.Count);
+				projectile = new ProjectileData ("projectile" + existProjectiles.Count);
 				if (projectileGo) {
 					DestroyImmediate (projectileGo);
 				}
@@ -123,7 +123,7 @@ public class ProjectileEditorWindow : EditorWindow {
 				}
 				dataUtils.DeleteData (ConstantString.DataPath + projectile.GetType().Name + "/" + projectile.Id + ".json");
 				prefabUtils.DeletePrefab (ConstantString.PrefabPath + projectile.Id + ".prefab");
-				projectile = new TowerData ("tower" + existProjectiles.Count);
+				projectile = new ProjectileData ("tower" + existProjectiles.Count);
 			}
 		}
 //		GUILayout.EndHorizontal();
