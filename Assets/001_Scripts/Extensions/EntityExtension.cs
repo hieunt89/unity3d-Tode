@@ -3,6 +3,23 @@ using System.Collections;
 using Entitas;
 
 public static class EntityExtension {
+	public static Entity AddCoroutineTask(this Entity e, IEnumerator task, bool priority = false){
+		if (!e.hasCoroutine) {
+			e.AddCoroutine (task);
+		} else {
+			if (!e.hasCoroutineQueue) {
+				e.AddCoroutineQueue (new System.Collections.Generic.Queue<IEnumerator> ());
+			}
+
+			if (priority) {
+				e.coroutineQueue.Queue.Enqueue (e.coroutine.task);
+				e.ReplaceCoroutine (task);
+			} else {
+				e.coroutineQueue.Queue.Enqueue (task);
+			}
+		}
+		return e;
+	}
 
 	public static Entity BeDamaged(this Entity e, int damage){
 		if (e.hasHp && e.hasHpTotal) {
@@ -52,7 +69,9 @@ public static class EntityExtension {
 			.ReplaceAttackSpeed (data.AtkSpeed)
 			.ReplaceAttackTime (data.AtkTime)
 			.ReplaceAoe (data.Aoe)
-			.ReplaceSkillList (DataManager.Instance.GetSkillTrees ("fireball_tree", "fireball_tree"));
+			.ReplaceAttackCooldown (data.AtkSpeed)
+			.ReplaceSkillList (DataManager.Instance.GetSkillTrees ("fireball_tree", "fireball_tree"))
+			.IsActive(true);
 		} else {
 			e.IsActive (false);
 		}

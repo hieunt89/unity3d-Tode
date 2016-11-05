@@ -31,13 +31,16 @@ public class EnemyWatchHpSystem : ISetPool, IReactiveSystem, IEnsureComponents {
 					_pool.ReplaceGoldPlayer (_pool.goldPlayer.value + e.gold.value);
 				}
 				e.IsActive(false).IsAttackable(false).IsTargetable(false).IsInteractable(false).IsMovable(false);
+				if (e.hasCoroutineQueue) {
+					e.RemoveCoroutineQueue ();
+				}
 				if (e.hasCoroutine) {
 					e.RemoveCoroutine ();
 				}
 				if(e.hasViewSlider){
 					Lean.LeanPool.Despawn (e.viewSlider.bar.gameObject);
 				}
-				e.AddCoroutine (StartDying (e));
+				e.AddCoroutineTask (StartDying (e));
 			}
 		}
 	}

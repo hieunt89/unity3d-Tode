@@ -18,7 +18,7 @@ public class ProjectileCreateViewSystem : IReactiveSystem {
 	public void Execute (System.Collections.Generic.List<Entity> entities)
 	{
 		for (int i = 0; i < entities.Count; i++) {
-			entities [i].AddCoroutine(CreateProjectileView(entities [i]));
+			entities [i].AddCoroutineTask(CreateProjectileView(entities [i]));
 		}
 	}
 	#endregion

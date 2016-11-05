@@ -20,7 +20,7 @@ public class EnemyCreateViewSystem : IReactiveSystem {
 	{
 		for (int i = 0; i < entities.Count; i++) {
 			var e = entities [i];
-			e.AddCoroutine(CreateEnemyView(e));
+			e.AddCoroutineTask(CreateEnemyView(e), true);
 		}
 	}
 
@@ -53,7 +53,6 @@ public class EnemyCreateViewSystem : IReactiveSystem {
 
 		e.AddView (go)
 			.AddViewOffset(go.BotToCenterOffset())
-			.IsInteractable (true)
-			.IsMovable (true);
+			.IsInteractable (true);
 	}
 }

@@ -2,7 +2,15 @@
 using System.Collections;
 using Entitas;
 
-public class HeathBarViewSystem : IReactiveSystem, IInitializeSystem {
+public class HeathBarViewSystem : IReactiveSystem, IInitializeSystem, IEnsureComponents {
+	#region IEnsureComponents implementation
+	public IMatcher ensureComponents {
+		get {
+			return Matcher.AllOf (Matcher.Active, Matcher.View);
+		}
+	}
+	#endregion
+
 	#region IInitializeSystem implementation
 	BarGUI barGUI;
 	public void Initialize ()
@@ -38,7 +46,7 @@ public class HeathBarViewSystem : IReactiveSystem, IInitializeSystem {
 	#region IReactiveSystem implementation
 	public TriggerOnEvent trigger {
 		get {
-			return Matcher.AllOf (Matcher.Hp, Matcher.HpTotal, Matcher.Active, Matcher.Position, Matcher.View).OnEntityAdded ();
+			return Matcher.AllOf (Matcher.Hp, Matcher.HpTotal, Matcher.Position).OnEntityAdded ();
 		}
 	}
 	#endregion

@@ -16,7 +16,7 @@ public class TowerCreateViewSystem : IReactiveSystem {
 	void IReactiveExecuteSystem.Execute (System.Collections.Generic.List<Entity> entities)
 	{
 		for (int i = 0; i < entities.Count; i++) {
-			entities [i].AddCoroutine(CreateTowerView(entities [i]));
+			entities [i].AddCoroutineTask (CreateTowerView (entities [i]));
 		}
 	}
 
@@ -65,7 +65,7 @@ public class TowerCreateViewSystem : IReactiveSystem {
 
 		if (e.hasTower || e.isTowerBase) {
 			EntityLink.AddLink (go, e);
-			e.IsActive (true).IsInteractable (true);
+			e.IsInteractable (true);
 		}
 
 		go.name = e.id.value;

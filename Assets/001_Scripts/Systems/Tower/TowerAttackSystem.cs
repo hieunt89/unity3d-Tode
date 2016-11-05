@@ -10,7 +10,7 @@ public class TowerAttackSystem : IReactiveSystem, ISetPool {
 	public void SetPool (Pool pool)
 	{
 		_pool = pool;
-		_groupTowerReady = _pool.GetGroup (Matcher.AllOf (Matcher.Active, Matcher.Tower, Matcher.Target).NoneOf(Matcher.AttackCooldown, Matcher.Channeling, Matcher.Attacking, Matcher.Coroutine));
+		_groupTowerReady = _pool.GetGroup (Matcher.AllOf (Matcher.Active, Matcher.Tower, Matcher.Target).NoneOf(Matcher.AttackCooldown, Matcher.Channeling, Matcher.Attacking));
 	}
 
 	#endregion
@@ -34,7 +34,7 @@ public class TowerAttackSystem : IReactiveSystem, ISetPool {
 			}
 
 			//attack
-			tower.AddCoroutine (Attack (tower));
+			tower.AddCoroutineTask (Attack (tower));
 		}
 	}
 

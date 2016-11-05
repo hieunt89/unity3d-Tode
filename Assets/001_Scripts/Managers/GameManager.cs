@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour {
 				//Map
 				.Add(pool.CreateSystem<TimeSystem>())
 				.Add(pool.CreateSystem<CoroutineSystem>())
+				.Add(pool.CreateSystem<CoroutineQueueSystem>())
 				.Add(pool.CreateSystem<MapSystem>())
 				.Add(pool.CreateSystem<LifeSystem>())
 				.Add(pool.CreateSystem<GoldSystem>())

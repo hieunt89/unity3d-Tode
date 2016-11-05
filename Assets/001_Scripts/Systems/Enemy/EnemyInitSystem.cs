@@ -73,6 +73,7 @@ public class EnemyInitSystem : IReactiveSystem, ISetPool
 						.AddDyingTime(enemyData.DyingTime)
 						.IsTargetable (true)
 						.IsAttackable(true)
+						.IsMovable(true)
 						;
 				}
 			}

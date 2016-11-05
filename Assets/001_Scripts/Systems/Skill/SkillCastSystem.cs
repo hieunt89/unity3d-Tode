@@ -25,13 +25,11 @@ public class SkillCastSystem : IReactiveSystem, ISetPool {
 		for (int i = 0; i < skillEns.Length; i++) {
 			var skill = skillEns [i];
 			var origin = skill.origin.e;
-			if (!origin.isActive || origin.hasCoroutine || origin.hasAttacking || origin.isChanneling) {
+			if (!origin.isActive || origin.hasAttacking || origin.isChanneling) {
 				continue;
 			}
-
-			if (!origin.hasCoroutine) {
-				origin.AddCoroutine (CastSkill (origin, skill));
-			}
+				
+			origin.AddCoroutineTask (CastSkill (origin, skill));
 		}
 
 	}

@@ -31,7 +31,7 @@ public class EnemyMoveSystem : IReactiveSystem, ISetPool {
 			if (enemy.position.value == enemy.destination.value) {
 				var target = GetNextDestination (enemy.position.value, enemy.pathReference.e.path.wayPoints);
 				if (enemy.position.value == target) {
-					enemy.RemoveMoveSpeed ().IsReachedEnd(true);
+					enemy.IsMovable (false).IsReachedEnd(true);
 					continue;
 				} else {
 					enemy.ReplaceDestination (target);

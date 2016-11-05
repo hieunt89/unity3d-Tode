@@ -14,6 +14,9 @@ public class TowerResetSystem : IReactiveSystem {
 			if (e.hasAttackCooldown) {
 				e.RemoveAttackCooldown ();
 			}
+			if (e.hasCoroutineQueue) {
+				e.RemoveCoroutineQueue ();
+			}
 			if (e.hasCoroutine) {
 				e.RemoveCoroutine ();
 			}

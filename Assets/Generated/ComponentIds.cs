@@ -23,8 +23,8 @@ public static class ComponentIds {
     public const int AttackTime = 13;
     public const int Channeling = 14;
     public const int Coroutine = 15;
-    public const int CurrentSelected = 16;
-    public const int Dead = 17;
+    public const int CoroutineQueue = 16;
+    public const int CurrentSelected = 17;
     public const int Destination = 18;
     public const int Duration = 19;
     public const int Dying = 20;
@@ -105,8 +105,8 @@ public static class ComponentIds {
         "AttackTime",
         "Channeling",
         "Coroutine",
+        "CoroutineQueue",
         "CurrentSelected",
-        "Dead",
         "Destination",
         "Duration",
         "Dying",
@@ -186,8 +186,8 @@ public static class ComponentIds {
         typeof(AttackTime),
         typeof(Channeling),
         typeof(Coroutine),
+        typeof(CoroutineQueue),
         typeof(CurrentSelected),
-        typeof(Dead),
         typeof(Destination),
         typeof(Duration),
         typeof(Dying),
