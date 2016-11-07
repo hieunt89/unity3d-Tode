@@ -1,39 +1,15 @@
 ﻿public struct AnimState{
-	enum StateName {
-		fire,
-		cast,
-		die,
-		move,
-		idle
-	}
+	public static readonly string Fire = "fire";
+	public static readonly string Die = "die";
+	public static readonly string Move = "move";
+	public static readonly string Idle = "idle";
+	public static readonly string Cast = "cast";
+	public static readonly string Wound = "wound";
+}
 
-	public static string Fire{
-		get{ 
-			return StateName.fire.ToString ();
-		}
-	}
-
-	public static string Die{
-		get{ 
-			return StateName.die.ToString ();
-		}
-	}
-
-	public static string Move{
-		get{ 
-			return StateName.move.ToString ();
-		}
-	}
-
-	public static string Idle{
-		get{ 
-			return StateName.idle.ToString ();
-		}
-	}
-
-	public static string Cast{
-		get{ 
-			return StateName.cast.ToString ();
-		}
-	}
+public struct AnimTrigger{
+	public static readonly string Wound = "wound";
+	public static readonly string Idle = "idle";
+	public static readonly string Die = "die";
+	public static readonly string Move = "move";
 }

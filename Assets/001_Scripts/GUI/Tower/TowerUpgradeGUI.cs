@@ -37,7 +37,7 @@ public class TowerUpgradeGUI : HandleEnitityGUI{
 	void CreateTowerUpgradeBtn(Node<string> towerNode){
 		var go = LeanPool.Spawn (prefab);
 		go.transform.SetParent (this.transform, false);
-		go.GetComponent<TowerUpgradeBtn> ().RegisterUpgradeBtn(towerNode);
+		go.GetComponent<TowerUpgradeBtn> ().RegisterBtn(towerNode);
 	}
 
 	public override void HandleEmptyClick(){

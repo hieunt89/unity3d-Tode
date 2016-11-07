@@ -5,15 +5,17 @@ using Entitas;
 public class View : IComponent {
 	public GameObject go;
 
-	public Animator Anim{
-		get{ 
-			return go.GetComponent<Animator>();	
+	Animator[] anim;
+	public Animator[] Anim{
+		get{
+			return anim != null ? anim : go.GetComponentsInChildren<Animator>();
 		}
 	}
 
-	public Bounds ColliderBound{
-		get{ 
-			return go.GetComponent<Collider> ().bounds;
+	Collider collider;
+	public Collider Collider{
+		get{
+			return collider != null ? collider : go.GetComponent<Collider> ();
 		}
 	}
 }

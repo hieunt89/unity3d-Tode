@@ -43,7 +43,7 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 				}
 			}
 			#endregion
-			if ((prj.target.e.hasEnemy && prj.target.e.view.ColliderBound.Contains(prj.position.value) ) || prj.position.value.y <= 0f) {
+			if ((prj.target.e.isTargetable && prj.target.e.view.Collider.bounds.Contains(prj.position.value) ) || prj.position.value.y <= 0f) {
 				prj.IsReachedEnd (true);
 			}else {
 				prj.ReplaceDuration (prj.duration.value + tickEn.tick.change);

@@ -58,9 +58,9 @@ public class PrefabUtils : IPrefabUtils {
 	}
 
 	private void CreateNewPrefab (GameObject obj, string finalPath) {
-//		var prefab = PrefabUtility.CreateEmptyPrefab (finalPath);
-//		PrefabUtility.ReplacePrefab (obj, prefab, ReplacePrefabOptions.ConnectToPrefab);
-		PrefabUtility.CreatePrefab (finalPath, obj, ReplacePrefabOptions.Default);
+		var prefab = PrefabUtility.CreateEmptyPrefab (finalPath);
+		PrefabUtility.ReplacePrefab (obj, prefab, ReplacePrefabOptions.ConnectToPrefab);
+//		PrefabUtility.CreatePrefab (finalPath, obj, ReplacePrefabOptions.Default);
 	}
 
 	public GameObject InstantiatePrefab(string path) {	

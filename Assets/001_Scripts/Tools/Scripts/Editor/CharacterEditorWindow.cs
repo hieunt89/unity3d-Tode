@@ -60,10 +60,11 @@ public class CharacterEditorWindow : EditorWindow {
 		character.GoldWorth = EditorGUILayout.IntField ("Gold Worth", character.GoldWorth);
 		character.AtkType = (AttackType)EditorGUILayout.EnumPopup ("Attack Type", character.AtkType);
 		character.AtkSpeed = EditorGUILayout.FloatField ("Attack Speed", character.AtkSpeed);
+		character.AtkTime = EditorGUILayout.FloatField ("Attack Time", character.AtkTime);
 		character.MinAtkDmg = EditorGUILayout.IntField ("Min Attack Damage", character.MinAtkDmg);
 		character.MaxAtkDmg = EditorGUILayout.IntField ("Max Attack Damage", character.MaxAtkDmg);
 		character.AtkRange = EditorGUILayout.FloatField ("Attack Range", character.AtkRange);
-
+		character.DyingTime = EditorGUILayout.FloatField ("Dying Time", character.DyingTime);
 		if (character.Armors != null && character.Armors.Count > 0) {
 			for (int i = 0; i < character.Armors.Count; i++) {
 				GUILayout.BeginHorizontal ();

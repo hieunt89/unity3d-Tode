@@ -2,12 +2,22 @@
 using System.Collections;
 using Entitas;
 
-public class UpdateLookDirectionSystem : IReactiveSystem, ISetPool {
+public class UpdateLookDirectionSystem : IReactiveSystem, ISetPool, IEnsureComponents {
 	#region ISetPool implementation
 	Pool _pool;
 	public void SetPool (Pool pool)
 	{
 		_pool = pool;
+	}
+
+	#endregion
+
+	#region IEnsureComponents implementation
+
+	public IMatcher ensureComponents {
+		get {
+			return Matcher.AllOf (Matcher.View);
+		}
 	}
 
 	#endregion
@@ -39,7 +49,7 @@ public class UpdateLookDirectionSystem : IReactiveSystem, ISetPool {
 
 	public TriggerOnEvent trigger {
 		get {
-			return Matcher.AllOf (Matcher.Position, Matcher.Destination, Matcher.View).OnEntityAdded ();
+			return Matcher.AllOf (Matcher.Position, Matcher.Destination).OnEntityAdded ();
 		}
 	}
 

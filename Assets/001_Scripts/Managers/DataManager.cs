@@ -36,6 +36,7 @@ public class DataManager {
 
 	public DataManager(){
 		dataUtils = DIContainer.GetModule <IDataUtils> ();
+
 		LoadData <ProjectileData>(out projectileIdToData);
 		LoadData <TowerData> (out towerIdToData);
 		LoadData <CharacterData> (out characterIdToData);

@@ -32,7 +32,7 @@ public class ProjectileLaserSystem : IReactiveSystem, ISetPool {
 				prj.origin.e.IsChanneling (true);
 			}
 
-			if (prj.origin.e.isActive && prj.origin.e.hasTarget && prj.origin.e.target.e == prj.target.e && prj.target.e.hasEnemy) {
+			if (prj.origin.e.isActive && prj.origin.e.hasTarget && prj.origin.e.target.e == prj.target.e && prj.target.e.isTargetable) {
 				var scaleFromPos = Vector3.Distance (prj.destination.value, prj.position.value) / Vector3.Distance (prj.position.value, prj.target.e.position.value + prj.target.e.viewOffset.pivotToCenter);
 				prj.ReplaceDestination (
 					prj.position.value.ToEndFragment (prj.target.e.position.value + prj.target.e.viewOffset.pivotToCenter, Mathf.Clamp01 (prj.moveSpeed.speed * tickEn.tick.change + scaleFromPos))

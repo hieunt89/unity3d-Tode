@@ -11,11 +11,13 @@ public class CharacterData {
 	[SerializeField] private int goldWorth;
 	[SerializeField] private AttackType atkType;
 	[SerializeField] private float atkSpeed;
+	[SerializeField] private float atkTime;
 	[SerializeField] private int minAtkDmg;
 	[SerializeField] private int maxAtkDmg;
 	[SerializeField] private float atkRange;
 	[SerializeField] private List<ArmorData> armors;
 	[SerializeField] private int hp;
+	[SerializeField] private float dyingTIme;
 
 	public string Id {
 		get {
@@ -131,6 +133,24 @@ public class CharacterData {
 		}
 		set {
 			hp = value;
+		}
+	}
+
+	public float DyingTime {
+		get {
+			return dyingTIme;
+		}
+		set {
+			dyingTIme = value;
+		}
+	}
+
+	public float AtkTime {
+		get {
+			return atkTime;
+		}
+		set{ 
+			atkTime = value;
 		}
 	}
 

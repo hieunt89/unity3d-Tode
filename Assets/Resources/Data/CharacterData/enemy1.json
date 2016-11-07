@@ -1,1 +1,0 @@
-{"id":"enemy1","name":"orc","moveSpeed":1.0,"turnSpeed":5.0,"lifeCount":1,"goldWorth":15,"atkType":0,"atkSpeed":2.0,"minAtkDmg":5,"maxAtkDmg":10,"atkRange":1.0,"armors":[{"type":0,"reduction":18.799999237060548},{"type":1,"reduction":0.0}],"hp":300}

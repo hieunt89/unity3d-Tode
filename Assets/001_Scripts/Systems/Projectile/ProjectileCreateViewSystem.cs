@@ -18,7 +18,7 @@ public class ProjectileCreateViewSystem : IReactiveSystem {
 	public void Execute (System.Collections.Generic.List<Entity> entities)
 	{
 		for (int i = 0; i < entities.Count; i++) {
-			entities [i].AddCoroutine(CreateProjectileView(entities [i]));
+			entities [i].AddCoroutineTask(CreateProjectileView(entities [i]));
 		}
 	}
 	#endregion
@@ -32,7 +32,7 @@ public class ProjectileCreateViewSystem : IReactiveSystem {
 	#endregion
 
 	IEnumerator CreateProjectileView(Entity e){
-		var r = Resources.LoadAsync<GameObject> ("Projectile/" + e.projectile.projectileId);
+		var r = Resources.LoadAsync<GameObject> (ConstantString.ResourcesPrefab + e.projectile.projectileId);
 		while(!r.isDone){
 			yield return null;
 		}

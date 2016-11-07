@@ -7,7 +7,7 @@ public class TowerUpgradeBtn : MonoBehaviour {
 	Button _button;
 	float _goldRequire;
 
-	public void RegisterUpgradeBtn (Node<string> upgrade)
+	public void RegisterBtn (Node<string> upgrade)
 	{
 		if (_button == null) {
 			_button = GetComponent<Button> ();

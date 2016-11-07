@@ -2,7 +2,14 @@
 using System.Collections;
 using Entitas;
 
-public class UpdateViewPositionSystem : IReactiveSystem {
+public class UpdateViewPositionSystem : IReactiveSystem, IEnsureComponents {
+	#region IEnsureComponents implementation
+	public IMatcher ensureComponents {
+		get {
+			return Matcher.View;
+		}
+	}
+	#endregion
 
 	#region IReactiveExecuteSystem implementation
 
@@ -19,7 +26,7 @@ public class UpdateViewPositionSystem : IReactiveSystem {
 
 	public TriggerOnEvent trigger {
 		get {
-			return Matcher.AllOf(Matcher.View, Matcher.Position).OnEntityAdded ();
+			return Matcher.AllOf(Matcher.Position).OnEntityAdded ();
 		}
 	}
 

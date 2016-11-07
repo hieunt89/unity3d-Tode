@@ -16,7 +16,7 @@ public class TowerCreateViewSystem : IReactiveSystem {
 	void IReactiveExecuteSystem.Execute (System.Collections.Generic.List<Entity> entities)
 	{
 		for (int i = 0; i < entities.Count; i++) {
-			entities [i].AddCoroutine(CreateTowerView(entities [i]));
+			entities [i].AddCoroutineTask (CreateTowerView (entities [i]));
 		}
 	}
 
@@ -42,7 +42,7 @@ public class TowerCreateViewSystem : IReactiveSystem {
 			prefToLoad = e.tower.towerNode.data;
 		}
 
-		var r = Resources.LoadAsync<GameObject> ("Tower/" + prefToLoad);
+		var r = Resources.LoadAsync<GameObject> (ConstantString.ResourcesPrefab + prefToLoad);
 		while(!r.isDone){
 			yield return null;
 		}
@@ -58,14 +58,14 @@ public class TowerCreateViewSystem : IReactiveSystem {
 		if (!e.hasView) {
 			e.AddView (go);
 		} else {
-			EntityLink.Instance.RemoveLink (e.view.go);
+			EntityLink.RemoveLink (e.view.go);
 			Lean.LeanPool.Despawn (e.view.go);
 			e.ReplaceView (go);
 		}
 
 		if (e.hasTower || e.isTowerBase) {
-			EntityLink.Instance.AddLink (go, e);
-			e.IsActive (true).IsInteractable (true);
+			EntityLink.AddLink (go, e);
+			e.IsInteractable (true);
 		}
 
 		go.name = e.id.value;

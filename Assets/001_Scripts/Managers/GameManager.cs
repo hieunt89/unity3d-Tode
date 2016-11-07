@@ -8,13 +8,13 @@ public class GameManager : MonoBehaviour {
 	Systems _systems;
 
 	void Start() {
+		#if !UNITY_EDITOR
 		DIContainer.BindModules ();
+		#endif
 
 		debug = showDebug;
 		_systems = CreateSystems(Pools.pool);
 		_systems.Initialize();
-
-
 	}
 
 	void Update() {
@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour {
 				//Map
 				.Add(pool.CreateSystem<TimeSystem>())
 				.Add(pool.CreateSystem<CoroutineSystem>())
+				.Add(pool.CreateSystem<CoroutineQueueSystem>())
 				.Add(pool.CreateSystem<MapSystem>())
 				.Add(pool.CreateSystem<LifeSystem>())
 				.Add(pool.CreateSystem<GoldSystem>())
@@ -57,7 +58,7 @@ public class GameManager : MonoBehaviour {
 				.Add(pool.CreateSystem<EnemyInitSystem>())
 				.Add(pool.CreateSystem<EnemyMoveSystem>())
 				.Add(pool.CreateSystem<EnemyReachEndSystem>())
-				.Add(pool.CreateSystem<EnemyDeadSystem>())
+				.Add(pool.CreateSystem<EnemyWatchHpSystem>())
 				
 				//Projectile
 				.Add(pool.CreateSystem<ProjectileHomingSystem>())
@@ -79,6 +80,14 @@ public class GameManager : MonoBehaviour {
 				.Add(pool.CreateSystem<ProjectileLaserViewSystem>())
 				.Add(pool.CreateSystem<UpdateViewPositionSystem>())
 				.Add(pool.CreateSystem<UpdateLookDirectionSystem>())
+
+				//View mecanim
+				.Add(pool.CreateSystem<MecanimAttackingSystem>())
+				.Add(pool.CreateSystem<MecanimMoveSystem>())
+				.Add(pool.CreateSystem<MecanimWoundSystem>())
+				.Add(pool.CreateSystem<MecanimDyingSystem>())
+
+				//View overlay bar
 				.Add(pool.CreateSystem<HeathBarViewSystem>())
 				.Add(pool.CreateSystem<TowerProgressBarViewSystem>())
 				
@@ -86,13 +95,5 @@ public class GameManager : MonoBehaviour {
 				.Add(pool.CreateSystem<EntityActiveSystem>())
 				.Add(pool.CreateSystem<EntityDestroySystem>())
 			;
-	}
-
-	public void ToggleGamePause(){
-		if (Pools.pool.isGamePause) {
-			Pools.pool.isGamePause = false;
-		} else {
-			Pools.pool.isGamePause = true;
-		}
 	}
 }

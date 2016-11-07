@@ -2,7 +2,7 @@
 using System.Collections;
 using Entitas;
 
-public class EnemyCreateViewSystem : IReactiveSystem, IEnsureComponents {
+public class EnemyCreateViewSystem : IReactiveSystem {
 	#region Constructor
 	GameObject enemyViewParent;
 	public EnemyCreateViewSystem(){
@@ -13,15 +13,6 @@ public class EnemyCreateViewSystem : IReactiveSystem, IEnsureComponents {
 		}
 	}
 	#endregion
-	#region IEnsureComponents implementation
-
-	public IMatcher ensureComponents {
-		get {
-			return Matcher.Enemy;
-		}
-	}
-
-	#endregion
 
 	#region IReactiveExecuteSystem implementation
 
@@ -29,7 +20,7 @@ public class EnemyCreateViewSystem : IReactiveSystem, IEnsureComponents {
 	{
 		for (int i = 0; i < entities.Count; i++) {
 			var e = entities [i];
-			e.AddCoroutine(CreateEnemyView(e));
+			e.AddCoroutineTask(CreateEnemyView(e), true);
 		}
 	}
 
@@ -46,22 +37,22 @@ public class EnemyCreateViewSystem : IReactiveSystem, IEnsureComponents {
 	#endregion
 
 	IEnumerator CreateEnemyView(Entity e){
-		var r = Resources.LoadAsync<GameObject> ("Enemy/" + e.enemy.enemyId);
+		var r = Resources.LoadAsync<GameObject> (ConstantString.ResourcesPrefab + e.enemy.enemyId);
 		while(!r.isDone){
 			yield return null;
 		}
 
 		GameObject go = Lean.LeanPool.Spawn (r.asset as GameObject);
 
-		EntityLink.Instance.AddLink (go, e);
-
-		e.IsInteractable (true);
+		EntityLink.AddLink (go, e);
 
 		go.name = e.id.value;
 		go.transform.position = e.position.value;
 		go.transform.rotation = Quaternion.LookRotation(e.destination.value - e.position.value);
 		go.transform.SetParent (enemyViewParent.transform, false);
 
-		e.AddView (go).AddViewOffset(go.BotToCenterOffset());
+		e.AddView (go)
+			.AddViewOffset(go.BotToCenterOffset())
+			.IsInteractable (true);
 	}
 }

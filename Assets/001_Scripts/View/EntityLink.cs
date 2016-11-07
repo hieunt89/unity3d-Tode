@@ -4,26 +4,9 @@ using Entitas;
 using System.Collections.Generic;
 
 public class EntityLink {
-	private static EntityLink instance = null;
-	public static EntityLink Instance
-	{
-		get
-		{
-			if (instance == null)
-			{
-				instance = new EntityLink();
-			}
-			return instance;
-		}
-	}
+	static Dictionary<GameObject, Entity> goToEntity = new Dictionary<GameObject, Entity> ();
 
-	Dictionary<GameObject, Entity> goToEntity;
-
-	public EntityLink(){
-		goToEntity = new Dictionary<GameObject, Entity> ();
-	}
-
-	public Entity GetEntity(GameObject go){
+	public static Entity GetEntity(GameObject go){
 		if (goToEntity.ContainsKey (go)) {
 			if (goToEntity [go] != null) {
 				return goToEntity [go];
@@ -34,11 +17,11 @@ public class EntityLink {
 		return null;
 	}
 
-	public void AddLink(GameObject go, Entity e){
+	public static void AddLink(GameObject go, Entity e){
 		goToEntity.Add (go, e);
 	}
 
-	public bool RemoveLink(GameObject go){
+	public static bool RemoveLink(GameObject go){
 		if (goToEntity.ContainsKey (go)) {
 			goToEntity.Remove (go);
 			return true;
