@@ -27,18 +27,6 @@ public class TowerEditorWindow : EditorWindow {
 		towerEditorWindow.minSize = new Vector2 (400, 600);
 	}
 
-	void OnFocus () {
-		existTowers = dataUtils.LoadAllData <TowerData>();
-		existProjectiles =  dataUtils.LoadAllData <ProjectileData>();
-
-		if (existProjectiles.Count > 0) {
-			projectileIds = new List<string> ();
-			for (int i = 0; i < existProjectiles.Count; i++) {
-				projectileIds.Add(existProjectiles[i].Id);
-			}
-		}
-	}
-
 	void OnEnable () {
 		prefabUtils = DIContainer.GetModule <IPrefabUtils> ();
 		dataUtils = DIContainer.GetModule <IDataUtils> ();
@@ -49,6 +37,25 @@ public class TowerEditorWindow : EditorWindow {
 		tower = new TowerData("tower" + existTowers.Count);
 
 	}
+
+	void OnFocus () {
+		existTowers = dataUtils.LoadAllData <TowerData>();
+		existProjectiles =  dataUtils.LoadAllData <ProjectileData>();
+
+		if (existProjectiles.Count > 0) {
+			projectileIds = new List<string> ();
+			for (int i = 0; i < existProjectiles.Count; i++) {
+				projectileIds.Add(existProjectiles[i].Id);
+			}
+		}
+		SceneView.onSceneGUIDelegate -= this.OnSceneGUI;
+		SceneView.onSceneGUIDelegate += this.OnSceneGUI;
+	}
+
+	void OnDestroy () {
+		SceneView.onSceneGUIDelegate -= this.OnSceneGUI;
+	}
+
 	void OnGUI()
 	{
 
@@ -74,6 +81,7 @@ public class TowerEditorWindow : EditorWindow {
 		tower.MaxDmg = EditorGUILayout.IntField ("Max Damage", tower.MaxDmg);
 		tower.AtkSpeed = EditorGUILayout.FloatField ("Attack Speed", tower.AtkSpeed);
 		tower.AtkTime = EditorGUILayout.FloatField ("Attack Time", tower.AtkTime);
+		tower.AtkPoint = EditorGUILayout.Vector3Field ("Attack Point", tower.AtkPoint);
 		tower.GoldRequired = EditorGUILayout.IntField ("Gold Cost", tower.GoldRequired);
 		tower.BuildTime = EditorGUILayout.FloatField ("Build Time", tower.BuildTime);
 		tower.Aoe = EditorGUILayout.FloatField ("AOE", tower.Aoe);
@@ -144,6 +152,11 @@ public class TowerEditorWindow : EditorWindow {
 //		GUILayout.EndHorizontal();
 
 		Repaint ();
+	}
+
+	public void OnSceneGUI (SceneView _sceneView){
+		Handles.color = Color.red;
+		tower.AtkPoint = Handles.FreeMoveHandle(tower.AtkPoint, Quaternion.identity, .1f, Vector3.one, Handles.SphereCap);
 	}
 
 	private bool CheckInputFields () {

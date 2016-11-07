@@ -21,7 +21,7 @@ public class JsonUtils : IDataUtils{
 
 	public void CreateData<T> (T data) {
 
-		var jsonString = JsonUtility.ToJson(data);
+		var jsonString = JsonUtility.ToJson(data, true);
 		Debug.Log(jsonString);
 
 		var dataPath = ConstantString.DataPath + data.GetType().Name;

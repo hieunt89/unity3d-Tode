@@ -14,6 +14,7 @@ public class TowerData {
 	[SerializeField] private int maxDmg;
 	[SerializeField] private float atkSpeed;
 	[SerializeField] private float atkTime;
+	[SerializeField] private Vector3 atkPoint;
 	[SerializeField] private int goldRequired;
 	[SerializeField] private float buildTime;
 	[SerializeField] private float aoe;
@@ -70,6 +71,15 @@ public class TowerData {
 		}
 		set {
 			atkRange = value;
+		}
+	}
+
+	public Vector3 AtkPoint {
+		get {
+			return this.atkPoint;
+		}
+		set {
+			atkPoint = value;
 		}
 	}
 

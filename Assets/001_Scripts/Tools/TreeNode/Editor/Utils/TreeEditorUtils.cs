@@ -30,19 +30,19 @@ public static class TreeEditorUtils {
 		if (!Directory.Exists (Application.dataPath + TreeNodeConstants.DatabasePath + _currentTree.treeData.treeType.ToString())) {
 			Directory.CreateDirectory (Application.dataPath + TreeNodeConstants.DatabasePath + _currentTree.treeData.treeType.ToString());
 		}
-		FileStream file = File.Create (Application.dataPath + TreeNodeConstants.DatabasePath + _currentTree.treeData.treeType.ToString() + "/" + _currentTree.treeData.treeName + ".bytes");
+		FileStream file = File.Create (Application.dataPath + TreeNodeConstants.DatabasePath + _currentTree.treeData.treeType.ToString() + "/" + _currentTree.treeData.treeName + TreeNodeConstants.DataExtension);
 		bf.Serialize (file, _currentTree.treeData);
 		file.Close ();
 		AssetDatabase.Refresh ();
 	}
 
+
+
 	public static  void LoadTree () {
 		Tree<string> treeData = null;
-		string treePath = EditorUtility.OpenFilePanel ("Load Tree", Application.dataPath + TreeNodeConstants.DatabasePath, "");
+		string treePath = EditorUtility.OpenFilePanel ("Load Tree", Application.dataPath + TreeNodeConstants.DatabasePath, "tree");
 		int appPathLength = Application.dataPath.Length;
-		if (string.IsNullOrEmpty(treePath)) return;
-
-		string finalPath = treePath.Substring (appPathLength - TreeNodeConstants.DataExtension.Length);
+		string finalPath = treePath.Substring (appPathLength - TreeNodeConstants.DataExtension.Length - 1);
 
 		BinaryFormatter bf = new BinaryFormatter ();
 		FileStream file = File.Open (finalPath, FileMode.Open);
