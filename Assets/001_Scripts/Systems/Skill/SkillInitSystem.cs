@@ -38,16 +38,10 @@ public class SkillInitSystem : IReactiveSystem, ISetPool {
 	#endregion
 
 	Entity CreateSkill(Node<string> skillNode, Entity origin){
-		var skillData = DataManager.Instance.GetSkillData (skillNode.data);
-		if (skillData == null) {
-			return null;
-		}
-
 		var e = _pool.CreateEntity ()
 			.AddOrigin (origin)
 			.AddSkill (skillNode)
-			.ReplaceSkillStats (skillData);
-
+			.ReplaceSkillStats (DataManager.Instance.GetSkillData (skillNode.data));
 		return e;
 	}
 }
