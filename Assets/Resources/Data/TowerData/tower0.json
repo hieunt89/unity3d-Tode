@@ -1,1 +1,1 @@
-{"id":"tower0","name":"archer 0","projectileIndex":0,"projectileId":"projectile0","atkType":0,"atkRange":5.0,"minDmg":5,"maxDmg":10,"atkSpeed":0.10000000149011612,"atkTime":2.0,"goldRequired":100,"buildTime":2.0,"aoe":0.0,"treeSkillNames":[]}
+{"id":"tower0","name":"archer 0","projectileIndex":0,"projectileId":"projectile0","atkType":0,"atkRange":5.0,"minDmg":5,"maxDmg":10,"atkSpeed":1.0,"atkTime":0.30000001192092898,"goldRequired":100,"buildTime":2.0,"aoe":0.0,"treeSkillNames":[]}

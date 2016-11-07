@@ -24,11 +24,12 @@ public class MecanimAttackingSystem : IReactiveSystem, IEnsureComponents {
 					for (int j = 0; j < anims.Length; j++) {
 						anims [j].Play (e.attackingParams.stateToPlay, 0, e.attacking.spentTime / e.attackingParams.duration);
 					}
-				} else {
-					for (int j = 0; j < anims.Length; j++) {
-						anims [j].Play (AnimState.Idle);
-					}
-				}
+				} 
+//				else {
+//					for (int j = 0; j < anims.Length; j++) {
+//						anims [j].Play (AnimState.Idle);
+//					}
+//				}
 			}
 		}
 	}
