@@ -25,6 +25,11 @@ public static class TreeEditorUtils {
 
 	}
 
+	public static void SaveTreeToJson (TreeGUI _currentTree) {
+		var jsonString = JsonUtility.ToJson (_currentTree.treeData);
+		Debug.Log (jsonString);
+	}
+
 	public static void SaveTree (TreeGUI _currentTree) {
 		BinaryFormatter bf = new BinaryFormatter ();
 		if (!Directory.Exists (Application.dataPath + TreeNodeConstants.DatabasePath + _currentTree.treeData.treeType.ToString())) {
@@ -35,6 +40,8 @@ public static class TreeEditorUtils {
 		file.Close ();
 		AssetDatabase.Refresh ();
 	}
+
+
 
 	public static  void LoadTree () {
 		Tree<string> treeData = null;

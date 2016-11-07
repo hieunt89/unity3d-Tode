@@ -91,7 +91,8 @@ public class TreeNodeWorkView : ViewBase {
 			TreeEditorUtils.AddNode (currentTree, mousePosition);
 			break;
 		case "3":
-			TreeEditorUtils.SaveTree (currentTree);
+//			TreeEditorUtils.SaveTree (currentTree);
+			TreeEditorUtils.SaveTreeToJson (currentTree);
 			break;
 		case "4":
 			TreeEditorUtils.UnloadTree ();

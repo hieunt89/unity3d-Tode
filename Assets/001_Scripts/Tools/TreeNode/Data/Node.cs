@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 
-
-
 [Serializable]
 public class Node <T> { //where T : class  {
 
