@@ -5,9 +5,11 @@ using System;
 
 public class CharacterEditorWindow : EditorWindow {
 	CharacterData character;
+	UnityEngine.Object characterGo;
 	List<CharacterData> existCharacters;
 	List<float> armorValues;
 	IDataUtils dataUtils;
+	IPrefabUtils prefabUtils;
 
 	[MenuItem("Tode/Character Editor &E")]
 	public static void ShowWindow()
@@ -21,6 +23,8 @@ public class CharacterEditorWindow : EditorWindow {
 		existCharacters = dataUtils.LoadAllData<CharacterData> ();
 	}
 	void OnEnable () {
+		prefabUtils = DIContainer.GetModule <IPrefabUtils> ();
+
 		dataUtils = DIContainer.GetModule <IDataUtils> ();
 
 		existCharacters = dataUtils.LoadAllData<CharacterData> ();
@@ -38,49 +42,38 @@ public class CharacterEditorWindow : EditorWindow {
 //		GUILayout.BeginVertical("box");
 //		EditorGUI.indentLevel++;
 
-		EditorGUI.BeginChangeCheck ();
-		var id = EditorGUILayout.TextField ("id", character.Id);
-		var name = EditorGUILayout.TextField ("Name", character.Name);
-		var hp = EditorGUILayout.IntField ("Hit Point", character.Hp);
-		var moveSpeed = EditorGUILayout.FloatField ("Move Speed", character.MoveSpeed);
-		var turnSpeed = EditorGUILayout.FloatField ("Turn Speed", character.TurnSpeed);
-		var lifeCount = EditorGUILayout.IntField ("Life Count", character.LifeCount);
-		var goldWorth = EditorGUILayout.IntField ("Gold Worth", character.GoldWorth);
-		var atkType = (AttackType) EditorGUILayout.EnumPopup ("Attack Type", character.AtkType);
-		var atkSpeed = EditorGUILayout.FloatField ("Attack Speed", character.AtkSpeed);
-		var atkTime = EditorGUILayout.FloatField ("Attack Time", character.AtkTime);
-		var minAtkDmg = EditorGUILayout.IntField ("Min Attack Damage", character.MinAtkDmg);
-		var maxAtkDmg = EditorGUILayout.IntField ("Max Attack Damage", character.MaxAtkDmg);
-		var atkRange = EditorGUILayout.FloatField ("Attack Range", character.AtkRange);
-		var dyingTime = EditorGUILayout.FloatField ("Dying Time", character.DyingTime);
+//		EditorGUI.BeginChangeCheck ();
+		character.Id = EditorGUILayout.TextField ("id", character.Id);
+		character.Name  = EditorGUILayout.TextField ("Name", character.Name);
 
-		if (EditorGUI.EndChangeCheck ()) {
-			character.Id = id;
-			character.Name = name;
-			character.Hp = hp;
-			character.MoveSpeed = moveSpeed;
-			character.TurnSpeed = turnSpeed;
-			character.LifeCount = lifeCount;
-			character.GoldWorth = goldWorth;
-			character.AtkType = atkType;
-			character.AtkSpeed = atkSpeed;
-			character.AtkTime = atkTime;
-			character.MinAtkDmg = minAtkDmg;
-			character.MaxAtkDmg = maxAtkDmg;
-			character.AtkRange = atkRange;
-			character.DyingTime = dyingTime;
-		}
+		characterGo = EditorGUILayout.ObjectField ("Character GO", characterGo, typeof(GameObject), true);
+		GUI.enabled = characterGo == null && character.Id.Length > 0;
+			if (GUILayout.Button ("Create Character GO")) {
+				characterGo = new GameObject (character.Id);
+			}
+		GUI.enabled = true;
 
-		if (character.Armors != null && character.Armors.Count > 0){
-			for (int i = 0; i < character.Armors.Count; i++)
-			{
-				GUILayout.BeginHorizontal();
+		character.Hp = EditorGUILayout.IntField ("Hit Point", character.Hp);
+		character.MoveSpeed = EditorGUILayout.FloatField ("Move Speed", character.MoveSpeed);
+		character.TurnSpeed = EditorGUILayout.FloatField ("Turn Speed", character.TurnSpeed);
+		character.LifeCount = EditorGUILayout.IntField ("Life Count", character.LifeCount);
+		character.GoldWorth = EditorGUILayout.IntField ("Gold Worth", character.GoldWorth);
+		character.AtkType = (AttackType)EditorGUILayout.EnumPopup ("Attack Type", character.AtkType);
+		character.AtkSpeed = EditorGUILayout.FloatField ("Attack Speed", character.AtkSpeed);
+		character.AtkTime = EditorGUILayout.FloatField ("Attack Time", character.AtkTime);
+		character.MinAtkDmg = EditorGUILayout.IntField ("Min Attack Damage", character.MinAtkDmg);
+		character.MaxAtkDmg = EditorGUILayout.IntField ("Max Attack Damage", character.MaxAtkDmg);
+		character.AtkRange = EditorGUILayout.FloatField ("Attack Range", character.AtkRange);
+		character.DyingTime = EditorGUILayout.FloatField ("Dying Time", character.DyingTime);
+		if (character.Armors != null && character.Armors.Count > 0) {
+			for (int i = 0; i < character.Armors.Count; i++) {
+				GUILayout.BeginHorizontal ();
 				EditorGUI.BeginChangeCheck ();
-				armorValues[i] = Mathf.Round(EditorGUILayout.Slider(character.Armors [i].Type.ToString ().ToUpper () + " Armor Reduction", character.Armors [i].Reduction, 0f, 100f));
+				armorValues [i] = Mathf.Round (EditorGUILayout.Slider (character.Armors [i].Type.ToString ().ToUpper () + " Armor Reduction", character.Armors [i].Reduction, 0f, 100f));
 				if (EditorGUI.EndChangeCheck ()) {
 					character.Armors [i].Reduction = armorValues [i];
 				}
-				GUILayout.EndHorizontal();
+				GUILayout.EndHorizontal ();
 			}
 		}
 
@@ -88,23 +81,51 @@ public class CharacterEditorWindow : EditorWindow {
 //		GUILayout.EndVertical();
 
 //		GUILayout.BeginHorizontal ();
-		GUI.enabled = CheckFields ();
-		if (GUILayout.Button("Save")){
-			dataUtils.SaveData (character);
+		GUI.enabled = CheckInputFields ();
+		if (GUILayout.Button ("Save")) {
+			dataUtils.CreateData (character);
+			prefabUtils.CreatePrefab (characterGo as GameObject);
+
 		}
 		GUI.enabled = true;
-		if (GUILayout.Button("Load")){
+		if (GUILayout.Button ("Load")) {
 			character = dataUtils.LoadData <CharacterData> ();
-			if(character == null){
+			if (character == null) {
 				character = new CharacterData ("character" + existCharacters.Count);
 			}
+
+			if (characterGo) {
+				DestroyImmediate (characterGo);
+			}
+			characterGo = prefabUtils.InstantiatePrefab (ConstantString.PrefabPath + character.Id + ".prefab");
+
 			armorValues = new List<float> ();
 			for (int i = 0; i < character.Armors.Count; i++) {
 				armorValues.Add (0f);
 			}
 		}
-		if (GUILayout.Button("Rest")){
-			character =  new CharacterData ("character" + existCharacters.Count);
+		if (GUILayout.Button("Reset")){
+			if (EditorUtility.DisplayDialog ("Are you sure?", 
+				"Do you want to reset " + character.Id + " data?",
+				"Yes", "No")) {
+				character = new CharacterData ("character" + existCharacters.Count);
+				if (characterGo) {
+					DestroyImmediate (characterGo);
+				}
+			}
+		}
+
+		if (GUILayout.Button("Delete")){
+			if (EditorUtility.DisplayDialog ("Are you sure?", 
+				"Do you want to delete " + character.Id + " data?",
+				"Yes", "No")) {
+				if (characterGo) {
+					DestroyImmediate (characterGo);
+				}
+				dataUtils.DeleteData (ConstantString.DataPath + character.GetType().Name + "/" + character.Id + ".json");
+				prefabUtils.DeletePrefab (ConstantString.PrefabPath + character.Id + ".prefab");
+				character = new CharacterData ("character" + existCharacters.Count);
+			}
 		}
 //		GUILayout.EndHorizontal ();
 		Repaint ();
@@ -112,9 +133,7 @@ public class CharacterEditorWindow : EditorWindow {
 
 
 
-	private bool CheckFields () {
-		var nameInput = !String.IsNullOrEmpty (character.Name);
-
-		return nameInput;
+	private bool CheckInputFields () {
+		return characterGo && !String.IsNullOrEmpty (character.Name);
 	}
 }

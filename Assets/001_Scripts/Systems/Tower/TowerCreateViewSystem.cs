@@ -42,7 +42,7 @@ public class TowerCreateViewSystem : IReactiveSystem {
 			prefToLoad = e.tower.towerNode.data;
 		}
 
-		var r = Resources.LoadAsync<GameObject> ("Tower/" + prefToLoad);
+		var r = Resources.LoadAsync<GameObject> (ConstantString.ResourcesPrefab + prefToLoad);
 		while(!r.isDone){
 			yield return null;
 		}

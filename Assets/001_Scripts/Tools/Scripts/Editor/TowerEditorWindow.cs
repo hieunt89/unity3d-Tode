@@ -8,6 +8,7 @@ using System;
 public class TowerEditorWindow : EditorWindow {
 	
 	TowerData tower;
+	UnityEngine.Object towerGo;
 	List<TowerData> existTowers;
 	List<ProjectileData> existProjectiles;
 
@@ -17,6 +18,7 @@ public class TowerEditorWindow : EditorWindow {
 	int projectileIndex;
 
 	IDataUtils dataUtils;
+	IPrefabUtils prefabUtils;
 
 	[MenuItem("Tode/Tower Editor &T")]
 	public static void ShowWindow()
@@ -26,9 +28,7 @@ public class TowerEditorWindow : EditorWindow {
 	}
 
 	void OnFocus () {
-		dataUtils = DIContainer.GetModule <IDataUtils> ();
 		existTowers = dataUtils.LoadAllData <TowerData>();
-
 		existProjectiles =  dataUtils.LoadAllData <ProjectileData>();
 
 		if (existProjectiles.Count > 0) {
@@ -40,9 +40,10 @@ public class TowerEditorWindow : EditorWindow {
 	}
 
 	void OnEnable () {
+		prefabUtils = DIContainer.GetModule <IPrefabUtils> ();
 		dataUtils = DIContainer.GetModule <IDataUtils> ();
-		existTowers = dataUtils.LoadAllData <TowerData>();
 
+		existTowers = dataUtils.LoadAllData <TowerData>();
 		existProjectiles =  dataUtils.LoadAllData <ProjectileData>();
 
 		tower = new TowerData("tower" + existTowers.Count);
@@ -51,65 +52,103 @@ public class TowerEditorWindow : EditorWindow {
 	void OnGUI()
 	{
 
-		EditorGUI.BeginChangeCheck ();
+//		EditorGUI.BeginChangeCheck ();
 
-		var id = EditorGUILayout.TextField ("Id", tower.Id);
-		var name = EditorGUILayout.TextField ("Name", tower.Name);
-		//		var prjType = EditorGUILayout.TextField ("projectile", towerConstructor.Tower.PrjType);
+		tower.Id = EditorGUILayout.TextField ("Id", tower.Id);
+		tower.Name = EditorGUILayout.TextField ("Name", tower.Name);
+
+		towerGo = EditorGUILayout.ObjectField ("Tower GO", towerGo, typeof(GameObject), true);
+		GUI.enabled = towerGo == null && tower.Id.Length > 0;
+			if (GUILayout.Button ("Create Tower GO")) {
+				towerGo = new GameObject (tower.Id);
+			}
+		GUI.enabled = true;
+
 		projectileIndex = EditorGUILayout.Popup ("Projectile", projectileIndex, projectileIds.ToArray());
-		var atkType = EditorGUILayout.EnumPopup ("Attack Type", tower.AtkType);
-		var atkRange = EditorGUILayout.FloatField ("Tower Range",tower.AtkRange);
-		var minDmg = EditorGUILayout.IntField ("Min Damage", tower.MinDmg);
-		var maxDmg = EditorGUILayout.IntField ("Max Damage", tower.MaxDmg);
-		var atkSpeed = EditorGUILayout.FloatField ("Attack Speed", tower.AtkSpeed);
-		var atkTime = EditorGUILayout.FloatField ("Attack Time", tower.AtkTime);
-		var goldRequired = EditorGUILayout.IntField ("Gold Cost", tower.GoldRequired);
-		var buildTime = EditorGUILayout.FloatField ("Build Time", tower.BuildTime);
-		var aoe = EditorGUILayout.FloatField ("AOE", tower.Aoe);
+		tower.ProjectileIndex = projectileIndex;
+		tower.ProjectileId = projectileIds[projectileIndex];
 
-		if (EditorGUI.EndChangeCheck ()) {
-			tower.Id = id;
-			tower.Name = name;
-			tower.ProjectileIndex = projectileIndex;
-			tower.ProjectileId = projectileIds[projectileIndex];
-			tower.AtkType = (AttackType) atkType;
-			tower.AtkRange = atkRange;
-			tower.MinDmg = minDmg;
-			tower.MaxDmg = maxDmg;
-			tower.AtkSpeed = atkSpeed;
-			tower.AtkTime = atkTime;
-			tower.GoldRequired = goldRequired;
-			tower.BuildTime = buildTime;
-			tower.Aoe = aoe;
-		}
+		tower.AtkType =  (AttackType) EditorGUILayout.EnumPopup ("Attack Type", tower.AtkType);
+		tower.AtkRange = EditorGUILayout.FloatField ("Tower Range",tower.AtkRange);
+		tower.MinDmg = EditorGUILayout.IntField ("Min Damage", tower.MinDmg);
+		tower.MaxDmg = EditorGUILayout.IntField ("Max Damage", tower.MaxDmg);
+		tower.AtkSpeed = EditorGUILayout.FloatField ("Attack Speed", tower.AtkSpeed);
+		tower.AtkTime = EditorGUILayout.FloatField ("Attack Time", tower.AtkTime);
+		tower.GoldRequired = EditorGUILayout.IntField ("Gold Cost", tower.GoldRequired);
+		tower.BuildTime = EditorGUILayout.FloatField ("Build Time", tower.BuildTime);
+		tower.Aoe = EditorGUILayout.FloatField ("AOE", tower.Aoe);
+
+//		if (EditorGUI.EndChangeCheck ()) {
+//			tower.Id = id;
+//			tower.Name = name;
+//			tower.ProjectileIndex = projectileIndex;
+//			tower.ProjectileId = projectileIds[projectileIndex];
+//			tower.AtkType = (AttackType) atkType;
+//			tower.AtkRange = atkRange;
+//			tower.MinDmg = minDmg;
+//			tower.MaxDmg = maxDmg;
+//			tower.AtkSpeed = atkSpeed;
+//			tower.AtkTime = atkTime;
+//			tower.GoldRequired = goldRequired;
+//			tower.BuildTime = buildTime;
+//			tower.Aoe = aoe;
+//		} 
 
 		GUILayout.Space(5);
 
 //		GUILayout.BeginHorizontal ();
-		GUI.enabled = CheckFields ();
+		GUI.enabled = CheckInputFields ();
 		if (GUILayout.Button("Save")){
-			dataUtils.SaveData (tower);
+			dataUtils.CreateData (tower);
+			prefabUtils.CreatePrefab (towerGo as GameObject);
 		}
 		GUI.enabled = true;
+
 		if (GUILayout.Button("Load")){
 			tower = dataUtils.LoadData <TowerData> ();
 			if(tower == null){
 				tower = new TowerData("tower" + existTowers.Count);
 			}
+
+			if (towerGo) {
+				DestroyImmediate (towerGo);
+			}
+			towerGo = prefabUtils.InstantiatePrefab (ConstantString.PrefabPath + tower.Id + ".prefab");
+
 			projectileIndex = tower.ProjectileIndex;
 		}
+
 		if (GUILayout.Button("Reset")){
-			tower = new TowerData ("tower" + existTowers.Count);
+			if (EditorUtility.DisplayDialog ("Are you sure?", 
+				"Do you want to reset " + tower.Id + " data?",
+				"Yes", "No")) {
+				tower = new TowerData ("tower" + existTowers.Count);
+				if (towerGo) {
+					DestroyImmediate (towerGo);
+				}
+			}
 		}
 
+		if (GUILayout.Button("Delete")){
+			if (EditorUtility.DisplayDialog ("Are you sure?", 
+				"Do you want to delete " + tower.Id + " data?",
+				"Yes", "No")) {
+				if (towerGo) {
+					DestroyImmediate (towerGo);
+				}
+				dataUtils.DeleteData (ConstantString.DataPath + tower.GetType().Name + "/" + tower.Id + ".json");
+				prefabUtils.DeletePrefab (ConstantString.PrefabPath + tower.Id + ".prefab");
+				tower = new TowerData ("tower" + existTowers.Count);
+			}
+		}
 //		GUILayout.EndHorizontal();
 
 		Repaint ();
 	}
 
-	private bool CheckFields () {
+	private bool CheckInputFields () {
 		var nameInput = !String.IsNullOrEmpty (tower.Name);
 
-		return nameInput;
+		return towerGo && nameInput;
 	}
 }

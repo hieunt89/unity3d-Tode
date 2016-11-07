@@ -37,7 +37,7 @@ public class EnemyCreateViewSystem : IReactiveSystem {
 	#endregion
 
 	IEnumerator CreateEnemyView(Entity e){
-		var r = Resources.LoadAsync<GameObject> ("Enemy/" + e.enemy.enemyId);
+		var r = Resources.LoadAsync<GameObject> (ConstantString.ResourcesPrefab + e.enemy.enemyId);
 		while(!r.isDone){
 			yield return null;
 		}

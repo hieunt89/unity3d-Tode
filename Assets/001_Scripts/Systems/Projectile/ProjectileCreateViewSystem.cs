@@ -32,7 +32,7 @@ public class ProjectileCreateViewSystem : IReactiveSystem {
 	#endregion
 
 	IEnumerator CreateProjectileView(Entity e){
-		var r = Resources.LoadAsync<GameObject> ("Projectile/" + e.projectile.projectileId);
+		var r = Resources.LoadAsync<GameObject> (ConstantString.ResourcesPrefab + e.projectile.projectileId);
 		while(!r.isDone){
 			yield return null;
 		}

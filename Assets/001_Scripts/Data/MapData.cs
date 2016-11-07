@@ -64,14 +64,24 @@ public class MapData {
 		}
 	}	
 
-	public MapData (string id, int initGold, int initLife, List<PathData> paths, List<TowerPointData> towerPoints, List<WaveData> waves)
+	public MapData (string id)
 	{
 		this.id = id;
-		this.initGold = initGold;
-		this.initLife = initLife;
-		this.paths = paths;
-		this.towerPoints = towerPoints;
-		this.waves = waves;
+		this.initGold = 0;
+		this.initLife = 0;
+		paths = new List<PathData> ();
+		towerPoints = new List<TowerPointData> ();
+		waves = new List<WaveData> ();
 	}
+
+//	public MapData (string id, int initGold, int initLife, List<PathData> paths, List<TowerPointData> towerPoints, List<WaveData> waves)
+//	{
+//		this.id = id;
+//		this.initGold = initGold;
+//		this.initLife = initLife;
+//		this.paths = paths;
+//		this.towerPoints = towerPoints;
+//		this.waves = waves;
+//	}
 	
 }

@@ -36,9 +36,13 @@ public class MapEditorWindow : EditorWindow {
 	private int stepsPerCurve = 10;
 	private float towerRange = 5;
 
+	private bool isTerrainSetup;
+	private UnityEngine.Object terrainGo;
+
 	private GUISkin mapEditorSkin;
 
 	IDataUtils dataUtils;
+	IPrefabUtils prefabUtils;
 
     [MenuItem("Tode/Map Editor")]
     public static void ShowWindow()
@@ -50,9 +54,10 @@ public class MapEditorWindow : EditorWindow {
 	#region MONO
 	void OnEnable () {
 		dataUtils = DIContainer.GetModule <IDataUtils> ();
+		prefabUtils = DIContainer.GetModule <IPrefabUtils> ();
 
-		map = new MapData("", 0, 0, new List<PathData>(), new List<TowerPointData>(), new List<WaveData>());
 		LoadExistData ();
+		map = new MapData("map" + existMaps.Count);
 
 		CreateToggles ();
 		CreatePopupIndexes ();
@@ -110,19 +115,22 @@ public class MapEditorWindow : EditorWindow {
 		EditorGUILayout.LabelField ("MAP CONSTRUCTOR", mapEditorSkin.GetStyle("Header"), GUILayout.MinHeight (40));
 
 		EditorGUILayout.BeginVertical ();
+
 		EditorGUILayout.Space();
 
-		EditorGUI.BeginChangeCheck();
-		var id = EditorGUILayout.TextField ("Map Id", map.Id);
-		var initGold = EditorGUILayout.IntField ("Init Gold", map.InitGold);
-		var initLife = EditorGUILayout.IntField ("Init Life", map.InitLife);
+		this.map.Id = EditorGUILayout.TextField ("Map Id", map.Id);
+		this.map.InitGold = EditorGUILayout.IntField ("Init Gold", map.InitGold);
+		this.map.initLife = EditorGUILayout.IntField ("Init Life", map.InitLife);
 
-		if(EditorGUI.EndChangeCheck()){
-			this.map.Id = id;
-			this.map.InitGold = initGold;
-			this.map.initLife = initLife;
-			EditorUtility.SetDirty(this);
-		}
+		this.terrainGo = EditorGUILayout.ObjectField ("Terrain GO", this.terrainGo, typeof(GameObject), true);
+
+		EditorGUILayout.Space();
+
+		GUI.enabled = terrainGo == null && map.Id.Length > 0;
+			if(GUILayout.Button("Create Terrain GO")) {
+				terrainGo =	new GameObject (map.id);
+			}
+		GUI.enabled = true;
 
 		EditorGUILayout.Space();
 
@@ -138,18 +146,14 @@ public class MapEditorWindow : EditorWindow {
 		OnWaveInspectorGUI();
 		GUI.enabled = true;
 
+	
+
 		if (map != null)
 			OnDataInspectorGUI ();
-		
 		EditorGUILayout.EndVertical ();
-
-		EditorGUILayout.LabelField ("fdj", mapEditorSkin.GetStyle("Footer"), GUILayout.MinHeight (20));
-
-		EditorGUILayout.Space();
-
 		Repaint ();
 	}
-		
+
 	private void OnPathInspectorGUI () {
 		EditorGUILayout.BeginVertical("box");
 		EditorGUILayout.BeginHorizontal ();
@@ -401,26 +405,45 @@ public class MapEditorWindow : EditorWindow {
 
 		GUI.enabled = CheckFields();
 		if (GUILayout.Button ("Save")) {
-			dataUtils.SaveData(map);
-			//			LoadExistData ();
+			dataUtils.CreateData(map);
+			prefabUtils.CreatePrefab (terrainGo as GameObject);
+			// TODO: Save map prefab;
 		}
 		GUI.enabled = true;
 		if (GUILayout.Button ("Load")) {
 			map = dataUtils.LoadData <MapData> ();
 			if (map == null) {
-				map = new MapData("", 0, 0, new List<PathData>(), new List<TowerPointData>(), new List<WaveData>());
-				map.Id =  "map" + existMaps.Count;
+				map = new MapData("map" + existMaps.Count);
 			}
+
+			if (terrainGo != null) {
+				DestroyImmediate (terrainGo);
+			}
+			terrainGo = prefabUtils.InstantiatePrefab (ConstantString.PrefabPath + map.Id + ".prefab");
+
 			CreateToggles ();
 			CreatePopupIndexes ();
 
 			UpdatePathID ();
 		}
 		if (GUILayout.Button ("Reset")) {
-			ResetData();
-//			mc.ApplyModifiedProperties();	// ????
+			if (EditorUtility.DisplayDialog ("Are you sure?", 
+				"Do you want to reset map data?",
+				"Yes", "No")) {
+				ResetData();
+			}
+		}
 
-			// TODO: confirm windows
+		if (GUILayout.Button ("Delete")) {
+			if (EditorUtility.DisplayDialog ("Are you sure?", 
+				"Do you want to delete map data?",
+				"Yes", "No")) {
+				if (terrainGo) {
+					DestroyImmediate (terrainGo);
+				}
+				dataUtils.DeleteData (ConstantString.DataPath + map.GetType().Name + "/" + map.Id + ".json");
+				prefabUtils.DeletePrefab (ConstantString.PrefabPath + map.Id + ".prefab");
+			}
 		}
 		EditorGUILayout.EndHorizontal();
 	}
@@ -434,7 +457,7 @@ public class MapEditorWindow : EditorWindow {
 
 		var waveInput = map.Waves != null && map.Waves.Count > 0;
 
-		return mapIdInput && pathInput && towerPointInput && waveInput;
+		return terrainGo && mapIdInput && pathInput && towerPointInput && waveInput;
 
 	}
 
@@ -652,6 +675,9 @@ public class MapEditorWindow : EditorWindow {
 	}
 
 	private void ResetData() {
+		if (terrainGo) {
+			DestroyImmediate (terrainGo);
+		}
 		ClearPaths();
 		ClearTowerPoints();
 		ClearWaves();
