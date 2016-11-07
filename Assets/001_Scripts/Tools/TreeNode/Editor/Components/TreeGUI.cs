@@ -116,7 +116,7 @@ public class TreeGUI : IInjectDataUtils {
 		bool isRight = _mousePosition.x >= startConnectionNode.nodeRect.x + startConnectionNode.nodeRect.width * 0.5f;
 
 		var startPos = new Vector3(isRight ? startConnectionNode.nodeRect.x + startConnectionNode.nodeRect.width :  startConnectionNode.nodeRect.x, 
-									startConnectionNode.nodeRect.y + startConnectionNode.nodeRect.height +  startConnectionNode.nodeRect .height * .5f, 
+									startConnectionNode.nodeRect.y + startConnectionNode.nodeRect.height * .5f, 
 									0);
 		var endPos = new Vector3(_mousePosition.x, _mousePosition.y, 0);
 
@@ -131,7 +131,7 @@ public class TreeGUI : IInjectDataUtils {
 
 	private void GenerateNodes () {
 		var nodeRect = new Rect(50f, 50f, 100f, 40f);
-		NodeGUI rootNode = new NodeGUI (this.treeData.Root, nodeRect, null, this);
+		NodeGUI rootNode = new NodeGUI (true, this.treeData.Root, nodeRect, null, this);
 		if (rootNode != null) {
 			lastNodeUI = rootNode;
 			GenerateNodes (rootNode);
@@ -141,7 +141,7 @@ public class TreeGUI : IInjectDataUtils {
 	private void GenerateNodes (NodeGUI _parentNode) {
 		for (int i = 0; i < _parentNode.nodeData.children.Count; i++) {
 			var nodeRect = new Rect ((_parentNode.nodeRect.x + _parentNode.nodeRect.width) + _parentNode.nodeRect.width / 2, lastNodeUI.nodeRect.y +(_parentNode.nodeRect.height * 2 * i), 100f, 40f);
-			NodeGUI newNode = new NodeGUI (_parentNode.nodeData.children[i], nodeRect, _parentNode, this);
+			NodeGUI newNode = new NodeGUI (false, _parentNode.nodeData.children[i], nodeRect, _parentNode, this);
 			if (newNode != null) {
 				_parentNode.childNodes.Add (newNode);
 				lastNodeUI = newNode;

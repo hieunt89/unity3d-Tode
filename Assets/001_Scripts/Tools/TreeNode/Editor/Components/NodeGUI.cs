@@ -3,17 +3,13 @@ using UnityEditor;
 using System;
 using System.Collections.Generic;
 
-public enum NodeType {
-	RootNode,
-	Node
-}
-
 public class NodeGUI {
 	public Node<string> nodeData;
 	public NodeGUI parentNode;
 	public List<NodeGUI> childNodes;
 	public Rect nodeRect;
 	public TreeGUI currentTree;
+	public bool isRoot;
 
 	protected GUISkin nodeSkin;
 
@@ -21,7 +17,8 @@ public class NodeGUI {
 	private float nodeWidth = 100f;
 	private float nodeHeight = 400f;
 
-	public NodeGUI (Node<string> _nodeData, Rect _nodeRect, NodeGUI _parentNode, TreeGUI _currentTree) {
+	public NodeGUI (bool _isRoot, Node<string> _nodeData, Rect _nodeRect, NodeGUI _parentNode, TreeGUI _currentTree) {
+		this.isRoot = _isRoot;
 		this.nodeData = _nodeData;
 		this.nodeRect = _nodeRect;
 		this.parentNode = _parentNode;
@@ -48,7 +45,7 @@ public class NodeGUI {
 		if (nodeData == null) return;
 
 
-		nodeRect = GUI.Window (nodeIndex, nodeRect, NodeWindow, nodeData.depth == 0 ? "Root" : "Node");
+		nodeRect = GUI.Window (nodeIndex, nodeRect, NodeWindow, isRoot ? "Root" : "Node");
 
 		DrawNodeConnection ();
 
@@ -61,7 +58,6 @@ public class NodeGUI {
 
 		popUpSelectedIndex = EditorGUILayout.Popup (popUpSelectedIndex, currentTree.existIds.ToArray());
 		nodeData.data = currentTree.existIds [popUpSelectedIndex];
-
 		GUI.DragWindow ();
 	}
 
@@ -92,7 +88,7 @@ public class NodeGUI {
 				// check mouse over any node
 				if (currentTree.startConnectionNode != null) {
 					
-					if (currentTree.nodes[_windowId] != currentTree.startConnectionNode && currentTree.nodes[_windowId].nodeData.depth != 0 && currentTree.nodes[_windowId].parentNode == null) {
+					if (currentTree.nodes[_windowId] != currentTree.startConnectionNode && !currentTree.nodes[_windowId].isRoot && currentTree.nodes[_windowId].parentNode == null) {
 						// add mouse over node to startconnection children node
 						currentTree.startConnectionNode.nodeData.AddChild (currentTree.nodes [_windowId].nodeData);
 

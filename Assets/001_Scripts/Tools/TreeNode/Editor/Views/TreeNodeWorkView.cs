@@ -16,7 +16,7 @@ public class TreeNodeWorkView : ViewBase {
 		GUILayout.BeginArea (viewRect);
 
 		if (currentTree != null) {
-//			GUI.Box (viewRect, viewTitle + " Tree", viewSkin.GetStyle("ViewBg"));
+			GUI.Box (viewRect, viewTitle + " Tree", viewSkin.GetStyle("ViewBg"));
 			currentTree.UpdateTreeUI (_e, viewRect, viewSkin);
 			ProcessEvent (_e);
 		} else {
@@ -88,7 +88,7 @@ public class TreeNodeWorkView : ViewBase {
 	private void OnClickContextCallback (object obj) {
 		switch(obj.ToString()) {
 		case "2":
-			TreeEditorUtils.AddNode (currentTree, NodeType.Node, mousePosition);
+			TreeEditorUtils.AddNode (currentTree, mousePosition);
 			break;
 		case "3":
 			TreeEditorUtils.SaveTree (currentTree);

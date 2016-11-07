@@ -17,7 +17,7 @@ public static class TreeEditorUtils {
 			}
 
 			// add root node
-			AddNode (currentTree, NodeType.RootNode, new Vector2(50f, 50f));
+			AddRootNode (currentTree, new Vector2(50f, 50f));
 
 		} else {
 			EditorUtility.DisplayDialog ("Tree Node Message", "Unable to create new tree", "OK");
@@ -67,13 +67,19 @@ public static class TreeEditorUtils {
 		}
 	}
 
-	public static void AddNode (TreeGUI _currentTree, NodeType _nodeType, Vector2 _position) {
+	public static void AddRootNode (TreeGUI _currentTree,  Vector2 _position) {
 		if (_currentTree != null) {
 			var nodeRect = new Rect (_position.x, _position.y, 100f, 40f);
-			var newNode = new NodeGUI (new Node<string> (_currentTree.existIds [0]), nodeRect, null, _currentTree);
-			if (_nodeType == NodeType.RootNode) {
-				_currentTree.treeData.Root = newNode.nodeData;
-			}
+			var newNode = new NodeGUI (true, new Node<string> (_currentTree.existIds [0]), nodeRect, null, _currentTree);
+
+			_currentTree.treeData.Root = newNode.nodeData;
+		}
+	}
+
+	public static void AddNode (TreeGUI _currentTree,  Vector2 _position) {
+		if (_currentTree != null) {
+			var nodeRect = new Rect (_position.x, _position.y, 100f, 40f);
+			var newNode = new NodeGUI (false, new Node<string> (_currentTree.existIds [0]), nodeRect, null, _currentTree);
 		}
 	}
 
@@ -91,36 +97,6 @@ public static class TreeEditorUtils {
 		}
 		_node.currentTree.nodes.Remove (_node);
 	}
-//	public static void RemoveNode (int _nodeId, TreeUI _currentTree) {
-//		if (_currentTree != null) {
-//			if(_currentTree.nodes.Count >= _nodeId) {
-//				NodeUI selectecNode = _currentTree.nodes[_nodeId];
-//				if(selectecNode != null) {
-//					// remove this node (parent) from its children node
-//					for (int i = 0; i < selectecNode.nodeData.children.Count; i++) {
-//						selectecNode.nodeData.children[i].parent = null;
-//					}
-//					// remove this node from its parent node
-//					if (selectecNode.nodeData.parent != null)
-//						selectecNode.nodeData.parent.children.Remove (selectecNode.nodeData);
-//
-//					// remove its parent node data
-//					selectecNode.nodeData.parent = null;
-//
-//					// remove this node data ?
-//					selectecNode.nodeData = null;
-//
-//					// remove node ui parent from child node ui
-//					for (int i = 0; i < selectecNode.childNodes.Count; i++) {
-//						selectecNode.childNodes[i].parentNode = null;
-//					}
-//
-//					// remove this node ui from list 
-//					_currentTree.nodes.RemoveAt (_nodeId);
-//				}
-//			}
-//		}
-//	}
 
 	public static void RemoveParentNode (NodeGUI _node) {
 		_node.parentNode.nodeData.children.Remove(_node.nodeData);
@@ -129,21 +105,6 @@ public static class TreeEditorUtils {
 
 		_node.parentNode = null;
 	}
-//	public static void RemoveParentNode (int _nodeId, TreeUI _currentTree) {
-//		if (_currentTree != null) {
-//			if(_currentTree.nodes.Count >= _nodeId) {
-//				NodeUI selectecNode = _currentTree.nodes[_nodeId];
-//				if(selectecNode != null) {
-//					// remove this node data from parent node's children data list
-//					_currentTree.nodes[_nodeId].parentNode.nodeData.children.Remove(_currentTree.nodes[_nodeId].nodeData);
-//					// remove this node's parent data
-//					_currentTree.nodes[_nodeId].nodeData.parent = null;
-//
-//					_currentTree.nodes[_nodeId].parentNode = null;
-//				}
-//			}
-//		}
-//	}
 
 //	public static void DrawGrid (Rect _viewRect, float _gridSpacing, float _gridOpacity, Color _gridColor) {
 //		int widthDivs = Mathf.CeilToInt (_viewRect.width - _gridSpacing);
