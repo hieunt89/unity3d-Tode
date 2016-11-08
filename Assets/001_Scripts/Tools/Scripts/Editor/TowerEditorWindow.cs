@@ -8,7 +8,7 @@ using System;
 public class TowerEditorWindow : EditorWindow {
 	
 	TowerData tower;
-	UnityEngine.Object towerGo;
+	GameObject towerGo;
 	List<TowerData> existTowers;
 	List<ProjectileData> existProjectiles;
 
@@ -64,7 +64,7 @@ public class TowerEditorWindow : EditorWindow {
 		tower.Id = EditorGUILayout.TextField ("Id", tower.Id);
 		tower.Name = EditorGUILayout.TextField ("Name", tower.Name);
 
-		towerGo = EditorGUILayout.ObjectField ("Tower GO", towerGo, typeof(GameObject), true);
+		towerGo = (GameObject) EditorGUILayout.ObjectField ("Tower GO", towerGo, typeof(GameObject), true);
 		GUI.enabled = towerGo == null && tower.Id.Length > 0;
 			if (GUILayout.Button ("Create Tower GO")) {
 				towerGo = new GameObject (tower.Id);
@@ -107,6 +107,8 @@ public class TowerEditorWindow : EditorWindow {
 //		GUILayout.BeginHorizontal ();
 		GUI.enabled = CheckInputFields ();
 		if (GUILayout.Button("Save")){
+			tower.AtkPoint = towerGo.transform.InverseTransformPoint (tower.AtkPoint);
+
 			dataUtils.CreateData (tower);
 			prefabUtils.CreatePrefab (towerGo as GameObject);
 		}
@@ -122,7 +124,9 @@ public class TowerEditorWindow : EditorWindow {
 				DestroyImmediate (towerGo);
 			}
 			towerGo = prefabUtils.InstantiatePrefab (ConstantString.PrefabPath + tower.Id + ".prefab");
-
+			if (towerGo != null) {
+				tower.AtkPoint = towerGo.transform.TransformPoint (tower.AtkPoint);
+			}
 			projectileIndex = tower.ProjectileIndex;
 		}
 
