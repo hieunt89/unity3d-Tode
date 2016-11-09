@@ -5,7 +5,7 @@ using System;
 
 public class CharacterEditorWindow : EditorWindow {
 	CharacterData character;
-	UnityEngine.Object characterGo;
+	GameObject characterGo;
 	List<CharacterData> existCharacters;
 	List<float> armorValues;
 	IDataUtils dataUtils;
@@ -21,7 +21,15 @@ public class CharacterEditorWindow : EditorWindow {
 
 	void OnFocus () {
 		existCharacters = dataUtils.LoadAllData<CharacterData> ();
+
+		SceneView.onSceneGUIDelegate -= this.OnSceneGUI;
+		SceneView.onSceneGUIDelegate += this.OnSceneGUI;
 	}
+
+	void OnDestroy () {
+		SceneView.onSceneGUIDelegate -= this.OnSceneGUI;
+	}
+
 	void OnEnable () {
 		prefabUtils = DIContainer.GetModule <IPrefabUtils> ();
 
@@ -46,7 +54,7 @@ public class CharacterEditorWindow : EditorWindow {
 		character.Id = EditorGUILayout.TextField ("id", character.Id);
 		character.Name  = EditorGUILayout.TextField ("Name", character.Name);
 
-		characterGo = EditorGUILayout.ObjectField ("Character GO", characterGo, typeof(GameObject), true);
+		characterGo = (GameObject) EditorGUILayout.ObjectField ("Character GO", characterGo, typeof(GameObject), true);
 		GUI.enabled = characterGo == null && character.Id.Length > 0;
 			if (GUILayout.Button ("Create Character GO")) {
 				characterGo = new GameObject (character.Id);
@@ -61,6 +69,8 @@ public class CharacterEditorWindow : EditorWindow {
 		character.AtkType = (AttackType)EditorGUILayout.EnumPopup ("Attack Type", character.AtkType);
 		character.AtkSpeed = EditorGUILayout.FloatField ("Attack Speed", character.AtkSpeed);
 		character.AtkTime = EditorGUILayout.FloatField ("Attack Time", character.AtkTime);
+		character.AtkPoint = EditorGUILayout.Vector3Field ("Attack Point", character.AtkPoint);
+
 		character.MinAtkDmg = EditorGUILayout.IntField ("Min Attack Damage", character.MinAtkDmg);
 		character.MaxAtkDmg = EditorGUILayout.IntField ("Max Attack Damage", character.MaxAtkDmg);
 		character.AtkRange = EditorGUILayout.FloatField ("Attack Range", character.AtkRange);
@@ -83,6 +93,7 @@ public class CharacterEditorWindow : EditorWindow {
 //		GUILayout.BeginHorizontal ();
 		GUI.enabled = CheckInputFields ();
 		if (GUILayout.Button ("Save")) {
+			character.AtkPoint = characterGo.transform.InverseTransformPoint (character.AtkPoint);
 			dataUtils.CreateData (character);
 			prefabUtils.CreatePrefab (characterGo as GameObject);
 
@@ -98,7 +109,9 @@ public class CharacterEditorWindow : EditorWindow {
 				DestroyImmediate (characterGo);
 			}
 			characterGo = prefabUtils.InstantiatePrefab (ConstantString.PrefabPath + character.Id + ".prefab");
-
+			if (characterGo != null) {
+				character.AtkPoint = characterGo.transform.TransformPoint (character.AtkPoint);
+			}
 			armorValues = new List<float> ();
 			for (int i = 0; i < character.Armors.Count; i++) {
 				armorValues.Add (0f);
@@ -131,6 +144,10 @@ public class CharacterEditorWindow : EditorWindow {
 		Repaint ();
 	}
 
+	public void OnSceneGUI (SceneView _sceneView){
+		Handles.color = Color.green;
+		character.AtkPoint = Handles.FreeMoveHandle(character.AtkPoint, Quaternion.identity, .1f, Vector3.one, Handles.SphereCap);
+	}
 
 
 	private bool CheckInputFields () {

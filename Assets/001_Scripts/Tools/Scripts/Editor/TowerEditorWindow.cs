@@ -6,7 +6,7 @@ using UnityEditor;
 using System;
 
 public class TowerEditorWindow : EditorWindow {
-	
+	static TowerEditorWindow towerEditorWindow;
 	TowerData tower;
 	GameObject towerGo;
 	List<TowerData> existTowers;
@@ -23,7 +23,7 @@ public class TowerEditorWindow : EditorWindow {
 	[MenuItem("Tode/Tower Editor &T")]
 	public static void ShowWindow()
 	{
-		var towerEditorWindow = EditorWindow.GetWindow <TowerEditorWindow> ("Tower Editor", true);
+		towerEditorWindow = EditorWindow.GetWindow <TowerEditorWindow> ("Tower Editor", true);
 		towerEditorWindow.minSize = new Vector2 (400, 600);
 	}
 
@@ -56,10 +56,10 @@ public class TowerEditorWindow : EditorWindow {
 		SceneView.onSceneGUIDelegate -= this.OnSceneGUI;
 	}
 
+
 	void OnGUI()
 	{
-
-//		EditorGUI.BeginChangeCheck ();
+		//		EditorGUI.BeginChangeCheck ();
 
 		tower.Id = EditorGUILayout.TextField ("Id", tower.Id);
 		tower.Name = EditorGUILayout.TextField ("Name", tower.Name);

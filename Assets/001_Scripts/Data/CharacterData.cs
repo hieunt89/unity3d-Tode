@@ -12,6 +12,7 @@ public class CharacterData {
 	[SerializeField] private AttackType atkType;
 	[SerializeField] private float atkSpeed;
 	[SerializeField] private float atkTime;
+	[SerializeField] private Vector3 atkPoint;
 	[SerializeField] private int minAtkDmg;
 	[SerializeField] private int maxAtkDmg;
 	[SerializeField] private float atkRange;
@@ -88,6 +89,15 @@ public class CharacterData {
 		}
 		set {
 			atkSpeed = value;
+		}
+	}
+
+	public Vector3 AtkPoint {
+		get {
+			return this.atkPoint;
+		}
+		set {
+			atkPoint = value;
 		}
 	}
 
