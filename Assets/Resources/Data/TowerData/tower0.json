@@ -1,8 +1,8 @@
 {
     "id": "tower0",
     "name": "archer 0",
-    "projectileIndex": 0,
-    "projectileId": "projectile0",
+    "projectileIndex": 1,
+    "projectileId": "projectile1",
     "atkType": 0,
     "atkRange": 5.0,
     "minDmg": 5,
@@ -10,9 +10,9 @@
     "atkSpeed": 1.0,
     "atkTime": 0.30000001192092898,
     "atkPoint": {
-        "x": 0.02920183166861534,
-        "y": 1.4389548301696778,
-        "z": 0.2634243369102478
+        "x": 0.12800848484039308,
+        "y": 1.4604889154434205,
+        "z": 0.5920016169548035
     },
     "goldRequired": 100,
     "buildTime": 2.0,

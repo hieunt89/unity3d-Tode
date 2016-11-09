@@ -22,14 +22,19 @@ public class MecanimAttackingSystem : IReactiveSystem, IEnsureComponents {
 				var anims = e.view.Anim;
 				if (e.hasAttacking) {
 					for (int j = 0; j < anims.Length; j++) {
-						anims [j].Play (e.attackingParams.stateToPlay, 0, e.attacking.spentTime / e.attackingParams.duration);
+						anims [j].Play (e.attackingParams.stateToPlay, 0, Mathf.Clamp01(e.attacking.spentTime / e.attackingParams.duration));
+//						if (!anims[j].GetCurrentAnimatorStateInfo(0).IsName(e.attackingParams.stateToPlay)) {
+//							anims [j].Play (e.attackingParams.stateToPlay);
+//						}
 					}
 				} 
-//				else {
-//					for (int j = 0; j < anims.Length; j++) {
-//						anims [j].Play (AnimState.Idle);
-//					}
-//				}
+				else {
+					for (int j = 0; j < anims.Length; j++) {
+						if (!anims [j].GetCurrentAnimatorStateInfo (0).IsName (AnimState.Idle)) {
+							anims [j].Play (AnimState.Idle);
+						}
+					}
+				}
 			}
 		}
 	}
