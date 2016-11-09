@@ -22,7 +22,7 @@ public class TowerAttackSystem : IReactiveSystem, ISetPool {
 		if(_groupTowerReady.count <= 0){
 			return;
 		}
-
+			
 		var towers = _groupTowerReady.GetEntities ();
 		for (int i = 0; i < towers.Length; i++) {
 			var tower = towers [i];

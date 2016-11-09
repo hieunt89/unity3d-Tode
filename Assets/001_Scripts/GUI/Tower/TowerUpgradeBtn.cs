@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class TowerUpgradeBtn : MonoBehaviour {
+public class TowerUpgradeBtn : MonoBehaviour, IGoldChangeListener {
 
 	Button _button;
 	float _goldRequire;
@@ -25,23 +25,28 @@ public class TowerUpgradeBtn : MonoBehaviour {
 			GetComponentInChildren<Text> ().text = "upgrade to " + data.Name + " for " + data.GoldRequired + " gold";
 
 			_goldRequire = data.GoldRequired;
-			HandleGoldChange (Pools.pool.goldPlayer.value);
-			Messenger.AddListener<int> (Events.Game.GOLD_CHANGE, HandleGoldChange);
+			OnGoldChange (Pools.pool.goldPlayer.value);
+			Messenger.AddListener<int> (Events.Game.GOLD_CHANGE, OnGoldChange);
 		} else if(GameManager.debug){
 			Debug.Log (upgrade.data + " is null");
 		}
 	}
 
-	void HandleGoldChange(int gold){
-		if (gold < _goldRequire) {
+	#region IGoldChangeListener implementation
+
+	public void OnGoldChange (int amount)
+	{
+		if (amount < _goldRequire) {
 			_button.interactable = false;
 		} else {
 			_button.interactable = true;
 		}
 	}
 
+	#endregion
+
 	void OnDisable(){
-		Messenger.RemoveListener<int> (Events.Game.GOLD_CHANGE, HandleGoldChange);
+		Messenger.RemoveListener<int> (Events.Game.GOLD_CHANGE, OnGoldChange);
 		_button.onClick.RemoveAllListeners ();
 	}
 }
