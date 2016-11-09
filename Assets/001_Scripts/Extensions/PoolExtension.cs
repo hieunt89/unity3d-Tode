@@ -23,9 +23,7 @@ public static class PoolExtension {
 		Entity e = pool.CreateEntity ()
 			.AddProjectile(prjId)
 			.IsProjectileMark(true)
-//			.AddPosition(origin.position.value + origin.view.go.transform.FindChild("out").transform.localPosition)
-//			.AddPosition(origin.position.value + origin.view.go.transform.InverseTransformPoint(new Vector3(3f,3f,3f)))
-
+			.AddPosition(origin.position.value + origin.viewOffset.pivotToCenter)
 			.AddOrigin(origin)
 			.AddTarget (target);
 		switch (prj.Type) {

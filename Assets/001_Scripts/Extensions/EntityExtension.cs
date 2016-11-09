@@ -71,6 +71,7 @@ public static class EntityExtension {
 			.ReplaceAoe (data.Aoe)
 			.ReplaceAttackCooldown (data.AtkSpeed)
 			.ReplaceSkillList (DataManager.Instance.GetSkillTrees ("fireball_tree", "fireball_tree"))
+			.ReplaceViewOffset (data.AtkPoint)
 			.IsActive(true);
 		} else {
 			e.IsActive (false);

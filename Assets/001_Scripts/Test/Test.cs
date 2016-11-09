@@ -4,8 +4,9 @@ using System;
 
 [ExecuteInEditMode]
 public class Test : MonoBehaviour {
-	
-	void Update () {
-		gameObject.BotToCenterOffset ();
+	public GameObject nestedCube;
+
+	void Start () {
+		Debug.Log (transform.InverseTransformPoint(nestedCube.transform.position));
 	}
 }
