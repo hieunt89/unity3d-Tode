@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Entitas;
-
-public class MecanimWoundSystem : IReactiveSystem, IEnsureComponents {
+public class AnimChangeSystem : IReactiveSystem, IEnsureComponents {
 	#region IEnsureComponents implementation
 
 	public IMatcher ensureComponents {
@@ -14,7 +13,6 @@ public class MecanimWoundSystem : IReactiveSystem, IEnsureComponents {
 	#endregion
 
 	#region IReactiveExecuteSystem implementation
-
 	public void Execute (System.Collections.Generic.List<Entity> entities)
 	{
 		for (int i = 0; i < entities.Count; i++) {
@@ -23,27 +21,21 @@ public class MecanimWoundSystem : IReactiveSystem, IEnsureComponents {
 			if (e.view.Anim != null) {
 				var anims = e.view.Anim;
 				for (int j = 0; j < anims.Length; j++) {
-					if (!anims[j].GetCurrentAnimatorStateInfo(1).IsName(AnimState.Wound)) {
-						anims [j].SetTrigger (AnimTrigger.Wound);
-					}
+					anims [j].Play (e.animChange.state, AnimLayer.Combat, 0f);
 				}
 			}
 
-			e.IsWounded (false);
+			e.RemoveAnimChange ();
 		}
 	}
-
 	#endregion
 
 	#region IReactiveSystem implementation
-
 	public TriggerOnEvent trigger {
 		get {
-			return Matcher.Wounded.OnEntityAdded ();
+			return Matcher.AnimChange.OnEntityAdded ();
 		}
 	}
-
 	#endregion
-
-
+	
 }

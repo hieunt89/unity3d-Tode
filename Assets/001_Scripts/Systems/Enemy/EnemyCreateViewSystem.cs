@@ -52,7 +52,7 @@ public class EnemyCreateViewSystem : IReactiveSystem {
 		go.transform.SetParent (enemyViewParent.transform, false);
 
 		e.AddView (go)
-			.AddViewOffset(go.BotToCenterOffset())
+			.AddPointTarget(go.BotToCenterOffset())
 			.IsInteractable (true);
 	}
 }

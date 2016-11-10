@@ -25,9 +25,7 @@ public static class EntityExtension {
 		if (e.hasHp && e.hasHpTotal) {
 			int hpLeft = Mathf.Clamp(e.hp.value - damage, 0, e.hpTotal.value);
 			e.ReplaceHp (hpLeft);
-			if (!e.isWounded) {
-				e.IsWounded (true);
-			}
+			e.AddAnimChange (AnimState.Wound);
 		}
 
 		return e;
@@ -63,16 +61,16 @@ public static class EntityExtension {
 	public static Entity ReplaceTowerStats(this Entity e, TowerData data){
 		if (e.hasTower && data != null) {
 			e.ReplaceProjectile (data.ProjectileId)
-			.ReplaceAttack (data.AtkType)
-			.ReplaceAttackRange (data.AtkRange)
-			.ReplaceAttackDamageRange (data.MinDmg, data.MaxDmg)
-			.ReplaceAttackSpeed (data.AtkSpeed)
-			.ReplaceAttackTime (data.AtkTime)
-			.ReplaceAoe (data.Aoe)
-			.ReplaceAttackCooldown (data.AtkSpeed)
-			.ReplaceSkillList (DataManager.Instance.GetSkillTrees ("fireball_tree", "fireball_tree"))
-			.ReplaceViewOffset (data.AtkPoint)
-			.IsActive(true);
+				.ReplaceAttack (data.AtkType)
+				.ReplaceAttackRange (data.AtkRange)
+				.ReplaceAttackDamageRange (data.MinDmg, data.MaxDmg)
+				.ReplaceAttackSpeed (data.AtkSpeed)
+				.ReplaceAttackTime (data.AtkTime)
+				.ReplaceAoe (data.Aoe)
+				.ReplaceAttackCooldown (data.AtkSpeed)
+				.ReplaceSkillList (DataManager.Instance.GetSkillTrees ("fireball_tree", "fireball_tree"))
+				.ReplacePointAttack (data.AtkPoint)
+				.IsActive(true);
 		} else {
 			e.IsActive (false);
 		}

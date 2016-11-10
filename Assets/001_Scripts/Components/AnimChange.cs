@@ -2,5 +2,8 @@
 using System.Collections;
 using Entitas;
 
-public class Wounded : IComponent {
+public class AnimChange : IComponent {
+
+	public string state;
+
 }

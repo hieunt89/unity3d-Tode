@@ -13,3 +13,8 @@ public struct AnimTrigger{
 	public static readonly string Die = "die";
 	public static readonly string Move = "move";
 }
+
+public struct AnimLayer{
+	public static readonly int Base = 0;
+	public static readonly int Combat = 1;
+}

@@ -8,15 +8,15 @@
 //------------------------------------------------------------------------------
 public static class ComponentIds {
     public const int Active = 0;
-    public const int Aoe = 1;
-    public const int Armor = 2;
-    public const int Attack = 3;
-    public const int Attackable = 4;
-    public const int AttackCooldown = 5;
-    public const int AttackDamage = 6;
-    public const int AttackDamageRange = 7;
-    public const int Attacking = 8;
-    public const int AttackingParams = 9;
+    public const int AnimChange = 1;
+    public const int Aoe = 2;
+    public const int Armor = 3;
+    public const int Attack = 4;
+    public const int Attackable = 5;
+    public const int AttackCooldown = 6;
+    public const int AttackDamage = 7;
+    public const int AttackDamageRange = 8;
+    public const int Attacking = 9;
     public const int AttackOverTime = 10;
     public const int AttackRange = 11;
     public const int AttackSpeed = 12;
@@ -50,46 +50,47 @@ public static class ComponentIds {
     public const int Path = 40;
     public const int PathLength = 41;
     public const int PathReference = 42;
-    public const int Position = 43;
-    public const int Projectile = 44;
-    public const int ProjectileHoming = 45;
-    public const int ProjectileLaser = 46;
-    public const int ProjectileMark = 47;
-    public const int ProjectileThrowing = 48;
-    public const int ProjectileThrowingParams = 49;
-    public const int ReachedEnd = 50;
-    public const int Rooted = 51;
-    public const int SkillCombat = 52;
-    public const int Skill = 53;
-    public const int SkillEffects = 54;
-    public const int SkillEffectWatcher = 55;
-    public const int SkillEffectWatcherList = 56;
-    public const int SkillEntityList = 57;
-    public const int SkillList = 58;
-    public const int SkillSummon = 59;
-    public const int SkillUpgrade = 60;
-    public const int Stunned = 61;
-    public const int Target = 62;
-    public const int Targetable = 63;
-    public const int Tick = 64;
-    public const int TimeSpeed = 65;
-    public const int TimeTotal = 66;
-    public const int Tower = 67;
-    public const int TowerBase = 68;
-    public const int TowerReset = 69;
-    public const int TowerUpgrade = 70;
-    public const int TowerUpgrading = 71;
-    public const int TurnSpeed = 72;
-    public const int View = 73;
-    public const int ViewOffset = 74;
-    public const int ViewSlider = 75;
-    public const int Wave = 76;
-    public const int Wounded = 77;
+    public const int PointAttack = 43;
+    public const int PointTarget = 44;
+    public const int Position = 45;
+    public const int Projectile = 46;
+    public const int ProjectileHoming = 47;
+    public const int ProjectileLaser = 48;
+    public const int ProjectileMark = 49;
+    public const int ProjectileThrowing = 50;
+    public const int ProjectileThrowingParams = 51;
+    public const int ReachedEnd = 52;
+    public const int Rooted = 53;
+    public const int SkillCombat = 54;
+    public const int Skill = 55;
+    public const int SkillEffects = 56;
+    public const int SkillEffectWatcher = 57;
+    public const int SkillEffectWatcherList = 58;
+    public const int SkillEntityList = 59;
+    public const int SkillList = 60;
+    public const int SkillSummon = 61;
+    public const int SkillUpgrade = 62;
+    public const int Stunned = 63;
+    public const int Target = 64;
+    public const int Targetable = 65;
+    public const int Tick = 66;
+    public const int TimeSpeed = 67;
+    public const int TimeTotal = 68;
+    public const int Tower = 69;
+    public const int TowerBase = 70;
+    public const int TowerReset = 71;
+    public const int TowerUpgrade = 72;
+    public const int TowerUpgrading = 73;
+    public const int TurnSpeed = 74;
+    public const int View = 75;
+    public const int ViewSlider = 76;
+    public const int Wave = 77;
 
     public const int TotalComponents = 78;
 
     public static readonly string[] componentNames = {
         "Active",
+        "AnimChange",
         "Aoe",
         "Armor",
         "Attack",
@@ -98,7 +99,6 @@ public static class ComponentIds {
         "AttackDamage",
         "AttackDamageRange",
         "Attacking",
-        "AttackingParams",
         "AttackOverTime",
         "AttackRange",
         "AttackSpeed",
@@ -132,6 +132,8 @@ public static class ComponentIds {
         "Path",
         "PathLength",
         "PathReference",
+        "PointAttack",
+        "PointTarget",
         "Position",
         "Projectile",
         "ProjectileHoming",
@@ -163,14 +165,13 @@ public static class ComponentIds {
         "TowerUpgrading",
         "TurnSpeed",
         "View",
-        "ViewOffset",
         "ViewSlider",
-        "Wave",
-        "Wounded"
+        "Wave"
     };
 
     public static readonly System.Type[] componentTypes = {
         typeof(Active),
+        typeof(AnimChange),
         typeof(Aoe),
         typeof(Armor),
         typeof(Attack),
@@ -179,7 +180,6 @@ public static class ComponentIds {
         typeof(AttackDamage),
         typeof(AttackDamageRange),
         typeof(Attacking),
-        typeof(AttackingParams),
         typeof(AttackOverTime),
         typeof(AttackRange),
         typeof(AttackSpeed),
@@ -213,6 +213,8 @@ public static class ComponentIds {
         typeof(Path),
         typeof(PathLength),
         typeof(PathReference),
+        typeof(PointAttack),
+        typeof(PointTarget),
         typeof(Position),
         typeof(Projectile),
         typeof(ProjectileHoming),
@@ -244,9 +246,7 @@ public static class ComponentIds {
         typeof(TowerUpgrading),
         typeof(TurnSpeed),
         typeof(View),
-        typeof(ViewOffset),
         typeof(ViewSlider),
-        typeof(Wave),
-        typeof(Wounded)
+        typeof(Wave)
     };
 }

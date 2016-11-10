@@ -27,10 +27,10 @@ public class ProjectileHomingSystem : IReactiveSystem, ISetPool {
 		for (int i = 0; i < ens.Length; i++) {
 			prj = ens [i];
 			if (!prj.hasDestination) {
-				prj.AddDestination (prj.target.e.position.value + prj.target.e.viewOffset.pivotToCenter);
+				prj.AddDestination (prj.target.e.position.value + prj.target.e.pointTarget.offset);
 			} 
 			if (prj.target.e.isTargetable) {
-				prj.ReplaceDestination (prj.target.e.position.value + prj.target.e.viewOffset.pivotToCenter);
+				prj.ReplaceDestination (prj.target.e.position.value + prj.target.e.pointTarget.offset);
 				if (prj.target.e.view.Collider.bounds.Contains(prj.position.value)) {
 					prj.IsReachedEnd (true);
 					continue;

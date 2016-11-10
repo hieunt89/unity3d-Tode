@@ -82,9 +82,8 @@ public class GameManager : MonoBehaviour {
 				.Add(pool.CreateSystem<UpdateLookDirectionSystem>())
 
 				//View mecanim
-				.Add(pool.CreateSystem<MecanimAttackingSystem>())
+				.Add(pool.CreateSystem<AnimChangeSystem>())
 				.Add(pool.CreateSystem<MecanimMoveSystem>())
-				.Add(pool.CreateSystem<MecanimWoundSystem>())
 				.Add(pool.CreateSystem<MecanimDyingSystem>())
 
 				//View overlay bar
