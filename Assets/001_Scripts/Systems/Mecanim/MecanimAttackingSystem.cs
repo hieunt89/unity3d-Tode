@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Entitas;
-public class AnimChangeSystem : IReactiveSystem, IEnsureComponents {
+public class MecanimAttackingSystem : IReactiveSystem, IEnsureComponents {
 	#region IEnsureComponents implementation
 
 	public IMatcher ensureComponents {
@@ -20,12 +20,20 @@ public class AnimChangeSystem : IReactiveSystem, IEnsureComponents {
 
 			if (e.view.Anim != null) {
 				var anims = e.view.Anim;
-				for (int j = 0; j < anims.Length; j++) {
-					anims [j].Play (e.animChange.state, AnimLayer.Combat, 0f);
-				}
-			}
 
-			e.RemoveAnimChange ();
+				if (e.hasAttacking) {
+					for (int j = 0; j < anims.Length; j++) {
+						anims [j].Play (e.attackingParams.state, AnimLayer.Base, e.attacking.timeSpent/e.attackingParams.duration);
+					}
+				} else {
+					for (int j = 0; j < anims.Length; j++) {
+						if (!anims [j].GetCurrentAnimatorStateInfo (AnimLayer.Base).IsName (AnimState.Idle)) {
+							anims [j].CrossFade (AnimState.Idle, e.attackingParams.duration/10);
+						}
+					}
+				}
+
+			}
 		}
 	}
 	#endregion
@@ -33,7 +41,7 @@ public class AnimChangeSystem : IReactiveSystem, IEnsureComponents {
 	#region IReactiveSystem implementation
 	public TriggerOnEvent trigger {
 		get {
-			return Matcher.AnimChange.OnEntityAdded ();
+			return Matcher.Attacking.OnEntityAddedOrRemoved ();
 		}
 	}
 	#endregion

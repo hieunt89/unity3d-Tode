@@ -29,14 +29,14 @@ public class MecanimMoveSystem : IReactiveSystem {
 			var anims = e.view.Anim;
 			if (e.isMovable) {
 				for (int j = 0; j < anims.Length; j++) {
-					if (!anims[j].GetCurrentAnimatorStateInfo(0).IsName(AnimState.Move)) {
-						anims [j].SetTrigger (AnimTrigger.Move);
+					if (!anims[j].GetCurrentAnimatorStateInfo(AnimLayer.Base).IsName(AnimState.Move)) {
+						anims [j].CrossFade (AnimState.Move, AnimParam.CrossTime);
 					}
 				}
 			} else {
 				for (int j = 0; j < anims.Length; j++) {
-					if (!anims [j].GetCurrentAnimatorStateInfo (0).IsName (AnimState.Idle)) {
-						anims [j].SetTrigger (AnimTrigger.Idle);
+					if (!anims [j].GetCurrentAnimatorStateInfo (AnimLayer.Base).IsName (AnimState.Idle)) {
+						anims [j].CrossFade (AnimState.Idle, AnimParam.CrossTime);
 					}
 				}
 			}

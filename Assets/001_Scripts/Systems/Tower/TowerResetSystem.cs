@@ -8,8 +8,8 @@ public class TowerResetSystem : IReactiveSystem {
 		for (int i = 0; i < entities.Count; i++) {
 			var e = entities [i];
 
-			if (e.isAttacking) {
-				e.IsAttacking (false);
+			if (e.hasAttacking) {
+				e.RemoveAttacking ();
 			}
 			if (e.hasAttackCooldown) {
 				e.RemoveAttackCooldown ();

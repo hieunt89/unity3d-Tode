@@ -25,7 +25,6 @@ public static class EntityExtension {
 		if (e.hasHp && e.hasHpTotal) {
 			int hpLeft = Mathf.Clamp(e.hp.value - damage, 0, e.hpTotal.value);
 			e.ReplaceHp (hpLeft);
-			e.AddAnimChange (AnimState.Wound);
 		}
 
 		return e;

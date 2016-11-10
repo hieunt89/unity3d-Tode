@@ -8,24 +8,25 @@
 //------------------------------------------------------------------------------
 namespace Entitas {
     public partial class Entity {
-        static readonly Attacking attackingComponent = new Attacking();
+        public Attacking attacking { get { return (Attacking)GetComponent(ComponentIds.Attacking); } }
 
-        public bool isAttacking {
-            get { return HasComponent(ComponentIds.Attacking); }
-            set {
-                if (value != isAttacking) {
-                    if (value) {
-                        AddComponent(ComponentIds.Attacking, attackingComponent);
-                    } else {
-                        RemoveComponent(ComponentIds.Attacking);
-                    }
-                }
-            }
+        public bool hasAttacking { get { return HasComponent(ComponentIds.Attacking); } }
+
+        public Entity AddAttacking(float newTimeSpent) {
+            var component = CreateComponent<Attacking>(ComponentIds.Attacking);
+            component.timeSpent = newTimeSpent;
+            return AddComponent(ComponentIds.Attacking, component);
         }
 
-        public Entity IsAttacking(bool value) {
-            isAttacking = value;
+        public Entity ReplaceAttacking(float newTimeSpent) {
+            var component = CreateComponent<Attacking>(ComponentIds.Attacking);
+            component.timeSpent = newTimeSpent;
+            ReplaceComponent(ComponentIds.Attacking, component);
             return this;
+        }
+
+        public Entity RemoveAttacking() {
+            return RemoveComponent(ComponentIds.Attacking);
         }
     }
 

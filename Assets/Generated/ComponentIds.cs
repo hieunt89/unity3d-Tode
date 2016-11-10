@@ -8,15 +8,15 @@
 //------------------------------------------------------------------------------
 public static class ComponentIds {
     public const int Active = 0;
-    public const int AnimChange = 1;
-    public const int Aoe = 2;
-    public const int Armor = 3;
-    public const int Attack = 4;
-    public const int Attackable = 5;
-    public const int AttackCooldown = 6;
-    public const int AttackDamage = 7;
-    public const int AttackDamageRange = 8;
-    public const int Attacking = 9;
+    public const int Aoe = 1;
+    public const int Armor = 2;
+    public const int Attack = 3;
+    public const int Attackable = 4;
+    public const int AttackCooldown = 5;
+    public const int AttackDamage = 6;
+    public const int AttackDamageRange = 7;
+    public const int Attacking = 8;
+    public const int AttackingParams = 9;
     public const int AttackOverTime = 10;
     public const int AttackRange = 11;
     public const int AttackSpeed = 12;
@@ -90,7 +90,6 @@ public static class ComponentIds {
 
     public static readonly string[] componentNames = {
         "Active",
-        "AnimChange",
         "Aoe",
         "Armor",
         "Attack",
@@ -99,6 +98,7 @@ public static class ComponentIds {
         "AttackDamage",
         "AttackDamageRange",
         "Attacking",
+        "AttackingParams",
         "AttackOverTime",
         "AttackRange",
         "AttackSpeed",
@@ -171,7 +171,6 @@ public static class ComponentIds {
 
     public static readonly System.Type[] componentTypes = {
         typeof(Active),
-        typeof(AnimChange),
         typeof(Aoe),
         typeof(Armor),
         typeof(Attack),
@@ -180,6 +179,7 @@ public static class ComponentIds {
         typeof(AttackDamage),
         typeof(AttackDamageRange),
         typeof(Attacking),
+        typeof(AttackingParams),
         typeof(AttackOverTime),
         typeof(AttackRange),
         typeof(AttackSpeed),
