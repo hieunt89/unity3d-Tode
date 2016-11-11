@@ -83,10 +83,11 @@ public static class ComponentIds {
     public const int TowerUpgrading = 73;
     public const int TurnSpeed = 74;
     public const int View = 75;
-    public const int ViewSlider = 76;
-    public const int Wave = 77;
+    public const int ViewLookAt = 76;
+    public const int ViewSlider = 77;
+    public const int Wave = 78;
 
-    public const int TotalComponents = 78;
+    public const int TotalComponents = 79;
 
     public static readonly string[] componentNames = {
         "Active",
@@ -165,6 +166,7 @@ public static class ComponentIds {
         "TowerUpgrading",
         "TurnSpeed",
         "View",
+        "ViewLookAt",
         "ViewSlider",
         "Wave"
     };
@@ -246,6 +248,7 @@ public static class ComponentIds {
         typeof(TowerUpgrading),
         typeof(TurnSpeed),
         typeof(View),
+        typeof(ViewLookAt),
         typeof(ViewSlider),
         typeof(Wave)
     };

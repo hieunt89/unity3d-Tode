@@ -15,6 +15,7 @@ public class TowerData {
 	[SerializeField] private float atkSpeed;
 	[SerializeField] private float atkTime;
 	[SerializeField] private Vector3 atkPoint;
+	[SerializeField] private float turnSpeed;
 	[SerializeField] private int goldRequired;
 	[SerializeField] private float buildTime;
 	[SerializeField] private float aoe;
@@ -35,6 +36,15 @@ public class TowerData {
 		}
 		set {
 			name = value;
+		}
+	}
+
+	public float TurnSpeed {
+		get {
+			return this.turnSpeed;
+		}
+		set {
+			turnSpeed = value;
 		}
 	}
 

@@ -11,7 +11,8 @@ A tower defense game made with Unity and Entitas v.0.31.1
 - Playable demo scene with towers, enenmies and skills
 
 ## TODO
-- [] implement animation systems
+- [x] implement animation systems
+- [] improve targeting system
 
 ## Additions References
 * [Mark down tutorial](http://www.markdowntutorial.com/)

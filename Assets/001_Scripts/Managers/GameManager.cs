@@ -80,6 +80,7 @@ public class GameManager : MonoBehaviour {
 				.Add(pool.CreateSystem<ProjectileLaserViewSystem>())
 				.Add(pool.CreateSystem<UpdateViewPositionSystem>())
 				.Add(pool.CreateSystem<UpdateLookDirectionSystem>())
+				.Add(pool.CreateSystem<UpdateViewLookAtSystem>())
 
 				//View mecanim
 				.Add(pool.CreateSystem<MecanimAttackingSystem>())

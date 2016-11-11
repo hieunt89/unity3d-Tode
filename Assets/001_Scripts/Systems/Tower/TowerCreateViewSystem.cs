@@ -65,7 +65,8 @@ public class TowerCreateViewSystem : IReactiveSystem {
 
 		if (e.hasTower || e.isTowerBase) {
 			EntityLink.AddLink (go, e);
-			e.IsInteractable (true);
+			e.IsInteractable (true)
+				.AddViewLookAtComponent();
 		}
 
 		go.name = e.id.value;
