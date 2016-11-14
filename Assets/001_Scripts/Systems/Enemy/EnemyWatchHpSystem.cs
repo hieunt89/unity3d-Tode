@@ -26,6 +26,13 @@ public class EnemyWatchHpSystem : ISetPool, IReactiveSystem, IEnsureComponents {
 	{
 		for (int i = 0; i < entities.Count; i++) {
 			var e = entities [i];
+
+			if (e.isWound == false && (e.hp.value < e.hpTotal.value)) {
+				e.IsWound (true);
+			} else {
+				e.IsWound (false);
+			}
+
 			if(e.hp.value <= 0){
 				if(e.hasGold){
 					_pool.ReplaceGoldPlayer (_pool.goldPlayer.value + e.gold.value);
@@ -42,6 +49,7 @@ public class EnemyWatchHpSystem : ISetPool, IReactiveSystem, IEnsureComponents {
 				}
 				e.AddCoroutineTask (StartDying (e));
 			}
+
 		}
 	}
 	#endregion

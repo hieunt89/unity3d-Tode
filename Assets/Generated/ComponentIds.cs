@@ -33,61 +33,63 @@ public static class ComponentIds {
     public const int Gold = 23;
     public const int GoldPlayer = 24;
     public const int Hp = 25;
-    public const int HpTotal = 26;
-    public const int Id = 27;
-    public const int Interactable = 28;
-    public const int Interval = 29;
-    public const int LifeCount = 30;
-    public const int LifePlayer = 31;
-    public const int Map = 32;
-    public const int MarkedForActive = 33;
-    public const int MarkedForDestroy = 34;
-    public const int MarkedForSell = 35;
-    public const int Movable = 36;
-    public const int MoveSpeed = 37;
-    public const int NextWave = 38;
-    public const int Origin = 39;
-    public const int Path = 40;
-    public const int PathLength = 41;
-    public const int PathReference = 42;
-    public const int PointAttack = 43;
-    public const int PointTarget = 44;
-    public const int Position = 45;
-    public const int Projectile = 46;
-    public const int ProjectileHoming = 47;
-    public const int ProjectileLaser = 48;
-    public const int ProjectileMark = 49;
-    public const int ProjectileThrowing = 50;
-    public const int ProjectileThrowingParams = 51;
-    public const int ReachedEnd = 52;
-    public const int Rooted = 53;
-    public const int SkillCombat = 54;
-    public const int Skill = 55;
-    public const int SkillEffects = 56;
-    public const int SkillEffectWatcher = 57;
-    public const int SkillEffectWatcherList = 58;
-    public const int SkillEntityList = 59;
-    public const int SkillList = 60;
-    public const int SkillSummon = 61;
-    public const int SkillUpgrade = 62;
-    public const int Stunned = 63;
-    public const int Target = 64;
-    public const int Targetable = 65;
-    public const int Tick = 66;
-    public const int TimeSpeed = 67;
-    public const int TimeTotal = 68;
-    public const int Tower = 69;
-    public const int TowerBase = 70;
-    public const int TowerReset = 71;
-    public const int TowerUpgrade = 72;
-    public const int TowerUpgrading = 73;
-    public const int TurnSpeed = 74;
-    public const int View = 75;
-    public const int ViewLookAt = 76;
-    public const int ViewSlider = 77;
-    public const int Wave = 78;
+    public const int HpRegen = 26;
+    public const int HpTotal = 27;
+    public const int Id = 28;
+    public const int Interactable = 29;
+    public const int Interval = 30;
+    public const int LifeCount = 31;
+    public const int LifePlayer = 32;
+    public const int Map = 33;
+    public const int MarkedForActive = 34;
+    public const int MarkedForDestroy = 35;
+    public const int MarkedForSell = 36;
+    public const int Movable = 37;
+    public const int MoveSpeed = 38;
+    public const int NextWave = 39;
+    public const int Origin = 40;
+    public const int Path = 41;
+    public const int PathLength = 42;
+    public const int PathReference = 43;
+    public const int PointAttack = 44;
+    public const int PointTarget = 45;
+    public const int Position = 46;
+    public const int Projectile = 47;
+    public const int ProjectileHoming = 48;
+    public const int ProjectileLaser = 49;
+    public const int ProjectileMark = 50;
+    public const int ProjectileThrowing = 51;
+    public const int ProjectileThrowingParams = 52;
+    public const int ReachedEnd = 53;
+    public const int Rooted = 54;
+    public const int SkillCombat = 55;
+    public const int Skill = 56;
+    public const int SkillEffects = 57;
+    public const int SkillEffectWatcher = 58;
+    public const int SkillEffectWatcherList = 59;
+    public const int SkillEntityList = 60;
+    public const int SkillList = 61;
+    public const int SkillSummon = 62;
+    public const int SkillUpgrade = 63;
+    public const int Stunned = 64;
+    public const int Target = 65;
+    public const int Targetable = 66;
+    public const int Tick = 67;
+    public const int TimeSpeed = 68;
+    public const int TimeTotal = 69;
+    public const int Tower = 70;
+    public const int TowerBase = 71;
+    public const int TowerReset = 72;
+    public const int TowerUpgrade = 73;
+    public const int TowerUpgrading = 74;
+    public const int TurnSpeed = 75;
+    public const int View = 76;
+    public const int ViewLookAt = 77;
+    public const int ViewSlider = 78;
+    public const int Wave = 79;
+    public const int Wound = 80;
 
-    public const int TotalComponents = 79;
+    public const int TotalComponents = 81;
 
     public static readonly string[] componentNames = {
         "Active",
@@ -116,6 +118,7 @@ public static class ComponentIds {
         "Gold",
         "GoldPlayer",
         "Hp",
+        "HpRegen",
         "HpTotal",
         "Id",
         "Interactable",
@@ -168,7 +171,8 @@ public static class ComponentIds {
         "View",
         "ViewLookAt",
         "ViewSlider",
-        "Wave"
+        "Wave",
+        "Wound"
     };
 
     public static readonly System.Type[] componentTypes = {
@@ -198,6 +202,7 @@ public static class ComponentIds {
         typeof(Gold),
         typeof(GoldPlayer),
         typeof(Hp),
+        typeof(HpRegen),
         typeof(HpTotal),
         typeof(Id),
         typeof(Interactable),
@@ -250,6 +255,7 @@ public static class ComponentIds {
         typeof(View),
         typeof(ViewLookAt),
         typeof(ViewSlider),
-        typeof(Wave)
+        typeof(Wave),
+        typeof(Wound)
     };
 }

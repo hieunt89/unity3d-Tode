@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour {
 				.Add(pool.CreateSystem<FindTargetSystem>())
 				.Add(pool.CreateSystem<AttackOverTimeSystem>())
 				.Add(pool.CreateSystem<AttackCooldownSystem>())
+				.Add(pool.CreateSystem<HpRegenSystem>())
 
 				//Tower
 				.Add(pool.CreateSystem<TowerInitSystem>())

@@ -70,6 +70,7 @@ public class EnemyInitSystem : IReactiveSystem, ISetPool
 						.AddArmor (enemyData.Armors)
 						.AddHp (enemyData.Hp)
 						.AddHpTotal (enemyData.Hp)
+						.AddHpRegen(0.1f, 3f, 3f) //test
 						.AddDyingTime(enemyData.DyingTime)
 						.IsTargetable (true)
 						.IsAttackable(true)
