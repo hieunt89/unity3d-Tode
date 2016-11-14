@@ -9,6 +9,7 @@ public class TowerEditorWindow : EditorWindow {
 	static TowerEditorWindow towerEditorWindow;
 	TowerData tower;
 	GameObject towerGo;
+	bool toggleProjectile;
 	List<TowerData> existTowers;
 	List<ProjectileData> existProjectiles;
 
@@ -75,6 +76,18 @@ public class TowerEditorWindow : EditorWindow {
 		tower.ProjectileIndex = projectileIndex;
 		tower.ProjectileId = projectileIds[projectileIndex];
 
+		GUILayout.BeginVertical ("box");
+		toggleProjectile = EditorGUILayout.Foldout (toggleProjectile, "Projectile Detail");
+		if (toggleProjectile) {
+			EditorGUILayout.LabelField ("Name", existProjectiles[projectileIndex].Name);
+			EditorGUILayout.LabelField ("Type", existProjectiles[projectileIndex].Type.ToString ());
+			EditorGUILayout.LabelField ("TravelSpeed", existProjectiles[projectileIndex].TravelSpeed.ToString ());
+			EditorGUILayout.LabelField ("Duration", existProjectiles[projectileIndex].Duration.ToString ());
+			EditorGUILayout.LabelField ("MaxDmgBuildTime", existProjectiles[projectileIndex].MaxDmgBuildTime.ToString ());
+			EditorGUILayout.LabelField ("TickInterval", existProjectiles[projectileIndex].TickInterval.ToString ());
+		}
+		GUILayout.EndVertical ();
+
 		tower.AtkType =  (AttackType) EditorGUILayout.EnumPopup ("Attack Type", tower.AtkType);
 		tower.AtkRange = EditorGUILayout.FloatField ("Tower Range",tower.AtkRange);
 		tower.MinDmg = EditorGUILayout.IntField ("Min Damage", tower.MinDmg);
@@ -86,22 +99,6 @@ public class TowerEditorWindow : EditorWindow {
 		tower.GoldRequired = EditorGUILayout.IntField ("Gold Cost", tower.GoldRequired);
 		tower.BuildTime = EditorGUILayout.FloatField ("Build Time", tower.BuildTime);
 		tower.Aoe = EditorGUILayout.FloatField ("AOE", tower.Aoe);
-
-//		if (EditorGUI.EndChangeCheck ()) {
-//			tower.Id = id;
-//			tower.Name = name;
-//			tower.ProjectileIndex = projectileIndex;
-//			tower.ProjectileId = projectileIds[projectileIndex];
-//			tower.AtkType = (AttackType) atkType;
-//			tower.AtkRange = atkRange;
-//			tower.MinDmg = minDmg;
-//			tower.MaxDmg = maxDmg;
-//			tower.AtkSpeed = atkSpeed;
-//			tower.AtkTime = atkTime;
-//			tower.GoldRequired = goldRequired;
-//			tower.BuildTime = buildTime;
-//			tower.Aoe = aoe;
-//		} 
 
 		GUILayout.Space(5);
 
