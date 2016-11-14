@@ -7,20 +7,21 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
-    public partial class Entity {
-        public Attacking attacking { get { return (Attacking)GetComponent(ComponentIds.Attacking); } }
 
+    public partial class Entity {
+
+        public Attacking attacking { get { return (Attacking)GetComponent(ComponentIds.Attacking); } }
         public bool hasAttacking { get { return HasComponent(ComponentIds.Attacking); } }
 
-        public Entity AddAttacking(float newSpentTime) {
+        public Entity AddAttacking(float newTimeSpent) {
             var component = CreateComponent<Attacking>(ComponentIds.Attacking);
-            component.spentTime = newSpentTime;
+            component.timeSpent = newTimeSpent;
             return AddComponent(ComponentIds.Attacking, component);
         }
 
-        public Entity ReplaceAttacking(float newSpentTime) {
+        public Entity ReplaceAttacking(float newTimeSpent) {
             var component = CreateComponent<Attacking>(ComponentIds.Attacking);
-            component.spentTime = newSpentTime;
+            component.timeSpent = newTimeSpent;
             ReplaceComponent(ComponentIds.Attacking, component);
             return this;
         }
@@ -31,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherAttacking;
 
         public static IMatcher Attacking {
             get {
-                if (_matcherAttacking == null) {
+                if(_matcherAttacking == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.Attacking);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherAttacking = matcher;

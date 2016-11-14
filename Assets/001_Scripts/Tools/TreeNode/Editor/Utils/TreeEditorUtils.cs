@@ -40,7 +40,7 @@ public static class TreeEditorUtils {
 
 	public static  void LoadTree () {
 		Tree<string> treeData = null;
-		string treePath = EditorUtility.OpenFilePanel ("Load Tree", Application.dataPath + TreeNodeConstants.DatabasePath, "tree");
+		string treePath = EditorUtility.OpenFilePanel ("Load Tree", Application.dataPath + TreeNodeConstants.DatabasePath, "txt");
 		int appPathLength = Application.dataPath.Length;
 		string finalPath = treePath.Substring (appPathLength - TreeNodeConstants.DataExtension.Length - 1);
 

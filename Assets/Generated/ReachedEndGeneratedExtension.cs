@@ -7,14 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
+
     public partial class Entity {
+
         static readonly ReachedEnd reachedEndComponent = new ReachedEnd();
 
         public bool isReachedEnd {
             get { return HasComponent(ComponentIds.ReachedEnd); }
             set {
-                if (value != isReachedEnd) {
-                    if (value) {
+                if(value != isReachedEnd) {
+                    if(value) {
                         AddComponent(ComponentIds.ReachedEnd, reachedEndComponent);
                     } else {
                         RemoveComponent(ComponentIds.ReachedEnd);
@@ -30,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherReachedEnd;
 
         public static IMatcher ReachedEnd {
             get {
-                if (_matcherReachedEnd == null) {
+                if(_matcherReachedEnd == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.ReachedEnd);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherReachedEnd = matcher;

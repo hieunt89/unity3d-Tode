@@ -7,9 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
-    public partial class Entity {
-        public AttackOverTime attackOverTime { get { return (AttackOverTime)GetComponent(ComponentIds.AttackOverTime); } }
 
+    public partial class Entity {
+
+        public AttackOverTime attackOverTime { get { return (AttackOverTime)GetComponent(ComponentIds.AttackOverTime); } }
         public bool hasAttackOverTime { get { return HasComponent(ComponentIds.AttackOverTime); } }
 
         public Entity AddAttackOverTime(int newDamage, float newTickInterval) {
@@ -33,11 +34,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherAttackOverTime;
 
         public static IMatcher AttackOverTime {
             get {
-                if (_matcherAttackOverTime == null) {
+                if(_matcherAttackOverTime == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.AttackOverTime);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherAttackOverTime = matcher;

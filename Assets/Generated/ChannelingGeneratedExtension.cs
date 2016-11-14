@@ -7,14 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
+
     public partial class Entity {
+
         static readonly Channeling channelingComponent = new Channeling();
 
         public bool isChanneling {
             get { return HasComponent(ComponentIds.Channeling); }
             set {
-                if (value != isChanneling) {
-                    if (value) {
+                if(value != isChanneling) {
+                    if(value) {
                         AddComponent(ComponentIds.Channeling, channelingComponent);
                     } else {
                         RemoveComponent(ComponentIds.Channeling);
@@ -30,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherChanneling;
 
         public static IMatcher Channeling {
             get {
-                if (_matcherChanneling == null) {
+                if(_matcherChanneling == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.Channeling);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherChanneling = matcher;

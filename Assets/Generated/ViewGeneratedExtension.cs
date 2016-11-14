@@ -7,9 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
-    public partial class Entity {
-        public View view { get { return (View)GetComponent(ComponentIds.View); } }
 
+    public partial class Entity {
+
+        public View view { get { return (View)GetComponent(ComponentIds.View); } }
         public bool hasView { get { return HasComponent(ComponentIds.View); } }
 
         public Entity AddView(UnityEngine.GameObject newGo) {
@@ -31,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherView;
 
         public static IMatcher View {
             get {
-                if (_matcherView == null) {
+                if(_matcherView == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.View);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherView = matcher;

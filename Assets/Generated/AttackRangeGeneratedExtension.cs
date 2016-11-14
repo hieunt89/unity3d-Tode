@@ -7,9 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
-    public partial class Entity {
-        public AttackRange attackRange { get { return (AttackRange)GetComponent(ComponentIds.AttackRange); } }
 
+    public partial class Entity {
+
+        public AttackRange attackRange { get { return (AttackRange)GetComponent(ComponentIds.AttackRange); } }
         public bool hasAttackRange { get { return HasComponent(ComponentIds.AttackRange); } }
 
         public Entity AddAttackRange(float newValue) {
@@ -31,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherAttackRange;
 
         public static IMatcher AttackRange {
             get {
-                if (_matcherAttackRange == null) {
+                if(_matcherAttackRange == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.AttackRange);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherAttackRange = matcher;

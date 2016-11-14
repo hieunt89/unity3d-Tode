@@ -7,9 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
-    public partial class Entity {
-        public Destination destination { get { return (Destination)GetComponent(ComponentIds.Destination); } }
 
+    public partial class Entity {
+
+        public Destination destination { get { return (Destination)GetComponent(ComponentIds.Destination); } }
         public bool hasDestination { get { return HasComponent(ComponentIds.Destination); } }
 
         public Entity AddDestination(UnityEngine.Vector3 newValue) {
@@ -31,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherDestination;
 
         public static IMatcher Destination {
             get {
-                if (_matcherDestination == null) {
+                if(_matcherDestination == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.Destination);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherDestination = matcher;

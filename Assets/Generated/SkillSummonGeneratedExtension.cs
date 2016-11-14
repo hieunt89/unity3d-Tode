@@ -7,9 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
-    public partial class Entity {
-        public SkillSummon skillSummon { get { return (SkillSummon)GetComponent(ComponentIds.SkillSummon); } }
 
+    public partial class Entity {
+
+        public SkillSummon skillSummon { get { return (SkillSummon)GetComponent(ComponentIds.SkillSummon); } }
         public bool hasSkillSummon { get { return HasComponent(ComponentIds.SkillSummon); } }
 
         public Entity AddSkillSummon(string newSummonId, int newSummonCount) {
@@ -33,11 +34,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherSkillSummon;
 
         public static IMatcher SkillSummon {
             get {
-                if (_matcherSkillSummon == null) {
+                if(_matcherSkillSummon == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.SkillSummon);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherSkillSummon = matcher;

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Entitas;
+using System.Collections.Generic;
 
 public static class EntityExtension {
 	public static Entity AddCoroutineTask(this Entity e, IEnumerator task, bool priority = false){
@@ -25,9 +26,6 @@ public static class EntityExtension {
 		if (e.hasHp && e.hasHpTotal) {
 			int hpLeft = Mathf.Clamp(e.hp.value - damage, 0, e.hpTotal.value);
 			e.ReplaceHp (hpLeft);
-			if (!e.isWounded) {
-				e.IsWounded (true);
-			}
 		}
 
 		return e;
@@ -63,17 +61,34 @@ public static class EntityExtension {
 	public static Entity ReplaceTowerStats(this Entity e, TowerData data){
 		if (e.hasTower && data != null) {
 			e.ReplaceProjectile (data.ProjectileId)
-			.ReplaceAttack (data.AtkType)
-			.ReplaceAttackRange (data.AtkRange)
-			.ReplaceAttackDamageRange (data.MinDmg, data.MaxDmg)
-			.ReplaceAttackSpeed (data.AtkSpeed)
-			.ReplaceAttackTime (data.AtkTime)
-			.ReplaceAoe (data.Aoe)
-			.ReplaceAttackCooldown (data.AtkSpeed)
-			.ReplaceSkillList (DataManager.Instance.GetSkillTrees ("fireball_tree", "fireball_tree"))
-			.IsActive(true);
+				.ReplaceAttack (data.AtkType)
+				.ReplaceAttackRange (data.AtkRange)
+				.ReplaceAttackDamageRange (data.MinDmg, data.MaxDmg)
+				.ReplaceAttackSpeed (data.AtkSpeed)
+				.ReplaceAttackTime (data.AtkTime)
+				.ReplaceTurnSpeed(data.TurnSpeed)
+				.ReplaceAoe (data.Aoe)
+				.ReplaceAttackCooldown (data.AtkSpeed)
+				.ReplaceSkillList (DataManager.Instance.GetSkillTrees ("fireball_tree", "fireball_tree"))
+				.ReplacePointAttack (data.AtkPoint)
+				.IsActive(true);
 		} else {
 			e.IsActive (false);
+		}
+
+		return e;
+	}
+
+	public static Entity AddViewLookAtComponent(this Entity e){
+		if (e.hasView) {
+			var markedComp = e.view.go.GetComponentsInChildren<MarkedForLookAtTarget> ();
+			var markedTran = new List<Transform> ();
+
+			for (int i = 0; i < markedComp.Length; i++) {
+				markedTran.Add (markedComp [i].transform);
+			}
+
+			e.ReplaceViewLookAt (markedTran);
 		}
 
 		return e;

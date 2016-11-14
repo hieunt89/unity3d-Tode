@@ -25,7 +25,7 @@ public class SkillCastSystem : IReactiveSystem, ISetPool {
 		for (int i = 0; i < skillEns.Length; i++) {
 			var skill = skillEns [i];
 			var origin = skill.origin.e;
-			if (!origin.isActive || origin.hasAttacking || origin.isChanneling) {
+			if (!origin.isActive || origin.hasAttacking || origin.isChanneling || origin.hasCoroutine) {
 				continue;
 			}
 				
@@ -43,17 +43,26 @@ public class SkillCastSystem : IReactiveSystem, ISetPool {
 	#endregion
 
 	IEnumerator CastSkill(Entity origin, Entity skill){
-		origin.ReplaceAttackingParams (AnimState.Cast, skill.attackTime.value);
 		origin.AddAttacking (0f);
+		origin.ReplaceAttackingParams (AnimState.Cast, skill.attackTime.value);
 
-		while (origin.attacking.spentTime < skill.attackTime.value) {
-			origin.ReplaceAttacking (origin.attacking.spentTime + _pool.tick.change);
+		while (origin.attacking.timeSpent < skill.attackTime.value) {
+			origin.ReplaceAttacking (origin.attacking.timeSpent + _pool.tick.change);
 			yield return null;
 		}
 
 		if (skill.hasTarget) {
 			CastNow (origin, skill, skill.target.e);
 		}
+
+		origin.ReplaceAttacking (0f);
+		origin.ReplaceAttackingParams (AnimState.PostCast, skill.attackTime.value);
+
+		while (origin.attacking.timeSpent < skill.attackTime.value) {
+			origin.ReplaceAttacking (origin.attacking.timeSpent + _pool.tick.change);
+			yield return null;
+		}
+
 		origin.RemoveAttacking ();
 	}
 

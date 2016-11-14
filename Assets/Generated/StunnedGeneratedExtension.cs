@@ -7,14 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
+
     public partial class Entity {
+
         static readonly Stunned stunnedComponent = new Stunned();
 
         public bool isStunned {
             get { return HasComponent(ComponentIds.Stunned); }
             set {
-                if (value != isStunned) {
-                    if (value) {
+                if(value != isStunned) {
+                    if(value) {
                         AddComponent(ComponentIds.Stunned, stunnedComponent);
                     } else {
                         RemoveComponent(ComponentIds.Stunned);
@@ -30,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherStunned;
 
         public static IMatcher Stunned {
             get {
-                if (_matcherStunned == null) {
+                if(_matcherStunned == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.Stunned);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherStunned = matcher;

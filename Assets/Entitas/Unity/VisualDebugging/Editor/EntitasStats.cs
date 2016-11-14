@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -7,11 +7,12 @@ using UnityEditor;
 using UnityEngine;
 
 namespace Entitas.Unity.VisualDebugging {
+
     public static class EntitasStats {
 
-        [MenuItem("Entitas/Log Stats", false, 200)]
+        [MenuItem(EntitasMenuItems.log_stats, false, EntitasMenuItemPriorities.log_stats)]
         public static void LogStats() {
-            foreach (var stat in GetStats()) {
+            foreach(var stat in GetStats()) {
                 Debug.Log(stat.Key + ": " + stat.Value);
             }
         }
@@ -26,7 +27,7 @@ namespace Entitas.Unity.VisualDebugging {
                 { "Systems", types.Count(implementsSystem) }
             };
 
-            foreach (var pool in pools) {
+            foreach(var pool in pools) {
                 stats.Add("Components in " + pool.Key, pool.Value);
             }
 
@@ -35,12 +36,12 @@ namespace Entitas.Unity.VisualDebugging {
 
         static Dictionary<string, int> getPools(Type[] components) {
             return components.Aggregate(new Dictionary<string, int>(), (lookups, type) => {
-                var lookupTags = TypeReflectionProvider.GetPools(type);
-                if (lookupTags.Length == 0) {
+                var lookupTags = TypeReflectionProvider.GetPools(type, false);
+                if(lookupTags.Length == 0) {
                     lookupTags = new [] { "Pool" };
                 }
-                foreach (var lookupTag in lookupTags) {
-                    if (!lookups.ContainsKey(lookupTag)) {
+                foreach(var lookupTag in lookupTags) {
+                    if(!lookups.ContainsKey(lookupTag)) {
                         lookups.Add(lookupTag, 0);
                     }
 
@@ -54,8 +55,8 @@ namespace Entitas.Unity.VisualDebugging {
             return type.ImplementsInterface<ISystem>()
                 && type != typeof(ReactiveSystem)
                 && type != typeof(Systems)
-                && type != typeof(DebugSystems);
+                && type != typeof(DebugSystems)
+                && type != typeof(Feature);
         }
     }
 }
-

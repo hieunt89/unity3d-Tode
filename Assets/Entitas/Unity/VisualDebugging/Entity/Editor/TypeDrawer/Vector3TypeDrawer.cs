@@ -1,10 +1,11 @@
 using System;
-using Entitas;
 using UnityEditor;
 using UnityEngine;
 
 namespace Entitas.Unity.VisualDebugging {
+
     public class Vector3TypeDrawer : ITypeDrawer {
+
         public bool HandlesType(Type type) {
             return type == typeof(Vector3);
         }
@@ -14,4 +15,3 @@ namespace Entitas.Unity.VisualDebugging {
         }
     }
 }
-

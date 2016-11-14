@@ -23,7 +23,7 @@ public class MecanimDyingSystem : IReactiveSystem, IEnsureComponents {
 			if (e.view.Anim != null) {
 				var anims = e.view.Anim;
 				for (int j = 0; j < anims.Length; j++) {
-					anims [j].Play (AnimState.Die, 0, e.dying.timeSpent / e.dyingTime.value);
+					anims [j].Play (AnimState.Die, AnimLayer.Base, e.dying.timeSpent / e.dyingTime.value);
 				}
 			}
 		}

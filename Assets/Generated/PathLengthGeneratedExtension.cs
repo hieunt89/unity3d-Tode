@@ -7,9 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
-    public partial class Entity {
-        public PathLength pathLength { get { return (PathLength)GetComponent(ComponentIds.PathLength); } }
 
+    public partial class Entity {
+
+        public PathLength pathLength { get { return (PathLength)GetComponent(ComponentIds.PathLength); } }
         public bool hasPathLength { get { return HasComponent(ComponentIds.PathLength); } }
 
         public Entity AddPathLength(System.Collections.Generic.List<float> newDistances) {
@@ -31,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherPathLength;
 
         public static IMatcher PathLength {
             get {
-                if (_matcherPathLength == null) {
+                if(_matcherPathLength == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.PathLength);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherPathLength = matcher;

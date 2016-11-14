@@ -7,9 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
-    public partial class Entity {
-        public Wave wave { get { return (Wave)GetComponent(ComponentIds.Wave); } }
 
+    public partial class Entity {
+
+        public Wave wave { get { return (Wave)GetComponent(ComponentIds.Wave); } }
         public bool hasWave { get { return HasComponent(ComponentIds.Wave); } }
 
         public Entity AddWave(System.Collections.Generic.List<WaveGroupData> newGroups) {
@@ -31,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherWave;
 
         public static IMatcher Wave {
             get {
-                if (_matcherWave == null) {
+                if(_matcherWave == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.Wave);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherWave = matcher;

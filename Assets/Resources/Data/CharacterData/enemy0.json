@@ -1,1 +1,26 @@
-{"id":"enemy0","name":"goblin","moveSpeed":1.0,"turnSpeed":5.0,"lifeCount":1,"goldWorth":10,"atkType":0,"atkSpeed":2.0,"atkTime":1.0,"minAtkDmg":5,"maxAtkDmg":10,"atkRange":0.0,"armors":[{"type":0,"reduction":12.300000190734864},{"type":1,"reduction":9.800000190734864}],"hp":100,"dyingTIme":2.0}
+{
+    "id": "enemy0",
+    "name": "goblin",
+    "moveSpeed": 1.0,
+    "turnSpeed": 5.0,
+    "lifeCount": 1,
+    "goldWorth": 10,
+    "atkType": 0,
+    "atkSpeed": 2.0,
+    "atkTime": 1.0,
+    "minAtkDmg": 5,
+    "maxAtkDmg": 10,
+    "atkRange": 0.0,
+    "armors": [
+        {
+            "type": 0,
+            "reduction": 12.300000190734864
+        },
+        {
+            "type": 1,
+            "reduction": 9.800000190734864
+        }
+    ],
+    "hp": 100,
+    "dyingTIme": 1.5
+}

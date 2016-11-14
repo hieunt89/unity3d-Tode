@@ -7,9 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
-    public partial class Entity {
-        public ProjectileThrowingParams projectileThrowingParams { get { return (ProjectileThrowingParams)GetComponent(ComponentIds.ProjectileThrowingParams); } }
 
+    public partial class Entity {
+
+        public ProjectileThrowingParams projectileThrowingParams { get { return (ProjectileThrowingParams)GetComponent(ComponentIds.ProjectileThrowingParams); } }
         public bool hasProjectileThrowingParams { get { return HasComponent(ComponentIds.ProjectileThrowingParams); } }
 
         public Entity AddProjectileThrowingParams(UnityEngine.Vector3 newStart, UnityEngine.Vector3 newEnd, float newHeight, float newInitVelocity, float newInitAngle) {
@@ -39,11 +40,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherProjectileThrowingParams;
 
         public static IMatcher ProjectileThrowingParams {
             get {
-                if (_matcherProjectileThrowingParams == null) {
+                if(_matcherProjectileThrowingParams == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.ProjectileThrowingParams);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherProjectileThrowingParams = matcher;

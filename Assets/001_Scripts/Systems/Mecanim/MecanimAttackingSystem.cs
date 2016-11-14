@@ -20,15 +20,19 @@ public class MecanimAttackingSystem : IReactiveSystem, IEnsureComponents {
 
 			if (e.view.Anim != null) {
 				var anims = e.view.Anim;
+
 				if (e.hasAttacking) {
 					for (int j = 0; j < anims.Length; j++) {
-						anims [j].Play (e.attackingParams.stateToPlay, 0, e.attacking.spentTime / e.attackingParams.duration);
+						anims [j].Play (e.attackingParams.state, AnimLayer.Base, e.attacking.timeSpent/e.attackingParams.duration);
 					}
 				} else {
 					for (int j = 0; j < anims.Length; j++) {
-						anims [j].Play (AnimState.Idle);
+						if (!anims [j].GetCurrentAnimatorStateInfo (AnimLayer.Base).IsName (AnimState.Idle)) {
+							anims [j].CrossFade (AnimState.Idle, e.attackingParams.duration/10);
+						}
 					}
 				}
+
 			}
 		}
 	}

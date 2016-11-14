@@ -7,9 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
-    public partial class Entity {
-        public Gold gold { get { return (Gold)GetComponent(ComponentIds.Gold); } }
 
+    public partial class Entity {
+
+        public Gold gold { get { return (Gold)GetComponent(ComponentIds.Gold); } }
         public bool hasGold { get { return HasComponent(ComponentIds.Gold); } }
 
         public Entity AddGold(int newValue) {
@@ -31,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherGold;
 
         public static IMatcher Gold {
             get {
-                if (_matcherGold == null) {
+                if(_matcherGold == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.Gold);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherGold = matcher;

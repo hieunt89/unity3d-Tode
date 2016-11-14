@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
 namespace Entitas.Unity.VisualDebugging {
+
     [CustomEditor(typeof(DebugSystemsBehaviour))]
     public class DebugSystemsInspector : Editor {
 
@@ -40,7 +41,6 @@ namespace Entitas.Unity.VisualDebugging {
             drawSystemList(systems);
 
             EditorUtility.SetDirty(target);
-            Repaint();
         }
 
         static void drawSystemsOverview(DebugSystems systems) {
@@ -55,7 +55,7 @@ namespace Entitas.Unity.VisualDebugging {
         }
 
         void drawSystemsMonitor(DebugSystems systems) {
-            if (_systemsMonitor == null) {
+            if(_systemsMonitor == null) {
                 _systemsMonitor = new SystemsMonitor(SYSTEM_MONITOR_DATA_LENGTH);
                 _systemMonitorData = new Queue<float>(new float[SYSTEM_MONITOR_DATA_LENGTH]);
             }
@@ -69,13 +69,13 @@ namespace Entitas.Unity.VisualDebugging {
                     EditorGUILayout.LabelField("Total", systems.totalDuration.ToString());
 
                     var buttonStyle = new GUIStyle(GUI.skin.button);
-                    if (systems.paused) {
+                    if(systems.paused) {
                         buttonStyle.normal = GUI.skin.button.active;
                     }
-                    if (GUILayout.Button("▌▌", buttonStyle, GUILayout.Width(50))) {
+                    if(GUILayout.Button("▌▌", buttonStyle, GUILayout.Width(50))) {
                         systems.paused = !systems.paused;
                     }
-                    if (GUILayout.Button("Step", GUILayout.Width(50))) {
+                    if(GUILayout.Button("Step", GUILayout.Width(50))) {
                         systems.paused = true;
                         systems.Step();
                         addDuration((float)systems.totalDuration);
@@ -84,7 +84,7 @@ namespace Entitas.Unity.VisualDebugging {
                 }
                 EntitasEditorLayout.EndHorizontal();
 
-                if (!EditorApplication.isPaused && !systems.paused) {
+                if(!EditorApplication.isPaused && !systems.paused) {
                     addDuration((float)systems.totalDuration);
                 }
                 _systemsMonitor.Draw(_systemMonitorData.ToArray(), 80f);
@@ -98,7 +98,7 @@ namespace Entitas.Unity.VisualDebugging {
                 EntitasEditorLayout.BeginHorizontal();
                 {
                     DebugSystems.avgResetInterval = (AvgResetInterval)EditorGUILayout.EnumPopup("Reset average duration Ø", DebugSystems.avgResetInterval);
-                    if (GUILayout.Button("Reset Ø now", GUILayout.Width(88), GUILayout.Height(14))) {
+                    if(GUILayout.Button("Reset Ø now", GUILayout.Width(88), GUILayout.Height(14))) {
                         systems.ResetDurations();
                     }
                 }
@@ -115,31 +115,31 @@ namespace Entitas.Unity.VisualDebugging {
 
                     const string clearButtonControlName = "Clear Button";
                     GUI.SetNextControlName(clearButtonControlName);
-                    if (GUILayout.Button("x", GUILayout.Width(19), GUILayout.Height(14))) {
+                    if(GUILayout.Button("x", GUILayout.Width(19), GUILayout.Height(14))) {
                         _systemNameSearchTerm = string.Empty;
                         GUI.FocusControl(clearButtonControlName);
                     }
                 }
                 EntitasEditorLayout.EndHorizontal();
 
-                _showInitializeSystems = EditorGUILayout.Foldout(_showInitializeSystems, "Initialize Systems");
-                if (_showInitializeSystems && shouldShowSystems(systems, true)) {
+                _showInitializeSystems = EntitasEditorLayout.Foldout(_showInitializeSystems, "Initialize Systems");
+                if(_showInitializeSystems && shouldShowSystems(systems, true)) {
                     EntitasEditorLayout.BeginVerticalBox();
                     {
                         var systemsDrawn = drawSystemInfos(systems, true, false);
-                        if (systemsDrawn == 0) {
+                        if(systemsDrawn == 0) {
                             EditorGUILayout.LabelField(string.Empty);
                         }
                     }
                     EntitasEditorLayout.EndVertical();
                 }
 
-                _showExecuteSystems = EditorGUILayout.Foldout(_showExecuteSystems, "Execute Systems");
-                if (_showExecuteSystems && shouldShowSystems(systems, false)) {
+                _showExecuteSystems = EntitasEditorLayout.Foldout(_showExecuteSystems, "Execute Systems");
+                if(_showExecuteSystems && shouldShowSystems(systems, false)) {
                     EntitasEditorLayout.BeginVerticalBox();
                     {
                         var systemsDrawn = drawSystemInfos(systems, false, false);
-                        if (systemsDrawn == 0) {
+                        if(systemsDrawn == 0) {
                             EditorGUILayout.LabelField(string.Empty);
                         }
                     }
@@ -149,7 +149,7 @@ namespace Entitas.Unity.VisualDebugging {
             EntitasEditorLayout.EndVertical();
         }
 
-        int drawSystemInfos(DebugSystems systems, bool initOnly, bool isChildSysem) {
+        int drawSystemInfos(DebugSystems systems, bool initOnly, bool isChildSystem) {
             var systemInfos = initOnly ? systems.initializeSystemInfos : systems.executeSystemInfos;
             systemInfos = systemInfos
                 .Where(systemInfo => systemInfo.averageExecutionDuration >= _threshold)
@@ -158,25 +158,25 @@ namespace Entitas.Unity.VisualDebugging {
             systemInfos = getSortedSystemInfos(systemInfos, _systemSortMethod);
 
             var systemsDrawn = 0;
-            foreach (var systemInfo in systemInfos) {
+            foreach(var systemInfo in systemInfos) {
                 var debugSystems = systemInfo.system as DebugSystems;
-                if (debugSystems != null) {
-                    if (!shouldShowSystems(debugSystems, initOnly)) {
+                if(debugSystems != null) {
+                    if(!shouldShowSystems(debugSystems, initOnly)) {
                         continue;
                     }
                 }
 
-                if (systemInfo.systemName.ToLower().Contains(_systemNameSearchTerm.ToLower())) {
+                if(systemInfo.systemName.ToLower().Contains(_systemNameSearchTerm.ToLower())) {
                     EntitasEditorLayout.BeginHorizontal();
                     {
-                        EditorGUI.BeginDisabledGroup(isChildSysem);
+                        EditorGUI.BeginDisabledGroup(isChildSystem);
                         {
                             systemInfo.isActive = EditorGUILayout.Toggle(systemInfo.isActive, GUILayout.Width(20));
                         }
                         EditorGUI.EndDisabledGroup();
                         var reactiveSystem = systemInfo.system as ReactiveSystem;
-                        if (reactiveSystem != null) {
-                            if (systemInfo.isActive) {
+                        if(reactiveSystem != null) {
+                            if(systemInfo.isActive) {
                                 reactiveSystem.Activate();
                             } else {
                                 reactiveSystem.Deactivate();
@@ -195,7 +195,7 @@ namespace Entitas.Unity.VisualDebugging {
                 }
 
                 var debugSystem = systemInfo.system as DebugSystems;
-                if (debugSystem != null) {
+                if(debugSystem != null) {
                     var indent = EditorGUI.indentLevel;
                     EditorGUI.indentLevel += 1;
                     systemsDrawn += drawSystemInfos(debugSystem, initOnly, true);
@@ -207,23 +207,23 @@ namespace Entitas.Unity.VisualDebugging {
         }
 
         static SystemInfo[] getSortedSystemInfos(SystemInfo[] systemInfos, SortMethod sortMethod) {
-            if (sortMethod == SortMethod.Name) {
+            if(sortMethod == SortMethod.Name) {
                 return systemInfos
                     .OrderBy(systemInfo => systemInfo.systemName)
                     .ToArray();
             }
-            if (sortMethod == SortMethod.NameDescending) {
+            if(sortMethod == SortMethod.NameDescending) {
                 return systemInfos
                     .OrderByDescending(systemInfo => systemInfo.systemName)
                     .ToArray();
             }
 
-            if (sortMethod == SortMethod.ExecutionTime) {
+            if(sortMethod == SortMethod.ExecutionTime) {
                 return systemInfos
                     .OrderBy(systemInfo => systemInfo.averageExecutionDuration)
                     .ToArray();
             }
-            if (sortMethod == SortMethod.ExecutionTimeDescending) {
+            if(sortMethod == SortMethod.ExecutionTimeDescending) {
                 return systemInfos
                     .OrderByDescending(systemInfo => systemInfo.averageExecutionDuration)
                     .ToArray();
@@ -233,11 +233,11 @@ namespace Entitas.Unity.VisualDebugging {
         }
 
         static bool shouldShowSystems(DebugSystems systems, bool initOnly) {
-            if (!_hideEmptySystems) {
+            if(!_hideEmptySystems) {
                 return true;
             }
 
-            if (initOnly) {
+            if(initOnly) {
                 return systems.totalInitializeSystemsCount > 0;
             }
 
@@ -258,10 +258,10 @@ namespace Entitas.Unity.VisualDebugging {
         void addDuration(float duration) {
 
             // OnInspectorGUI is called twice per frame - only add duration once
-            if (Time.renderedFrameCount != _lastRenderedFrameCount) {
+            if(Time.renderedFrameCount != _lastRenderedFrameCount) {
                 _lastRenderedFrameCount = Time.renderedFrameCount;
 
-                if (_systemMonitorData.Count >= SYSTEM_MONITOR_DATA_LENGTH) {
+                if(_systemMonitorData.Count >= SYSTEM_MONITOR_DATA_LENGTH) {
                     _systemMonitorData.Dequeue();
                 }
 

@@ -81,6 +81,7 @@ public class TowerEditorWindow : EditorWindow {
 		tower.MaxDmg = EditorGUILayout.IntField ("Max Damage", tower.MaxDmg);
 		tower.AtkSpeed = EditorGUILayout.FloatField ("Attack Speed", tower.AtkSpeed);
 		tower.AtkTime = EditorGUILayout.FloatField ("Attack Time", tower.AtkTime);
+		tower.TurnSpeed = EditorGUILayout.FloatField ("Turn Speed", tower.TurnSpeed);
 		tower.AtkPoint = EditorGUILayout.Vector3Field ("Attack Point", tower.AtkPoint);
 		tower.GoldRequired = EditorGUILayout.IntField ("Gold Cost", tower.GoldRequired);
 		tower.BuildTime = EditorGUILayout.FloatField ("Build Time", tower.BuildTime);

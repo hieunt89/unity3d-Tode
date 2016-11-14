@@ -7,14 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
+
     public partial class Entity {
+
         static readonly ProjectileHoming projectileHomingComponent = new ProjectileHoming();
 
         public bool isProjectileHoming {
             get { return HasComponent(ComponentIds.ProjectileHoming); }
             set {
-                if (value != isProjectileHoming) {
-                    if (value) {
+                if(value != isProjectileHoming) {
+                    if(value) {
                         AddComponent(ComponentIds.ProjectileHoming, projectileHomingComponent);
                     } else {
                         RemoveComponent(ComponentIds.ProjectileHoming);
@@ -30,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherProjectileHoming;
 
         public static IMatcher ProjectileHoming {
             get {
-                if (_matcherProjectileHoming == null) {
+                if(_matcherProjectileHoming == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.ProjectileHoming);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherProjectileHoming = matcher;

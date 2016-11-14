@@ -7,9 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
-    public partial class Entity {
-        public Tick tick { get { return (Tick)GetComponent(ComponentIds.Tick); } }
 
+    public partial class Entity {
+
+        public Tick tick { get { return (Tick)GetComponent(ComponentIds.Tick); } }
         public bool hasTick { get { return HasComponent(ComponentIds.Tick); } }
 
         public Entity AddTick(float newChange) {
@@ -31,14 +32,13 @@ namespace Entitas {
     }
 
     public partial class Pool {
+
         public Entity tickEntity { get { return GetGroup(Matcher.Tick).GetSingleEntity(); } }
-
         public Tick tick { get { return tickEntity.tick; } }
-
         public bool hasTick { get { return tickEntity != null; } }
 
         public Entity SetTick(float newChange) {
-            if (hasTick) {
+            if(hasTick) {
                 throw new EntitasException("Could not set tick!\n" + this + " already has an entity with Tick!",
                     "You should check if the pool already has a tickEntity before setting it or use pool.ReplaceTick().");
             }
@@ -49,7 +49,7 @@ namespace Entitas {
 
         public Entity ReplaceTick(float newChange) {
             var entity = tickEntity;
-            if (entity == null) {
+            if(entity == null) {
                 entity = SetTick(newChange);
             } else {
                 entity.ReplaceTick(newChange);
@@ -64,11 +64,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherTick;
 
         public static IMatcher Tick {
             get {
-                if (_matcherTick == null) {
+                if(_matcherTick == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.Tick);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherTick = matcher;

@@ -10,7 +10,7 @@ public class TowerAttackSystem : IReactiveSystem, ISetPool {
 	public void SetPool (Pool pool)
 	{
 		_pool = pool;
-		_groupTowerReady = _pool.GetGroup (Matcher.AllOf (Matcher.Active, Matcher.Tower, Matcher.Target).NoneOf(Matcher.AttackCooldown, Matcher.Channeling, Matcher.Attacking));
+		_groupTowerReady = _pool.GetGroup (Matcher.AllOf (Matcher.Active, Matcher.Tower, Matcher.Target).NoneOf(Matcher.AttackCooldown, Matcher.Channeling, Matcher.Attacking, Matcher.Coroutine));
 	}
 
 	#endregion
@@ -22,7 +22,7 @@ public class TowerAttackSystem : IReactiveSystem, ISetPool {
 		if(_groupTowerReady.count <= 0){
 			return;
 		}
-
+			
 		var towers = _groupTowerReady.GetEntities ();
 		for (int i = 0; i < towers.Length; i++) {
 			var tower = towers [i];
@@ -51,16 +51,24 @@ public class TowerAttackSystem : IReactiveSystem, ISetPool {
 	#endregion
 
 	IEnumerator Attack(Entity tower){
-		tower.ReplaceAttackingParams (AnimState.Fire, tower.attackTime.value);
 		tower.AddAttacking (0f);
+		tower.ReplaceAttackingParams (AnimState.Fire, tower.attackTime.value);
 
-		while(tower.attacking.spentTime < tower.attackTime.value){
-			tower.ReplaceAttacking (tower.attacking.spentTime + _pool.tick.change);
+		while(tower.attacking.timeSpent < tower.attackTime.value){
+			tower.ReplaceAttacking(tower.attacking.timeSpent + _pool.tick.change);
 			yield return null;
 		}
 
 		if (tower.hasTarget) {
 			AttackNow (tower, tower.target.e);
+		}
+
+		tower.ReplaceAttacking (0f);
+		tower.ReplaceAttackingParams (AnimState.PostFire, tower.attackTime.value);
+
+		while(tower.attacking.timeSpent < tower.attackTime.value){
+			tower.ReplaceAttacking(tower.attacking.timeSpent + _pool.tick.change);
+			yield return null;
 		}
 
 		tower.RemoveAttacking ();

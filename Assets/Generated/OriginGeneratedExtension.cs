@@ -7,9 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
-    public partial class Entity {
-        public Origin origin { get { return (Origin)GetComponent(ComponentIds.Origin); } }
 
+    public partial class Entity {
+
+        public Origin origin { get { return (Origin)GetComponent(ComponentIds.Origin); } }
         public bool hasOrigin { get { return HasComponent(ComponentIds.Origin); } }
 
         public Entity AddOrigin(Entitas.Entity newE) {
@@ -31,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherOrigin;
 
         public static IMatcher Origin {
             get {
-                if (_matcherOrigin == null) {
+                if(_matcherOrigin == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.Origin);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherOrigin = matcher;

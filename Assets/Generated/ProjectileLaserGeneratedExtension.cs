@@ -7,9 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
-    public partial class Entity {
-        public ProjectileLaser projectileLaser { get { return (ProjectileLaser)GetComponent(ComponentIds.ProjectileLaser); } }
 
+    public partial class Entity {
+
+        public ProjectileLaser projectileLaser { get { return (ProjectileLaser)GetComponent(ComponentIds.ProjectileLaser); } }
         public bool hasProjectileLaser { get { return HasComponent(ComponentIds.ProjectileLaser); } }
 
         public Entity AddProjectileLaser(float newMaxDmgBuildTime, float newDuration) {
@@ -33,11 +34,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherProjectileLaser;
 
         public static IMatcher ProjectileLaser {
             get {
-                if (_matcherProjectileLaser == null) {
+                if(_matcherProjectileLaser == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.ProjectileLaser);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherProjectileLaser = matcher;

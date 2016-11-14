@@ -7,9 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
-    public partial class Entity {
-        public Interval interval { get { return (Interval)GetComponent(ComponentIds.Interval); } }
 
+    public partial class Entity {
+
+        public Interval interval { get { return (Interval)GetComponent(ComponentIds.Interval); } }
         public bool hasInterval { get { return HasComponent(ComponentIds.Interval); } }
 
         public Entity AddInterval(float newValue) {
@@ -31,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherInterval;
 
         public static IMatcher Interval {
             get {
-                if (_matcherInterval == null) {
+                if(_matcherInterval == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.Interval);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherInterval = matcher;

@@ -7,9 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
-    public partial class Entity {
-        public SkillEffectWatcherList skillEffectWatcherList { get { return (SkillEffectWatcherList)GetComponent(ComponentIds.SkillEffectWatcherList); } }
 
+    public partial class Entity {
+
+        public SkillEffectWatcherList skillEffectWatcherList { get { return (SkillEffectWatcherList)GetComponent(ComponentIds.SkillEffectWatcherList); } }
         public bool hasSkillEffectWatcherList { get { return HasComponent(ComponentIds.SkillEffectWatcherList); } }
 
         public Entity AddSkillEffectWatcherList(System.Collections.Generic.List<Entitas.Entity> newWatchers) {
@@ -31,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherSkillEffectWatcherList;
 
         public static IMatcher SkillEffectWatcherList {
             get {
-                if (_matcherSkillEffectWatcherList == null) {
+                if(_matcherSkillEffectWatcherList == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.SkillEffectWatcherList);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherSkillEffectWatcherList = matcher;

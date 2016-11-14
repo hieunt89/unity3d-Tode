@@ -7,9 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
-    public partial class Entity {
-        public PathReference pathReference { get { return (PathReference)GetComponent(ComponentIds.PathReference); } }
 
+    public partial class Entity {
+
+        public PathReference pathReference { get { return (PathReference)GetComponent(ComponentIds.PathReference); } }
         public bool hasPathReference { get { return HasComponent(ComponentIds.PathReference); } }
 
         public Entity AddPathReference(Entitas.Entity newE) {
@@ -31,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherPathReference;
 
         public static IMatcher PathReference {
             get {
-                if (_matcherPathReference == null) {
+                if(_matcherPathReference == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.PathReference);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherPathReference = matcher;

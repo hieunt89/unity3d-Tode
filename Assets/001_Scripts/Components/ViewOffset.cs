@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using Entitas;
 
-public class ViewOffset : IComponent {
-	public Vector3 pivotToCenter;
+public class PointTarget : IComponent{
+	public Vector3 offset;
+}
+
+public class PointAttack : IComponent{
+	public Vector3 offset;
 }

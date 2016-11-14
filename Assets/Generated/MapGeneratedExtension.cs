@@ -7,9 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
-    public partial class Entity {
-        public Map map { get { return (Map)GetComponent(ComponentIds.Map); } }
 
+    public partial class Entity {
+
+        public Map map { get { return (Map)GetComponent(ComponentIds.Map); } }
         public bool hasMap { get { return HasComponent(ComponentIds.Map); } }
 
         public Entity AddMap(MapData newData) {
@@ -31,14 +32,13 @@ namespace Entitas {
     }
 
     public partial class Pool {
+
         public Entity mapEntity { get { return GetGroup(Matcher.Map).GetSingleEntity(); } }
-
         public Map map { get { return mapEntity.map; } }
-
         public bool hasMap { get { return mapEntity != null; } }
 
         public Entity SetMap(MapData newData) {
-            if (hasMap) {
+            if(hasMap) {
                 throw new EntitasException("Could not set map!\n" + this + " already has an entity with Map!",
                     "You should check if the pool already has a mapEntity before setting it or use pool.ReplaceMap().");
             }
@@ -49,7 +49,7 @@ namespace Entitas {
 
         public Entity ReplaceMap(MapData newData) {
             var entity = mapEntity;
-            if (entity == null) {
+            if(entity == null) {
                 entity = SetMap(newData);
             } else {
                 entity.ReplaceMap(newData);
@@ -64,11 +64,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherMap;
 
         public static IMatcher Map {
             get {
-                if (_matcherMap == null) {
+                if(_matcherMap == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.Map);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherMap = matcher;

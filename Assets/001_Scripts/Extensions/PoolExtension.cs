@@ -23,7 +23,7 @@ public static class PoolExtension {
 		Entity e = pool.CreateEntity ()
 			.AddProjectile(prjId)
 			.IsProjectileMark(true)
-			.AddPosition(origin.position.value + Vector3.up)
+			.AddPosition(origin.position.value + origin.pointAttack.offset)
 			.AddOrigin(origin)
 			.AddTarget (target);
 		switch (prj.Type) {

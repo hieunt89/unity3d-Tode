@@ -7,9 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
-    public partial class Entity {
-        public Dying dying { get { return (Dying)GetComponent(ComponentIds.Dying); } }
 
+    public partial class Entity {
+
+        public Dying dying { get { return (Dying)GetComponent(ComponentIds.Dying); } }
         public bool hasDying { get { return HasComponent(ComponentIds.Dying); } }
 
         public Entity AddDying(float newTimeSpent) {
@@ -31,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherDying;
 
         public static IMatcher Dying {
             get {
-                if (_matcherDying == null) {
+                if(_matcherDying == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.Dying);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherDying = matcher;

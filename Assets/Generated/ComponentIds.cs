@@ -7,6 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 public static class ComponentIds {
+
     public const int Active = 0;
     public const int Aoe = 1;
     public const int Armor = 2;
@@ -33,60 +34,63 @@ public static class ComponentIds {
     public const int Gold = 23;
     public const int GoldPlayer = 24;
     public const int Hp = 25;
-    public const int HpTotal = 26;
-    public const int Id = 27;
-    public const int Interactable = 28;
-    public const int Interval = 29;
-    public const int LifeCount = 30;
-    public const int LifePlayer = 31;
-    public const int Map = 32;
-    public const int MarkedForActive = 33;
-    public const int MarkedForDestroy = 34;
-    public const int MarkedForSell = 35;
-    public const int Movable = 36;
-    public const int MoveSpeed = 37;
-    public const int NextWave = 38;
-    public const int Origin = 39;
-    public const int Path = 40;
-    public const int PathLength = 41;
-    public const int PathReference = 42;
-    public const int Position = 43;
-    public const int Projectile = 44;
-    public const int ProjectileHoming = 45;
-    public const int ProjectileLaser = 46;
-    public const int ProjectileMark = 47;
-    public const int ProjectileThrowing = 48;
-    public const int ProjectileThrowingParams = 49;
-    public const int ReachedEnd = 50;
-    public const int Rooted = 51;
-    public const int SkillCombat = 52;
-    public const int Skill = 53;
-    public const int SkillEffects = 54;
-    public const int SkillEffectWatcher = 55;
-    public const int SkillEffectWatcherList = 56;
-    public const int SkillEntityList = 57;
-    public const int SkillList = 58;
-    public const int SkillSummon = 59;
-    public const int SkillUpgrade = 60;
-    public const int Stunned = 61;
-    public const int Target = 62;
-    public const int Targetable = 63;
-    public const int Tick = 64;
-    public const int TimeSpeed = 65;
-    public const int TimeTotal = 66;
-    public const int Tower = 67;
-    public const int TowerBase = 68;
-    public const int TowerReset = 69;
-    public const int TowerUpgrade = 70;
-    public const int TowerUpgrading = 71;
-    public const int TurnSpeed = 72;
-    public const int View = 73;
-    public const int ViewOffset = 74;
-    public const int ViewSlider = 75;
-    public const int Wave = 76;
-    public const int Wounded = 77;
+    public const int HpRegen = 26;
+    public const int HpTotal = 27;
+    public const int Id = 28;
+    public const int Interactable = 29;
+    public const int Interval = 30;
+    public const int LifeCount = 31;
+    public const int LifePlayer = 32;
+    public const int Map = 33;
+    public const int MarkedForActive = 34;
+    public const int MarkedForDestroy = 35;
+    public const int MarkedForSell = 36;
+    public const int Movable = 37;
+    public const int MoveSpeed = 38;
+    public const int NextWave = 39;
+    public const int Origin = 40;
+    public const int Path = 41;
+    public const int PathLength = 42;
+    public const int PathReference = 43;
+    public const int PointAttack = 44;
+    public const int PointTarget = 45;
+    public const int Position = 46;
+    public const int Projectile = 47;
+    public const int ProjectileHoming = 48;
+    public const int ProjectileLaser = 49;
+    public const int ProjectileMark = 50;
+    public const int ProjectileThrowing = 51;
+    public const int ProjectileThrowingParams = 52;
+    public const int ReachedEnd = 53;
+    public const int Rooted = 54;
+    public const int SkillCombat = 55;
+    public const int Skill = 56;
+    public const int SkillEffects = 57;
+    public const int SkillEffectWatcher = 58;
+    public const int SkillEffectWatcherList = 59;
+    public const int SkillEntityList = 60;
+    public const int SkillList = 61;
+    public const int SkillSummon = 62;
+    public const int SkillUpgrade = 63;
+    public const int Stunned = 64;
+    public const int Target = 65;
+    public const int Targetable = 66;
+    public const int Tick = 67;
+    public const int TimeSpeed = 68;
+    public const int TimeTotal = 69;
+    public const int Tower = 70;
+    public const int TowerBase = 71;
+    public const int TowerReset = 72;
+    public const int TowerUpgrade = 73;
+    public const int TowerUpgrading = 74;
+    public const int TurnSpeed = 75;
+    public const int View = 76;
+    public const int ViewLookAt = 77;
+    public const int ViewSlider = 78;
+    public const int Wave = 79;
+    public const int Wound = 80;
 
-    public const int TotalComponents = 78;
+    public const int TotalComponents = 81;
 
     public static readonly string[] componentNames = {
         "Active",
@@ -115,6 +119,7 @@ public static class ComponentIds {
         "Gold",
         "GoldPlayer",
         "Hp",
+        "HpRegen",
         "HpTotal",
         "Id",
         "Interactable",
@@ -132,6 +137,8 @@ public static class ComponentIds {
         "Path",
         "PathLength",
         "PathReference",
+        "PointAttack",
+        "PointTarget",
         "Position",
         "Projectile",
         "ProjectileHoming",
@@ -163,10 +170,10 @@ public static class ComponentIds {
         "TowerUpgrading",
         "TurnSpeed",
         "View",
-        "ViewOffset",
+        "ViewLookAt",
         "ViewSlider",
         "Wave",
-        "Wounded"
+        "Wound"
     };
 
     public static readonly System.Type[] componentTypes = {
@@ -196,6 +203,7 @@ public static class ComponentIds {
         typeof(Gold),
         typeof(GoldPlayer),
         typeof(Hp),
+        typeof(HpRegen),
         typeof(HpTotal),
         typeof(Id),
         typeof(Interactable),
@@ -213,6 +221,8 @@ public static class ComponentIds {
         typeof(Path),
         typeof(PathLength),
         typeof(PathReference),
+        typeof(PointAttack),
+        typeof(PointTarget),
         typeof(Position),
         typeof(Projectile),
         typeof(ProjectileHoming),
@@ -244,9 +254,9 @@ public static class ComponentIds {
         typeof(TowerUpgrading),
         typeof(TurnSpeed),
         typeof(View),
-        typeof(ViewOffset),
+        typeof(ViewLookAt),
         typeof(ViewSlider),
         typeof(Wave),
-        typeof(Wounded)
+        typeof(Wound)
     };
 }

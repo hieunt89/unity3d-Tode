@@ -7,14 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
+
     public partial class Entity {
+
         static readonly TowerReset towerResetComponent = new TowerReset();
 
         public bool isTowerReset {
             get { return HasComponent(ComponentIds.TowerReset); }
             set {
-                if (value != isTowerReset) {
-                    if (value) {
+                if(value != isTowerReset) {
+                    if(value) {
                         AddComponent(ComponentIds.TowerReset, towerResetComponent);
                     } else {
                         RemoveComponent(ComponentIds.TowerReset);
@@ -30,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherTowerReset;
 
         public static IMatcher TowerReset {
             get {
-                if (_matcherTowerReset == null) {
+                if(_matcherTowerReset == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.TowerReset);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherTowerReset = matcher;

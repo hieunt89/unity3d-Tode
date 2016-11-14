@@ -1,11 +1,12 @@
-﻿using System;
 using System.Linq;
-using Entitas.Unity;
+using Entitas.Serialization.Configuration;
 using UnityEditor;
 
 namespace Entitas.Unity {
+
     public class EntitasPreferencesDrawer : IEntitasPreferencesDrawer {
-        public int priority { get { return 0; } }
+
+        public int priority { get { return EntitasPreferencesDrawerPriorities.preferences; } }
 
         const string ENTITAS_FAST_AND_UNSAFE = "ENTITAS_FAST_AND_UNSAFE";
 
@@ -39,8 +40,8 @@ namespace Entitas.Unity {
             }
             var changed = EditorGUI.EndChangeCheck();
 
-            if (changed) {
-                if (_scriptCallOptimization == ScriptCallOptimization.Disabled) {
+            if(changed) {
+                if(_scriptCallOptimization == ScriptCallOptimization.Disabled) {
                     _scriptingDefineSymbols.RemoveDefineSymbol(ENTITAS_FAST_AND_UNSAFE);
                 } else {
                     _scriptingDefineSymbols.AddDefineSymbol(ENTITAS_FAST_AND_UNSAFE);
