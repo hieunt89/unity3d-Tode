@@ -62,6 +62,10 @@ public class CharacterEditorWindow : EditorWindow {
 		GUI.enabled = true;
 
 		character.Hp = EditorGUILayout.IntField ("Hit Point", character.Hp);
+		character.HpRegenRate = EditorGUILayout.Slider ("HP Regen Rate", character.HpRegenRate, 0f, 1f);
+		character.HpRegenInterval = EditorGUILayout.FloatField ("HP Regen Interval", character.HpRegenInterval);
+		
+		
 		character.MoveSpeed = EditorGUILayout.FloatField ("Move Speed", character.MoveSpeed);
 		character.TurnSpeed = EditorGUILayout.FloatField ("Turn Speed", character.TurnSpeed);
 		character.LifeCount = EditorGUILayout.IntField ("Life Count", character.LifeCount);

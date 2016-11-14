@@ -18,6 +18,8 @@ public class CharacterData {
 	[SerializeField] private float atkRange;
 	[SerializeField] private List<ArmorData> armors;
 	[SerializeField] private int hp;
+	[SerializeField] private float hpRegenRate;
+	[SerializeField] private float hpRegenInterval;
 	[SerializeField] private float dyingTIme;
 
 	public string Id {
@@ -146,6 +148,23 @@ public class CharacterData {
 		}
 	}
 
+	public float HpRegenRate {
+		get {
+			return this.hpRegenRate;
+		}
+		set {
+			hpRegenRate = value;
+		}
+	}
+
+	public float HpRegenInterval {
+		get {
+			return this.hpRegenInterval;
+		}
+		set {
+			hpRegenInterval = value;
+		}
+	}
 	public float DyingTime {
 		get {
 			return dyingTIme;
