@@ -11,7 +11,7 @@ public class TowerSkillUpgradeGUI : HandleEnitityGUI {
 
 	public override void HandleEntityClick ()
 	{
-		var e = Pools.pool.currentSelected.e;
+		var e = Pools.sharedInstance.pool.currentSelected.e;
 		if (!e.hasTower) {
 			HandleEmptyClick ();
 			return;

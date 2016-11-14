@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Entitas.Unity {
+namespace Entitas.Serialization.Configuration {
+
     public class Properties {
 
         public string[] keys { get { return _dict.Keys.ToArray(); } }
@@ -41,11 +42,11 @@ namespace Entitas.Unity {
         }
 
         static string convertLineEndings(string str) {
-            return str.Replace("\r\n", "\n");
+            return str.Replace("\r\n", "\n").Replace("\r", "\n");
         }
 
         static string[] getLinesWithProperties(string properties) {
-            var delimiter = new[] { '\n' };
+            var delimiter = new [] { '\n' };
             return properties
                 .Split(delimiter, StringSplitOptions.RemoveEmptyEntries)
                 .Select(line => line.TrimStart(' '))
@@ -57,8 +58,10 @@ namespace Entitas.Unity {
             var currentProperty = string.Empty;
             return lines.Aggregate(new List<string>(), (acc, line) => {
                 currentProperty += line;
-                if (currentProperty.EndsWith("\\", StringComparison.Ordinal)) {
-                    currentProperty = currentProperty.Substring(0, currentProperty.Length - 1);
+                if(currentProperty.EndsWith("\\", StringComparison.Ordinal)) {
+                    currentProperty = currentProperty.Substring(
+                        0, currentProperty.Length - 1
+                    );
                 } else {
                     acc.Add(currentProperty);
                     currentProperty = string.Empty;
@@ -69,19 +72,23 @@ namespace Entitas.Unity {
         }
 
         void addProperties(string[] lines) {
-            var keyValueDelimiter = new[] { '=' };
-            var properties = lines.Select(line => line.Split(keyValueDelimiter, 2));
-            foreach (var property in properties) {
+            var keyValueDelimiter = new [] { '=' };
+            var properties = lines.Select(
+                line => line.Split(keyValueDelimiter, 2)
+            );
+            foreach(var property in properties) {
                 this[property[0]] = property[1];
             }
         }
 
         void replacePlaceholders() {
             const string placeholderPattern = @"(?:(?<=\${).+?(?=}))";
-            foreach (var key in _dict.Keys.ToArray()) {
+            foreach(var key in _dict.Keys.ToArray()) {
                 var matches = Regex.Matches(_dict[key], placeholderPattern);
-                foreach (Match match in matches) {
-                    _dict[key] = _dict[key].Replace("${" + match.Value + "}", _dict[match.Value]);
+                foreach(Match match in matches) {
+                    _dict[key] = _dict[key].Replace(
+                        "${" + match.Value + "}", _dict[match.Value]
+                    );
                 }
             }
         }
@@ -89,12 +96,11 @@ namespace Entitas.Unity {
         public override string ToString() {
             return _dict.Aggregate(string.Empty, (properties, kv) => {
                 var content = kv.Value
-                    .Replace("\n", "\\n")
-                    .Replace("\t", "\\t");
+                                .Replace("\n", "\\n")
+                                .Replace("\t", "\\t");
 
                 return properties + kv.Key + " = " + content + "\n";
             });
         }
     }
 }
-

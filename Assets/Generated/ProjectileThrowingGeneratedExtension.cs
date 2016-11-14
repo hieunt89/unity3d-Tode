@@ -7,9 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
-    public partial class Entity {
-        public ProjectileThrowing projectileThrowing { get { return (ProjectileThrowing)GetComponent(ComponentIds.ProjectileThrowing); } }
 
+    public partial class Entity {
+
+        public ProjectileThrowing projectileThrowing { get { return (ProjectileThrowing)GetComponent(ComponentIds.ProjectileThrowing); } }
         public bool hasProjectileThrowing { get { return HasComponent(ComponentIds.ProjectileThrowing); } }
 
         public Entity AddProjectileThrowing(float newTravelTime) {
@@ -31,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherProjectileThrowing;
 
         public static IMatcher ProjectileThrowing {
             get {
-                if (_matcherProjectileThrowing == null) {
+                if(_matcherProjectileThrowing == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.ProjectileThrowing);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherProjectileThrowing = matcher;

@@ -7,9 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
-    public partial class Entity {
-        public ViewLookAt viewLookAt { get { return (ViewLookAt)GetComponent(ComponentIds.ViewLookAt); } }
 
+    public partial class Entity {
+
+        public ViewLookAt viewLookAt { get { return (ViewLookAt)GetComponent(ComponentIds.ViewLookAt); } }
         public bool hasViewLookAt { get { return HasComponent(ComponentIds.ViewLookAt); } }
 
         public Entity AddViewLookAt(System.Collections.Generic.List<UnityEngine.Transform> newElsToLookAt) {
@@ -31,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherViewLookAt;
 
         public static IMatcher ViewLookAt {
             get {
-                if (_matcherViewLookAt == null) {
+                if(_matcherViewLookAt == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.ViewLookAt);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherViewLookAt = matcher;

@@ -7,14 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
+
     public partial class Entity {
+
         static readonly ProjectileMark projectileMarkComponent = new ProjectileMark();
 
         public bool isProjectileMark {
             get { return HasComponent(ComponentIds.ProjectileMark); }
             set {
-                if (value != isProjectileMark) {
-                    if (value) {
+                if(value != isProjectileMark) {
+                    if(value) {
                         AddComponent(ComponentIds.ProjectileMark, projectileMarkComponent);
                     } else {
                         RemoveComponent(ComponentIds.ProjectileMark);
@@ -30,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherProjectileMark;
 
         public static IMatcher ProjectileMark {
             get {
-                if (_matcherProjectileMark == null) {
+                if(_matcherProjectileMark == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.ProjectileMark);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherProjectileMark = matcher;

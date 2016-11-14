@@ -1,11 +1,12 @@
-﻿using System.Linq;
-using Entitas.Unity;
+using System.Linq;
+using Entitas.Serialization.Configuration;
 using UnityEditor;
 
 namespace Entitas.Unity.VisualDebugging {
+
     public class VisualDebuggingPreferencesDrawer : IEntitasPreferencesDrawer {
 
-        public int priority { get { return 20; } }
+        public int priority { get { return EntitasPreferencesDrawerPriorities.visualDebugging; } }
 
         const string ENTITAS_DISABLE_VISUAL_DEBUGGING = "ENTITAS_DISABLE_VISUAL_DEBUGGING";
 
@@ -32,8 +33,8 @@ namespace Entitas.Unity.VisualDebugging {
                 }
                 var changed = EditorGUI.EndChangeCheck();
 
-                if (changed) {
-                    if (_enableVisualDebugging) {
+                if(changed) {
+                    if(_enableVisualDebugging) {
                         _scriptingDefineSymbols.RemoveDefineSymbol(ENTITAS_DISABLE_VISUAL_DEBUGGING);
                     } else {
                         _scriptingDefineSymbols.AddDefineSymbol(ENTITAS_DISABLE_VISUAL_DEBUGGING);
@@ -43,10 +44,10 @@ namespace Entitas.Unity.VisualDebugging {
                 EditorGUILayout.Space();
 
                 _visualDebuggingConfig.defaultInstanceCreatorFolderPath =
-                    EditorGUILayout.TextField("DefaultInstanceCreator Folder", _visualDebuggingConfig.defaultInstanceCreatorFolderPath);
+                    EditorGUILayout.TextField("Default Instance Creators", _visualDebuggingConfig.defaultInstanceCreatorFolderPath);
 
                 _visualDebuggingConfig.typeDrawerFolderPath =
-                    EditorGUILayout.TextField("TypeDrawer Folder", _visualDebuggingConfig.typeDrawerFolderPath);
+                    EditorGUILayout.TextField("Type Drawers", _visualDebuggingConfig.typeDrawerFolderPath);
             }
             EntitasEditorLayout.EndVertical();
         }

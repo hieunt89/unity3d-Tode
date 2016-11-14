@@ -7,6 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 public static class ComponentIds {
+
     public const int Active = 0;
     public const int Aoe = 1;
     public const int Armor = 2;

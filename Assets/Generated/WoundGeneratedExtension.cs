@@ -7,14 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
+
     public partial class Entity {
+
         static readonly Wound woundComponent = new Wound();
 
         public bool isWound {
             get { return HasComponent(ComponentIds.Wound); }
             set {
-                if (value != isWound) {
-                    if (value) {
+                if(value != isWound) {
+                    if(value) {
                         AddComponent(ComponentIds.Wound, woundComponent);
                     } else {
                         RemoveComponent(ComponentIds.Wound);
@@ -30,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherWound;
 
         public static IMatcher Wound {
             get {
-                if (_matcherWound == null) {
+                if(_matcherWound == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.Wound);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherWound = matcher;

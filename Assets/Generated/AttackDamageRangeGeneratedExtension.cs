@@ -7,9 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
-    public partial class Entity {
-        public AttackDamageRange attackDamageRange { get { return (AttackDamageRange)GetComponent(ComponentIds.AttackDamageRange); } }
 
+    public partial class Entity {
+
+        public AttackDamageRange attackDamageRange { get { return (AttackDamageRange)GetComponent(ComponentIds.AttackDamageRange); } }
         public bool hasAttackDamageRange { get { return HasComponent(ComponentIds.AttackDamageRange); } }
 
         public Entity AddAttackDamageRange(int newMinDmg, int newMaxDmg) {
@@ -33,11 +34,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherAttackDamageRange;
 
         public static IMatcher AttackDamageRange {
             get {
-                if (_matcherAttackDamageRange == null) {
+                if(_matcherAttackDamageRange == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.AttackDamageRange);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherAttackDamageRange = matcher;

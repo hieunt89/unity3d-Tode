@@ -7,9 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
-    public partial class Entity {
-        public TurnSpeed turnSpeed { get { return (TurnSpeed)GetComponent(ComponentIds.TurnSpeed); } }
 
+    public partial class Entity {
+
+        public TurnSpeed turnSpeed { get { return (TurnSpeed)GetComponent(ComponentIds.TurnSpeed); } }
         public bool hasTurnSpeed { get { return HasComponent(ComponentIds.TurnSpeed); } }
 
         public Entity AddTurnSpeed(float newValue) {
@@ -31,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherTurnSpeed;
 
         public static IMatcher TurnSpeed {
             get {
-                if (_matcherTurnSpeed == null) {
+                if(_matcherTurnSpeed == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.TurnSpeed);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherTurnSpeed = matcher;

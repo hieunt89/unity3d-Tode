@@ -7,14 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
+
     public partial class Entity {
+
         static readonly TowerBase towerBaseComponent = new TowerBase();
 
         public bool isTowerBase {
             get { return HasComponent(ComponentIds.TowerBase); }
             set {
-                if (value != isTowerBase) {
-                    if (value) {
+                if(value != isTowerBase) {
+                    if(value) {
                         AddComponent(ComponentIds.TowerBase, towerBaseComponent);
                     } else {
                         RemoveComponent(ComponentIds.TowerBase);
@@ -30,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherTowerBase;
 
         public static IMatcher TowerBase {
             get {
-                if (_matcherTowerBase == null) {
+                if(_matcherTowerBase == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.TowerBase);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherTowerBase = matcher;

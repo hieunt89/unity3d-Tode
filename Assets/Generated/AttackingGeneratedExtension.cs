@@ -7,9 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
-    public partial class Entity {
-        public Attacking attacking { get { return (Attacking)GetComponent(ComponentIds.Attacking); } }
 
+    public partial class Entity {
+
+        public Attacking attacking { get { return (Attacking)GetComponent(ComponentIds.Attacking); } }
         public bool hasAttacking { get { return HasComponent(ComponentIds.Attacking); } }
 
         public Entity AddAttacking(float newTimeSpent) {
@@ -31,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherAttacking;
 
         public static IMatcher Attacking {
             get {
-                if (_matcherAttacking == null) {
+                if(_matcherAttacking == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.Attacking);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherAttacking = matcher;

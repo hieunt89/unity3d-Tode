@@ -7,9 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
-    public partial class Entity {
-        public AttackCooldown attackCooldown { get { return (AttackCooldown)GetComponent(ComponentIds.AttackCooldown); } }
 
+    public partial class Entity {
+
+        public AttackCooldown attackCooldown { get { return (AttackCooldown)GetComponent(ComponentIds.AttackCooldown); } }
         public bool hasAttackCooldown { get { return HasComponent(ComponentIds.AttackCooldown); } }
 
         public Entity AddAttackCooldown(float newTime) {
@@ -31,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherAttackCooldown;
 
         public static IMatcher AttackCooldown {
             get {
-                if (_matcherAttackCooldown == null) {
+                if(_matcherAttackCooldown == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.AttackCooldown);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherAttackCooldown = matcher;

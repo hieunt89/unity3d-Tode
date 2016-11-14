@@ -7,9 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
-    public partial class Entity {
-        public CurrentSelected currentSelected { get { return (CurrentSelected)GetComponent(ComponentIds.CurrentSelected); } }
 
+    public partial class Entity {
+
+        public CurrentSelected currentSelected { get { return (CurrentSelected)GetComponent(ComponentIds.CurrentSelected); } }
         public bool hasCurrentSelected { get { return HasComponent(ComponentIds.CurrentSelected); } }
 
         public Entity AddCurrentSelected(Entitas.Entity newE) {
@@ -31,14 +32,13 @@ namespace Entitas {
     }
 
     public partial class Pool {
+
         public Entity currentSelectedEntity { get { return GetGroup(Matcher.CurrentSelected).GetSingleEntity(); } }
-
         public CurrentSelected currentSelected { get { return currentSelectedEntity.currentSelected; } }
-
         public bool hasCurrentSelected { get { return currentSelectedEntity != null; } }
 
         public Entity SetCurrentSelected(Entitas.Entity newE) {
-            if (hasCurrentSelected) {
+            if(hasCurrentSelected) {
                 throw new EntitasException("Could not set currentSelected!\n" + this + " already has an entity with CurrentSelected!",
                     "You should check if the pool already has a currentSelectedEntity before setting it or use pool.ReplaceCurrentSelected().");
             }
@@ -49,7 +49,7 @@ namespace Entitas {
 
         public Entity ReplaceCurrentSelected(Entitas.Entity newE) {
             var entity = currentSelectedEntity;
-            if (entity == null) {
+            if(entity == null) {
                 entity = SetCurrentSelected(newE);
             } else {
                 entity.ReplaceCurrentSelected(newE);
@@ -64,11 +64,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherCurrentSelected;
 
         public static IMatcher CurrentSelected {
             get {
-                if (_matcherCurrentSelected == null) {
+                if(_matcherCurrentSelected == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.CurrentSelected);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherCurrentSelected = matcher;

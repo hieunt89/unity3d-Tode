@@ -7,9 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
-    public partial class Entity {
-        public TimeTotal timeTotal { get { return (TimeTotal)GetComponent(ComponentIds.TimeTotal); } }
 
+    public partial class Entity {
+
+        public TimeTotal timeTotal { get { return (TimeTotal)GetComponent(ComponentIds.TimeTotal); } }
         public bool hasTimeTotal { get { return HasComponent(ComponentIds.TimeTotal); } }
 
         public Entity AddTimeTotal(float newValue) {
@@ -31,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherTimeTotal;
 
         public static IMatcher TimeTotal {
             get {
-                if (_matcherTimeTotal == null) {
+                if(_matcherTimeTotal == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.TimeTotal);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherTimeTotal = matcher;

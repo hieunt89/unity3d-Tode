@@ -7,9 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
-    public partial class Entity {
-        public PointTarget pointTarget { get { return (PointTarget)GetComponent(ComponentIds.PointTarget); } }
 
+    public partial class Entity {
+
+        public PointTarget pointTarget { get { return (PointTarget)GetComponent(ComponentIds.PointTarget); } }
         public bool hasPointTarget { get { return HasComponent(ComponentIds.PointTarget); } }
 
         public Entity AddPointTarget(UnityEngine.Vector3 newOffset) {
@@ -31,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherPointTarget;
 
         public static IMatcher PointTarget {
             get {
-                if (_matcherPointTarget == null) {
+                if(_matcherPointTarget == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.PointTarget);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherPointTarget = matcher;

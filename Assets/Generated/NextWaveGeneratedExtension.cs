@@ -7,14 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
+
     public partial class Entity {
+
         static readonly NextWave nextWaveComponent = new NextWave();
 
         public bool isNextWave {
             get { return HasComponent(ComponentIds.NextWave); }
             set {
-                if (value != isNextWave) {
-                    if (value) {
+                if(value != isNextWave) {
+                    if(value) {
                         AddComponent(ComponentIds.NextWave, nextWaveComponent);
                     } else {
                         RemoveComponent(ComponentIds.NextWave);
@@ -30,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherNextWave;
 
         public static IMatcher NextWave {
             get {
-                if (_matcherNextWave == null) {
+                if(_matcherNextWave == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.NextWave);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherNextWave = matcher;

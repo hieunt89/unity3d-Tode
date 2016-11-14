@@ -1,4 +1,5 @@
-﻿namespace Entitas {
+namespace Entitas {
+
     public interface ICompoundMatcher : IMatcher {
         int[] allOfIndices { get; }
         int[] anyOfIndices { get; }
@@ -20,4 +21,3 @@
     public interface INoneOfMatcher : ICompoundMatcher {
     }
 }
-

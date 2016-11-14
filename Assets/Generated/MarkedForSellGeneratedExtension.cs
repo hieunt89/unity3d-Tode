@@ -7,14 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
+
     public partial class Entity {
+
         static readonly MarkedForSell markedForSellComponent = new MarkedForSell();
 
         public bool isMarkedForSell {
             get { return HasComponent(ComponentIds.MarkedForSell); }
             set {
-                if (value != isMarkedForSell) {
-                    if (value) {
+                if(value != isMarkedForSell) {
+                    if(value) {
                         AddComponent(ComponentIds.MarkedForSell, markedForSellComponent);
                     } else {
                         RemoveComponent(ComponentIds.MarkedForSell);
@@ -30,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherMarkedForSell;
 
         public static IMatcher MarkedForSell {
             get {
-                if (_matcherMarkedForSell == null) {
+                if(_matcherMarkedForSell == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.MarkedForSell);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherMarkedForSell = matcher;

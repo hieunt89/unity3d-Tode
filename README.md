@@ -1,6 +1,6 @@
 # unity3d-Tode
 
-A tower defense game made with Unity and Entitas v.0.31.1
+A tower defense game made with Unity and Entitas v.0.35
 
 ## Developers
 - [tan](https://github.com/minhtan)

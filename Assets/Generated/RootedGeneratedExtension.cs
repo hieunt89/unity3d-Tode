@@ -7,14 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
+
     public partial class Entity {
+
         static readonly Rooted rootedComponent = new Rooted();
 
         public bool isRooted {
             get { return HasComponent(ComponentIds.Rooted); }
             set {
-                if (value != isRooted) {
-                    if (value) {
+                if(value != isRooted) {
+                    if(value) {
                         AddComponent(ComponentIds.Rooted, rootedComponent);
                     } else {
                         RemoveComponent(ComponentIds.Rooted);
@@ -30,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherRooted;
 
         public static IMatcher Rooted {
             get {
-                if (_matcherRooted == null) {
+                if(_matcherRooted == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.Rooted);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherRooted = matcher;

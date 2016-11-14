@@ -7,14 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
+
     public partial class Entity {
+
         static readonly Attackable attackableComponent = new Attackable();
 
         public bool isAttackable {
             get { return HasComponent(ComponentIds.Attackable); }
             set {
-                if (value != isAttackable) {
-                    if (value) {
+                if(value != isAttackable) {
+                    if(value) {
                         AddComponent(ComponentIds.Attackable, attackableComponent);
                     } else {
                         RemoveComponent(ComponentIds.Attackable);
@@ -30,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherAttackable;
 
         public static IMatcher Attackable {
             get {
-                if (_matcherAttackable == null) {
+                if(_matcherAttackable == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.Attackable);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherAttackable = matcher;

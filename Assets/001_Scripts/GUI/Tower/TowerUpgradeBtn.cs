@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using Entitas;
 
 public class TowerUpgradeBtn : MonoBehaviour, IGoldChangeListener {
 
 	Button _button;
 	float _goldRequire;
-
 	public void RegisterBtn (Node<string> upgrade)
 	{
 		if (_button == null) {
@@ -16,7 +16,7 @@ public class TowerUpgradeBtn : MonoBehaviour, IGoldChangeListener {
 		var data = DataManager.Instance.GetTowerData (upgrade.data);
 		if (data != null) {
 			_button.onClick.AddListener (() => {
-				var e = Pools.pool.currentSelected.e;
+				var e = Pools.sharedInstance.pool.currentSelected.e;
 				if(e != null){
 					e.AddTowerUpgrade (data.BuildTime, upgrade);
 				}
@@ -25,7 +25,7 @@ public class TowerUpgradeBtn : MonoBehaviour, IGoldChangeListener {
 			GetComponentInChildren<Text> ().text = "upgrade to " + data.Name + " for " + data.GoldRequired + " gold";
 
 			_goldRequire = data.GoldRequired;
-			OnGoldChange (Pools.pool.goldPlayer.value);
+			OnGoldChange (Pools.sharedInstance.pool.goldPlayer.value);
 			Messenger.AddListener<int> (Events.Game.GOLD_CHANGE, OnGoldChange);
 		} else if(GameManager.debug){
 			Debug.Log (upgrade.data + " is null");

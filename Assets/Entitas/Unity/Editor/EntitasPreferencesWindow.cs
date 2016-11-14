@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Reflection;
+using Entitas.Serialization.Configuration;
 using UnityEditor;
 using UnityEngine;
 
@@ -14,7 +15,7 @@ namespace Entitas.Unity {
 
     public class EntitasPreferencesWindow : EditorWindow {
 
-        [MenuItem("Entitas/Preferences... #%e", false, 1)]
+        [MenuItem(EntitasMenuItems.preferences, false, EntitasMenuItemPriorities.preferences)]
         public static void OpenPreferences() {
             EntitasEditorLayout.ShowWindow<EntitasPreferencesWindow>("Entitas Preferences");
         }
@@ -35,7 +36,7 @@ namespace Entitas.Unity {
                 .OrderBy(drawer => drawer.priority)
                 .ToArray();
 
-            foreach (var drawer in _preferencesDrawers) {
+            foreach(var drawer in _preferencesDrawers) {
                 drawer.Initialize(_config);
             }
         }
@@ -48,14 +49,14 @@ namespace Entitas.Unity {
                 EditorGUILayout.LabelField("Version: " + _localVersion);
                 GUILayout.Space(offsetY - 24);
 
-                foreach (var drawer in _preferencesDrawers) {
+                foreach(var drawer in _preferencesDrawers) {
                     drawer.Draw(_config);
                     EditorGUILayout.Space();
                 }
             }
             EditorGUILayout.EndScrollView();
 
-            if (GUI.changed) {
+            if(GUI.changed) {
                 EntitasPreferences.SaveConfig(_config);
             }
         }

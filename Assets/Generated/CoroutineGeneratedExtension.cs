@@ -7,9 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
-    public partial class Entity {
-        public Coroutine coroutine { get { return (Coroutine)GetComponent(ComponentIds.Coroutine); } }
 
+    public partial class Entity {
+
+        public Coroutine coroutine { get { return (Coroutine)GetComponent(ComponentIds.Coroutine); } }
         public bool hasCoroutine { get { return HasComponent(ComponentIds.Coroutine); } }
 
         public Entity AddCoroutine(System.Collections.IEnumerator newTask) {
@@ -31,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherCoroutine;
 
         public static IMatcher Coroutine {
             get {
-                if (_matcherCoroutine == null) {
+                if(_matcherCoroutine == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.Coroutine);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherCoroutine = matcher;

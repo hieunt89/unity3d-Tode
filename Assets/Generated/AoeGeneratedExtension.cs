@@ -7,9 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
-    public partial class Entity {
-        public Aoe aoe { get { return (Aoe)GetComponent(ComponentIds.Aoe); } }
 
+    public partial class Entity {
+
+        public Aoe aoe { get { return (Aoe)GetComponent(ComponentIds.Aoe); } }
         public bool hasAoe { get { return HasComponent(ComponentIds.Aoe); } }
 
         public Entity AddAoe(float newValue) {
@@ -31,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherAoe;
 
         public static IMatcher Aoe {
             get {
-                if (_matcherAoe == null) {
+                if(_matcherAoe == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.Aoe);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherAoe = matcher;

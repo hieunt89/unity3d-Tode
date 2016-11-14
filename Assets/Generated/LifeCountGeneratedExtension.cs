@@ -7,9 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
-    public partial class Entity {
-        public LifeCount lifeCount { get { return (LifeCount)GetComponent(ComponentIds.LifeCount); } }
 
+    public partial class Entity {
+
+        public LifeCount lifeCount { get { return (LifeCount)GetComponent(ComponentIds.LifeCount); } }
         public bool hasLifeCount { get { return HasComponent(ComponentIds.LifeCount); } }
 
         public Entity AddLifeCount(int newValue) {
@@ -31,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherLifeCount;
 
         public static IMatcher LifeCount {
             get {
-                if (_matcherLifeCount == null) {
+                if(_matcherLifeCount == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.LifeCount);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherLifeCount = matcher;

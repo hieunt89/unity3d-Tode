@@ -7,14 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
+
     public partial class Entity {
+
         static readonly TowerUpgrading towerUpgradingComponent = new TowerUpgrading();
 
         public bool isTowerUpgrading {
             get { return HasComponent(ComponentIds.TowerUpgrading); }
             set {
-                if (value != isTowerUpgrading) {
-                    if (value) {
+                if(value != isTowerUpgrading) {
+                    if(value) {
                         AddComponent(ComponentIds.TowerUpgrading, towerUpgradingComponent);
                     } else {
                         RemoveComponent(ComponentIds.TowerUpgrading);
@@ -30,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherTowerUpgrading;
 
         public static IMatcher TowerUpgrading {
             get {
-                if (_matcherTowerUpgrading == null) {
+                if(_matcherTowerUpgrading == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.TowerUpgrading);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherTowerUpgrading = matcher;

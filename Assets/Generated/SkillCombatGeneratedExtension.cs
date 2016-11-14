@@ -7,9 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
-    public partial class Entity {
-        public SkillCombat skillCombat { get { return (SkillCombat)GetComponent(ComponentIds.SkillCombat); } }
 
+    public partial class Entity {
+
+        public SkillCombat skillCombat { get { return (SkillCombat)GetComponent(ComponentIds.SkillCombat); } }
         public bool hasSkillCombat { get { return HasComponent(ComponentIds.SkillCombat); } }
 
         public Entity AddSkillCombat(System.Collections.Generic.List<SkillEffect> newEffects) {
@@ -31,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherSkillCombat;
 
         public static IMatcher SkillCombat {
             get {
-                if (_matcherSkillCombat == null) {
+                if(_matcherSkillCombat == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.SkillCombat);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherSkillCombat = matcher;

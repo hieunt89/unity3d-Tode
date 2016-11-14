@@ -1,6 +1,7 @@
-﻿using System.Text;
+using System.Text;
 
 namespace Entitas {
+
     public partial class Matcher {
 
         public string[] componentNames;
@@ -8,18 +9,18 @@ namespace Entitas {
         string _toStringCache;
 
         public override string ToString() {
-            if (_toStringCache == null) {
+            if(_toStringCache == null) {
                 var sb = new StringBuilder();
-                if (_allOfIndices != null) {
+                if(_allOfIndices != null) {
                     appendIndices(sb, "AllOf", _allOfIndices, componentNames);
                 }
-                if (_anyOfIndices != null) {
-                    if (_allOfIndices != null) {
+                if(_anyOfIndices != null) {
+                    if(_allOfIndices != null) {
                         sb.Append(".");
                     }
                     appendIndices(sb, "AnyOf", _anyOfIndices, componentNames);
                 }
-                if (_noneOfIndices != null) {
+                if(_noneOfIndices != null) {
                     appendIndices(sb, ".NoneOf", _noneOfIndices, componentNames);
                 }
                 _toStringCache = sb.ToString();
@@ -33,15 +34,15 @@ namespace Entitas {
             sb.Append(prefix);
             sb.Append("(");
             var lastSeparator = indexArray.Length - 1;
-            for (int i = 0, indicesLength = indexArray.Length; i < indicesLength; i++) {
+            for (int i = 0; i < indexArray.Length; i++) {
                 var index = indexArray[i];
-                if (componentNames == null) {
+                if(componentNames == null) {
                     sb.Append(index);
                 } else {
                     sb.Append(componentNames[index]);
                 }
 
-                if (i < lastSeparator) {
+                if(i < lastSeparator) {
                     sb.Append(separator);
                 }
             }

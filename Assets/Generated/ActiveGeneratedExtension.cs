@@ -7,14 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
+
     public partial class Entity {
+
         static readonly Active activeComponent = new Active();
 
         public bool isActive {
             get { return HasComponent(ComponentIds.Active); }
             set {
-                if (value != isActive) {
-                    if (value) {
+                if(value != isActive) {
+                    if(value) {
                         AddComponent(ComponentIds.Active, activeComponent);
                     } else {
                         RemoveComponent(ComponentIds.Active);
@@ -30,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherActive;
 
         public static IMatcher Active {
             get {
-                if (_matcherActive == null) {
+                if(_matcherActive == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.Active);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherActive = matcher;

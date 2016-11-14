@@ -7,9 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
-    public partial class Entity {
-        public MarkedForActive markedForActive { get { return (MarkedForActive)GetComponent(ComponentIds.MarkedForActive); } }
 
+    public partial class Entity {
+
+        public MarkedForActive markedForActive { get { return (MarkedForActive)GetComponent(ComponentIds.MarkedForActive); } }
         public bool hasMarkedForActive { get { return HasComponent(ComponentIds.MarkedForActive); } }
 
         public Entity AddMarkedForActive(float newDelayTime) {
@@ -31,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherMarkedForActive;
 
         public static IMatcher MarkedForActive {
             get {
-                if (_matcherMarkedForActive == null) {
+                if(_matcherMarkedForActive == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.MarkedForActive);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherMarkedForActive = matcher;

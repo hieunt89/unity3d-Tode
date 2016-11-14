@@ -7,14 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
+
     public partial class Entity {
+
         static readonly Interactable interactableComponent = new Interactable();
 
         public bool isInteractable {
             get { return HasComponent(ComponentIds.Interactable); }
             set {
-                if (value != isInteractable) {
-                    if (value) {
+                if(value != isInteractable) {
+                    if(value) {
                         AddComponent(ComponentIds.Interactable, interactableComponent);
                     } else {
                         RemoveComponent(ComponentIds.Interactable);
@@ -30,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherInteractable;
 
         public static IMatcher Interactable {
             get {
-                if (_matcherInteractable == null) {
+                if(_matcherInteractable == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.Interactable);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherInteractable = matcher;

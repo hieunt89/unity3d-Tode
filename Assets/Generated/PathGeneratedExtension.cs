@@ -7,9 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
-    public partial class Entity {
-        public Path path { get { return (Path)GetComponent(ComponentIds.Path); } }
 
+    public partial class Entity {
+
+        public Path path { get { return (Path)GetComponent(ComponentIds.Path); } }
         public bool hasPath { get { return HasComponent(ComponentIds.Path); } }
 
         public Entity AddPath(System.Collections.Generic.List<UnityEngine.Vector3> newWayPoints) {
@@ -31,11 +32,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherPath;
 
         public static IMatcher Path {
             get {
-                if (_matcherPath == null) {
+                if(_matcherPath == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.Path);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherPath = matcher;

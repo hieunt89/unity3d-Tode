@@ -7,9 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
-    public partial class Entity {
-        public TowerUpgrade towerUpgrade { get { return (TowerUpgrade)GetComponent(ComponentIds.TowerUpgrade); } }
 
+    public partial class Entity {
+
+        public TowerUpgrade towerUpgrade { get { return (TowerUpgrade)GetComponent(ComponentIds.TowerUpgrade); } }
         public bool hasTowerUpgrade { get { return HasComponent(ComponentIds.TowerUpgrade); } }
 
         public Entity AddTowerUpgrade(float newUpgradeTime, Node<string> newUpgradeNode) {
@@ -33,11 +34,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherTowerUpgrade;
 
         public static IMatcher TowerUpgrade {
             get {
-                if (_matcherTowerUpgrade == null) {
+                if(_matcherTowerUpgrade == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.TowerUpgrade);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherTowerUpgrade = matcher;

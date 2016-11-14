@@ -7,9 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace Entitas {
-    public partial class Entity {
-        public ViewSlider viewSlider { get { return (ViewSlider)GetComponent(ComponentIds.ViewSlider); } }
 
+    public partial class Entity {
+
+        public ViewSlider viewSlider { get { return (ViewSlider)GetComponent(ComponentIds.ViewSlider); } }
         public bool hasViewSlider { get { return HasComponent(ComponentIds.ViewSlider); } }
 
         public Entity AddViewSlider(UnityEngine.UI.Slider newBar, UnityEngine.Vector3 newOffset) {
@@ -33,11 +34,12 @@ namespace Entitas {
     }
 
     public partial class Matcher {
+
         static IMatcher _matcherViewSlider;
 
         public static IMatcher ViewSlider {
             get {
-                if (_matcherViewSlider == null) {
+                if(_matcherViewSlider == null) {
                     var matcher = (Matcher)Matcher.AllOf(ComponentIds.ViewSlider);
                     matcher.componentNames = ComponentIds.componentNames;
                     _matcherViewSlider = matcher;

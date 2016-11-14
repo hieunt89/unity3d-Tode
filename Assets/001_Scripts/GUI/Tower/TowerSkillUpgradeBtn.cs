@@ -23,7 +23,7 @@ public class TowerSkillUpgradeBtn : MonoBehaviour, IGoldChangeListener {
 			GetComponentInChildren<Text> ().text = "upgrade to skill " + data.name + " for " + data.goldCost + " gold";
 
 			_goldRequire = data.goldCost;
-			OnGoldChange (Pools.pool.goldPlayer.value);
+			OnGoldChange (Pools.sharedInstance.pool.goldPlayer.value);
 			Messenger.AddListener<int> (Events.Game.GOLD_CHANGE, OnGoldChange);
 		} else if(GameManager.debug){
 			Debug.Log (upgrade.data + " is null");
