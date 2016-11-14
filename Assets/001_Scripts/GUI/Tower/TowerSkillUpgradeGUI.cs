@@ -9,9 +9,8 @@ public class TowerSkillUpgradeGUI : HandleEnitityGUI {
 	public GameObject prefabGroup;
 	public GameObject prefab;
 
-	public override void HandleEntityClick ()
+	public override void HandleEntityClick (Entity e)
 	{
-		var e = Pools.sharedInstance.pool.currentSelected.e;
 		if (!e.hasTower) {
 			HandleEmptyClick ();
 			return;

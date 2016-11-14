@@ -8,8 +8,7 @@ using Lean;
 public class TowerUpgradeGUI : HandleEnitityGUI{
 	public GameObject prefab;
 
-	public override void HandleEntityClick(){
-		var e = Pools.sharedInstance.pool.currentSelected.e;
+	public override void HandleEntityClick(Entity e){
 		if (!e.hasTower && !e.isTowerBase) {
 			HandleEmptyClick ();
 			return;
@@ -30,14 +29,14 @@ public class TowerUpgradeGUI : HandleEnitityGUI{
 		}
 
 		for (int i = 0; i < upgrades.Count; i++) {
-			CreateTowerUpgradeBtn (upgrades [i]);
+			CreateTowerUpgradeBtn (upgrades [i], e);
 		}
 	}
 
-	void CreateTowerUpgradeBtn(Node<string> towerNode){
+	void CreateTowerUpgradeBtn(Node<string> towerNode, Entity e){
 		var go = LeanPool.Spawn (prefab);
 		go.transform.SetParent (this.transform, false);
-		go.GetComponent<TowerUpgradeBtn> ().RegisterBtn(towerNode);
+		go.GetComponent<TowerUpgradeBtn> ().RegisterBtn(towerNode, e);
 	}
 
 	public override void HandleEmptyClick(){

@@ -7,7 +7,7 @@ public class TowerUpgradeBtn : MonoBehaviour, IGoldChangeListener {
 
 	Button _button;
 	float _goldRequire;
-	public void RegisterBtn (Node<string> upgrade)
+	public void RegisterBtn (Node<string> upgrade, Entity e)
 	{
 		if (_button == null) {
 			_button = GetComponent<Button> ();
@@ -16,7 +16,6 @@ public class TowerUpgradeBtn : MonoBehaviour, IGoldChangeListener {
 		var data = DataManager.Instance.GetTowerData (upgrade.data);
 		if (data != null) {
 			_button.onClick.AddListener (() => {
-				var e = Pools.sharedInstance.pool.currentSelected.e;
 				if(e != null){
 					e.AddTowerUpgrade (data.BuildTime, upgrade);
 				}

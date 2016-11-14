@@ -14,8 +14,7 @@ public class TowerRangeGUI : HandleEnitityGUI {
 		rangeObject.SetActive (false);
 	}
 
-	public override void HandleEntityClick(){
-		var e = Pools.sharedInstance.pool.currentSelected.e;
+	public override void HandleEntityClick(Entity e){
 		if (!e.hasTower) {
 			HandleEmptyClick ();
 			return;

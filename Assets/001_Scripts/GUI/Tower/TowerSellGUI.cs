@@ -7,8 +7,7 @@ using Lean;
 public class TowerSellGUI : HandleEnitityGUI {
 	public GameObject prefab;
 
-	public override void HandleEntityClick(){
-		var e = Pools.sharedInstance.pool.currentSelected.e;
+	public override void HandleEntityClick(Entity e){
 		if (!e.hasTower) {
 			HandleEmptyClick ();
 			return;
