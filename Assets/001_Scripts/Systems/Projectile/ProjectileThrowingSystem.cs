@@ -139,7 +139,7 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 	void GetInitVelocityAndAngle(Vector3 start, Vector3 end, float t, float h, out float velocity, out float angle){
 		var d = (end - start).magnitude;
 		var vX = d / t;
-		var vY = ((ConstantData.G * Mathf.Pow (t, 2f) / 2) - h) / t;
+		var vY = ((ConstantData.GRAVITY * Mathf.Pow (t, 2f) / 2) - h) / t;
 		var delta = 1f;
 		float v0FromX;
 		float v0FromY;
@@ -164,7 +164,7 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 		var vec = start.ToEndFragment (end, dX / d);
 
 		float x = vec.x;
-		float y = h + (v * t * Mathf.Sin (a * Mathf.Deg2Rad)) - (ConstantData.G * (Mathf.Pow (t, 2f)) / 2);
+		float y = h + (v * t * Mathf.Sin (a * Mathf.Deg2Rad)) - (ConstantData.GRAVITY * (Mathf.Pow (t, 2f)) / 2);
 		float z = vec.z;
 
 		return new Vector3(x, y, z);

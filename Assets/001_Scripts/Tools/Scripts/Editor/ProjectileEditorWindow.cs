@@ -63,7 +63,7 @@ public class ProjectileEditorWindow : EditorWindow {
 		GUI.enabled = true;
 
 		GUI.enabled = projectile.Type == ProjectileType.throwing || projectile.Type == ProjectileType.laser;
-			projectile.Duration = EditorGUILayout.FloatField ("Duration", projectile.Duration);
+		projectile.Duration = EditorGUILayout.Slider ("Duration", projectile.Duration, 0.5f, 2f);
 		GUI.enabled = true;
 
 		GUI.enabled = projectile.Type == ProjectileType.laser;

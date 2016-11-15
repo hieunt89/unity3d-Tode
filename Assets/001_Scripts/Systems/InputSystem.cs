@@ -40,6 +40,7 @@ public class InputSystem : IInitializeSystem, ITearDownSystem, ISetPool {
 		RaycastHit hitInfo;
 		Entity e;
 		Ray ray = fg.GetRay (Camera.main);
+
 		if (Physics.Raycast (ray, out hitInfo)) {
 			e = EntityLink.GetEntity (hitInfo.collider.gameObject);
 			if(e != null && e.isInteractable && e != _pool.currentSelected.e){

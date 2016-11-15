@@ -15,7 +15,7 @@ public class EnemyWatchHpSystem : ISetPool, IReactiveSystem, IEnsureComponents {
 
 	public IMatcher ensureComponents {
 		get {
-			return Matcher.AllOf(Matcher.Hp, Matcher.Active);
+			return Matcher.AllOf(Matcher.HpTotal, Matcher.Active);
 		}
 	}
 
@@ -27,29 +27,15 @@ public class EnemyWatchHpSystem : ISetPool, IReactiveSystem, IEnsureComponents {
 		for (int i = 0; i < entities.Count; i++) {
 			var e = entities [i];
 
-			if (e.isWound == false && (e.hp.value < e.hpTotal.value)) {
+			if (e.hp.value < e.hpTotal.value) {
 				e.IsWound (true);
 			} else {
 				e.IsWound (false);
 			}
 
 			if(e.hp.value <= 0){
-				if(e.hasGold){
-					_pool.ReplaceGoldPlayer (_pool.goldPlayer.value + e.gold.value);
-				}
-				e.IsActive(false).IsAttackable(false).IsTargetable(false).IsInteractable(false).IsMovable(false);
-				if (e.hasCoroutineQueue) {
-					e.RemoveCoroutineQueue ();
-				}
-				if (e.hasCoroutine) {
-					e.RemoveCoroutine ();
-				}
-				if(e.hasViewSlider){
-					Lean.LeanPool.Despawn (e.viewSlider.bar.gameObject);
-				}
-				e.AddCoroutineTask (StartDying (e));
+				EnemyDie (e);
 			}
-
 		}
 	}
 	#endregion
@@ -57,10 +43,27 @@ public class EnemyWatchHpSystem : ISetPool, IReactiveSystem, IEnsureComponents {
 	#region IReactiveSystem implementation
 	public TriggerOnEvent trigger {
 		get {
-			return Matcher.AllOf(Matcher.Enemy, Matcher.Hp).OnEntityAdded ();
+			return Matcher.AllOf(Matcher.Hp).OnEntityAdded ();
 		}
 	}
 	#endregion
+
+	void EnemyDie(Entity e){
+		if(e.hasGold){
+			_pool.ReplaceGoldPlayer (_pool.goldPlayer.value + e.gold.value);
+		}
+		e.IsActive(false).IsAttackable(false).IsTargetable(false).IsInteractable(false).IsMovable(false);
+		if (e.hasCoroutineQueue) {
+			e.RemoveCoroutineQueue ();
+		}
+		if (e.hasCoroutine) {
+			e.RemoveCoroutine ();
+		}
+		if(e.hasViewSlider){
+			Lean.LeanPool.Despawn (e.viewSlider.bar.gameObject);
+		}
+		e.AddCoroutineTask (StartDying (e));
+	}
 
 	IEnumerator StartDying(Entity e){
 		if (!e.hasDyingTime) {
