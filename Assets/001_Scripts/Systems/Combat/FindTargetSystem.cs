@@ -28,8 +28,18 @@ public class FindTargetSystem : IReactiveSystem, ISetPool {
 
 		var attackerEns = _groupActiveAttacker.GetEntities ();
 		var enemyEns = _groupActiveEnemy.GetEntities ();
+		Entity origin;
 		for (int i = 0; i < attackerEns.Length; i++) {
-			var origin = attackerEns [i].hasSkill ? attackerEns [i].origin.e : attackerEns [i];
+			if (attackerEns [i].hasSkill) {
+				origin = attackerEns [i].origin.e;
+				if (origin.hasTarget) {
+					attackerEns [i].AddTarget (origin.target.e);
+					continue;
+				}
+			} else {
+				origin = attackerEns [i];
+			}
+
 			var target = CombatUtility.FindTargetInRange (origin, enemyEns, attackerEns[i].attackRange.value);
 			if (target != null) {
 				attackerEns [i].AddTarget (target);
