@@ -120,7 +120,7 @@ public class TowerEditorWindow : EditorWindow {
 		if (toggleSkillTrees) {
 			for (int skillTreeIndex = 0; skillTreeIndex < tower.TreeSkillNames.Count; skillTreeIndex++) {
 				GUILayout.BeginHorizontal ();
-				selectedIndexes[skillTreeIndex] = EditorGUILayout.Popup (skillTreeIndex.ToString (), selectedIndexes[skillTreeIndex], existSkillTreeIDs.ToArray ());
+				selectedIndexes[skillTreeIndex] = EditorGUILayout.Popup (selectedIndexes[skillTreeIndex], existSkillTreeIDs.ToArray ());
 				tower.TreeSkillNames[skillTreeIndex] = existSkillTreeIDs [selectedIndexes[skillTreeIndex]];
 				if (GUILayout.Button ("Remove")) {
 					tower.TreeSkillNames.RemoveAt (skillTreeIndex);
@@ -150,13 +150,21 @@ public class TowerEditorWindow : EditorWindow {
 
 		if (GUILayout.Button("Load")){
 			tower = dataUtils.LoadData <TowerData> ();
-			if(tower == null){
-				tower = new TowerData("tower" + existTowers.Count);
+			if (tower == null) {
+				tower = new TowerData ("tower" + existTowers.Count);
+			} else {
+				for (int i = 0; i < tower.TreeSkillNames.Count; i++) {
+					if (tower.TreeSkillNames [i].Equals (existSkillTreeIDs [i]))
+						selectedIndexes.Add (i);
+
+					// TODO: loi se xay ra khi 2 list khac nhau ve so luong phan tu ...
+				}
 			}
 
 			if (towerGo) {
 				DestroyImmediate (towerGo);
 			}
+
 			towerGo = prefabUtils.InstantiatePrefab (ConstantString.PrefabPath + tower.Id + ".prefab");
 			if (towerGo != null) {
 				tower.AtkPoint = towerGo.transform.TransformPoint (tower.AtkPoint);
