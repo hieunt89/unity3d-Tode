@@ -8,6 +8,11 @@
     "atkType": 0,
     "atkSpeed": 2.0,
     "atkTime": 1.0,
+    "atkPoint": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
     "minAtkDmg": 5,
     "maxAtkDmg": 10,
     "atkRange": 0.0,
@@ -22,5 +27,7 @@
         }
     ],
     "hp": 100,
+    "hpRegenRate": 0.009999999776482582,
+    "hpRegenInterval": 0.5,
     "dyingTIme": 1.5
 }
