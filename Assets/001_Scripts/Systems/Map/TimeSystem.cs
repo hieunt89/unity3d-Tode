@@ -17,7 +17,7 @@ public class TimeSystem : IInitializeSystem, IExecuteSystem, ISetPool {
 	public void Execute ()
 	{
 		var e = _pool.tickEntity;
-		e.ReplaceTick (Time.deltaTime * e.timeSpeed.value);
+		e.ReplaceTick (Time.deltaTime);
 		e.ReplaceTimeTotal (e.timeTotal.value + e.tick.change);
 	}
 
@@ -28,7 +28,6 @@ public class TimeSystem : IInitializeSystem, IExecuteSystem, ISetPool {
 	public void Initialize ()
 	{
 		_pool.ReplaceTick (0f)
-			.AddTimeSpeed (1.0f)
 			.AddTimeTotal (0f);
 	}
 

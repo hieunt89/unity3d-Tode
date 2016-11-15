@@ -41,10 +41,10 @@ public class DataManager {
 		LoadData <TowerData> (out towerIdToData);
 		LoadData <CharacterData> (out characterIdToData);
 		LoadData <MapData> (out mapIdToData);
-		LoadTreeData (TreeType.Towers);
+		LoadTowerTreeData (TreeType.Towers);
 
 		LoadSkillData ();
-		LoadSkillTree ();
+		LoadSkillTreeData ();
 	}
 
 	void LoadSkillData(){
@@ -61,18 +61,29 @@ public class DataManager {
 		}
 	}
 
-	void LoadSkillTree(){
+	void LoadSkillTreeData(){
 		skillTrees = new Dictionary<string, Tree<string>> ();
 
-		Tree<string> tree = new Tree<string> ();
-		tree.treeName = "fireball_tree";
-		tree.Root = new Node<string> ("skill0");
-		tree.Root.AddChild (new Node<string> ("skill1"));
+		BinaryFormatter bf = new BinaryFormatter ();
 
-		skillTrees.Add (tree.treeName, tree);
+		var texts = Resources.LoadAll<TextAsset> ("Data/Trees/" + TreeType.CombatSkills);
+		for (int i = 0; i < texts.Length; i++) {
+			Stream s = new MemoryStream(texts[i].bytes);
+			Tree<string> tree = bf.Deserialize (s) as Tree<string>;
+			skillTrees.Add (tree.treeName, tree);
+		}
+
+		texts = Resources.LoadAll<TextAsset> ("Data/Trees/" + TreeType.SummonSkills);
+		for (int i = 0; i < texts.Length; i++) {
+			Stream s = new MemoryStream(texts[i].bytes);
+			Tree<string> tree = bf.Deserialize (s) as Tree<string>;
+			skillTrees.Add (tree.treeName, tree);
+		}
 	}
 
-	void LoadTreeData(TreeType treeType){
+
+
+	void LoadTowerTreeData(TreeType treeType){
 		towerTrees = new List<Tree<string>> ();
 		BinaryFormatter bf = new BinaryFormatter ();
 
