@@ -19,6 +19,7 @@ public class TowerData {
 	[SerializeField] private int goldRequired;
 	[SerializeField] private float buildTime;
 	[SerializeField] private float aoe;
+	[SerializeField] private List<int> treeSkillIndexes;
 	[SerializeField] private List<string> treeSkillNames;
 
 	public string Id {
@@ -154,6 +155,15 @@ public class TowerData {
 			aoe = value;
 		}
 	}
+//
+//	public List<int> TreeSkillIndexes {
+//		get {
+//			return this.treeSkillIndexes;
+//		}
+//		set {
+//			treeSkillIndexes = value;
+//		}
+//	}
 
 	public List<string> TreeSkillNames {
 		get {
@@ -165,5 +175,7 @@ public class TowerData {
 
 	public TowerData (string id) {
 		this.id = id;
+//		this.treeSkillIndexes = new List<int> ();
+		this.treeSkillNames = new List <string> ();
 	}
 }

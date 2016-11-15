@@ -13,8 +13,11 @@ public class TowerEditorWindow : EditorWindow {
 	bool toggleSkillTrees;
 	List<TowerData> existTowers;
 	List<ProjectileData> existProjectiles;
-	List<string> existSkillTreeDat;
 
+	List<Tree<string>> trees;
+
+	List<string> existSkillTreeIDs;
+	List<int> selectedIndexes;
 //	List<string> existTowerIds;
 	List<string> projectileIds;
 
@@ -22,6 +25,7 @@ public class TowerEditorWindow : EditorWindow {
 
 	IDataUtils dataUtils;
 	IPrefabUtils prefabUtils;
+	IDataUtils binartyUtils;
 
 	[MenuItem("Tode/Tower Editor &T")]
 	public static void ShowWindow()
@@ -33,9 +37,19 @@ public class TowerEditorWindow : EditorWindow {
 	void OnEnable () {
 		prefabUtils = DIContainer.GetModule <IPrefabUtils> ();
 		dataUtils = DIContainer.GetModule <IDataUtils> ();
+		binartyUtils = new BinaryUtils () as IDataUtils;
 
 		existTowers = dataUtils.LoadAllData <TowerData>();
-		existProjectiles =  dataUtils.LoadAllData <ProjectileData>();
+		existProjectiles = dataUtils.LoadAllData <ProjectileData>();
+
+		trees = binartyUtils.LoadAllData <Tree<string>> ();
+		existSkillTreeIDs = new List<string> ();
+		selectedIndexes = new List<int> ();
+
+		for (int i = 0; i < trees.Count; i++) {
+			if (trees[i].treeType == TreeType.CombatSkills || trees[i].treeType == TreeType.SummonSkills ) 
+				existSkillTreeIDs.Add(trees[i].id);
+		}
 
 		tower = new TowerData("tower" + existTowers.Count);
 
@@ -106,9 +120,11 @@ public class TowerEditorWindow : EditorWindow {
 		if (toggleSkillTrees) {
 			for (int skillTreeIndex = 0; skillTreeIndex < tower.TreeSkillNames.Count; skillTreeIndex++) {
 				GUILayout.BeginHorizontal ();
-				//				var _effectType = (EffectType) EditorGUILayout.EnumPopup ("Effect Type", combatSkill.effectList[i].effectType);
+				selectedIndexes[skillTreeIndex] = EditorGUILayout.Popup (skillTreeIndex.ToString (), selectedIndexes[skillTreeIndex], existSkillTreeIDs.ToArray ());
+				tower.TreeSkillNames[skillTreeIndex] = existSkillTreeIDs [selectedIndexes[skillTreeIndex]];
 				if (GUILayout.Button ("Remove")) {
 					tower.TreeSkillNames.RemoveAt (skillTreeIndex);
+					selectedIndexes.RemoveAt (skillTreeIndex);
 					continue;
 				}
 				GUILayout.EndHorizontal ();
@@ -116,6 +132,7 @@ public class TowerEditorWindow : EditorWindow {
 
 			if (GUILayout.Button ("Add Skill Tree")) {
 				tower.TreeSkillNames.Add ("new");
+				selectedIndexes.Add (0);
 			}
 		}
 
