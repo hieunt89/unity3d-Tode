@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using UnityEditor;
 using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters.Binary;
 
 public interface IInjectDataUtils {
 	void SetDataUtils (IDataUtils dataUtils);
@@ -79,5 +80,52 @@ public class JsonUtils : IDataUtils{
 	public void DeleteData (string path)
 	{
 		AssetDatabase.DeleteAsset (path);
+	}
+}
+
+public class BinaryUtils : IDataUtils {
+	public const string databasePath = "/Resources/Data/Trees/";
+	public const string dataExtension = ".txt";
+
+	public void CreateData<T> (T data)
+	{
+		BinaryFormatter bf = new BinaryFormatter ();
+
+		var dataType = typeof(T).GetField("treeType").GetValue (data).ToString ();
+		if (!Directory.Exists (Application.dataPath + databasePath + dataType)) {
+			Directory.CreateDirectory (Application.dataPath + databasePath + dataType);
+		}
+
+		FieldInfo field = typeof(T).GetField("id");
+		string dataID = (string) field.GetValue(data); 
+
+		FileStream file = File.Create (Application.dataPath + databasePath + dataType + "/" + dataID + dataExtension);
+		bf.Serialize (file, data);
+		file.Close ();
+		AssetDatabase.Refresh ();
+	}
+
+	public T LoadData<T> ()
+	{
+		T data = default(T);
+		string treePath = EditorUtility.OpenFilePanel ("Load Tree", Application.dataPath + databasePath, "txt");
+		int appPathLength = Application.dataPath.Length;
+		string finalPath = treePath.Substring (appPathLength - dataExtension.Length - 2);
+
+		BinaryFormatter bf = new BinaryFormatter ();
+		FileStream file = File.Open (finalPath, FileMode.Open);
+		data = (T) bf.Deserialize (file);
+		file.Close ();
+		return data;
+	}
+
+	public List<T> LoadAllData<T> ()
+	{
+		return new List<T> ();
+	}
+
+	public void DeleteData (string path)
+	{
+		throw new System.NotImplementedException ();
 	}
 }

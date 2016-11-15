@@ -11,7 +11,10 @@ public class ViewBase {
 	protected GUISkin viewSkin;
 	protected TreeGUI currentTree;
 
+	protected IDataUtils binaryUtils;
+
 	public ViewBase () {
+
 		GetEditorSkin ();
 	}
 
@@ -23,7 +26,7 @@ public class ViewBase {
 
 		this.currentTree = _currentTree;
 		if (currentTree != null && currentTree.treeData != null) {
-			viewTitle = TreeEditorUtils.UppercaseFirst(currentTree.treeData.treeName);
+			viewTitle = TreeEditorUtils.UppercaseFirst(currentTree.treeData.id);
 		} else {
 			viewTitle = "No";
 		}
@@ -40,6 +43,7 @@ public class ViewBase {
 	}
 
 	protected void GetEditorSkin () {
+		binaryUtils = new BinaryUtils () as IDataUtils;
 		viewSkin = (GUISkin)Resources.Load ("EditorSkins/TreeNodeEditorSkin");
 	}
 }

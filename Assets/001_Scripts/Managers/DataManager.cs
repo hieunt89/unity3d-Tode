@@ -70,14 +70,14 @@ public class DataManager {
 		for (int i = 0; i < texts.Length; i++) {
 			Stream s = new MemoryStream(texts[i].bytes);
 			Tree<string> tree = bf.Deserialize (s) as Tree<string>;
-			skillTrees.Add (tree.treeName, tree);
+			skillTrees.Add (tree.id, tree);
 		}
 
 		texts = Resources.LoadAll<TextAsset> ("Data/Trees/" + TreeType.SummonSkills);
 		for (int i = 0; i < texts.Length; i++) {
 			Stream s = new MemoryStream(texts[i].bytes);
 			Tree<string> tree = bf.Deserialize (s) as Tree<string>;
-			skillTrees.Add (tree.treeName, tree);
+			skillTrees.Add (tree.id, tree);
 		}
 	}
 

@@ -10,8 +10,10 @@ public class TowerEditorWindow : EditorWindow {
 	TowerData tower;
 	GameObject towerGo;
 	bool toggleProjectile;
+	bool toggleSkillTrees;
 	List<TowerData> existTowers;
 	List<ProjectileData> existProjectiles;
+	List<string> existSkillTreeDat;
 
 //	List<string> existTowerIds;
 	List<string> projectileIds;
@@ -99,6 +101,23 @@ public class TowerEditorWindow : EditorWindow {
 		tower.GoldRequired = EditorGUILayout.IntField ("Gold Cost", tower.GoldRequired);
 		tower.BuildTime = EditorGUILayout.FloatField ("Build Time", tower.BuildTime);
 		tower.Aoe = EditorGUILayout.FloatField ("AOE", tower.Aoe);
+
+		toggleSkillTrees = EditorGUILayout.Foldout (toggleSkillTrees, "Skill Trees");
+		if (toggleSkillTrees) {
+			for (int skillTreeIndex = 0; skillTreeIndex < tower.TreeSkillNames.Count; skillTreeIndex++) {
+				GUILayout.BeginHorizontal ();
+				//				var _effectType = (EffectType) EditorGUILayout.EnumPopup ("Effect Type", combatSkill.effectList[i].effectType);
+				if (GUILayout.Button ("Remove")) {
+					tower.TreeSkillNames.RemoveAt (skillTreeIndex);
+					continue;
+				}
+				GUILayout.EndHorizontal ();
+			}
+
+			if (GUILayout.Button ("Add Skill Tree")) {
+				tower.TreeSkillNames.Add ("new");
+			}
+		}
 
 		GUILayout.Space(5);
 

@@ -11,7 +11,7 @@ public enum TreeType {
 [Serializable]
 public class Tree <T> where T : class {
 	public TreeType treeType;
-	public string treeName;
+	public string id;
 	public Node <T> Root;
 
 	public Tree(){
@@ -22,10 +22,10 @@ public class Tree <T> where T : class {
 		this.Root = new Node<T> (rootData);
 	}
 
-	public Tree (TreeType treeType, string treeName)
+	public Tree (TreeType treeType, string id)
 	{
 		this.treeType = treeType;
-		this.treeName = treeName;
+		this.id = id;
 	}
 }
 
