@@ -8,7 +8,7 @@ public class SkillEditorWindow: EditorWindow {
 
 	CombatSkillData combatSkill;
 	SummonSkillData summonSkill;
-
+	bool toggleProjectile;
 	SkillType skillType;
 
 	List<CombatSkillData> existCombatSkills;
@@ -67,31 +67,33 @@ public class SkillEditorWindow: EditorWindow {
 		
 
 		EditorGUI.BeginChangeCheck ();
-		var _combatSkillId = EditorGUILayout.TextField ("Id", combatSkill.id);
-		var _combatSkillName = EditorGUILayout.TextField ("Name", combatSkill.name);
-		var _combatSkillCoolDown = EditorGUILayout.FloatField ("Cooldown", combatSkill.cooldown);
-		var _combatSkillCastRange = EditorGUILayout.FloatField ("Cast Range", combatSkill.castRange);
-		var _combatSkillCastTime = EditorGUILayout.FloatField ("Cast Time", combatSkill.castTime);
-		var _combatSkillCost = EditorGUILayout.IntField ("Cost", combatSkill.goldCost);
-		projectileIndex = EditorGUILayout.Popup ("Project Id", projectileIndex, projectileIds.ToArray());
-		var _combatSkillAOE = EditorGUILayout.FloatField ("AOE", combatSkill.aoe);
-		var _combatSkillAttackType = (AttackType) EditorGUILayout.EnumPopup ("Attack Type", combatSkill.attackType);
-		var _combatSkillDamage = EditorGUILayout.IntField ("Damage", combatSkill.damage);
+		combatSkill.id = EditorGUILayout.TextField ("Id", combatSkill.id);
+		combatSkill.name = EditorGUILayout.TextField ("Name", combatSkill.name);
+		combatSkill.cooldown = EditorGUILayout.FloatField ("Cooldown", combatSkill.cooldown);
+		combatSkill.castRange = EditorGUILayout.FloatField ("Cast Range", combatSkill.castRange);
+		combatSkill.castTime = EditorGUILayout.FloatField ("Cast Time", combatSkill.castTime);
+		combatSkill.goldCost = EditorGUILayout.IntField ("Cost", combatSkill.goldCost);
+	
+		projectileIndex = EditorGUILayout.Popup ("Projectile", projectileIndex, projectileIds.ToArray());
+		combatSkill.projectileIndex = projectileIndex;
+		combatSkill.projectileId = projectileIds[projectileIndex];
 
-		// TODO: list skill effect
-
-		if (EditorGUI.EndChangeCheck ()) {
-			combatSkill.id = _combatSkillId;
-			combatSkill.name = _combatSkillName;
-			combatSkill.cooldown = _combatSkillCoolDown;
-			combatSkill.castRange = _combatSkillCastRange;
-			combatSkill.castTime = _combatSkillCastTime;
-			combatSkill.goldCost = _combatSkillCost;
-			combatSkill.projectileId = projectileIds[projectileIndex];
-			combatSkill.aoe = _combatSkillAOE;
-			combatSkill.attackType = _combatSkillAttackType;
-			combatSkill.damage = _combatSkillDamage;
+		GUILayout.BeginVertical ("box");
+		toggleProjectile = EditorGUILayout.Foldout (toggleProjectile, "Projectile Detail");
+		if (toggleProjectile) {
+			EditorGUILayout.LabelField ("Name", existProjectiles[projectileIndex].Name);
+			EditorGUILayout.LabelField ("Type", existProjectiles[projectileIndex].Type.ToString ());
+			EditorGUILayout.LabelField ("TravelSpeed", existProjectiles[projectileIndex].TravelSpeed.ToString ());
+			EditorGUILayout.LabelField ("Duration", existProjectiles[projectileIndex].Duration.ToString ());
+			EditorGUILayout.LabelField ("MaxDmgBuildTime", existProjectiles[projectileIndex].MaxDmgBuildTime.ToString ());
+			EditorGUILayout.LabelField ("TickInterval", existProjectiles[projectileIndex].TickInterval.ToString ());
 		}
+		GUILayout.EndVertical ();
+
+		combatSkill.aoe = EditorGUILayout.FloatField ("AOE", combatSkill.aoe);
+		combatSkill.attackType = (AttackType) EditorGUILayout.EnumPopup ("Attack Type", combatSkill.attackType);
+		combatSkill.damage = EditorGUILayout.IntField ("Damage", combatSkill.damage);
+
 
 		GUILayout.Space(5);
 		toggleSkillEffect = EditorGUILayout.Foldout (toggleSkillEffect, "Skill Effect");

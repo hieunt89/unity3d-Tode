@@ -12,11 +12,14 @@ public class CharacterData {
 	[SerializeField] private AttackType atkType;
 	[SerializeField] private float atkSpeed;
 	[SerializeField] private float atkTime;
+	[SerializeField] private Vector3 atkPoint;
 	[SerializeField] private int minAtkDmg;
 	[SerializeField] private int maxAtkDmg;
 	[SerializeField] private float atkRange;
 	[SerializeField] private List<ArmorData> armors;
 	[SerializeField] private int hp;
+	[SerializeField] private float hpRegenRate;
+	[SerializeField] private float hpRegenInterval;
 	[SerializeField] private float dyingTIme;
 
 	public string Id {
@@ -91,6 +94,15 @@ public class CharacterData {
 		}
 	}
 
+	public Vector3 AtkPoint {
+		get {
+			return this.atkPoint;
+		}
+		set {
+			atkPoint = value;
+		}
+	}
+
 	public int MinAtkDmg {
 		get {
 			return this.minAtkDmg;
@@ -136,6 +148,23 @@ public class CharacterData {
 		}
 	}
 
+	public float HpRegenRate {
+		get {
+			return this.hpRegenRate;
+		}
+		set {
+			hpRegenRate = value;
+		}
+	}
+
+	public float HpRegenInterval {
+		get {
+			return this.hpRegenInterval;
+		}
+		set {
+			hpRegenInterval = value;
+		}
+	}
 	public float DyingTime {
 		get {
 			return dyingTIme;
