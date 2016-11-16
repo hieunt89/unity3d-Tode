@@ -24,14 +24,14 @@ public class MapEditorWindow : EditorWindow {
 	private List<bool> toggleWaves;
 
 	List<MapData> existMaps;
-	List<CharacterData> existEnemies;
+	List<CharacterData> existCharacters;
 //	List<TowerData> existTowers;
 
 	List<List<int>> characterPopupIndexes;
 	List<List<int>> pathPopupIndexes;
 
-	List<string> enemyIds;
-	List<string> pathIds;
+	List<string> existCharacterIDs;
+	List<string> pathIDs;
     
 	private int stepsPerCurve = 10;
 	private float towerRange = 5;
@@ -346,7 +346,7 @@ public class MapEditorWindow : EditorWindow {
 				GUILayout.FlexibleSpace ();
 
 				if(GUILayout.Button("", mapEditorSkin.GetStyle("AddButton"), GUILayout.MinWidth(16), GUILayout.MinHeight (16))) {
-					var newGroup = new WaveGroupData("group" + map.Waves[i].Groups.Count, enemyIds[0], pathIds[0]);
+					var newGroup = new WaveGroupData("group" + map.Waves[i].Groups.Count, existCharacterIDs[0], pathIDs[0]);
 					map.Waves[i].Groups.Add(newGroup);
 					CreatePopupIndexes ();
 				}
@@ -372,15 +372,13 @@ public class MapEditorWindow : EditorWindow {
 
 							GUILayout.FlexibleSpace ();
 
-							characterPopupIndexes[i][j] = EditorGUILayout.Popup (characterPopupIndexes[i][j], enemyIds.ToArray());
-							map.Waves[i].Groups[j].EnemyIdIndex = characterPopupIndexes[i][j];
-							map.Waves[i].Groups[j].EnemyId = enemyIds[characterPopupIndexes[i][j]];
+							characterPopupIndexes[i][j] = EditorGUILayout.Popup (characterPopupIndexes[i][j], existCharacterIDs.ToArray());
+							map.Waves[i].Groups[j].EnemyId = existCharacterIDs[characterPopupIndexes[i][j]];
 							map.Waves[i].Groups[j].Amount = EditorGUILayout.IntField (map.Waves[i].Groups[j].Amount);;
 							map.Waves[i].Groups[j].SpawnInterval = EditorGUILayout.FloatField (map.Waves[i].Groups[j].SpawnInterval);
 							map.Waves[i].Groups[j].GroupDelay = EditorGUILayout.FloatField (map.Waves[i].Groups[j].GroupDelay);
-							map.Waves[i].Groups[j].PathIdIndex = pathPopupIndexes[i][j];
-							map.Waves[i].Groups[j].PathId = pathIds[pathPopupIndexes[i][j]];
-							pathPopupIndexes[i][j] = EditorGUILayout.Popup (pathPopupIndexes[i][j], pathIds.ToArray());
+							map.Waves[i].Groups[j].PathId = pathIDs[pathPopupIndexes[i][j]];
+							pathPopupIndexes[i][j] = EditorGUILayout.Popup (pathPopupIndexes[i][j], pathIDs.ToArray());
 
 
 							EditorGUILayout.EndHorizontal();
@@ -415,9 +413,9 @@ public class MapEditorWindow : EditorWindow {
 			terrainGo = prefabUtils.InstantiatePrefab (ConstantString.PrefabPath + map.Id + ".prefab");
 
 			CreateToggles ();
+			UpdatePathID ();
 			CreatePopupIndexes ();
 
-			UpdatePathID ();
 		}
 		if (GUILayout.Button ("Reset")) {
 			if (EditorUtility.DisplayDialog ("Are you sure?", 
@@ -583,24 +581,24 @@ public class MapEditorWindow : EditorWindow {
 		PathData pathData = new PathData(map.Paths.Count, "path" + map.Paths.Count) ;
 		map.Paths.Add(pathData);
 
-		if (pathIds == null) 
-			pathIds = new List<string> ();		
+		if (pathIDs == null) 
+			pathIDs = new List<string> ();		
 
-		pathIds.Add(pathData.Id);
+		pathIDs.Add(pathData.Id);
 		togglePaths.Add(false);
 	}
 
 	private void RemovePath (int _pathIndex) {
 		map.Paths.RemoveAt (_pathIndex);	
-		pathIds.RemoveAt (_pathIndex);
+		pathIDs.RemoveAt (_pathIndex);
 
 		UpdatePathID ();
 	}
 
 	private void ClearPaths () {
 		map.Paths.Clear ();
-		if (pathIds != null && pathIds.Count > 0)
-			pathIds.Clear();
+		if (pathIDs != null && pathIDs.Count > 0)
+			pathIDs.Clear();
 		ClearWaves ();
 	}
 
@@ -675,31 +673,29 @@ public class MapEditorWindow : EditorWindow {
 		ClearTowerPoints();
 		ClearWaves();
 
-		pathIds.Clear ();
+		pathIDs.Clear ();
 	}
 
 	void LoadExistData () {
 		existMaps = dataUtils.LoadAllData <MapData> ();
 		UpdatePathID ();
 
-		existEnemies = dataUtils.LoadAllData <CharacterData> ();
+		existCharacters = dataUtils.LoadAllData <CharacterData> ();
 		GetEnemyIds ();
-
-//		existTowers = DataManager.Instance.LoadAllData <TowerData> ();
 	}
 
 	private void GetEnemyIds () {
-		enemyIds = new List<string> ();
-		for (int index = 0; index < existEnemies.Count; index++) {
-			enemyIds.Add(existEnemies[index].Id);
+		existCharacterIDs = new List<string> ();
+		for (int index = 0; index < existCharacters.Count; index++) {
+			existCharacterIDs.Add(existCharacters[index].Id);
 		}
 	}
 
 	private void UpdatePathID () {
 		if (map != null) {
-			pathIds = new List<string> ();
+			pathIDs = new List<string> ();
 			for (int pathIndex = 0; pathIndex < map.Paths.Count; pathIndex++) {
-				pathIds.Add(map.Paths[pathIndex].Id);		
+				pathIDs.Add(map.Paths[pathIndex].Id);		
 			}
 		}
 	}
@@ -732,20 +728,34 @@ public class MapEditorWindow : EditorWindow {
 			{
 				characterPopupIndexes.Add(new List<int> ());
 				pathPopupIndexes.Add (new List<int> ());
-				for (int j = 0; j < map.Waves[waveIndex].Groups.Count; j++)
+				for (int groupIndex = 0; groupIndex < map.Waves[waveIndex].Groups.Count; groupIndex++)
 				{
-					characterPopupIndexes[waveIndex].Add (map.Waves[waveIndex].Groups[j].EnemyIdIndex);
-					pathPopupIndexes[waveIndex].Add (map.Waves[waveIndex].Groups[j].PathIdIndex);
+					characterPopupIndexes[waveIndex].Add (GetCharacterIndexes (waveIndex, groupIndex));
+					pathPopupIndexes[waveIndex].Add (GetPathIndexes (waveIndex, groupIndex));
 				}
 			}
 		}
 	}
 
-	int GetCharacterIndexes () {
+	int GetCharacterIndexes (int _waveIndex, int _groupIndex) {
+		if (existCharacterIDs.Count > 0){
+			for (int i = 0; i < existCharacterIDs.Count; i++) {
+				if (map.Waves[_waveIndex].Groups[_groupIndex].EnemyId.Equals (existCharacterIDs[i])) {
+					return i;
+				}
+			}
+		}
 		return 0;
 	}
 
-	int GetPathIndexes () {
+	int GetPathIndexes (int _waveIndex, int _groupIndex) {
+		if (pathIDs.Count > 0){
+			for (int i = 0; i < pathIDs.Count; i++) {
+				if (map.Waves[_waveIndex].Groups[_groupIndex].PathId.Equals (pathIDs[i])) {
+					return i;
+				}
+			}
+		}
 		return 0;
 	}
 	#endregion private methods

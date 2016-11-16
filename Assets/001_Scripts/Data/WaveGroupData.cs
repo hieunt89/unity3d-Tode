@@ -4,14 +4,12 @@ using System.Collections.Generic;
 public class WaveGroupData {
 	[SerializeField] private string id;
 
-	[SerializeField] private int enemyIdIndex;
 	[SerializeField] private string enemyId;
 
 	[SerializeField] private int amount;
 	[SerializeField] private float spawnInterval;
 	[SerializeField] private float groupDelay;
 
-	[SerializeField] private int pathIdIndex;
 	[SerializeField] private string pathId;
 
 	public string Id {
@@ -20,15 +18,6 @@ public class WaveGroupData {
 		}
 		set {
 			id = value;
-		}
-	}
-
-	public int EnemyIdIndex {
-		get {
-			return enemyIdIndex;
-		}
-		set {
-			enemyIdIndex = value;
 		}
 	}
 
@@ -66,16 +55,6 @@ public class WaveGroupData {
         set {
             groupDelay = value;
         }
-	}
-
-	public int PathIdIndex {
-		get {
-//		
-			return pathIdIndex;
-		}
-		set {
-			pathIdIndex = value;
-		}
 	}
 
 	public string PathId {
