@@ -177,12 +177,6 @@ public class MapEditorWindow : EditorWindow {
 
 		GUILayout.Space (5);
 
-//		EditorGUI.BeginChangeCheck ();
-//		int _stepsPerCurve = Mathf.Clamp (EditorGUILayout.IntField ("Curve Smooth", stepsPerCurve), 4, 20);
-//		if (EditorGUI.EndChangeCheck ()) {
-//			this.stepsPerCurve = _stepsPerCurve;
-//		}
-
 		GUILayout.Space (5);
 		if (map.Paths != null && map.Paths.Count > 0) {
 			EditorGUILayout.BeginVertical("box");
@@ -232,17 +226,18 @@ public class MapEditorWindow : EditorWindow {
 
 							GUILayout.Label ("path " + selectedPathIndex + " point " + (selectedCurveIndex * 3 + i), mapEditorSkin.GetStyle("LabelB")); 
 							GUILayout.FlexibleSpace();
-							EditorGUI.BeginChangeCheck();
+
 							GUILayout.Label ("x");
 							var posX = EditorGUILayout.FloatField (map.Paths[selectedPathIndex].ControlPoints[selectedCurveIndex * 3 + i].x, GUILayout.MaxWidth(60));
+
 							GUILayout.Label ("y");
 							var posY = EditorGUILayout.FloatField (map.Paths[selectedPathIndex].ControlPoints[selectedCurveIndex * 3 + i].y, GUILayout.MaxWidth(60));
+
 							GUILayout.Label ("z");
 							var posZ = EditorGUILayout.FloatField (map.Paths[selectedPathIndex].ControlPoints[selectedCurveIndex * 3 + i].z, GUILayout.MaxWidth(60));
-							if(EditorGUI.EndChangeCheck()){
-								map.Paths[selectedPathIndex].ControlPoints[selectedWaypointIndex] = new Vector3(posX, posY, posZ);
-								EditorUtility.SetDirty(this);
-							}
+
+							map.Paths[selectedPathIndex].ControlPoints[selectedWaypointIndex] = new Vector3(posX, posY, posZ);
+
 							EditorGUILayout.EndHorizontal ();
 						}
 						EditorGUILayout.EndVertical();
@@ -293,20 +288,19 @@ public class MapEditorWindow : EditorWindow {
 				}
 				GUILayout.Label ("tower" + selectedTowerpointIndex, mapEditorSkin.GetStyle("LabelB"));
 				GUILayout.FlexibleSpace ();
-				EditorGUI.BeginChangeCheck();
+
 				GUILayout.Label ("x");
 				var posX = EditorGUILayout.FloatField (map.TowerPoints[selectedTowerpointIndex].TowerPointPos.x, GUILayout.MaxWidth(60));
+
 				GUILayout.Label ("y");
 				var posY = EditorGUILayout.FloatField (map.TowerPoints[selectedTowerpointIndex].TowerPointPos.y, GUILayout.MaxWidth(60));
+
 				GUILayout.Label ("z");
 				var posZ = EditorGUILayout.FloatField (map.TowerPoints[selectedTowerpointIndex].TowerPointPos.z, GUILayout.MaxWidth(60));
-				if (EditorGUI.EndChangeCheck ()) {
-					map.TowerPoints[selectedTowerpointIndex].TowerPointPos = new Vector3(posX, posY, posZ);
-					EditorUtility.SetDirty(this);
-				}
-				EditorGUILayout.EndHorizontal();
 
-			
+				map.TowerPoints[selectedTowerpointIndex].TowerPointPos = new Vector3(posX, posY, posZ);
+
+				EditorGUILayout.EndHorizontal();
 
 				EditorGUILayout.EndVertical();
 			}
@@ -465,16 +459,12 @@ public class MapEditorWindow : EditorWindow {
 		this.wayPointColor = EditorGUILayout.ColorField("WP Color", this.wayPointColor);
 		this.towerPointColor = EditorGUILayout.ColorField("TP Color", this.towerPointColor);
 
-		EditorGUI.BeginChangeCheck ();
-		int _stepsPerCurve = EditorGUILayout.IntSlider ("Step Per Curve", stepsPerCurve, 4 , 20);
-		float _towerRange = EditorGUILayout.Slider ("Tower Range", towerRange, 1, 10);
-		if (EditorGUI.EndChangeCheck ()) {
-			this.stepsPerCurve = _stepsPerCurve;
-			EditorPrefs.SetInt ("StepPerCurve", stepsPerCurve);
+		this.stepsPerCurve = EditorGUILayout.IntSlider ("Step Per Curve", stepsPerCurve, 4 , 20);
+		EditorPrefs.SetInt ("StepPerCurve", stepsPerCurve);
 
-			this.towerRange = _towerRange;
-			EditorPrefs.SetFloat ("TowerRange", towerRange);
-		}
+		this.towerRange = EditorGUILayout.Slider ("Tower Range", towerRange, 1, 10);;
+		EditorPrefs.SetFloat ("TowerRange", towerRange);
+
 		GUILayout.EndArea();
 		Handles.EndGUI(); 
 
@@ -543,11 +533,8 @@ public class MapEditorWindow : EditorWindow {
 			Repaint();
 		}
 		if (selectedPathIndex == pathIndex && selectedWaypointIndex == pointIndex) {
-			EditorGUI.BeginChangeCheck();
 			point = Handles.FreeMoveHandle(point, Quaternion.identity, handleSize, Vector3.one, Handles.CircleCap);
-			if (EditorGUI.EndChangeCheck()) {
-				map.Paths[pathIndex].SetControlPoint(pointIndex, point);
-			}
+			map.Paths[pathIndex].SetControlPoint(pointIndex, point);
 		}
 		return point;
 	}
@@ -565,11 +552,8 @@ public class MapEditorWindow : EditorWindow {
 		}
 		if (selectedTowerpointIndex == towerIndex) {
 			Handles.DrawWireDisc (towerPoint, Vector3.up, towerRange);
-			EditorGUI.BeginChangeCheck();
 			towerPoint = Handles.FreeMoveHandle (towerPoint, Quaternion.identity, handleSize, Vector3.one, Handles.RectangleCap);
-			if (EditorGUI.EndChangeCheck()) {
-				map.TowerPoints[towerIndex].TowerPointPos = towerPoint;
-			}
+			map.TowerPoints[towerIndex].TowerPointPos = towerPoint;
 		}
 	}
 	#endregion Custom Inspector
