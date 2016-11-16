@@ -24,81 +24,70 @@ public class DataManager {
 	}
 	#endregion
 
-	IDataUtils dataUtils;
+	IDataUtils jsonUtils;
+	IDataUtils binartyUtils;
 
 	Dictionary<string, ProjectileData> projectileIdToData;
 	Dictionary<string, TowerData> towerIdToData;
 	Dictionary<string, CharacterData> characterIdToData;
 	Dictionary<string, MapData> mapIdToData;
 	Dictionary<string, SkillData> skillIdToData;
+
+	List<Tree<string>> trees;
 	List<Tree<string>> towerTrees;
 	Dictionary<string, Tree<string>> skillTrees;
 
 	public DataManager(){
-		dataUtils = DIContainer.GetModule <IDataUtils> ();
+		jsonUtils = DIContainer.GetModule <IDataUtils> ();
+		binartyUtils = new BinaryUtils () as IDataUtils;
 
 		LoadData <ProjectileData>(out projectileIdToData);
 		LoadData <TowerData> (out towerIdToData);
 		LoadData <CharacterData> (out characterIdToData);
 		LoadData <MapData> (out mapIdToData);
-		LoadTowerTreeData (TreeType.Towers);
-
 		LoadSkillData ();
+
+		trees = binartyUtils.LoadAllData <Tree<string>> ();
+		LoadTowerTreeData ();
 		LoadSkillTreeData ();
 	}
 
 	void LoadSkillData(){
 		skillIdToData = new Dictionary<string, SkillData> ();
 
-		var combatSkills = dataUtils.LoadAllData<CombatSkillData> ();
+		var combatSkills = jsonUtils.LoadAllData<CombatSkillData> ();
 		for (int i = 0; i < combatSkills.Count; i++) {
 			skillIdToData.Add (combatSkills[i].id, combatSkills[i]);
 		}
 
-		var summonSkills = dataUtils.LoadAllData<SummonSkillData> ();
+		var summonSkills = jsonUtils.LoadAllData<SummonSkillData> ();
 		for (int i = 0; i < summonSkills.Count; i++) {
 			skillIdToData.Add (summonSkills[i].id, summonSkills[i]);
+		}
+	}
+
+	void LoadTowerTreeData(){
+
+		towerTrees = new List<Tree<string>> ();
+		for (int i = 0; i < trees.Count; i++) {
+			if (trees[i].treeType == TreeType.Towers) 
+				towerTrees.Add(trees[i]);
 		}
 	}
 
 	void LoadSkillTreeData(){
 		skillTrees = new Dictionary<string, Tree<string>> ();
 
-		BinaryFormatter bf = new BinaryFormatter ();
-
-		var texts = Resources.LoadAll<TextAsset> ("Data/Trees/" + TreeType.CombatSkills);
-		for (int i = 0; i < texts.Length; i++) {
-			Stream s = new MemoryStream(texts[i].bytes);
-			Tree<string> tree = bf.Deserialize (s) as Tree<string>;
-			skillTrees.Add (tree.treeName, tree);
-		}
-
-		texts = Resources.LoadAll<TextAsset> ("Data/Trees/" + TreeType.SummonSkills);
-		for (int i = 0; i < texts.Length; i++) {
-			Stream s = new MemoryStream(texts[i].bytes);
-			Tree<string> tree = bf.Deserialize (s) as Tree<string>;
-			skillTrees.Add (tree.treeName, tree);
-		}
-	}
-
-
-
-	void LoadTowerTreeData(TreeType treeType){
-		towerTrees = new List<Tree<string>> ();
-		BinaryFormatter bf = new BinaryFormatter ();
-
-		var texts = Resources.LoadAll<TextAsset> ("Data/Trees/" + treeType.ToString ());
-		for (int i = 0; i < texts.Length; i++) {
-			Stream s = new MemoryStream(texts[i].bytes);
-			Tree<string> tree = bf.Deserialize (s) as Tree<string>;
-			towerTrees.Add (tree);
+		for (int i = 0; i < trees.Count; i++) {
+			if (trees[i].treeType == TreeType.CombatSkills || trees[i].treeType == TreeType.SummonSkills ) 
+				skillTrees.Add(trees[i].id, trees[i]);
 		}
 	}
 
 	void LoadData <T> (out Dictionary<string, T> d){
 		d = new Dictionary<string, T> ();
 
-		List<T> datas = dataUtils.LoadAllData<T> ();
+		List<T> datas = jsonUtils.LoadAllData<T> ();
 
 		foreach (T data in datas) {
 			FieldInfo field = typeof(T).GetField("id");

@@ -37,11 +37,12 @@ public class TreeNodeWorkView : ViewBase {
 			GUILayout.BeginHorizontal ();
 			GUI.enabled = !string.IsNullOrEmpty (treeName) && treeName != "Enter tree name ...";
 			if (GUILayout.Button ("Create Tree", GUILayout.Height(40))){
-				TreeEditorUtils.CreateTree (treeType, treeName);
+				TreeEditorUtils.CreateTree (treeType, (treeType.ToString () + "_" + treeName).ToLower());
 			}
 			GUI.enabled = true;
 			if (GUILayout.Button ("Load Tree", GUILayout.Height(40))){
-				TreeEditorUtils.LoadTree ();
+				TreeEditorUtils.ConstructTree (binaryUtils.LoadData <Tree<string>>());
+
 			}
 			GUILayout.EndHorizontal ();
 			GUILayout.EndVertical ();
@@ -91,7 +92,8 @@ public class TreeNodeWorkView : ViewBase {
 			TreeEditorUtils.AddNode (currentTree, mousePosition);
 			break;
 		case "3":
-			TreeEditorUtils.SaveTree (currentTree);
+//			TreeEditorUtils.SaveTree (currentTree.treeData);
+			binaryUtils.CreateData <Tree<string>> (currentTree.treeData);
 			break;
 		case "4":
 			TreeEditorUtils.UnloadTree ();

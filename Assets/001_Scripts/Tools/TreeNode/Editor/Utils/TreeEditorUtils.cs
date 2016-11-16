@@ -25,34 +25,12 @@ public static class TreeEditorUtils {
 
 	}
 
-	public static void SaveTree (TreeGUI _currentTree) {
-		BinaryFormatter bf = new BinaryFormatter ();
-		if (!Directory.Exists (Application.dataPath + TreeNodeConstants.DatabasePath + _currentTree.treeData.treeType.ToString())) {
-			Directory.CreateDirectory (Application.dataPath + TreeNodeConstants.DatabasePath + _currentTree.treeData.treeType.ToString());
-		}
-		FileStream file = File.Create (Application.dataPath + TreeNodeConstants.DatabasePath + _currentTree.treeData.treeType.ToString() + "/" + _currentTree.treeData.treeName + TreeNodeConstants.DataExtension);
-		bf.Serialize (file, _currentTree.treeData);
-		file.Close ();
-		AssetDatabase.Refresh ();
-	}
-
-
-
-	public static  void LoadTree () {
-		Tree<string> treeData = null;
-		string treePath = EditorUtility.OpenFilePanel ("Load Tree", Application.dataPath + TreeNodeConstants.DatabasePath, "txt");
-		int appPathLength = Application.dataPath.Length;
-		string finalPath = treePath.Substring (appPathLength - TreeNodeConstants.DataExtension.Length - 1);
-
-		BinaryFormatter bf = new BinaryFormatter ();
-		FileStream file = File.Open (finalPath, FileMode.Open);
-		treeData = (Tree<string>) bf.Deserialize (file);
-		file.Close ();
-		if (treeData != null) {
+	public static void ConstructTree (Tree<string> _data) {
+		if (_data != null) {
 			TreeEditorWindow currentWindow = (TreeEditorWindow)EditorWindow.GetWindow<TreeEditorWindow> ();
 			if (currentWindow != null) {
-				TreeGUI currentTree = new TreeGUI(treeData.treeType, treeData.treeName);
-				currentTree.treeData = treeData;
+				TreeGUI currentTree = new TreeGUI(_data.treeType, _data.id);
+				currentTree.treeData = _data;
 				currentWindow.currentTree = currentTree;
 			}
 		} else {
@@ -134,3 +112,4 @@ public static class TreeEditorUtils {
 		return char.ToUpper(s[0]) + s.Substring(1);
 	}
 }
+

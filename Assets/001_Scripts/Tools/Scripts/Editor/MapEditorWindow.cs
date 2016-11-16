@@ -24,14 +24,14 @@ public class MapEditorWindow : EditorWindow {
 	private List<bool> toggleWaves;
 
 	List<MapData> existMaps;
-	List<CharacterData> existEnemies;
+	List<CharacterData> existCharacters;
 //	List<TowerData> existTowers;
 
-	List<List<int>> enemyPopupIndexes;
+	List<List<int>> characterPopupIndexes;
 	List<List<int>> pathPopupIndexes;
 
-	List<string> enemyIds;
-	List<string> pathIds;
+	List<string> existCharacterIDs;
+	List<string> pathIDs;
     
 	private int stepsPerCurve = 10;
 	private float towerRange = 5;
@@ -177,12 +177,6 @@ public class MapEditorWindow : EditorWindow {
 
 		GUILayout.Space (5);
 
-//		EditorGUI.BeginChangeCheck ();
-//		int _stepsPerCurve = Mathf.Clamp (EditorGUILayout.IntField ("Curve Smooth", stepsPerCurve), 4, 20);
-//		if (EditorGUI.EndChangeCheck ()) {
-//			this.stepsPerCurve = _stepsPerCurve;
-//		}
-
 		GUILayout.Space (5);
 		if (map.Paths != null && map.Paths.Count > 0) {
 			EditorGUILayout.BeginVertical("box");
@@ -232,17 +226,18 @@ public class MapEditorWindow : EditorWindow {
 
 							GUILayout.Label ("path " + selectedPathIndex + " point " + (selectedCurveIndex * 3 + i), mapEditorSkin.GetStyle("LabelB")); 
 							GUILayout.FlexibleSpace();
-							EditorGUI.BeginChangeCheck();
+
 							GUILayout.Label ("x");
 							var posX = EditorGUILayout.FloatField (map.Paths[selectedPathIndex].ControlPoints[selectedCurveIndex * 3 + i].x, GUILayout.MaxWidth(60));
+
 							GUILayout.Label ("y");
 							var posY = EditorGUILayout.FloatField (map.Paths[selectedPathIndex].ControlPoints[selectedCurveIndex * 3 + i].y, GUILayout.MaxWidth(60));
+
 							GUILayout.Label ("z");
 							var posZ = EditorGUILayout.FloatField (map.Paths[selectedPathIndex].ControlPoints[selectedCurveIndex * 3 + i].z, GUILayout.MaxWidth(60));
-							if(EditorGUI.EndChangeCheck()){
-								map.Paths[selectedPathIndex].ControlPoints[selectedWaypointIndex] = new Vector3(posX, posY, posZ);
-								EditorUtility.SetDirty(this);
-							}
+
+							map.Paths[selectedPathIndex].ControlPoints[selectedWaypointIndex] = new Vector3(posX, posY, posZ);
+
 							EditorGUILayout.EndHorizontal ();
 						}
 						EditorGUILayout.EndVertical();
@@ -293,20 +288,19 @@ public class MapEditorWindow : EditorWindow {
 				}
 				GUILayout.Label ("tower" + selectedTowerpointIndex, mapEditorSkin.GetStyle("LabelB"));
 				GUILayout.FlexibleSpace ();
-				EditorGUI.BeginChangeCheck();
+
 				GUILayout.Label ("x");
 				var posX = EditorGUILayout.FloatField (map.TowerPoints[selectedTowerpointIndex].TowerPointPos.x, GUILayout.MaxWidth(60));
+
 				GUILayout.Label ("y");
 				var posY = EditorGUILayout.FloatField (map.TowerPoints[selectedTowerpointIndex].TowerPointPos.y, GUILayout.MaxWidth(60));
+
 				GUILayout.Label ("z");
 				var posZ = EditorGUILayout.FloatField (map.TowerPoints[selectedTowerpointIndex].TowerPointPos.z, GUILayout.MaxWidth(60));
-				if (EditorGUI.EndChangeCheck ()) {
-					map.TowerPoints[selectedTowerpointIndex].TowerPointPos = new Vector3(posX, posY, posZ);
-					EditorUtility.SetDirty(this);
-				}
-				EditorGUILayout.EndHorizontal();
 
-			
+				map.TowerPoints[selectedTowerpointIndex].TowerPointPos = new Vector3(posX, posY, posZ);
+
+				EditorGUILayout.EndHorizontal();
 
 				EditorGUILayout.EndVertical();
 			}
@@ -346,7 +340,7 @@ public class MapEditorWindow : EditorWindow {
 				GUILayout.FlexibleSpace ();
 
 				if(GUILayout.Button("", mapEditorSkin.GetStyle("AddButton"), GUILayout.MinWidth(16), GUILayout.MinHeight (16))) {
-					var newGroup = new WaveGroupData("group" + map.Waves[i].Groups.Count, enemyIds[0], pathIds[0]);
+					var newGroup = new WaveGroupData("group" + map.Waves[i].Groups.Count, existCharacterIDs[0], pathIDs[0]);
 					map.Waves[i].Groups.Add(newGroup);
 					CreatePopupIndexes ();
 				}
@@ -365,29 +359,20 @@ public class MapEditorWindow : EditorWindow {
 							EditorGUILayout.BeginHorizontal();
 							if(GUILayout.Button("", mapEditorSkin.GetStyle("RemoveButton"), GUILayout.MinWidth(16), GUILayout.MinHeight (16))) {
 								map.Waves[i].Groups.RemoveAt(j);
-								enemyPopupIndexes[i].RemoveAt(j);
+								characterPopupIndexes[i].RemoveAt(j);
 								pathPopupIndexes[i].RemoveAt(j);
 							}
 							GUILayout.Label (map.Waves[i].Groups[j].Id, mapEditorSkin.GetStyle ("LabelC"));
 
 							GUILayout.FlexibleSpace ();
 
-							EditorGUI.BeginChangeCheck();
-							enemyPopupIndexes[i][j] = EditorGUILayout.Popup (enemyPopupIndexes[i][j], enemyIds.ToArray());
-							var amount = EditorGUILayout.IntField (map.Waves[i].Groups[j].Amount);
-							var spawnInterval = EditorGUILayout.FloatField (map.Waves[i].Groups[j].SpawnInterval);
-							var waveDelay = EditorGUILayout.FloatField (map.Waves[i].Groups[j].GroupDelay);
-							pathPopupIndexes[i][j] = EditorGUILayout.Popup (pathPopupIndexes[i][j], pathIds.ToArray());
-							if (EditorGUI.EndChangeCheck()){
-								map.Waves[i].Groups[j].EnemyIdIndex = enemyPopupIndexes[i][j];
-								map.Waves[i].Groups[j].EnemyId = enemyIds[enemyPopupIndexes[i][j]];
-								map.Waves[i].Groups[j].Amount = amount;
-								map.Waves[i].Groups[j].SpawnInterval = spawnInterval;
-								map.Waves[i].Groups[j].GroupDelay = waveDelay;
-								map.Waves[i].Groups[j].PathIdIndex = pathPopupIndexes[i][j];
-								map.Waves[i].Groups[j].PathId = pathIds[pathPopupIndexes[i][j]];
-								EditorUtility.SetDirty(this);
-							}
+							characterPopupIndexes[i][j] = EditorGUILayout.Popup (characterPopupIndexes[i][j], existCharacterIDs.ToArray());
+							map.Waves[i].Groups[j].EnemyId = existCharacterIDs[characterPopupIndexes[i][j]];
+							map.Waves[i].Groups[j].Amount = EditorGUILayout.IntField (map.Waves[i].Groups[j].Amount);;
+							map.Waves[i].Groups[j].SpawnInterval = EditorGUILayout.FloatField (map.Waves[i].Groups[j].SpawnInterval);
+							map.Waves[i].Groups[j].GroupDelay = EditorGUILayout.FloatField (map.Waves[i].Groups[j].GroupDelay);
+							map.Waves[i].Groups[j].PathId = pathIDs[pathPopupIndexes[i][j]];
+							pathPopupIndexes[i][j] = EditorGUILayout.Popup (pathPopupIndexes[i][j], pathIDs.ToArray());
 
 
 							EditorGUILayout.EndHorizontal();
@@ -422,9 +407,9 @@ public class MapEditorWindow : EditorWindow {
 			terrainGo = prefabUtils.InstantiatePrefab (ConstantString.PrefabPath + map.Id + ".prefab");
 
 			CreateToggles ();
+			UpdatePathID ();
 			CreatePopupIndexes ();
 
-			UpdatePathID ();
 		}
 		if (GUILayout.Button ("Reset")) {
 			if (EditorUtility.DisplayDialog ("Are you sure?", 
@@ -474,16 +459,12 @@ public class MapEditorWindow : EditorWindow {
 		this.wayPointColor = EditorGUILayout.ColorField("WP Color", this.wayPointColor);
 		this.towerPointColor = EditorGUILayout.ColorField("TP Color", this.towerPointColor);
 
-		EditorGUI.BeginChangeCheck ();
-		int _stepsPerCurve = EditorGUILayout.IntSlider ("Step Per Curve", stepsPerCurve, 4 , 20);
-		float _towerRange = EditorGUILayout.Slider ("Tower Range", towerRange, 1, 10);
-		if (EditorGUI.EndChangeCheck ()) {
-			this.stepsPerCurve = _stepsPerCurve;
-			EditorPrefs.SetInt ("StepPerCurve", stepsPerCurve);
+		this.stepsPerCurve = EditorGUILayout.IntSlider ("Step Per Curve", stepsPerCurve, 4 , 20);
+		EditorPrefs.SetInt ("StepPerCurve", stepsPerCurve);
 
-			this.towerRange = _towerRange;
-			EditorPrefs.SetFloat ("TowerRange", towerRange);
-		}
+		this.towerRange = EditorGUILayout.Slider ("Tower Range", towerRange, 1, 10);;
+		EditorPrefs.SetFloat ("TowerRange", towerRange);
+
 		GUILayout.EndArea();
 		Handles.EndGUI(); 
 
@@ -552,11 +533,8 @@ public class MapEditorWindow : EditorWindow {
 			Repaint();
 		}
 		if (selectedPathIndex == pathIndex && selectedWaypointIndex == pointIndex) {
-			EditorGUI.BeginChangeCheck();
 			point = Handles.FreeMoveHandle(point, Quaternion.identity, handleSize, Vector3.one, Handles.CircleCap);
-			if (EditorGUI.EndChangeCheck()) {
-				map.Paths[pathIndex].SetControlPoint(pointIndex, point);
-			}
+			map.Paths[pathIndex].SetControlPoint(pointIndex, point);
 		}
 		return point;
 	}
@@ -574,11 +552,8 @@ public class MapEditorWindow : EditorWindow {
 		}
 		if (selectedTowerpointIndex == towerIndex) {
 			Handles.DrawWireDisc (towerPoint, Vector3.up, towerRange);
-			EditorGUI.BeginChangeCheck();
 			towerPoint = Handles.FreeMoveHandle (towerPoint, Quaternion.identity, handleSize, Vector3.one, Handles.RectangleCap);
-			if (EditorGUI.EndChangeCheck()) {
-				map.TowerPoints[towerIndex].TowerPointPos = towerPoint;
-			}
+			map.TowerPoints[towerIndex].TowerPointPos = towerPoint;
 		}
 	}
 	#endregion Custom Inspector
@@ -590,24 +565,24 @@ public class MapEditorWindow : EditorWindow {
 		PathData pathData = new PathData(map.Paths.Count, "path" + map.Paths.Count) ;
 		map.Paths.Add(pathData);
 
-		if (pathIds == null) 
-			pathIds = new List<string> ();		
+		if (pathIDs == null) 
+			pathIDs = new List<string> ();		
 
-		pathIds.Add(pathData.Id);
+		pathIDs.Add(pathData.Id);
 		togglePaths.Add(false);
 	}
 
 	private void RemovePath (int _pathIndex) {
 		map.Paths.RemoveAt (_pathIndex);	
-		pathIds.RemoveAt (_pathIndex);
+		pathIDs.RemoveAt (_pathIndex);
 
 		UpdatePathID ();
 	}
 
 	private void ClearPaths () {
 		map.Paths.Clear ();
-		if (pathIds != null && pathIds.Count > 0)
-			pathIds.Clear();
+		if (pathIDs != null && pathIDs.Count > 0)
+			pathIDs.Clear();
 		ClearWaves ();
 	}
 
@@ -670,7 +645,7 @@ public class MapEditorWindow : EditorWindow {
 	private void ClearWaves() {
 		if (map.Waves != null)
 			map.Waves.Clear();
-		enemyPopupIndexes.Clear();
+		characterPopupIndexes.Clear();
 		pathPopupIndexes.Clear();
 	}
 
@@ -682,31 +657,29 @@ public class MapEditorWindow : EditorWindow {
 		ClearTowerPoints();
 		ClearWaves();
 
-		pathIds.Clear ();
+		pathIDs.Clear ();
 	}
 
 	void LoadExistData () {
 		existMaps = dataUtils.LoadAllData <MapData> ();
 		UpdatePathID ();
 
-		existEnemies = dataUtils.LoadAllData <CharacterData> ();
+		existCharacters = dataUtils.LoadAllData <CharacterData> ();
 		GetEnemyIds ();
-
-//		existTowers = DataManager.Instance.LoadAllData <TowerData> ();
 	}
 
 	private void GetEnemyIds () {
-		enemyIds = new List<string> ();
-		for (int index = 0; index < existEnemies.Count; index++) {
-			enemyIds.Add(existEnemies[index].Id);
+		existCharacterIDs = new List<string> ();
+		for (int index = 0; index < existCharacters.Count; index++) {
+			existCharacterIDs.Add(existCharacters[index].Id);
 		}
 	}
 
 	private void UpdatePathID () {
 		if (map != null) {
-			pathIds = new List<string> ();
+			pathIDs = new List<string> ();
 			for (int pathIndex = 0; pathIndex < map.Paths.Count; pathIndex++) {
-				pathIds.Add(map.Paths[pathIndex].Id);		
+				pathIDs.Add(map.Paths[pathIndex].Id);		
 			}
 		}
 	}
@@ -732,20 +705,42 @@ public class MapEditorWindow : EditorWindow {
 	}
 
 	private void CreatePopupIndexes () {
-		enemyPopupIndexes = new List<List<int>> ();
+		characterPopupIndexes = new List<List<int>> ();
 		pathPopupIndexes = new List<List<int>> ();
 		if (map.Waves != null && map.Waves.Count > 0) {
 			for (int waveIndex = 0; waveIndex < map.Waves.Count; waveIndex++)
 			{
-				enemyPopupIndexes.Add(new List<int> ());
+				characterPopupIndexes.Add(new List<int> ());
 				pathPopupIndexes.Add (new List<int> ());
-				for (int j = 0; j < map.Waves[waveIndex].Groups.Count; j++)
+				for (int groupIndex = 0; groupIndex < map.Waves[waveIndex].Groups.Count; groupIndex++)
 				{
-					enemyPopupIndexes[waveIndex].Add (map.Waves[waveIndex].Groups[j].EnemyIdIndex);
-					pathPopupIndexes[waveIndex].Add (map.Waves[waveIndex].Groups[j].PathIdIndex);
+					characterPopupIndexes[waveIndex].Add (GetCharacterIndexes (waveIndex, groupIndex));
+					pathPopupIndexes[waveIndex].Add (GetPathIndexes (waveIndex, groupIndex));
 				}
 			}
 		}
+	}
+
+	int GetCharacterIndexes (int _waveIndex, int _groupIndex) {
+		if (existCharacterIDs.Count > 0){
+			for (int i = 0; i < existCharacterIDs.Count; i++) {
+				if (map.Waves[_waveIndex].Groups[_groupIndex].EnemyId.Equals (existCharacterIDs[i])) {
+					return i;
+				}
+			}
+		}
+		return 0;
+	}
+
+	int GetPathIndexes (int _waveIndex, int _groupIndex) {
+		if (pathIDs.Count > 0){
+			for (int i = 0; i < pathIDs.Count; i++) {
+				if (map.Waves[_waveIndex].Groups[_groupIndex].PathId.Equals (pathIDs[i])) {
+					return i;
+				}
+			}
+		}
+		return 0;
 	}
 	#endregion private methods
 }

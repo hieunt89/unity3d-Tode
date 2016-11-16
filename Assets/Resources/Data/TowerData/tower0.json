@@ -18,5 +18,10 @@
     "goldRequired": 100,
     "buildTime": 2.0,
     "aoe": 0.0,
-    "treeSkillNames": []
+    "treeSkillIndexes": [],
+    "treeSkillNames": [
+        "combatskills_fire_ball",
+        "combatskills_fire_ball",
+        "combatskills_fire_ball"
+    ]
 }
