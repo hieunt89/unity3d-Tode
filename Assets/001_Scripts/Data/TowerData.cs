@@ -6,7 +6,6 @@ using System;
 public class TowerData {
 	[SerializeField] public string id;
 	[SerializeField] private string name;
-	[SerializeField] private int projectileIndex;
 	[SerializeField] private string projectileId;
 	[SerializeField] private AttackType atkType;
 	[SerializeField] private float atkRange;
@@ -19,7 +18,6 @@ public class TowerData {
 	[SerializeField] private int goldRequired;
 	[SerializeField] private float buildTime;
 	[SerializeField] private float aoe;
-	[SerializeField] private List<int> treeSkillIndexes;
 	[SerializeField] private List<string> treeSkillNames;
 
 	public string Id {
@@ -46,15 +44,6 @@ public class TowerData {
 		}
 		set {
 			turnSpeed = value;
-		}
-	}
-
-	public int ProjectileIndex {
-		get {
-			return this.projectileIndex;
-		}
-		set {
-			projectileIndex = value;
 		}
 	}
 
@@ -155,15 +144,6 @@ public class TowerData {
 			aoe = value;
 		}
 	}
-//
-//	public List<int> TreeSkillIndexes {
-//		get {
-//			return this.treeSkillIndexes;
-//		}
-//		set {
-//			treeSkillIndexes = value;
-//		}
-//	}
 
 	public List<string> TreeSkillNames {
 		get {

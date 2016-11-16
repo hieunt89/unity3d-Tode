@@ -18,6 +18,9 @@ public class SkillEditorWindow: EditorWindow {
 	List<ProjectileData> existProjectiles;
 	List<string> projectileIds;
 	int projectileIndex;
+
+	bool toggleSkillEffect;
+
 	IDataUtils dataUtils;
 
 	[MenuItem ("Tode/Skill Editor &S")]
@@ -26,22 +29,49 @@ public class SkillEditorWindow: EditorWindow {
 		skillEditorWindow.minSize = new Vector2 (400, 600);
 	}
 
-	void OnFocus () {
+	void LoadExistData () {
 		existCombatSkills = dataUtils.LoadAllData <CombatSkillData> ();
 
 		existSummonSkills = dataUtils.LoadAllData <SummonSkillData> ();
 
 		existProjectiles = dataUtils.LoadAllData <ProjectileData> ();
+	}
+
+	void SetupProjectileIndex () {
+
+		// get project ids from exist projectiles
 		if (existProjectiles.Count > 0) {
 			projectileIds = new List<string> ();
 			for (int i = 0; i < existProjectiles.Count; i++) {
 				projectileIds.Add(existProjectiles[i].Id);
 			}
+
+			// setup projectileindex popup
+			for (int i = 0; i < projectileIds.Count; i++) {
+				if (combatSkill.projectileId.Equals (projectileIds[i])) {
+					projectileIndex = i;
+					continue;
+				}
+			}
+		} else {
+			projectileIndex = 0;
 		}
+
+
+
 	}
 
 	void OnEnable () {
 		dataUtils = DIContainer.GetModule <IDataUtils> ();
+
+		LoadExistData ();
+		SetupProjectileIndex ();
+	}
+
+	void OnFocus () {
+		LoadExistData ();
+		SetupProjectileIndex ();
+
 	}
 
 	void OnGUI () {
@@ -62,10 +92,10 @@ public class SkillEditorWindow: EditorWindow {
 		}
 		Repaint ();
 	}
-	bool toggleSkillEffect;
-	private void DrawCombatSkillEditor () {
-		
 
+
+
+	private void DrawCombatSkillEditor () {
 		EditorGUI.BeginChangeCheck ();
 		combatSkill.id = EditorGUILayout.TextField ("Id", combatSkill.id);
 		combatSkill.name = EditorGUILayout.TextField ("Name", combatSkill.name);
@@ -75,7 +105,6 @@ public class SkillEditorWindow: EditorWindow {
 		combatSkill.goldCost = EditorGUILayout.IntField ("Cost", combatSkill.goldCost);
 	
 		projectileIndex = EditorGUILayout.Popup ("Projectile", projectileIndex, projectileIds.ToArray());
-		combatSkill.projectileIndex = projectileIndex;
 		combatSkill.projectileId = projectileIds[projectileIndex];
 
 		GUILayout.BeginVertical ("box");
@@ -135,13 +164,14 @@ public class SkillEditorWindow: EditorWindow {
 		GUI.enabled = true;
 		if (GUILayout.Button("Load")){
 			var data = dataUtils.LoadData <CombatSkillData> ();
-			if(data != null){
-				combatSkill = data;
-				projectileIndex = combatSkill.projectileIndex;
+			if(data == null){
+				combatSkill = new CombatSkillData ("combatskill" + existCombatSkills.Count);
+				SetupProjectileIndex ();
 			}
 		}
 		if (GUILayout.Button("Reset")){
 			combatSkill = new CombatSkillData ("combatskill" + existCombatSkills.Count);
+			projectileIndex = 0;
 		}
 	}
 
@@ -179,8 +209,8 @@ public class SkillEditorWindow: EditorWindow {
 		GUI.enabled = true;
 		if (GUILayout.Button("Load")){
 			var data = dataUtils.LoadData <SummonSkillData> ();
-			if(data != null){
-				summonSkill = data;
+			if(data == null){
+				summonSkill = new SummonSkillData ("summonskill" + existSummonSkills.Count);
 			}
 		}
 		if (GUILayout.Button("Reset")){

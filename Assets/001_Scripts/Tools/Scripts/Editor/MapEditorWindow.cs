@@ -27,7 +27,7 @@ public class MapEditorWindow : EditorWindow {
 	List<CharacterData> existEnemies;
 //	List<TowerData> existTowers;
 
-	List<List<int>> enemyPopupIndexes;
+	List<List<int>> characterPopupIndexes;
 	List<List<int>> pathPopupIndexes;
 
 	List<string> enemyIds;
@@ -365,29 +365,22 @@ public class MapEditorWindow : EditorWindow {
 							EditorGUILayout.BeginHorizontal();
 							if(GUILayout.Button("", mapEditorSkin.GetStyle("RemoveButton"), GUILayout.MinWidth(16), GUILayout.MinHeight (16))) {
 								map.Waves[i].Groups.RemoveAt(j);
-								enemyPopupIndexes[i].RemoveAt(j);
+								characterPopupIndexes[i].RemoveAt(j);
 								pathPopupIndexes[i].RemoveAt(j);
 							}
 							GUILayout.Label (map.Waves[i].Groups[j].Id, mapEditorSkin.GetStyle ("LabelC"));
 
 							GUILayout.FlexibleSpace ();
 
-							EditorGUI.BeginChangeCheck();
-							enemyPopupIndexes[i][j] = EditorGUILayout.Popup (enemyPopupIndexes[i][j], enemyIds.ToArray());
-							var amount = EditorGUILayout.IntField (map.Waves[i].Groups[j].Amount);
-							var spawnInterval = EditorGUILayout.FloatField (map.Waves[i].Groups[j].SpawnInterval);
-							var waveDelay = EditorGUILayout.FloatField (map.Waves[i].Groups[j].GroupDelay);
+							characterPopupIndexes[i][j] = EditorGUILayout.Popup (characterPopupIndexes[i][j], enemyIds.ToArray());
+							map.Waves[i].Groups[j].EnemyIdIndex = characterPopupIndexes[i][j];
+							map.Waves[i].Groups[j].EnemyId = enemyIds[characterPopupIndexes[i][j]];
+							map.Waves[i].Groups[j].Amount = EditorGUILayout.IntField (map.Waves[i].Groups[j].Amount);;
+							map.Waves[i].Groups[j].SpawnInterval = EditorGUILayout.FloatField (map.Waves[i].Groups[j].SpawnInterval);
+							map.Waves[i].Groups[j].GroupDelay = EditorGUILayout.FloatField (map.Waves[i].Groups[j].GroupDelay);
+							map.Waves[i].Groups[j].PathIdIndex = pathPopupIndexes[i][j];
+							map.Waves[i].Groups[j].PathId = pathIds[pathPopupIndexes[i][j]];
 							pathPopupIndexes[i][j] = EditorGUILayout.Popup (pathPopupIndexes[i][j], pathIds.ToArray());
-							if (EditorGUI.EndChangeCheck()){
-								map.Waves[i].Groups[j].EnemyIdIndex = enemyPopupIndexes[i][j];
-								map.Waves[i].Groups[j].EnemyId = enemyIds[enemyPopupIndexes[i][j]];
-								map.Waves[i].Groups[j].Amount = amount;
-								map.Waves[i].Groups[j].SpawnInterval = spawnInterval;
-								map.Waves[i].Groups[j].GroupDelay = waveDelay;
-								map.Waves[i].Groups[j].PathIdIndex = pathPopupIndexes[i][j];
-								map.Waves[i].Groups[j].PathId = pathIds[pathPopupIndexes[i][j]];
-								EditorUtility.SetDirty(this);
-							}
 
 
 							EditorGUILayout.EndHorizontal();
@@ -670,7 +663,7 @@ public class MapEditorWindow : EditorWindow {
 	private void ClearWaves() {
 		if (map.Waves != null)
 			map.Waves.Clear();
-		enemyPopupIndexes.Clear();
+		characterPopupIndexes.Clear();
 		pathPopupIndexes.Clear();
 	}
 
@@ -732,20 +725,28 @@ public class MapEditorWindow : EditorWindow {
 	}
 
 	private void CreatePopupIndexes () {
-		enemyPopupIndexes = new List<List<int>> ();
+		characterPopupIndexes = new List<List<int>> ();
 		pathPopupIndexes = new List<List<int>> ();
 		if (map.Waves != null && map.Waves.Count > 0) {
 			for (int waveIndex = 0; waveIndex < map.Waves.Count; waveIndex++)
 			{
-				enemyPopupIndexes.Add(new List<int> ());
+				characterPopupIndexes.Add(new List<int> ());
 				pathPopupIndexes.Add (new List<int> ());
 				for (int j = 0; j < map.Waves[waveIndex].Groups.Count; j++)
 				{
-					enemyPopupIndexes[waveIndex].Add (map.Waves[waveIndex].Groups[j].EnemyIdIndex);
+					characterPopupIndexes[waveIndex].Add (map.Waves[waveIndex].Groups[j].EnemyIdIndex);
 					pathPopupIndexes[waveIndex].Add (map.Waves[waveIndex].Groups[j].PathIdIndex);
 				}
 			}
 		}
+	}
+
+	int GetCharacterIndexes () {
+		return 0;
+	}
+
+	int GetPathIndexes () {
+		return 0;
 	}
 	#endregion private methods
 }

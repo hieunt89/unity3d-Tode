@@ -3,8 +3,7 @@ using System.Collections.Generic;
 
 [System.Serializable]
 public class CombatSkillData : SkillData {
-	public int projectileIndex;
-	public string projectileId;
+		public string projectileId;
 	public float aoe;
 	public AttackType attackType;
 	public int damage;

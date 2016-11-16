@@ -12,16 +12,15 @@ public class TowerEditorWindow : EditorWindow {
 	bool toggleProjectile;
 	bool toggleSkillTrees;
 	List<TowerData> existTowers;
-	List<ProjectileData> existProjectiles;
 
-	List<Tree<string>> trees;
+	List<ProjectileData> existProjectiles;
+	int projectileIndex;
+
+	List<Tree<string>> existTrees;
 
 	List<string> existSkillTreeIDs;
-	List<int> selectedIndexes;
-//	List<string> existTowerIds;
+	List<int> skillTreeIndexes;
 	List<string> projectileIds;
-
-	int projectileIndex;
 
 	IDataUtils dataUtils;
 	IPrefabUtils prefabUtils;
@@ -34,37 +33,65 @@ public class TowerEditorWindow : EditorWindow {
 		towerEditorWindow.minSize = new Vector2 (400, 600);
 	}
 
+	void LoadExistData () {
+		existTowers = dataUtils.LoadAllData <TowerData>();
+		existProjectiles = dataUtils.LoadAllData <ProjectileData>();
+		existTrees = binartyUtils.LoadAllData <Tree<string>> ();
+	}
+
+	void SetupProjectileIndex () {
+		if (existProjectiles.Count > 0) {
+			projectileIds = new List<string> ();
+			for (int i = 0; i < existProjectiles.Count; i++) {
+				projectileIds.Add(existProjectiles[i].Id);
+			}
+
+				for (int j = 0; j < projectileIds.Count; j++) {
+					if (tower.ProjectileId.Equals (projectileIds[j])) {
+						projectileIndex = j;
+						continue;
+					}
+					projectileIndex = 0;
+				}
+				
+		}
+	}
+
+	void SetupSkillTreeIndexes () {
+		
+		existSkillTreeIDs = new List<string> ();
+		for (int i = 0; i < existTrees.Count; i++) {
+			if (existTrees[i].treeType == TreeType.CombatSkills || existTrees[i].treeType == TreeType.SummonSkills ) 
+				existSkillTreeIDs.Add(existTrees[i].id);
+		}
+		skillTreeIndexes.Clear();
+		if (existSkillTreeIDs.Count > 0) {
+			for (int i = 0; i < tower.TreeSkillNames.Count; i++) {
+				skillTreeIndexes.Add (GetSkillTreeIndex (tower.TreeSkillNames[i]));
+			}
+		} else {
+			tower.TreeSkillNames.Clear ();
+		}
+	}
+
 	void OnEnable () {
 		prefabUtils = DIContainer.GetModule <IPrefabUtils> ();
 		dataUtils = DIContainer.GetModule <IDataUtils> ();
 		binartyUtils = new BinaryUtils () as IDataUtils;
 
-		existTowers = dataUtils.LoadAllData <TowerData>();
-		existProjectiles = dataUtils.LoadAllData <ProjectileData>();
-
-		trees = binartyUtils.LoadAllData <Tree<string>> ();
-		existSkillTreeIDs = new List<string> ();
-		selectedIndexes = new List<int> ();
-
-		for (int i = 0; i < trees.Count; i++) {
-			if (trees[i].treeType == TreeType.CombatSkills || trees[i].treeType == TreeType.SummonSkills ) 
-				existSkillTreeIDs.Add(trees[i].id);
-		}
+		LoadExistData ();
+		SetupProjectileIndex ();
+		SetupSkillTreeIndexes ();
 
 		tower = new TowerData("tower" + existTowers.Count);
 
 	}
 
 	void OnFocus () {
-		existTowers = dataUtils.LoadAllData <TowerData>();
-		existProjectiles =  dataUtils.LoadAllData <ProjectileData>();
+		LoadExistData ();
+		SetupProjectileIndex ();
+		SetupSkillTreeIndexes ();
 
-		if (existProjectiles.Count > 0) {
-			projectileIds = new List<string> ();
-			for (int i = 0; i < existProjectiles.Count; i++) {
-				projectileIds.Add(existProjectiles[i].Id);
-			}
-		}
 		SceneView.onSceneGUIDelegate -= this.OnSceneGUI;
 		SceneView.onSceneGUIDelegate += this.OnSceneGUI;
 	}
@@ -89,7 +116,6 @@ public class TowerEditorWindow : EditorWindow {
 		GUI.enabled = true;
 
 		projectileIndex = EditorGUILayout.Popup ("Projectile", projectileIndex, projectileIds.ToArray());
-		tower.ProjectileIndex = projectileIndex;
 		tower.ProjectileId = projectileIds[projectileIndex];
 
 		GUILayout.BeginVertical ("box");
@@ -116,24 +142,25 @@ public class TowerEditorWindow : EditorWindow {
 		tower.BuildTime = EditorGUILayout.FloatField ("Build Time", tower.BuildTime);
 		tower.Aoe = EditorGUILayout.FloatField ("AOE", tower.Aoe);
 
-		toggleSkillTrees = EditorGUILayout.Foldout (toggleSkillTrees, "Skill Trees");
+		toggleSkillTrees = EditorGUILayout.Foldout (toggleSkillTrees, "Skill Trees " + tower.TreeSkillNames.Count);
 		if (toggleSkillTrees) {
 			for (int skillTreeIndex = 0; skillTreeIndex < tower.TreeSkillNames.Count; skillTreeIndex++) {
 				GUILayout.BeginHorizontal ();
-				selectedIndexes[skillTreeIndex] = EditorGUILayout.Popup (skillTreeIndex.ToString (), selectedIndexes[skillTreeIndex], existSkillTreeIDs.ToArray ());
-				tower.TreeSkillNames[skillTreeIndex] = existSkillTreeIDs [selectedIndexes[skillTreeIndex]];
+				skillTreeIndexes[skillTreeIndex] = EditorGUILayout.Popup (skillTreeIndexes[skillTreeIndex], existSkillTreeIDs.ToArray ());
+				tower.TreeSkillNames[skillTreeIndex] = existSkillTreeIDs [skillTreeIndexes[skillTreeIndex]];
 				if (GUILayout.Button ("Remove")) {
 					tower.TreeSkillNames.RemoveAt (skillTreeIndex);
-					selectedIndexes.RemoveAt (skillTreeIndex);
+					skillTreeIndexes.RemoveAt (skillTreeIndex);
 					continue;
 				}
 				GUILayout.EndHorizontal ();
 			}
-
+			GUI.enabled = existSkillTreeIDs.Count > 0;
 			if (GUILayout.Button ("Add Skill Tree")) {
 				tower.TreeSkillNames.Add ("new");
-				selectedIndexes.Add (0);
+				skillTreeIndexes.Add (0);
 			}
+			GUI.enabled = true;
 		}
 
 		GUILayout.Space(5);
@@ -152,16 +179,19 @@ public class TowerEditorWindow : EditorWindow {
 			tower = dataUtils.LoadData <TowerData> ();
 			if(tower == null){
 				tower = new TowerData("tower" + existTowers.Count);
+			} else {
+				SetupProjectileIndex ();
+				SetupSkillTreeIndexes ();
 			}
 
 			if (towerGo) {
 				DestroyImmediate (towerGo);
 			}
+
 			towerGo = prefabUtils.InstantiatePrefab (ConstantString.PrefabPath + tower.Id + ".prefab");
 			if (towerGo != null) {
 				tower.AtkPoint = towerGo.transform.TransformPoint (tower.AtkPoint);
 			}
-			projectileIndex = tower.ProjectileIndex;
 		}
 
 		if (GUILayout.Button("Reset")){
@@ -172,6 +202,7 @@ public class TowerEditorWindow : EditorWindow {
 				if (towerGo) {
 					DestroyImmediate (towerGo);
 				}
+				skillTreeIndexes.Clear ();
 			}
 		}
 
@@ -192,6 +223,8 @@ public class TowerEditorWindow : EditorWindow {
 		Repaint ();
 	}
 
+
+
 	public void OnSceneGUI (SceneView _sceneView){
 		Handles.color = Color.red;
 		tower.AtkPoint = Handles.FreeMoveHandle(tower.AtkPoint, Quaternion.identity, .1f, Vector3.one, Handles.SphereCap);
@@ -201,5 +234,14 @@ public class TowerEditorWindow : EditorWindow {
 		var nameInput = !String.IsNullOrEmpty (tower.Name);
 
 		return towerGo && nameInput;
+	}
+
+	int GetSkillTreeIndex (string towerValue) {
+		for (int i = 0; i < existSkillTreeIDs.Count; i++) {
+			if (towerValue.Equals (existSkillTreeIDs[i])){
+				return i;
+			}
+		}
+		return 0;
 	}
 }
