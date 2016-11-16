@@ -51,6 +51,11 @@ public class EnemyCreateViewSystem : IReactiveSystem {
 		go.transform.rotation = Quaternion.LookRotation(e.destination.value - e.position.value);
 		go.transform.SetParent (enemyViewParent.transform, false);
 
+		var col = go.GetComponent<Collider> ();
+		if (col != null) {
+			e.AddViewCollider (col);
+		}
+
 		e.AddView (go)
 			.AddPointTarget(go.BotToCenterOffset())
 			.IsInteractable (true);

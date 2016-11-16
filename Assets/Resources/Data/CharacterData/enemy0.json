@@ -27,7 +27,7 @@
         }
     ],
     "hp": 1000,
-    "hpRegenRate": 0.009999999776482582,
-    "hpRegenInterval": 0.10000000149011612,
+    "hpRegenRate": 0.0,
+    "hpRegenInterval": 0.0,
     "dyingTIme": 1.5
 }

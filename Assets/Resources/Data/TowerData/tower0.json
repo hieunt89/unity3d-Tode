@@ -5,8 +5,8 @@
     "projectileId": "projectile0",
     "atkType": 0,
     "atkRange": 10.0,
-    "minDmg": 200,
-    "maxDmg": 200,
+    "minDmg": 500,
+    "maxDmg": 500,
     "atkSpeed": 1.0,
     "atkTime": 0.5,
     "atkPoint": {

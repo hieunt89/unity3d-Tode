@@ -11,11 +11,4 @@ public class View : IComponent {
 			return anim != null ? anim : go.GetComponentsInChildren<Animator>();
 		}
 	}
-
-	Collider collider;
-	public Collider Collider{
-		get{
-			return collider != null ? collider : go.GetComponent<Collider> ();
-		}
-	}
 }
