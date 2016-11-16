@@ -26,7 +26,7 @@
             "reduction": 9.800000190734864
         }
     ],
-    "hp": 1000,
+    "hp": 100,
     "hpRegenRate": 0.0,
     "hpRegenInterval": 0.0,
     "dyingTIme": 1.5

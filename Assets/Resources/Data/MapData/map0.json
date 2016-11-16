@@ -42,31 +42,6 @@
                     "z": -1.577164649963379
                 }
             ]
-        },
-        {
-            "id": "path1",
-            "controlPoints": [
-                {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 2.0
-                },
-                {
-                    "x": 1.0,
-                    "y": 0.0,
-                    "z": 2.0
-                },
-                {
-                    "x": 2.0,
-                    "y": 0.0,
-                    "z": 2.0
-                },
-                {
-                    "x": 3.0,
-                    "y": 0.0,
-                    "z": 2.0
-                }
-            ]
         }
     ],
     "towerPoints": [
@@ -89,7 +64,7 @@
                     "amount": 5,
                     "spawnInterval": 2.0,
                     "groupDelay": 0.0,
-                    "pathId": "path1"
+                    "pathId": "path0"
                 }
             ],
             "waveDelay": 1.0

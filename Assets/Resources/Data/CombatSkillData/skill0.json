@@ -5,7 +5,6 @@
     "castRange": 5.0,
     "castTime": 2.0,
     "goldCost": 50,
-    "projectileIndex": 0,
     "projectileId": "projectile0",
     "aoe": 2.0,
     "attackType": 1,

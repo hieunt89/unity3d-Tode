@@ -1,12 +1,11 @@
 {
     "id": "tower0",
     "name": "archer 0",
-    "projectileIndex": 0,
     "projectileId": "projectile0",
     "atkType": 0,
     "atkRange": 10.0,
-    "minDmg": 500,
-    "maxDmg": 500,
+    "minDmg": 10,
+    "maxDmg": 10,
     "atkSpeed": 1.0,
     "atkTime": 0.5,
     "atkPoint": {
@@ -18,10 +17,7 @@
     "goldRequired": 100,
     "buildTime": 2.0,
     "aoe": 0.0,
-    "treeSkillIndexes": [],
     "treeSkillNames": [
-        "combatskills_fire_ball",
-        "combatskills_fire_ball",
-        "combatskills_fire_ball"
+        "combatskills_fireball"
     ]
 }
