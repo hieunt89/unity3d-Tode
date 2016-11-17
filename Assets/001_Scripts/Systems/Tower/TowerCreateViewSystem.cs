@@ -53,25 +53,30 @@ public class TowerCreateViewSystem : IReactiveSystem {
 			}
 			yield break;
 		}
-		GameObject go = Lean.LeanPool.Spawn ( r.asset as GameObject );
 
-		if (!e.hasView) {
-			e.AddView (go);
-		} else {
+		if (e.hasView) {
 			EntityLink.RemoveLink (e.view.go);
 			Lean.LeanPool.Despawn (e.view.go);
-			e.ReplaceView (go);
 		}
 
-		if (e.hasTower || e.isTowerBase) {
-			EntityLink.AddLink (go, e);
-			e.IsInteractable (true)
-				.AddViewLookAtComponent();
-		}
-
+		GameObject go = Lean.LeanPool.Spawn ( r.asset as GameObject );
 		go.name = e.id.value;
 		go.transform.position = e.position.value;
 		go.transform.SetParent (towerViewParent.transform, false);
-	}
 
+		if (e.hasTower || e.isTowerBase) {
+			EntityLink.AddLink (go, e);
+
+			var anims = go.GetComponentsInChildren<Animator>();
+			if (anims != null) {
+				e.ReplaceViewAnims (anims);
+			} else if (e.hasViewAnims) {
+				e.RemoveViewAnims ();
+			}
+		}
+
+		e.ReplaceView (go)
+			.AddViewLookAtComponent()
+			.IsInteractable (true);
+	}
 }

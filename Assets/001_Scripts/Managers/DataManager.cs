@@ -97,9 +97,9 @@ public class DataManager {
 	}
 		
 	#region GetData
-	public List<Tree<string>> GetSkillTrees(params string[] names){
+	public List<Tree<string>> GetSkillTrees(List<string> names){
 		List<Tree<string>> listTree = new List<Tree<string>> ();
-		for (int i = 0; i < names.Length; i++) {
+		for (int i = 0; i < names.Count; i++) {
 			var tree = GetSkillTree (names[i]);
 			if (tree != null) {
 				listTree.Add (tree);

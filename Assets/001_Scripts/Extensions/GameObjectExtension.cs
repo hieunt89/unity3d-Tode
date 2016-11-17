@@ -8,7 +8,7 @@ public static class GameObjectExtension {
 		if(rend == null){
 			return Vector3.up * (isUp ? 1 : -1);
 		}else{
-			var v = isUp ? new Vector3 (0f, rend.bounds.size.y + rend.bounds.extents.x, 0f) : new Vector3 (0f, rend.bounds.extents.x * -1, 0f);
+			var v = isUp ? new Vector3 (0f, rend.bounds.size.y, 0f) : new Vector3 (0f, rend.bounds.extents.x * -1, 0f);
 			return v;
 		}
 	}

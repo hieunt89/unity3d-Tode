@@ -69,7 +69,7 @@ public static class EntityExtension {
 				.ReplaceTurnSpeed(data.TurnSpeed)
 				.ReplaceAoe (data.Aoe)
 				.ReplaceAttackCooldown (data.AtkSpeed)
-				.ReplaceSkillList (DataManager.Instance.GetSkillTrees ("fire_ball", "fire_ball"))
+				.ReplaceSkillList (DataManager.Instance.GetSkillTrees (data.TreeSkillNames))
 				.ReplacePointAttack (data.AtkPoint)
 				.IsActive(true);
 		} else {

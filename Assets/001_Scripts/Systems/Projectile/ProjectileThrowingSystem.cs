@@ -29,8 +29,13 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 			prj = ens [i];
 			#region calculate trajectory data
 			if(!prj.hasProjectileThrowingParams){ 
-				var startPos = Vector3.ProjectOnPlane (prj.position.value, Vector3.up);
 				var finalPos = GetEnemyFuturePosition (prj.target.e, prj.projectileThrowing.travelTime);
+				if (finalPos == Vector3.zero) {
+					prj.IsMarkedForDestroy(true);
+					continue;
+				}
+
+				var startPos = Vector3.ProjectOnPlane (prj.position.value, Vector3.up);
 				var initHeight = Vector3.Project (prj.position.value, Vector3.down).magnitude;
 				float initVelocity;
 				float initAngle;
@@ -102,6 +107,9 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 	}
 
 	Vector3 GetEnemyFuturePosition(Entity e, float timeToContact){
+		if (!e.hasPathReference) {
+			return Vector3.zero;
+		}
 		var points = e.pathReference.e.path.wayPoints;
 		var distanceBtwPoints = e.pathReference.e.pathLength.distances;
 		var enemyDistanceFromStart = GetEnemyTraveledDistance(e);

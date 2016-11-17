@@ -71,6 +71,7 @@ public class EnemyInitSystem : IReactiveSystem, ISetPool
 						.AddHp (enemyData.Hp)
 						.AddHpTotal (enemyData.Hp)
 						.AddDyingTime(enemyData.DyingTime)
+						.AddPointTarget(enemyData.AtkPoint)
 						.IsTargetable (true)
 						.IsAttackable(true)
 						.IsMovable(true)

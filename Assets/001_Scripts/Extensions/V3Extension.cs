@@ -17,5 +17,4 @@ public static class V3Extension {
 	public static Vector3 FloatToVector3 (float value){
 		return new Vector3(value, value, value);
 	}
-
 }

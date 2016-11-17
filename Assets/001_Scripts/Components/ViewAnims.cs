@@ -2,6 +2,6 @@
 using System.Collections;
 using Entitas;
 
-public class View : IComponent {
-	public GameObject go;
+public class ViewAnims : IComponent {
+	public Animator[] anims;
 }
