@@ -8,12 +8,12 @@ public class HpRegenSystem : ISetPool, IReactiveSystem {
 	public void SetPool (Pool pool)
 	{
 		_pool = pool;
-		_group = _pool.GetGroup (Matcher.AllOf (Matcher.Wound, Matcher.HpRegen));
+		_group = _pool.GetGroup (Matcher.AllOf (Matcher.Wound, Matcher.HpRegen, Matcher.Active));
 	}
 
 	public void Execute (System.Collections.Generic.List<Entity> entities)
 	{
-		if (_group.count == 0)
+		if (_group.count <= 0)
 			return;
 
 		var tick = entities.SingleEntity ();
