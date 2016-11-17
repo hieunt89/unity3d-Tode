@@ -3,7 +3,7 @@
     "name": "archer 0",
     "projectileId": "projectile0",
     "atkType": 0,
-    "atkRange": 10.0,
+    "atkRange": 4.5,
     "minDmg": 10,
     "maxDmg": 10,
     "atkSpeed": 1.0,

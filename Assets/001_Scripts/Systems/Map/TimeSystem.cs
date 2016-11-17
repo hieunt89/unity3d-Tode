@@ -16,9 +16,8 @@ public class TimeSystem : IInitializeSystem, IExecuteSystem, ISetPool {
 
 	public void Execute ()
 	{
-		var e = _pool.tickEntity;
-		e.ReplaceTick (Time.deltaTime);
-		e.ReplaceTimeTotal (e.timeTotal.value + e.tick.change);
+		_pool.ReplaceTick (Time.deltaTime)
+			.ReplaceTimeTotal (_pool.timeTotal.value + _pool.tick.change);
 	}
 
 	#endregion
@@ -28,7 +27,7 @@ public class TimeSystem : IInitializeSystem, IExecuteSystem, ISetPool {
 	public void Initialize ()
 	{
 		_pool.ReplaceTick (0f)
-			.AddTimeTotal (0f);
+			.ReplaceTimeTotal (0f);
 	}
 
 	#endregion

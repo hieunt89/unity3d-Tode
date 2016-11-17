@@ -19,7 +19,7 @@ public class TowerEditorWindow : EditorWindow {
 	List<Tree<string>> existTrees;
 
 	List<string> existSkillTreeIDs;
-	List<int> skillTreeIndexes;
+	List<int> skillTreeIndexes = new List<int>();
 	List<string> projectileIds;
 
 	IDataUtils dataUtils;
@@ -47,9 +47,11 @@ public class TowerEditorWindow : EditorWindow {
 			}
 
 				for (int j = 0; j < projectileIds.Count; j++) {
-					if (tower.ProjectileId.Equals (projectileIds[j])) {
-						projectileIndex = j;
-						continue;
+					if (tower.ProjectileId != null) {
+						if (tower.ProjectileId.Equals (projectileIds [j])) {
+							projectileIndex = j;
+							continue;
+						}
 					}
 					projectileIndex = 0;
 				}
@@ -80,10 +82,12 @@ public class TowerEditorWindow : EditorWindow {
 		binartyUtils = new BinaryUtils () as IDataUtils;
 
 		LoadExistData ();
+
+		tower = new TowerData("tower" + existTowers.Count);
+
 		SetupProjectileIndex ();
 		SetupSkillTreeIndexes ();
 
-		tower = new TowerData("tower" + existTowers.Count);
 
 	}
 
@@ -238,8 +242,10 @@ public class TowerEditorWindow : EditorWindow {
 
 	int GetSkillTreeIndex (string towerValue) {
 		for (int i = 0; i < existSkillTreeIDs.Count; i++) {
-			if (towerValue.Equals (existSkillTreeIDs[i])){
-				return i;
+			if (existSkillTreeIDs [i] != null) {
+				if (towerValue.Equals (existSkillTreeIDs [i])) {
+					return i;
+				}
 			}
 		}
 		return 0;
