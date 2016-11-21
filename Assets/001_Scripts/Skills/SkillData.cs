@@ -7,11 +7,26 @@ public enum SkillType{
 	Summon
 }
 
-public abstract class SkillData {
+public class SkillData {
 	public string id;
 	public string name;
-	public float cooldown;
-	public float castRange;
-	public float castTime;
+	public string description;
+	public string spritePath;
+	public SkillType type;
 	public int goldCost;
+
+	public SkillData ()
+	{
+	}
+	
+	public SkillData (string id, string name, string description, string spritePath, SkillType type, int goldCost)
+	{
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.spritePath = spritePath;
+		this.type = type;
+		this.goldCost = goldCost;
+	}
+	
 }

@@ -2,6 +2,9 @@
 
 [System.Serializable]
 public class SummonSkillData : SkillData {
+	public float cooldown;
+	public float castRange;
+	public float castTime;
 	public string summonId;
 	public int summonCount;
 	public float duration;
