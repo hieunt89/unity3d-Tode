@@ -23,7 +23,7 @@ public class EnemyInitSystem : IReactiveSystem, ISetPool
     {
 		for (int waveIndex = 0; waveIndex < entities.Count; waveIndex++) { // loop throu all active waves
 			var e = entities [waveIndex];
-			float activeTime = _pool.tick.change;
+			float activeTime = _pool.timeTotal.value;
 			WaveGroupData waveGroup;
 			Entity ePath;
 			CharacterData enemyData;
@@ -51,7 +51,7 @@ public class EnemyInitSystem : IReactiveSystem, ISetPool
 						activeTime = activeTime + waveGroup.SpawnInterval;
 					}
 
-					_pool.CreateEntity ()
+					Entity enemy = _pool.CreateEntity ()
 						.AddEnemy (waveGroup.EnemyId)
 						.AddId (e.id.value + "_group" + groupIndex + "_enemy" + enemyIndex)
 						.AddPathReference (ePath)
@@ -70,12 +70,15 @@ public class EnemyInitSystem : IReactiveSystem, ISetPool
 						.AddArmor (enemyData.Armors)
 						.AddHp (enemyData.Hp)
 						.AddHpTotal (enemyData.Hp)
-						.AddHpRegen(enemyData.HpRegenRate, enemyData.HpRegenInterval, enemyData.HpRegenInterval)
 						.AddDyingTime(enemyData.DyingTime)
+						.AddPointTarget(enemyData.AtkPoint)
 						.IsTargetable (true)
 						.IsAttackable(true)
 						.IsMovable(true)
 						;
+					if (enemyData.HpRegenRate > 0 && enemyData.HpRegenInterval > 0) {
+						enemy.AddHpRegen (enemyData.HpRegenRate, enemyData.HpRegenInterval, enemyData.HpRegenInterval);
+					}
 				}
 			}
 

@@ -37,7 +37,7 @@ public class SkillEditorWindow: EditorWindow {
 		existProjectiles = dataUtils.LoadAllData <ProjectileData> ();
 	}
 
-	void SetupProjectileIndex () {
+	void SetupProjectileIDs () {
 
 		// get project ids from exist projectiles
 		if (existProjectiles.Count > 0) {
@@ -46,15 +46,15 @@ public class SkillEditorWindow: EditorWindow {
 				projectileIds.Add(existProjectiles[i].Id);
 			}
 
-			// setup projectileindex popup
-			for (int i = 0; i < projectileIds.Count; i++) {
-				if (combatSkill.projectileId.Equals (projectileIds[i])) {
-					projectileIndex = i;
-					continue;
-				}
-			}
-		} else {
-			projectileIndex = 0;
+//			// setup projectileindex popup
+//			for (int i = 0; i < projectileIds.Count; i++) {
+//				if (combatSkill.projectileId.Equals (projectileIds[i])) {
+//					projectileIndex = i;
+////					continue;
+//				}
+//			}
+//		} else {
+//			projectileIndex = 0;
 		}
 
 
@@ -65,12 +65,12 @@ public class SkillEditorWindow: EditorWindow {
 		dataUtils = DIContainer.GetModule <IDataUtils> ();
 
 		LoadExistData ();
-		SetupProjectileIndex ();
+		SetupProjectileIDs ();
 	}
 
 	void OnFocus () {
 		LoadExistData ();
-		SetupProjectileIndex ();
+		SetupProjectileIDs ();
 
 	}
 
@@ -99,6 +99,9 @@ public class SkillEditorWindow: EditorWindow {
 		EditorGUI.BeginChangeCheck ();
 		combatSkill.id = EditorGUILayout.TextField ("Id", combatSkill.id);
 		combatSkill.name = EditorGUILayout.TextField ("Name", combatSkill.name);
+		combatSkill.description = EditorGUILayout.TextField ("Description", combatSkill.description);
+		combatSkill.spritePath = EditorGUILayout.TextField ("Sprite", combatSkill.spritePath);
+
 		combatSkill.cooldown = EditorGUILayout.FloatField ("Cooldown", combatSkill.cooldown);
 		combatSkill.castRange = EditorGUILayout.FloatField ("Cast Range", combatSkill.castRange);
 		combatSkill.castTime = EditorGUILayout.FloatField ("Cast Time", combatSkill.castTime);
@@ -164,9 +167,17 @@ public class SkillEditorWindow: EditorWindow {
 		GUI.enabled = true;
 		if (GUILayout.Button("Load")){
 			var data = dataUtils.LoadData <CombatSkillData> ();
-			if(data == null){
+			if (data == null) {
 				combatSkill = new CombatSkillData ("combatskill" + existCombatSkills.Count);
-				SetupProjectileIndex ();
+			} else {
+				combatSkill = data;
+			}
+
+			SetupProjectileIDs ();
+			for (int i = 0; i < existProjectiles.Count; i++) {
+				if (combatSkill.projectileId.Equals (projectileIds [i])) {
+					projectileIndex = i;
+				}
 			}
 		}
 		if (GUILayout.Button("Reset")){
@@ -177,29 +188,18 @@ public class SkillEditorWindow: EditorWindow {
 
 	private void DrawSummonSkillEditor () {
 		EditorGUI.BeginChangeCheck ();
-		var _summonSkillId = EditorGUILayout.TextField ("Id", summonSkill.id);
-		var _summonSkillName = EditorGUILayout.TextField ("Name", summonSkill.name);
-		var _summonSkillCoolDown = EditorGUILayout.FloatField ("Cooldown", summonSkill.cooldown);
-		var _summonSkillCastRange = EditorGUILayout.FloatField ("Cast Range", summonSkill.castRange);
-		var _summonSkillCastTime = EditorGUILayout.FloatField ("Cast Time", summonSkill.castTime);
-		var _summonSkillCost = EditorGUILayout.IntField ("Cost", summonSkill.goldCost);
-		var _summonSkillSummonId = EditorGUILayout.TextField ("AOE", summonSkill.summonId);
-		var _summonSkillSummonCount = EditorGUILayout.IntField ("Attack Type", summonSkill.summonCount);
-		var _summonSkillDuration = EditorGUILayout.FloatField ("Damage", summonSkill.duration);
+		summonSkill.id = EditorGUILayout.TextField ("Id", summonSkill.id);
+		summonSkill.name = EditorGUILayout.TextField ("Name", summonSkill.name);
+		summonSkill.description = EditorGUILayout.TextField ("Description", combatSkill.description);
+		summonSkill.spritePath = EditorGUILayout.TextField ("Sprite", combatSkill.spritePath);
+		summonSkill.cooldown = EditorGUILayout.FloatField ("Cooldown", summonSkill.cooldown);
+		summonSkill.castRange = EditorGUILayout.FloatField ("Cast Range", summonSkill.castRange);
+		summonSkill.castTime = EditorGUILayout.FloatField ("Cast Time", summonSkill.castTime);
+		summonSkill.goldCost = EditorGUILayout.IntField ("Cost", summonSkill.goldCost);
+		summonSkill.summonId = EditorGUILayout.TextField ("AOE", summonSkill.summonId);
+		summonSkill.summonCount = EditorGUILayout.IntField ("Attack Type", summonSkill.summonCount);
+		summonSkill.duration = EditorGUILayout.FloatField ("Damage", summonSkill.duration);
 
-		// TODO: list skill effect
-
-		if (EditorGUI.EndChangeCheck ()) {
-			summonSkill.id = _summonSkillId;
-			summonSkill.name = _summonSkillName;
-			summonSkill.cooldown = _summonSkillCoolDown;
-			summonSkill.castRange = _summonSkillCastRange;
-			summonSkill.castTime = _summonSkillCastTime;
-			summonSkill.goldCost = _summonSkillCost;
-			summonSkill.summonId = _summonSkillSummonId;
-			summonSkill.summonCount = _summonSkillSummonCount;
-			summonSkill.duration = _summonSkillDuration;
-		}
 		GUILayout.Space(5);
 
 		GUI.enabled = !String.IsNullOrEmpty (summonSkill.name);
@@ -209,8 +209,11 @@ public class SkillEditorWindow: EditorWindow {
 		GUI.enabled = true;
 		if (GUILayout.Button("Load")){
 			var data = dataUtils.LoadData <SummonSkillData> ();
-			if(data == null){
+			if (data == null) {
 				summonSkill = new SummonSkillData ("summonskill" + existSummonSkills.Count);
+
+			} else {
+				summonSkill = data;
 			}
 		}
 		if (GUILayout.Button("Reset")){

@@ -33,15 +33,15 @@ public static class EntityExtension {
 
 	public static Entity ReplaceSkillStats(this Entity e, SkillData data){
 		if (e.hasSkill && data != null) {
-			e.ReplaceAttackSpeed (data.cooldown)
-			.ReplaceAttackRange (data.castRange)
-			.ReplaceAttackTime (data.castTime)
-			.ReplaceGold (data.goldCost)
-			.ReplaceAttackCooldown (data.cooldown);
+			e.ReplaceGold (data.goldCost);
 
 			if (data is CombatSkillData) {
 				CombatSkillData s = data as CombatSkillData;
 				e.ReplaceSkillCombat (s.effectList)
+					.ReplaceAttackSpeed (s.cooldown)
+					.ReplaceAttackRange (s.castRange)
+					.ReplaceAttackTime (s.castTime)
+					.ReplaceAttackCooldown (s.cooldown)
 					.ReplaceAttack (s.attackType)
 					.ReplaceAttackDamage (s.damage)
 					.ReplaceAoe (s.aoe)
@@ -69,7 +69,7 @@ public static class EntityExtension {
 				.ReplaceTurnSpeed(data.TurnSpeed)
 				.ReplaceAoe (data.Aoe)
 				.ReplaceAttackCooldown (data.AtkSpeed)
-				.ReplaceSkillList (DataManager.Instance.GetSkillTrees ("fire_ball", "fire_ball"))
+				.ReplaceSkillList (DataManager.Instance.GetSkillTrees (data.TreeSkillNames))
 				.ReplacePointAttack (data.AtkPoint)
 				.IsActive(true);
 		} else {

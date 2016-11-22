@@ -9,9 +9,9 @@
     "atkSpeed": 2.0,
     "atkTime": 1.0,
     "atkPoint": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
+        "x": -0.0032955645583570005,
+        "y": 0.28967297077178957,
+        "z": 0.028303738683462144
     },
     "minAtkDmg": 5,
     "maxAtkDmg": 10,
@@ -26,8 +26,8 @@
             "reduction": 9.800000190734864
         }
     ],
-    "hp": 1000,
-    "hpRegenRate": 0.009999999776482582,
-    "hpRegenInterval": 0.10000000149011612,
+    "hp": 100,
+    "hpRegenRate": 0.0,
+    "hpRegenInterval": 0.0,
     "dyingTIme": 1.5
 }

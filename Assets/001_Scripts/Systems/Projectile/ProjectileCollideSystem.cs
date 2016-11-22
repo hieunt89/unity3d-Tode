@@ -2,12 +2,12 @@
 using System.Collections;
 using Entitas;
 
-public class MecanimDyingSystem : IReactiveSystem, IEnsureComponents {
+public class ProjectileCollideSystem : IReactiveSystem, IEnsureComponents {
 	#region IEnsureComponents implementation
 
 	public IMatcher ensureComponents {
 		get {
-			return Matcher.ViewAnims;
+			return Matcher.AllOf (Matcher.ProjectileMark, Matcher.Target).NoneOf (Matcher.ReachedEnd);
 		}
 	}
 
@@ -19,10 +19,9 @@ public class MecanimDyingSystem : IReactiveSystem, IEnsureComponents {
 	{
 		for (int i = 0; i < entities.Count; i++) {
 			var e = entities [i];
-			var anims = e.viewAnims.anims;
 
-			for (int j = 0; j < anims.Length; j++) {
-				anims [j].Play (AnimState.Die, AnimLayer.Base, e.dying.timeSpent / e.dyingTime.value);
+			if (e.target.e.hasViewCollider && e.target.e.viewCollider.collider.bounds.Contains(e.position.value)) {
+				e.IsReachedEnd (true);
 			}
 		}
 	}
@@ -33,9 +32,8 @@ public class MecanimDyingSystem : IReactiveSystem, IEnsureComponents {
 
 	public TriggerOnEvent trigger {
 		get {
-			return Matcher.Dying.OnEntityAdded ();
+			return Matcher.AllOf(Matcher.Position).OnEntityAdded();
 		}
 	}
-
 	#endregion
 }

@@ -47,6 +47,8 @@ public class ProjectileCreateViewSystem : IReactiveSystem {
 		GameObject go = Lean.LeanPool.Spawn ( r.asset as GameObject );
 		go.transform.position = e.position.value;
 		go.transform.SetParent (projectileViewParent.transform, false);
+
 		e.AddView (go);
+
 	}
 }

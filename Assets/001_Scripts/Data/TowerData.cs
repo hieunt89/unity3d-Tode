@@ -155,7 +155,6 @@ public class TowerData {
 
 	public TowerData (string id) {
 		this.id = id;
-//		this.treeSkillIndexes = new List<int> ();
 		this.treeSkillNames = new List <string> ();
 	}
 }

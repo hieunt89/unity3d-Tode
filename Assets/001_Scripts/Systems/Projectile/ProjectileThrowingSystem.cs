@@ -29,41 +29,47 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 			prj = ens [i];
 			#region calculate trajectory data
 			if(!prj.hasProjectileThrowingParams){ 
-				var startPos = Vector3.ProjectOnPlane (prj.position.value, Vector3.up);
 				var finalPos = GetEnemyFuturePosition (prj.target.e, prj.projectileThrowing.travelTime);
+				if (finalPos == Vector3.zero) {
+					prj.IsMarkedForDestroy(true);
+					continue;
+				}
+
+				var startPos = Vector3.ProjectOnPlane (prj.position.value, Vector3.up);
 				var initHeight = Vector3.Project (prj.position.value, Vector3.down).magnitude;
 				float initVelocity;
 				float initAngle;
 				GetInitVelocityAndAngle(startPos, finalPos, prj.projectileThrowing.travelTime, initHeight, out initVelocity, out initAngle);
 
-				prj.AddProjectileThrowingParams (startPos, finalPos, initHeight, initVelocity, initAngle).AddDuration(0f).AddDestination(prj.position.value);
+				prj.AddProjectileThrowingParams (startPos, finalPos, initHeight, initVelocity, initAngle)
+					.AddDuration(0f)
+					.AddDestination(prj.position.value);
+				
 				if (GameManager.debug) {
 					Debug.DrawLine (prj.target.e.position.value, prj.projectileThrowingParams.end, Color.blue, Mathf.Infinity);
 					Debug.DrawLine (startPos, finalPos, Color.yellow, Mathf.Infinity);
 				}
 			}
 			#endregion
-			if ((prj.target.e.isTargetable && prj.target.e.view.Collider.bounds.Contains(prj.position.value) ) || prj.position.value.y <= 0f) {
+			if (prj.position.value.y <= 0f) {
 				prj.IsReachedEnd (true);
 			}else {
+				prj.ReplacePosition (prj.destination.value);
 				prj.ReplaceDuration (prj.duration.value + tickEn.tick.change);
-				if (prj.position.value == prj.destination.value) {
-					prj.ReplaceDestination (
-						GetNextDestination (
-							prj.duration.value,
-							prj.projectileThrowingParams.initVelocity,
-							prj.projectileThrowingParams.height,
-							prj.projectileThrowingParams.initAngle,
-							prj.projectileThrowingParams.start,
-							prj.projectileThrowingParams.end
-						)
-					);
-				} else {
-					if (GameManager.debug) {
-						Debug.DrawLine (prj.position.value, prj.destination.value, Color.gray, Mathf.Infinity);
-					}
-					prj.ReplacePosition (prj.destination.value);
-				}
+				prj.ReplaceDestination (
+					GetNextDestination (
+						prj.duration.value,
+						prj.projectileThrowingParams.initVelocity,
+						prj.projectileThrowingParams.height,
+						prj.projectileThrowingParams.initAngle,
+						prj.projectileThrowingParams.start,
+						prj.projectileThrowingParams.end
+					)
+				);
+			}
+
+			if (GameManager.debug) {
+				Debug.DrawLine (prj.position.value, prj.destination.value, Color.gray, Mathf.Infinity);
 			}
 		}
 	}
@@ -101,6 +107,9 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 	}
 
 	Vector3 GetEnemyFuturePosition(Entity e, float timeToContact){
+		if (!e.hasPathReference) {
+			return Vector3.zero;
+		}
 		var points = e.pathReference.e.path.wayPoints;
 		var distanceBtwPoints = e.pathReference.e.pathLength.distances;
 		var enemyDistanceFromStart = GetEnemyTraveledDistance(e);

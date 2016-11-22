@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using Entitas;
+using System.Linq;
 
 public class CombatUtility{
 	public static int GetDamageAfterReduction(int damage, float reduceTo){
@@ -57,10 +58,20 @@ public class CombatUtility{
 	}
 
 	public static Entity ChooseTarget(List<Entity> targets){
+		Entity chosenOne = null;
 		if (targets.Count > 0) {
-			return targets[Random.Range (0, targets.Count)];
-		} else {
-			return null;
+			float minDis = Mathf.Infinity;
+			for (int i = 0; i < targets.Count; i++) {
+				var target = targets [i];
+				var finalDes = target.pathReference.e.path.wayPoints.LastOrDefault ();
+				var distance = Vector3.Distance (target.position.value, finalDes);
+
+				if (distance < minDis) {
+					minDis = distance;
+					chosenOne = target;
+				}
+			}
 		}
+		return chosenOne;
 	}
 }

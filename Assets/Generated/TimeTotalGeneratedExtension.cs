@@ -31,6 +31,38 @@ namespace Entitas {
         }
     }
 
+    public partial class Pool {
+
+        public Entity timeTotalEntity { get { return GetGroup(Matcher.TimeTotal).GetSingleEntity(); } }
+        public TimeTotal timeTotal { get { return timeTotalEntity.timeTotal; } }
+        public bool hasTimeTotal { get { return timeTotalEntity != null; } }
+
+        public Entity SetTimeTotal(float newValue) {
+            if(hasTimeTotal) {
+                throw new EntitasException("Could not set timeTotal!\n" + this + " already has an entity with TimeTotal!",
+                    "You should check if the pool already has a timeTotalEntity before setting it or use pool.ReplaceTimeTotal().");
+            }
+            var entity = CreateEntity();
+            entity.AddTimeTotal(newValue);
+            return entity;
+        }
+
+        public Entity ReplaceTimeTotal(float newValue) {
+            var entity = timeTotalEntity;
+            if(entity == null) {
+                entity = SetTimeTotal(newValue);
+            } else {
+                entity.ReplaceTimeTotal(newValue);
+            }
+
+            return entity;
+        }
+
+        public void RemoveTimeTotal() {
+            DestroyEntity(timeTotalEntity);
+        }
+    }
+
     public partial class Matcher {
 
         static IMatcher _matcherTimeTotal;

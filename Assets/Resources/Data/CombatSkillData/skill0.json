@@ -1,21 +1,23 @@
 {
     "id": "skill0",
-    "name": "fire ball lvl1",
-    "cooldown": 2.0,
+    "name": "fireball 1",
+    "description": "fireball 1",
+    "spritePath": "fireball 1",
+    "type": 0,
+    "goldCost": 100,
+    "cooldown": 5.0,
     "castRange": 5.0,
     "castTime": 2.0,
-    "goldCost": 50,
-    "projectileIndex": 0,
     "projectileId": "projectile0",
     "aoe": 2.0,
     "attackType": 1,
-    "damage": 10,
+    "damage": 50,
     "effectList": [
         {
             "skillId": "skill0",
             "effectType": 2,
-            "value": 20.0,
-            "duration": 2.0
+            "value": 10.0,
+            "duration": 3.0
         }
     ]
 }

@@ -31,10 +31,6 @@ public class ProjectileHomingSystem : IReactiveSystem, ISetPool {
 			} 
 			if (prj.target.e.isTargetable) {
 				prj.ReplaceDestination (prj.target.e.position.value + prj.target.e.pointTarget.offset);
-				if (prj.target.e.view.Collider.bounds.Contains(prj.position.value)) {
-					prj.IsReachedEnd (true);
-					continue;
-				}
 			} else if (prj.position.value == prj.destination.value) { //projectile reaches its target
 				prj.IsReachedEnd (true);
 				continue;

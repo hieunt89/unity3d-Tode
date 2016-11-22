@@ -32,13 +32,18 @@ public class HeathBarViewSystem : IReactiveSystem, IInitializeSystem, IEnsureCom
 		Entity e;
 		for (int i = 0; i < entities.Count; i++) {
 			e = entities [i];
-			if (!e.hasViewSlider) {
-				offset = e.view.go.SliderOffset (true);
-				e.AddViewSlider (barGUI.CreateHealthBar (), offset);
-			}
+			if (e.isWound) {
+				if (!e.hasViewSlider) {
+					offset = e.view.go.SliderOffset (true);
+					e.AddViewSlider (barGUI.CreateHealthBar (), offset);
+				}
 
-			e.viewSlider.bar.transform.position = Camera.main.WorldToScreenPoint (e.position.value + e.viewSlider.offset);
-			e.viewSlider.bar.value = (float)e.hp.value / (float)e.hpTotal.value;
+				e.viewSlider.bar.transform.position = Camera.main.WorldToScreenPoint (e.position.value + e.viewSlider.offset);
+				e.viewSlider.bar.value = (float)e.hp.value / (float)e.hpTotal.value;
+			}else if (e.hasViewSlider) {
+				Lean.LeanPool.Despawn (e.viewSlider.bar.gameObject);
+				e.RemoveViewSlider ();
+			}
 		}
 	}
 	#endregion

@@ -14,12 +14,12 @@ public class TowerEditorWindow : EditorWindow {
 	List<TowerData> existTowers;
 
 	List<ProjectileData> existProjectiles;
-	int projectileIndex;
 
 	List<Tree<string>> existTrees;
 
 	List<string> existSkillTreeIDs;
-	List<int> skillTreeIndexes;
+	List<int> skillTreeIndexes = new List<int>();
+	int projectileIndex;
 	List<string> projectileIds;
 
 	IDataUtils dataUtils;
@@ -39,21 +39,15 @@ public class TowerEditorWindow : EditorWindow {
 		existTrees = binartyUtils.LoadAllData <Tree<string>> ();
 	}
 
-	void SetupProjectileIndex () {
+	void SetupProjectileIDs () {
 		if (existProjectiles.Count > 0) {
 			projectileIds = new List<string> ();
 			for (int i = 0; i < existProjectiles.Count; i++) {
-				projectileIds.Add(existProjectiles[i].Id);
-			}
-
-				for (int j = 0; j < projectileIds.Count; j++) {
-					if (tower.ProjectileId.Equals (projectileIds[j])) {
-						projectileIndex = j;
-						continue;
-					}
-					projectileIndex = 0;
+				projectileIds.Add (existProjectiles [i].Id);
+				if (tower.ProjectileId.Equals (existProjectiles [i].Id)) {
+					projectileIndex = i;
 				}
-				
+			}				
 		}
 	}
 
@@ -80,16 +74,18 @@ public class TowerEditorWindow : EditorWindow {
 		binartyUtils = new BinaryUtils () as IDataUtils;
 
 		LoadExistData ();
-		SetupProjectileIndex ();
-		SetupSkillTreeIndexes ();
 
 		tower = new TowerData("tower" + existTowers.Count);
+
+		SetupProjectileIDs ();
+		SetupSkillTreeIndexes ();
+
 
 	}
 
 	void OnFocus () {
 		LoadExistData ();
-		SetupProjectileIndex ();
+		SetupProjectileIDs ();
 		SetupSkillTreeIndexes ();
 
 		SceneView.onSceneGUIDelegate -= this.OnSceneGUI;
@@ -180,7 +176,7 @@ public class TowerEditorWindow : EditorWindow {
 			if(tower == null){
 				tower = new TowerData("tower" + existTowers.Count);
 			} else {
-				SetupProjectileIndex ();
+				SetupProjectileIDs ();
 				SetupSkillTreeIndexes ();
 			}
 
@@ -238,8 +234,10 @@ public class TowerEditorWindow : EditorWindow {
 
 	int GetSkillTreeIndex (string towerValue) {
 		for (int i = 0; i < existSkillTreeIDs.Count; i++) {
-			if (towerValue.Equals (existSkillTreeIDs[i])){
-				return i;
+			if (existSkillTreeIDs [i] != null) {
+				if (towerValue.Equals (existSkillTreeIDs [i])) {
+					return i;
+				}
 			}
 		}
 		return 0;
