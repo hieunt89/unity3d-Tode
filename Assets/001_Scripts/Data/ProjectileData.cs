@@ -4,7 +4,11 @@ using System.Collections;
 [System.Serializable]
 public class ProjectileData {
 	[SerializeField] public string id;
+	[SerializeField] public int intId;
+
 	[SerializeField] private string name;
+	[SerializeField] private GameObject view;
+
 	[SerializeField] private ProjectileType type;
 
 	[SerializeField] private float travelSpeed;
@@ -47,6 +51,14 @@ public class ProjectileData {
 		}
 	}
 
+	public GameObject View {
+		get {
+			return this.view;
+		}
+		set {
+			view = value;
+		}
+	}
 	public ProjectileType Type {
 		get {
 			return type;
@@ -74,6 +86,10 @@ public class ProjectileData {
 		}
 	}
 		
+	public ProjectileData ()
+	{
+	}
+	
 	public ProjectileData (string id) {
 		this.id = id;
 	}
