@@ -5,9 +5,10 @@ using System.Collections.Generic;
 public class ProjectileEditorWindow : EditorWindow {
 
 	public ProjectileList projectileList;
+
 	GameObject projectileGo;
-	private int projectileindex = 1;
-	public int viewIndex = 0;
+	int projectileindex = 1;
+	int viewIndex = 0;
 	bool toggleEditMode = false;
 	List<bool> selectedIndexes;
 
@@ -26,7 +27,7 @@ public class ProjectileEditorWindow : EditorWindow {
 		}
 		selectedIndexes = new List<bool> ();
 		for (int i = 0; i < projectileList.projectiles.Count ; i++) {
-			
+			selectedIndexes.Add (false);
 		}
 	}
 
@@ -35,22 +36,26 @@ public class ProjectileEditorWindow : EditorWindow {
 		GUI.SetNextControlName ("DummyFocus");
 		GUI.Button (new Rect (0,0,0,0), "", GUIStyle.none);
 
-		if (projectileList.projectiles.Count > 0) {
+		if (viewIndex == 0) {
+			DrawProjectileList ();
+		}
 
-			if (viewIndex == 0) {
-				DrawProjectileList ();
-			}
-			if (viewIndex == 1) {
-				DrawProjectileDetail ();
-			}
-		} 
+//		if (projectileList.projectiles.Count > 0) {
+
+
+		if (viewIndex == 1) {
+			DrawProjectileDetail ();
+		}
+//		} 
 	}
+
 	Vector2 scrollPosition;
+	bool isSelectedAll = false;
 
 	void DrawProjectileList () {
-		EditorGUILayout.BeginHorizontal ("box");
+		EditorGUILayout.BeginHorizontal ("box", GUILayout.Height (25));
 		if (GUILayout.Button ("Add")) {
-
+			AddProjectileData ();
 		}
 
 		GUILayout.FlexibleSpace ();
@@ -58,33 +63,46 @@ public class ProjectileEditorWindow : EditorWindow {
 		if (GUILayout.Button (toggleEditMode ? "Done" : "Edit Mode")) {
 			toggleEditMode = !toggleEditMode;
 		}
+		if (toggleEditMode) {
+			if (GUILayout.Button (isSelectedAll ? "Deselect All" : "Select All")) {
+				isSelectedAll = !isSelectedAll;
+				for (int i = 0; i < selectedIndexes.Count; i++) {
+					selectedIndexes[i] = isSelectedAll;
+				}
+			}
+			if (GUILayout.Button ("Delete Selected")) {
+				if (EditorUtility.DisplayDialog ("Are you sure?", 
+					"Do you want to delete all selected data?",
+					"Yes", "No")) {
+					for (int i = selectedIndexes.Count - 1; i >= 0; i--) {
+						if (selectedIndexes[i]) {
+							projectileList.projectiles.RemoveAt (i);
+							selectedIndexes.RemoveAt (i);
+						}
+					}
+					isSelectedAll = false;
+					toggleEditMode = false;
+				}
+			}
+		}
 
 		EditorGUILayout.EndHorizontal ();
 
 
 		EditorGUILayout.BeginVertical ();
-		scrollPosition = EditorGUILayout.BeginScrollView (scrollPosition, GUILayout.Height (position.height));
+		scrollPosition = EditorGUILayout.BeginScrollView (scrollPosition, GUILayout.Height (position.height - 40));
 		for (int i = 0; i < projectileList.projectiles.Count; i++) {
 			EditorGUILayout.BeginHorizontal ();
-//			if (toggleEditMode) {
-//				if (EditorGUILayout.Toggle (false)) {
-//					selectedIndexes.Add (i);
-//				} 
-////				else if (selectedIndexes.Contains (i)) {
-////					selectedIndexes.Remove(i);	
-////					continue;
-////				}
-////				if (GUILayout.Button ("X", GUILayout.Width (30))) {
-////					projectileList.projectiles.RemoveAt (i);
-////					continue;
-////				}
-//			}
+
 			var btnLabel = projectileList.projectiles[i].intId + " - " + projectileList.projectiles[i].Name;
 			if (GUILayout.Button (btnLabel)) {
 				projectileindex = i;
 				viewIndex = 1;
 			}
-		EditorGUILayout.EndHorizontal ();
+			GUI.enabled = toggleEditMode;
+			selectedIndexes[i] = EditorGUILayout.Toggle (selectedIndexes[i], GUILayout.Width (30));
+			GUI.enabled = true;
+			EditorGUILayout.EndHorizontal ();
 
 		}
 		EditorGUILayout.EndScrollView ();
@@ -93,11 +111,9 @@ public class ProjectileEditorWindow : EditorWindow {
 
 	void DrawProjectileDetail () {
 		
-		GUILayout.BeginHorizontal ();
+		GUILayout.BeginHorizontal ("box");
 
-		GUILayout.Space(10);
-
-		if (GUILayout.Button("Prev", GUILayout.ExpandWidth(false))) 
+		if (GUILayout.Button("<", GUILayout.ExpandWidth(false))) 
 		{
 			if (projectileindex > 1)
 			{	
@@ -106,8 +122,7 @@ public class ProjectileEditorWindow : EditorWindow {
 			}
 
 		}
-		GUILayout.Space(5);
-		if (GUILayout.Button("Next", GUILayout.ExpandWidth(false))) 
+		if (GUILayout.Button(">", GUILayout.ExpandWidth(false))) 
 		{
 			if (projectileindex < projectileList.projectiles.Count) 
 			{
@@ -116,13 +131,13 @@ public class ProjectileEditorWindow : EditorWindow {
 			}
 		}
 
-		GUILayout.Space(60);
+		GUILayout.Space(100);
 
-		if (GUILayout.Button("Add Item", GUILayout.ExpandWidth(false))) 
+		if (GUILayout.Button("Add", GUILayout.ExpandWidth(false))) 
 		{
 			AddProjectileData();
 		}
-		if (GUILayout.Button("Delete Item", GUILayout.ExpandWidth(false))) 
+		if (GUILayout.Button("Delete", GUILayout.ExpandWidth(false))) 
 		{
 			DeleteProjectileData (projectileindex - 1);
 		}
@@ -133,8 +148,9 @@ public class ProjectileEditorWindow : EditorWindow {
 		{
 			viewIndex = 0;
 		}
-
 		GUILayout.EndHorizontal ();
+
+
 		if (projectileList.projectiles == null)
 			Debug.Log("wtf");
 		if (projectileList.projectiles.Count > 0) 
@@ -211,6 +227,7 @@ public class ProjectileEditorWindow : EditorWindow {
 			"Do you want to delete " + projectileList.projectiles[index].intId + " data?",
 			"Yes", "No")) {
 			projectileList.projectiles.RemoveAt (index);
+			selectedIndexes.RemoveAt (index);
 		}
 	}
 
@@ -224,6 +241,7 @@ public class ProjectileEditorWindow : EditorWindow {
 		}
 		newProjectileData.intId = projectileId;
 		projectileList.projectiles.Add (newProjectileData);
+		selectedIndexes.Add (false);
 		projectileindex = projectileList.projectiles.Count;
 	}
 

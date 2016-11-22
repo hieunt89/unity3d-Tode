@@ -5,5 +5,4 @@ using System.Collections.Generic;
 public class ProjectileList : ScriptableObject {
 	public List<ProjectileData> projectiles;
 
-	public Dictionary<string, ProjectileData> _projectiles;
 }
