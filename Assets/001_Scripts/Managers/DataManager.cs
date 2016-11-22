@@ -15,11 +15,14 @@ public class DataManager {
 	{
 		get
 		{
-			if (instance == null)
-			{
-				instance = new DataManager();
-			}
+			Init ();
 			return instance;
+		}
+	}
+	public static void Init(){
+		if (instance == null)
+		{
+			instance = new DataManager();
 		}
 	}
 	#endregion

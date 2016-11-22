@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour {
 		#if !UNITY_EDITOR
 		DIContainer.BindModules ();
 		#endif
+		DataManager.Init();
 		var pools = Pools.sharedInstance;
 		pools.SetAllPools ();
 
