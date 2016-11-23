@@ -43,9 +43,7 @@ public class SkillEffectWatcherSystem : IReactiveSystem, ISetPool {
 				ProcessEffect (watcher.skillEffectWatcher, watcher.skillEffectWatcher.target, false);
 
 				var target = watcher.skillEffectWatcher.target;
-				var watcherList = target.skillEffectWatcherList.watchers;
-				watcherList.Remove (watcher);
-				target.ReplaceSkillEffectWatcherList (watcherList);
+				target.skillEffectWatcherList.watchers.Remove (watcher);
 
 				watcher.IsMarkedForDestroy (true);
 				continue;

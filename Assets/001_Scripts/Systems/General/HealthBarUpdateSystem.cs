@@ -19,7 +19,7 @@ public class HealthBarUpdateSystem : IReactiveSystem, IEnsureComponents {
 			var e = entities [i];
 
 			e.viewSlider.bar.transform.position = Camera.main.WorldToScreenPoint (e.position.value + e.viewSlider.offset);
-			e.viewSlider.bar.value = (float)e.hp.value / (float)e.hpTotal.value;
+			e.viewSlider.bar.value = Mathf.Clamp01((float)e.hp.value / (float)e.hpTotal.value);
 		}
 
 	}

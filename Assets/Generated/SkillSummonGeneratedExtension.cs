@@ -13,17 +13,19 @@ namespace Entitas {
         public SkillSummon skillSummon { get { return (SkillSummon)GetComponent(ComponentIds.SkillSummon); } }
         public bool hasSkillSummon { get { return HasComponent(ComponentIds.SkillSummon); } }
 
-        public Entity AddSkillSummon(string newSummonId, int newSummonCount) {
+        public Entity AddSkillSummon(string newSummonId, int newSummonCount, float newDuration) {
             var component = CreateComponent<SkillSummon>(ComponentIds.SkillSummon);
             component.summonId = newSummonId;
             component.summonCount = newSummonCount;
+            component.duration = newDuration;
             return AddComponent(ComponentIds.SkillSummon, component);
         }
 
-        public Entity ReplaceSkillSummon(string newSummonId, int newSummonCount) {
+        public Entity ReplaceSkillSummon(string newSummonId, int newSummonCount, float newDuration) {
             var component = CreateComponent<SkillSummon>(ComponentIds.SkillSummon);
             component.summonId = newSummonId;
             component.summonCount = newSummonCount;
+            component.duration = newDuration;
             ReplaceComponent(ComponentIds.SkillSummon, component);
             return this;
         }

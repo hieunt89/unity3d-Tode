@@ -18,12 +18,11 @@ public class SkillEffectWatcherInitSystem : IReactiveSystem, ISetPool {
 	{
 		for (int i = 0; i < entities.Count; i++) {
 			var target = entities [i];
-			List<Entity> watchers;
-			if (target.hasSkillEffectWatcherList) {
-				watchers = target.skillEffectWatcherList.watchers;
-			} else {
-				watchers = new List<Entity> ();
+			if (!target.hasSkillEffectWatcherList) {
+				target.AddSkillEffectWatcherList (new List<Entity> ());
 			}
+
+			var watchers = target.skillEffectWatcherList.watchers;
 
 			for (int j = 0; j < target.skillEffects.effects.Count; j++) {
 				var newEf = target.skillEffects.effects [j];
@@ -44,7 +43,6 @@ public class SkillEffectWatcherInitSystem : IReactiveSystem, ISetPool {
 				}
 			}
 
-			target.ReplaceSkillEffectWatcherList (watchers);
 			target.RemoveSkillEffects ();
 		}
 	}

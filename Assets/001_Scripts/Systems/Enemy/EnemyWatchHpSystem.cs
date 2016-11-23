@@ -28,9 +28,13 @@ public class EnemyWatchHpSystem : ISetPool, IReactiveSystem, IEnsureComponents {
 			var e = entities [i];
 
 			if (e.hp.value < e.hpTotal.value) {
-				e.IsWound (true);
+				if (!e.isWound) {
+					e.IsWound (true);
+				}
 			} else {
-				e.IsWound (false);
+				if (e.isWound) {
+					e.IsWound (false);
+				}
 			}
 
 			if(e.hp.value <= 0){

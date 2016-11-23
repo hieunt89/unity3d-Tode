@@ -26,73 +26,76 @@ public static class ComponentIds {
     public const int Coroutine = 15;
     public const int CoroutineQueue = 16;
     public const int CurrentSelected = 17;
-    public const int Destination = 18;
-    public const int Duration = 19;
-    public const int Dying = 20;
-    public const int DyingTime = 21;
-    public const int Enemy = 22;
-    public const int Gold = 23;
-    public const int GoldPlayer = 24;
-    public const int Hp = 25;
-    public const int HpRegen = 26;
-    public const int HpTotal = 27;
-    public const int Id = 28;
-    public const int Interactable = 29;
-    public const int Interval = 30;
-    public const int LifeCount = 31;
-    public const int LifePlayer = 32;
-    public const int Map = 33;
-    public const int MarkedForActive = 34;
-    public const int MarkedForDestroy = 35;
-    public const int MarkedForSell = 36;
-    public const int Movable = 37;
-    public const int MoveSpeed = 38;
-    public const int NextWave = 39;
-    public const int Origin = 40;
-    public const int Path = 41;
-    public const int PathLength = 42;
-    public const int PathReference = 43;
-    public const int PointAttack = 44;
-    public const int PointTarget = 45;
-    public const int Position = 46;
-    public const int Projectile = 47;
-    public const int ProjectileHoming = 48;
-    public const int ProjectileLaser = 49;
-    public const int ProjectileMark = 50;
-    public const int ProjectileThrowing = 51;
-    public const int ProjectileThrowingParams = 52;
-    public const int ReachedEnd = 53;
-    public const int Rooted = 54;
-    public const int SkillCombat = 55;
-    public const int Skill = 56;
-    public const int SkillEffects = 57;
-    public const int SkillEffectWatcher = 58;
-    public const int SkillEffectWatcherList = 59;
-    public const int SkillEntityList = 60;
-    public const int SkillList = 61;
-    public const int SkillSummon = 62;
-    public const int SkillUpgrade = 63;
-    public const int Stunned = 64;
-    public const int Target = 65;
-    public const int Targetable = 66;
-    public const int Tick = 67;
-    public const int TimeSpeed = 68;
-    public const int TimeTotal = 69;
-    public const int Tower = 70;
-    public const int TowerBase = 71;
-    public const int TowerReset = 72;
-    public const int TowerUpgrade = 73;
-    public const int TowerUpgrading = 74;
-    public const int TurnSpeed = 75;
-    public const int View = 76;
-    public const int ViewAnims = 77;
-    public const int ViewCollider = 78;
-    public const int ViewLookAt = 79;
-    public const int ViewSlider = 80;
-    public const int Wave = 81;
-    public const int Wound = 82;
+    public const int Description = 18;
+    public const int Destination = 19;
+    public const int Duration = 20;
+    public const int Dying = 21;
+    public const int DyingTime = 22;
+    public const int Enemy = 23;
+    public const int Gold = 24;
+    public const int GoldPlayer = 25;
+    public const int Hp = 26;
+    public const int HpRegen = 27;
+    public const int HpTotal = 28;
+    public const int Icon = 29;
+    public const int Id = 30;
+    public const int Interactable = 31;
+    public const int Interval = 32;
+    public const int LifeCount = 33;
+    public const int LifePlayer = 34;
+    public const int Map = 35;
+    public const int MarkedForActive = 36;
+    public const int MarkedForDestroy = 37;
+    public const int MarkedForSell = 38;
+    public const int Movable = 39;
+    public const int MoveSpeed = 40;
+    public const int Name = 41;
+    public const int NextWave = 42;
+    public const int Origin = 43;
+    public const int Path = 44;
+    public const int PathLength = 45;
+    public const int PathReference = 46;
+    public const int PointAttack = 47;
+    public const int PointTarget = 48;
+    public const int Position = 49;
+    public const int Projectile = 50;
+    public const int ProjectileHoming = 51;
+    public const int ProjectileLaser = 52;
+    public const int ProjectileMark = 53;
+    public const int ProjectileThrowing = 54;
+    public const int ProjectileThrowingParams = 55;
+    public const int ReachedEnd = 56;
+    public const int Rooted = 57;
+    public const int SkillCombat = 58;
+    public const int Skill = 59;
+    public const int SkillEffects = 60;
+    public const int SkillEffectWatcher = 61;
+    public const int SkillEffectWatcherList = 62;
+    public const int SkillEntityList = 63;
+    public const int SkillList = 64;
+    public const int SkillSummon = 65;
+    public const int SkillUpgrade = 66;
+    public const int Stunned = 67;
+    public const int Target = 68;
+    public const int Targetable = 69;
+    public const int Tick = 70;
+    public const int TimeSpeed = 71;
+    public const int TimeTotal = 72;
+    public const int Tower = 73;
+    public const int TowerBase = 74;
+    public const int TowerReset = 75;
+    public const int TowerUpgrade = 76;
+    public const int TowerUpgrading = 77;
+    public const int TurnSpeed = 78;
+    public const int View = 79;
+    public const int ViewAnims = 80;
+    public const int ViewCollider = 81;
+    public const int ViewLookAt = 82;
+    public const int ViewSlider = 83;
+    public const int Wave = 84;
+    public const int Wound = 85;
 
-    public const int TotalComponents = 83;
+    public const int TotalComponents = 86;
 
     public static readonly string[] componentNames = {
         "Active",
@@ -113,6 +116,7 @@ public static class ComponentIds {
         "Coroutine",
         "CoroutineQueue",
         "CurrentSelected",
+        "Description",
         "Destination",
         "Duration",
         "Dying",
@@ -123,6 +127,7 @@ public static class ComponentIds {
         "Hp",
         "HpRegen",
         "HpTotal",
+        "Icon",
         "Id",
         "Interactable",
         "Interval",
@@ -134,6 +139,7 @@ public static class ComponentIds {
         "MarkedForSell",
         "Movable",
         "MoveSpeed",
+        "Name",
         "NextWave",
         "Origin",
         "Path",
@@ -199,6 +205,7 @@ public static class ComponentIds {
         typeof(Coroutine),
         typeof(CoroutineQueue),
         typeof(CurrentSelected),
+        typeof(Description),
         typeof(Destination),
         typeof(Duration),
         typeof(Dying),
@@ -209,6 +216,7 @@ public static class ComponentIds {
         typeof(Hp),
         typeof(HpRegen),
         typeof(HpTotal),
+        typeof(Icon),
         typeof(Id),
         typeof(Interactable),
         typeof(Interval),
@@ -220,6 +228,7 @@ public static class ComponentIds {
         typeof(MarkedForSell),
         typeof(Movable),
         typeof(MoveSpeed),
+        typeof(Name),
         typeof(NextWave),
         typeof(Origin),
         typeof(Path),

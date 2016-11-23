@@ -23,7 +23,6 @@ public class EntityActiveSystem : IReactiveSystem, ISetPool {
 			return;
 		}
 
-		var eTime = entities.SingleEntity ();
 		var eActivable = _groupActivable.GetEntities ();
 		for (int i = 0; i < eActivable.Length; i++) {
 			var e = eActivable [i];

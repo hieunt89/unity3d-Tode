@@ -5,4 +5,5 @@ using Entitas;
 public class SkillSummon : IComponent {
 	public string summonId;
 	public int summonCount;
+	public float duration;
 }

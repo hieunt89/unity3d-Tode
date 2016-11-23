@@ -33,8 +33,11 @@ public static class EntityExtension {
 
 	public static Entity ReplaceSkillStats(this Entity e, SkillData data){
 		if (e.hasSkill && data != null) {
-			e.ReplaceGold (data.goldCost);
-
+			e.ReplaceName (data.name)
+				.ReplaceDescription (data.description)
+				.ReplaceIcon (null)
+				.ReplaceGold (data.goldCost);
+			
 			if (data is CombatSkillData) {
 				CombatSkillData s = data as CombatSkillData;
 				e.ReplaceSkillCombat (s.effectList)
@@ -48,8 +51,11 @@ public static class EntityExtension {
 					.ReplaceProjectile (s.projectileId);
 			} else if (data is SummonSkillData) {
 				SummonSkillData s = data as SummonSkillData;
-				e.ReplaceSkillSummon (s.summonId, s.summonCount)
-					.ReplaceDuration (s.duration);
+				e.ReplaceSkillSummon (s.summonId, s.summonCount, s.duration)
+					.ReplaceAttackSpeed (s.cooldown)
+					.ReplaceAttackRange (s.castRange)
+					.ReplaceAttackTime (s.castTime)
+					.ReplaceAttackCooldown (s.cooldown);
 			}
 		} else {
 			e.IsActive (false);
