@@ -2,18 +2,25 @@
 using UnityEditor;
 using System.Collections.Generic;
 
+public enum GameDataType {
+	Tower,
+	Character,
+	Projectile
+}
+
 public class DataEditorWindow : EditorWindow {
 
 	public static DataEditorWindow dataEditorWindow;
-	public ActionBarView actionBarView;
-	public ItemListView itemListView; 
-	public ItemDetailView itemDetailView; 
+	static ActionBarView actionBarView;
+	static ItemListView itemListView; 
+	static ProjectileDatalView projectileDetailView; 
 
-	int viewIndex = 0;
-	bool toggleEditMode = false;
-	Vector2 scrollPosition;
-	bool isSelectedAll = false;
-	List<bool> selectedIndexes;
+	public TowerList towerList;
+	public CharacterList characterList;
+	public ProjectileList projectileList;
+
+	public GameDataType selectedDataType;
+	int viewIndex = 1;
 
 	[MenuItem("Tode/Data Editor &D")]
 	public static void DisplayWindow()
@@ -24,18 +31,116 @@ public class DataEditorWindow : EditorWindow {
 	}
 
 	void OnEnable () {
-		Debug.Log (actionBarView);
+//		Debug.Log (actionBarView);
 		// actionbar view is null -> onenable call before displaywindow
 	}
 
+
 	void OnGUI()
 	{
-		
+		selectedDataType = (GameDataType) EditorGUILayout.EnumPopup ("Game Data Type", selectedDataType);
+		GUILayout.Space (20);
+
+		switch (selectedDataType) {
+		case GameDataType.Tower:
+			towerList = AssetDatabase.LoadAssetAtPath (ConstantString.TowerDataPath, typeof(TowerList)) as TowerList;
+			if (towerList == null)
+				CreateNewTowerList ();
+			break;
+
+		case GameDataType.Character:
+			characterList = AssetDatabase.LoadAssetAtPath (ConstantString.CharacterDataPath, typeof(CharacterList)) as CharacterList;
+			if (characterList == null)
+				CreateNewCharacterList ();
+			break;
+
+		case GameDataType.Projectile:
+			projectileList = AssetDatabase.LoadAssetAtPath (ConstantString.ProjectileDataPath, typeof(ProjectileList)) as ProjectileList;
+			if (characterList == null)
+				CreateNewCharacterList ();
+			break;
+		}
+
+		if (actionBarView == null || itemListView == null || projectileDetailView == null) {
+			CreateViews ();
+			return;
+		}
+
+		BeginWindows ();
+
+		actionBarView.UpdateView ();
+
+		switch (viewIndex) {
+		case 0:
+			itemListView.UpdateView ();
+			break;
+
+		case 1:
+			projectileDetailView.UpdateView ();
+			break;
+
+		default:
+			break;
+		}
+		EndWindows ();
+	}
+
+	void DrawListView () {
+
+	}
+
+	void DrawDetailView () {
+
 	}
 
 	static void CreateViews () {
 		if (dataEditorWindow != null) {
-			ActionBarView actionBarView = new ActionBarView ();
+			actionBarView = new ActionBarView ();
+			itemListView = new ItemListView ();
+			projectileDetailView = new ProjectileDatalView ();
+		} else {
+			dataEditorWindow = EditorWindow.GetWindow <DataEditorWindow> ("Data Editor", true);
+			dataEditorWindow.minSize = new Vector2 (400, 600); 
 		}
 	}
+
+
+	void CreateNewTowerList () {
+//		projectileindex = 1;
+		towerList = CreateProjectileList <TowerList> (ConstantString.TowerDataPath);
+		if (towerList) 
+		{
+			towerList.towers = new List<TowerData>();
+		}
+
+	}
+
+	void CreateNewCharacterList () {
+		//		projectileindex = 1;
+		characterList = CreateProjectileList <CharacterList> (ConstantString.CharacterDataPath);
+		if (characterList) 
+		{
+			characterList.characters = new List<CharacterData>();
+		}
+
+	}
+	void CreateNewProjectileList () {
+		//		projectileindex = 1;
+		projectileList = CreateProjectileList <ProjectileList> (ConstantString.ProjectileDataPath);
+		if (projectileList) 
+		{
+			projectileList.projectiles = new List<ProjectileData>();
+		}
+	}
+
+//	[MenuItem("Assets/Create/Inventory Item List")]
+	public static T CreateProjectileList <T> (string path) where T : ScriptableObject
+	{
+		T asset = ScriptableObject.CreateInstance<T>();
+		AssetDatabase.CreateAsset(asset, path);
+		AssetDatabase.SaveAssets();
+		return asset;
+	}
+
+
 }

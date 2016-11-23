@@ -9,4 +9,8 @@
 		GOLD_CHANGE,
 		LIFE_CHANGE
 	}
+	public enum Editor { 
+		ADD,
+		DELETE
+	}
 }
