@@ -8,14 +8,14 @@ public class GameManager : MonoBehaviour {
 	Systems _systems;
 
 	void Awake() {
+		debug = showDebug;
 		#if !UNITY_EDITOR
 		DIContainer.BindModules ();
 		#endif
 		DataManager.Init();
+
 		var pools = Pools.sharedInstance;
 		pools.SetAllPools ();
-
-		debug = showDebug;
 		_systems = CreateSystems(pools);
 		_systems.Initialize();
 	}
@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour {
 
 				//Skill
 				.Add(pools.pool.CreateSystem ( new SkillInitSystem () ))
-				.Add(pools.pool.CreateSystem ( new SkillCastSystem () ))
+				.Add(pools.pool.CreateSystem ( new SkillCombatCastSystem () ))
 				.Add(pools.pool.CreateSystem ( new SkillEffectWatcherInitSystem () ))
 				.Add(pools.pool.CreateSystem ( new SkillEffectWatcherSystem () ))
 				.Add(pools.pool.CreateSystem ( new SkillUpgradeSystem () ))
@@ -94,7 +94,8 @@ public class GameManager : MonoBehaviour {
 				.Add(pools.pool.CreateSystem ( new MecanimDyingSystem () ))
 
 				//View overlay bar
-				.Add(pools.pool.CreateSystem ( new HeathBarViewSystem () ))
+				.Add(pools.pool.CreateSystem ( new HealthBarToggleSystem () ))
+				.Add(pools.pool.CreateSystem ( new HealthBarUpdateSystem() ))
 				.Add(pools.pool.CreateSystem ( new TowerProgressBarViewSystem () ))
 				
 				//General

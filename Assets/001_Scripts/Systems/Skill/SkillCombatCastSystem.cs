@@ -2,14 +2,14 @@
 using System.Collections;
 using Entitas;
 
-public class SkillCastSystem : IReactiveSystem, ISetPool {
+public class SkillCombatCastSystem : IReactiveSystem, ISetPool {
 	#region ISetPool implementation
 	Pool _pool;
 	Group _groupSkillCastable;
 	public void SetPool (Pool pool)
 	{
 		_pool = pool;
-		_groupSkillCastable = _pool.GetGroup (Matcher.AllOf(Matcher.Skill, Matcher.Active, Matcher.Target).NoneOf(Matcher.AttackCooldown));
+		_groupSkillCastable = _pool.GetGroup (Matcher.AllOf(Matcher.SkillCombat, Matcher.Active, Matcher.Target).NoneOf(Matcher.AttackCooldown));
 	}
 
 	#endregion
@@ -70,11 +70,7 @@ public class SkillCastSystem : IReactiveSystem, ISetPool {
 		if (!skill.hasAttackCooldown) {
 			skill.AddAttackCooldown (skill.attackSpeed.value);
 		}
-		if (skill.hasSkillCombat) {
-			CastCombatSkill(origin, skill, target);
-		}else if (skill.hasSkillSummon) {
-			
-		}
+		CastCombatSkill(origin, skill, target);
 	}
 
 	void CastCombatSkill(Entity origin, Entity skill, Entity target){

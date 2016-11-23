@@ -49,10 +49,10 @@ public class EnemyWatchHpSystem : ISetPool, IReactiveSystem, IEnsureComponents {
 	#endregion
 
 	void EnemyDie(Entity e){
+		e.IsActive(false).IsAttackable(false).IsTargetable(false).IsInteractable(false).IsMovable(false);
 		if(e.hasGold){
 			_pool.ReplaceGoldPlayer (_pool.goldPlayer.value + e.gold.value);
 		}
-		e.IsActive(false).IsAttackable(false).IsTargetable(false).IsInteractable(false).IsMovable(false);
 		if (e.hasCoroutineQueue) {
 			e.RemoveCoroutineQueue ();
 		}
@@ -61,6 +61,7 @@ public class EnemyWatchHpSystem : ISetPool, IReactiveSystem, IEnsureComponents {
 		}
 		if(e.hasViewSlider){
 			Lean.LeanPool.Despawn (e.viewSlider.bar.gameObject);
+			e.RemoveViewSlider ();
 		}
 		e.AddCoroutineTask (StartDying (e));
 	}
@@ -72,6 +73,7 @@ public class EnemyWatchHpSystem : ISetPool, IReactiveSystem, IEnsureComponents {
 		}
 
 		e.AddDying (0f);
+
 		while(e.dying.timeSpent < e.dyingTime.value){
 			e.ReplaceDying (e.dying.timeSpent + _pool.tick.change);
 			yield return null;

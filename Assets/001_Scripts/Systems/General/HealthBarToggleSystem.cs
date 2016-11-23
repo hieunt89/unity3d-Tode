@@ -2,7 +2,7 @@
 using System.Collections;
 using Entitas;
 
-public class HeathBarViewSystem : IReactiveSystem, IInitializeSystem, IEnsureComponents {
+public class HealthBarToggleSystem : IReactiveSystem, IInitializeSystem, IEnsureComponents {
 	#region IEnsureComponents implementation
 	public IMatcher ensureComponents {
 		get {
@@ -29,17 +29,13 @@ public class HeathBarViewSystem : IReactiveSystem, IInitializeSystem, IEnsureCom
 		}
 
 		Vector3 offset;
-		Entity e;
 		for (int i = 0; i < entities.Count; i++) {
-			e = entities [i];
+			var e = entities [i];
 			if (e.isWound) {
 				if (!e.hasViewSlider) {
 					offset = e.view.go.SliderOffset (true);
 					e.AddViewSlider (barGUI.CreateHealthBar (), offset);
 				}
-
-				e.viewSlider.bar.transform.position = Camera.main.WorldToScreenPoint (e.position.value + e.viewSlider.offset);
-				e.viewSlider.bar.value = (float)e.hp.value / (float)e.hpTotal.value;
 			}else if (e.hasViewSlider) {
 				Lean.LeanPool.Despawn (e.viewSlider.bar.gameObject);
 				e.RemoveViewSlider ();
@@ -51,7 +47,7 @@ public class HeathBarViewSystem : IReactiveSystem, IInitializeSystem, IEnsureCom
 	#region IReactiveSystem implementation
 	public TriggerOnEvent trigger {
 		get {
-			return Matcher.AllOf (Matcher.Hp, Matcher.HpTotal, Matcher.Position).OnEntityAdded ();
+			return Matcher.AllOf (Matcher.Wound).OnEntityAddedOrRemoved ();
 		}
 	}
 	#endregion
