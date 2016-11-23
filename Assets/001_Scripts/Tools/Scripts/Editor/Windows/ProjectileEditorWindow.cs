@@ -10,6 +10,8 @@ public class ProjectileEditorWindow : EditorWindow {
 	int projectileindex = 1;
 	int viewIndex = 0;
 	bool toggleEditMode = false;
+	Vector2 scrollPosition;
+	bool isSelectedAll = false;
 	List<bool> selectedIndexes;
 
 	[MenuItem("Tode/Projectile Editor &P")]
@@ -33,24 +35,19 @@ public class ProjectileEditorWindow : EditorWindow {
 
 	void OnGUI()
 	{
-		GUI.SetNextControlName ("DummyFocus");
-		GUI.Button (new Rect (0,0,0,0), "", GUIStyle.none);
-
-		if (viewIndex == 0) {
+		switch (viewIndex) {
+		case 0:
 			DrawProjectileList ();
-		}
-
-//		if (projectileList.projectiles.Count > 0) {
-
-
-		if (viewIndex == 1) {
+			break;
+		case 1:
 			DrawProjectileDetail ();
+			break;
+		default:
+			break;
 		}
-//		} 
 	}
 
-	Vector2 scrollPosition;
-	bool isSelectedAll = false;
+
 
 	void DrawProjectileList () {
 		EditorGUILayout.BeginHorizontal ("box", GUILayout.Height (25));
@@ -110,7 +107,9 @@ public class ProjectileEditorWindow : EditorWindow {
 	}
 
 	void DrawProjectileDetail () {
-		
+		GUI.SetNextControlName ("DummyFocus");
+		GUI.Button (new Rect (0,0,0,0), "", GUIStyle.none);
+
 		GUILayout.BeginHorizontal ("box");
 
 		if (GUILayout.Button("<", GUILayout.ExpandWidth(false))) 

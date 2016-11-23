@@ -2,7 +2,7 @@
 using UnityEditor;
 using System;
 
-public class TreeNodeWorkView : ViewBase {
+public class TreeNodeWorkView : TreeViewBase {
 	private Vector2 mousePosition;
 	private TreeType treeType;
 	private string treeName = "Enter tree name ...";

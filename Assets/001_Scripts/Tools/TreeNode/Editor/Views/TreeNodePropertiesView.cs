@@ -2,7 +2,7 @@
 using UnityEditor;
 using System;
 
-public class TreeNodePropertiesView : ViewBase {
+public class TreeNodePropertiesView : TreeViewBase {
 
 	public bool showProperties = false;
 	public TreeNodePropertiesView () : base () {

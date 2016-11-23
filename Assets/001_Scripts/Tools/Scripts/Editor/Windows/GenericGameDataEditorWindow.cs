@@ -146,7 +146,7 @@ public class GameDataWindow <T> : IGameDataWindow, IInjectDataUtils where T : Sc
 	}
 }
 
-public class GameDataEditorWindow : EditorWindow {
+public class GenericGameDataEditorWindow : EditorWindow {
 
 	Type _type = null;
 	object genericWindow = null;
@@ -163,7 +163,7 @@ public class GameDataEditorWindow : EditorWindow {
 	[MenuItem("Beta/Game Data Editor &G")]
 	public static void ShowWindow()
 	{
-		var window = EditorWindow.GetWindow <GameDataEditorWindow> ("Game Data Editor",true);
+		var window = EditorWindow.GetWindow <GenericGameDataEditorWindow> ("Game Data Editor",true);
 		window.minSize = new Vector2 (500, 400);
 	}
 

@@ -3,7 +3,7 @@ using UnityEditor;
 using System;
 using System.Collections;
 
-public class ViewBase {
+public class TreeViewBase {
 
 	public string viewTitle;
 	public Rect viewRect;
@@ -13,7 +13,7 @@ public class ViewBase {
 
 	protected IDataUtils binaryUtils;
 
-	public ViewBase () {
+	public TreeViewBase () {
 
 		GetEditorSkin ();
 	}
