@@ -4,7 +4,11 @@ using System.Collections.Generic;
 [System.Serializable]
 public class CharacterData {
 	[SerializeField] public string id;
+	[SerializeField] public int intId;
+
 	[SerializeField] private string name;
+	[SerializeField] private GameObject view;
+
 	[SerializeField] private float moveSpeed;
 	[SerializeField] private float turnSpeed;
 	[SerializeField] private int lifeCount;
@@ -31,12 +35,30 @@ public class CharacterData {
 		}
 	}
 
+	public int IntId {
+		get {
+			return this.intId;
+		}
+		set {
+			intId = value;
+		}
+	}
+
 	public string Name {
 		get {
 			return this.name;
 		}
 		set {
 			name = value;
+		}
+	}
+
+	public GameObject View {
+		get {
+			return this.view;
+		}
+		set {
+			view = value;
 		}
 	}
 
@@ -183,6 +205,14 @@ public class CharacterData {
 		}
 	}
 
+	public CharacterData ()
+	{
+		this.armors = new List<ArmorData> () {
+			new ArmorData (AttackType.physical, 0f),
+			new ArmorData (AttackType.magical, 0f),
+		};
+	}
+	
 	public CharacterData (string id) {
 		this.id = id;
 		this.armors = new List<ArmorData> () {

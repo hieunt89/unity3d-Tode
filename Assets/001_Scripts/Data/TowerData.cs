@@ -10,6 +10,8 @@ public class TowerData {
 	[SerializeField] private GameObject view;
 
 	[SerializeField] private string projectileId;
+	[SerializeField] private int projectileIndId;
+
 	[SerializeField] private AttackType atkType;
 	[SerializeField] private float atkRange;
 	[SerializeField] private int minDmg;
@@ -67,6 +69,16 @@ public class TowerData {
 			projectileId = value;
 		}
 	}
+
+	public int ProjectileIndId {
+		get {
+			return this.projectileIndId;
+		}
+		set {
+			projectileIndId = value;
+		}
+	}
+
 
 	public AttackType AtkType {
 		get {
@@ -167,6 +179,7 @@ public class TowerData {
 
 	public TowerData ()
 	{
+		this.treeSkillNames = new List <string> ();
 	}
 
 	public TowerData (string id) {
