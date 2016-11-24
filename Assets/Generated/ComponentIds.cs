@@ -31,47 +31,47 @@ public static class ComponentIds {
     public const int Duration = 20;
     public const int Dying = 21;
     public const int DyingTime = 22;
-    public const int Enemy = 23;
-    public const int Gold = 24;
-    public const int GoldPlayer = 25;
-    public const int Hp = 26;
-    public const int HpRegen = 27;
-    public const int HpTotal = 28;
-    public const int Icon = 29;
-    public const int Id = 30;
-    public const int Interactable = 31;
-    public const int Interval = 32;
-    public const int LifeCount = 33;
-    public const int LifePlayer = 34;
-    public const int Map = 35;
-    public const int MarkedForActive = 36;
-    public const int MarkedForDestroy = 37;
-    public const int MarkedForSell = 38;
-    public const int Movable = 39;
-    public const int MoveSpeed = 40;
-    public const int Name = 41;
-    public const int NextWave = 42;
-    public const int Origin = 43;
-    public const int Path = 44;
-    public const int PathLength = 45;
-    public const int PathReference = 46;
-    public const int PointAttack = 47;
-    public const int PointTarget = 48;
-    public const int Position = 49;
-    public const int Projectile = 50;
-    public const int ProjectileHoming = 51;
-    public const int ProjectileLaser = 52;
-    public const int ProjectileMark = 53;
-    public const int ProjectileThrowing = 54;
-    public const int ProjectileThrowingParams = 55;
-    public const int ReachedEnd = 56;
-    public const int Rooted = 57;
-    public const int SkillCombat = 58;
-    public const int Skill = 59;
-    public const int SkillEffects = 60;
-    public const int SkillEffectWatcher = 61;
-    public const int SkillEffectWatcherList = 62;
-    public const int SkillEntityList = 63;
+    public const int EffectMovementSpeed = 23;
+    public const int Effects = 24;
+    public const int Enemy = 25;
+    public const int Gold = 26;
+    public const int GoldPlayer = 27;
+    public const int Hp = 28;
+    public const int HpRegen = 29;
+    public const int HpTotal = 30;
+    public const int Icon = 31;
+    public const int Id = 32;
+    public const int Interactable = 33;
+    public const int Interval = 34;
+    public const int LifeCount = 35;
+    public const int LifePlayer = 36;
+    public const int Map = 37;
+    public const int MarkedForActive = 38;
+    public const int MarkedForDestroy = 39;
+    public const int MarkedForSell = 40;
+    public const int Movable = 41;
+    public const int MoveSpeed = 42;
+    public const int MoveSpeedBase = 43;
+    public const int Name = 44;
+    public const int NextWave = 45;
+    public const int Origin = 46;
+    public const int Path = 47;
+    public const int PathLength = 48;
+    public const int PathReference = 49;
+    public const int PointAttack = 50;
+    public const int PointTarget = 51;
+    public const int Position = 52;
+    public const int Projectile = 53;
+    public const int ProjectileHoming = 54;
+    public const int ProjectileLaser = 55;
+    public const int ProjectileMark = 56;
+    public const int ProjectileThrowing = 57;
+    public const int ProjectileThrowingParams = 58;
+    public const int ReachedEnd = 59;
+    public const int Rooted = 60;
+    public const int SkillCombat = 61;
+    public const int Skill = 62;
+    public const int SkillEntityRefs = 63;
     public const int SkillList = 64;
     public const int SkillSummon = 65;
     public const int SkillUpgrade = 66;
@@ -121,6 +121,8 @@ public static class ComponentIds {
         "Duration",
         "Dying",
         "DyingTime",
+        "EffectMovementSpeed",
+        "Effects",
         "Enemy",
         "Gold",
         "GoldPlayer",
@@ -139,6 +141,7 @@ public static class ComponentIds {
         "MarkedForSell",
         "Movable",
         "MoveSpeed",
+        "MoveSpeedBase",
         "Name",
         "NextWave",
         "Origin",
@@ -158,10 +161,7 @@ public static class ComponentIds {
         "Rooted",
         "SkillCombat",
         "Skill",
-        "SkillEffects",
-        "SkillEffectWatcher",
-        "SkillEffectWatcherList",
-        "SkillEntityList",
+        "SkillEntityRefs",
         "SkillList",
         "SkillSummon",
         "SkillUpgrade",
@@ -210,6 +210,8 @@ public static class ComponentIds {
         typeof(Duration),
         typeof(Dying),
         typeof(DyingTime),
+        typeof(EffectMovementSpeed),
+        typeof(Effects),
         typeof(Enemy),
         typeof(Gold),
         typeof(GoldPlayer),
@@ -228,6 +230,7 @@ public static class ComponentIds {
         typeof(MarkedForSell),
         typeof(Movable),
         typeof(MoveSpeed),
+        typeof(MoveSpeedBase),
         typeof(Name),
         typeof(NextWave),
         typeof(Origin),
@@ -247,10 +250,7 @@ public static class ComponentIds {
         typeof(Rooted),
         typeof(SkillCombat),
         typeof(SkillComponent),
-        typeof(SkillEffects),
-        typeof(SkillEffectWatcher),
-        typeof(SkillEffectWatcherList),
-        typeof(SkillEntityList),
+        typeof(SkillEntityRefs),
         typeof(SkillList),
         typeof(SkillSummon),
         typeof(SkillUpgrade),

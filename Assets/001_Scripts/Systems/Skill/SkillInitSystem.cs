@@ -23,7 +23,7 @@ public class SkillInitSystem : IReactiveSystem, ISetPool {
 			for (int j = 0; j < e.skillList.skillTrees.Count; j++) {
 				eList.Add (CreateSkill(e.skillList.skillTrees[j].Root, e));
 			}
-			e.AddSkillEntityList (eList);
+			e.AddSkillEntityRefs (eList);
 			e.RemoveSkillList ();
 		}
 	}

@@ -18,8 +18,8 @@ public class TowerSkillUpgradeGUI : HandleEnitityGUI {
 			HandleEmptyClick ();
 		}
 			
-		for (int i = 0; i < e.skillEntityList.skillEntities.Count; i++) {
-			var skillEntity = e.skillEntityList.skillEntities [i];
+		for (int i = 0; i < e.skillEntityRefs.skillEntities.Count; i++) {
+			var skillEntity = e.skillEntityRefs.skillEntities [i];
 			if (!skillEntity.isActive) {
 				CreateTowerSkillUpgradeBtn (this.transform ,skillEntity, skillEntity.skill.skillNode);
 			}else if (skillEntity.skill.skillNode.children.Count > 0) {

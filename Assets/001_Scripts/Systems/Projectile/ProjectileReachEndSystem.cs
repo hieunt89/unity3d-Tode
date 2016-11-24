@@ -78,8 +78,8 @@ public class ProjectileReachEndSystem : IReactiveSystem, ISetPool {
 	}
 
 	void ApplyEffect(Entity prj, Entity target){
-		if (target.isAttackable && !target.hasSkillEffects) {
-			target.AddSkillEffects (prj.skillCombat.effects);	
+		if (target.isAttackable) {
+			target.AddEffects (prj.skillCombat.effects);	
 		}
 	}
 }

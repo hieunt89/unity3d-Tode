@@ -16,8 +16,8 @@
         {
             "skillId": "skill0",
             "effectType": 2,
-            "value": 10.0,
-            "duration": 3.0
+            "value": 90.0,
+            "duration": 1.0
         }
     ]
 }

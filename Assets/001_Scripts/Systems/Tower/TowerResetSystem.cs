@@ -20,11 +20,11 @@ public class TowerResetSystem : IReactiveSystem {
 			if (e.hasCoroutine) {
 				e.RemoveCoroutine ();
 			}
-			if (e.hasSkillEntityList) {
-				for (int j = 0; j < e.skillEntityList.skillEntities.Count; j++) {
-					e.skillEntityList.skillEntities [j].IsActive(false).IsMarkedForDestroy (true);
+			if (e.hasSkillEntityRefs) {
+				for (int j = 0; j < e.skillEntityRefs.skillEntities.Count; j++) {
+					e.skillEntityRefs.skillEntities [j].IsActive(false).IsMarkedForDestroy (true);
 				}
-				e.RemoveSkillEntityList ();
+				e.RemoveSkillEntityRefs ();
 			}
 
 			e.IsTowerReset (false);
