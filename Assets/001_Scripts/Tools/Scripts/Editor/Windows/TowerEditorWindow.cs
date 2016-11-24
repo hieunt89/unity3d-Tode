@@ -281,6 +281,7 @@ public class TowerEditorWindow : EditorWindow {
 			selectedIndexes.RemoveAt (index);
 		}
 	}
+
 	void LoadExistData () {
 		existProjectiles = AssetDatabase.LoadAssetAtPath (ConstantString.ProjectileDataPath, typeof (ProjectileList)) as ProjectileList;
 		existTrees = binartyUtils.LoadAllData <Tree<string>> ();
