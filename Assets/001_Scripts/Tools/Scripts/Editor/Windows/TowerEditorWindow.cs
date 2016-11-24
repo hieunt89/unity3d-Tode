@@ -13,6 +13,8 @@ public class TowerEditorWindow : EditorWindow {
 	int viewIndex = 0;
 	bool toggleEditMode = false;
 	bool isSelectedAll = false;
+	bool toggleAtkPoint = false;
+
 	Vector2 scrollPosition;
 	List<bool> selectedIndexes;
 
@@ -52,12 +54,18 @@ public class TowerEditorWindow : EditorWindow {
 		SetupSkillTreeIndexes ();
 	}
 
+
 	void OnFocus () {
 		LoadExistData ();
 		SetupProjectileIDs ();
 		SetupSkillTreeIndexes ();
-	}
 
+		SceneView.onSceneGUIDelegate -= this.OnSceneGUI;
+		SceneView.onSceneGUIDelegate += this.OnSceneGUI;
+	}
+	void OnDestroy () {
+		SceneView.onSceneGUIDelegate -= this.OnSceneGUI;
+	}
 	void OnGUI()
 	{
 		switch (viewIndex) {
@@ -139,6 +147,8 @@ public class TowerEditorWindow : EditorWindow {
 			if (towerIndex > 1)
 			{	
 				towerIndex --;
+				tower = towerList.towers [towerIndex - 1];
+				SetupSkillTreeIndexes ();
 				GUI.FocusControl ("DummyFocus");
 			}
 
@@ -148,6 +158,8 @@ public class TowerEditorWindow : EditorWindow {
 			if (towerIndex < towerList.towers.Count) 
 			{
 				towerIndex ++;
+				tower = towerList.towers [towerIndex - 1];
+				SetupSkillTreeIndexes ();
 				GUI.FocusControl ("Dummy");
 			}
 		}
@@ -182,18 +194,35 @@ public class TowerEditorWindow : EditorWindow {
 			GUILayout.EndHorizontal ();
 			GUILayout.Space(10);
 
-			tower = towerList.towers [towerIndex - 1];
+
+
 			tower.Id = EditorGUILayout.TextField ("Id", tower.Id);
 			tower.Name = EditorGUILayout.TextField ("Name", tower.Name);
 	
 			tower.View = (GameObject) EditorGUILayout.ObjectField ("Tower GO", tower.View, typeof(GameObject), true);
 	
+			if (tower.View) {
+//				toggleAtkPoint = EditorGUILayout.Toggle ("Toggle Attak Point", toggleAtkPoint);
+//				if (!toggleAtkPoint) {
+			tower.AtkPoint = tower.View.transform.InverseTransformPoint (tower.AtkPoint);
+//					var sceneView = (SceneView) SceneView.sceneViews[0];
+//					sceneView.Focus();
+//				}
+//				else 
+//					tower.AtkPoint = tower.View.transform.InverseTransformPoint (tower.AtkPoint);
+
+//			GUI.enabled = toggleAtkPoint;
+			tower.AtkPoint = EditorGUILayout.Vector3Field ("Attack Point", tower.AtkPoint);
+//			GUI.enabled = true;
+			}
+
 			projectileIndex = EditorGUILayout.Popup ("Projectile", projectileIndex, projectileIds.ToArray());
 			tower.ProjectileIndId = projectileIndex;
 	
+			GUI.enabled = existProjectiles.projectiles.Count > 0;
 			GUILayout.BeginVertical ("box");
 			toggleProjectile = EditorGUILayout.Foldout (toggleProjectile, "Projectile Detail");
-			if (toggleProjectile) {
+			if (toggleProjectile && existProjectiles.projectiles.Count > 0) {
 				EditorGUILayout.LabelField ("Name", existProjectiles.projectiles[projectileIndex].Name);
 				EditorGUILayout.LabelField ("Type", existProjectiles.projectiles[projectileIndex].Type.ToString ());
 				EditorGUILayout.LabelField ("TravelSpeed", existProjectiles.projectiles[projectileIndex].TravelSpeed.ToString ());
@@ -202,6 +231,7 @@ public class TowerEditorWindow : EditorWindow {
 				EditorGUILayout.LabelField ("TickInterval", existProjectiles.projectiles[projectileIndex].TickInterval.ToString ());
 			}
 			GUILayout.EndVertical ();
+			GUI.enabled = true;
 	
 			tower.AtkType =  (AttackType) EditorGUILayout.EnumPopup ("Attack Type", tower.AtkType);
 			tower.AtkRange = EditorGUILayout.FloatField ("Tower Range", tower.AtkRange);
@@ -210,7 +240,7 @@ public class TowerEditorWindow : EditorWindow {
 			tower.AtkSpeed = EditorGUILayout.FloatField ("Attack Speed", tower.AtkSpeed);
 			tower.AtkTime = EditorGUILayout.FloatField ("Attack Time", tower.AtkTime);
 			tower.TurnSpeed = EditorGUILayout.FloatField ("Turn Speed", tower.TurnSpeed);
-			tower.AtkPoint = EditorGUILayout.Vector3Field ("Attack Point", tower.AtkPoint);
+
 			tower.GoldRequired = EditorGUILayout.IntField ("Gold Cost", tower.GoldRequired);
 			tower.BuildTime = EditorGUILayout.FloatField ("Build Time", tower.BuildTime);
 			tower.Aoe = EditorGUILayout.FloatField ("AOE", tower.Aoe);
@@ -238,6 +268,13 @@ public class TowerEditorWindow : EditorWindow {
 		} else {
 			GUILayout.Label ("This Tower List is Empty.");
 		}
+	}
+
+	public void OnSceneGUI (SceneView _sceneView){
+//		if (tower.View && toggleAtkPoint) {
+		Handles.color = Color.red;
+		tower.AtkPoint = Handles.FreeMoveHandle(tower.AtkPoint, Quaternion.identity, .1f, Vector3.one, Handles.SphereCap);
+//		}
 	}
 
 	void CreateNewItemList () {
@@ -296,6 +333,8 @@ public class TowerEditorWindow : EditorWindow {
 					projectileIndex = i;
 				}
 			}				
+		} else {
+			projectileIndex = 0;
 		}
 	}
 

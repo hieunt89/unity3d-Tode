@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class ProjectileEditorWindow : EditorWindow {
 
 	public ProjectileList projectileList;
+	ProjectileData projectile;
 
 	GameObject projectileGo;
 	int projectileIndex = 1;
@@ -46,8 +47,6 @@ public class ProjectileEditorWindow : EditorWindow {
 			break;
 		}
 	}
-
-
 
 	void DrawProjectileList () {
 		EditorGUILayout.BeginHorizontal ("box", GUILayout.Height (25));
@@ -161,26 +160,27 @@ public class ProjectileEditorWindow : EditorWindow {
 			GUILayout.EndHorizontal ();
 			GUILayout.Space(10);
 
-			EditorGUILayout.LabelField ("id",  projectileList.projectiles[projectileIndex-1].intId.ToString());
-			projectileList.projectiles[projectileIndex-1].Name = EditorGUILayout.TextField ("Name", projectileList.projectiles[projectileIndex-1].Name);
-			projectileList.projectiles[projectileIndex-1].View = (GameObject) EditorGUILayout.ObjectField ("Projectile GO", projectileList.projectiles[projectileIndex-1].View, typeof(GameObject), true);
-			projectileList.projectiles[projectileIndex-1].Type = (ProjectileType) EditorGUILayout.EnumPopup ("Type", projectileList.projectiles[projectileIndex-1].Type);
+			projectile = projectileList.projectiles[projectileIndex-1];
+			EditorGUILayout.LabelField ("id",  projectile.intId.ToString());
+			projectile.Name = EditorGUILayout.TextField ("Name", projectile.Name);
+			projectile.View = (GameObject) EditorGUILayout.ObjectField ("Projectile GO", projectile.View, typeof(GameObject), true);
+			projectile.Type = (ProjectileType) EditorGUILayout.EnumPopup ("Type", projectile.Type);
 
-			if (projectileList.projectiles[projectileIndex-1].Type == ProjectileType.homing) {
-				projectileList.projectiles[projectileIndex-1].Duration = 0f;
+			if (projectile.Type == ProjectileType.homing) {
+				projectile.Duration = 0f;
 			}
 
-			GUI.enabled = projectileList.projectiles[projectileIndex-1].Type == ProjectileType.homing;
-			projectileList.projectiles[projectileIndex-1].TravelSpeed = EditorGUILayout.FloatField ("Travel Speed", projectileList.projectiles[projectileIndex-1].TravelSpeed);
+			GUI.enabled = projectile.Type == ProjectileType.homing;
+			projectile.TravelSpeed = EditorGUILayout.FloatField ("Travel Speed", projectile.TravelSpeed);
 			GUI.enabled = true;
 
-			GUI.enabled = projectileList.projectiles[projectileIndex-1].Type == ProjectileType.throwing || projectileList.projectiles[projectileIndex-1].Type == ProjectileType.laser;
-			projectileList.projectiles[projectileIndex-1].Duration = EditorGUILayout.FloatField ("Duration", projectileList.projectiles[projectileIndex-1].Duration);
+			GUI.enabled = projectile.Type == ProjectileType.throwing || projectile.Type == ProjectileType.laser;
+			projectile.Duration = EditorGUILayout.FloatField ("Duration", projectile.Duration);
 			GUI.enabled = true;
 
-			GUI.enabled = projectileList.projectiles[projectileIndex-1].Type == ProjectileType.laser;
-			projectileList.projectiles[projectileIndex-1].MaxDmgBuildTime = EditorGUILayout.FloatField ("Time to reach maxDmg", projectileList.projectiles[projectileIndex-1].MaxDmgBuildTime);
-			projectileList.projectiles[projectileIndex-1].TickInterval = EditorGUILayout.FloatField ("Tick interval", projectileList.projectiles[projectileIndex-1].TickInterval);
+			GUI.enabled = projectile.Type == ProjectileType.laser;
+			projectile.MaxDmgBuildTime = EditorGUILayout.FloatField ("Time to reach maxDmg", projectile.MaxDmgBuildTime);
+			projectile.TickInterval = EditorGUILayout.FloatField ("Tick interval", projectile.TickInterval);
 			GUI.enabled = true;
 
 			GUILayout.Space(10);
