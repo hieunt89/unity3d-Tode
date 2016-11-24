@@ -7,7 +7,7 @@ public class ProjectileEditorWindow : EditorWindow {
 	public ProjectileList projectileList;
 
 	GameObject projectileGo;
-	int projectileindex = 1;
+	int projectileIndex = 1;
 	int viewIndex = 0;
 	bool toggleEditMode = false;
 	Vector2 scrollPosition;
@@ -93,7 +93,7 @@ public class ProjectileEditorWindow : EditorWindow {
 
 			var btnLabel = projectileList.projectiles[i].intId + " - " + projectileList.projectiles[i].Name;
 			if (GUILayout.Button (btnLabel)) {
-				projectileindex = i;
+				projectileIndex = i;
 				viewIndex = 1;
 			}
 			GUI.enabled = toggleEditMode;
@@ -114,18 +114,18 @@ public class ProjectileEditorWindow : EditorWindow {
 
 		if (GUILayout.Button("<", GUILayout.ExpandWidth(false))) 
 		{
-			if (projectileindex > 1)
+			if (projectileIndex > 1)
 			{	
-				projectileindex --;
+				projectileIndex --;
 				GUI.FocusControl ("DummyFocus");
 			}
 
 		}
 		if (GUILayout.Button(">", GUILayout.ExpandWidth(false))) 
 		{
-			if (projectileindex < projectileList.projectiles.Count) 
+			if (projectileIndex < projectileList.projectiles.Count) 
 			{
-				projectileindex ++;
+				projectileIndex ++;
 				GUI.FocusControl ("Dummy");
 			}
 		}
@@ -138,7 +138,7 @@ public class ProjectileEditorWindow : EditorWindow {
 		}
 		if (GUILayout.Button("Delete", GUILayout.ExpandWidth(false))) 
 		{
-			DeleteProjectileData (projectileindex - 1);
+			DeleteProjectileData (projectileIndex - 1);
 		}
 
 		GUILayout.FlexibleSpace ();
@@ -155,32 +155,32 @@ public class ProjectileEditorWindow : EditorWindow {
 		if (projectileList.projectiles.Count > 0) 
 		{
 			GUILayout.BeginHorizontal ();
-			projectileindex = Mathf.Clamp (EditorGUILayout.IntField ("Current Item", projectileindex, GUILayout.ExpandWidth(false)), 1, projectileList.projectiles.Count);
+			projectileIndex = Mathf.Clamp (EditorGUILayout.IntField ("Current Item", projectileIndex, GUILayout.ExpandWidth(false)), 1, projectileList.projectiles.Count);
 			//Mathf.Clamp (viewIndex, 1, inventoryItemList.itemList.Count);
 			EditorGUILayout.LabelField ("of   " +  projectileList.projectiles.Count.ToString() + "  items", "", GUILayout.ExpandWidth(false));
 			GUILayout.EndHorizontal ();
 			GUILayout.Space(10);
 
-			EditorGUILayout.LabelField ("id",  projectileList.projectiles[projectileindex-1].intId.ToString());
-			projectileList.projectiles[projectileindex-1].Name = EditorGUILayout.TextField ("Name", projectileList.projectiles[projectileindex-1].Name);
-			projectileList.projectiles[projectileindex-1].View = (GameObject) EditorGUILayout.ObjectField ("Projectile GO", projectileList.projectiles[projectileindex-1].View, typeof(GameObject), true);
-			projectileList.projectiles[projectileindex-1].Type = (ProjectileType) EditorGUILayout.EnumPopup ("Type", projectileList.projectiles[projectileindex-1].Type);
+			EditorGUILayout.LabelField ("id",  projectileList.projectiles[projectileIndex-1].intId.ToString());
+			projectileList.projectiles[projectileIndex-1].Name = EditorGUILayout.TextField ("Name", projectileList.projectiles[projectileIndex-1].Name);
+			projectileList.projectiles[projectileIndex-1].View = (GameObject) EditorGUILayout.ObjectField ("Projectile GO", projectileList.projectiles[projectileIndex-1].View, typeof(GameObject), true);
+			projectileList.projectiles[projectileIndex-1].Type = (ProjectileType) EditorGUILayout.EnumPopup ("Type", projectileList.projectiles[projectileIndex-1].Type);
 
-			if (projectileList.projectiles[projectileindex-1].Type == ProjectileType.homing) {
-				projectileList.projectiles[projectileindex-1].Duration = 0f;
+			if (projectileList.projectiles[projectileIndex-1].Type == ProjectileType.homing) {
+				projectileList.projectiles[projectileIndex-1].Duration = 0f;
 			}
 
-			GUI.enabled = projectileList.projectiles[projectileindex-1].Type == ProjectileType.homing;
-			projectileList.projectiles[projectileindex-1].TravelSpeed = EditorGUILayout.FloatField ("Travel Speed", projectileList.projectiles[projectileindex-1].TravelSpeed);
+			GUI.enabled = projectileList.projectiles[projectileIndex-1].Type == ProjectileType.homing;
+			projectileList.projectiles[projectileIndex-1].TravelSpeed = EditorGUILayout.FloatField ("Travel Speed", projectileList.projectiles[projectileIndex-1].TravelSpeed);
 			GUI.enabled = true;
 
-			GUI.enabled = projectileList.projectiles[projectileindex-1].Type == ProjectileType.throwing || projectileList.projectiles[projectileindex-1].Type == ProjectileType.laser;
-			projectileList.projectiles[projectileindex-1].Duration = EditorGUILayout.FloatField ("Duration", projectileList.projectiles[projectileindex-1].Duration);
+			GUI.enabled = projectileList.projectiles[projectileIndex-1].Type == ProjectileType.throwing || projectileList.projectiles[projectileIndex-1].Type == ProjectileType.laser;
+			projectileList.projectiles[projectileIndex-1].Duration = EditorGUILayout.FloatField ("Duration", projectileList.projectiles[projectileIndex-1].Duration);
 			GUI.enabled = true;
 
-			GUI.enabled = projectileList.projectiles[projectileindex-1].Type == ProjectileType.laser;
-			projectileList.projectiles[projectileindex-1].MaxDmgBuildTime = EditorGUILayout.FloatField ("Time to reach maxDmg", projectileList.projectiles[projectileindex-1].MaxDmgBuildTime);
-			projectileList.projectiles[projectileindex-1].TickInterval = EditorGUILayout.FloatField ("Tick interval", projectileList.projectiles[projectileindex-1].TickInterval);
+			GUI.enabled = projectileList.projectiles[projectileIndex-1].Type == ProjectileType.laser;
+			projectileList.projectiles[projectileIndex-1].MaxDmgBuildTime = EditorGUILayout.FloatField ("Time to reach maxDmg", projectileList.projectiles[projectileIndex-1].MaxDmgBuildTime);
+			projectileList.projectiles[projectileIndex-1].TickInterval = EditorGUILayout.FloatField ("Tick interval", projectileList.projectiles[projectileIndex-1].TickInterval);
 			GUI.enabled = true;
 
 			GUILayout.Space(10);
@@ -188,7 +188,7 @@ public class ProjectileEditorWindow : EditorWindow {
 		} 
 		else 
 		{
-			GUILayout.Label ("This Inventory List is Empty.");
+			GUILayout.Label ("This Projectile List is Empty.");
 		}
 	}
 
@@ -201,13 +201,12 @@ public class ProjectileEditorWindow : EditorWindow {
 	}
 
 	void CreateNewItemList () {
-		projectileindex = 1;
+		projectileIndex = 1;
 		projectileList = CreateProjectileList();
 		if (projectileList) 
 		{
 			projectileList.projectiles = new List<ProjectileData>();
 		}
-
 	}
 
 	[MenuItem("Assets/Create/Inventory Item List")]
@@ -241,7 +240,7 @@ public class ProjectileEditorWindow : EditorWindow {
 		newProjectileData.intId = projectileId;
 		projectileList.projectiles.Add (newProjectileData);
 		selectedIndexes.Add (false);
-		projectileindex = projectileList.projectiles.Count;
+		projectileIndex = projectileList.projectiles.Count;
 	}
 
 }

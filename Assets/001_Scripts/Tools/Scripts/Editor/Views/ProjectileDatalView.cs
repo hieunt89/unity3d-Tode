@@ -93,7 +93,7 @@ public class ProjectileDatalView : ViewBase {
 		} 
 		else 
 		{
-			GUILayout.Label ("This Inventory List is Empty.");
+			GUILayout.Label ("This Projectile List is Empty.");
 		}
 	}
 

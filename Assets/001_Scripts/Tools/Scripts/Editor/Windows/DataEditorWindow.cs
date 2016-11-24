@@ -20,7 +20,7 @@ public class DataEditorWindow : EditorWindow {
 	public ProjectileList projectileList;
 
 	public GameDataType selectedDataType;
-	int viewIndex = 1;
+	int viewIndex = 0;
 
 	[MenuItem("Tode/Data Editor &D")]
 	public static void DisplayWindow()
@@ -38,26 +38,34 @@ public class DataEditorWindow : EditorWindow {
 
 	void OnGUI()
 	{
+		GUILayout.Space (10);
 		selectedDataType = (GameDataType) EditorGUILayout.EnumPopup ("Game Data Type", selectedDataType);
 		GUILayout.Space (20);
 
 		switch (selectedDataType) {
 		case GameDataType.Tower:
 			towerList = AssetDatabase.LoadAssetAtPath (ConstantString.TowerDataPath, typeof(TowerList)) as TowerList;
-			if (towerList == null)
+			if (towerList == null) {
 				CreateNewTowerList ();
+				return;
+			}
 			break;
 
 		case GameDataType.Character:
 			characterList = AssetDatabase.LoadAssetAtPath (ConstantString.CharacterDataPath, typeof(CharacterList)) as CharacterList;
-			if (characterList == null)
+			if (characterList == null) {
+				
 				CreateNewCharacterList ();
+				return;
+			}
 			break;
 
 		case GameDataType.Projectile:
 			projectileList = AssetDatabase.LoadAssetAtPath (ConstantString.ProjectileDataPath, typeof(ProjectileList)) as ProjectileList;
-			if (characterList == null)
-				CreateNewCharacterList ();
+			if (projectileList == null) {
+				CreateNewProjectileList ();
+				return;
+			}
 			break;
 		}
 
@@ -76,7 +84,17 @@ public class DataEditorWindow : EditorWindow {
 			break;
 
 		case 1:
-			projectileDetailView.UpdateView ();
+			switch (selectedDataType) {
+			case GameDataType.Tower:
+//				projectileDetailView.UpdateView ();
+				break;
+			case GameDataType.Character:
+//				projectileDetailView.UpdateView ();
+				break;
+			case GameDataType.Projectile:
+				projectileDetailView.UpdateView ();
+				break;
+			}
 			break;
 
 		default:
@@ -107,7 +125,7 @@ public class DataEditorWindow : EditorWindow {
 
 	void CreateNewTowerList () {
 //		projectileindex = 1;
-		towerList = CreateProjectileList <TowerList> (ConstantString.TowerDataPath);
+		towerList = CreateAssetData <TowerList> (ConstantString.TowerDataPath);
 		if (towerList) 
 		{
 			towerList.towers = new List<TowerData>();
@@ -117,7 +135,7 @@ public class DataEditorWindow : EditorWindow {
 
 	void CreateNewCharacterList () {
 		//		projectileindex = 1;
-		characterList = CreateProjectileList <CharacterList> (ConstantString.CharacterDataPath);
+		characterList = CreateAssetData <CharacterList> (ConstantString.CharacterDataPath);
 		if (characterList) 
 		{
 			characterList.characters = new List<CharacterData>();
@@ -126,7 +144,7 @@ public class DataEditorWindow : EditorWindow {
 	}
 	void CreateNewProjectileList () {
 		//		projectileindex = 1;
-		projectileList = CreateProjectileList <ProjectileList> (ConstantString.ProjectileDataPath);
+		projectileList = CreateAssetData <ProjectileList> (ConstantString.ProjectileDataPath);
 		if (projectileList) 
 		{
 			projectileList.projectiles = new List<ProjectileData>();
@@ -134,7 +152,7 @@ public class DataEditorWindow : EditorWindow {
 	}
 
 //	[MenuItem("Assets/Create/Inventory Item List")]
-	public static T CreateProjectileList <T> (string path) where T : ScriptableObject
+	public static T CreateAssetData <T> (string path) where T : ScriptableObject
 	{
 		T asset = ScriptableObject.CreateInstance<T>();
 		AssetDatabase.CreateAsset(asset, path);

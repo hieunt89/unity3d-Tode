@@ -16,7 +16,7 @@ public class ActionBarView : ViewBase {
 		EditorGUILayout.BeginHorizontal ("box", GUILayout.Height (25));
 		if (GUILayout.Button ("Add")) {
 //			AddProjectileData ();
-			Messenger.Broadcast (Events.Editor.ADD);
+//			Messenger.Broadcast (Events.Editor.ADD);
 		}
 
 		GUILayout.FlexibleSpace ();

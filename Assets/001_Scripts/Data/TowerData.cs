@@ -5,7 +5,10 @@ using System;
 [Serializable]
 public class TowerData {
 	[SerializeField] public string id;
+	[SerializeField] public int intId;
 	[SerializeField] private string name;
+	[SerializeField] private GameObject view;
+
 	[SerializeField] private string projectileId;
 	[SerializeField] private AttackType atkType;
 	[SerializeField] private float atkRange;
@@ -35,6 +38,15 @@ public class TowerData {
 		}
 		set {
 			name = value;
+		}
+	}
+
+	public GameObject View {
+		get {
+			return this.view;
+		}
+		set {
+			view = value;
 		}
 	}
 
@@ -151,6 +163,10 @@ public class TowerData {
 		}set{ 
 			treeSkillNames = value;
 		}
+	}
+
+	public TowerData ()
+	{
 	}
 
 	public TowerData (string id) {
