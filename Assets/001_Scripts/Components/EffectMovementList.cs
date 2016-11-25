@@ -3,7 +3,6 @@ using System.Collections;
 using Entitas;
 using System.Collections.Generic;
 
-
-public class Effects : IComponent {
-	public List<SkillEffect> effects;
+public class EffectMovementList : IComponent {
+	public Dictionary<SkillEffect, float> efToDuration;
 }

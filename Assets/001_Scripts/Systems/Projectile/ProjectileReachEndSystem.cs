@@ -79,7 +79,20 @@ public class ProjectileReachEndSystem : IReactiveSystem, ISetPool {
 
 	void ApplyEffect(Entity prj, Entity target){
 		if (target.isAttackable) {
-			target.AddEffects (prj.skillCombat.effects);	
+			var effects = prj.skillCombat.effects;
+
+			for (int i = 0; i < effects.Count; i++) {
+				var ef = effects [i];
+
+				switch (ef.effectType) {
+				case EffectType.MoveSpeedSlow:
+					target.AddEffectMovement (ef);
+					break;
+				//TODO: process others effects
+				default:
+					break;
+				}
+			}
 		}
 	}
 }

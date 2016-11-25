@@ -74,4 +74,15 @@ public class CombatUtility{
 		}
 		return chosenOne;
 	}
+
+	public static bool ReplaceEffectDurationIfDuplicated(ref Dictionary<SkillEffect, float> efToDur, SkillEffect newEf){
+		foreach(KeyValuePair<SkillEffect, float> entry in efToDur)
+		{
+			if (entry.Key.skillId == newEf.skillId) {
+				efToDur[entry.Key] = newEf.duration;
+				return true;
+			}
+		}
+		return false;
+	}
 }

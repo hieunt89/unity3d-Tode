@@ -77,7 +77,9 @@ public class GameManager : MonoBehaviour {
 				.Add(pools.pool.CreateSystem ( new SkillUpgradeSystem () ))
 				//Skill Combat
 				.Add(pools.pool.CreateSystem ( new SkillCombatCastSystem () ))
-				.Add(pools.pool.CreateSystem ( new SkillEffectApplySystem () ))
+				//Effect
+				.Add(pools.pool.CreateSystem ( new EffectMovementApplySystem () ))
+				.Add(pools.pool.CreateSystem ( new EffectMovementUpdateSystem () ))
 				
 				//View
 				.Add(pools.pool.CreateSystem ( new TowerCreateViewSystem () ))

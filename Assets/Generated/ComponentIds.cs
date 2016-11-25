@@ -31,8 +31,8 @@ public static class ComponentIds {
     public const int Duration = 20;
     public const int Dying = 21;
     public const int DyingTime = 22;
-    public const int EffectMovementSpeed = 23;
-    public const int Effects = 24;
+    public const int EffectMovement = 23;
+    public const int EffectMovementList = 24;
     public const int Enemy = 25;
     public const int Gold = 26;
     public const int GoldPlayer = 27;
@@ -121,8 +121,8 @@ public static class ComponentIds {
         "Duration",
         "Dying",
         "DyingTime",
-        "EffectMovementSpeed",
-        "Effects",
+        "EffectMovement",
+        "EffectMovementList",
         "Enemy",
         "Gold",
         "GoldPlayer",
@@ -210,8 +210,8 @@ public static class ComponentIds {
         typeof(Duration),
         typeof(Dying),
         typeof(DyingTime),
-        typeof(EffectMovementSpeed),
-        typeof(Effects),
+        typeof(EffectMovement),
+        typeof(EffectMovementList),
         typeof(Enemy),
         typeof(Gold),
         typeof(GoldPlayer),
