@@ -155,7 +155,6 @@ public class ProjectileEditorWindow : EditorWindow {
 		{
 			GUILayout.BeginHorizontal ();
 			projectileIndex = Mathf.Clamp (EditorGUILayout.IntField ("Current Item", projectileIndex, GUILayout.ExpandWidth(false)), 1, projectileList.projectiles.Count);
-			//Mathf.Clamp (viewIndex, 1, inventoryItemList.itemList.Count);
 			EditorGUILayout.LabelField ("of   " +  projectileList.projectiles.Count.ToString() + "  items", "", GUILayout.ExpandWidth(false));
 			GUILayout.EndHorizontal ();
 			GUILayout.Space(10);

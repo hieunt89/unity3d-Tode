@@ -189,7 +189,6 @@ public class TowerEditorWindow : EditorWindow {
 		if (towerList.towers.Count > 0) {
 			GUILayout.BeginHorizontal ();
 			towerIndex = Mathf.Clamp (EditorGUILayout.IntField ("Current Tower", towerIndex, GUILayout.ExpandWidth(false)), 1, towerList.towers.Count);	// important
-			//Mathf.Clamp (viewIndex, 1, inventoryItemList.itemList.Count);
 			EditorGUILayout.LabelField ("of   " +  towerList.towers.Count.ToString() + "  items", "", GUILayout.ExpandWidth(false));
 			GUILayout.EndHorizontal ();
 			GUILayout.Space(10);
@@ -201,20 +200,12 @@ public class TowerEditorWindow : EditorWindow {
 	
 			tower.View = (GameObject) EditorGUILayout.ObjectField ("Tower GO", tower.View, typeof(GameObject), true);
 	
+			GUI.enabled = tower.View;
 			if (tower.View) {
-//				toggleAtkPoint = EditorGUILayout.Toggle ("Toggle Attak Point", toggleAtkPoint);
-//				if (!toggleAtkPoint) {
-			tower.AtkPoint = tower.View.transform.InverseTransformPoint (tower.AtkPoint);
-//					var sceneView = (SceneView) SceneView.sceneViews[0];
-//					sceneView.Focus();
-//				}
-//				else 
-//					tower.AtkPoint = tower.View.transform.InverseTransformPoint (tower.AtkPoint);
-
-//			GUI.enabled = toggleAtkPoint;
-			tower.AtkPoint = EditorGUILayout.Vector3Field ("Attack Point", tower.AtkPoint);
-//			GUI.enabled = true;
+				tower.AtkPoint = tower.View.transform.InverseTransformPoint (tower.AtkPoint);
 			}
+			tower.AtkPoint = EditorGUILayout.Vector3Field ("Attack Point", tower.AtkPoint);
+			GUI.enabled = true;
 
 			projectileIndex = EditorGUILayout.Popup ("Projectile", projectileIndex, projectileIds.ToArray());
 			tower.ProjectileIndId = projectileIndex;
@@ -344,7 +335,8 @@ public class TowerEditorWindow : EditorWindow {
 			if (existTrees[i].treeType == TreeType.CombatSkills || existTrees[i].treeType == TreeType.SummonSkills ) 
 				existSkillTreeIDs.Add(existTrees[i].id);
 		}
-		skillTreeIndexes.Clear();
+//		skillTreeIndexes.Clear();
+		skillTreeIndexes = new List<int> ();
 		if (existSkillTreeIDs.Count > 0) {
 			for (int i = 0; i < tower.TreeSkillNames.Count; i++) {
 				skillTreeIndexes.Add (GetSkillTreeIndex (tower.TreeSkillNames[i]));

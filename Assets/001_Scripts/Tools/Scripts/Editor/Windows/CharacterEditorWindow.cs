@@ -41,6 +41,12 @@ public class CharacterEditorWindow : EditorWindow {
 	}
 
 	void OnFocus () {
+		SceneView.onSceneGUIDelegate -= this.OnSceneGUI;
+		SceneView.onSceneGUIDelegate += this.OnSceneGUI;
+	}
+
+	void OnDestroy () {
+		SceneView.onSceneGUIDelegate -= this.OnSceneGUI;
 	}
 
 	void OnGUI()
@@ -162,24 +168,25 @@ public class CharacterEditorWindow : EditorWindow {
 			Debug.Log("wtf");
 		if (characterList.characters.Count > 0) {
 			GUILayout.BeginHorizontal ();
-			characterIndex = Mathf.Clamp (EditorGUILayout.IntField ("Current Tower", characterIndex, GUILayout.ExpandWidth(false)), 1, characterList.characters.Count);	// important
-			//Mathf.Clamp (viewIndex, 1, inventoryItemList.itemList.Count);
-			EditorGUILayout.LabelField ("of   " +  characterList.characters.Count.ToString() + "  items", "", GUILayout.ExpandWidth(false));
+			characterIndex = Mathf.Clamp (EditorGUILayout.IntField ("Current Tower", characterIndex, GUILayout.ExpandWidth (false)), 1, characterList.characters.Count);	// important
+			EditorGUILayout.LabelField ("of   " + characterList.characters.Count.ToString () + "  items", "", GUILayout.ExpandWidth (false));
 			GUILayout.EndHorizontal ();
-			GUILayout.Space(10);
+			GUILayout.Space (10);
 
-			character = characterList.characters[characterIndex - 1];
+			character = characterList.characters [characterIndex - 1];
 			SetupArmorValues ();
 
 			character.Id = EditorGUILayout.TextField ("id", character.Id);
-			character.Name  = EditorGUILayout.TextField ("Name", character.Name);
+			character.Name = EditorGUILayout.TextField ("Name", character.Name);
 	
-			character.View = (GameObject) EditorGUILayout.ObjectField ("View", character.View, typeof(GameObject), true);
-//			GUI.enabled = characterGo == null && character.Id.Length > 0;
-//				if (GUILayout.Button ("Create Character GO")) {
-//					characterGo = new GameObject (character.Id);
-//				}
-//			GUI.enabled = true;
+			character.View = (GameObject)EditorGUILayout.ObjectField ("View", character.View, typeof(GameObject), true);
+			GUI.enabled = character.View;
+			if (character.View) {
+				character.AtkPoint = character.View.transform.InverseTransformPoint (character.AtkPoint);
+			}
+			character.AtkPoint = EditorGUILayout.Vector3Field ("Attack Point", character.AtkPoint);
+
+			GUI.enabled = true;
 	
 			character.Hp = EditorGUILayout.IntField ("Hit Point", character.Hp);
 			character.HpRegenRate = EditorGUILayout.Slider ("HP Regen Rate", character.HpRegenRate, 0f, 1f);
@@ -193,7 +200,6 @@ public class CharacterEditorWindow : EditorWindow {
 			character.AtkType = (AttackType)EditorGUILayout.EnumPopup ("Attack Type", character.AtkType);
 			character.AtkSpeed = EditorGUILayout.FloatField ("Attack Speed", character.AtkSpeed);
 			character.AtkTime = EditorGUILayout.FloatField ("Attack Time", character.AtkTime);
-			character.AtkPoint = EditorGUILayout.Vector3Field ("Attack Point", character.AtkPoint);
 	
 			character.MinAtkDmg = EditorGUILayout.IntField ("Min Attack Damage", character.MinAtkDmg);
 			character.MaxAtkDmg = EditorGUILayout.IntField ("Max Attack Damage", character.MaxAtkDmg);
@@ -210,6 +216,11 @@ public class CharacterEditorWindow : EditorWindow {
 		} else {
 			GUILayout.Label ("This Tower List is Empty.");
 		}
+	}
+
+	public void OnSceneGUI (SceneView _sceneView){
+		Handles.color = Color.green;
+		character.AtkPoint = Handles.FreeMoveHandle(character.AtkPoint, Quaternion.identity, .1f, Vector3.one, Handles.SphereCap);
 	}
 
 	void CreateNewItemList (){
