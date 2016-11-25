@@ -5,8 +5,17 @@ using System;
 
 public class MapEditorWindow : EditorWindow {
 	
+	private MapList mapList;
 	private MapData map;
 	private Event currentEvent;
+
+	GameObject projectileGo;
+	int mapIndex = 1;
+	int viewIndex = 0;
+	bool toggleEditMode = false;
+	Vector2 scrollPosition;
+	bool isSelectedAll = false;
+	List<bool> selectedIndexes;
 
 	private float handleSize;
 	private float pickSize;
@@ -37,7 +46,7 @@ public class MapEditorWindow : EditorWindow {
 	private float towerRange = 5;
 
 	private bool isTerrainSetup;
-	private UnityEngine.Object terrainGo;
+//	private UnityEngine.Object terrainGo;
 
 	private GUISkin mapEditorSkin;
 
@@ -57,12 +66,20 @@ public class MapEditorWindow : EditorWindow {
 		prefabUtils = DIContainer.GetModule <IPrefabUtils> ();
 
 		LoadExistData ();
-		map = new MapData("map" + existMaps.Count);
+
+		selectedIndexes = new List<bool> ();
+		for (int i = 0; i < mapList.maps.Count ; i++) {
+			selectedIndexes.Add (false);
+		}
+
+		if (existMaps != null)
+			map = new MapData("map" + existMaps.Count);
+		else
+			map = new MapData();
+
 
 		CreateToggles ();
 		CreatePopupIndexes ();
-
-		map.Id =  "map" + existMaps.Count;
 
 		handleSize = .1f;
 		pickSize = handleSize * 2f;
@@ -107,51 +124,181 @@ public class MapEditorWindow : EditorWindow {
 		if (mapEditorSkin == null) {
 			GetEditorSkin ();
 		}
-		// DrawDefaultInspector();	// test
-
-		if(map == null)
-			return;
-
 		EditorGUILayout.LabelField ("MAP CONSTRUCTOR", mapEditorSkin.GetStyle("Header"), GUILayout.MinHeight (40));
 
-		EditorGUILayout.BeginVertical ();
+		switch (viewIndex) {
+		case 0:
+			DrawMapList ();
+			break;
+		case 1:
+			DrawSelectedMap ();
+			break;
+		default:
+			return;
+			break;
+		}
 
-		EditorGUILayout.Space();
 
-		this.map.Id = EditorGUILayout.TextField ("Map Id", map.Id);
-		this.map.InitGold = EditorGUILayout.IntField ("Init Gold", map.InitGold);
-		this.map.initLife = EditorGUILayout.IntField ("Init Life", map.InitLife);
 
-		this.terrainGo = EditorGUILayout.ObjectField ("Terrain GO", this.terrainGo, typeof(GameObject), true);
+		// DrawDefaultInspector();	// test
 
-		EditorGUILayout.Space();
+//		if(map == null)
+//			return;
 
-		GUI.enabled = terrainGo == null && map.Id.Length > 0;
-			if(GUILayout.Button("Create Terrain GO")) {
-				terrainGo =	new GameObject (map.id);
+
+
+	}
+
+	void DrawMapList () {
+		EditorGUILayout.BeginHorizontal ("box", GUILayout.Height (25));
+		if (GUILayout.Button ("Add")) {
+			AddMapData ();
+		}
+
+		GUILayout.FlexibleSpace ();
+
+		if (GUILayout.Button (toggleEditMode ? "Done" : "Edit Mode")) {
+			toggleEditMode = !toggleEditMode;
+		}
+		if (toggleEditMode) {
+			if (GUILayout.Button (isSelectedAll ? "Deselect All" : "Select All")) {
+				isSelectedAll = !isSelectedAll;
+				for (int i = 0; i < selectedIndexes.Count; i++) {
+					selectedIndexes[i] = isSelectedAll;
+				}
 			}
-		GUI.enabled = true;
+			if (GUILayout.Button ("Delete Selected")) {
+				if (EditorUtility.DisplayDialog ("Are you sure?", 
+					"Do you want to delete all selected data?",
+					"Yes", "No")) {
+					for (int i = selectedIndexes.Count - 1; i >= 0; i--) {
+						if (selectedIndexes[i]) {
+							mapList.maps.RemoveAt (i);
+							selectedIndexes.RemoveAt (i);
+						}
+					}
+					isSelectedAll = false;
+					toggleEditMode = false;
+				}
+			}
+		}
 
-		EditorGUILayout.Space();
+		EditorGUILayout.EndHorizontal ();
 
-		OnPathInspectorGUI ();
 
-		EditorGUILayout.Space();
+		EditorGUILayout.BeginVertical ();
+		scrollPosition = EditorGUILayout.BeginScrollView (scrollPosition, GUILayout.Height (position.height - 40));
+		for (int i = 0; i < mapList.maps.Count; i++) {
+			EditorGUILayout.BeginHorizontal ();
 
-		OnTowerPointInspectorGUI();
+			var btnLabel =  "map " + mapList.maps[i].intId;
+			if (GUILayout.Button (btnLabel)) {
+				mapIndex = i;
+				viewIndex = 1;
+			}
+			GUI.enabled = toggleEditMode;
+			selectedIndexes[i] = EditorGUILayout.Toggle (selectedIndexes[i], GUILayout.Width (30));
+			GUI.enabled = true;
+			EditorGUILayout.EndHorizontal ();
 
-		EditorGUILayout.Space();
-
-		GUI.enabled = (map.Paths != null && map.Paths.Count > 0);
-		OnWaveInspectorGUI();
-		GUI.enabled = true;
-
-	
-
-		if (map != null)
-			OnDataInspectorGUI ();
+		}
+		EditorGUILayout.EndScrollView ();
 		EditorGUILayout.EndVertical ();
-		Repaint ();
+	}
+
+	void DrawSelectedMap () {
+		GUI.SetNextControlName ("DummyFocus");
+		GUI.Button (new Rect (0,0,0,0), "", GUIStyle.none);
+
+		GUILayout.BeginHorizontal ("box");
+
+		if (GUILayout.Button("<", GUILayout.ExpandWidth(false))) 
+		{
+			if (mapIndex > 1)
+			{	
+				mapIndex --;
+				GUI.FocusControl ("DummyFocus");
+			}
+
+		}
+		if (GUILayout.Button(">", GUILayout.ExpandWidth(false))) 
+		{
+			if (mapIndex < mapList.maps.Count) 
+			{
+				mapIndex ++;
+				GUI.FocusControl ("Dummy");
+			}
+		}
+
+		GUILayout.Space(100);
+
+		if (GUILayout.Button("Add", GUILayout.ExpandWidth(false))) 
+		{
+			AddMapData();
+		}
+		if (GUILayout.Button("Delete", GUILayout.ExpandWidth(false))) 
+		{
+			DeleteMapData (mapIndex - 1);
+		}
+
+		GUILayout.FlexibleSpace ();
+
+		if (GUILayout.Button("Back", GUILayout.ExpandWidth(false))) 
+		{
+			viewIndex = 0;
+		}
+		GUILayout.EndHorizontal ();
+
+
+		if (mapList.maps == null)
+			Debug.Log("wtf");
+		if (mapList.maps.Count > 0) 
+		{
+			GUILayout.BeginHorizontal ();
+			mapIndex = Mathf.Clamp (EditorGUILayout.IntField ("Current Item", mapIndex, GUILayout.ExpandWidth(false)), 1, mapList.maps.Count);
+			EditorGUILayout.LabelField ("of   " +  mapList.maps.Count.ToString() + "  items", "", GUILayout.ExpandWidth(false));
+			GUILayout.EndHorizontal ();
+			GUILayout.Space(10);
+
+			EditorGUILayout.BeginVertical ();
+
+			EditorGUILayout.Space();
+
+			map = mapList.maps[mapIndex -1];
+			map.Id = EditorGUILayout.TextField ("Map Id", map.Id);
+			map.InitGold = EditorGUILayout.IntField ("Init Gold", map.InitGold);
+			map.initLife = EditorGUILayout.IntField ("Init Life", map.InitLife);
+			map.View = (GameObject) EditorGUILayout.ObjectField ("Terrain GO", map.View, typeof(GameObject), true);
+
+			EditorGUILayout.Space();
+
+			//		GUI.enabled = terrainGo == null && map.Id.Length > 0;
+			//			if(GUILayout.Button("Create Terrain GO")) {
+			//				terrainGo =	new GameObject (map.id);
+			//			}
+			//		GUI.enabled = true;
+//			EditorGUILayout.Space();
+
+			OnPathInspectorGUI ();
+
+			EditorGUILayout.Space();
+
+			OnTowerPointInspectorGUI();
+
+			EditorGUILayout.Space();
+
+			GUI.enabled = (map.Paths != null && map.Paths.Count > 0);
+			OnWaveInspectorGUI();
+			GUI.enabled = true;
+			//		if (map != null)
+			//			OnDataInspectorGUI ();
+			EditorGUILayout.EndVertical ();
+			Repaint ();
+		
+		} else {
+			GUILayout.Label ("This Map List is Empty.");
+		}
+
 	}
 
 	private void OnPathInspectorGUI () {
@@ -385,56 +532,58 @@ public class MapEditorWindow : EditorWindow {
 		EditorGUILayout.EndVertical();
 	}
 
-	private void OnDataInspectorGUI () {
-		EditorGUILayout.BeginHorizontal ();
-
-		GUI.enabled = CheckFields();
-		if (GUILayout.Button ("Save")) {
-			dataUtils.CreateData(map);
-			prefabUtils.CreatePrefab (terrainGo as GameObject);
-			// TODO: Save map prefab;
-		}
-		GUI.enabled = true;
-		if (GUILayout.Button ("Load")) {
-			map = dataUtils.LoadData <MapData> ();
-			if (map == null) {
-				map = new MapData("map" + existMaps.Count);
-			}
-
-			if (terrainGo != null) {
-				DestroyImmediate (terrainGo);
-			}
-			terrainGo = prefabUtils.InstantiatePrefab (ConstantString.PrefabPath + map.Id + ".prefab");
-
-			CreateToggles ();
-			UpdatePathID ();
-			CreatePopupIndexes ();
-
-		}
-		if (GUILayout.Button ("Reset")) {
-			if (EditorUtility.DisplayDialog ("Are you sure?", 
-				"Do you want to reset map data?",
-				"Yes", "No")) {
-				ResetData();
-			}
-		}
-
-		if (GUILayout.Button ("Delete")) {
-			if (EditorUtility.DisplayDialog ("Are you sure?", 
-				"Do you want to delete map data?",
-				"Yes", "No")) {
-				if (terrainGo) {
-					DestroyImmediate (terrainGo);
-				}
-				dataUtils.DeleteData (ConstantString.DataPath + map.GetType().Name + "/" + map.Id + ".json");
-				prefabUtils.DeletePrefab (ConstantString.PrefabPath + map.Id + ".prefab");
-			}
-		}
-		EditorGUILayout.EndHorizontal();
-	}
+//	private void OnDataInspectorGUI () {
+//		EditorGUILayout.BeginHorizontal ();
+//
+//		GUI.enabled = CheckFields();
+//		if (GUILayout.Button ("Save")) {
+//			dataUtils.CreateData(map);
+////			prefabUtils.CreatePrefab (terrainGo as GameObject);
+//			// TODO: Save map prefab;
+//		}
+//		GUI.enabled = true;
+//		if (GUILayout.Button ("Load")) {
+//			map = dataUtils.LoadData <MapData> ();
+//			if (map == null) {
+//				map = new MapData("map" + existMaps.Count);
+//			}
+//
+////			if (terrainGo != null) {
+////				DestroyImmediate (terrainGo);
+////			}
+////			terrainGo = prefabUtils.InstantiatePrefab (ConstantString.PrefabPath + map.Id + ".prefab");
+//
+//			CreateToggles ();
+//			UpdatePathID ();
+//			CreatePopupIndexes ();
+//
+//		}
+//		if (GUILayout.Button ("Reset")) {
+//			if (EditorUtility.DisplayDialog ("Are you sure?", 
+//				"Do you want to reset map data?",
+//				"Yes", "No")) {
+//				ResetData();
+//			}
+//		}
+//
+//		if (GUILayout.Button ("Delete")) {
+//			if (EditorUtility.DisplayDialog ("Are you sure?", 
+//				"Do you want to delete map data?",
+//				"Yes", "No")) {
+////				if (terrainGo) {
+////					DestroyImmediate (terrainGo);
+////				}
+//				dataUtils.DeleteData (ConstantString.DataPath + map.GetType().Name + "/" + map.Id + ".json");
+//				prefabUtils.DeletePrefab (ConstantString.PrefabPath + map.Id + ".prefab");
+//			}
+//		}
+//		EditorGUILayout.EndHorizontal();
+//	}
 
 	private bool CheckFields () {
 		var mapIdInput = !String.IsNullOrEmpty (map.Id);
+
+		var viewInput = map.View;
 
 		var pathInput = map.Paths != null && map.Paths.Count > 0;
 
@@ -442,7 +591,7 @@ public class MapEditorWindow : EditorWindow {
 
 		var waveInput = map.Waves != null && map.Waves.Count > 0;
 
-		return terrainGo && mapIdInput && pathInput && towerPointInput && waveInput;
+		return viewInput && mapIdInput && pathInput && towerPointInput && waveInput;
 
 	}
 
@@ -656,9 +805,9 @@ public class MapEditorWindow : EditorWindow {
 	}
 
 	private void ResetData() {
-		if (terrainGo) {
-			DestroyImmediate (terrainGo);
-		}
+//		if (terrainGo) {
+//			DestroyImmediate (terrainGo);
+//		}
 		ClearPaths();
 		ClearTowerPoints();
 		ClearWaves();
@@ -667,11 +816,35 @@ public class MapEditorWindow : EditorWindow {
 	}
 
 	void LoadExistData () {
+		mapList = AssetDatabase.LoadAssetAtPath (ConstantString.MapDataPath, typeof(MapList)) as MapList;
+		if (mapList == null) {
+			CreateNewMapList ();
+		}
+
 		existMaps = dataUtils.LoadAllData <MapData> ();
 		UpdatePathID ();
 
 		existCharacters = dataUtils.LoadAllData <CharacterData> ();
 		GetEnemyIds ();
+	}
+
+	void CreateNewMapList () {
+		mapIndex = 1;
+		mapList = CreateProjectileList();
+		if (mapList) 
+		{
+			mapList.maps = new List<MapData>();
+		}
+	}
+
+	[MenuItem("Assets/Create/Inventory Item List")]
+	public static MapList  CreateProjectileList()
+	{
+		MapList asset = ScriptableObject.CreateInstance<MapList>();
+
+		AssetDatabase.CreateAsset(asset, ConstantString.MapDataPath);
+		AssetDatabase.SaveAssets();
+		return asset;
 	}
 
 	private void GetEnemyIds () {
@@ -747,6 +920,30 @@ public class MapEditorWindow : EditorWindow {
 			}
 		}
 		return 0;
+	}
+
+	void AddMapData () {
+		MapData newMapData = new MapData();
+		int mapId = 0;
+		if (mapList.maps.Count > 0){
+			mapId = mapList.maps [mapList.maps.Count - 1].intId + 1;
+		}else {
+			mapId = 0;
+		}
+		newMapData.intId = mapId;
+		mapList.maps.Add (newMapData);
+		selectedIndexes.Add (false);
+		mapIndex = mapList.maps.Count;
+	}
+
+	void DeleteMapData (int index) 
+	{
+		if (EditorUtility.DisplayDialog ("Are you sure?", 
+			"Do you want to delete " + mapList.maps[index].intId + " data?",
+			"Yes", "No")) {
+			mapList.maps.RemoveAt (index);
+			selectedIndexes.RemoveAt (index);
+		}
 	}
 	#endregion private methods
 }

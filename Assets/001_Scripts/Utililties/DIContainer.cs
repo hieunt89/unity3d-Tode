@@ -8,7 +8,9 @@ public class DIContainer {
 	static Dictionary<Type, object> registeredModules = new Dictionary<Type, object>();
 
 	public static void BindModules(){
-		DIContainer.SetModule<IDataUtils> (new JsonUtils ());
+//		DIContainer.SetModule<IDataUtils> (new JsonUtils ());
+		DIContainer.SetModule<IDataUtils> (new GameAssetUtils ());
+
 		DIContainer.SetModule<IPrefabUtils> (new PrefabUtils ());
 	}
 

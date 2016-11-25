@@ -6,6 +6,16 @@ using System;
 
 public class SkillEditorWindow: EditorWindow {
 
+	public ProjectileList projectileList;
+	ProjectileData projectile;
+
+	int skillIndex = 1;
+	int viewIndex = 0;
+	bool toggleEditMode = false;
+	Vector2 scrollPosition;
+	bool isSelectedAll = false;
+	List<bool> selectedIndexes;
+
 	CombatSkillData combatSkill;
 	SummonSkillData summonSkill;
 	bool toggleProjectile;
@@ -125,7 +135,6 @@ public class SkillEditorWindow: EditorWindow {
 		combatSkill.aoe = EditorGUILayout.FloatField ("AOE", combatSkill.aoe);
 		combatSkill.attackType = (AttackType) EditorGUILayout.EnumPopup ("Attack Type", combatSkill.attackType);
 		combatSkill.damage = EditorGUILayout.IntField ("Damage", combatSkill.damage);
-
 
 		GUILayout.Space(5);
 		toggleSkillEffect = EditorGUILayout.Foldout (toggleSkillEffect, "Skill Effect");

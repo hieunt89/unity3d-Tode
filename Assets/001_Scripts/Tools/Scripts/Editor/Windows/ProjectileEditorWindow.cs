@@ -7,7 +7,6 @@ public class ProjectileEditorWindow : EditorWindow {
 	public ProjectileList projectileList;
 	ProjectileData projectile;
 
-	GameObject projectileGo;
 	int projectileIndex = 1;
 	int viewIndex = 0;
 	bool toggleEditMode = false;
@@ -41,7 +40,7 @@ public class ProjectileEditorWindow : EditorWindow {
 			DrawProjectileList ();
 			break;
 		case 1:
-			DrawProjectileDetail ();
+			DrawSelectedProjectile ();
 			break;
 		default:
 			break;
@@ -105,7 +104,7 @@ public class ProjectileEditorWindow : EditorWindow {
 		EditorGUILayout.EndVertical ();
 	}
 
-	void DrawProjectileDetail () {
+	void DrawSelectedProjectile () {
 		GUI.SetNextControlName ("DummyFocus");
 		GUI.Button (new Rect (0,0,0,0), "", GUIStyle.none);
 

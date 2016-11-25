@@ -42,6 +42,8 @@ public class TowerEditorWindow : EditorWindow {
 		if (towerList == null) {
 			CreateNewItemList ();
 		}
+		tower = towerList.towers[0];
+
 		selectedIndexes = new List<bool> ();
 		for (int i = 0; i < towerList.towers.Count ; i++) {
 			selectedIndexes.Add (false);

@@ -24,8 +24,9 @@ public class DataManager {
 	}
 	#endregion
 
-	IDataUtils jsonUtils;
+	IDataUtils gameAssetUtils;
 	IDataUtils binartyUtils;
+	IDataUtils jsonUtils;
 
 	Dictionary<string, ProjectileData> projectileIdToData;
 	Dictionary<string, TowerData> towerIdToData;
@@ -38,8 +39,9 @@ public class DataManager {
 	Dictionary<string, Tree<string>> skillTrees;
 
 	public DataManager(){
-		jsonUtils = DIContainer.GetModule <IDataUtils> ();
+		gameAssetUtils = DIContainer.GetModule <IDataUtils> ();
 		binartyUtils = new BinaryUtils () as IDataUtils;
+		jsonUtils = new BinaryUtils () as IDataUtils; 
 
 		LoadData <ProjectileData>(out projectileIdToData);
 		LoadData <TowerData> (out towerIdToData);
@@ -87,15 +89,15 @@ public class DataManager {
 	void LoadData <T> (out Dictionary<string, T> d){
 		d = new Dictionary<string, T> ();
 
-		List<T> datas = jsonUtils.LoadAllData<T> ();
+		List<T> datas = gameAssetUtils.LoadAllData<T> ();
 
-		foreach (T data in datas) {
-			FieldInfo field = typeof(T).GetField("id");
-			string id = (string) field.GetValue(data);
-			d.Add (id, data);
-		}
+//		foreach (T data in datas) {
+//			FieldInfo field = typeof(T).GetField("intId");
+//			string id = field.GetValue(data).ToString ();
+//			d.Add (id, data);
+//		}
 	}
-		
+
 	#region GetData
 	public List<Tree<string>> GetSkillTrees(List<string> names){
 		List<Tree<string>> listTree = new List<Tree<string>> ();

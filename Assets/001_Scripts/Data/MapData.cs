@@ -4,8 +4,11 @@ using System.Collections.Generic;
 [System.Serializable]
 public class MapData {
 	[SerializeField] public string id;
+	[SerializeField] public int intId;
+
 	public int initGold;
 	public int initLife;
+	[SerializeField] private GameObject view;
 	[SerializeField] private List<PathData> paths;
 	[SerializeField] private List<TowerPointData> towerPoints;
 	[SerializeField] private List<WaveData> waves;
@@ -16,6 +19,15 @@ public class MapData {
 		}
 		set {
 			id = value;
+		}
+	}
+
+	public int IntId {
+		get {
+			return this.intId;
+		}
+		set {
+			intId = value;
 		}
 	}
 
@@ -34,6 +46,15 @@ public class MapData {
 		}
 		set {
 			initLife = value;
+		}
+	}
+
+	public GameObject View {
+		get {
+			return this.view;
+		}
+		set {
+			view = value;
 		}
 	}
 
@@ -63,6 +84,16 @@ public class MapData {
 			waves = value;
 		}
 	}	
+
+	public MapData ()
+	{
+		this.initGold = 0;
+		this.initLife = 0;
+		paths = new List<PathData> ();
+		towerPoints = new List<TowerPointData> ();
+		waves = new List<WaveData> ();
+	}
+	
 
 	public MapData (string id)
 	{
