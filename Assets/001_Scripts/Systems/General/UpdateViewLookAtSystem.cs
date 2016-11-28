@@ -19,14 +19,14 @@ public class UpdateViewLookAtSystem : IReactiveSystem, ISetPool {
 			return;
 		}
 
-		var tick = entities.SingleEntity ().tick;
+		var tickEn = entities.SingleEntity ();
 		var ens = _groupViewLookAt.GetEntities ();
 		for (int i = 0; i < ens.Length; i++) {
 			var e = ens[i];
 
 			Vector3 targetDir = e.target.e.position.value - e.position.value;
 			var turnSpeed = (!e.hasTurnSpeed || e.turnSpeed.value <= 0) ? ConstantData.DEFAULT_TURN_SPEED : e.turnSpeed.value;
-			var step = turnSpeed * tick.change;
+			var step = turnSpeed * tickEn.tick.change;
 
 			var elsToLookAt = e.viewLookAt.elsToLookAt;
 			for (int j = 0; j < elsToLookAt.Count; j++) {

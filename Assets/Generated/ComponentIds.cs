@@ -63,39 +63,40 @@ public static class ComponentIds {
     public const int Position = 52;
     public const int Projectile = 53;
     public const int ProjectileHoming = 54;
-    public const int ProjectileLaser = 55;
-    public const int ProjectileMark = 56;
-    public const int ProjectileThrowing = 57;
-    public const int ProjectileThrowingParams = 58;
-    public const int ReachedEnd = 59;
-    public const int Rooted = 60;
-    public const int SkillCombat = 61;
-    public const int Skill = 62;
-    public const int SkillEntityRefs = 63;
-    public const int SkillList = 64;
-    public const int SkillSummon = 65;
-    public const int SkillUpgrade = 66;
-    public const int Stunned = 67;
-    public const int Target = 68;
-    public const int Targetable = 69;
-    public const int Tick = 70;
-    public const int TimeSpeed = 71;
-    public const int TimeTotal = 72;
-    public const int Tower = 73;
-    public const int TowerBase = 74;
-    public const int TowerReset = 75;
-    public const int TowerUpgrade = 76;
-    public const int TowerUpgrading = 77;
-    public const int TurnSpeed = 78;
-    public const int View = 79;
-    public const int ViewAnims = 80;
-    public const int ViewCollider = 81;
-    public const int ViewLookAt = 82;
-    public const int ViewSlider = 83;
-    public const int Wave = 84;
-    public const int Wound = 85;
+    public const int ProjectileInstant = 55;
+    public const int ProjectileLaser = 56;
+    public const int ProjectileMark = 57;
+    public const int ProjectileThrowing = 58;
+    public const int ProjectileThrowingParams = 59;
+    public const int ReachedEnd = 60;
+    public const int Rooted = 61;
+    public const int SkillCombat = 62;
+    public const int Skill = 63;
+    public const int SkillEntityRefs = 64;
+    public const int SkillList = 65;
+    public const int SkillSummon = 66;
+    public const int SkillUpgrade = 67;
+    public const int Stunned = 68;
+    public const int Target = 69;
+    public const int Targetable = 70;
+    public const int Tick = 71;
+    public const int TimeSpeed = 72;
+    public const int TimeTotal = 73;
+    public const int Tower = 74;
+    public const int TowerBase = 75;
+    public const int TowerReset = 76;
+    public const int TowerUpgrade = 77;
+    public const int TowerUpgrading = 78;
+    public const int TurnSpeed = 79;
+    public const int View = 80;
+    public const int ViewAnims = 81;
+    public const int ViewCollider = 82;
+    public const int ViewLookAt = 83;
+    public const int ViewSlider = 84;
+    public const int Wave = 85;
+    public const int Wound = 86;
 
-    public const int TotalComponents = 86;
+    public const int TotalComponents = 87;
 
     public static readonly string[] componentNames = {
         "Active",
@@ -153,6 +154,7 @@ public static class ComponentIds {
         "Position",
         "Projectile",
         "ProjectileHoming",
+        "ProjectileInstant",
         "ProjectileLaser",
         "ProjectileMark",
         "ProjectileThrowing",
@@ -242,6 +244,7 @@ public static class ComponentIds {
         typeof(Position),
         typeof(Projectile),
         typeof(ProjectileHoming),
+        typeof(ProjectileInstant),
         typeof(ProjectileLaser),
         typeof(ProjectileMark),
         typeof(ProjectileThrowing),

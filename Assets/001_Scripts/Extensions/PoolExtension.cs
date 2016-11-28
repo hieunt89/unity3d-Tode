@@ -39,6 +39,9 @@ public static class PoolExtension {
 				.AddMoveSpeed(prj.TravelSpeed)
 				.AddInterval(prj.TickInterval);
 			break;
+		case ProjectileType.instant:
+			e.IsProjectileInstant (true);
+			break;
 		default:
 			break;
 		}

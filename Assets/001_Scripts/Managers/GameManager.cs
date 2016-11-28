@@ -66,6 +66,7 @@ public class GameManager : MonoBehaviour {
 				.Add(pools.pool.CreateSystem ( new EnemyWatchHpSystem () ))
 				
 				//Projectile
+				.Add(pools.pool.CreateSystem ( new ProjectileInstantSystem() ))
 				.Add(pools.pool.CreateSystem ( new ProjectileHomingSystem () ))
 				.Add(pools.pool.CreateSystem ( new ProjectileThrowingSystem () ))
 				.Add(pools.pool.CreateSystem ( new ProjectileLaserSystem () ))

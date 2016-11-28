@@ -6,7 +6,8 @@ using System.Collections.Generic;
 public enum ProjectileType{
 	homing,
 	throwing,
-	laser
+	laser,
+	instant
 }
 
 public class Projectile : IComponent {
