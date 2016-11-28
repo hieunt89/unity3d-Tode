@@ -15,14 +15,14 @@ public class EffectMovementUpdateSystem : IReactiveSystem, ISetPool {
 
 	
 	#region IReactiveExecuteSystem implementation
-
+	List<SkillEffect> bufferList;
 	public void Execute (System.Collections.Generic.List<Entity> entities)
 	{
 		if (_groupMovementSlowed.count <= 0) {
 			return;
 		}
 
-		var tick = entities.SingleEntity ().tick.change;
+		var tickEn = entities.SingleEntity ();
 		var ens = _groupMovementSlowed.GetEntities ();
 		for (int i = 0; i < ens.Length; i++) {
 			var efToDur = ens [i].effectMovementList.efToDuration;
@@ -31,14 +31,14 @@ public class EffectMovementUpdateSystem : IReactiveSystem, ISetPool {
 				ens [i].RemoveEffectMovementList ();
 				continue;
 			}
-
-			foreach(KeyValuePair<SkillEffect, float> entry in efToDur)
-			{
-				if (entry.Value > 0) {
-					efToDur [entry.Key] -= tick;
+				
+			bufferList = new List<SkillEffect>(efToDur.Keys);
+			foreach (var item in bufferList) {
+				if (efToDur [item] > 0) {
+					efToDur [item] -= tickEn.tick.change;
 				} else {
-					DeApplySlow (entry.Key.value, ens[i]);
-					efToDur.Remove (entry.Key);
+					DeApplySlow (item.value, ens[i]);
+					efToDur.Remove (item);
 				}
 			}
 		}

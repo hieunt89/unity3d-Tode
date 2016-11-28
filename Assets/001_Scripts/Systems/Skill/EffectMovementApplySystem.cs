@@ -37,7 +37,7 @@ public class EffectMovementApplySystem : IReactiveSystem, IEnsureComponents {
 
 	void ProcessEffectMovement(SkillEffect ef, Entity target){
 		if (!target.hasEffectMovementList) {
-			target.AddEffectMovementList (new Dictionary<SkillEffect, float>());
+			target.AddEffectMovementList (new Dictionary<SkillEffect, float> ());
 		}
 
 		if (!CombatUtility.ReplaceEffectDurationIfDuplicated(ref target.effectMovementList.efToDuration, ef)) {
