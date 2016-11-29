@@ -7,4 +7,6 @@ public static class ConstantString {
 	public const string DataPath = "Assets/Resources/Data/";
 	public const string ResourcesPrefab = "Prefabs/";
 
+	public const string PPSelectedMap = "SelectedMap";
+
 }

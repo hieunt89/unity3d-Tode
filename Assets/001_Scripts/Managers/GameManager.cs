@@ -9,14 +9,14 @@ public class GameManager : MonoBehaviour {
 
 	void Awake() {
 		debug = showDebug;
-		#if !UNITY_EDITOR
-		DIContainer.BindModules ();
-		#endif
-		DataManager.Init();
+
+		UserManager.Init ();
+		DataManager.Init ();
 
 		var pools = Pools.sharedInstance;
 		pools.SetAllPools ();
 		_systems = CreateSystems(pools);
+
 		_systems.Initialize();
 	}
 
@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour {
 				//Effect
 				.Add(pools.pool.CreateSystem ( new EffectMovementApplySystem () ))
 				.Add(pools.pool.CreateSystem ( new EffectMovementUpdateSystem () ))
-				
+
 				//View
 				.Add(pools.pool.CreateSystem ( new TowerCreateViewSystem () ))
 				.Add(pools.pool.CreateSystem ( new EnemyCreateViewSystem () ))

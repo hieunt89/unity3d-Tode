@@ -10,6 +10,7 @@ public class DIContainer {
 	public static void BindModules(){
 		DIContainer.SetModule<IDataUtils> (new JsonUtils ());
 		DIContainer.SetModule<IPrefabUtils> (new PrefabUtils ());
+		DIContainer.SetModule<IUserData> (new PlayerPrefUserData ());
 	}
 
 	public static void SetModule<T>(object module) {

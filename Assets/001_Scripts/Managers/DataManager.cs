@@ -15,7 +15,6 @@ public class DataManager {
 	{
 		get
 		{
-			Init ();
 			return instance;
 		}
 	}
