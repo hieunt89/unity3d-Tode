@@ -5,10 +5,10 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using Lean;
 
-public class TowerUpgradeGUI : HandleEnitityGUI{
+public class TowerUpgradeGUI : HandleTowerSelectGUI{
 	public GameObject prefab;
 
-	public override void HandleEntityClick(Entity e){
+	public override void HandleTowerClick(Entity e){
 		if (!e.hasTower && !e.isTowerBase) {
 			HandleEmptyClick ();
 			return;

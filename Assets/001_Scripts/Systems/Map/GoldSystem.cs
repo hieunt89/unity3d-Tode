@@ -16,6 +16,7 @@ public class GoldSystem : IInitializeSystem, IReactiveSystem, ISetPool {
 	public void Initialize ()
 	{
 		_pool.SetGoldPlayer (ConstantData.INIT_GOLD);
+		Messenger.Broadcast<int> (Events.Game.GOLD_CHANGE, _pool.goldPlayer.value);
 	}
 
 	#endregion

@@ -4,12 +4,12 @@ using Lean;
 using System.Collections.Generic;
 using Entitas;
 
-public class TowerSkillUpgradeGUI : HandleEnitityGUI {
+public class TowerSkillUpgradeGUI : HandleTowerSelectGUI {
 
 	public GameObject prefabGroup;
 	public GameObject prefab;
 
-	public override void HandleEntityClick (Entity e)
+	public override void HandleTowerClick (Entity e)
 	{
 		if (!e.hasTower) {
 			HandleEmptyClick ();

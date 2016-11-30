@@ -3,18 +3,14 @@ using System.Collections;
 using Entitas;
 using Lean;
 
-public class TowerRangeGUI : HandleEnitityGUI {
+public class TowerRangeGUI : HandleTowerSelectGUI {
 	public GameObject rangeObject;
-
-	void Start(){
-		HandleEmptyClick ();
-	}
 
 	public override void HandleEmptyClick(){
 		rangeObject.SetActive (false);
 	}
 
-	public override void HandleEntityClick(Entity e){
+	public override void HandleTowerClick(Entity e){
 		if (!e.hasTower) {
 			HandleEmptyClick ();
 			return;

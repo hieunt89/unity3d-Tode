@@ -4,10 +4,10 @@ using Entitas;
 using UnityEngine.UI;
 using Lean;
 
-public class TowerSellGUI : HandleEnitityGUI {
+public class TowerSellGUI : HandleTowerSelectGUI {
 	public GameObject prefab;
 
-	public override void HandleEntityClick(Entity e){
+	public override void HandleTowerClick(Entity e){
 		if (!e.hasTower) {
 			HandleEmptyClick ();
 			return;

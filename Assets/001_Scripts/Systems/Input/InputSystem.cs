@@ -29,6 +29,7 @@ public class InputSystem : IInitializeSystem, ITearDownSystem, ISetPool {
 		_pool.SetCurrentSelected (null);
 		LeanTouch.OnFingerTap += HandleFingerTap;
 		Messenger.AddListener (Events.Input.ENTITY_DESELECT, HandleEntityDeselect);
+		Messenger.Broadcast (Events.Input.EMPTY_SELECT);
 	}
 	#endregion
 
@@ -43,11 +44,13 @@ public class InputSystem : IInitializeSystem, ITearDownSystem, ISetPool {
 
 		if (Physics.Raycast (ray, out hitInfo)) {
 			e = EntityLink.GetEntity (hitInfo.collider.gameObject);
-			if(e != null && e.isInteractable && e != _pool.currentSelected.e){
-				_pool.ReplaceCurrentSelected (e);
+			if(e != null && e.isInteractable){
+				if (e != _pool.currentSelected.e) {
+					_pool.ReplaceCurrentSelected (e);
+				}
 				Messenger.Broadcast <Entity> (Events.Input.ENTITY_SELECT, e);
 			}
-		} else {
+		}else {
 			_pool.ReplaceCurrentSelected (null);
 			Messenger.Broadcast (Events.Input.EMPTY_SELECT);
 		}

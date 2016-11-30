@@ -29,7 +29,7 @@ public class EnemyReachEndSystem : IReactiveSystem, ISetPool, IEnsureComponents 
 	{
 		for (int i = 0; i < entities.Count; i++) {
 			var e = entities [i];
-			_pool.ReplaceLifePlayer (_pool.lifePlayer.value + e.lifeCount.value);
+			_pool.ReplaceLifePlayer (_pool.lifePlayer.value - e.lifeCount.value);
 			e.IsMarkedForDestroy (true);
 		}
 	}
