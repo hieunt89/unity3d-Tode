@@ -29,11 +29,12 @@ namespace Tode{
 			while (DataManager.Instance == null || UserManager.Instance == null){
 				yield return null;
 			}
+			Messenger.Broadcast (Events.Loading.DONE_INIT);
 			callback (true);
 		}
 
 		public void LoadScene(Scene scene){
-			RealLoadScene (scene.ToString());
+			StartCoroutine( RealLoadScene (scene.ToString()) );
 		}
 
 		IEnumerator RealLoadScene(string scene){

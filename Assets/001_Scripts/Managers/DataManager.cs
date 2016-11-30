@@ -134,6 +134,10 @@ public class DataManager {
 		return list;
 	}
 
+	public Dictionary<string, MapData> GetMapsData(){
+		return mapIdToData;
+	}
+
 	public MapData GetMapData(string id){
 		if (mapIdToData.ContainsKey (id)) {
 			return mapIdToData [id];	

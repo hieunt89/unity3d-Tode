@@ -15,7 +15,13 @@ public class MapSystem : IInitializeSystem, ISetPool {
 	#region IInitializeSystem implementation
 	public void Initialize ()
 	{
-		var data = DataManager.Instance.GetMapData (UserManager.Instance.userData.GetSelectedMap());
+		MapData data;
+		var selectedMap = UserManager.Instance.userData.GetSelectedMap ();
+		if (selectedMap != null) {
+			data = DataManager.Instance.GetMapData (selectedMap);
+		} else {
+			data = DataManager.Instance.GetMapData (0);
+		}
 		if(data != null){
 			_pool.ReplaceMap (data);
 		}
