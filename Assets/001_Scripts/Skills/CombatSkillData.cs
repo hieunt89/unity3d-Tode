@@ -12,6 +12,11 @@ public class CombatSkillData : SkillData {
 	public int damage;
 	public List<SkillEffect> effectList;
 
+	public CombatSkillData ()
+	{
+	}
+	
+
 	public CombatSkillData (string _skillId)
 	{
 		id = _skillId;

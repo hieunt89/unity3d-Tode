@@ -10,5 +10,9 @@ public class InitEditor {
 		Debug.Log("Up and running");
 		DIContainer.BindModules ();
 	}
+
+	public void Quit () {
+		AssetDatabase.SaveAssets ();
+	}
 }
 #endif

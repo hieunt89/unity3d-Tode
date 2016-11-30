@@ -11,4 +11,76 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f936599fe25c4eb383db2cbbe0aee0e, type: 3}
   m_Name: TowerList
   m_EditorClassIdentifier: 
-  towers: []
+  towers:
+  - id: 
+    intId: 0
+    name: 
+    view: {fileID: 0}
+    projectileId: 
+    projectileIndId: 0
+    atkType: 0
+    atkRange: 0
+    minDmg: 0
+    maxDmg: 0
+    atkSpeed: 0
+    atkTime: 0
+    atkPoint: {x: 0, y: 0, z: 0}
+    turnSpeed: 0
+    goldRequired: 0
+    buildTime: 0
+    aoe: 0
+    treeSkillNames: []
+  - id: 
+    intId: 0
+    name: 
+    view: {fileID: 0}
+    projectileId: 
+    projectileIndId: 0
+    atkType: 0
+    atkRange: 0
+    minDmg: 0
+    maxDmg: 0
+    atkSpeed: 0
+    atkTime: 0
+    atkPoint: {x: 0, y: 0, z: 0}
+    turnSpeed: 0
+    goldRequired: 0
+    buildTime: 0
+    aoe: 0
+    treeSkillNames: []
+  - id: 
+    intId: 0
+    name: 
+    view: {fileID: 0}
+    projectileId: 
+    projectileIndId: 0
+    atkType: 0
+    atkRange: 0
+    minDmg: 0
+    maxDmg: 0
+    atkSpeed: 0
+    atkTime: 0
+    atkPoint: {x: 0, y: 0, z: 0}
+    turnSpeed: 0
+    goldRequired: 0
+    buildTime: 0
+    aoe: 0
+    treeSkillNames: []
+  - id: 
+    intId: 0
+    name: 
+    view: {fileID: 0}
+    projectileId: 
+    projectileIndId: 0
+    atkType: 0
+    atkRange: 0
+    minDmg: 0
+    maxDmg: 0
+    atkSpeed: 0
+    atkTime: 0
+    atkPoint: {x: 0, y: 0, z: 0}
+    turnSpeed: 0
+    goldRequired: 0
+    buildTime: 0
+    aoe: 0
+    treeSkillNames: []
