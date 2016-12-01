@@ -16,7 +16,7 @@ public class TowerEditorWindow : EditorWindow {
 	bool toggleAtkPoint = false;
 
 	Vector2 scrollPosition;
-	List<bool> selectedIndexes;
+	List<bool> selectedTowerIndexes;
 
 	ProjectileList existProjectiles;
 	bool toggleProjectile;
@@ -39,14 +39,10 @@ public class TowerEditorWindow : EditorWindow {
 
 	void OnEnable () {
 		towerList = AssetDatabase.LoadAssetAtPath (ConstantString.TowerDataPath, typeof(TowerList)) as TowerList;
-		if (towerList == null) {
-			CreateNewItemList ();
-		}
-		tower = towerList.towers[0];
 
-		selectedIndexes = new List<bool> ();
+		selectedTowerIndexes = new List<bool> ();
 		for (int i = 0; i < towerList.towers.Count ; i++) {
-			selectedIndexes.Add (false);
+			selectedTowerIndexes.Add (false);
 		}
 
 		binartyUtils = new BinaryUtils () as IDataUtils;
@@ -70,6 +66,10 @@ public class TowerEditorWindow : EditorWindow {
 	}
 	void OnGUI()
 	{
+		if (towerList == null) {
+			CreateNewItemList ();
+			return;
+		}
 		switch (viewIndex) {
 		case 0:
 			DrawTowerList ();
@@ -95,18 +95,18 @@ public class TowerEditorWindow : EditorWindow {
 		if (toggleEditMode) {
 			if (GUILayout.Button (isSelectedAll ? "Deselect All" : "Select All")) {
 				isSelectedAll = !isSelectedAll;
-				for (int i = 0; i < selectedIndexes.Count; i++) {
-					selectedIndexes[i] = isSelectedAll;
+				for (int i = 0; i < selectedTowerIndexes.Count; i++) {
+					selectedTowerIndexes[i] = isSelectedAll;
 				}
 			}
 			if (GUILayout.Button ("Delete Selected")) {
 				if (EditorUtility.DisplayDialog ("Are you sure?", 
 					"Do you want to delete all selected data?",
 					"Yes", "No")) {
-					for (int i = selectedIndexes.Count - 1; i >= 0; i--) {
-						if (selectedIndexes[i]) {
+					for (int i = selectedTowerIndexes.Count - 1; i >= 0; i--) {
+						if (selectedTowerIndexes[i]) {
 							towerList.towers.RemoveAt (i);
-							selectedIndexes.RemoveAt (i);
+							selectedTowerIndexes.RemoveAt (i);
 						}
 					}
 					isSelectedAll = false;
@@ -123,13 +123,13 @@ public class TowerEditorWindow : EditorWindow {
 		for (int i = 0; i < towerList.towers.Count; i++) {
 			EditorGUILayout.BeginHorizontal ();
 
-			var btnLabel = towerList.towers[i].intId + " - " + towerList.towers[i].Name;
+			var btnLabel = towerList.towers[i].Id;
 			if (GUILayout.Button (btnLabel)) {
 				towerIndex = i;
 				viewIndex = 1;
 			}
 			GUI.enabled = toggleEditMode;
-			selectedIndexes[i] = EditorGUILayout.Toggle (selectedIndexes[i], GUILayout.Width (30));
+			selectedTowerIndexes[i] = EditorGUILayout.Toggle (selectedTowerIndexes[i], GUILayout.Width (30));
 			GUI.enabled = true;
 			EditorGUILayout.EndHorizontal ();
 
@@ -142,124 +142,120 @@ public class TowerEditorWindow : EditorWindow {
 		GUI.SetNextControlName ("DummyFocus");
 		GUI.Button (new Rect (0,0,0,0), "", GUIStyle.none);
 
-		GUILayout.BeginHorizontal ("box");
+		if (towerList != null) {
+			GUILayout.BeginHorizontal ("box");
 
-		if (GUILayout.Button("<", GUILayout.ExpandWidth(false))) 
-		{
-			if (towerIndex > 1)
-			{	
-				towerIndex --;
-				tower = towerList.towers [towerIndex - 1];
-				SetupSkillTreeIndexes ();
-				GUI.FocusControl ("DummyFocus");
+			if (GUILayout.Button ("<", GUILayout.ExpandWidth (false))) {
+				if (towerIndex > 1) {	
+					towerIndex--;
+					tower = towerList.towers [towerIndex - 1];
+					SetupSkillTreeIndexes ();
+					GUI.FocusControl ("DummyFocus");
+				}
+
+			}
+			if (GUILayout.Button (">", GUILayout.ExpandWidth (false))) {
+				if (towerIndex < towerList.towers.Count) {
+					towerIndex++;
+					tower = towerList.towers [towerIndex - 1];
+					SetupSkillTreeIndexes ();
+					GUI.FocusControl ("Dummy");
+				}
 			}
 
-		}
-		if (GUILayout.Button(">", GUILayout.ExpandWidth(false))) 
-		{
-			if (towerIndex < towerList.towers.Count) 
-			{
-				towerIndex ++;
-				tower = towerList.towers [towerIndex - 1];
-				SetupSkillTreeIndexes ();
-				GUI.FocusControl ("Dummy");
+			GUILayout.Space (100);
+
+			if (GUILayout.Button ("Add", GUILayout.ExpandWidth (false))) {
+				AddTowerData ();
 			}
-		}
+			if (GUILayout.Button ("Delete", GUILayout.ExpandWidth (false))) {
+				DeleteTowerData (towerIndex - 1);
+			}
 
-		GUILayout.Space(100);
+			GUILayout.FlexibleSpace ();
 
-		if (GUILayout.Button("Add", GUILayout.ExpandWidth(false))) 
-		{
-			AddTowerData();
-		}
-		if (GUILayout.Button("Delete", GUILayout.ExpandWidth(false))) 
-		{
-			DeleteTowerData (towerIndex - 1);
-		}
-
-		GUILayout.FlexibleSpace ();
-
-		if (GUILayout.Button("Back", GUILayout.ExpandWidth(false))) 
-		{
-			viewIndex = 0;
-		}
-		GUILayout.EndHorizontal ();
-
-
-		if (towerList.towers == null)
-			Debug.Log("wtf");
-		if (towerList.towers.Count > 0) {
-			GUILayout.BeginHorizontal ();
-			towerIndex = Mathf.Clamp (EditorGUILayout.IntField ("Current Tower", towerIndex, GUILayout.ExpandWidth(false)), 1, towerList.towers.Count);	// important
-			EditorGUILayout.LabelField ("of   " +  towerList.towers.Count.ToString() + "  items", "", GUILayout.ExpandWidth(false));
+			if (GUILayout.Button ("Back", GUILayout.ExpandWidth (false))) {
+				viewIndex = 0;
+			}
 			GUILayout.EndHorizontal ();
-			GUILayout.Space(10);
 
+			if (towerList.towers.Count > 0) {
+				GUILayout.BeginHorizontal ();
+				towerIndex = Mathf.Clamp (EditorGUILayout.IntField ("Current Tower", towerIndex, GUILayout.ExpandWidth (false)), 1, towerList.towers.Count);	// important
+				EditorGUILayout.LabelField ("of   " + towerList.towers.Count.ToString () + "  items", "", GUILayout.ExpandWidth (false));
+				GUILayout.EndHorizontal ();
+				GUILayout.Space (10);
 
-
-			tower.Id = EditorGUILayout.TextField ("Id", tower.Id);
-			tower.Name = EditorGUILayout.TextField ("Name", tower.Name);
+				tower = towerList.towers[towerIndex];
+				tower.Id = EditorGUILayout.TextField ("Id", tower.Id);
+				tower.Name = EditorGUILayout.TextField ("Name", tower.Name);
 	
-			tower.View = (GameObject) EditorGUILayout.ObjectField ("Tower GO", tower.View, typeof(GameObject), true);
+				tower.View = (GameObject)EditorGUILayout.ObjectField ("Tower GO", tower.View, typeof(GameObject), true);
 	
-			GUI.enabled = tower.View;
-			if (tower.View) {
-				tower.AtkPoint = tower.View.transform.InverseTransformPoint (tower.AtkPoint);
-			}
-			tower.AtkPoint = EditorGUILayout.Vector3Field ("Attack Point", tower.AtkPoint);
-			GUI.enabled = true;
-
-			projectileIndex = EditorGUILayout.Popup ("Projectile", projectileIndex, projectileIds.ToArray());
-			tower.ProjectileIndId = projectileIndex;
-	
-			GUI.enabled = existProjectiles.projectiles.Count > 0;
-			GUILayout.BeginVertical ("box");
-			toggleProjectile = EditorGUILayout.Foldout (toggleProjectile, "Projectile Detail");
-			if (toggleProjectile && existProjectiles.projectiles.Count > 0) {
-				EditorGUILayout.LabelField ("Name", existProjectiles.projectiles[projectileIndex].Name);
-				EditorGUILayout.LabelField ("Type", existProjectiles.projectiles[projectileIndex].Type.ToString ());
-				EditorGUILayout.LabelField ("TravelSpeed", existProjectiles.projectiles[projectileIndex].TravelSpeed.ToString ());
-				EditorGUILayout.LabelField ("Duration", existProjectiles.projectiles[projectileIndex].Duration.ToString ());
-				EditorGUILayout.LabelField ("MaxDmgBuildTime", existProjectiles.projectiles[projectileIndex].MaxDmgBuildTime.ToString ());
-				EditorGUILayout.LabelField ("TickInterval", existProjectiles.projectiles[projectileIndex].TickInterval.ToString ());
-			}
-			GUILayout.EndVertical ();
-			GUI.enabled = true;
-	
-			tower.AtkType =  (AttackType) EditorGUILayout.EnumPopup ("Attack Type", tower.AtkType);
-			tower.AtkRange = EditorGUILayout.FloatField ("Tower Range", tower.AtkRange);
-			tower.MinDmg = EditorGUILayout.IntField ("Min Damage", tower.MinDmg);
-			tower.MaxDmg = EditorGUILayout.IntField ("Max Damage", tower.MaxDmg);
-			tower.AtkSpeed = EditorGUILayout.FloatField ("Attack Speed", tower.AtkSpeed);
-			tower.AtkTime = EditorGUILayout.FloatField ("Attack Time", tower.AtkTime);
-			tower.TurnSpeed = EditorGUILayout.FloatField ("Turn Speed", tower.TurnSpeed);
-
-			tower.GoldRequired = EditorGUILayout.IntField ("Gold Cost", tower.GoldRequired);
-			tower.BuildTime = EditorGUILayout.FloatField ("Build Time", tower.BuildTime);
-			tower.Aoe = EditorGUILayout.FloatField ("AOE", tower.Aoe);
-	
-			toggleSkillTrees = EditorGUILayout.Foldout (toggleSkillTrees, "Skill Trees " + tower.TreeSkillNames.Count);
-			if (toggleSkillTrees) {
-				for (int skillTreeIndex = 0; skillTreeIndex < tower.TreeSkillNames.Count; skillTreeIndex++) {
-					GUILayout.BeginHorizontal ();
-					skillTreeIndexes[skillTreeIndex] = EditorGUILayout.Popup (skillTreeIndexes[skillTreeIndex], existSkillTreeIDs.ToArray ());
-					tower.TreeSkillNames[skillTreeIndex] = existSkillTreeIDs [skillTreeIndexes[skillTreeIndex]];
-					if (GUILayout.Button ("Remove")) {
-						tower.TreeSkillNames.RemoveAt (skillTreeIndex);
-						skillTreeIndexes.RemoveAt (skillTreeIndex);
-						continue;
-					}
-					GUILayout.EndHorizontal ();
+				GUI.enabled = tower.View;
+				if (tower.View) {
+					tower.AtkPoint = tower.View.transform.InverseTransformPoint (tower.AtkPoint);
 				}
-				GUI.enabled = existSkillTreeIDs.Count > 0;
-				if (GUILayout.Button ("Add Skill Tree")) {
-					tower.TreeSkillNames.Add ("new");
-					skillTreeIndexes.Add (0);
-				}
+				tower.AtkPoint = EditorGUILayout.Vector3Field ("Attack Point", tower.AtkPoint);
 				GUI.enabled = true;
+
+				if (projectileIds.Count > 0) {
+					projectileIndex = EditorGUILayout.Popup ("Projectile", projectileIndex, projectileIds.ToArray ());
+					tower.ProjectileId = projectileIds [projectileIndex];
+
+					var selectedProjectile = existProjectiles.projectiles [projectileIndex];
+					GUILayout.BeginVertical ("box");
+
+					toggleProjectile = EditorGUILayout.Foldout (toggleProjectile, "Projectile Detail");
+					if (toggleProjectile) {
+						EditorGUILayout.LabelField ("Name", selectedProjectile.Name);
+						EditorGUILayout.LabelField ("Type", selectedProjectile.Type.ToString ());
+						EditorGUILayout.LabelField ("TravelSpeed", selectedProjectile.TravelSpeed.ToString ());
+						EditorGUILayout.LabelField ("Duration", selectedProjectile.Duration.ToString ());
+						EditorGUILayout.LabelField ("MaxDmgBuildTime", selectedProjectile.MaxDmgBuildTime.ToString ());
+						EditorGUILayout.LabelField ("TickInterval", selectedProjectile.TickInterval.ToString ());
+					}
+					GUILayout.EndVertical ();
+				}
+	
+				tower.AtkType = (AttackType)EditorGUILayout.EnumPopup ("Attack Type", tower.AtkType);
+				tower.AtkRange = EditorGUILayout.FloatField ("Tower Range", tower.AtkRange);
+				tower.MinDmg = EditorGUILayout.IntField ("Min Damage", tower.MinDmg);
+				tower.MaxDmg = EditorGUILayout.IntField ("Max Damage", tower.MaxDmg);
+				tower.AtkSpeed = EditorGUILayout.FloatField ("Attack Speed", tower.AtkSpeed);
+				tower.AtkTime = EditorGUILayout.FloatField ("Attack Time", tower.AtkTime);
+				tower.TurnSpeed = EditorGUILayout.FloatField ("Turn Speed", tower.TurnSpeed);
+
+				tower.GoldRequired = EditorGUILayout.IntField ("Gold Cost", tower.GoldRequired);
+				tower.BuildTime = EditorGUILayout.FloatField ("Build Time", tower.BuildTime);
+				tower.Aoe = EditorGUILayout.FloatField ("AOE", tower.Aoe);
+	
+				toggleSkillTrees = EditorGUILayout.Foldout (toggleSkillTrees, "Skill Trees " + tower.TreeSkillNames.Count);
+				if (toggleSkillTrees) {
+					for (int skillTreeIndex = 0; skillTreeIndex < tower.TreeSkillNames.Count; skillTreeIndex++) {
+						GUILayout.BeginHorizontal ();
+						skillTreeIndexes [skillTreeIndex] = EditorGUILayout.Popup (skillTreeIndexes [skillTreeIndex], existSkillTreeIDs.ToArray ());
+						tower.TreeSkillNames [skillTreeIndex] = existSkillTreeIDs [skillTreeIndexes [skillTreeIndex]];
+						if (GUILayout.Button ("Remove")) {
+							tower.TreeSkillNames.RemoveAt (skillTreeIndex);
+							skillTreeIndexes.RemoveAt (skillTreeIndex);
+							continue;
+						}
+						GUILayout.EndHorizontal ();
+					}
+					GUI.enabled = existSkillTreeIDs.Count > 0;
+					if (GUILayout.Button ("Add Skill Tree")) {
+						tower.TreeSkillNames.Add ("new");
+						skillTreeIndexes.Add (0);
+					}
+					GUI.enabled = true;
+				}
+			} else {
+				GUILayout.Label ("This Tower List is Empty.");
 			}
-		} else {
-			GUILayout.Label ("This Tower List is Empty.");
+		}
+		if (GUI.changed) {
+			EditorUtility.SetDirty (towerList);
 		}
 	}
 
@@ -291,24 +287,18 @@ public class TowerEditorWindow : EditorWindow {
 
 	void AddTowerData () {
 		TowerData newTowerData = new TowerData();
-		int towerId = 0;
-		if (towerList.towers.Count > 0){
-			towerId =towerList.towers [towerList.towers.Count - 1].intId + 1;
-		}else {
-			towerId = 0;
-		}
-		newTowerData.intId = towerId;
+		newTowerData.Id = Guid.NewGuid().ToString();
 		towerList.towers.Add (newTowerData);
-		selectedIndexes.Add (false);
+		selectedTowerIndexes.Add (false);
 		towerIndex = towerList.towers.Count;
 	}
 
 	void DeleteTowerData (int index) {
 		if (EditorUtility.DisplayDialog ("Are you sure?", 
-			"Do you want to delete " + towerList.towers[index].intId + " data?",
+			"Do you want to delete " + towerList.towers[index].Id + " data?",
 			"Yes", "No")) {
 			towerList.towers.RemoveAt (index);
-			selectedIndexes.RemoveAt (index);
+			selectedTowerIndexes.RemoveAt (index);
 		}
 	}
 
@@ -321,8 +311,8 @@ public class TowerEditorWindow : EditorWindow {
 		projectileIds = new List<string> ();
 		if (existProjectiles.projectiles.Count > 0) {
 			for (int i = 0; i < existProjectiles.projectiles.Count; i++) {
-				projectileIds.Add (existProjectiles.projectiles[i].intId + " - " + existProjectiles.projectiles[i].Name);
-				if (tower.ProjectileIndId  == existProjectiles.projectiles[i].intId) {
+				projectileIds.Add (existProjectiles.projectiles[i].Id);
+				if (tower.ProjectileId == existProjectiles.projectiles[i].Id) {
 					projectileIndex = i;
 				}
 			}				
@@ -337,7 +327,6 @@ public class TowerEditorWindow : EditorWindow {
 			if (existTrees[i].treeType == TreeType.CombatSkills || existTrees[i].treeType == TreeType.SummonSkills ) 
 				existSkillTreeIDs.Add(existTrees[i].id);
 		}
-//		skillTreeIndexes.Clear();
 		skillTreeIndexes = new List<int> ();
 		if (existSkillTreeIDs.Count > 0) {
 			for (int i = 0; i < tower.TreeSkillNames.Count; i++) {

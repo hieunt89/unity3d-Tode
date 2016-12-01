@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73f9a7d54abd747ddb7f06279174d00a, type: 3}
+  m_Name: CombatSkillList
+  m_EditorClassIdentifier: 
+  combatSkills:
+  - id: a1e2180b-d9db-4f22-880e-f5e6814f2556
+    intId: 0
+    name: 
+    description: 
+    spritePath: 
+    goldCost: 0
+    cooldown: 0
+    castRange: 0
+    castTime: 0
+    projectileId: b42c6410-cfc2-469f-b90d-d33098bb867d
+    aoe: 0
+    attackType: 0
+    damage: 0
+    effectList:
+    - skillId: 
+      effectType: 0
+      value: 0
+      duration: 0
+  - id: 1d9fb007-fae8-4175-9c94-58e3730ab164
+    intId: 0
+    name: 
+    description: 
+    spritePath: 
+    goldCost: 0
+    cooldown: 0
+    castRange: 0
+    castTime: 0
+    projectileId: b42c6410-cfc2-469f-b90d-d33098bb867d
+    aoe: 0
+    attackType: 0
+    damage: 0
+    effectList: []
+  - id: cddc2536-442c-483c-9034-e48febe42842
+    intId: 0
+    name: 
+    description: 
+    spritePath: 
+    goldCost: 0
+    cooldown: 0
+    castRange: 0
+    castTime: 0
+    projectileId: b42c6410-cfc2-469f-b90d-d33098bb867d
+    aoe: 0
+    attackType: 0
+    damage: 0
+    effectList: []
+  - id: 5e2aaaf2-1058-47ae-b242-b981397807e6
+    intId: 0
+    name: 
+    description: 
+    spritePath: 
+    goldCost: 0
+    cooldown: 0
+    castRange: 0
+    castTime: 0
+    projectileId: b42c6410-cfc2-469f-b90d-d33098bb867d
+    aoe: 0
+    attackType: 0
+    damage: 0
+    effectList: []

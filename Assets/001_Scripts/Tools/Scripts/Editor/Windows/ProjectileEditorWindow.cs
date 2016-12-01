@@ -25,9 +25,6 @@ public class ProjectileEditorWindow : EditorWindow {
 	void OnEnable () {
 		
 		projectileList = AssetDatabase.LoadAssetAtPath (ConstantString.ProjectileDataPath, typeof(ProjectileList)) as ProjectileList;
-		if (projectileList == null) {
-			CreateNewItemList ();
-		}
 
 		selectedIndexes = new List<bool> ();
 		for (int i = 0; i < projectileList.projectiles.Count ; i++) {
@@ -37,6 +34,11 @@ public class ProjectileEditorWindow : EditorWindow {
 
 	void OnGUI()
 	{
+		if (projectileList == null) {
+			CreateNewItemList ();
+			return;
+		}
+
 		switch (viewIndex) {
 		case 0:
 			DrawProjectileList ();
@@ -91,7 +93,7 @@ public class ProjectileEditorWindow : EditorWindow {
 		for (int i = 0; i < projectileList.projectiles.Count; i++) {
 			EditorGUILayout.BeginHorizontal ();
 
-			var btnLabel = projectileList.projectiles[i].Name;
+			var btnLabel = projectileList.projectiles[i].Id;
 			if (GUILayout.Button (btnLabel)) {
 				projectileIndex = i;
 				viewIndex = 1;

@@ -5,12 +5,10 @@ using System;
 [Serializable]
 public class TowerData {
 	[SerializeField] public string id;
-	[SerializeField] public int intId;
 	[SerializeField] private string name;
 	[SerializeField] private GameObject view;
 
 	[SerializeField] private string projectileId;
-	[SerializeField] private int projectileIndId;
 
 	[SerializeField] private AttackType atkType;
 	[SerializeField] private float atkRange;
@@ -69,16 +67,6 @@ public class TowerData {
 			projectileId = value;
 		}
 	}
-
-	public int ProjectileIndId {
-		get {
-			return this.projectileIndId;
-		}
-		set {
-			projectileIndId = value;
-		}
-	}
-
 
 	public AttackType AtkType {
 		get {
