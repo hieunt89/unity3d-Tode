@@ -1,9 +1,0 @@
-{
-    "id": "projectile2",
-    "name": "lazer",
-    "type": 2,
-    "travelSpeed": 0.0,
-    "duration": 4.0,
-    "maxDmgBuildTime": 5.0,
-    "tickInterval": 1.0
-}

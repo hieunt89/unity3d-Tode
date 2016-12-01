@@ -288,15 +288,6 @@ public class TowerEditorWindow : EditorWindow {
 		}
 	}
 
-//	[MenuItem("Assets/Create/Inventory Item List")]
-//	public TowerList CreateTowerList()
-//	{
-//		TowerList asset = ScriptableObject.CreateInstance<TowerList>();
-//		dataAssetUtils.CreateData <TowerList> (asset);
-//
-//		return asset;
-//	}
-
 	void AddTowerData () {
 		TowerData newTowerData = new TowerData();
 		newTowerData.Id = Guid.NewGuid().ToString();

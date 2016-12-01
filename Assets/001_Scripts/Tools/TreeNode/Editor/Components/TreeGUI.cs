@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 
 public class TreeGUI : IInjectDataUtils {
+	public TreeList treeList;
 	public Tree<string> treeData;
 	public List<NodeGUI> nodes;
 	public NodeGUI selectedNode;
@@ -29,8 +30,8 @@ public class TreeGUI : IInjectDataUtils {
 	public TreeGUI (TreeType _treeType, string _treeName) {
 		SetDataUtils (DIContainer.GetModule<IDataUtils> ());
 
-		treeData = new Tree<string> (_treeType, _treeName);
-
+//		treeData = new Tree<string> (_treeType, _treeName);
+		treeList = ScriptableObject.CreateInstance <TreeList> ();
 		if (nodes == null) {
 			nodes = new List<NodeGUI> ();
 		}
@@ -43,7 +44,7 @@ public class TreeGUI : IInjectDataUtils {
 			if (towerData != null){
 				existIds = new List<string> ();
 				for (int i = 0; i < towerData.Count; i++) {
-					existIds.Add(towerData[i].Id);
+					existIds.Add(towerData[i].Name);
 				}
 			}
 			break;
@@ -52,7 +53,7 @@ public class TreeGUI : IInjectDataUtils {
 			if (combatSkillData != null){
 				existIds = new List<string> ();
 				for (int i = 0; i < combatSkillData.Count; i++) {
-					existIds.Add(combatSkillData[i].id);
+					existIds.Add(combatSkillData[i].name);
 				}
 			}
 			break;
@@ -61,7 +62,7 @@ public class TreeGUI : IInjectDataUtils {
 			if (summonSkillData != null){
 				existIds = new List<string> ();
 				for (int i = 0; i < summonSkillData.Count; i++) {
-					existIds.Add(summonSkillData[i].id);
+					existIds.Add(summonSkillData[i].name);
 				}
 			}
 			break;

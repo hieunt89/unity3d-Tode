@@ -26,12 +26,14 @@ public class ProjectileEditorWindow : EditorWindow {
 
 	void OnEnable () {
 		dataAssetUtils = DIContainer.GetModule <IDataUtils> ();
-		projectileList = AssetDatabase.LoadAssetAtPath (ConstantString.ProjectileDataPath, typeof(ProjectileList)) as ProjectileList;
+		LoadExistData ();
+//		projectileList = AssetDatabase.LoadAssetAtPath (ConstantString.ProjectileDataPath, typeof(ProjectileList)) as ProjectileList;
 
-		selectedIndexes = new List<bool> ();
-		for (int i = 0; i < projectileList.projectiles.Count ; i++) {
-			selectedIndexes.Add (false);
-		}
+
+	}
+
+	void OnFocus () {
+		LoadExistData ();
 	}
 
 	void OnGUI()
@@ -199,22 +201,25 @@ public class ProjectileEditorWindow : EditorWindow {
 		}
 	}
 
+	void LoadExistData () {
+		projectileList = dataAssetUtils.LoadData <ProjectileList> ();
+		if (projectileList == null) {
+			CreateNewItemList ();
+		}
+		selectedIndexes = new List<bool> ();
+		for (int i = 0; i < projectileList.projectiles.Count ; i++) {
+			selectedIndexes.Add (false);
+		}
+	}
 	void CreateNewItemList () {
 		projectileIndex = 1;
-		projectileList = CreateProjectileList();
+		projectileList = ScriptableObject.CreateInstance<ProjectileList>();
+		dataAssetUtils.CreateData <ProjectileList> (projectileList);
+
 		if (projectileList) 
 		{
 			projectileList.projectiles = new List<ProjectileData>();
 		}
-	}
-
-//	[MenuItem("Assets/Create/Inventory Item List")]
-	public static ProjectileList  CreateProjectileList()
-	{
-		ProjectileList asset = ScriptableObject.CreateInstance<ProjectileList>();
-//		AssetDatabase.CreateAsset(asset, ConstantString.ProjectileDataPath);
-//		AssetDatabase.SaveAssets();
-		return asset;
 	}
 
 	void DeleteProjectileData (int index) 

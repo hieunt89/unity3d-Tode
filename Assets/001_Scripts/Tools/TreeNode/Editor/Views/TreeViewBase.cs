@@ -11,7 +11,8 @@ public class TreeViewBase {
 	protected GUISkin viewSkin;
 	protected TreeGUI currentTree;
 
-	protected IDataUtils binaryUtils;
+//	protected IDataUtils binaryUtils;
+	protected IDataUtils dataAssetUtils;
 
 	public TreeViewBase () {
 
@@ -43,7 +44,7 @@ public class TreeViewBase {
 	}
 
 	protected void GetEditorSkin () {
-		binaryUtils = new GameAssetUtils () as IDataUtils;
+		dataAssetUtils = new GameAssetUtils () as IDataUtils;
 		viewSkin = (GUISkin)Resources.Load ("EditorSkins/TreeNodeEditorSkin");
 	}
 }

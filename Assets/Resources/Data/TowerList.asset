@@ -11,4 +11,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f936599fe25c4eb383db2cbbe0aee0e, type: 3}
   m_Name: TowerList
   m_EditorClassIdentifier: 
-  towers: []
+  towers:
+  - id: e5070f64-b895-49c3-94af-21eba7d520ef
+    name: 
+    view: {fileID: 0}
+    projectileId: 
+    atkType: 0
+    atkRange: 0
+    minDmg: 0
+    maxDmg: 0
+    atkSpeed: 0
+    atkTime: 0
+    atkPoint: {x: 0, y: 0, z: 0}
+    turnSpeed: 0
+    goldRequired: 0
+    buildTime: 0
+    aoe: 0
+    treeSkillNames: []
+  - id: c7f7d213-892a-46e0-ac48-65b5404b043c
+    name: 
+    view: {fileID: 0}
+    projectileId: b42c6410-cfc2-469f-b90d-d33098bb867d
+    atkType: 0
+    atkRange: 0
+    minDmg: 0
+    maxDmg: 0
+    atkSpeed: 0
+    atkTime: 0
+    atkPoint: {x: 0, y: 0, z: 0}
+    turnSpeed: 0
+    goldRequired: 0
+    buildTime: 0
+    aoe: 0
+    treeSkillNames: []
+  - id: c9de4c63-5d83-4ec2-9ef3-b1d01af94700
+    name: 
+    view: {fileID: 0}
+    projectileId: b42c6410-cfc2-469f-b90d-d33098bb867d
+    atkType: 0
+    atkRange: 0
+    minDmg: 0
+    maxDmg: 0
+    atkSpeed: 0
+    atkTime: 0
+    atkPoint: {x: 0, y: 0, z: 0}
+    turnSpeed: 0
+    goldRequired: 0
+    buildTime: 0
+    aoe: 0
+    treeSkillNames: []

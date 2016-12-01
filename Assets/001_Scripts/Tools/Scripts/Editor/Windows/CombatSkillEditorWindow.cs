@@ -9,7 +9,7 @@ public class CombatSkillEditorWindow : EditorWindow {
 	public CombatSkillList combatSkillList;
 	CombatSkillData combatSkill;
 
-	ProjectileList existProjectiles;
+	List <ProjectileData> existProjectiles;
 	List<string> projectileIds;
 	int projectileIndex;
 	bool toggleProjectile;
@@ -23,6 +23,7 @@ public class CombatSkillEditorWindow : EditorWindow {
 	bool isSelectedAll = false;
 	List<bool> selectedIndexes;
 
+	IDataUtils dataAssetUtils;
 
 	[MenuItem("Tode/Combat Skill Editor &P")]
 	public static void ShowWindow()
@@ -32,16 +33,13 @@ public class CombatSkillEditorWindow : EditorWindow {
 	}
 
 	void OnEnable () {
-
-		combatSkillList = AssetDatabase.LoadAssetAtPath (ConstantString.CombatSkillDataPath, typeof(CombatSkillList)) as CombatSkillList;
-
-		selectedIndexes = new List<bool> ();
-		for (int i = 0; i < combatSkillList.combatSkills.Count ; i++) {
-			selectedIndexes.Add (false);
-		}
+		dataAssetUtils = DIContainer.GetModule <IDataUtils> ();
 
 		LoadExistData ();
 		SetupProjectileIDs ();
+
+
+
 	}
 
 	void OnFocus () {
@@ -52,7 +50,7 @@ public class CombatSkillEditorWindow : EditorWindow {
 	void OnGUI()
 	{
 		if (combatSkillList == null) {
-			CreateNewItemList ();
+			CreateNewList ();
 			return;
 		}
 		switch (viewIndex) {
@@ -112,6 +110,11 @@ public class CombatSkillEditorWindow : EditorWindow {
 			if (GUILayout.Button (btnLabel)) {
 				combatSkillIndex = i;
 				viewIndex = 1;
+
+				combatSkill = combatSkillList.combatSkills[combatSkillIndex];
+				if (combatSkill.effectList == null) {
+					combatSkill.effectList = new List<SkillEffect> ();
+				}
 			}
 			GUI.enabled = toggleEditMode;
 			selectedIndexes[i] = EditorGUILayout.Toggle (selectedIndexes[i], GUILayout.Width (30));
@@ -191,7 +194,7 @@ public class CombatSkillEditorWindow : EditorWindow {
 					projectileIndex = EditorGUILayout.Popup ("Projectile", projectileIndex, projectileIds.ToArray());
 					combatSkill.projectileId = projectileIds[projectileIndex];
 		
-					var selectedProjectile = existProjectiles.projectiles [projectileIndex];
+					var selectedProjectile = existProjectiles [projectileIndex];
 					GUILayout.BeginVertical ("box");
 					toggleProjectile = EditorGUILayout.Foldout (toggleProjectile, "Projectile Detail");
 					if (toggleProjectile) {
@@ -260,23 +263,27 @@ public class CombatSkillEditorWindow : EditorWindow {
 
 	}
 
-	void CreateNewItemList () {
+	void LoadExistData () {
+		existProjectiles = dataAssetUtils.LoadAllData <ProjectileData> ();
+		if (existProjectiles == null) {
+			CreateNewList ();
+		}
+		selectedIndexes = new List<bool> ();
+		for (int i = 0; i < combatSkillList.combatSkills.Count ; i++) {
+			selectedIndexes.Add (false);
+		}
+	}
+
+	void CreateNewList () {
 		combatSkillIndex = 1;
-		combatSkillList = CreateProjectileList();
+
+		combatSkillList = ScriptableObject.CreateInstance<CombatSkillList>();
+		dataAssetUtils.CreateData <CombatSkillList> (combatSkillList);
+
 		if (combatSkillList) 
 		{
 			combatSkillList.combatSkills = new List<CombatSkillData>();
 		}
-	}
-
-	//	[MenuItem("Assets/Create/Inventory Item List")]
-	public static CombatSkillList CreateProjectileList()
-	{
-		CombatSkillList asset = ScriptableObject.CreateInstance<CombatSkillList>();
-
-		AssetDatabase.CreateAsset(asset, ConstantString.CombatSkillDataPath);
-		AssetDatabase.SaveAssets();
-		return asset;
 	}
 
 	void DeleteCombatSkillData (int index) 
@@ -297,13 +304,11 @@ public class CombatSkillEditorWindow : EditorWindow {
 		combatSkillIndex = combatSkillList.combatSkills.Count;
 	}
 
-	void LoadExistData () {
-		existProjectiles = AssetDatabase.LoadAssetAtPath (ConstantString.ProjectileDataPath, typeof (ProjectileList)) as ProjectileList;
-	}
+
 	void SetupProjectileIDs () {
 		projectileIds = new List<string> ();
-		for (int i = 0; i < existProjectiles.projectiles.Count; i++) {
-			projectileIds.Add(existProjectiles.projectiles[i].Id);
+		for (int i = 0; i < existProjectiles.Count; i++) {
+			projectileIds.Add(existProjectiles[i].Id);
 		}
 	}
 }

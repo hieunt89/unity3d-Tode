@@ -1,9 +1,0 @@
-{
-    "id": "projectile1",
-    "name": "arrow",
-    "type": 0,
-    "travelSpeed": 10.0,
-    "duration": 0.0,
-    "maxDmgBuildTime": 0.0,
-    "tickInterval": 0.0
-}
