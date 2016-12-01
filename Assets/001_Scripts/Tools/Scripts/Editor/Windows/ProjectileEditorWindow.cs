@@ -15,6 +15,8 @@ public class ProjectileEditorWindow : EditorWindow {
 	bool isSelectedAll = false;
 	List<bool> selectedIndexes;
 
+	IDataUtils dataAssetUtils;
+
 	[MenuItem("Tode/Projectile Editor &P")]
 	public static void ShowWindow()
 	{
@@ -23,7 +25,7 @@ public class ProjectileEditorWindow : EditorWindow {
 	}
 
 	void OnEnable () {
-		
+		dataAssetUtils = DIContainer.GetModule <IDataUtils> ();
 		projectileList = AssetDatabase.LoadAssetAtPath (ConstantString.ProjectileDataPath, typeof(ProjectileList)) as ProjectileList;
 
 		selectedIndexes = new List<bool> ();
@@ -197,14 +199,6 @@ public class ProjectileEditorWindow : EditorWindow {
 		}
 	}
 
-	void OnDestroy () {
-
-	}
-
-	void OpenItemList () {
-
-	}
-
 	void CreateNewItemList () {
 		projectileIndex = 1;
 		projectileList = CreateProjectileList();
@@ -218,9 +212,8 @@ public class ProjectileEditorWindow : EditorWindow {
 	public static ProjectileList  CreateProjectileList()
 	{
 		ProjectileList asset = ScriptableObject.CreateInstance<ProjectileList>();
-
-		AssetDatabase.CreateAsset(asset, ConstantString.ProjectileDataPath);
-		AssetDatabase.SaveAssets();
+//		AssetDatabase.CreateAsset(asset, ConstantString.ProjectileDataPath);
+//		AssetDatabase.SaveAssets();
 		return asset;
 	}
 

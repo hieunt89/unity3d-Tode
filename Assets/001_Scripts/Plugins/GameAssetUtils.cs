@@ -6,17 +6,25 @@ using System;
 
 
 public class GameAssetUtils : IDataUtils {
-	public void CreateData<T> (T data)
-	{
+
+	public void CreateData<T> (T data) where T : ScriptableObject {
+//		T asset = ScriptableObject.CreateInstance<T> ();
+		string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath ("Assets/Resources/Data/" + typeof(T).Name + ".asset");
+		AssetDatabase.CreateAsset (data, assetPathAndName);
+		AssetDatabase.SaveAssets ();
+		AssetDatabase.Refresh();
+		EditorUtility.FocusProjectWindow ();
+		Selection.activeObject = data;
 	}
 
-	public T LoadData<T> ()
-	{
-		return default (T);
+	public T LoadData<T> () where T : class {
+		var path = "Assets/Resources/Data/" + typeof(T).Name + ".asset";
+		var data = AssetDatabase.LoadAssetAtPath (path, typeof(T)) as T;
+		return data;
+
 	}
 
-	public List<T> LoadAllData<T> ()
-	{
+	public List<T> LoadAllData<T> ()  {
 		List<T> list = new List<T> ();
 
 		if (typeof(T) == typeof(TowerData)) {
@@ -38,7 +46,6 @@ public class GameAssetUtils : IDataUtils {
 		return default (List<T>);
 	}
 
-	public void DeleteData (string path)
-	{
+	public void DeleteData (string path) {
 	}
 }

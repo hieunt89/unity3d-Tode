@@ -93,7 +93,7 @@ public class TreeNodeWorkView : TreeViewBase {
 			break;
 		case "3":
 //			TreeEditorUtils.SaveTree (currentTree.treeData);
-			binaryUtils.CreateData <Tree<string>> (currentTree.treeData);
+//			binaryUtils.CreateData <Tree<string>> (currentTree.treeData);
 			break;
 		case "4":
 			TreeEditorUtils.UnloadTree ();

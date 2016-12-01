@@ -40,8 +40,8 @@ public class DataManager {
 
 	public DataManager(){
 		gameAssetUtils = DIContainer.GetModule <IDataUtils> ();
-		binartyUtils = new BinaryUtils () as IDataUtils;
-		jsonUtils = new BinaryUtils () as IDataUtils; 
+		binartyUtils = new GameAssetUtils () as IDataUtils;
+		jsonUtils = new GameAssetUtils () as IDataUtils; 
 
 		LoadData <ProjectileData>(out projectileIdToData);
 		LoadData <TowerData> (out towerIdToData);

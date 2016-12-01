@@ -43,7 +43,7 @@ public class TreeViewBase {
 	}
 
 	protected void GetEditorSkin () {
-		binaryUtils = new BinaryUtils () as IDataUtils;
+		binaryUtils = new GameAssetUtils () as IDataUtils;
 		viewSkin = (GUISkin)Resources.Load ("EditorSkins/TreeNodeEditorSkin");
 	}
 }
