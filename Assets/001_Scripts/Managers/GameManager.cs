@@ -41,6 +41,8 @@ public class GameManager : MonoBehaviour {
 				.Add(pools.pool.CreateSystem ( new GoldSystem () ))
 				.Add(pools.pool.CreateSystem ( new PathSystem () ))
 				.Add(pools.pool.CreateSystem ( new WaveSystem () ))
+
+				//Input
 				.Add(pools.pool.CreateSystem ( new InputSystem () ))
 
 				//Combat

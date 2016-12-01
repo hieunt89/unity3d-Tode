@@ -18,7 +18,6 @@ public class TowerSkillUpgradeBtn : MonoBehaviour, IGoldChangeListener {
 			_button.onClick.AddListener (() => {
 				//Todo add skill upgrade
 				skillEntity.AddSkillUpgrade(upgrade);
-				Messenger.Broadcast (Events.Input.ENTITY_DESELECT);
 			});
 			GetComponentInChildren<Text> ().text = "upgrade to skill " + data.name + " for " + data.goldCost + " gold";
 

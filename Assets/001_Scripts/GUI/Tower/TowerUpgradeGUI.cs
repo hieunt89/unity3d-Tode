@@ -9,11 +9,9 @@ public class TowerUpgradeGUI : HandleTowerSelectGUI{
 	public GameObject prefab;
 
 	public override void HandleTowerClick(Entity e){
-		if (!e.hasTower && !e.isTowerBase) {
-			HandleEmptyClick ();
+		HandleEmptyClick ();
+		if (e.isTowerUpgrading) {
 			return;
-		} else {
-			HandleEmptyClick ();
 		}
 
 		List<Node<string>> upgrades;

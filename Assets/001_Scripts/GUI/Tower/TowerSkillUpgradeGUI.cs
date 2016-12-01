@@ -11,11 +11,9 @@ public class TowerSkillUpgradeGUI : HandleTowerSelectGUI {
 
 	public override void HandleTowerClick (Entity e)
 	{
-		if (!e.hasTower) {
-			HandleEmptyClick ();
+		HandleEmptyClick ();
+		if (e.isTowerBase || e.isTowerUpgrading) {
 			return;
-		} else {
-			HandleEmptyClick ();
 		}
 			
 		for (int i = 0; i < e.skillEntityRefs.skillEntities.Count; i++) {

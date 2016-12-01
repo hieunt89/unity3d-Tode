@@ -7,6 +7,13 @@ public class EntitySelectSystem : IReactiveSystem {
 	{
 		var e = entities.SingleEntity ().currentSelected.e;
 
+		if (e != null) {
+			if (e.hasTower || e.isTowerBase || e.isTowerUpgrading) {
+				Messenger.Broadcast<Entity> (Events.Input.TOWER_SELECT, e);
+			}
+		} else {
+			Messenger.Broadcast (Events.Input.EMPTY_SELECT);
+		}
 	}
 	#endregion
 	#region IReactiveSystem implementation

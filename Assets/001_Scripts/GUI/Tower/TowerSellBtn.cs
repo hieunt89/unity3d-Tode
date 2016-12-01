@@ -11,7 +11,6 @@ public class TowerSellBtn : MonoBehaviour {
 		if(_button){
 			_button.onClick.AddListener (() => {
 				e.IsMarkedForSell (true);
-				Messenger.Broadcast (Events.Input.ENTITY_DESELECT);
 			});
 		}
 		GetComponentInChildren<Text> ().text = "Sell tower for " + e.gold.value + " gold";

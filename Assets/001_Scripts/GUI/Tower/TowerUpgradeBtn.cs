@@ -19,7 +19,6 @@ public class TowerUpgradeBtn : MonoBehaviour, IGoldChangeListener {
 				if(e != null){
 					e.AddTowerUpgrade (data.BuildTime, upgrade);
 				}
-				Messenger.Broadcast (Events.Input.ENTITY_DESELECT);
 			});
 			GetComponentInChildren<Text> ().text = "upgrade to " + data.Name + " for " + data.GoldRequired + " gold";
 

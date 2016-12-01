@@ -1,12 +1,11 @@
 {
     "id": "tower2",
     "name": "archer 3",
-    "projectileIndex": 2,
     "projectileId": "projectile2",
     "atkType": 0,
     "atkRange": 4.0,
     "minDmg": 1,
-    "maxDmg": 50,
+    "maxDmg": 5,
     "atkSpeed": 1.0,
     "atkTime": 1.0,
     "atkPoint": {
@@ -14,6 +13,7 @@
         "y": 1.2915276288986207,
         "z": 0.1084849163889885
     },
+    "turnSpeed": 0.0,
     "goldRequired": 200,
     "buildTime": 1.0,
     "aoe": 0.0,

@@ -3,7 +3,7 @@ using System.Collections;
 using Entitas;
 using Lean;
 
-public class InputSystem : IInitializeSystem, ITearDownSystem, ISetPool {
+public class InputSystem : IInitializeSystem, ITearDownSystem, ISetPool, IReactiveSystem {
 	#region ISetPool implementation
 	Pool _pool;
 	public void SetPool (Pool pool)
@@ -18,18 +18,38 @@ public class InputSystem : IInitializeSystem, ITearDownSystem, ISetPool {
 	public void TearDown ()
 	{
 		LeanTouch.OnFingerTap -= HandleFingerTap;
-		Messenger.RemoveListener (Events.Input.ENTITY_DESELECT, HandleEntityDeselect);
 	}
 
+	#endregion
+
+	#region IReactiveExecuteSystem implementation
+	public void Execute (System.Collections.Generic.List<Entity> entities)
+	{
+		var e = entities.SingleEntity ().currentSelected.e;
+
+		if (e != null) {
+			if (e.hasTower || e.isTowerBase || e.isTowerUpgrading) {
+				Messenger.Broadcast<Entity> (Events.Input.TOWER_SELECT, e);
+			}
+		} else {
+			Messenger.Broadcast (Events.Input.EMPTY_SELECT);
+		}
+	}
+	#endregion
+
+	#region IReactiveSystem implementation
+	public TriggerOnEvent trigger {
+		get {
+			return Matcher.CurrentSelected.OnEntityAdded ();
+		}
+	}
 	#endregion
 
 	#region IInitializeSystem implementation
 	public void Initialize ()
 	{
-		_pool.SetCurrentSelected (null);
 		LeanTouch.OnFingerTap += HandleFingerTap;
-		Messenger.AddListener (Events.Input.ENTITY_DESELECT, HandleEntityDeselect);
-		Messenger.Broadcast (Events.Input.EMPTY_SELECT);
+		_pool.SetCurrentSelected (null);
 	}
 	#endregion
 
@@ -44,19 +64,14 @@ public class InputSystem : IInitializeSystem, ITearDownSystem, ISetPool {
 
 		if (Physics.Raycast (ray, out hitInfo)) {
 			e = EntityLink.GetEntity (hitInfo.collider.gameObject);
-			if(e != null && e.isInteractable){
+			if (e != null && e.isInteractable) {
 				if (e != _pool.currentSelected.e) {
 					_pool.ReplaceCurrentSelected (e);
 				}
-				Messenger.Broadcast <Entity> (Events.Input.ENTITY_SELECT, e);
+				return;
 			}
-		}else {
-			_pool.ReplaceCurrentSelected (null);
-			Messenger.Broadcast (Events.Input.EMPTY_SELECT);
+			Messenger.Broadcast<Vector3> (Events.Input.TAP, hitInfo.point);
 		}
-	}
-
-	void HandleEntityDeselect(){
-		Pools.sharedInstance.pool.ReplaceCurrentSelected (null);
+		_pool.ReplaceCurrentSelected (null);
 	}
 }

@@ -35,6 +35,8 @@ public class SkillUpgradeSystem : IReactiveSystem, ISetPool {
 			}
 
 			skill.RemoveSkillUpgrade ();
+
+			_pool.ReselectEntity (skill.origin.e);
 		}
 	}
 	#endregion

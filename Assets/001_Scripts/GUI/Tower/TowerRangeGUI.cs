@@ -11,11 +11,9 @@ public class TowerRangeGUI : HandleTowerSelectGUI {
 	}
 
 	public override void HandleTowerClick(Entity e){
-		if (!e.hasTower) {
-			HandleEmptyClick ();
+		HandleEmptyClick ();
+		if (e.isTowerBase || e.isTowerUpgrading) {
 			return;
-		} else {
-			HandleEmptyClick ();
 		}
 
 		CreateTowerRange (e);

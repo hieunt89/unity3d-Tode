@@ -1,9 +1,9 @@
 ﻿public class Events {
 	public enum Input{
 		EMPTY_SELECT,
-		ENTITY_SELECT,
-		ENTITY_DESELECT,
-		TOWER_SELECT
+		TOWER_SELECT,
+		RESELECT,
+		TAP
 	}
 
 	public enum Game{

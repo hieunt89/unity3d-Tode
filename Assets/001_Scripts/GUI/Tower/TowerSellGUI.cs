@@ -8,11 +8,9 @@ public class TowerSellGUI : HandleTowerSelectGUI {
 	public GameObject prefab;
 
 	public override void HandleTowerClick(Entity e){
-		if (!e.hasTower) {
-			HandleEmptyClick ();
+		HandleEmptyClick ();
+		if (e.isTowerBase || e.isTowerUpgrading) {
 			return;
-		} else {
-			HandleEmptyClick ();
 		}
 
 		var go = LeanPool.Spawn (prefab);

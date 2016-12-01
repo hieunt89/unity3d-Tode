@@ -21,7 +21,7 @@ public class TowerUpgradeSystem : IReactiveSystem, ISetPool{
 			if (_pool.goldPlayer.value < cost) {
 				e.RemoveTowerUpgrade ();
 			} else {
-				e.IsTowerReset(true).IsActive (false).IsInteractable (false);
+				e.IsTowerReset(true).IsActive (false);
 				if (e.isTowerBase) {
 					e.IsTowerBase (false);
 				}
@@ -30,6 +30,8 @@ public class TowerUpgradeSystem : IReactiveSystem, ISetPool{
 				}
 				_pool.ReplaceGoldPlayer (_pool.goldPlayer.value - cost);
 				e.ReplaceGold(e.gold.value + cost).AddDuration (0f).IsTowerUpgrading(true);
+
+				_pool.ReselectEntity (e);
 			}
 		}
 	}

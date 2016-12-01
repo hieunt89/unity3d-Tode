@@ -34,6 +34,8 @@ public class TowerBuildSystem : IReactiveSystem, ISetPool {
 					.RemoveTowerUpgrade ()
 					.RemoveDuration ()
 				;
+
+				_pool.ReselectEntity (e);
 			}
 		}
 	}

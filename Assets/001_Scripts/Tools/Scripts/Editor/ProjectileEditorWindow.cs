@@ -58,12 +58,12 @@ public class ProjectileEditorWindow : EditorWindow {
 			projectile.Duration = 0f;
 		}
 
-		GUI.enabled = projectile.Type == ProjectileType.homing;
+		GUI.enabled = projectile.Type == ProjectileType.homing || projectile.Type == ProjectileType.laser;
 			projectile.TravelSpeed = EditorGUILayout.FloatField ("Travel Speed", projectile.TravelSpeed);
 		GUI.enabled = true;
 
 		GUI.enabled = projectile.Type == ProjectileType.throwing || projectile.Type == ProjectileType.laser;
-		projectile.Duration = EditorGUILayout.Slider ("Duration", projectile.Duration, 0.5f, 2f);
+		projectile.Duration = EditorGUILayout.FloatField ("Duration", projectile.Duration);
 		GUI.enabled = true;
 
 		GUI.enabled = projectile.Type == ProjectileType.laser;

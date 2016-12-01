@@ -3,6 +3,14 @@ using System.Collections;
 using Entitas;
 
 public static class PoolExtension {
+	public static bool ReselectEntity(this Pool pool, Entity e){
+		if (pool.currentSelected.e != null && pool.currentSelected.e == e) {
+			pool.ReplaceCurrentSelected (pool.currentSelected.e);
+			return true;
+		}else{
+			return false;
+		}
+	}
 
 	public static Entity GetEntityById(this Pool pool, string id){
 		var entities = pool.GetGroup (Matcher.AllOf(Matcher.Id)).GetEntities ();

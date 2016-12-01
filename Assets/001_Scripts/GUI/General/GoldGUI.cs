@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class GoldGUI : MonoBehaviour {
 	Text txtValue;
+
 	void Start(){
 		Messenger.AddListener<int> (Events.Game.GOLD_CHANGE, OnGoldChange);
 		txtValue = GetComponent<Text> ();

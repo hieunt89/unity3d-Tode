@@ -1,8 +1,8 @@
 {
     "id": "skill1",
-    "name": "fireball 1",
-    "description": "fireball 1",
-    "spritePath": "fireball 1",
+    "name": "fireball 2",
+    "description": "fireball 2",
+    "spritePath": "fireball 2",
     "type": 0,
     "goldCost": 100,
     "cooldown": 5.0,
