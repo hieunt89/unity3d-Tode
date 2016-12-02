@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 
 public enum TreeType {
+	None,
 	Towers,
 	CombatSkills,
 	SummonSkills

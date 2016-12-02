@@ -11,4 +11,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73f9a7d54abd747ddb7f06279174d00a, type: 3}
   m_Name: CombatSkillList
   m_EditorClassIdentifier: 
-  combatSkills: []
+  combatSkills:
+  - id: 61c713c4-0946-4891-af8f-e15fedc90348
+    intId: 0
+    name: 
+    description: 
+    spritePath: 
+    goldCost: 0
+    cooldown: 0
+    castRange: 0
+    castTime: 0
+    projectileId: 5016e6d6-8d68-4bb3-81f5-6d33bff427f3
+    aoe: 0
+    attackType: 0
+    damage: 0
+    effectList: []

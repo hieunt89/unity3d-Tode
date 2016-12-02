@@ -4,39 +4,34 @@ using System;
 using System.Collections;
 
 public class TreeViewBase {
+	protected static TreeNodeEditorWindow currentWindow;
 
 	public string viewTitle;
 	public Rect viewRect;
 
 	protected GUISkin viewSkin;
 	protected TreeGUI currentTree;
-
-//	protected IDataUtils binaryUtils;
 	protected IDataUtils dataAssetUtils;
 
 	public TreeViewBase () {
-
+		currentWindow = (TreeNodeEditorWindow) EditorWindow.GetWindow <TreeNodeEditorWindow> ();
+		dataAssetUtils = new GameAssetUtils () as IDataUtils;
 		GetEditorSkin ();
 	}
 
-	public virtual void UpdateView (Rect _editorRect, Rect _percentageRect, Event _e, TreeGUI _currentTree) {
+	public virtual void UpdateView (Rect _editorWindowRect, Rect _percentageRect, Event _e, TreeGUI _currentTree) {
 		if (viewSkin == null) {
 			GetEditorSkin ();
 			return;
 		}
 
 		this.currentTree = _currentTree;
-		if (currentTree != null && currentTree.treeData != null) {
-			viewTitle = TreeEditorUtils.UppercaseFirst(currentTree.treeData.id);
-		} else {
-			viewTitle = "No";
-		}
 
 		viewRect = new Rect (
-			_editorRect.x * _percentageRect.x,
-			_editorRect.y * _percentageRect.y,
-			_editorRect.width * _percentageRect.width,
-			_editorRect.height * _percentageRect.height
+			_editorWindowRect.x * _percentageRect.x,
+			_editorWindowRect.y * _percentageRect.y,
+			_editorWindowRect.width * _percentageRect.width,
+			_editorWindowRect.height * _percentageRect.height
 		);
 	}
 
@@ -44,7 +39,6 @@ public class TreeViewBase {
 	}
 
 	protected void GetEditorSkin () {
-		dataAssetUtils = new GameAssetUtils () as IDataUtils;
 		viewSkin = (GUISkin)Resources.Load ("EditorSkins/TreeNodeEditorSkin");
 	}
 }

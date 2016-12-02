@@ -31,7 +31,7 @@ MonoBehaviour:
   - id: c7f7d213-892a-46e0-ac48-65b5404b043c
     name: 
     view: {fileID: 0}
-    projectileId: b42c6410-cfc2-469f-b90d-d33098bb867d
+    projectileId: b08cf720-4c3c-474b-8247-2cfe530169a2
     atkType: 0
     atkRange: 0
     minDmg: 0

@@ -11,7 +11,7 @@ public static class TreeEditorUtils {
 		TreeGUI currentTree = new TreeGUI(_treeType, _treeName);
 
 		if (currentTree != null) {
-			TreeEditorWindow currentWindow = (TreeEditorWindow)EditorWindow.GetWindow <TreeEditorWindow> ();
+			TreeNodeEditorWindow currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow <TreeNodeEditorWindow> ();
 			if (currentWindow != null) {
 				currentWindow.currentTree = currentTree;
 			}
@@ -27,7 +27,7 @@ public static class TreeEditorUtils {
 
 	public static void ConstructTree (Tree<string> _data) {
 		if (_data != null) {
-			TreeEditorWindow currentWindow = (TreeEditorWindow)EditorWindow.GetWindow<TreeEditorWindow> ();
+			TreeNodeEditorWindow currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow<TreeNodeEditorWindow> ();
 			if (currentWindow != null) {
 				TreeGUI currentTree = new TreeGUI(_data.treeType, _data.id);
 				currentTree.treeData = _data;
@@ -39,7 +39,7 @@ public static class TreeEditorUtils {
 	}
 
 	public static void UnloadTree () {
-		TreeEditorWindow currentWindow = (TreeEditorWindow)EditorWindow.GetWindow <TreeEditorWindow> ();
+		TreeNodeEditorWindow currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow <TreeNodeEditorWindow> ();
 		if (currentWindow != null) {
 			currentWindow.currentTree = null;
 		}

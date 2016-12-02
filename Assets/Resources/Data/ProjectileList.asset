@@ -11,4 +11,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ea3d4d8c92bf4a468f9c9fd14f3d941, type: 3}
   m_Name: ProjectileList
   m_EditorClassIdentifier: 
-  projectiles: []
+  projectiles:
+  - id: b08cf720-4c3c-474b-8247-2cfe530169a2
+    intId: 0
+    name: 
+    view: {fileID: 0}
+    type: 0
+    travelSpeed: 0
+    duration: 0
+    maxDmgBuildTime: 0
+    tickInterval: 0
+  - id: f25c0299-9cfa-450a-b42c-59ea179d175f
+    intId: 0
+    name: 
+    view: {fileID: 0}
+    type: 0
+    travelSpeed: 0
+    duration: 0
+    maxDmgBuildTime: 0
+    tickInterval: 0
+  - id: f7cb293d-bb35-46cb-87b1-6f083af5043b
+    intId: 0
+    name: 
+    view: {fileID: 0}
+    type: 0
+    travelSpeed: 0
+    duration: 0
+    maxDmgBuildTime: 0
+    tickInterval: 0
+  - id: 5016e6d6-8d68-4bb3-81f5-6d33bff427f3
+    intId: 0
+    name: 
+    view: {fileID: 0}
+    type: 0
+    travelSpeed: 0
+    duration: 0
+    maxDmgBuildTime: 0
+    tickInterval: 0
