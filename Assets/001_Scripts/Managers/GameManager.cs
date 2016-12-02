@@ -15,13 +15,17 @@ public class GameManager : MonoBehaviour {
 
 		var pools = Pools.sharedInstance;
 		pools.SetAllPools ();
-		_systems = CreateSystems(pools);
+		_systems = CreateSystems (pools);
 
-		_systems.Initialize();
+		_systems.Initialize ();
 	}
 
 	void Update() {
-		_systems.Execute();
+		_systems.Execute ();
+	}
+
+	void OnDestroy(){
+		_systems.TearDown ();
 	}
 
 	Systems CreateSystems(Pools pools) {
@@ -43,7 +47,8 @@ public class GameManager : MonoBehaviour {
 				.Add(pools.pool.CreateSystem ( new WaveSystem () ))
 
 				//Input
-				.Add(pools.pool.CreateSystem ( new InputSystem () ))
+				.Add(pools.pool.CreateSystem ( new EntitySelectSystem () ))
+				.Add(pools.pool.CreateSystem ( new MapNavigationSystem () ))
 
 				//Combat
 				.Add(pools.pool.CreateSystem ( new CheckTargetSystem () ))
