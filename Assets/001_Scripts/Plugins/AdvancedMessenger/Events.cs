@@ -3,7 +3,9 @@
 		EMPTY_SELECT,
 		TOWER_SELECT,
 		RESELECT,
-		TAP
+		CLICK,
+		PAN_CAM,
+		PAN_CAM_Y
 	}
 
 	public enum Game{

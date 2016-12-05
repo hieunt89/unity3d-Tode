@@ -17,7 +17,7 @@ public class EntitySelectSystem : IInitializeSystem, ITearDownSystem, ISetPool, 
 
 	public void TearDown ()
 	{
-		LeanTouch.OnFingerTap -= HandleFingerTap;
+		LeanTouch.OnFingerTap -= OnFingerTap;
 	}
 
 	#endregion
@@ -48,12 +48,12 @@ public class EntitySelectSystem : IInitializeSystem, ITearDownSystem, ISetPool, 
 	#region IInitializeSystem implementation
 	public void Initialize ()
 	{
-		LeanTouch.OnFingerTap += HandleFingerTap;
+		LeanTouch.OnFingerTap += OnFingerTap;
 		_pool.SetCurrentSelected (null);
 	}
 	#endregion
 
-	void HandleFingerTap (LeanFinger fg){
+	void OnFingerTap (LeanFinger fg){
 		if(LeanTouch.GuiInUse){
 			return;
 		}
@@ -70,7 +70,7 @@ public class EntitySelectSystem : IInitializeSystem, ITearDownSystem, ISetPool, 
 				}
 				return;
 			}
-			Messenger.Broadcast<Vector3> (Events.Input.TAP, hitInfo.point);
+			Messenger.Broadcast<Vector3> (Events.Input.CLICK, hitInfo.point);
 		}
 		_pool.ReplaceCurrentSelected (null);
 	}
