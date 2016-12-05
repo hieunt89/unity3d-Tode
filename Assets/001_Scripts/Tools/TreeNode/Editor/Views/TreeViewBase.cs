@@ -2,20 +2,23 @@
 using UnityEditor;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 public class TreeViewBase {
 	protected static TreeNodeEditorWindow currentWindow;
 
-	public string viewTitle;
 	public Rect viewRect;
 
 	protected GUISkin viewSkin;
 	protected TreeGUI currentTree;
-	protected IDataUtils dataAssetUtils;
+
+	protected int selectedTreeIndex;
+
 
 	public TreeViewBase () {
-		currentWindow = (TreeNodeEditorWindow) EditorWindow.GetWindow <TreeNodeEditorWindow> ();
-		dataAssetUtils = new GameAssetUtils () as IDataUtils;
+		if (currentWindow == null) 
+			currentWindow = (TreeNodeEditorWindow) EditorWindow.GetWindow <TreeNodeEditorWindow> ();
+
 		GetEditorSkin ();
 	}
 

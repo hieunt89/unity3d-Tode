@@ -9,7 +9,7 @@ public class DIContainer {
 
 	public static void BindModules(){
 //		DIContainer.SetModule<IDataUtils> (new JsonUtils ());
-		DIContainer.SetModule<IDataUtils> (new GameAssetUtils ());
+		DIContainer.SetModule<IDataUtils> (new GameData ());
 
 		DIContainer.SetModule<IPrefabUtils> (new PrefabUtils ());
 	}

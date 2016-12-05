@@ -5,7 +5,7 @@ using UnityEditor;
 using System;
 
 
-public class GameAssetUtils : IDataUtils {
+public class GameData : IDataUtils {
 
 	public void CreateData<T> (T data) where T : ScriptableObject {
 //		T asset = ScriptableObject.CreateInstance<T> ();

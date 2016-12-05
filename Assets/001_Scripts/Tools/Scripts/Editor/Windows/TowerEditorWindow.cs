@@ -30,7 +30,7 @@ public class TowerEditorWindow : EditorWindow {
 	List<int> skillTreeIndexes;
 
 	IDataUtils binartyUtils;
-	IDataUtils dataAssetUtils;
+	IDataUtils dataUtils;
 
 	[MenuItem("Tode/Tower Editor &T")]
 	public static void ShowWindow()
@@ -40,7 +40,7 @@ public class TowerEditorWindow : EditorWindow {
 	}
 
 	void OnEnable () {
-		dataAssetUtils = DIContainer.GetModule <IDataUtils> ();
+		dataUtils = DIContainer.GetModule <IDataUtils> ();
 
 		LoadExistData ();
 		SetupProjectileIDs ();
@@ -50,9 +50,6 @@ public class TowerEditorWindow : EditorWindow {
 		for (int i = 0; i < towerList.towers.Count ; i++) {
 			selectedTowerIndexes.Add (false);
 		}
-
-//		binartyUtils = new BinaryUtils () as IDataUtils;
-
 	}
 
 	void OnFocus () {
@@ -69,7 +66,7 @@ public class TowerEditorWindow : EditorWindow {
 	void OnGUI()
 	{
 		if (towerList == null) {
-			CreateNewItemList ();
+			CreateTowerList ();
 			return;
 		}
 		switch (viewIndex) {
@@ -123,21 +120,25 @@ public class TowerEditorWindow : EditorWindow {
 		EditorGUILayout.BeginVertical ();
 		scrollPosition = EditorGUILayout.BeginScrollView (scrollPosition, GUILayout.Height (position.height - 40));
 		if (towerList.towers != null ) {
-			for (int i = 0; i < towerList.towers.Count; i++) {
-				EditorGUILayout.BeginHorizontal ();
+			if (towerList.towers.Count > 0) {
+				for (int i = 0; i < towerList.towers.Count; i++) {
+					EditorGUILayout.BeginHorizontal ();
 
-				var btnLabel = towerList.towers[i].Id;
-				if (GUILayout.Button (btnLabel)) {
-					towerIndex = i;
-					viewIndex = 1;
-					tower = towerList.towers [towerIndex];
-					projectileIndex = SetupProjectileIndex ();
+					var btnLabel = towerList.towers[i].Id;
+					if (GUILayout.Button (btnLabel)) {
+						towerIndex = i;
+						viewIndex = 1;
+						tower = towerList.towers [towerIndex];
+						projectileIndex = SetupProjectileIndex ();
+					}
+					GUI.enabled = toggleEditMode;
+					selectedTowerIndexes[i] = EditorGUILayout.Toggle (selectedTowerIndexes[i], GUILayout.Width (30));
+					GUI.enabled = true;
+					EditorGUILayout.EndHorizontal ();
+
 				}
-				GUI.enabled = toggleEditMode;
-				selectedTowerIndexes[i] = EditorGUILayout.Toggle (selectedTowerIndexes[i], GUILayout.Width (30));
-				GUI.enabled = true;
-				EditorGUILayout.EndHorizontal ();
-
+			}else {
+				GUILayout.Label ("Tower List is Empty.");
 			}
 		}
 		EditorGUILayout.EndScrollView ();
@@ -258,9 +259,10 @@ public class TowerEditorWindow : EditorWindow {
 						GUI.enabled = true;
 					}
 				}
-			} else {
-				GUILayout.Label ("This Tower List is Empty.");
 			}
+//			else {
+//				GUILayout.Label ("This Tower List is Empty.");
+//			}
 		}
 		if (GUI.changed) {
 			EditorUtility.SetDirty (towerList);
@@ -274,13 +276,13 @@ public class TowerEditorWindow : EditorWindow {
 		}
 	}
 
-	void CreateNewItemList () {
+	void CreateTowerList () {
 		towerIndex = 1;
 //		towerList = CreateTowerList();
 
 		towerList = ScriptableObject.CreateInstance<TowerList>();
 
-		dataAssetUtils.CreateData <TowerList> (towerList);
+		dataUtils.CreateData <TowerList> (towerList);
 
 		if (towerList) 
 		{
@@ -306,11 +308,11 @@ public class TowerEditorWindow : EditorWindow {
 	}
 
 	void LoadExistData () {
-		towerList = dataAssetUtils.LoadData <TowerList> ();
+		towerList = dataUtils.LoadData <TowerList> ();
 		if (towerList == null) {
-			CreateNewItemList ();
+			CreateTowerList ();
 		}
-		existProjectiles = dataAssetUtils.LoadAllData <ProjectileData> ();
+		existProjectiles = dataUtils.LoadAllData <ProjectileData> ();
 	}
 
 	void SetupProjectileIDs () {

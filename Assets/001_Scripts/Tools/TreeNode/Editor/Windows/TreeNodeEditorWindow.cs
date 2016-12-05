@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System;
+using System.Collections.Generic;
 
 public enum ViewIndex {
-	Menu,
 	List,
 	Detail
 }
@@ -11,39 +11,50 @@ public class TreeNodeEditorWindow : EditorWindow {
 
 	public static TreeNodeEditorWindow currentWindow;
 
-	public TreeNodeMenuView menuView;
 	public TreeNodeListView listView;
 	public TreeNodeDetailView detailView;
 
 	public TreeGUI currentTree = null;
-	public TreeType workType = TreeType.None;
+	public TreeType workingType = TreeType.None;
 
-	public ViewIndex viewIndex = ViewIndex.Menu;
+	IDataUtils dataUtils;
+	public TreeList treeList;
 
-	private float viewPercentage = 1f;
-	private Vector2 scrollPosition;
-	private Rect virtualRect;
-	private float virtualPadding = 50f;
-//	private float minX, minY, maxX, maxY;
+	public ViewIndex viewIndex = ViewIndex.List;
 
 	public static void InitTowerNodeEditorWindow () {
 		currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow <TreeNodeEditorWindow> ("Tree Editor", true);
 		currentWindow.minSize = new Vector2 (500f, 400f);
-		CreateViews ();
 	}
 
 	void OnEnable () {
-//		virtualRect = new Rect (0f, 0f, position.width, position.height);
-//		minX = minY = maxX = maxY = 0f;
+		dataUtils = DIContainer.GetModule <IDataUtils> ();
+		treeList = dataUtils.LoadData <TreeList> ();
+		if (treeList == null) {
+			CreateTreeList ();
+		}
+		if (treeList.trees == null) {
+			treeList.trees = new List<Tree<string>>();
+		}
+		CreateViews ();
 	}
 
-	void OnGUI () {
-//		if (workView == null || propertiesView == null) {
-//			CreateViews ();
-//			return;
-//		}
+	void OnFocus () {
 
-		if (menuView == null || listView == null || detailView == null) {
+	}
+
+	void CreateTreeList () {
+//		towerIndex = 1;
+
+		treeList = ScriptableObject.CreateInstance<TreeList>();
+		if (treeList) 
+		{
+			treeList.trees = new List<Tree<string>>();
+		}
+		dataUtils.CreateData <TreeList> (treeList);
+	}
+	void OnGUI () {
+		if (listView == null || detailView == null) {
 			CreateViews ();
 			return;
 		}
@@ -52,11 +63,8 @@ public class TreeNodeEditorWindow : EditorWindow {
 
 		ProcessEvent (e);
 
+		BeginWindows ();
 		switch (viewIndex) {
-		case ViewIndex.Menu:
-			menuView.UpdateView (new Rect (position.x, position.y, position.width, position.height), new Rect (0f, 0f, 1f, 1f), e, currentTree);
-			break;
-
 		case ViewIndex.List:
 			listView.UpdateView (new Rect (position.x, position.y, position.width, position.height), new Rect (0f, 0f, 1f, 1f), e, currentTree);
 			break;
@@ -65,49 +73,15 @@ public class TreeNodeEditorWindow : EditorWindow {
 			detailView.UpdateView (new Rect (position.x, position.y, position.width, position.height), new Rect (0f, 0f, 1f, 1f), e, currentTree);
 			break;
 		}
-
-
-//		UpdateVirtualRect ();
-//		scrollPosition =  GUI.BeginScrollView(new Rect(0f, 0f, position.width, position.height), scrollPosition, virtualRect); // <-- need to customize this viewrect (expandable by nodes + offset)
-//		BeginWindows ();
-//		workView.UpdateView (virtualRect, new Rect (0f, 0f, viewPercentage, 1f), e, currentTree);
-//		EndWindows ();
-//		GUI.EndScrollView ();
-
-//		propertiesView.UpdateView (new Rect (position.width, position.y, position.width, position.height), 
-//			new Rect (viewPercentage, 0f, 1f - viewPercentage, 1f), e, currentTree);
-
-		Repaint ();
-	}
-
-//	private void UpdateVirtualRect () {
-//
-//		//TODO: find length between nodes
-//
-//		if (currentTree != null) {
-//			if (currentTree.nodes.Count > 0) {
-//				minX = currentTree.nodes [0].nodeRect.x;
-//				minY = currentTree.nodes [0].nodeRect.y;
-//				for (int i = 0; i < currentTree.nodes.Count; i++) {
-//					if (currentTree.nodes[i].nodeRect.x <= minX)
-//						minX = currentTree.nodes [i].nodeRect.x;
-//					if (currentTree.nodes [i].nodeRect.y <= minY)
-//						minY = currentTree.nodes [i].nodeRect.y;
-//					if (currentTree.nodes [i].nodeRect.x + currentTree.nodes [i].nodeRect.width >= maxX)
-//						maxX = currentTree.nodes [i].nodeRect.x + currentTree.nodes [i].nodeRect.width;
-//					if (currentTree.nodes [i].nodeRect.y + currentTree.nodes [i].nodeRect.height >= maxY)
-//						maxY = currentTree.nodes [i].nodeRect.y + currentTree.nodes [i].nodeRect.height;
-//				}
-//				virtualRect = Rect.MinMaxRect(minX - virtualPadding, minY - virtualPadding, maxX + virtualPadding, maxY + virtualPadding);
-//			}
-//		} else {
-//			virtualRect = new Rect (0f, 0f, position.width, position.height);
+		EndWindows ();
+//		if (Event.current.type == EventType.Layout || Event.current.type == EventType.Repaint)
+//		{
+//			Repaint ();
 //		}
-//	}
+	}
 
 	private static void CreateViews () {
 		if (currentWindow != null) {
-			currentWindow.menuView = new TreeNodeMenuView ();
 			currentWindow.listView = new TreeNodeListView ();
 			currentWindow.detailView = new TreeNodeDetailView ();
 		} else {

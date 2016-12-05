@@ -2,5 +2,5 @@
 using System.Collections.Generic;
 
 public class TreeList : ScriptableObject {
-	List<Tree<string>> trees;
+	public List<Tree<string>> trees;
 }
