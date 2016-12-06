@@ -4,8 +4,10 @@
 		TOWER_SELECT,
 		RESELECT,
 		CLICK,
-		PAN_CAM,
-		PAN_CAM_Y
+		PAN_CAM_X,
+		PAN_CAM_Y,
+		ROTATE_CAM,
+		ZOOM_CAM
 	}
 
 	public enum Game{

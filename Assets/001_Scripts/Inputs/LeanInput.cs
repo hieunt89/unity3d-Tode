@@ -27,7 +27,7 @@ public class LeanInput : IInput {
 
 	void OnFingerSet(LeanFinger fg){
 		if (fg == panFg) {
-			if (LeanTouch.GuiInUse) {
+			if (LeanTouch.GuiInUse || LeanTouch.Fingers.Count > 1) {
 				deltaX = 0f;
 				deltaY = 0f;
 				return;
@@ -64,6 +64,19 @@ public class LeanInput : IInput {
 	public float GetYMove ()
 	{
 		return deltaY/10;
+	}
+
+	public float GetRotationAngle()
+	{
+		if (Mathf.Abs(LeanTouch.TwistDegrees) > 2f) {
+			return LeanTouch.TwistDegrees / 2;
+		} else {
+			return 0f;
+		}
+	}
+
+	public float GetZoomAmount (){
+		return 0f;
 	}
 	#endregion
 }

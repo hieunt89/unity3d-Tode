@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour {
 
 				//Input
 				.Add(pools.pool.CreateSystem ( new EntitySelectSystem () ))
-				.Add(pools.pool.CreateSystem ( new MapNavigationSystem () ))
+				.Add(pools.pool.CreateSystem ( new CameraControlSystem () ))
 
 				//Combat
 				.Add(pools.pool.CreateSystem ( new CheckTargetSystem () ))
