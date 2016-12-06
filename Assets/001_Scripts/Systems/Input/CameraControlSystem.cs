@@ -4,18 +4,22 @@ using Entitas;
 using Lean;
 
 public class CameraControlSystem : IInitializeSystem, ITearDownSystem, ISetPool {
+	#region vars
+
 	Transform camera;
-	Entity mover;
-	float maxPanStep = 0.5f;
-	float maxRotateStep = 5f;
-	float camZoomStep = 2f;
-	float maxCamHeightScale = 2.5f;
-	float minCamHeightScale = 0.5f;
+	float minPanStep = 0.1f;
+	float maxPanStep = 0.5f; //in unity unit
+	float maxRotateStep = 5f; //in degrees
+	float camZoomStep = 1.5f; //in unity unit
+	float maxCamHeightScale = 2.5f; //max zoom out height scale compare to init position
+	float minCamHeightScale = 0.5f; //max zoom in height scale compare to init position
 	float maxCamHeight;
 	float minCamHeight;
 
-	#region ISetPool implementation
+	#endregion
 
+	#region ISetPool implementation
+	Entity mover;
 	public void SetPool (Pool pool)
 	{
 		mover = pool.CreateEntity ();
@@ -24,16 +28,20 @@ public class CameraControlSystem : IInitializeSystem, ITearDownSystem, ISetPool 
 	#endregion
 
 	#region IInitializeSystem implementation
+
 	public void Initialize ()
 	{
 		Messenger.AddListener<float> (Events.Input.PAN_CAM_X, PanCamX);
 		Messenger.AddListener<float> (Events.Input.PAN_CAM_Y, PanCamY);
 		Messenger.AddListener<float> (Events.Input.ROTATE_CAM, RotateCam);
 		Messenger.AddListener<float> (Events.Input.ZOOM_CAM, ZoomCam);
+
+		//vars set up
 		camera = Camera.main.transform;
 		maxCamHeight = camera.position.y * maxCamHeightScale;
 		minCamHeight = camera.position.y * minCamHeightScale;
 	}
+
 	#endregion
 
 	#region ITearDownSystem implementation
@@ -62,50 +70,71 @@ public class CameraControlSystem : IInitializeSystem, ITearDownSystem, ISetPool 
 		}
 	}
 
-	void PanCamX(float value){
-		if (camera != null) {
-			var a = camera.rotation.eulerAngles.y;
-			if (Mathf.Abs(value) > maxPanStep) {
-				value = value > 0 ? maxPanStep : -maxPanStep;
+	bool MoveIfValid(Vector3 newPos){
+		if (PanCamCheck (newPos)) {
+			if (mover.hasCoroutine) {
+				mover.RemoveCoroutine ();
 			}
-			var addPosX = new Vector3 (value * Mathf.Cos(a * Mathf.Deg2Rad), 0f, -value * Mathf.Sin(a * Mathf.Deg2Rad));
+			camera.position = newPos;
+			return true;
+		} else {
+			return false;
+		}
+	}
 
-			var newPos = camera.position + addPosX;
-			if (PanCamCheck (newPos)) {
-				if (mover.hasCoroutine) {
-					mover.RemoveCoroutine ();
-				}
-				camera.position = newPos;
-			} else if(!mover.hasCoroutine){
-				mover.AddCoroutine (PanSmooth(newPos));
+	IEnumerator PanSmooth(Vector3 toward){
+		while(PanCamCheck(Vector3.MoveTowards (camera.position, toward, 0.01f))){
+			Debug.Log ("moving now");
+			camera.position = Vector3.MoveTowards (camera.position, toward, 0.01f);
+			yield return null;
+		}
+	}
+	
+	void PanCamX(float value){
+		var a = camera.rotation.eulerAngles.y;
+		if (Mathf.Abs(value) > maxPanStep) {
+			value = value > 0 ? maxPanStep : -maxPanStep;
+		}
+		Vector3 addPos;
+
+		//move along x axis first
+		addPos = new Vector3 (value * Mathf.Cos(a * Mathf.Deg2Rad), 0f, 0f);
+		if (!MoveIfValid (camera.position + addPos)) {
+			if(!mover.hasCoroutine){
+				mover.AddCoroutine (PanSmooth(camera.position + addPos));
+			}
+		}
+
+		//then move along z axis
+		addPos = new Vector3 (0f, 0f, -value * Mathf.Sin (a * Mathf.Deg2Rad));
+		if (!MoveIfValid (camera.position + addPos)) {
+			if(!mover.hasCoroutine){
+				mover.AddCoroutine (PanSmooth(camera.position + addPos));
 			}
 		}
 	}
 
 	void PanCamY(float value){
-		if (camera != null) {
-			var a = camera.rotation.eulerAngles.y;
-			if (Mathf.Abs(value) > maxPanStep) {
-				value = value > 0 ? maxPanStep : -maxPanStep;
-			}
-			var addPosY = new Vector3 (value * Mathf.Sin (a * Mathf.Deg2Rad), 0f, value * Mathf.Cos (a * Mathf.Deg2Rad));
+		var a = camera.rotation.eulerAngles.y;
+		if (Mathf.Abs(value) > maxPanStep) {
+			value = value > 0 ? maxPanStep : -maxPanStep;
+		}
+		Vector3 addPos;
 
-			var newPos = camera.position + addPosY;
-			if (PanCamCheck (newPos)) {
-				if (mover.hasCoroutine) {
-					mover.RemoveCoroutine ();
-				}
-				camera.position = newPos;
-			} else if(!mover.hasCoroutine){
-				mover.AddCoroutine (PanSmooth(newPos));
+		//move along x axis first
+		addPos = new Vector3 (value * Mathf.Sin (a * Mathf.Deg2Rad), 0f, 0f);
+		if (!MoveIfValid (camera.position + addPos)) {
+			if(!mover.hasCoroutine){
+				mover.AddCoroutine (PanSmooth(camera.position + addPos));
 			}
 		}
-	}
 
-	IEnumerator PanSmooth(Vector3 toward){
-		while(PanCamCheck(Vector3.MoveTowards (camera.position, toward, 0.05f))){
-			camera.position = Vector3.MoveTowards (camera.position, toward, 0.05f);
-			yield return null;
+		//then move along z axis
+		addPos = new Vector3 (0f, 0f, value * Mathf.Cos (a * Mathf.Deg2Rad));
+		if (!MoveIfValid (camera.position + addPos)) {
+			if(!mover.hasCoroutine){
+				mover.AddCoroutine (PanSmooth(camera.position + addPos));
+			}
 		}
 	}
 

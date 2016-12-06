@@ -6,7 +6,6 @@ public class InputManager : MonoBehaviour {
 	IInput input;
 	public float panSpeed = 0.5f;
 	public float rotateSpeed = 4f;
-	public float zoomSpeed = 2f;
 	public bool useLeanInput = true;
 	// Use this for initialization
 	void Awake(){
@@ -50,7 +49,7 @@ public class InputManager : MonoBehaviour {
 		var amount = input.GetZoomAmount ();
 
 		if (amount != 0) {
-			Messenger.Broadcast<float> (Events.Input.ZOOM_CAM, amount * zoomSpeed);
+			Messenger.Broadcast<float> (Events.Input.ZOOM_CAM, amount);
 		}
 	}
 }
