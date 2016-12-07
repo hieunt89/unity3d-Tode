@@ -18,26 +18,26 @@ public class TreeNodeMenuView : TreeViewBase {
 	{
 		base.UpdateView (_editorRect, _percentageRect, _e, _currentTree);
 //		
-		var newRect = new Rect (viewRect.width / 2 - 200f, viewRect.height / 2 - 100f, 400, 200);
-		GUILayout.BeginArea (newRect);
-		GUILayout.Label ("Menu");
-		GUILayout.Space (10);
-
-		if (GUILayout.Button (TreeType.Towers.ToString ())) {
-			currentWindow.workingType = TreeType.Towers;
-			currentWindow.viewIndex = ViewIndex.List;
-		}
-
-		if (GUILayout.Button (TreeType.CombatSkills.ToString ())) {
-			currentWindow.viewIndex = ViewIndex.List;
-			currentWindow.workingType = TreeType.CombatSkills;
-		}
-
-		if (GUILayout.Button (TreeType.SummonSkills.ToString ())) {
-			currentWindow.viewIndex = ViewIndex.List;
-			currentWindow.workingType = TreeType.SummonSkills;
-		}
-		GUILayout.EndArea ();
+//		var newRect = new Rect (viewRect.width / 2 - 200f, viewRect.height / 2 - 100f, 400, 200);
+//		GUILayout.BeginArea (newRect);
+//		GUILayout.Label ("Menu");
+//		GUILayout.Space (10);
+//
+//		if (GUILayout.Button (TreeType.Towers.ToString ())) {
+//			currentWindow.workingType = TreeType.Towers;
+//			currentWindow.viewIndex = ViewIndex.List;
+//		}
+//
+//		if (GUILayout.Button (TreeType.CombatSkills.ToString ())) {
+//			currentWindow.viewIndex = ViewIndex.List;
+//			currentWindow.workingType = TreeType.CombatSkills;
+//		}
+//
+//		if (GUILayout.Button (TreeType.SummonSkills.ToString ())) {
+//			currentWindow.viewIndex = ViewIndex.List;
+//			currentWindow.workingType = TreeType.SummonSkills;
+//		}
+//		GUILayout.EndArea ();
 	}
 
 	public override void ProcessEvent (Event e)

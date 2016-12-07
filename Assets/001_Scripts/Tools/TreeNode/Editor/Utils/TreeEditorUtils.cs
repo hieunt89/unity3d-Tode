@@ -13,7 +13,7 @@ public static class TreeEditorUtils {
 		if (currentTree != null) {
 			TreeNodeEditorWindow currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow <TreeNodeEditorWindow> ();
 			if (currentWindow != null) {
-				currentWindow.currentTree = currentTree;
+				currentWindow.treeGUI = currentTree;
 			}
 
 			// add root node
@@ -31,7 +31,7 @@ public static class TreeEditorUtils {
 			if (currentWindow != null) {
 				TreeGUI currentTree = new TreeGUI(_data.treeType, _data.id);
 				currentTree.treeData = _data;
-				currentWindow.currentTree = currentTree;
+				currentWindow.treeGUI = currentTree;
 			}
 		} else {
 			EditorUtility.DisplayDialog ("Tree Node Message", "Unable to load selected tree!", "OK");
@@ -41,7 +41,7 @@ public static class TreeEditorUtils {
 	public static void UnloadTree () {
 		TreeNodeEditorWindow currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow <TreeNodeEditorWindow> ();
 		if (currentWindow != null) {
-			currentWindow.currentTree = null;
+			currentWindow.treeGUI = null;
 		}
 	}
 

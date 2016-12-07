@@ -25,10 +25,13 @@ public class TreeNodeListView : TreeViewBase {
 	{
 		base.UpdateView (_editorRect, _percentageRect, _e, _currentTree);
 
-		var newRect = new Rect (viewRect.width / 2 - 200f, viewRect.height / 2 - 100f, 400, 200);
+		GUI.Box (viewRect, "list");
 
-		GUILayout.BeginArea (newRect);
-
+//		var newRect = new Rect (viewRect.width / 2 - 200f, viewRect.height / 2 - 100f, 400, 200);
+//
+//
+//		GUILayout.BeginArea (viewRect);
+//
 //		currentWindow.workingType = (TreeType) EditorGUILayout.EnumPopup ("Tree Type", currentWindow.workingType);
 //
 //		GUILayout.Space(10);
@@ -37,13 +40,13 @@ public class TreeNodeListView : TreeViewBase {
 //
 //		EditorGUILayout.BeginHorizontal ();
 //
-//		if (GUILayout.Button ("Add")) {
+//		if (GUILayout.Button ("Add", GUILayout.Width (60))) {
 //			AddTreeData ();
 //		}
 //
-//		GUILayout.FlexibleSpace ();
+////		GUILayout.FlexibleSpace ();
 //
-//		if (GUILayout.Button (toggleEditMode ? "Done" : "Edit Mode")) {
+//		if (GUILayout.Button (toggleEditMode ? "Done" : "Edit Mode", GUILayout.Width (60))) {
 //			toggleEditMode = !toggleEditMode;
 //		}
 //
@@ -55,7 +58,7 @@ public class TreeNodeListView : TreeViewBase {
 ////				}
 ////			}
 //
-//			if (GUILayout.Button ("Delete Selected")) {
+//			if (GUILayout.Button ("Delete Selected", GUILayout.Width (60))) {
 //				if (EditorUtility.DisplayDialog ("Are you sure?", 
 //					"Do you want to delete all selected data?",
 //					"Yes", "No")) {
@@ -79,34 +82,34 @@ public class TreeNodeListView : TreeViewBase {
 //		if (currentWindow.treeList.trees != null ) {
 //			if (currentWindow.treeList.trees.Count > 0) {
 //
-//				for (int i = 0; i < currentWindow.treeList.trees.Count; i++) {
-//					EditorGUILayout.BeginHorizontal ();
-//					if (currentWindow.workingType == currentWindow.treeList.trees[i].treeType) {
-//						var btnLabel = currentWindow.treeList.trees[i].id;
-//						if (GUILayout.Button (btnLabel)) {
-//							selectedTreeIndex = i;
-//							currentWindow.viewIndex = ViewIndex.Detail;
-//		//					tower = towerList.towers [towerIndex];
-//		//					projectileIndex = SetupProjectileIndex ();
-//						}
-//						GUI.enabled = toggleEditMode;
-//						selectedTreeIndexes[i] = EditorGUILayout.Toggle (selectedTreeIndexes[i], GUILayout.Width (30));
-//						GUI.enabled = true;
-//					}
-//					EditorGUILayout.EndHorizontal ();
-//
-//				}
+////				for (int i = 0; i < currentWindow.treeList.trees.Count; i++) {
+////					EditorGUILayout.BeginHorizontal ();
+////					if (currentWindow.workingType == currentWindow.treeList.trees[i].treeType) {
+////						var btnLabel = currentWindow.treeList.trees[i].id;
+////						if (GUILayout.Button (btnLabel)) {
+//////							selectedTreeIndex = i;
+//////							currentWindow.viewIndex = ViewIndex.Detail;
+////		//					tower = towerList.towers [towerIndex];
+////		//					projectileIndex = SetupProjectileIndex ();
+////						}
+////						GUI.enabled = toggleEditMode;
+////						selectedTreeIndexes[i] = EditorGUILayout.Toggle (selectedTreeIndexes[i], GUILayout.Width (30));
+////						GUI.enabled = true;
+////					}
+////					EditorGUILayout.EndHorizontal ();
+////
+////				}
 //			} else {
 //				GUILayout.Label ("Tree List is Empty.");
 //			}
 //		}
 //		EditorGUILayout.EndScrollView ();
 //		EditorGUILayout.EndVertical ();
-		GUILayout.EndArea ();
-
-		if (GUI.changed) {
-			EditorUtility.SetDirty (currentWindow.treeList);
-		}
+//		GUILayout.EndArea ();
+//
+//		if (GUI.changed) {
+//			EditorUtility.SetDirty (currentWindow.treeList);
+//		}
 	}
 
 	public override void ProcessEvent (Event e)
@@ -118,6 +121,8 @@ public class TreeNodeListView : TreeViewBase {
 		Tree<string> newTree = new Tree<string> ();
 		newTree.id = Guid.NewGuid().ToString();
 		newTree.treeType = currentWindow.workingType;
+		if (currentWindow.treeList.trees == null) 
+			currentWindow.treeList.trees = new List<Tree<string>> ();
 		currentWindow.treeList.trees.Add (newTree);
 		selectedTreeIndexes.Add (false);
 		selectedTreeIndex = currentWindow.treeList.trees.Count;

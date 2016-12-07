@@ -3,100 +3,85 @@ using UnityEditor;
 using System;
 using System.Collections.Generic;
 
-public enum ViewIndex {
-	List,
-	Detail
-}
 public class TreeNodeEditorWindow : EditorWindow {
 
 	public static TreeNodeEditorWindow currentWindow;
-
 	public TreeNodeListView listView;
-	public TreeNodeDetailView detailView;
-
-	public TreeGUI currentTree = null;
-	public TreeType workingType = TreeType.None;
-
-	IDataUtils dataUtils;
+	public TreeNodeWorkView treeView;
+	public TreeGUI treeGUI = null;
+	public TreeType workingType;
 	public TreeList treeList;
 
-	public ViewIndex viewIndex = ViewIndex.List;
+	IDataUtils dataUtils;
 
-	public static void InitTowerNodeEditorWindow () {
-		currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow <TreeNodeEditorWindow> ("Tree Editor", true);
-		currentWindow.minSize = new Vector2 (500f, 400f);
+	private static float viewPercentage= 0.25f;
+	public static void InitTreeNodeEditorWindow () {
+		currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow <TreeNodeEditorWindow> ();
+		currentWindow.titleContent = new GUIContent ("Tree Node Editor");
+
+
+
 	}
 
 	void OnEnable () {
-		dataUtils = DIContainer.GetModule <IDataUtils> ();
+		dataUtils = DIContainer.GetModule<IDataUtils> ();
 		treeList = dataUtils.LoadData <TreeList> ();
 		if (treeList == null) {
-			CreateTreeList ();
+			// Create new tree list
+			CreateNewTreeList ();
 		}
-		if (treeList.trees == null) {
-			treeList.trees = new List<Tree<string>>();
+		if (treeList) {
+			if (treeList.trees == null) 
+				treeList.trees = new List<Tree<string>> ();
 		}
+
 		CreateViews ();
 	}
 
-	void OnFocus () {
+	void OnGUI () {
+		if (listView == null || treeView == null) {
+			CreateViews ();
+			return;
+		}
 
+
+		// Get and process the current event
+		Event e = Event.current;
+		ProcessEvents (e);
+		//		currentGraph = new NodeGraph ();
+		listView.UpdateView (position, new Rect(0f,0f,viewPercentage,1f), e, treeGUI); // 
+		treeView.UpdateView (new Rect(position.width, position.y, position.width, position.height), new Rect(viewPercentage, 0f, 1-viewPercentage, 1f), e, treeGUI);
+		Repaint ();
 	}
 
-	void CreateTreeList () {
+	static void CreateViews () {
+		if (currentWindow != null) {
+			currentWindow.listView = new TreeNodeListView ();
+			currentWindow.treeView = new TreeNodeWorkView ();
+		} else {
+			currentWindow = (TreeNodeEditorWindow) EditorWindow.GetWindow<TreeNodeEditorWindow> ();
+		}
+	}
+
+	void ProcessEvents (Event e)
+	{
+		if (e.type == EventType.KeyDown && e.keyCode == KeyCode.LeftArrow) {
+			viewPercentage -= 0.01f;
+		}
+		if (e.type == EventType.KeyDown && e.keyCode == KeyCode.RightArrow) {
+			viewPercentage += 0.01f;
+		}
+	}
+	void CreateNewTreeList () {
 //		towerIndex = 1;
+		//		towerList = CreateTowerList();
 
 		treeList = ScriptableObject.CreateInstance<TreeList>();
+
 		if (treeList) 
 		{
 			treeList.trees = new List<Tree<string>>();
 		}
 		dataUtils.CreateData <TreeList> (treeList);
-	}
-	void OnGUI () {
-		if (listView == null || detailView == null) {
-			CreateViews ();
-			return;
-		}
-
-		Event e = Event.current;
-
-		ProcessEvent (e);
-
-		BeginWindows ();
-		switch (viewIndex) {
-		case ViewIndex.List:
-			listView.UpdateView (new Rect (position.x, position.y, position.width, position.height), new Rect (0f, 0f, 1f, 1f), e, currentTree);
-			break;
-
-		case ViewIndex.Detail:
-			detailView.UpdateView (new Rect (position.x, position.y, position.width, position.height), new Rect (0f, 0f, 1f, 1f), e, currentTree);
-			break;
-		}
-		EndWindows ();
-//		if (Event.current.type == EventType.Layout || Event.current.type == EventType.Repaint)
-//		{
-//			Repaint ();
-//		}
-	}
-
-	private static void CreateViews () {
-		if (currentWindow != null) {
-			currentWindow.listView = new TreeNodeListView ();
-			currentWindow.detailView = new TreeNodeDetailView ();
-		} else {
-			currentWindow = (TreeNodeEditorWindow)EditorWindow.GetWindow <TreeNodeEditorWindow> ();
-		}
-	}
-
-	private void ProcessEvent (Event _e) {
-		if (_e.type == EventType.ScrollWheel) {
-		}
-//		if (_e.type == EventType.KeyDown && _e.keyCode == KeyCode.LeftArrow) {
-//			viewPercentage -= 0.01f;
-//		}
-//		if (_e.type == EventType.KeyDown && _e.keyCode == KeyCode.RightArrow) {
-//			viewPercentage += 0.01f;
-//		}
 	}
 }
