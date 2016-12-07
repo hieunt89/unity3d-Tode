@@ -87,7 +87,6 @@ public class CameraControlSystem : IInitializeSystem, ITearDownSystem, ISetPool 
 	}
 
 	IEnumerator PanSmooth(Vector3 toward){
-		yield return null;
 		while(PanCamCheck (Vector3.MoveTowards (camera.position, toward, 0.05f))){
 			camera.position = Vector3.MoveTowards (camera.position, toward, 0.05f);
 			yield return null;

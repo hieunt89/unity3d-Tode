@@ -4,9 +4,9 @@ using Lean;
 
 public class InputManager : MonoBehaviour {
 	IInput input;
+	public bool useLeanInput = true;
 	public float panSpeed = 0.5f;
 	public float rotateSpeed = 4f;
-	public bool useLeanInput = true;
 	// Use this for initialization
 	void Awake(){
 		if (useLeanInput) {

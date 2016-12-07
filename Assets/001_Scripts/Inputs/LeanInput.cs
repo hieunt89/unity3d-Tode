@@ -33,17 +33,10 @@ public class LeanInput : IInput {
 				return;
 			}
 
-			if (Mathf.Abs (fg.DeltaScreenPosition.x) > 1f) {
-				deltaX = -fg.DeltaScreenPosition.x;
-			} else {
-				deltaX = 0f;
-			}
+			deltaX = -fg.DeltaScreenPosition.x;
 
-			if (Mathf.Abs (fg.DeltaScreenPosition.y) > 1f) {
-				deltaY = -fg.DeltaScreenPosition.y;
-			} else {
-				deltaY = 0f;
-			}
+			deltaY = -fg.DeltaScreenPosition.y;
+			
 		}
 	}
 
@@ -58,25 +51,21 @@ public class LeanInput : IInput {
 	#region IInput implementation
 	public float GetXMove ()
 	{
-		return deltaX/10;
+		return deltaX;
 	}
 
 	public float GetYMove ()
 	{
-		return deltaY/10;
+		return deltaY;
 	}
 
 	public float GetRotationAngle()
 	{
-		if (Mathf.Abs(LeanTouch.TwistDegrees) > 2f) {
-			return LeanTouch.TwistDegrees / 2;
-		} else {
-			return 0f;
-		}
+		return LeanTouch.TwistDegrees;
 	}
 
 	public float GetZoomAmount (){
-		return 0f;
+		return LeanTouch.PinchScale - 1;
 	}
 	#endregion
 }
