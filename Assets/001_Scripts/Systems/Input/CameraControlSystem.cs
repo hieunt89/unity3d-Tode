@@ -7,7 +7,6 @@ public class CameraControlSystem : IInitializeSystem, ITearDownSystem, ISetPool 
 	#region vars
 
 	Transform camera;
-	float minPanStep = 0.1f;
 	float maxPanStep = 0.5f; //in unity unit
 	float maxRotateStep = 5f; //in degrees
 	float camZoomStep = 1.5f; //in unity unit
@@ -19,10 +18,12 @@ public class CameraControlSystem : IInitializeSystem, ITearDownSystem, ISetPool 
 	#endregion
 
 	#region ISetPool implementation
-	Entity mover;
+	Entity xSmoother;
+	Entity zSmoother;
 	public void SetPool (Pool pool)
 	{
-		mover = pool.CreateEntity ();
+		xSmoother = pool.CreateEntity ();
+		zSmoother = pool.CreateEntity ();
 	}
 
 	#endregion
@@ -61,7 +62,7 @@ public class CameraControlSystem : IInitializeSystem, ITearDownSystem, ISetPool 
 	bool PanCamCheck(Vector3 newPos){
 		RaycastHit hit;
 		if (GameManager.debug) {
-			Debug.DrawRay (newPos, camera.forward * 100f, Color.red, 3f);
+			Debug.DrawRay (newPos, camera.forward * 100f, Color.red);
 		}
 		if (Physics.Raycast (newPos, camera.forward, out hit)) {
 			return true;
@@ -72,8 +73,11 @@ public class CameraControlSystem : IInitializeSystem, ITearDownSystem, ISetPool 
 
 	bool MoveIfValid(Vector3 newPos){
 		if (PanCamCheck (newPos)) {
-			if (mover.hasCoroutine) {
-				mover.RemoveCoroutine ();
+			if (xSmoother.hasCoroutine) {
+				xSmoother.RemoveCoroutine ();
+			}
+			if (zSmoother.hasCoroutine){
+				zSmoother.RemoveCoroutine ();
 			}
 			camera.position = newPos;
 			return true;
@@ -83,9 +87,9 @@ public class CameraControlSystem : IInitializeSystem, ITearDownSystem, ISetPool 
 	}
 
 	IEnumerator PanSmooth(Vector3 toward){
-		while(PanCamCheck(Vector3.MoveTowards (camera.position, toward, 0.01f))){
-			Debug.Log ("moving now");
-			camera.position = Vector3.MoveTowards (camera.position, toward, 0.01f);
+		yield return null;
+		while(PanCamCheck (Vector3.MoveTowards (camera.position, toward, 0.05f))){
+			camera.position = Vector3.MoveTowards (camera.position, toward, 0.05f);
 			yield return null;
 		}
 	}
@@ -100,16 +104,16 @@ public class CameraControlSystem : IInitializeSystem, ITearDownSystem, ISetPool 
 		//move along x axis first
 		addPos = new Vector3 (value * Mathf.Cos(a * Mathf.Deg2Rad), 0f, 0f);
 		if (!MoveIfValid (camera.position + addPos)) {
-			if(!mover.hasCoroutine){
-				mover.AddCoroutine (PanSmooth(camera.position + addPos));
+			if(!xSmoother.hasCoroutine){
+				xSmoother.AddCoroutine (PanSmooth(camera.position + addPos));
 			}
 		}
 
 		//then move along z axis
 		addPos = new Vector3 (0f, 0f, -value * Mathf.Sin (a * Mathf.Deg2Rad));
 		if (!MoveIfValid (camera.position + addPos)) {
-			if(!mover.hasCoroutine){
-				mover.AddCoroutine (PanSmooth(camera.position + addPos));
+			if(!zSmoother.hasCoroutine){
+				zSmoother.AddCoroutine (PanSmooth(camera.position + addPos));
 			}
 		}
 	}
@@ -124,16 +128,16 @@ public class CameraControlSystem : IInitializeSystem, ITearDownSystem, ISetPool 
 		//move along x axis first
 		addPos = new Vector3 (value * Mathf.Sin (a * Mathf.Deg2Rad), 0f, 0f);
 		if (!MoveIfValid (camera.position + addPos)) {
-			if(!mover.hasCoroutine){
-				mover.AddCoroutine (PanSmooth(camera.position + addPos));
+			if(!xSmoother.hasCoroutine){
+				xSmoother.AddCoroutine (PanSmooth(camera.position + addPos));
 			}
 		}
 
 		//then move along z axis
 		addPos = new Vector3 (0f, 0f, value * Mathf.Cos (a * Mathf.Deg2Rad));
 		if (!MoveIfValid (camera.position + addPos)) {
-			if(!mover.hasCoroutine){
-				mover.AddCoroutine (PanSmooth(camera.position + addPos));
+			if(!zSmoother.hasCoroutine){
+				zSmoother.AddCoroutine (PanSmooth(camera.position + addPos));
 			}
 		}
 	}
@@ -145,7 +149,7 @@ public class CameraControlSystem : IInitializeSystem, ITearDownSystem, ISetPool 
 	void RotateCam(float angle){
 		RaycastHit hit;
 		if (GameManager.debug) {
-			Debug.DrawRay (camera.position, camera.forward * 100f, Color.red, 3f);
+			Debug.DrawRay (camera.position, camera.forward * 100f, Color.red);
 		}
 		if (Physics.Raycast (camera.position, camera.forward, out hit)) {
 			if (Mathf.Abs(angle) > maxRotateStep) {
@@ -162,7 +166,7 @@ public class CameraControlSystem : IInitializeSystem, ITearDownSystem, ISetPool 
 	void ZoomCam(float amount){
 		RaycastHit hit;
 		if (GameManager.debug) {
-			Debug.DrawRay (camera.position, camera.forward * 100f, Color.red, 3f);
+			Debug.DrawRay (camera.position, camera.forward * 100f, Color.red);
 		}
 		if (Physics.Raycast (camera.position, camera.forward, out hit)) {
 			amount = amount > 0 ? camZoomStep : -camZoomStep;
