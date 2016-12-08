@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEditor;
+using UnityEngine.EventSystems;
 
 public class UnityInput : IInput {
 	
@@ -44,5 +45,26 @@ public class UnityInput : IInput {
 	public float GetZoomAmount (){
 		return Input.GetAxis ("Mouse ScrollWheel");
 	}
+
+
+	public IEnumerator StartRecordingClick (System.Action<Ray> callbackRay){
+		float timer = Mathf.Infinity;
+		while (true) {
+			if (Input.GetMouseButtonDown(0)) {
+				timer = 0f;
+			}
+
+			if (Input.GetMouseButtonUp(0)) {
+				if (timer < 0.25f && !EventSystem.current.IsPointerOverGameObject()) {
+					callbackRay (Camera.main.ScreenPointToRay(Input.mousePosition));
+				}
+				timer = Mathf.Infinity;
+			}
+
+			timer += Time.deltaTime;
+			yield return null;
+		}
+	}
+
 	#endregion
 }

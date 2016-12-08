@@ -20,7 +20,9 @@ public class UserManager {
 	#endregion
 
 	public IUserData userData;
+	public ISettingData settings;
 	public UserManager(){
 		userData = DIContainer.GetModule<IUserData> ();
+		settings = DIContainer.GetModule<ISettingData> ();
 	}
 }

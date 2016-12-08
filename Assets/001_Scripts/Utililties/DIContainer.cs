@@ -11,6 +11,7 @@ public class DIContainer {
 		DIContainer.SetModule<IDataUtils> (new JsonUtils ());
 		DIContainer.SetModule<IPrefabUtils> (new PrefabUtils ());
 		DIContainer.SetModule<IUserData> (new PlayerPrefUserData ());
+		DIContainer.SetModule<ISettingData> (new PlayerPrefSettingData ());
 	}
 
 	public static void SetModule<T>(object module) {

@@ -7,8 +7,8 @@ public class CameraControlSystem : IInitializeSystem, ITearDownSystem, ISetPool 
 	#region vars
 
 	Transform camera;
-	float maxPanStep = 0.5f; //in unity unit
-	float maxRotateStep = 5f; //in degrees
+	float maxPanStep = 1f; //in unity unit
+	float maxRotateStep = 8f; //in degrees
 	float camZoomStep = 1.5f; //in unity unit
 	float maxCamHeightScale = 2.5f; //max zoom out height scale compare to init position
 	float minCamHeightScale = 0.5f; //max zoom in height scale compare to init position

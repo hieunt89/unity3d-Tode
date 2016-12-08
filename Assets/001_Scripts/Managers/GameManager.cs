@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour {
 				.Add(pools.pool.CreateSystem ( new WaveSystem () ))
 
 				//Input
+				.Add(pools.pool.CreateSystem ( new InputSystem () ))
 				.Add(pools.pool.CreateSystem ( new EntitySelectSystem () ))
 				.Add(pools.pool.CreateSystem ( new CameraControlSystem () ))
 

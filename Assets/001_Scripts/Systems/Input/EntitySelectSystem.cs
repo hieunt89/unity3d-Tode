@@ -13,15 +13,6 @@ public class EntitySelectSystem : IInitializeSystem, ITearDownSystem, ISetPool, 
 
 	#endregion
 
-	#region ITearDownSystem implementation
-
-	public void TearDown ()
-	{
-		LeanTouch.OnFingerTap -= OnFingerTap;
-	}
-
-	#endregion
-
 	#region IReactiveExecuteSystem implementation
 	public void Execute (System.Collections.Generic.List<Entity> entities)
 	{
@@ -48,30 +39,35 @@ public class EntitySelectSystem : IInitializeSystem, ITearDownSystem, ISetPool, 
 	#region IInitializeSystem implementation
 	public void Initialize ()
 	{
-		LeanTouch.OnFingerTap += OnFingerTap;
+		Messenger.AddListener <GameObject> (Events.Input.CLICK_HIT_SOMETHING, ClickedSomeThing);
+		Messenger.AddListener (Events.Input.CLICK_HIT_NOTHING, ClickedNotThing);
+
 		_pool.SetCurrentSelected (null);
 	}
 	#endregion
 
-	void OnFingerTap (LeanFinger fg){
-		if(LeanTouch.GuiInUse){
-			return;
-		}
+	#region ITearDownSystem implementation
 
-		RaycastHit hitInfo;
-		Entity e;
-		Ray ray = fg.GetRay (Camera.main);
+	public void TearDown ()
+	{
+		Messenger.RemoveListener <GameObject> (Events.Input.CLICK_HIT_SOMETHING, ClickedSomeThing);
+		Messenger.RemoveListener (Events.Input.CLICK_HIT_NOTHING, ClickedNotThing);
+	}
 
-		if (Physics.Raycast (ray, out hitInfo)) {
-			e = EntityLink.GetEntity (hitInfo.collider.gameObject);
-			if (e != null && e.isInteractable) {
-				if (e != _pool.currentSelected.e) {
-					_pool.ReplaceCurrentSelected (e);
-				}
-				return;
-			}
-			Messenger.Broadcast<Vector3> (Events.Input.CLICK, hitInfo.point);
-		}
+	#endregion
+
+	void ClickedNotThing(){
 		_pool.ReplaceCurrentSelected (null);
+	}
+
+	void ClickedSomeThing(GameObject go){
+		Entity e = EntityLink.GetEntity (go);
+		if (e != null && e.isInteractable) {
+			if (e != _pool.currentSelected.e) {
+				_pool.ReplaceCurrentSelected (e);
+			}
+		} else {
+			_pool.ReplaceCurrentSelected (null);
+		}
 	}
 }
