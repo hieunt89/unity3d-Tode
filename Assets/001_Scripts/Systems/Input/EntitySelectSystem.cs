@@ -19,9 +19,7 @@ public class EntitySelectSystem : IInitializeSystem, ITearDownSystem, ISetPool, 
 		var e = entities.SingleEntity ().currentSelected.e;
 
 		if (e != null) {
-			if (e.hasTower || e.isTowerBase || e.isTowerUpgrading) {
-				Messenger.Broadcast<Entity> (Events.Input.TOWER_SELECT, e);
-			}
+			Messenger.Broadcast<Entity> (Events.Input.ENTITY_SELECT, e);
 		} else {
 			Messenger.Broadcast (Events.Input.EMPTY_SELECT);
 		}
@@ -57,6 +55,9 @@ public class EntitySelectSystem : IInitializeSystem, ITearDownSystem, ISetPool, 
 	#endregion
 
 	void ClickedNotThing(){
+		if (_pool.currentSelected.e != null) {
+			_pool.currentSelected.e.IsSelected (false);
+		}
 		_pool.ReplaceCurrentSelected (null);
 	}
 
@@ -64,10 +65,14 @@ public class EntitySelectSystem : IInitializeSystem, ITearDownSystem, ISetPool, 
 		Entity e = EntityLink.GetEntity (go);
 		if (e != null && e.isInteractable) {
 			if (e != _pool.currentSelected.e) {
+				if (_pool.currentSelected.e != null) {
+					_pool.currentSelected.e.IsSelected (false);
+				}
+				e.IsSelected (true);
 				_pool.ReplaceCurrentSelected (e);
 			}
 		} else {
-			_pool.ReplaceCurrentSelected (null);
+			ClickedNotThing ();
 		}
 	}
 }

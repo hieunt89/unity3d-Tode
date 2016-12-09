@@ -73,6 +73,13 @@ public class TowerCreateViewSystem : IReactiveSystem {
 			} else if (e.hasViewAnims) {
 				e.RemoveViewAnims ();
 			}
+
+			var col = go.GetComponent<Collider> ();
+			if (col != null) {
+				e.ReplaceViewCollider (col);
+			}else if (e.hasViewCollider) {
+				e.RemoveViewCollider ();
+			}
 		}
 
 		e.ReplaceView (go)

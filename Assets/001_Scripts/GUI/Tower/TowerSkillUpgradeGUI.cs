@@ -12,19 +12,21 @@ public class TowerSkillUpgradeGUI : HandleTowerSelectGUI {
 	public override void HandleTowerClick (Entity e)
 	{
 		HandleEmptyClick ();
-		if (e.isTowerBase || e.isTowerUpgrading) {
-			return;
-		}
+		if (e.hasTower || e.isTowerBase || e.isTowerUpgrading) {
+			if (e.isTowerBase || e.isTowerUpgrading) {
+				return;
+			}
 			
-		for (int i = 0; i < e.skillEntityRefs.skillEntities.Count; i++) {
-			var skillEntity = e.skillEntityRefs.skillEntities [i];
-			if (!skillEntity.isActive) {
-				CreateTowerSkillUpgradeBtn (this.transform ,skillEntity, skillEntity.skill.skillNode);
-			}else if (skillEntity.skill.skillNode.children.Count > 0) {
-				var group = LeanPool.Spawn (prefabGroup);
-				group.transform.SetParent (this.transform, false);
-				for (int j = 0; j < skillEntity.skill.skillNode.children.Count; j++) {
-					CreateTowerSkillUpgradeBtn (group.transform, skillEntity, skillEntity.skill.skillNode.children[j]);
+			for (int i = 0; i < e.skillEntityRefs.skillEntities.Count; i++) {
+				var skillEntity = e.skillEntityRefs.skillEntities [i];
+				if (!skillEntity.isActive) {
+					CreateTowerSkillUpgradeBtn (this.transform, skillEntity, skillEntity.skill.skillNode);
+				} else if (skillEntity.skill.skillNode.children.Count > 0) {
+					var group = LeanPool.Spawn (prefabGroup);
+					group.transform.SetParent (this.transform, false);
+					for (int j = 0; j < skillEntity.skill.skillNode.children.Count; j++) {
+						CreateTowerSkillUpgradeBtn (group.transform, skillEntity, skillEntity.skill.skillNode.children [j]);
+					}
 				}
 			}
 		}

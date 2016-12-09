@@ -55,7 +55,7 @@ public class UnityInput : IInput {
 			}
 
 			if (Input.GetMouseButtonUp(0)) {
-				if (timer < 0.25f && !EventSystem.current.IsPointerOverGameObject()) {
+				if (timer < 0.5f && !EventSystem.current.IsPointerOverGameObject()) {
 					callbackRay (Camera.main.ScreenPointToRay(Input.mousePosition));
 				}
 				timer = Mathf.Infinity;

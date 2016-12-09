@@ -1,7 +1,7 @@
 ﻿public class Events {
 	public enum Input{
 		EMPTY_SELECT,
-		TOWER_SELECT,
+		ENTITY_SELECT,
 		RESELECT,
 		CLICK_HIT_POS,
 		CLICK_HIT_SOMETHING,

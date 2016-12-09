@@ -9,13 +9,15 @@ public class TowerSellGUI : HandleTowerSelectGUI {
 
 	public override void HandleTowerClick(Entity e){
 		HandleEmptyClick ();
-		if (e.isTowerBase || e.isTowerUpgrading) {
-			return;
-		}
+		if (e.hasTower || e.isTowerBase || e.isTowerUpgrading) {
+			if (e.isTowerBase || e.isTowerUpgrading) {
+				return;
+			}
 
-		var go = LeanPool.Spawn (prefab);
-		go.transform.SetParent (this.transform, false);
-		go.GetComponent<TowerSellBtn> ().RegisterSellBtn (e);
+			var go = LeanPool.Spawn (prefab);
+			go.transform.SetParent (this.transform, false);
+			go.GetComponent<TowerSellBtn> ().RegisterSellBtn (e);
+		}
 	}
 
 	public override void HandleEmptyClick(){

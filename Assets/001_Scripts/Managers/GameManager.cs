@@ -104,10 +104,12 @@ public class GameManager : MonoBehaviour {
 				.Add(pools.pool.CreateSystem ( new MecanimMoveSystem () ))
 				.Add(pools.pool.CreateSystem ( new MecanimDyingSystem () ))
 
-				//View overlay bar
+				//Indicators
 				.Add(pools.pool.CreateSystem ( new HealthBarToggleSystem () ))
 				.Add(pools.pool.CreateSystem ( new HealthBarUpdateSystem() ))
 				.Add(pools.pool.CreateSystem ( new TowerProgressBarViewSystem () ))
+				.Add(pools.pool.CreateSystem ( new SelectedViewToggleSystem () ))
+				.Add(pools.pool.CreateSystem ( new SelectedViewUpdateSystem () ))
 				
 				//General
 				.Add(pools.pool.CreateSystem ( new EntityActiveSystem () ))

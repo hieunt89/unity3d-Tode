@@ -70,33 +70,35 @@ public static class ComponentIds {
     public const int ProjectileThrowingParams = 59;
     public const int ReachedEnd = 60;
     public const int Rooted = 61;
-    public const int SkillCombat = 62;
-    public const int Skill = 63;
-    public const int SkillEntityRefs = 64;
-    public const int SkillList = 65;
-    public const int SkillSummon = 66;
-    public const int SkillUpgrade = 67;
-    public const int Stunned = 68;
-    public const int Target = 69;
-    public const int Targetable = 70;
-    public const int Tick = 71;
-    public const int TimeSpeed = 72;
-    public const int TimeTotal = 73;
-    public const int Tower = 74;
-    public const int TowerBase = 75;
-    public const int TowerReset = 76;
-    public const int TowerUpgrade = 77;
-    public const int TowerUpgrading = 78;
-    public const int TurnSpeed = 79;
-    public const int View = 80;
-    public const int ViewAnims = 81;
-    public const int ViewCollider = 82;
-    public const int ViewLookAt = 83;
-    public const int ViewSlider = 84;
-    public const int Wave = 85;
-    public const int Wound = 86;
+    public const int Selected = 62;
+    public const int SkillCombat = 63;
+    public const int Skill = 64;
+    public const int SkillEntityRefs = 65;
+    public const int SkillList = 66;
+    public const int SkillSummon = 67;
+    public const int SkillUpgrade = 68;
+    public const int Stunned = 69;
+    public const int Target = 70;
+    public const int Targetable = 71;
+    public const int Tick = 72;
+    public const int TimeSpeed = 73;
+    public const int TimeTotal = 74;
+    public const int Tower = 75;
+    public const int TowerBase = 76;
+    public const int TowerReset = 77;
+    public const int TowerUpgrade = 78;
+    public const int TowerUpgrading = 79;
+    public const int TurnSpeed = 80;
+    public const int View = 81;
+    public const int ViewAnims = 82;
+    public const int ViewCollider = 83;
+    public const int ViewLookAt = 84;
+    public const int ViewSelected = 85;
+    public const int ViewSlider = 86;
+    public const int Wave = 87;
+    public const int Wound = 88;
 
-    public const int TotalComponents = 87;
+    public const int TotalComponents = 89;
 
     public static readonly string[] componentNames = {
         "Active",
@@ -161,6 +163,7 @@ public static class ComponentIds {
         "ProjectileThrowingParams",
         "ReachedEnd",
         "Rooted",
+        "Selected",
         "SkillCombat",
         "Skill",
         "SkillEntityRefs",
@@ -183,6 +186,7 @@ public static class ComponentIds {
         "ViewAnims",
         "ViewCollider",
         "ViewLookAt",
+        "ViewSelected",
         "ViewSlider",
         "Wave",
         "Wound"
@@ -251,6 +255,7 @@ public static class ComponentIds {
         typeof(ProjectileThrowingParams),
         typeof(ReachedEnd),
         typeof(Rooted),
+        typeof(Selected),
         typeof(SkillCombat),
         typeof(SkillComponent),
         typeof(SkillEntityRefs),
@@ -273,6 +278,7 @@ public static class ComponentIds {
         typeof(ViewAnims),
         typeof(ViewCollider),
         typeof(ViewLookAt),
+        typeof(ViewSelected),
         typeof(ViewSlider),
         typeof(Wave),
         typeof(Wound)

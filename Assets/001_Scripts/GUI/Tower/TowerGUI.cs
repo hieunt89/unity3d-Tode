@@ -10,10 +10,13 @@ public class TowerGUI : HandleTowerSelectGUI {
 
 	public override void HandleTowerClick (Entitas.Entity e)
 	{
-		if (group != null) {
-			group.alpha = 1f;
+		HandleEmptyClick ();
+		if (e.hasTower || e.isTowerBase || e.isTowerUpgrading) {
+			if (group != null) {
+				group.alpha = 1f;
 //			group.interactable = true;
-			group.blocksRaycasts = true;
+				group.blocksRaycasts = true;
+			}
 		}
 	}
 

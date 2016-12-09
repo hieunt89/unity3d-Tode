@@ -10,24 +10,26 @@ public class TowerUpgradeGUI : HandleTowerSelectGUI{
 
 	public override void HandleTowerClick(Entity e){
 		HandleEmptyClick ();
-		if (e.isTowerUpgrading) {
-			return;
-		}
+		if (e.hasTower || e.isTowerBase || e.isTowerUpgrading) {
+			if (e.isTowerUpgrading) {
+				return;
+			}
 
-		List<Node<string>> upgrades;
+			List<Node<string>> upgrades;
 
-		if (e.isTowerBase) {
-			upgrades = DataManager.Instance.GetTowerRoots();
-		} else {
-			upgrades = e.tower.towerNode.children;
-		}
+			if (e.isTowerBase) {
+				upgrades = DataManager.Instance.GetTowerRoots ();
+			} else {
+				upgrades = e.tower.towerNode.children;
+			}
 
-		if(upgrades == null){
-			return;
-		}
+			if (upgrades == null) {
+				return;
+			}
 
-		for (int i = 0; i < upgrades.Count; i++) {
-			CreateTowerUpgradeBtn (upgrades [i], e);
+			for (int i = 0; i < upgrades.Count; i++) {
+				CreateTowerUpgradeBtn (upgrades [i], e);
+			}
 		}
 	}
 
