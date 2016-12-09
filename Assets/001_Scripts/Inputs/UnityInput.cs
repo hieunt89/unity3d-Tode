@@ -9,6 +9,10 @@ public class UnityInput : IInput {
 	#region IInput implementation
 	public float GetXMove ()
 	{
+		if (!EventSystem.current.IsPointerOverGameObject()) {
+			return 0f;
+		}
+
 		if (Input.GetAxis ("Horizontal") != 0) {
 			return Input.GetAxis ("Horizontal");
 		}
@@ -22,6 +26,10 @@ public class UnityInput : IInput {
 
 	public float GetYMove ()
 	{
+		if (!EventSystem.current.IsPointerOverGameObject()) {
+			return 0f;
+		}
+
 		if (Input.GetAxis ("Vertical") != 0) {
 			return Input.GetAxis ("Vertical");
 		}
@@ -35,6 +43,10 @@ public class UnityInput : IInput {
 
 	public float GetRotationAngle()
 	{
+		if (!EventSystem.current.IsPointerOverGameObject()) {
+			return 0f;
+		}
+
 		if (Input.GetMouseButton (2)) {
 			return Input.GetAxis ("Mouse X");
 		} else {
@@ -43,6 +55,10 @@ public class UnityInput : IInput {
 	}
 
 	public float GetZoomAmount (){
+		if (!EventSystem.current.IsPointerOverGameObject()) {
+			return 0f;
+		}
+
 		return Input.GetAxis ("Mouse ScrollWheel");
 	}
 

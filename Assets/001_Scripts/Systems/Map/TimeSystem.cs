@@ -18,6 +18,7 @@ public class TimeSystem : IInitializeSystem, IExecuteSystem, ISetPool {
 	{
 		_pool.ReplaceTick (Time.deltaTime)
 			.ReplaceTimeTotal (_pool.timeTotal.value + _pool.tick.change);
+		Messenger.Broadcast<float> (Events.Game.TIME_CHANGE, _pool.timeTotal.value);
 	}
 
 	#endregion
