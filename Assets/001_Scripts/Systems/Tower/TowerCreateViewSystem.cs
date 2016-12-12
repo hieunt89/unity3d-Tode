@@ -48,7 +48,7 @@ public class TowerCreateViewSystem : IReactiveSystem {
 		}
 
 		if(r.asset == null){
-			if (GameManager.debug) {
+			if (GameManager.ShowDebug) {
 				Debug.Log ("Fail to load asset " + prefToLoad + " from Resources");
 			}
 			yield break;

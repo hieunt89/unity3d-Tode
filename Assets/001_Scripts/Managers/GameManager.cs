@@ -4,11 +4,13 @@ using Entitas.Unity.VisualDebugging;
 
 public class GameManager : MonoBehaviour {
 	public bool showDebug = true;
-	public static bool debug;
+	public static bool ShowDebug;
+	public InputType inputType = InputType.Unity;
+
 	Systems _systems;
 
 	void Awake() {
-		debug = showDebug;
+		ShowDebug = showDebug;
 
 		UserManager.Init ();
 		DataManager.Init ();
@@ -30,7 +32,7 @@ public class GameManager : MonoBehaviour {
 
 	Systems CreateSystems(Pools pools) {
 		Systems systems;
-		if(debug){
+		if(ShowDebug){
 			systems = new DebugSystems ();
 		}else{
 			systems = new Systems ();
@@ -47,7 +49,7 @@ public class GameManager : MonoBehaviour {
 				.Add(pools.pool.CreateSystem ( new WaveSystem () ))
 
 				//Input
-				.Add(pools.pool.CreateSystem ( new InputSystem () ))
+				.Add(pools.pool.CreateSystem ( new InputSystem (inputType) ))
 				.Add(pools.pool.CreateSystem ( new EntitySelectSystem () ))
 				.Add(pools.pool.CreateSystem ( new CameraControlSystem () ))
 

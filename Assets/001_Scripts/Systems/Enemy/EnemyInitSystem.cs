@@ -32,7 +32,7 @@ public class EnemyInitSystem : IReactiveSystem, ISetPool
 				activeTime = activeTime + waveGroup.GroupDelay;
 				ePath = _pool.GetEntityById(waveGroup.PathId);
 				if (ePath == null) { //continue if path not found
-					if (GameManager.debug) {
+					if (GameManager.ShowDebug) {
 						Debug.Log ("Path with id " + waveGroup.PathId + " is null");
 					}
 					continue;
@@ -41,7 +41,7 @@ public class EnemyInitSystem : IReactiveSystem, ISetPool
 					for (int enemyIndex = 0; enemyIndex < waveGroup.Amount; enemyIndex++) { //loop throu all enemies in wave group data
 					enemyData = DataManager.Instance.GetCharacterData (waveGroup.EnemyId);
 					if(enemyData == null){ //break if enemy data is null
-						if (GameManager.debug) {
+						if (GameManager.ShowDebug) {
 							Debug.Log ("Enemy with id " + waveGroup.EnemyId + " is null");
 						}
 						break;

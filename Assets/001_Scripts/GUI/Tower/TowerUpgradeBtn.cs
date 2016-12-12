@@ -25,7 +25,7 @@ public class TowerUpgradeBtn : MonoBehaviour, IGoldChangeListener {
 			_goldRequire = data.GoldRequired;
 			OnGoldChange (Pools.sharedInstance.pool.goldPlayer.value);
 			Messenger.AddListener<int> (Events.Game.GOLD_CHANGE, OnGoldChange);
-		} else if(GameManager.debug){
+		} else if(GameManager.ShowDebug){
 			Debug.Log (upgrade.data + " is null");
 		}
 	}

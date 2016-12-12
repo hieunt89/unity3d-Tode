@@ -37,7 +37,7 @@ public class PathSystem : IInitializeSystem, ISetPool{
 				_pool.CreateEntity ().AddPath (wayPoints).AddId (path.Id).AddPathLength(pathLength);
 			}
 
-			if(GameManager.debug){
+			if(GameManager.ShowDebug){
 				for (int k = 0; k < wayPoints.Count - 1; k++) {
 					Debug.DrawLine (wayPoints [k], wayPoints [k + 1], Color.green, Mathf.Infinity);
 				}

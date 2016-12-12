@@ -32,7 +32,7 @@ public class UpdateLookDirectionSystem : IReactiveSystem, ISetPool, IEnsureCompo
 			if (e.hasTurnSpeed) {
 				float step = e.turnSpeed.value * _pool.tick.change;
 				targetDir = Vector3.RotateTowards (e.view.go.transform.forward, targetDir, step, 0f);
-				if (GameManager.debug) {
+				if (GameManager.ShowDebug) {
 					Debug.DrawRay (e.position.value, targetDir, Color.red);
 				}
 			}

@@ -38,7 +38,7 @@ public class ProjectileCreateViewSystem : IReactiveSystem {
 		}
 
 		if(r.asset == null){
-			if (GameManager.debug) {
+			if (GameManager.ShowDebug) {
 				Debug.Log ("Fail to load asset " + e.projectile.projectileId + " from Resources");
 			}
 			yield break;

@@ -5,6 +5,21 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class InputSystem : IInitializeSystem, IExecuteSystem, ISetPool {
+	IInput input;
+
+	public InputSystem(InputType inputType){
+		switch (inputType) {
+		case InputType.Lean:
+			input = new LeanInput ();
+			break;
+		case InputType.Unity:
+			input = new UnityInput ();
+			break;
+		default:
+			break;
+		}
+	}
+
 	#region ISetPool implementation
 	Entity clickRecorder;
 	public void SetPool (Pool pool)
@@ -15,13 +30,9 @@ public class InputSystem : IInitializeSystem, IExecuteSystem, ISetPool {
 	#endregion
 
 	#region IInitializeSystem implementation
-	IInput input;
 
 	public void Initialize ()
 	{
-//		input = new LeanInput ();
-		input = new UnityInput ();
-
 		clickRecorder.AddCoroutine (input.StartRecordingClick(CheckClick));
 	}
 

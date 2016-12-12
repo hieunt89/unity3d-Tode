@@ -61,7 +61,7 @@ public class CameraControlSystem : IInitializeSystem, ITearDownSystem, ISetPool 
 
 	bool PanCamCheck(Vector3 newPos){
 		RaycastHit hit;
-		if (GameManager.debug) {
+		if (GameManager.ShowDebug) {
 			Debug.DrawRay (newPos, camera.forward * 100f, Color.red);
 		}
 		if (Physics.Raycast (newPos, camera.forward, out hit)) {
@@ -147,7 +147,7 @@ public class CameraControlSystem : IInitializeSystem, ITearDownSystem, ISetPool 
 
 	void RotateCam(float angle){
 		RaycastHit hit;
-		if (GameManager.debug) {
+		if (GameManager.ShowDebug) {
 			Debug.DrawRay (camera.position, camera.forward * 100f, Color.red);
 		}
 		if (Physics.Raycast (camera.position, camera.forward, out hit)) {
@@ -164,7 +164,7 @@ public class CameraControlSystem : IInitializeSystem, ITearDownSystem, ISetPool 
 
 	void ZoomCam(float amount){
 		RaycastHit hit;
-		if (GameManager.debug) {
+		if (GameManager.ShowDebug) {
 			Debug.DrawRay (camera.position, camera.forward * 100f, Color.red);
 		}
 		if (Physics.Raycast (camera.position, camera.forward, out hit)) {

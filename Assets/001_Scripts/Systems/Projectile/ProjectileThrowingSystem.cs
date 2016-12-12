@@ -45,7 +45,7 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 					.AddDuration(0f)
 					.AddDestination(prj.position.value);
 				
-				if (GameManager.debug) {
+				if (GameManager.ShowDebug) {
 					Debug.DrawLine (prj.target.e.position.value, prj.projectileThrowingParams.end, Color.blue, Mathf.Infinity);
 					Debug.DrawLine (startPos, finalPos, Color.yellow, Mathf.Infinity);
 				}
@@ -68,7 +68,7 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 				);
 			}
 
-			if (GameManager.debug) {
+			if (GameManager.ShowDebug) {
 				Debug.DrawLine (prj.position.value, prj.destination.value, Color.gray, Mathf.Infinity);
 			}
 		}

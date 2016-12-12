@@ -9,7 +9,7 @@ public class UnityInput : IInput {
 	#region IInput implementation
 	public float GetXMove ()
 	{
-		if (!EventSystem.current.IsPointerOverGameObject()) {
+		if (EventSystem.current.IsPointerOverGameObject()) {
 			return 0f;
 		}
 
@@ -26,7 +26,7 @@ public class UnityInput : IInput {
 
 	public float GetYMove ()
 	{
-		if (!EventSystem.current.IsPointerOverGameObject()) {
+		if (EventSystem.current.IsPointerOverGameObject()) {
 			return 0f;
 		}
 
@@ -43,7 +43,7 @@ public class UnityInput : IInput {
 
 	public float GetRotationAngle()
 	{
-		if (!EventSystem.current.IsPointerOverGameObject()) {
+		if (EventSystem.current.IsPointerOverGameObject()) {
 			return 0f;
 		}
 
@@ -55,7 +55,7 @@ public class UnityInput : IInput {
 	}
 
 	public float GetZoomAmount (){
-		if (!EventSystem.current.IsPointerOverGameObject()) {
+		if (EventSystem.current.IsPointerOverGameObject()) {
 			return 0f;
 		}
 
