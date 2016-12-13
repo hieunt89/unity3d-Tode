@@ -22,13 +22,13 @@ public class EnemyInitSystem : IReactiveSystem, ISetPool
 	void IReactiveExecuteSystem.Execute(List<Entity> entities)
     {
 		for (int waveIndex = 0; waveIndex < entities.Count; waveIndex++) { // loop throu all active waves
-			var e = entities [waveIndex];
+			var wave = entities [waveIndex];
 			float activeTime = _pool.timeTotal.value;
 			WaveGroupData waveGroup;
 			Entity ePath;
 			CharacterData enemyData;
-			for (int groupIndex = 0; groupIndex < e.wave.groups.Count; groupIndex++) { //loop throu all wave group datas in wave
-				waveGroup = e.wave.groups[groupIndex];
+			for (int groupIndex = 0; groupIndex < wave.wave.groups.Count; groupIndex++) { //loop throu all wave group datas in wave
+				waveGroup = wave.wave.groups[groupIndex];
 				activeTime = activeTime + waveGroup.GroupDelay;
 				ePath = _pool.GetEntityById(waveGroup.PathId);
 				if (ePath == null) { //continue if path not found
@@ -51,39 +51,23 @@ public class EnemyInitSystem : IReactiveSystem, ISetPool
 						activeTime = activeTime + waveGroup.SpawnInterval;
 					}
 
-					Entity enemy = _pool.CreateEntity ()
-						.AddEnemy (waveGroup.EnemyId)
-						.AddId (e.id.value + "_group" + groupIndex + "_enemy" + enemyIndex)
+					var e = _pool.CreateCharacter (enemyData);
+					e.AddEnemy (waveGroup.EnemyId)
+						.AddId (wave.id.value + "_group" + groupIndex + "_enemy" + enemyIndex)
 						.AddPathReference (ePath)
 						.AddMarkedForActive (activeTime)
 						.AddDestination (ePath.path.wayPoints [1])
 						.AddPosition (ePath.path.wayPoints [0])
-						.AddMoveSpeed (enemyData.MoveSpeed)
-						.AddMoveSpeedBase (enemyData.MoveSpeed)
-						.AddTurnSpeed (enemyData.TurnSpeed)
-						.AddLifeCount (enemyData.LifeCount)
-						.AddGold (enemyData.GoldWorth)
-						.AddAttack (enemyData.AtkType)
-						.AddAttackSpeed (enemyData.AtkSpeed)
-						.AddAttackTime (enemyData.AtkTime)
-						.AddAttackDamageRange (enemyData.MinAtkDmg, enemyData.MaxAtkDmg)
-						.AddAttackRange (enemyData.AtkRange)
-						.AddArmor (enemyData.Armors)
-						.AddHp (enemyData.Hp)
-						.AddHpTotal (enemyData.Hp)
-						.AddDyingTime(enemyData.DyingTime)
-						.AddPointTarget(enemyData.AtkPoint)
 						.IsTargetable (true)
 						.IsAttackable(true)
-						.IsMovable(true)
-						;
+						.IsMovable(true);
 					if (enemyData.HpRegenRate > 0 && enemyData.HpRegenInterval > 0) {
-						enemy.AddHpRegen (enemyData.HpRegenRate, enemyData.HpRegenInterval, enemyData.HpRegenInterval);
+						e.AddHpRegen (enemyData.HpRegenRate, enemyData.HpRegenInterval, enemyData.HpRegenInterval);
 					}
 				}
 			}
 
-			_pool.DestroyEntity (e);
+			_pool.DestroyEntity (wave);
 		}
     }
 

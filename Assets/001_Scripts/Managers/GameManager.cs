@@ -74,7 +74,11 @@ public class GameManager : MonoBehaviour {
 				.Add(pools.pool.CreateSystem ( new EnemyMoveSystem () ))
 				.Add(pools.pool.CreateSystem ( new EnemyReachEndSystem () ))
 				.Add(pools.pool.CreateSystem ( new EnemyWatchHpSystem () ))
-				
+
+				//Ally
+				.Add(pools.pool.CreateSystem ( new AllyInitSystem () ))
+				.Add(pools.pool.CreateSystem ( new AllyEngageSystem () ))
+
 				//Projectile
 				.Add(pools.pool.CreateSystem ( new ProjectileInstantSystem() ))
 				.Add(pools.pool.CreateSystem ( new ProjectileHomingSystem () ))
@@ -94,7 +98,7 @@ public class GameManager : MonoBehaviour {
 
 				//View
 				.Add(pools.pool.CreateSystem ( new TowerCreateViewSystem () ))
-				.Add(pools.pool.CreateSystem ( new EnemyCreateViewSystem () ))
+				.Add(pools.pool.CreateSystem ( new CharacterCreateViewSystem () ))
 				.Add(pools.pool.CreateSystem ( new ProjectileCreateViewSystem () ))
 				.Add(pools.pool.CreateSystem ( new ProjectileLaserViewSystem () ))
 				.Add(pools.pool.CreateSystem ( new UpdateViewPositionSystem () ))

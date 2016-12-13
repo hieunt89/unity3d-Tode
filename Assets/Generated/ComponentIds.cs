@@ -9,99 +9,103 @@
 public static class ComponentIds {
 
     public const int Active = 0;
-    public const int Aoe = 1;
-    public const int Armor = 2;
-    public const int Attack = 3;
-    public const int Attackable = 4;
-    public const int AttackCooldown = 5;
-    public const int AttackDamage = 6;
-    public const int AttackDamageRange = 7;
-    public const int Attacking = 8;
-    public const int AttackingParams = 9;
-    public const int AttackOverTime = 10;
-    public const int AttackRange = 11;
-    public const int AttackSpeed = 12;
-    public const int AttackTime = 13;
-    public const int Channeling = 14;
-    public const int Coroutine = 15;
-    public const int CoroutineQueue = 16;
-    public const int CurrentSelected = 17;
-    public const int Description = 18;
-    public const int Destination = 19;
-    public const int Duration = 20;
-    public const int Dying = 21;
-    public const int DyingTime = 22;
-    public const int EffectMovement = 23;
-    public const int EffectMovementList = 24;
-    public const int Enemy = 25;
-    public const int Gold = 26;
-    public const int GoldPlayer = 27;
-    public const int Hp = 28;
-    public const int HpRegen = 29;
-    public const int HpTotal = 30;
-    public const int Icon = 31;
-    public const int Id = 32;
-    public const int Interactable = 33;
-    public const int Interval = 34;
-    public const int LifeCount = 35;
-    public const int LifePlayer = 36;
-    public const int Map = 37;
-    public const int MarkedForActive = 38;
-    public const int MarkedForDestroy = 39;
-    public const int MarkedForSell = 40;
-    public const int Movable = 41;
-    public const int MoveSpeed = 42;
-    public const int MoveSpeedBase = 43;
-    public const int Name = 44;
-    public const int NextWave = 45;
-    public const int Origin = 46;
-    public const int Path = 47;
-    public const int PathLength = 48;
-    public const int PathReference = 49;
-    public const int PointAttack = 50;
-    public const int PointTarget = 51;
-    public const int Position = 52;
-    public const int Projectile = 53;
-    public const int ProjectileHoming = 54;
-    public const int ProjectileInstant = 55;
-    public const int ProjectileLaser = 56;
-    public const int ProjectileMark = 57;
-    public const int ProjectileThrowing = 58;
-    public const int ProjectileThrowingParams = 59;
-    public const int ReachedEnd = 60;
-    public const int Rooted = 61;
-    public const int Selected = 62;
-    public const int SkillCombat = 63;
-    public const int Skill = 64;
-    public const int SkillEntityRefs = 65;
-    public const int SkillList = 66;
-    public const int SkillSummon = 67;
-    public const int SkillUpgrade = 68;
-    public const int Stunned = 69;
-    public const int Target = 70;
-    public const int Targetable = 71;
-    public const int Tick = 72;
-    public const int TimeSpeed = 73;
-    public const int TimeTotal = 74;
-    public const int Tower = 75;
-    public const int TowerBase = 76;
-    public const int TowerReset = 77;
-    public const int TowerUpgrade = 78;
-    public const int TowerUpgrading = 79;
-    public const int TurnSpeed = 80;
-    public const int View = 81;
-    public const int ViewAnims = 82;
-    public const int ViewCollider = 83;
-    public const int ViewLookAt = 84;
-    public const int ViewSelected = 85;
-    public const int ViewSlider = 86;
-    public const int Wave = 87;
-    public const int Wound = 88;
+    public const int Ally = 1;
+    public const int Aoe = 2;
+    public const int Armor = 3;
+    public const int Attack = 4;
+    public const int Attackable = 5;
+    public const int AttackCooldown = 6;
+    public const int AttackDamage = 7;
+    public const int AttackDamageRange = 8;
+    public const int Attacking = 9;
+    public const int AttackingParams = 10;
+    public const int AttackOverTime = 11;
+    public const int AttackRange = 12;
+    public const int AttackSpeed = 13;
+    public const int AttackTime = 14;
+    public const int Channeling = 15;
+    public const int Coroutine = 16;
+    public const int CoroutineQueue = 17;
+    public const int CurrentSelected = 18;
+    public const int Description = 19;
+    public const int Destination = 20;
+    public const int Duration = 21;
+    public const int Dying = 22;
+    public const int DyingTime = 23;
+    public const int EffectMovement = 24;
+    public const int EffectMovementList = 25;
+    public const int Enemy = 26;
+    public const int Engaged = 27;
+    public const int Gold = 28;
+    public const int GoldPlayer = 29;
+    public const int Hp = 30;
+    public const int HpRegen = 31;
+    public const int HpTotal = 32;
+    public const int Icon = 33;
+    public const int Id = 34;
+    public const int Interactable = 35;
+    public const int Interval = 36;
+    public const int LifeCount = 37;
+    public const int LifePlayer = 38;
+    public const int Map = 39;
+    public const int MarkedForActive = 40;
+    public const int MarkedForDestroy = 41;
+    public const int MarkedForSell = 42;
+    public const int Movable = 43;
+    public const int MoveSpeed = 44;
+    public const int MoveSpeedBase = 45;
+    public const int Name = 46;
+    public const int NextWave = 47;
+    public const int Origin = 48;
+    public const int Path = 49;
+    public const int PathLength = 50;
+    public const int PathReference = 51;
+    public const int PointAttack = 52;
+    public const int PointTarget = 53;
+    public const int Position = 54;
+    public const int Projectile = 55;
+    public const int ProjectileHoming = 56;
+    public const int ProjectileInstant = 57;
+    public const int ProjectileLaser = 58;
+    public const int ProjectileMark = 59;
+    public const int ProjectileThrowing = 60;
+    public const int ProjectileThrowingParams = 61;
+    public const int ReachedEnd = 62;
+    public const int Rooted = 63;
+    public const int Selected = 64;
+    public const int SkillCombat = 65;
+    public const int Skill = 66;
+    public const int SkillEntityRefs = 67;
+    public const int SkillList = 68;
+    public const int SkillSummon = 69;
+    public const int SkillUpgrade = 70;
+    public const int Stunned = 71;
+    public const int Target = 72;
+    public const int Targetable = 73;
+    public const int TargetRange = 74;
+    public const int Tick = 75;
+    public const int TimeSpeed = 76;
+    public const int TimeTotal = 77;
+    public const int Tower = 78;
+    public const int TowerBase = 79;
+    public const int TowerReset = 80;
+    public const int TowerUpgrade = 81;
+    public const int TowerUpgrading = 82;
+    public const int TurnSpeed = 83;
+    public const int View = 84;
+    public const int ViewAnims = 85;
+    public const int ViewCollider = 86;
+    public const int ViewLookAt = 87;
+    public const int ViewSelected = 88;
+    public const int ViewSlider = 89;
+    public const int Wave = 90;
+    public const int Wound = 91;
 
-    public const int TotalComponents = 89;
+    public const int TotalComponents = 92;
 
     public static readonly string[] componentNames = {
         "Active",
+        "Ally",
         "Aoe",
         "Armor",
         "Attack",
@@ -127,6 +131,7 @@ public static class ComponentIds {
         "EffectMovement",
         "EffectMovementList",
         "Enemy",
+        "Engaged",
         "Gold",
         "GoldPlayer",
         "Hp",
@@ -173,6 +178,7 @@ public static class ComponentIds {
         "Stunned",
         "Target",
         "Targetable",
+        "TargetRange",
         "Tick",
         "TimeSpeed",
         "TimeTotal",
@@ -194,6 +200,7 @@ public static class ComponentIds {
 
     public static readonly System.Type[] componentTypes = {
         typeof(Active),
+        typeof(Ally),
         typeof(Aoe),
         typeof(Armor),
         typeof(Attack),
@@ -219,6 +226,7 @@ public static class ComponentIds {
         typeof(EffectMovement),
         typeof(EffectMovementList),
         typeof(Enemy),
+        typeof(Engaged),
         typeof(Gold),
         typeof(GoldPlayer),
         typeof(Hp),
@@ -265,6 +273,7 @@ public static class ComponentIds {
         typeof(Stunned),
         typeof(Target),
         typeof(Targetable),
+        typeof(TargetRange),
         typeof(Tick),
         typeof(TimeSpeed),
         typeof(TimeTotal),

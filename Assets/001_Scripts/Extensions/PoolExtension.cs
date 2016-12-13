@@ -55,4 +55,29 @@ public static class PoolExtension {
 		}
 		return e;
 	}
+
+	public static Entity CreateCharacter(this Pool pool, CharacterData charData){		
+		var e = pool.CreateEntity ()
+			.AddMoveSpeed (charData.MoveSpeed)
+			.AddMoveSpeedBase (charData.MoveSpeed)
+			.AddTurnSpeed (charData.TurnSpeed)
+			.AddLifeCount (charData.LifeCount)
+			.AddGold (charData.GoldWorth)
+			.AddAttack (charData.AtkType)
+			.AddAttackSpeed (charData.AtkSpeed)
+			.AddAttackTime (charData.AtkTime)
+			.AddAttackDamageRange (charData.MinAtkDmg, charData.MaxAtkDmg)
+			.AddAttackRange (charData.AtkRange)
+			.AddArmor (charData.Armors)
+			.AddHp (charData.Hp)
+			.AddHpTotal (charData.Hp)
+			.AddDyingTime (charData.DyingTime)
+			.AddPointTarget (charData.AtkPoint)
+			.AddTargetRange (2f) // psuedo data
+			;
+		if (charData.HpRegenRate > 0 && charData.HpRegenInterval > 0) {
+			e.AddHpRegen (charData.HpRegenRate, charData.HpRegenInterval, charData.HpRegenInterval);
+		}
+		return e;
+	}
 }
