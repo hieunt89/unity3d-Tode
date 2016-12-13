@@ -27,5 +27,19 @@ public class Tree <T> where T : class {
 		this.treeType = treeType;
 		this.id = id;
 	}
+
+	public List<Node<T>> GetAllNodes(){
+		List<Node<T>> nodes = new List<Node<T>> ();
+
+		AddNodesToList (ref nodes, Root);
+		return nodes;
+	}
+
+	void AddNodesToList(ref List<Node<T>> nodes, Node<T> node){
+		nodes.Add (node);
+		for (int i = 0; i < node.children.Count; i++) {
+			AddNodesToList(ref nodes, node.children[i]);
+		}
+	}
 }
 
