@@ -41,7 +41,7 @@ public class NodeGUI {
 	public void UpdateNode (Event _e, Rect _viewRect) {
 	}
 
-	public void UpdateNodeUI (int nodeIndex, Event _e, Rect _viewRect, GUISkin _viewSkin) {
+	public void UpdateNodeUI (int nodeIndex, Event _e, Rect _viewRect) {
 		if (nodeData == null) return;
 
 

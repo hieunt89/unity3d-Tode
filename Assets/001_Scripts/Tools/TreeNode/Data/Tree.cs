@@ -13,6 +13,7 @@ public enum TreeType {
 public class Tree <T> : ScriptableObject where T : class{
 	public TreeType treeType;
 	public string id;
+	public string name;
 	public Node <T> Root;
 
 	public Tree(){

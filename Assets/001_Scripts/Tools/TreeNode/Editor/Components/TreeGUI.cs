@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 
 public class TreeGUI : IInjectDataUtils {
-	public TreeList treeList;
 	public Tree<string> treeData;
 	public List<NodeGUI> nodes;
 	public NodeGUI selectedNode;
@@ -30,8 +29,7 @@ public class TreeGUI : IInjectDataUtils {
 	public TreeGUI (TreeType _treeType, string _treeName) {
 		SetDataUtils (DIContainer.GetModule<IDataUtils> ());
 
-//		treeData = new Tree<string> (_treeType, _treeName);
-		treeList = ScriptableObject.CreateInstance <TreeList> ();
+		treeData = new Tree<string> (_treeType, _treeName);
 		if (nodes == null) {
 			nodes = new List<NodeGUI> ();
 		}
@@ -71,7 +69,7 @@ public class TreeGUI : IInjectDataUtils {
 		}
 	}
 
-	public void UpdateTreeUI (Event _e, Rect _viewRect, GUISkin _viewSkin) {
+	public void UpdateTreeUI (Event _e, Rect _viewRect) {
 		ProcessEvents (_e, _viewRect);
 		
 		if (treeData != null && nodes.Count == 0) {
@@ -80,7 +78,7 @@ public class TreeGUI : IInjectDataUtils {
 
 		if (nodes.Count > 0) {
 			for (int i = 0; i < nodes.Count; i++) {
-				nodes [i].UpdateNodeUI (i, _e, _viewRect, _viewSkin);
+				nodes [i].UpdateNodeUI (i, _e, _viewRect);
 			}
 		}
 

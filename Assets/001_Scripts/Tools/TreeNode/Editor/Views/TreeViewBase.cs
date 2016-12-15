@@ -22,23 +22,17 @@ public class TreeViewBase {
 		GetEditorSkin ();
 	}
 
-	public virtual void UpdateView (Rect _editorWindowRect, Rect _percentageRect, Event _e, TreeGUI _currentTree) {
+	public virtual void UpdateView (Rect _rect, Event _e, TreeGUI _currentTree) {
 		if (viewSkin == null) {
 			GetEditorSkin ();
 			return;
 		}
 
 		this.currentTree = _currentTree;
-
-		viewRect = new Rect (
-			_editorWindowRect.x * _percentageRect.x,
-			_editorWindowRect.y * _percentageRect.y,
-			_editorWindowRect.width * _percentageRect.width,
-			_editorWindowRect.height * _percentageRect.height
-		);
+		viewRect = _rect;
 	}
 
-	public virtual void ProcessEvent (Event e) {
+	public virtual void ProcessEvents (Event e) {
 	}
 
 	protected void GetEditorSkin () {
