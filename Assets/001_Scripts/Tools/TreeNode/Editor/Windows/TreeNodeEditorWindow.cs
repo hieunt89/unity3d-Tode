@@ -13,7 +13,6 @@ public class TreeNodeEditorWindow : EditorWindow {
 	public TreeType workingType;
 	public TreeList treeList;
 
-
 	IDataUtils dataUtils;
 
 	private float listViewWidth = 200f;
@@ -117,27 +116,38 @@ public class TreeNodeEditorWindow : EditorWindow {
 		dataUtils.CreateData <TreeList> (treeList);
 	}
 
+	string treeName;
+	TreeType treeType;
+
 	void DrawListView () {
-		EditorGUILayout.LabelField ("Tree List");
+		EditorGUILayout.LabelField ("Create New Tree");
 
-		GUILayout.BeginHorizontal ();
-		if (GUILayout.Button ("Add Tree")) {
-			AddTowerData ();
+		treeName = EditorGUILayout.TextField (treeName);
+		treeType = (TreeType) EditorGUILayout.EnumPopup (treeType);
+		GUI.enabled = !string.IsNullOrEmpty (treeName) && treeType != TreeType.None;
+		if (GUILayout.Button ("Create")) {
+			AddTreeData (treeName, treeType);
 		}
-		GUILayout.EndHorizontal ();
+		GUI.enabled = true;	
 
+		GUILayout.Space (10);
+
+		EditorGUILayout.LabelField ("Tree List");
 		for (int i = 0; i < treeList.trees.Count; i++) {
-//			EditorGUILayout.LabelField (treeList.trees[i].id);
-			if (GUILayout.Button (treeList.trees[i].id)) {
+			GUILayout.BeginHorizontal ();
+			if (GUILayout.Button (treeList.trees[i].name)) {
 				treeIndex = i;
 				TreeEditorUtils.ConstructTree (treeList.trees [treeIndex]);
 			}
+			GUILayout.EndHorizontal ();
 		}
 	}
 
-	void AddTowerData () {
+	void AddTreeData (string treeName, TreeType treeType) {
 		Tree<string> newTreeData = new Tree<string>();
 		newTreeData.id = Guid.NewGuid().ToString();
+		newTreeData.name = treeName;
+		newTreeData.treeType = treeType;
 		treeList.trees.Add (newTreeData);
 //		selectedTowerIndexes.Add (false);
 		treeIndex = treeList.trees.Count;
