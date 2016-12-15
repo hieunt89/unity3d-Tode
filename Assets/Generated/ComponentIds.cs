@@ -35,73 +35,75 @@ public static class ComponentIds {
     public const int EffectMovement = 24;
     public const int EffectMovementList = 25;
     public const int Enemy = 26;
-    public const int Engaged = 27;
-    public const int Gold = 28;
-    public const int GoldPlayer = 29;
-    public const int Hp = 30;
-    public const int HpRegen = 31;
-    public const int HpTotal = 32;
-    public const int Icon = 33;
-    public const int Id = 34;
-    public const int Interactable = 35;
-    public const int Interval = 36;
-    public const int LifeCount = 37;
-    public const int LifePlayer = 38;
-    public const int Map = 39;
-    public const int MarkedForActive = 40;
-    public const int MarkedForDestroy = 41;
-    public const int MarkedForSell = 42;
-    public const int Movable = 43;
-    public const int MoveSpeed = 44;
-    public const int MoveSpeedBase = 45;
-    public const int Name = 46;
-    public const int NextWave = 47;
-    public const int Origin = 48;
-    public const int Path = 49;
-    public const int PathLength = 50;
-    public const int PathReference = 51;
-    public const int PointAttack = 52;
-    public const int PointTarget = 53;
-    public const int Position = 54;
-    public const int Projectile = 55;
-    public const int ProjectileHoming = 56;
-    public const int ProjectileInstant = 57;
-    public const int ProjectileLaser = 58;
-    public const int ProjectileMark = 59;
-    public const int ProjectileThrowing = 60;
-    public const int ProjectileThrowingParams = 61;
-    public const int ReachedEnd = 62;
-    public const int Rooted = 63;
-    public const int Selected = 64;
-    public const int SkillCombat = 65;
-    public const int Skill = 66;
-    public const int SkillEntityRefs = 67;
-    public const int SkillList = 68;
-    public const int SkillSummon = 69;
-    public const int SkillUpgrade = 70;
-    public const int Stunned = 71;
-    public const int Target = 72;
-    public const int Targetable = 73;
-    public const int TargetRange = 74;
-    public const int Tick = 75;
-    public const int TimeSpeed = 76;
-    public const int TimeTotal = 77;
-    public const int Tower = 78;
-    public const int TowerBase = 79;
-    public const int TowerReset = 80;
-    public const int TowerUpgrade = 81;
-    public const int TowerUpgrading = 82;
-    public const int TurnSpeed = 83;
-    public const int View = 84;
-    public const int ViewAnims = 85;
-    public const int ViewCollider = 86;
-    public const int ViewLookAt = 87;
-    public const int ViewSelected = 88;
-    public const int ViewSlider = 89;
-    public const int Wave = 90;
-    public const int Wound = 91;
+    public const int Engage = 27;
+    public const int Engaged = 28;
+    public const int EngageRange = 29;
+    public const int Gold = 30;
+    public const int GoldPlayer = 31;
+    public const int Hp = 32;
+    public const int HpRegen = 33;
+    public const int HpTotal = 34;
+    public const int Icon = 35;
+    public const int Id = 36;
+    public const int Interactable = 37;
+    public const int Interval = 38;
+    public const int LifeCount = 39;
+    public const int LifePlayer = 40;
+    public const int Map = 41;
+    public const int MarkedForActive = 42;
+    public const int MarkedForDestroy = 43;
+    public const int MarkedForSell = 44;
+    public const int Movable = 45;
+    public const int MoveSpeed = 46;
+    public const int MoveSpeedBase = 47;
+    public const int Name = 48;
+    public const int NextWave = 49;
+    public const int Origin = 50;
+    public const int Path = 51;
+    public const int PathLength = 52;
+    public const int PathReference = 53;
+    public const int PointAttack = 54;
+    public const int PointTarget = 55;
+    public const int Position = 56;
+    public const int Projectile = 57;
+    public const int ProjectileHoming = 58;
+    public const int ProjectileInstant = 59;
+    public const int ProjectileLaser = 60;
+    public const int ProjectileMark = 61;
+    public const int ProjectileThrowing = 62;
+    public const int ProjectileThrowingParams = 63;
+    public const int RallyPoint = 64;
+    public const int ReachedEnd = 65;
+    public const int Rooted = 66;
+    public const int Selected = 67;
+    public const int SkillCombat = 68;
+    public const int Skill = 69;
+    public const int SkillEntityRefs = 70;
+    public const int SkillList = 71;
+    public const int SkillSummon = 72;
+    public const int SkillUpgrade = 73;
+    public const int Stunned = 74;
+    public const int Target = 75;
+    public const int Targetable = 76;
+    public const int Tick = 77;
+    public const int TimeSpeed = 78;
+    public const int TimeTotal = 79;
+    public const int Tower = 80;
+    public const int TowerBase = 81;
+    public const int TowerReset = 82;
+    public const int TowerUpgrade = 83;
+    public const int TowerUpgrading = 84;
+    public const int TurnSpeed = 85;
+    public const int View = 86;
+    public const int ViewAnims = 87;
+    public const int ViewCollider = 88;
+    public const int ViewLookAt = 89;
+    public const int ViewSelected = 90;
+    public const int ViewSlider = 91;
+    public const int Wave = 92;
+    public const int Wound = 93;
 
-    public const int TotalComponents = 92;
+    public const int TotalComponents = 94;
 
     public static readonly string[] componentNames = {
         "Active",
@@ -131,7 +133,9 @@ public static class ComponentIds {
         "EffectMovement",
         "EffectMovementList",
         "Enemy",
+        "Engage",
         "Engaged",
+        "EngageRange",
         "Gold",
         "GoldPlayer",
         "Hp",
@@ -166,6 +170,7 @@ public static class ComponentIds {
         "ProjectileMark",
         "ProjectileThrowing",
         "ProjectileThrowingParams",
+        "RallyPoint",
         "ReachedEnd",
         "Rooted",
         "Selected",
@@ -178,7 +183,6 @@ public static class ComponentIds {
         "Stunned",
         "Target",
         "Targetable",
-        "TargetRange",
         "Tick",
         "TimeSpeed",
         "TimeTotal",
@@ -226,7 +230,9 @@ public static class ComponentIds {
         typeof(EffectMovement),
         typeof(EffectMovementList),
         typeof(Enemy),
+        typeof(Engage),
         typeof(Engaged),
+        typeof(EngageRange),
         typeof(Gold),
         typeof(GoldPlayer),
         typeof(Hp),
@@ -261,6 +267,7 @@ public static class ComponentIds {
         typeof(ProjectileMark),
         typeof(ProjectileThrowing),
         typeof(ProjectileThrowingParams),
+        typeof(RallyPoint),
         typeof(ReachedEnd),
         typeof(Rooted),
         typeof(Selected),
@@ -273,7 +280,6 @@ public static class ComponentIds {
         typeof(Stunned),
         typeof(Target),
         typeof(Targetable),
-        typeof(TargetRange),
         typeof(Tick),
         typeof(TimeSpeed),
         typeof(TimeTotal),

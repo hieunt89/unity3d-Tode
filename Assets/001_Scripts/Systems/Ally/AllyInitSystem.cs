@@ -27,6 +27,7 @@ public class AllyInitSystem : IInitializeSystem, ISetPool{
 		e.AddAlly (charId)
 			.AddId ("ally")
 			.AddPosition (pos)
+			.AddRallyPoint (pos)
 			.IsTargetable (true)
 			.IsAttackable (true)
 			.IsActive (true);

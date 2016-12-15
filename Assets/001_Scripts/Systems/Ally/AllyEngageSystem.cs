@@ -10,7 +10,7 @@ public class AllyEngageSystem : IReactiveSystem, ISetPool {
 	public void SetPool (Pool pool)
 	{
 		_pool = pool;
-		_groupActiveAlly = _pool.GetGroup (Matcher.AllOf (Matcher.Active, Matcher.Ally).NoneOf(Matcher.Target));
+		_groupActiveAlly = _pool.GetGroup (Matcher.AllOf (Matcher.Active, Matcher.Ally).NoneOf(Matcher.Engage, Matcher.Target));
 		_groupActiveEnemy = _pool.GetGroup (Matcher.AllOf (Matcher.Enemy, Matcher.Active, Matcher.Targetable));
 	}
 
@@ -29,9 +29,14 @@ public class AllyEngageSystem : IReactiveSystem, ISetPool {
 		for (int i = 0; i < allyEns.Length; i++) {
 			var ally = allyEns [i];
 
-			var target = CombatUtility.FindTargetInRange (ally, enemyEns, ally.targetRange.value);
+			var target = CombatUtility.FindTargetInRange (ally.rallyPoint.position, enemyEns, ally.engageRange.value);
 			if (target != null) {
-				ally.AddTarget (target).AddDestination(target.position.value);
+				ally.AddEngage (target);
+				ally.ReplaceDestination (ally.engage.target.position.value);
+				if (!ally.isMovable) {
+					ally.IsMovable (true);
+				}
+
 				target.IsEngaged (true).IsMovable(false);
 			}
 		}

@@ -40,7 +40,7 @@ public class FindTargetSystem : IReactiveSystem, ISetPool {
 				origin = attackerEns [i];
 			}
 
-			var target = CombatUtility.FindTargetInRange (origin, enemyEns, attackerEns[i].attackRange.value);
+			var target = CombatUtility.FindTargetInRange (origin.position.value, enemyEns, attackerEns[i].attackRange.value);
 			if (target != null) {
 				attackerEns [i].AddTarget (target);
 			}

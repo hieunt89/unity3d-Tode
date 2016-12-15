@@ -16,7 +16,7 @@ public class UpdateLookDirectionSystem : IReactiveSystem, ISetPool, IEnsureCompo
 
 	public IMatcher ensureComponents {
 		get {
-			return Matcher.AllOf (Matcher.View);
+			return Matcher.AllOf (Matcher.View, Matcher.Destination, Matcher.Position);
 		}
 	}
 

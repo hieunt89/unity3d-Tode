@@ -73,7 +73,7 @@ public static class PoolExtension {
 			.AddHpTotal (charData.Hp)
 			.AddDyingTime (charData.DyingTime)
 			.AddPointTarget (charData.AtkPoint)
-			.AddTargetRange (2f) // psuedo data
+			.AddEngageRange (4f) // psuedo data
 			;
 		if (charData.HpRegenRate > 0 && charData.HpRegenInterval > 0) {
 			e.AddHpRegen (charData.HpRegenRate, charData.HpRegenInterval, charData.HpRegenInterval);

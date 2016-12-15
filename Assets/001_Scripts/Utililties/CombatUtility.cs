@@ -47,10 +47,10 @@ public class CombatUtility{
 		return targetableEnemies;
 	}
 
-	public static Entity FindTargetInRange(Entity attacker, Entity[] targets, float range){
+	public static Entity FindTargetInRange(Vector3 origin, Entity[] targets, float range){
 		var targetableEnemies = new List<Entity> ();
 		for (int i = 0; i < targets.Length; i++) {
-			if( targets[i].position.value.IsInRange(attacker.position.value, range) ){
+			if( targets[i].position.value.IsInRange(origin, range) ){
 				targetableEnemies.Add (targets [i]);
 			}
 		}
