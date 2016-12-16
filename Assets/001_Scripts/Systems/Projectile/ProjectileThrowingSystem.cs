@@ -108,8 +108,13 @@ public class ProjectileThrowingSystem : IReactiveSystem, ISetPool {
 
 	Vector3 GetEnemyFuturePosition(Entity e, float timeToContact){
 		if (!e.hasPathReference) {
-			return Vector3.zero;
+			return e.position.value;
 		}
+
+		if(!e.isMovable){
+			return e.position.value;
+		}
+
 		var points = e.pathReference.e.path.wayPoints;
 		var distanceBtwPoints = e.pathReference.e.pathLength.distances;
 		var enemyDistanceFromStart = GetEnemyTraveledDistance(e);

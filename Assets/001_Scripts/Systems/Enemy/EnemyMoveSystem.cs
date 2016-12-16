@@ -28,6 +28,10 @@ public class EnemyMoveSystem : IReactiveSystem, ISetPool {
 		var ens = _groupEnemyMovable.GetEntities ();
 		for (int i = 0; i < ens.Length; i++) {
 			var enemy = ens [i];
+			if (!enemy.hasDestination) {
+				enemy.ReplaceDestination(GetNextDestination (enemy.position.value, enemy.pathReference.e.path.wayPoints));
+			}
+
 			if (enemy.position.value == enemy.destination.value) {
 				var target = GetNextDestination (enemy.position.value, enemy.pathReference.e.path.wayPoints);
 				if (enemy.position.value == target) {

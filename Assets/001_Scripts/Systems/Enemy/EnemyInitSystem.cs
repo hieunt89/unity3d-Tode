@@ -56,7 +56,6 @@ public class EnemyInitSystem : IReactiveSystem, ISetPool
 						.AddId (wave.id.value + "_group" + groupIndex + "_enemy" + enemyIndex)
 						.AddPathReference (ePath)
 						.AddMarkedForActive (activeTime)
-						.AddDestination (ePath.path.wayPoints [1])
 						.AddPosition (ePath.path.wayPoints [0])
 						.IsTargetable (true)
 						.IsAttackable(true)

@@ -55,6 +55,9 @@ public class GameManager : MonoBehaviour {
 
 				//Combat
 				.Add(pools.pool.CreateSystem ( new CheckTargetSystem () ))
+				.Add(pools.pool.CreateSystem ( new CheckEngageSystem () ))
+				.Add(pools.pool.CreateSystem ( new CheckEngageDistanceSystem () ))
+				.Add(pools.pool.CreateSystem ( new CheckCloseCombatSystem () ))
 				.Add(pools.pool.CreateSystem ( new FindTargetSystem () ))
 				.Add(pools.pool.CreateSystem ( new AttackOverTimeSystem () ))
 				.Add(pools.pool.CreateSystem ( new AttackCooldownSystem () ))
@@ -80,7 +83,6 @@ public class GameManager : MonoBehaviour {
 				.Add(pools.pool.CreateSystem ( new AllyMoveSystem () ))
 				.Add(pools.pool.CreateSystem ( new AllyMoveBackSystem () ))
 				.Add(pools.pool.CreateSystem ( new AllyEngageSystem () ))
-				.Add(pools.pool.CreateSystem ( new AllyCheckEngageSystem () ))
 
 				//Projectile
 				.Add(pools.pool.CreateSystem ( new ProjectileInstantSystem() ))

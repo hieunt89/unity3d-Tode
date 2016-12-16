@@ -27,8 +27,7 @@ public class CheckTargetSystem : IReactiveSystem, ISetPool {
 			var attacker = ens [i];
 			var target = ens [i].target.e;
 			var origin = attacker.hasSkill ? attacker.origin.e : attacker;
-			var range = Mathf.Max (attacker.attackRange.value, ConstantData.MIN_ATK_RANGE);
-			if(!target.isTargetable || !target.position.value.IsInRange(origin.position.value, range)){
+			if(!target.isTargetable || !target.position.value.IsInRange(origin.position.value, attacker.attackRange.value)){
 				attacker.RemoveTarget ();
 			}
 		}

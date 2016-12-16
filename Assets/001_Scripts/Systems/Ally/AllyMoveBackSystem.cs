@@ -35,7 +35,7 @@ public class AllyMoveBackSystem : IReactiveSystem, IEnsureComponents {
 
 	public TriggerOnEvent trigger {
 		get {
-			return Matcher.AnyOf(Matcher.Target, Matcher.Engage).OnEntityRemoved ();
+			return Matcher.AnyOf(Matcher.CloseCombat, Matcher.Engage).OnEntityRemoved ();
 		}
 	}
 
