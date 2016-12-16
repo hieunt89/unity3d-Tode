@@ -2,22 +2,12 @@
 using System.Collections;
 using Entitas;
 
-public class UpdateLookDirectionSystem : IReactiveSystem, ISetPool, IEnsureComponents {
+public class UpdateLookDirectionSystem : IReactiveSystem, ISetPool {
 	#region ISetPool implementation
-	Pool _pool;
+	Group _groupLookAt;
 	public void SetPool (Pool pool)
 	{
-		_pool = pool;
-	}
-
-	#endregion
-
-	#region IEnsureComponents implementation
-
-	public IMatcher ensureComponents {
-		get {
-			return Matcher.AllOf (Matcher.View, Matcher.Destination, Matcher.Position);
-		}
+		_groupLookAt = pool.GetGroup (Matcher.AllOf (Matcher.View, Matcher.Position).AnyOf(Matcher.Engaged, Matcher.Destination));
 	}
 
 	#endregion
@@ -26,11 +16,22 @@ public class UpdateLookDirectionSystem : IReactiveSystem, ISetPool, IEnsureCompo
 
 	public void Execute (System.Collections.Generic.List<Entity> entities)
 	{
-		for (int i = 0; i < entities.Count; i++) {
-			var e = entities [i];
-			Vector3 targetDir = e.destination.value - e.position.value;
+		if (_groupLookAt.count <= 0) {
+			return;
+		}
+
+		var tickEn = entities.SingleEntity ();
+		var ens = _groupLookAt.GetEntities ();
+		for (int i = 0; i < ens.Length; i++) {
+			var e = ens [i];
+			Vector3 targetDir = Vector3.zero;
+			if (e.hasEngaged) {
+				targetDir = e.engaged.source.position.value - e.position.value;
+			}else if (e.hasDestination) {
+				targetDir = e.destination.value - e.position.value;
+			}
 			if (e.hasTurnSpeed) {
-				float step = e.turnSpeed.value * _pool.tick.change;
+				float step = e.turnSpeed.value * tickEn.tick.change;
 				targetDir = Vector3.RotateTowards (e.view.go.transform.forward, targetDir, step, 0f);
 				if (GameManager.ShowDebug) {
 					Debug.DrawRay (e.position.value, targetDir, Color.red);
@@ -49,7 +50,7 @@ public class UpdateLookDirectionSystem : IReactiveSystem, ISetPool, IEnsureCompo
 
 	public TriggerOnEvent trigger {
 		get {
-			return Matcher.AllOf (Matcher.Position, Matcher.Destination).OnEntityAdded ();
+			return Matcher.Tick.OnEntityAdded ();
 		}
 	}
 

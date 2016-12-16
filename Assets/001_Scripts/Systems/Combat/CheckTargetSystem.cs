@@ -9,7 +9,7 @@ public class CheckTargetSystem : IReactiveSystem, ISetPool {
 	public void SetPool (Pool pool)
 	{
 		_pool = pool;
-		_groupHasTarget = _pool.GetGroup (Matcher.AllOf (Matcher.Active, Matcher.Target).AnyOf(Matcher.Tower, Matcher.Skill));
+		_groupHasTarget = _pool.GetGroup (Matcher.AllOf (Matcher.Active, Matcher.Target).AnyOf(Matcher.Tower, Matcher.Skill, Matcher.Ally));
 	}
 
 	#endregion
@@ -27,7 +27,8 @@ public class CheckTargetSystem : IReactiveSystem, ISetPool {
 			var attacker = ens [i];
 			var target = ens [i].target.e;
 			var origin = attacker.hasSkill ? attacker.origin.e : attacker;
-			if(!target.isTargetable || !target.position.value.IsInRange(origin.position.value, attacker.attackRange.value)){
+			var range = Mathf.Max (attacker.attackRange.value, ConstantData.MIN_ATK_RANGE);
+			if(!target.isTargetable || !target.position.value.IsInRange(origin.position.value, range)){
 				attacker.RemoveTarget ();
 			}
 		}

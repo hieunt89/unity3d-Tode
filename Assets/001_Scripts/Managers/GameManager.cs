@@ -78,9 +78,9 @@ public class GameManager : MonoBehaviour {
 				//Ally
 				.Add(pools.pool.CreateSystem ( new AllyInitSystem () ))
 				.Add(pools.pool.CreateSystem ( new AllyMoveSystem () ))
+				.Add(pools.pool.CreateSystem ( new AllyMoveBackSystem () ))
 				.Add(pools.pool.CreateSystem ( new AllyEngageSystem () ))
 				.Add(pools.pool.CreateSystem ( new AllyCheckEngageSystem () ))
-				.Add(pools.pool.CreateSystem ( new AllyMoveBackSystem () ))
 
 				//Projectile
 				.Add(pools.pool.CreateSystem ( new ProjectileInstantSystem() ))

@@ -25,7 +25,7 @@ public class AllyCheckEngageSystem : IReactiveSystem, ISetPool {
 			var ally = allies [i];
 
 			if (ally.engage.target.isTargetable) {
-				if (Vector3.Distance (ally.position.value, ally.engage.target.position.value) <= 0.5f) {
+				if (Vector3.Distance (ally.position.value, ally.engage.target.position.value) <= ConstantData.MIN_ATK_RANGE) {
 					//reach its target in close combat
 					ally.AddTarget (ally.engage.target);
 					ally.RemoveEngage ();

@@ -10,24 +10,24 @@ namespace Entitas {
 
     public partial class Entity {
 
-        static readonly Engaged engagedComponent = new Engaged();
+        public Engaged engaged { get { return (Engaged)GetComponent(ComponentIds.Engaged); } }
+        public bool hasEngaged { get { return HasComponent(ComponentIds.Engaged); } }
 
-        public bool isEngaged {
-            get { return HasComponent(ComponentIds.Engaged); }
-            set {
-                if(value != isEngaged) {
-                    if(value) {
-                        AddComponent(ComponentIds.Engaged, engagedComponent);
-                    } else {
-                        RemoveComponent(ComponentIds.Engaged);
-                    }
-                }
-            }
+        public Entity AddEngaged(Entitas.Entity newSource) {
+            var component = CreateComponent<Engaged>(ComponentIds.Engaged);
+            component.source = newSource;
+            return AddComponent(ComponentIds.Engaged, component);
         }
 
-        public Entity IsEngaged(bool value) {
-            isEngaged = value;
+        public Entity ReplaceEngaged(Entitas.Entity newSource) {
+            var component = CreateComponent<Engaged>(ComponentIds.Engaged);
+            component.source = newSource;
+            ReplaceComponent(ComponentIds.Engaged, component);
             return this;
+        }
+
+        public Entity RemoveEngaged() {
+            return RemoveComponent(ComponentIds.Engaged);
         }
     }
 
