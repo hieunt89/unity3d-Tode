@@ -42,7 +42,7 @@ public class TreeGUI : IInjectDataUtils {
 			if (towerData != null){
 				existIds = new List<string> ();
 				for (int i = 0; i < towerData.Count; i++) {
-					existIds.Add(towerData[i].Name);
+					existIds.Add(towerData[i].Id);
 				}
 			}
 			break;
@@ -51,7 +51,7 @@ public class TreeGUI : IInjectDataUtils {
 			if (combatSkillData != null){
 				existIds = new List<string> ();
 				for (int i = 0; i < combatSkillData.Count; i++) {
-					existIds.Add(combatSkillData[i].name);
+					existIds.Add(combatSkillData[i].id);
 				}
 			}
 			break;
@@ -60,7 +60,7 @@ public class TreeGUI : IInjectDataUtils {
 			if (summonSkillData != null){
 				existIds = new List<string> ();
 				for (int i = 0; i < summonSkillData.Count; i++) {
-					existIds.Add(summonSkillData[i].name);
+					existIds.Add(summonSkillData[i].id);
 				}
 			}
 			break;

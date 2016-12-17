@@ -9,7 +9,6 @@ public enum SkillType{
 
 public class SkillData {
 	public string id;
-	public int intId;
 	public string name;
 	public string description;
 	public string spritePath;

@@ -40,7 +40,7 @@ public class TreeNodeEditorWindow : EditorWindow {
 //		CreateViews ();
 	}
 
-	bool createNewTree;
+	bool toggleListView;
 
 	void OnGUI () {
 		// Get and process the current event
@@ -52,24 +52,19 @@ public class TreeNodeEditorWindow : EditorWindow {
 
 			scrollPosition = GUI.BeginScrollView (new Rect(0f, 0f, position.width, position.height), scrollPosition, new Rect (0, 0, 2000, 2000));
 			BeginWindows ();
-			workView.UpdateView (position, e, currentTree);
+			workView.UpdateView (new Rect (0, 0, 2000, 2000), e, currentTree);
 			EndWindows ();
 			GUI.EndScrollView ();
 		}
 
 		GUILayout.BeginHorizontal (EditorStyles.toolbar);
-		if (GUILayout.Button ("Back", EditorStyles.toolbarButton, GUILayout.Width (50))) {
-			
-		}
-		if (GUILayout.Button ("Create", EditorStyles.toolbarButton, GUILayout.Width (50))) {
-			createNewTree = true;
-		}
+		toggleListView = GUILayout.Toggle (toggleListView, "Trees", EditorStyles.toolbarButton, GUILayout.Width (50));
 		GUILayout.FlexibleSpace ();
 
 		GUILayout.EndHorizontal ();
 
 		GUILayout.BeginHorizontal ();
-		if (createNewTree) {
+		if (toggleListView) {
 			if (position.width > listViewWidth + 50f) {
 				GUILayout.BeginVertical ("box", GUILayout.Width (listViewWidth), GUILayout.Height (position.height));
 			
@@ -84,18 +79,28 @@ public class TreeNodeEditorWindow : EditorWindow {
 		}
 		GUILayout.FlexibleSpace ();
 
-		if (position.width > listViewWidth + propertiesViewWidth + 50f) {
-			GUILayout.BeginVertical ("box", GUILayout.Width (propertiesViewWidth), GUILayout.Height (position.height));
-			EditorGUILayout.LabelField ("Test");
-			GUILayout.EndVertical ();
-		}
+		// properties view
+//		if (position.width > listViewWidth + propertiesViewWidth + 50f) {
+//			GUILayout.BeginVertical ("box", GUILayout.Width (propertiesViewWidth), GUILayout.Height (position.height));
+//			EditorGUILayout.LabelField ("Test");
+//			GUILayout.EndVertical ();
+//		}
 		GUILayout.EndHorizontal ();
 
 		Repaint ();
 	}
+//	private Vector2 mousePosition;
 
 	void ProcessEvents (Event e)
 	{
+//		if (position.Contains (e.mousePosition)) {
+//			if (e.button == 1) {
+//				if (e.type == EventType.MouseDown) {
+//					mousePosition = e.mousePosition;
+//					Debug.Log (mousePosition);
+//				}
+//			}
+//		}
 		if (e.type == EventType.KeyDown && e.keyCode == KeyCode.LeftArrow) {
 			viewPercentage -= 0.01f;
 		}
@@ -138,6 +143,8 @@ public class TreeNodeEditorWindow : EditorWindow {
 			if (GUILayout.Button (treeList.trees[i].name)) {
 				treeIndex = i;
 				TreeEditorUtils.ConstructTree (treeList.trees [treeIndex]);
+
+				toggleListView = false;
 			}
 			GUILayout.EndHorizontal ();
 		}
@@ -148,6 +155,8 @@ public class TreeNodeEditorWindow : EditorWindow {
 		newTreeData.id = Guid.NewGuid().ToString();
 		newTreeData.name = treeName;
 		newTreeData.treeType = treeType;
+
+		newTreeData.Root = new Node<string> ("test id");
 		treeList.trees.Add (newTreeData);
 //		selectedTowerIndexes.Add (false);
 		treeIndex = treeList.trees.Count;

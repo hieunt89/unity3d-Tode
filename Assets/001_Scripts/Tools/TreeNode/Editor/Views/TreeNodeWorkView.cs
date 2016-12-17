@@ -17,6 +17,16 @@ public class TreeNodeWorkView : TreeViewBase {
 	public override void ProcessEvents (Event e)
 	{
 		base.ProcessEvents (e);
+
+		if (viewRect.Contains (e.mousePosition)) {
+			if (e.button == 1) {
+				if (e.type == EventType.MouseDown) {
+					mousePosition = e.mousePosition;
+
+					ProcessContextMenu(e, 0);
+				}
+			}
+		}
 	}
 
 	private void ProcessContextMenu (Event e, int contextId) {

@@ -10,7 +10,7 @@ public enum TreeType {
 }
 
 [Serializable]
-public class Tree <T> : ScriptableObject where T : class{
+public class Tree <T> where T : class{
 	public TreeType treeType;
 	public string id;
 	public string name;
