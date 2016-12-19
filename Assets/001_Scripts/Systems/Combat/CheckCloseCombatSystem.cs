@@ -4,9 +4,11 @@ using Entitas;
 
 public class CheckCloseCombatSystem : IReactiveSystem, ISetPool {
 	#region ISetPool implementation
+	Pool _pool;
 	Group _groupCloseCombating;
 	public void SetPool (Pool pool)
 	{
+		_pool = pool;
 		_groupCloseCombating = pool.GetGroup (Matcher.AllOf(Matcher.Active, Matcher.CloseCombat));
 	}
 
@@ -24,7 +26,7 @@ public class CheckCloseCombatSystem : IReactiveSystem, ISetPool {
 		for (int i = 0; i < ens.Length; i++) {
 			var e = ens [i];
 
-			if (!e.closeCombat.opponent.isTargetable) {
+			if (!e.closeCombat.opponent.isTargetable || Vector3.Distance(e.position.value, e.closeCombat.opponent.position.value) > ConstantData.CLOSE_COMBAT_RANGE) {
 				e.RemoveCloseCombat ();
 			}
 		}

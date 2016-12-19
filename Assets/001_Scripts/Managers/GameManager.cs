@@ -61,6 +61,7 @@ public class GameManager : MonoBehaviour {
 				.Add(pools.pool.CreateSystem ( new FindTargetSystem () ))
 				.Add(pools.pool.CreateSystem ( new AttackOverTimeSystem () ))
 				.Add(pools.pool.CreateSystem ( new AttackCooldownSystem () ))
+				.Add(pools.pool.CreateSystem ( new AutoAttackSystem () ))
 				.Add(pools.pool.CreateSystem ( new HpRegenSystem () ))
 
 				//Tower
@@ -68,7 +69,6 @@ public class GameManager : MonoBehaviour {
 				.Add(pools.pool.CreateSystem ( new TowerUpgradeSystem () ))
 				.Add(pools.pool.CreateSystem ( new TowerBuildSystem () ))
 				.Add(pools.pool.CreateSystem ( new TowerStatsUpdateSystem () ))
-				.Add(pools.pool.CreateSystem ( new TowerAttackSystem () ))
 				.Add(pools.pool.CreateSystem ( new TowerSellSystem () ))
 				.Add(pools.pool.CreateSystem ( new TowerResetSystem () ))
 

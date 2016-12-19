@@ -32,6 +32,7 @@ public class AllyInitSystem : IInitializeSystem, ISetPool{
 			.AddRallyPoint (pos)
 			.IsTargetable (true)
 			.IsAttackable (true)
+			.IsDamageable (true)
 			.IsActive (true);
 		return e;
 	}

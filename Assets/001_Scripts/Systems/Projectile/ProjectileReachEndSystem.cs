@@ -59,7 +59,7 @@ public class ProjectileReachEndSystem : IReactiveSystem, ISetPool {
 	}
 
 	void ApplyDamage(int damage, Entity prj, Entity target){
-		if (target.isAttackable) {
+		if (target.isDamageable) {
 			var reduceTo = CombatUtility.GetDamageReduction (prj.attack.attackType, target.armor.armorList);
 			target.BeDamaged (CombatUtility.GetDamageAfterReduction (damage, reduceTo));
 		}
@@ -78,7 +78,7 @@ public class ProjectileReachEndSystem : IReactiveSystem, ISetPool {
 	}
 
 	void ApplyEffect(Entity prj, Entity target){
-		if (target.isAttackable) {
+		if (target.isDamageable) {
 			var effects = prj.skillCombat.effects;
 
 			for (int i = 0; i < effects.Count; i++) {

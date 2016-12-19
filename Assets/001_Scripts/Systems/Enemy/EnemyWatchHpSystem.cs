@@ -53,7 +53,7 @@ public class EnemyWatchHpSystem : ISetPool, IReactiveSystem, IEnsureComponents {
 	#endregion
 
 	void EnemyDie(Entity e){
-		e.IsActive(false).IsAttackable(false).IsTargetable(false).IsInteractable(false).IsMovable(false);
+		e.IsActive(false).IsAttackable(false).IsDamageable(false).IsTargetable(false).IsInteractable(false).IsMovable(false);
 		if(e.hasGold){
 			_pool.ReplaceGoldPlayer (_pool.goldPlayer.value + e.gold.value);
 		}

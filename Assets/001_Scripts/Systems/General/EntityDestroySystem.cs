@@ -19,7 +19,6 @@ public class EntityDestroySystem : IReactiveSystem, ISetPool {
 	{
 		for (int i = 0; i < entities.Count; i++) {
 			var e = entities [i];
-			Debug.Log ("Destroying entity with id: " + e.id.value);
 			if(e.hasView){
 				EntityLink.RemoveLink (e.view.go);
 				Lean.LeanPool.Despawn (e.view.go);

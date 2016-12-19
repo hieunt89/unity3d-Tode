@@ -7,7 +7,8 @@ public class EnemyDisengageSystem : IReactiveSystem, IEnsureComponents {
 
 	public IMatcher ensureComponents {
 		get {
-			return Matcher.AllOf (Matcher.Enemy, Matcher.Active);
+			return Matcher.AllOf (Matcher.Enemy, Matcher.Active)
+				.NoneOf(Matcher.CloseCombat, Matcher.Engage, Matcher.Movable);
 		}
 	}
 
@@ -20,10 +21,7 @@ public class EnemyDisengageSystem : IReactiveSystem, IEnsureComponents {
 		for (int i = 0; i < entities.Count; i++) {
 			var enemy = entities [i];
 
-			if (!enemy.hasCloseCombat && !enemy.hasEngage && !enemy.isMovable) {
-				enemy.IsMovable (true);
-			}
-
+			enemy.IsMovable (true);
 		}
 	}
 

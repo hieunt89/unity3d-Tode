@@ -77,6 +77,7 @@ public static class EntityExtension {
 				.ReplaceAttackCooldown (data.AtkSpeed)
 				.ReplaceSkillList (DataManager.Instance.GetSkillTrees (data.TreeSkillNames))
 				.ReplacePointAttack (data.AtkPoint)
+				.IsAttackable(true)
 				.IsActive(true);
 		} else {
 			e.IsActive (false);

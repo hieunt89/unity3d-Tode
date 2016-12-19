@@ -12,6 +12,32 @@ public static class PoolExtension {
 		}
 	}
 
+	public static Entity FindCloseCombatOpponent(this Pool pool, Entity _e){
+		var ens = pool.GetGroup(Matcher.AllOf(Matcher.CloseCombat)).GetEntities ();
+
+		for (int i = 0; i < ens.Length; i++) {
+			var e = ens[i];
+			if (e.closeCombat.opponent == _e) {
+				return e;
+			}
+		}
+
+		return null;
+	}
+
+	public static Entity FindEngageOpponent(this Pool pool, Entity _e){
+		var ens = pool.GetGroup(Matcher.AllOf(Matcher.Engage)).GetEntities ();
+
+		for (int i = 0; i < ens.Length; i++) {
+			var e = ens[i];
+			if (e.engage.target == _e) {
+				return e;
+			}
+		}
+
+		return null;
+	}
+
 	public static Entity GetEntityById(this Pool pool, string id){
 		var entities = pool.GetGroup (Matcher.AllOf(Matcher.Id)).GetEntities ();
 		for (int i = 0; i < entities.Length; i++) {
@@ -23,37 +49,39 @@ public static class PoolExtension {
 	}
 
 	public static Entity CreateProjectile(this Pool pool, string prjId, Entity origin, Entity target){
-		ProjectileData prj = DataManager.Instance.GetProjectileData (prjId);
-		if (prj == null) {
-			return null;
+		Entity e = pool.CreateEntity ();
+		
+		if (string.IsNullOrEmpty(prjId)) {
+			e.IsProjectileInstant (true);
+		} else {
+			ProjectileData prj = DataManager.Instance.GetProjectileData (prjId);
+			e.AddProjectile (prjId);
+			switch (prj.Type) {
+			case ProjectileType.homing:
+				e.IsProjectileHoming (true)
+				.AddMoveSpeed (prj.TravelSpeed);
+				break;
+			case ProjectileType.throwing:
+				e.AddProjectileThrowing (prj.Duration);
+				break;
+			case ProjectileType.laser:
+				e.AddProjectileLaser (prj.MaxDmgBuildTime, prj.Duration)
+				.AddMoveSpeed (prj.TravelSpeed)
+				.AddInterval (prj.TickInterval);
+				break;
+			case ProjectileType.instant:
+				e.IsProjectileInstant (true);
+				break;
+			default:
+				e.IsProjectileInstant (true);
+				break;
+			}
 		}
 
-		Entity e = pool.CreateEntity ()
-			.AddProjectile(prjId)
-			.IsProjectileMark(true)
+		return e.IsProjectileMark(true)
 			.AddPosition(origin.position.value + origin.pointAttack.offset)
 			.AddOrigin(origin)
 			.AddTarget (target);
-		switch (prj.Type) {
-		case ProjectileType.homing:
-			e.IsProjectileHoming(true)
-				.AddMoveSpeed(prj.TravelSpeed);
-			break;
-		case ProjectileType.throwing:
-			e.AddProjectileThrowing (prj.Duration);
-			break;
-		case ProjectileType.laser:
-			e.AddProjectileLaser (prj.MaxDmgBuildTime, prj.Duration)
-				.AddMoveSpeed(prj.TravelSpeed)
-				.AddInterval(prj.TickInterval);
-			break;
-		case ProjectileType.instant:
-			e.IsProjectileInstant (true);
-			break;
-		default:
-			break;
-		}
-		return e;
 	}
 
 	public static Entity CreateCharacter(this Pool pool, CharacterData charData){		
@@ -73,6 +101,7 @@ public static class PoolExtension {
 			.AddHpTotal (charData.Hp)
 			.AddDyingTime (charData.DyingTime)
 			.AddPointTarget (charData.AtkPoint)
+			.AddPointAttack (charData.AtkPoint)
 			.AddEngageRange (4f) // psuedo data
 			;
 		if (charData.HpRegenRate > 0 && charData.HpRegenInterval > 0) {

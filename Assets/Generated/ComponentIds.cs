@@ -28,16 +28,16 @@ public static class ComponentIds {
     public const int Coroutine = 17;
     public const int CoroutineQueue = 18;
     public const int CurrentSelected = 19;
-    public const int Description = 20;
-    public const int Destination = 21;
-    public const int Duration = 22;
-    public const int Dying = 23;
-    public const int DyingTime = 24;
-    public const int EffectMovement = 25;
-    public const int EffectMovementList = 26;
-    public const int Enemy = 27;
-    public const int Engage = 28;
-    public const int Engaged = 29;
+    public const int Damageable = 20;
+    public const int Description = 21;
+    public const int Destination = 22;
+    public const int Duration = 23;
+    public const int Dying = 24;
+    public const int DyingTime = 25;
+    public const int EffectMovement = 26;
+    public const int EffectMovementList = 27;
+    public const int Enemy = 28;
+    public const int Engage = 29;
     public const int EngageRange = 30;
     public const int Gold = 31;
     public const int GoldPlayer = 32;
@@ -127,6 +127,7 @@ public static class ComponentIds {
         "Coroutine",
         "CoroutineQueue",
         "CurrentSelected",
+        "Damageable",
         "Description",
         "Destination",
         "Duration",
@@ -136,7 +137,6 @@ public static class ComponentIds {
         "EffectMovementList",
         "Enemy",
         "Engage",
-        "Engaged",
         "EngageRange",
         "Gold",
         "GoldPlayer",
@@ -225,6 +225,7 @@ public static class ComponentIds {
         typeof(Coroutine),
         typeof(CoroutineQueue),
         typeof(CurrentSelected),
+        typeof(Damageable),
         typeof(Description),
         typeof(Destination),
         typeof(Duration),

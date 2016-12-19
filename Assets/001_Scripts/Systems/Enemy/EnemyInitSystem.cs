@@ -59,6 +59,7 @@ public class EnemyInitSystem : IReactiveSystem, ISetPool
 						.AddPosition (ePath.path.wayPoints [0])
 						.IsTargetable (true)
 						.IsAttackable(true)
+						.IsDamageable(true)
 						.IsMovable(true);
 					if (enemyData.HpRegenRate > 0 && enemyData.HpRegenInterval > 0) {
 						e.AddHpRegen (enemyData.HpRegenRate, enemyData.HpRegenInterval, enemyData.HpRegenInterval);

@@ -4,9 +4,11 @@ using Entitas;
 
 public class CheckEngageSystem : IReactiveSystem, ISetPool {
 	#region ISetPool implementation
+	Pool _pool;
 	Group _groupEngaging;
 	public void SetPool (Pool pool)
 	{
+		_pool = pool;
 		_groupEngaging = pool.GetGroup (Matcher.AllOf(Matcher.Active, Matcher.Engage));
 	}
 
@@ -25,7 +27,16 @@ public class CheckEngageSystem : IReactiveSystem, ISetPool {
 			var e = ens [i];
 
 			if (!e.engage.target.isTargetable) {
-				e.RemoveEngage ();
+				if (e.hasEnemy) {
+					var newOpp = _pool.FindEngageOpponent (e);
+					if (newOpp == null) {
+						e.RemoveEngage ();
+					} else {
+						e.ReplaceEngage (newOpp);
+					}
+				} else {
+					e.RemoveEngage ();
+				}
 			}
 		}
 	}

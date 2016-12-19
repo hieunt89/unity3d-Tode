@@ -2,7 +2,7 @@
 using System.Collections;
 using Entitas;
 
-public class ProjectileCreateViewSystem : IReactiveSystem {
+public class ProjectileCreateViewSystem : IReactiveSystem, IEnsureComponents {
 	#region Constructor
 	GameObject projectileViewParent;
 	public ProjectileCreateViewSystem(){
@@ -12,6 +12,16 @@ public class ProjectileCreateViewSystem : IReactiveSystem {
 			projectileViewParent.transform.position = Vector3.zero;
 		}
 	}
+	#endregion
+
+	#region IEnsureComponents implementation
+
+	public IMatcher ensureComponents {
+		get {
+			return Matcher.Projectile;
+		}
+	}
+
 	#endregion
 
 	#region IReactiveExecuteSystem implementation
