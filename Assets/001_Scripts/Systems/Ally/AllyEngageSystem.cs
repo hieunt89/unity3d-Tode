@@ -33,6 +33,7 @@ public class AllyEngageSystem : IReactiveSystem, ISetPool {
 			if (target != null) {
 				ally.AddEngage (target);
 				ally.ReplaceDestination (ally.engage.target.position.value);
+				ally.IsMovable (true);
 
 				if (!ally.engage.target.hasEngage) {
 					ally.engage.target.AddEngage (ally).IsMovable (false);

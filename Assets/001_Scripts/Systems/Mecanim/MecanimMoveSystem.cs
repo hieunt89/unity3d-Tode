@@ -7,7 +7,9 @@ public class MecanimMoveSystem : IReactiveSystem {
 	{
 		for (int i = 0; i < entities.Count; i++) {
 			var e = entities [i];
-			e.AddCoroutineTask (StartMoving (e));
+			if (e.isEnabled) {
+				e.AddCoroutineTask (StartMoving (e));
+			}
 		}
 	}
 	#endregion

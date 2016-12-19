@@ -27,9 +27,6 @@ public class CheckEngageDistanceSystem : IReactiveSystem, ISetPool {
 				//reach its target in close combat
 				e.AddCloseCombat (e.engage.target);
 
-				if (e.hasDestination) {
-					e.RemoveDestination ();
-				}
 				e.IsMovable (false);
 				continue;
 			}

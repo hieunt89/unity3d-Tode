@@ -7,7 +7,7 @@ public class AllyMoveSystem : IReactiveSystem, ISetPool {
 	Group _groupAllyMoving;
 	public void SetPool (Pool pool)
 	{
-		_groupAllyMoving = pool.GetGroup (Matcher.AllOf(Matcher.Ally, Matcher.Active, Matcher.Destination));
+		_groupAllyMoving = pool.GetGroup (Matcher.AllOf(Matcher.Ally, Matcher.Active, Matcher.Destination, Matcher.Movable));
 	}
 
 	#endregion
@@ -30,9 +30,6 @@ public class AllyMoveSystem : IReactiveSystem, ISetPool {
 				ally.IsMovable (false);
 			} else {
 				ally.ReplacePosition (Vector3.MoveTowards (ally.position.value, ally.destination.value, ally.moveSpeed.speed * tickEn.tick.change));
-				if (!ally.isMovable) {
-					ally.IsMovable (true);
-				}
 			}
 		}
 	}
