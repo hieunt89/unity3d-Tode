@@ -2,7 +2,7 @@
 using System.Collections;
 using Entitas;
 
-public class EnemyWatchHpSystem : ISetPool, IReactiveSystem, IEnsureComponents {
+public class CharacterWatchHpSystem : ISetPool, IReactiveSystem, IEnsureComponents {
 	#region ISetPool implementation
 	Pool _pool;
 	public void SetPool (Pool pool)
@@ -38,7 +38,7 @@ public class EnemyWatchHpSystem : ISetPool, IReactiveSystem, IEnsureComponents {
 			}
 
 			if(e.hp.value <= 0){
-				EnemyDie (e);
+				Die (e);
 			}
 		}
 	}
@@ -52,9 +52,9 @@ public class EnemyWatchHpSystem : ISetPool, IReactiveSystem, IEnsureComponents {
 	}
 	#endregion
 
-	void EnemyDie(Entity e){
+	void Die(Entity e){
 		e.IsActive(false).IsAttackable(false).IsDamageable(false).IsTargetable(false).IsInteractable(false).IsMovable(false);
-		if(e.hasGold){
+		if(e.hasEnemy && e.hasGold){
 			_pool.ReplaceGoldPlayer (_pool.goldPlayer.value + e.gold.value);
 		}
 		if (e.hasCoroutineQueue) {

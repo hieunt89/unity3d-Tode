@@ -72,11 +72,13 @@ public class GameManager : MonoBehaviour {
 				.Add(pools.pool.CreateSystem ( new TowerSellSystem () ))
 				.Add(pools.pool.CreateSystem ( new TowerResetSystem () ))
 
+				//Character
+				.Add(pools.pool.CreateSystem ( new CharacterWatchHpSystem () ))
+
 				//Enemy
 				.Add(pools.pool.CreateSystem ( new EnemyInitSystem () ))
 				.Add(pools.pool.CreateSystem ( new EnemyMoveSystem () ))
 				.Add(pools.pool.CreateSystem ( new EnemyReachEndSystem () ))
-				.Add(pools.pool.CreateSystem ( new EnemyWatchHpSystem () ))
 				.Add(pools.pool.CreateSystem ( new EnemyDisengageSystem () ))
 
 				//Ally
