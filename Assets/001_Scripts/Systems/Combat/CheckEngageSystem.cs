@@ -28,7 +28,7 @@ public class CheckEngageSystem : IReactiveSystem, ISetPool {
 
 			if (!e.engage.target.isTargetable) {
 				if (e.hasEnemy) {
-					var newOpp = _pool.FindEngageOpponent (e);
+					var newOpp = _pool.FindEngagingAlly (e);
 					if (newOpp == null) {
 						e.RemoveEngage ();
 					} else {

@@ -12,21 +12,8 @@ public static class PoolExtension {
 		}
 	}
 
-	public static Entity FindCloseCombatOpponent(this Pool pool, Entity _e){
-		var ens = pool.GetGroup(Matcher.AllOf(Matcher.CloseCombat)).GetEntities ();
-
-		for (int i = 0; i < ens.Length; i++) {
-			var e = ens[i];
-			if (e.closeCombat.opponent == _e) {
-				return e;
-			}
-		}
-
-		return null;
-	}
-
-	public static Entity FindEngageOpponent(this Pool pool, Entity _e){
-		var ens = pool.GetGroup(Matcher.AllOf(Matcher.Engage)).GetEntities ();
+	public static Entity FindEngagingAlly(this Pool pool, Entity _e){
+		var ens = pool.GetGroup(Matcher.AllOf(Matcher.Engage, Matcher.Ally)).GetEntities ();
 
 		for (int i = 0; i < ens.Length; i++) {
 			var e = ens[i];
