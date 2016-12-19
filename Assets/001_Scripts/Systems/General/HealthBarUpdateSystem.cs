@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Entitas;
-public class HealthBarUpdateSystem : IReactiveSystem, IEnsureComponents {
-	#region IEnsureComponents implementation
-
-	public IMatcher ensureComponents {
-		get {
-			return Matcher.AllOf (Matcher.ViewSlider, Matcher.Active);
-		}
+public class HealthBarUpdateSystem : IReactiveSystem, ISetPool {
+	#region ISetPool implementation
+	Group _groupHasHP;
+	public void SetPool (Pool pool)
+	{
+		_groupHasHP = pool.GetGroup (Matcher.AllOf (Matcher.Hp, Matcher.HpTotal, Matcher.Position, Matcher.ViewSlider, Matcher.Active));
 	}
 
 	#endregion
@@ -15,8 +14,14 @@ public class HealthBarUpdateSystem : IReactiveSystem, IEnsureComponents {
 	#region IReactiveExecuteSystem implementation
 	public void Execute (System.Collections.Generic.List<Entity> entities)
 	{
-		for (int i = 0; i < entities.Count; i++) {
-			var e = entities [i];
+		if (_groupHasHP.count <= 0) {
+			return;
+		}
+
+		var ens = _groupHasHP.GetEntities ();
+
+		for (int i = 0; i < ens.Length; i++) {
+			var e = ens [i];
 
 			e.viewSlider.bar.transform.position = Camera.main.WorldToScreenPoint (e.position.value + e.viewSlider.offset);
 			e.viewSlider.bar.value = Mathf.Clamp01((float)e.hp.value / (float)e.hpTotal.value);
@@ -28,7 +33,7 @@ public class HealthBarUpdateSystem : IReactiveSystem, IEnsureComponents {
 	#region IReactiveSystem implementation
 	public TriggerOnEvent trigger {
 		get {
-			return Matcher.AnyOf (Matcher.Hp, Matcher.HpTotal, Matcher.Position).OnEntityAdded ();
+			return Matcher.Tick.OnEntityAdded ();
 		}
 	}
 	#endregion
