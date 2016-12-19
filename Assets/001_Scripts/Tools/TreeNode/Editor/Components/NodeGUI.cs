@@ -9,11 +9,10 @@ public class NodeGUI {
 	public List<NodeGUI> childNodes;
 	public Rect nodeRect;
 	public TreeGUI currentTree;
-	public bool isRoot;
+	public bool isSelected;
 
-	protected GUISkin nodeSkin;
-
-	private int popUpSelectedIndex;
+	private bool isRoot;
+	private int selectedIndex;
 	private float nodeWidth = 100f;
 	private float nodeHeight = 400f;
 
@@ -27,18 +26,13 @@ public class NodeGUI {
 
 		currentTree.nodes.Add (this);
 
-		for (int i = 0; i < currentTree.existIds.Count; i++) {
-			if (nodeData.data.Equals (currentTree.existIds [i])) {
-				popUpSelectedIndex = i;
+		if (currentTree.existIds != null) {
+			for (int i = 0; i < currentTree.existIds.Count; i++) {
+				if (nodeData.data.Equals (currentTree.existIds [i])) {
+					selectedIndex = i;
+				}
 			}
 		}
-	}
-
-	public void InitNodeGUI (Vector2 position) {
-		nodeRect = new Rect (position.x, position.y, nodeWidth, nodeHeight);
-	}
-
-	public void UpdateNode (Event _e, Rect _viewRect) {
 	}
 
 	public void UpdateNodeUI (int nodeIndex, Event _e, Rect _viewRect) {
@@ -55,27 +49,13 @@ public class NodeGUI {
 	void NodeWindow (int _windowId) {
 		Event e = Event.current;
 		ProcessEvent (e, _windowId);
-
-		popUpSelectedIndex = EditorGUILayout.Popup (popUpSelectedIndex, currentTree.existIds.ToArray());
-		nodeData.data = currentTree.existIds [popUpSelectedIndex];
+		if (currentTree.existIds != null) {
+			selectedIndex = EditorGUILayout.Popup (selectedIndex, currentTree.existIds.ToArray());
+			nodeData.data = currentTree.existIds [selectedIndex];
+		}
 		GUI.DragWindow ();
 	}
 
-	public void DrawNodeProperties (TreeGUI _currentTree) {
-		EditorGUILayout.BeginVertical ();
-		EditorGUILayout.BeginHorizontal ();
-		GUILayout.Space (30);
-
-		EditorGUI.BeginChangeCheck ();
-		popUpSelectedIndex = EditorGUILayout.Popup (popUpSelectedIndex, _currentTree.existIds.ToArray());
-		if (EditorGUI.EndChangeCheck ()) {
-			nodeData.data = _currentTree.existIds [popUpSelectedIndex];
-		}
-
-		GUILayout.Space (30);
-		EditorGUILayout.EndHorizontal ();
-		EditorGUILayout.EndVertical ();
-	}
 	private void ProcessEvent (Event _e, int _windowId) {
 		if (_e.button == 1) {
 			if (_e.type == EventType.MouseDown) {
@@ -102,19 +82,25 @@ public class NodeGUI {
 				currentTree.startConnectionNode = null;
 			}
 		}
-
 	}
 
 	private void ProcessNodeContextMenu (Event _e) {
 		GenericMenu menu = new GenericMenu ();
 		menu.AddItem (new GUIContent ("Add Child"), false, OnClickContextCallback, "0");
-		if (parentNode != null)
-			menu.AddItem (new GUIContent ("Remove Parent"), false, OnClickContextCallback, "1");
-		menu.AddItem (new GUIContent ("Remove Node"), false, OnClickContextCallback, "2");
 
+		if (parentNode != null)
+			menu.AddItem (new GUIContent ("Disconnect Parent"), false, OnClickContextCallback, "1");
+
+		if (childNodes.Count > 0)
+			menu.AddItem (new GUIContent ("Disconnect Children"), false, OnClickContextCallback, "2");
+
+		if (nodeData.depth > 0) {
+			menu.AddItem (new GUIContent ("Remove Node"), false, OnClickContextCallback, "3");
+		}
 		menu.ShowAsContext ();
 		_e.Use ();
 	}
+
 	private void OnClickContextCallback (object obj) {
 		switch (obj.ToString ()) {
 		case "0":
@@ -123,10 +109,16 @@ public class NodeGUI {
 				currentTree.startConnectionNode = this;
 			}
 			break;
+
 		case "1":
-			TreeEditorUtils.RemoveParentNode (this);
+			TreeEditorUtils.DisconnectParent (this);
 			break;
+
 		case "2":
+			TreeEditorUtils.DisconnectChildren (this);
+			break;
+
+		case "3":
 			TreeEditorUtils.RemoveNode (this);
 			break;
 		}

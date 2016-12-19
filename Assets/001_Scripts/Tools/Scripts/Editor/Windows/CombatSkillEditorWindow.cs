@@ -7,9 +7,13 @@ using System;
 public class CombatSkillEditorWindow : EditorWindow {
 
 	public CombatSkillList combatSkillList;
-	CombatSkillData combatSkill;
+	CombatSkillData combatSkillData;
+
+	List <CombatSkillData> existCombarskills;
+	List<string> combatskillIds;
 
 	List <ProjectileData> existProjectiles;
+
 	List<string> projectileIds;
 	int projectileIndex;
 	bool toggleProjectile;
@@ -37,9 +41,6 @@ public class CombatSkillEditorWindow : EditorWindow {
 
 		LoadExistData ();
 		SetupProjectileIDs ();
-
-
-
 	}
 
 	void OnFocus () {
@@ -111,9 +112,9 @@ public class CombatSkillEditorWindow : EditorWindow {
 				combatSkillIndex = i;
 				viewIndex = 1;
 
-				combatSkill = combatSkillList.combatSkills[combatSkillIndex];
-				if (combatSkill.effectList == null) {
-					combatSkill.effectList = new List<SkillEffect> ();
+				combatSkillData = combatSkillList.combatSkills[combatSkillIndex];
+				if (combatSkillData.effectList == null) {
+					combatSkillData.effectList = new List<SkillEffect> ();
 				}
 			}
 			GUI.enabled = toggleEditMode;
@@ -178,21 +179,21 @@ public class CombatSkillEditorWindow : EditorWindow {
 				GUILayout.EndHorizontal ();
 				GUILayout.Space(10);
 
-				combatSkill = combatSkillList.combatSkills[combatSkillIndex-1];
+				combatSkillData = combatSkillList.combatSkills[combatSkillIndex-1];
 
-				combatSkill.id = EditorGUILayout.TextField ("Id", combatSkill.id);
-				combatSkill.name = EditorGUILayout.TextField ("Name", combatSkill.name);
-				combatSkill.description = EditorGUILayout.TextField ("Description", combatSkill.description);
-				combatSkill.spritePath = EditorGUILayout.TextField ("Sprite", combatSkill.spritePath);
+				combatSkillData.id = EditorGUILayout.TextField ("Id", combatSkillData.id);
+				combatSkillData.name = EditorGUILayout.TextField ("Name", combatSkillData.name);
+				combatSkillData.description = EditorGUILayout.TextField ("Description", combatSkillData.description);
+				combatSkillData.spritePath = EditorGUILayout.TextField ("Sprite", combatSkillData.spritePath);
 		
-				combatSkill.cooldown = EditorGUILayout.FloatField ("Cooldown", combatSkill.cooldown);
-				combatSkill.castRange = EditorGUILayout.FloatField ("Cast Range", combatSkill.castRange);
-				combatSkill.castTime = EditorGUILayout.FloatField ("Cast Time", combatSkill.castTime);
-				combatSkill.goldCost = EditorGUILayout.IntField ("Cost", combatSkill.goldCost);
+				combatSkillData.cooldown = EditorGUILayout.FloatField ("Cooldown", combatSkillData.cooldown);
+				combatSkillData.castRange = EditorGUILayout.FloatField ("Cast Range", combatSkillData.castRange);
+				combatSkillData.castTime = EditorGUILayout.FloatField ("Cast Time", combatSkillData.castTime);
+				combatSkillData.goldCost = EditorGUILayout.IntField ("Cost", combatSkillData.goldCost);
 		
 				if (projectileIds.Count > 0) {
 					projectileIndex = EditorGUILayout.Popup ("Projectile", projectileIndex, projectileIds.ToArray());
-					combatSkill.projectileId = projectileIds[projectileIndex];
+					combatSkillData.projectileId = projectileIds[projectileIndex];
 		
 					var selectedProjectile = existProjectiles [projectileIndex];
 					GUILayout.BeginVertical ("box");
@@ -207,37 +208,37 @@ public class CombatSkillEditorWindow : EditorWindow {
 					}
 					GUILayout.EndVertical ();
 				}
-				combatSkill.aoe = EditorGUILayout.FloatField ("AOE", combatSkill.aoe);
-				combatSkill.attackType = (AttackType) EditorGUILayout.EnumPopup ("Attack Type", combatSkill.attackType);
-				combatSkill.damage = EditorGUILayout.IntField ("Damage", combatSkill.damage);
+				combatSkillData.aoe = EditorGUILayout.FloatField ("AOE", combatSkillData.aoe);
+				combatSkillData.attackType = (AttackType) EditorGUILayout.EnumPopup ("Attack Type", combatSkillData.attackType);
+				combatSkillData.damage = EditorGUILayout.IntField ("Damage", combatSkillData.damage);
 		
 				GUILayout.Space(5);
 				toggleSkillEffect = EditorGUILayout.Foldout (toggleSkillEffect, "Skill Effect");
 				if (toggleSkillEffect) {
 					GUILayout.BeginVertical("box");
-					for (int i = 0; i < combatSkill.effectList.Count; i++) {
+					for (int i = 0; i < combatSkillData.effectList.Count; i++) {
 						EditorGUI.BeginChangeCheck ();
 						GUILayout.BeginHorizontal ();
-						var _effectType = (EffectType) EditorGUILayout.EnumPopup ("Effect Type", combatSkill.effectList[i].effectType);
+						var _effectType = (EffectType) EditorGUILayout.EnumPopup ("Effect Type", combatSkillData.effectList[i].effectType);
 						//				GUILayout.FlexibleSpace ();
 						if (GUILayout.Button ("Remove", GUILayout.MaxWidth (80))) {
-							combatSkill.effectList.RemoveAt(i);
+							combatSkillData.effectList.RemoveAt(i);
 							continue;
 						}
 						GUILayout.EndHorizontal ();
-						var _effectValue = EditorGUILayout.FloatField ("Value", combatSkill.effectList[i].value);
-						var _effectDuration = EditorGUILayout.FloatField ("Duration", combatSkill.effectList[i].duration);
+						var _effectValue = EditorGUILayout.FloatField ("Value", combatSkillData.effectList[i].value);
+						var _effectDuration = EditorGUILayout.FloatField ("Duration", combatSkillData.effectList[i].duration);
 						if (EditorGUI.EndChangeCheck ()) {
-							combatSkill.effectList[i].skillId = combatSkill.id;
-							combatSkill.effectList[i].effectType = _effectType;
-							combatSkill.effectList[i].value = _effectValue;
-							combatSkill.effectList[i].duration = _effectDuration;
+							combatSkillData.effectList[i].skillId = combatSkillData.id;
+							combatSkillData.effectList[i].effectType = _effectType;
+							combatSkillData.effectList[i].value = _effectValue;
+							combatSkillData.effectList[i].duration = _effectDuration;
 						}
 						GUILayout.Space(5);
 		
 					}
 					if (GUILayout.Button("Add New Skill Effect")){
-						combatSkill.effectList.Add (new SkillEffect ()); 
+						combatSkillData.effectList.Add (new SkillEffect ()); 
 					}
 					GUILayout.EndVertical();
 				}
@@ -264,26 +265,28 @@ public class CombatSkillEditorWindow : EditorWindow {
 	}
 
 	void LoadExistData () {
-		existProjectiles = dataAssetUtils.LoadAllData <ProjectileData> ();
-		if (existProjectiles == null) {
+		combatSkillList = dataAssetUtils.LoadAllData <CombatSkillList> ();
+		if (combatSkillList == null) {
 			CreateNewList ();
 		}
 		selectedIndexes = new List<bool> ();
 		for (int i = 0; i < combatSkillList.combatSkills.Count ; i++) {
 			selectedIndexes.Add (false);
 		}
+
+		existProjectiles = dataAssetUtils.LoadAllData <ProjectileData> ();
 	}
 
 	void CreateNewList () {
 		combatSkillIndex = 1;
 
 		combatSkillList = ScriptableObject.CreateInstance<CombatSkillList>();
-		dataAssetUtils.CreateData <CombatSkillList> (combatSkillList);
 
 		if (combatSkillList) 
 		{
 			combatSkillList.combatSkills = new List<CombatSkillData>();
 		}
+		dataAssetUtils.CreateData <CombatSkillList> (combatSkillList);
 	}
 
 	void DeleteCombatSkillData (int index) 
@@ -304,11 +307,21 @@ public class CombatSkillEditorWindow : EditorWindow {
 		combatSkillIndex = combatSkillList.combatSkills.Count;
 	}
 
-
 	void SetupProjectileIDs () {
 		projectileIds = new List<string> ();
+		if (existProjectiles.Count > 0) {
+			for (int i = 0; i < existProjectiles.Count; i++) {
+				projectileIds.Add (existProjectiles[i].Id);
+			}				
+		} 
+	}
+
+	int SetupProjectileIndex () {
 		for (int i = 0; i < existProjectiles.Count; i++) {
-			projectileIds.Add(existProjectiles[i].Id);
+			if (combatSkillData.projectileId == existProjectiles[i].Id) {
+				return i;
+			}
 		}
+		return 0;
 	}
 }

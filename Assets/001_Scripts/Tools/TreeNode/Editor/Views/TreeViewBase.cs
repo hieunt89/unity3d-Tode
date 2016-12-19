@@ -28,7 +28,7 @@ public class TreeViewBase {
 			return;
 		}
 
-		this.currentTree = _currentTree;
+		currentTree = _currentTree;
 		viewRect = _rect;
 	}
 

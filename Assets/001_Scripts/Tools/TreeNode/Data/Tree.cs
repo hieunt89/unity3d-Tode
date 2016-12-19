@@ -10,24 +10,23 @@ public enum TreeType {
 }
 
 [Serializable]
-public class Tree <T> : ScriptableObject where T : class{
-	public TreeType treeType;
+public class Tree <T> {
 	public string id;
+	public TreeType treeType;
 	public string name;
 	public Node <T> Root;
 
 	public Tree(){
 	}
 
-	public Tree (T rootData)
-	{
-		this.Root = new Node<T> (rootData);
-	}
 
-	public Tree (TreeType treeType, string id)
+	public Tree (string id, TreeType treeType, string name, Node<T> root)
 	{
-		this.treeType = treeType;
 		this.id = id;
+		this.treeType = treeType;
+		this.name = name;
+		this.Root = root;
 	}
+	
 }
 

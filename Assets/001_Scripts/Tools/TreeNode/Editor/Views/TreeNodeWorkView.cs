@@ -10,29 +10,42 @@ public class TreeNodeWorkView : TreeViewBase {
 	{
 		base.UpdateView (_rect, _e, _currentTree);
 
-		_currentTree.UpdateTreeUI (_e, _rect);
+		TreeEditorUtils.DrawGrid (_rect, 20f, 20f, Color.gray);
+
+		currentTree.UpdateTreeUI (_e, viewRect);
+
 		ProcessEvents (_e);
 	}
 
-	public override void ProcessEvents (Event e)
+	public override void ProcessEvents (Event _e)
 	{
-		base.ProcessEvents (e);
+		base.ProcessEvents (_e);
+
+		if (viewRect.Contains (_e.mousePosition)) {
+			if (_e.button == 1) {
+				if (_e.type == EventType.MouseDown) {
+					mousePosition = _e.mousePosition;
+
+					ProcessContextMenu(_e, 0);
+				}
+			}
+		}
 	}
 
-	private void ProcessContextMenu (Event e, int contextId) {
+	private void ProcessContextMenu (Event _e, int _contextId) {
 		GenericMenu menu = new GenericMenu ();
 
-		switch (contextId) {
+		switch (_contextId) {
 		case 0:
 			menu.AddItem (new GUIContent ("Add Node"), false, OnClickContextCallback, "2");
-			menu.AddItem (new GUIContent("Save Tree"), false, OnClickContextCallback, "3");
+//			menu.AddItem (new GUIContent("Save Tree"), false, OnClickContextCallback, "3");
 			menu.AddSeparator ("");
 			menu.AddItem (new GUIContent("Unload Tree"), false, OnClickContextCallback, "4");
 			break;
 		}
 
 		menu.ShowAsContext ();
-		e.Use ();
+		_e.Use ();
 	}
 
 	private void OnClickContextCallback (object obj) {
@@ -41,7 +54,7 @@ public class TreeNodeWorkView : TreeViewBase {
 			TreeEditorUtils.AddNode (currentTree, mousePosition);
 			break;
 		case "3":
-			//			TreeEditorUtils.SaveTree (currentTree.treeData);
+//			TreeEditorUtils.SaveTree (currentTree.treeData);
 //			binaryUtils.CreateData <Tree<string>> (currentTree.treeData);
 			break;
 		case "4":
