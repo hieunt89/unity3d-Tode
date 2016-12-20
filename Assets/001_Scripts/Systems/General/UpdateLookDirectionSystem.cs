@@ -7,7 +7,7 @@ public class UpdateLookDirectionSystem : IReactiveSystem, ISetPool {
 	Group _groupLookAt;
 	public void SetPool (Pool pool)
 	{
-		_groupLookAt = pool.GetGroup (Matcher.AllOf (Matcher.View, Matcher.Position).AnyOf(Matcher.Engage, Matcher.Destination, Matcher.CloseCombat));
+		_groupLookAt = pool.GetGroup (Matcher.AllOf (Matcher.View, Matcher.Position, Matcher.Active).AnyOf(Matcher.Engage, Matcher.Destination, Matcher.CloseCombat));
 	}
 
 	#endregion

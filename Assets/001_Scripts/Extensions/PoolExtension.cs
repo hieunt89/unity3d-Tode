@@ -13,7 +13,7 @@ public static class PoolExtension {
 	}
 
 	public static Entity FindEngagingAlly(this Pool pool, Entity _e){
-		var ens = pool.GetGroup(Matcher.AllOf(Matcher.Engage, Matcher.Ally)).GetEntities ();
+		var ens = pool.GetGroup(Matcher.AllOf(Matcher.Engage, Matcher.Ally, Matcher.Active)).GetEntities ();
 
 		for (int i = 0; i < ens.Length; i++) {
 			var e = ens[i];

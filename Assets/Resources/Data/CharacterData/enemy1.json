@@ -1,5 +1,5 @@
 {
-    "id": "enemy0",
+    "id": "enemy1",
     "name": "goblin",
     "moveSpeed": 1.0,
     "turnSpeed": 5.0,
@@ -13,8 +13,8 @@
         "y": 0.28967297077178957,
         "z": 0.028303738683462144
     },
-    "minAtkDmg": 20,
-    "maxAtkDmg": 40,
+    "minAtkDmg": 10,
+    "maxAtkDmg": 20,
     "atkRange": 0.0,
     "armors": [
         {
