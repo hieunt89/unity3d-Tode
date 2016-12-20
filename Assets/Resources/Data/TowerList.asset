@@ -13,9 +13,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towers:
   - id: e5070f64-b895-49c3-94af-21eba7d520ef
-    name: 
+    name: acher 1
     view: {fileID: 0}
-    projectileId: 
+    projectileId: b08cf720-4c3c-474b-8247-2cfe530169a2
     atkType: 0
     atkRange: 0
     minDmg: 0
@@ -29,7 +29,7 @@ MonoBehaviour:
     aoe: 0
     treeSkillNames: []
   - id: c7f7d213-892a-46e0-ac48-65b5404b043c
-    name: 
+    name: archer 2
     view: {fileID: 0}
     projectileId: b08cf720-4c3c-474b-8247-2cfe530169a2
     atkType: 0
@@ -45,9 +45,9 @@ MonoBehaviour:
     aoe: 0
     treeSkillNames: []
   - id: c9de4c63-5d83-4ec2-9ef3-b1d01af94700
-    name: 
+    name: arhcer 3
     view: {fileID: 0}
-    projectileId: b42c6410-cfc2-469f-b90d-d33098bb867d
+    projectileId: b08cf720-4c3c-474b-8247-2cfe530169a2
     atkType: 0
     atkRange: 0
     minDmg: 0

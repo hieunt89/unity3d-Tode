@@ -12,16 +12,44 @@ MonoBehaviour:
   m_Name: CombatSkillList
   m_EditorClassIdentifier: 
   combatSkills:
-  - id: 61c713c4-0946-4891-af8f-e15fedc90348
+  - id: 4a1c74de-6f71-40d5-b443-6ca66f7bd17d
     intId: 0
-    name: 
+    name: fireball 1
     description: 
     spritePath: 
     goldCost: 0
     cooldown: 0
     castRange: 0
     castTime: 0
-    projectileId: 5016e6d6-8d68-4bb3-81f5-6d33bff427f3
+    projectileId: b08cf720-4c3c-474b-8247-2cfe530169a2
+    aoe: 0
+    attackType: 0
+    damage: 0
+    effectList: []
+  - id: e9a5fe67-8b51-462c-b1b5-f6751fa43fe5
+    intId: 0
+    name: fireball 2
+    description: 
+    spritePath: 
+    goldCost: 0
+    cooldown: 0
+    castRange: 0
+    castTime: 0
+    projectileId: b08cf720-4c3c-474b-8247-2cfe530169a2
+    aoe: 0
+    attackType: 0
+    damage: 0
+    effectList: []
+  - id: dcd2cf00-63cf-4615-b18f-ed65467cb53c
+    intId: 0
+    name: fireball 3
+    description: 
+    spritePath: 
+    goldCost: 0
+    cooldown: 0
+    castRange: 0
+    castTime: 0
+    projectileId: b08cf720-4c3c-474b-8247-2cfe530169a2
     aoe: 0
     attackType: 0
     damage: 0

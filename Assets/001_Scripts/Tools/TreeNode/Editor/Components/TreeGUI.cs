@@ -26,17 +26,15 @@ public class TreeGUI : IInjectDataUtils {
 		this.dataUtils = dataUtils;
 	}
 
-	public TreeGUI (TreeType _treeType, string _treeName) {
+	public TreeGUI (Tree<string> _data) {
 		SetDataUtils (DIContainer.GetModule<IDataUtils> ());
 
-		treeData = new Tree<string> (_treeType, _treeName);
-		if (nodes == null) {
-			nodes = new List<NodeGUI> ();
-		}
+		treeData = new Tree<string> (_data.id, _data.treeType, _data.name, _data.Root);
+		nodes = new List<NodeGUI> ();
 
 		// TODO: chuyen exist data ra global ?
 		// load exist data based on tree type
-		switch (_treeType) {
+		switch (_data.treeType) {
 		case TreeType.Towers:
 			towerData = dataUtils.LoadAllData <TowerData> ();
 			if (towerData != null){
@@ -69,16 +67,18 @@ public class TreeGUI : IInjectDataUtils {
 		}
 	}
 
-	public void UpdateTreeUI (Event _e, Rect _viewRect) {
-		ProcessEvents (_e, _viewRect);
-		
+	public void UpdateTreeUI (Event _e, Rect _rect) {
+//		ProcessEvents (_e, _rect);
+
+		if (existIds == null) return;
+
 		if (treeData != null && nodes.Count == 0) {
 			GenerateNodes();
 		}
 
 		if (nodes.Count > 0) {
 			for (int i = 0; i < nodes.Count; i++) {
-				nodes [i].UpdateNodeUI (i, _e, _viewRect);
+				nodes [i].UpdateNodeUI (i, _e, _rect);
 			}
 		}
 
@@ -98,17 +98,7 @@ public class TreeGUI : IInjectDataUtils {
 	}
 
 	private void ProcessEvents (Event _e, Rect _viewRect) {
-		if (_viewRect.Contains (_e.mousePosition)) {
-			if (_e.button == 0) {
-				if (_e.type == EventType.MouseDown) {
-					showNodeProperties = false;
-
-					if (wantsConnection) {
-						wantsConnection = false;
-					}
-				}
-			}
-		}
+		
 	}
 
 	private void DrawConnectionToMouse (Vector2 _mousePosition) {
@@ -129,7 +119,7 @@ public class TreeGUI : IInjectDataUtils {
 	}
 
 	private void GenerateNodes () {
-		var nodeRect = new Rect(50f, 50f, 100f, 40f);
+		var nodeRect = new Rect(200f, 50f, 100f, 40f);
 		NodeGUI rootNode = new NodeGUI (true, this.treeData.Root, nodeRect, null, this);
 		if (rootNode != null) {
 			lastNodeUI = rootNode;
@@ -148,5 +138,11 @@ public class TreeGUI : IInjectDataUtils {
 			}
 		}
 
+	}
+
+	void DeselectAllNodes () {
+		for (int i = 0; i < nodes.Count; i++) {
+			nodes [i].isSelected = false;
+		}
 	}
 }

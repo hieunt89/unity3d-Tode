@@ -50,15 +50,16 @@ public class TreeNodeEditorWindow : EditorWindow {
 			Event e = Event.current;
 			ProcessEvents (e);
 
-			scrollPosition = GUI.BeginScrollView (new Rect(0f, 0f, position.width, position.height), scrollPosition, new Rect (0, 0, 2000, 2000));
+			scrollPosition = GUI.BeginScrollView (new Rect (0, 0, 2000, 2000), scrollPosition, new Rect (0, 0, 2000, 2000));
 			BeginWindows ();
-			workView.UpdateView (new Rect (0, 0, 2000, 2000), e, currentTree);
+			workView.UpdateView (new Rect (0, 0, position.width, position.height), e, currentTree);
 			EndWindows ();
 			GUI.EndScrollView ();
 		}
 
 		GUILayout.BeginHorizontal (EditorStyles.toolbar);
 		toggleListView = GUILayout.Toggle (toggleListView, "Trees", EditorStyles.toolbarButton, GUILayout.Width (50));
+
 		GUILayout.FlexibleSpace ();
 
 		GUILayout.EndHorizontal ();
@@ -67,40 +68,28 @@ public class TreeNodeEditorWindow : EditorWindow {
 		if (toggleListView) {
 			if (position.width > listViewWidth + 50f) {
 				GUILayout.BeginVertical ("box", GUILayout.Width (listViewWidth), GUILayout.Height (position.height));
-			
-//				if (GUILayout.Button ("Create", EditorStyles.toolbarButton, GUILayout.Width (50))) {
-//					TreeEditorUtils.CreateTree (TreeType.Towers, "test");
-//					createNewTree = false;
-//				}
-
 				DrawListView ();
 				GUILayout.EndVertical ();
 			}
 		}
 		GUILayout.FlexibleSpace ();
 
-		// properties view
-//		if (position.width > listViewWidth + propertiesViewWidth + 50f) {
-//			GUILayout.BeginVertical ("box", GUILayout.Width (propertiesViewWidth), GUILayout.Height (position.height));
-//			EditorGUILayout.LabelField ("Test");
-//			GUILayout.EndVertical ();
-//		}
+		if (currentTree != null) {
+			if (currentTree.showNodeProperties) {
+				if (position.width > listViewWidth + propertiesViewWidth + 50f) {
+					GUILayout.BeginVertical ("box", GUILayout.Width (propertiesViewWidth), GUILayout.Height (position.height));
+					EditorGUILayout.LabelField ("Show selected node properties");
+					GUILayout.EndVertical ();
+				}
+			}
+		}
 		GUILayout.EndHorizontal ();
 
 		Repaint ();
 	}
-//	private Vector2 mousePosition;
 
 	void ProcessEvents (Event e)
 	{
-//		if (position.Contains (e.mousePosition)) {
-//			if (e.button == 1) {
-//				if (e.type == EventType.MouseDown) {
-//					mousePosition = e.mousePosition;
-//					Debug.Log (mousePosition);
-//				}
-//			}
-//		}
 		if (e.type == EventType.KeyDown && e.keyCode == KeyCode.LeftArrow) {
 			viewPercentage -= 0.01f;
 		}
@@ -110,7 +99,6 @@ public class TreeNodeEditorWindow : EditorWindow {
 	}
 	void CreateNewTreeList () {
 		treeIndex = 1;
-		//		towerList = CreateTowerList();
 
 		treeList = ScriptableObject.CreateInstance<TreeList>();
 
@@ -127,11 +115,12 @@ public class TreeNodeEditorWindow : EditorWindow {
 	void DrawListView () {
 		EditorGUILayout.LabelField ("Create New Tree");
 
-		treeName = EditorGUILayout.TextField (treeName);
 		treeType = (TreeType) EditorGUILayout.EnumPopup (treeType);
+		treeName = EditorGUILayout.TextField (treeName);
 		GUI.enabled = !string.IsNullOrEmpty (treeName) && treeType != TreeType.None;
 		if (GUILayout.Button ("Create")) {
-			AddTreeData (treeName, treeType);
+//			AddTreeData (treeName, treeType);
+			TreeEditorUtils.CreateTree (treeType, treeName);
 		}
 		GUI.enabled = true;	
 
@@ -142,6 +131,7 @@ public class TreeNodeEditorWindow : EditorWindow {
 			GUILayout.BeginHorizontal ();
 			if (GUILayout.Button (treeList.trees[i].name)) {
 				treeIndex = i;
+
 				TreeEditorUtils.ConstructTree (treeList.trees [treeIndex]);
 
 				toggleListView = false;
@@ -150,15 +140,17 @@ public class TreeNodeEditorWindow : EditorWindow {
 		}
 	}
 
-	void AddTreeData (string treeName, TreeType treeType) {
-		Tree<string> newTreeData = new Tree<string>();
-		newTreeData.id = Guid.NewGuid().ToString();
-		newTreeData.name = treeName;
-		newTreeData.treeType = treeType;
+//	void AddTreeData (string treeName, TreeType treeType) {
+//		Tree<string> newTreeData = new Tree<string>();
+//
+//		newTreeData.id =
+//		newTreeData.name = treeName;
+//		newTreeData.treeType = treeType;
+//		newTreeData.Root = new Node<string> ("test");
 
-		newTreeData.Root = new Node<string> ("test id");
-		treeList.trees.Add (newTreeData);
+//		Tree<string> newTree = new Tree<string> ( Guid.NewGuid().ToString(), treeType, treeName, new Node<string> ("test"));
+//		treeList.trees.Add (newTree);
 //		selectedTowerIndexes.Add (false);
-		treeIndex = treeList.trees.Count;
-	}
+//		treeIndex = treeList.trees.Count;
+//	}
 }

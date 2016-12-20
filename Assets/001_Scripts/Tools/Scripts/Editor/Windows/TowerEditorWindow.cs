@@ -193,7 +193,7 @@ public class TowerEditorWindow : EditorWindow {
 				GUILayout.EndHorizontal ();
 				GUILayout.Space (10);
 
-				tower = towerList.towers[towerIndex];
+				tower = towerList.towers[towerIndex - 1];
 				tower.Id = EditorGUILayout.TextField ("Id", tower.Id);
 				tower.Name = EditorGUILayout.TextField ("Name", tower.Name);
 	
