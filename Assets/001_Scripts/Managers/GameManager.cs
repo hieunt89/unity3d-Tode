@@ -74,6 +74,7 @@ public class GameManager : MonoBehaviour {
 
 				//Character
 				.Add(pools.pool.CreateSystem ( new CharacterWatchHpSystem () ))
+				.Add(pools.pool.CreateSystem ( new PathFindingSystem () ))
 
 				//Enemy
 				.Add(pools.pool.CreateSystem ( new EnemyInitSystem () ))
