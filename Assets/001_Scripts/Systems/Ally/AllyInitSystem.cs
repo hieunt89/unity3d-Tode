@@ -17,7 +17,6 @@ public class AllyInitSystem : IInitializeSystem, ISetPool{
 	public void Initialize ()
 	{
 		CreateAlly ("enemy1", new Vector3(9f, 0f, 0f));
-		CreateAlly ("enemy1", new Vector3(10f, 0f, 0f));
 
 	}
 
