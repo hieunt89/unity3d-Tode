@@ -35,7 +35,7 @@ public class PathFindingSystem : IReactiveSystem, ISetPool, IEnsureComponents{
 //		var ens = _groupPathFinding.GetEntities ();
 		for (int i = 0; i < entities.Count; i++) {
 			var e = entities [i];
-			DebugDrawPath (FindPath (e.position.value, e.destination.value), e.position.value);
+			DebugDrawPath (FindPath (e.position.value, e.destination.value, 1f), e.position.value);
 		}
 	}
 	#endregion
@@ -48,12 +48,13 @@ public class PathFindingSystem : IReactiveSystem, ISetPool, IEnsureComponents{
 	}
 	#endregion
 
-	List<PathNode> GetNeighbors(PathNode current){
+	List<PathNode> GetNeighbors(PathNode current, float step){
 		List<PathNode> neighbors = new List<PathNode> ();
 
 		for (int i = 0; i < PathNode.neighbors.Length; i++) {
-			var node = GetNeighborNode (current.position, PathNode.neighbors[i]);
+			var node = GetNeighborNode (current.position, PathNode.neighbors[i] * step);
 			if (node != null) {
+				node.moveCost = (PathNode.neighbors[i] * step).magnitude ;
 				neighbors.Add (node);
 			}
 		}
@@ -63,29 +64,29 @@ public class PathFindingSystem : IReactiveSystem, ISetPool, IEnsureComponents{
 
 	PathNode GetNeighborNode(Vector3 current, Vector3 next){
 		var nextPos = current + next;
-//		for (int i = 0; i < cols.Length; i++) {
-//			if (cols[i].bounds.Contains(nextPos)) {
-//				return null;
-//			}
-//		}
 
-		return new PathNode (nextPos, 1);
+		if (Physics.Raycast(current, next, Vector3.Distance(current, nextPos))) {
+			return null;
+		}
+
+		return new PathNode (nextPos);
 	}
 
-	Queue<PathNode> FindPath(Vector3 startPos, Vector3 goalPos){
+	SimplePriorityQueue<PathNode> frontier = new SimplePriorityQueue<PathNode> ();
+	PathNodeList exploredNodes = new PathNodeList ();
+	List<PathNode> neighbors;
+	Queue<PathNode> FindPath(Vector3 startPos, Vector3 goalPos, float step){
 		var start = new PathNode (startPos, 0);
-		SimplePriorityQueue<PathNode> frontier = new SimplePriorityQueue<PathNode> ();
+		frontier.Clear ();
 		frontier.Enqueue (start, 0);
-
-		PathNodeList exploredNodes = new PathNodeList ();
+		exploredNodes.Clear ();
 		exploredNodes.Add (start);
 
 		PathNode current;
-		List<PathNode> neighbors;
 		while (frontier.Count > 0) {
 			current = frontier.Dequeue ();
 
-			neighbors = GetNeighbors (current);
+			neighbors = GetNeighbors (current, step);
 			for (int i = 0; i < neighbors.Count; i++) {
 				var next = neighbors [i];
 				var newCost = current.moveCost + next.moveCost;

@@ -10,26 +10,21 @@ using System.Collections;
 public class Test : MonoBehaviour {
 
 	void Start () {
-		StartCoroutine (FindPath (Vector3.zero, new Vector3(0,0,20)));
+		StartCoroutine (FindPath (Vector3.zero, new Vector3(0,0,20), 3f));
 	}
 
-	List<PathNode> GetNeighbors(PathNode current){
+	List<PathNode> GetNeighbors(PathNode current, float step){
 		List<PathNode> neighbors = new List<PathNode> ();
 
-		foreach (var item in PathNode.neighbors2) {
-			var node = GetNeighborNode (current.position, item.Key);
+		for (int i = 0; i < PathNode.neighbors.Length; i++) {
+			var node = GetNeighborNode (current.position, PathNode.neighbors[i] * step);
 			if (node != null) {
-				node.moveCost = item.Value;
+				node.moveCost = (PathNode.neighbors[i] * step).magnitude ;
+				Debug.Log (node.moveCost);
+
 				neighbors.Add (node);
 			}
 		}
-
-//		for (int i = 0; i < PathNode.neighbors.Length; i++) {
-//			var node = GetNeighborNode (current.position, PathNode.neighbors[i]);
-//			if (node != null) {
-//				neighbors.Add (node);
-//			}
-//		}
 
 		return neighbors;
 	}
@@ -37,27 +32,29 @@ public class Test : MonoBehaviour {
 	PathNode GetNeighborNode(Vector3 current, Vector3 next){
 		var nextPos = current + next;
 
-		if (Physics.Raycast(current, next, Vector3.Distance(current, next))) {
+		if (Physics.Raycast(current, next, Vector3.Distance(current, nextPos))) {
 			return null;
 		}
 
-		return new PathNode (nextPos, 1);
+		return new PathNode (nextPos);
 	}
 
-	IEnumerator FindPath(Vector3 startPos, Vector3 goalPos){
+	SimplePriorityQueue<PathNode> frontier = new SimplePriorityQueue<PathNode> ();
+	PathNodeList exploredNodes = new PathNodeList ();
+	List<PathNode> neighbors;
+	IEnumerator FindPath(Vector3 startPos, Vector3 goalPos, float step){
 		var start = new PathNode (startPos, 0);
-		SimplePriorityQueue<PathNode> frontier = new SimplePriorityQueue<PathNode> ();
+		frontier.Clear ();
 		frontier.Enqueue (start, 0);
 
-		PathNodeList exploredNodes = new PathNodeList ();
+		exploredNodes.Clear ();
 		exploredNodes.Add (start);
 
 		PathNode current;
-		List<PathNode> neighbors;
 		while (frontier.Count > 0) {
 			current = frontier.Dequeue ();
 
-			neighbors = GetNeighbors (current);
+			neighbors = GetNeighbors (current, step);
 			for (int i = 0; i < neighbors.Count; i++) {
 				var next = neighbors [i];
 				var newCost = current.moveCost + next.moveCost;
@@ -66,7 +63,7 @@ public class Test : MonoBehaviour {
 					Debug.DrawLine (current.position, next.position, Color.red, 1f);
 					next.moveCost = newCost;
 					next.cameFrom = current;
-					var priority = newCost + GetHScore(next.position, goalPos) * 2;
+					var priority = newCost + GetHScore(next.position, goalPos) * 1.5f;
 					exploredNodes.AddOrUpdate (next);
 
 					if (IsReachedGoal(goalPos, next)) { //Reached goal

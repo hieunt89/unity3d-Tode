@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class PathNode : FastPriorityQueueNode{
 	public Vector3 position;
-	public int moveCost;
+	public float moveCost;
 	public PathNode cameFrom;
 
 	public PathNode (Vector3 position)
@@ -13,7 +13,7 @@ public class PathNode : FastPriorityQueueNode{
 		this.position = position;
 	}
 
-	public PathNode (Vector3 position, int cost)
+	public PathNode (Vector3 position, float cost)
 	{
 		this.position = position;
 		this.moveCost = cost;
@@ -29,18 +29,6 @@ public class PathNode : FastPriorityQueueNode{
 		new Vector3(-1, 0,-1), //BotLeft
 		new Vector3(-1, 0, 0)  //Midleft
 	};
-
-	public static readonly Dictionary<Vector3, int> neighbors2 = new Dictionary<Vector3, int>(){
-		{new Vector3(-1, 0, 1), 2}, //TopLeft
-		{new Vector3( 0, 0, 1), 1}, //TopMid
-		{new Vector3( 1, 0, 1), 2}, //TopRight
-		{new Vector3( 1, 0, 0), 1}, //MidRight
-		{new Vector3( 1, 0,-1), 2}, //BotRight
-		{new Vector3( 0, 0,-1), 1}, //BotMid
-		{new Vector3(-1, 0,-1), 2}, //BotLeft
-		{new Vector3(-1, 0, 0), 1}  //Midleft
-	};
-
 }
 
 public class PathNodeList{
@@ -63,7 +51,11 @@ public class PathNodeList{
 		nodes.Add (node);
 	}
 
-	public bool NotContainsOrHasHigherCost(PathNode node, int newCost){
+	public void Clear(){
+		nodes.Clear ();
+	}
+
+	public bool NotContainsOrHasHigherCost(PathNode node, float newCost){
 		for (int i = 0; i < nodes.Count; i++) {
 			if (node.position == nodes[i].position) {
 				if (nodes [i].moveCost > newCost) {
