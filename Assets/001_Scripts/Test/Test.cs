@@ -52,18 +52,18 @@ public class Test : MonoBehaviour {
 					Debug.DrawLine (current.position, next.position, Color.red, 2f);
 					costSoFar[next] = newCost;
 					cameFrom[next] = current;
-
-					//					if (IsReachedGoal(goalPos, next)) { //Reached goal
-					//						var goal = new PathNode (goalPos);
-					//						cameFrom.Add (goal, next);
-					//						return ReconstructPath (goal, ref cameFrom, ref start);
-					//					}
+					Debug.Log (costSoFar.Count);
+					if (IsReachedGoal(goalPos, next)) { //Reached goal
+						var goal = new PathNode (goalPos);
+						cameFrom.Add (goal, next);
+						yield break;
+					}
 
 					var priority = newCost;
 					frontier.Enqueue (next, priority); //smaller priority go first
 				}
 
-				yield return new WaitForSeconds (2f);
+				yield return new WaitForSeconds (0.1f);
 			}
 		}
 	}
