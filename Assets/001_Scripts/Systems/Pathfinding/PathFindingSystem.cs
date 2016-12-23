@@ -50,29 +50,35 @@ public class PathFindingSystem : IReactiveSystem, ISetPool, IEnsureComponents{
 
 	List<PathNode> GetNeighbors(PathNode current){
 		List<PathNode> neighbors = new List<PathNode> ();
-		
-		neighbors.Add (new PathNode (current.position + Neighbors.TopLeft,  2));
-		neighbors.Add (new PathNode (current.position + Neighbors.TopMid,   1));
-		neighbors.Add (new PathNode (current.position + Neighbors.TopRight, 2));
-		neighbors.Add (new PathNode (current.position + Neighbors.MidLeft,  1));
-		neighbors.Add (new PathNode (current.position + Neighbors.MidRight, 1));
-		neighbors.Add (new PathNode (current.position + Neighbors.BotLeft,  2));
-		neighbors.Add (new PathNode (current.position + Neighbors.BotMid,   1));
-		neighbors.Add (new PathNode (current.position + Neighbors.BotRight, 2));
+
+		for (int i = 0; i < PathNode.neighbors.Length; i++) {
+			var node = GetNeighborNode (current.position, PathNode.neighbors[i]);
+			if (node != null) {
+				neighbors.Add (node);
+			}
+		}
 
 		return neighbors;
 	}
 
+	PathNode GetNeighborNode(Vector3 current, Vector3 next){
+		var nextPos = current + next;
+//		for (int i = 0; i < cols.Length; i++) {
+//			if (cols[i].bounds.Contains(nextPos)) {
+//				return null;
+//			}
+//		}
+
+		return new PathNode (nextPos, 1);
+	}
+
 	Queue<PathNode> FindPath(Vector3 startPos, Vector3 goalPos){
-		var start = new PathNode (startPos);
+		var start = new PathNode (startPos, 0);
 		SimplePriorityQueue<PathNode> frontier = new SimplePriorityQueue<PathNode> ();
 		frontier.Enqueue (start, 0);
 
-		Dictionary<PathNode, PathNode> cameFrom = new Dictionary<PathNode, PathNode> ();
-		cameFrom.Add (start, null);
-
-		Dictionary<PathNode, int> costSoFar = new Dictionary<PathNode, int> ();
-		costSoFar.Add (start, 0);
+		PathNodeList exploredNodes = new PathNodeList ();
+		exploredNodes.Add (start);
 
 		PathNode current;
 		List<PathNode> neighbors;
@@ -82,20 +88,20 @@ public class PathFindingSystem : IReactiveSystem, ISetPool, IEnsureComponents{
 			neighbors = GetNeighbors (current);
 			for (int i = 0; i < neighbors.Count; i++) {
 				var next = neighbors [i];
-				var newCost = costSoFar [current] + next.moveCost;
-				if (!costSoFar.ContainsKey(next) || newCost < costSoFar[next]) {
-					DebugDrawNode (next, newCost.ToString());
-					Debug.DrawLine (current.position, next.position, Color.red, Mathf.Infinity);
-					costSoFar[next] = newCost;
-					cameFrom[next] = current;
+				var newCost = current.moveCost + next.moveCost;
+				if (exploredNodes.NotContainsOrHasHigherCost(next, newCost)) {
+					next.moveCost = newCost;
+					next.cameFrom = current;
+					exploredNodes.AddOrUpdate (next);
 
 					if (IsReachedGoal(goalPos, next)) { //Reached goal
 						var goal = new PathNode (goalPos);
-						cameFrom.Add (goal, next);
-						return ReconstructPath (goal, ref cameFrom, ref start);
+						goal.cameFrom = next;
+						return ReconstructPath (goal, ref start);
+
 					}
 
-					var priority = newCost;
+					var priority = newCost + GetHScore(next.position, goalPos);
 					frontier.Enqueue (next, priority); //smaller priority go first
 				}
 			}
@@ -104,13 +110,13 @@ public class PathFindingSystem : IReactiveSystem, ISetPool, IEnsureComponents{
 		return null;
 	}
 
-	Queue<PathNode> ReconstructPath(PathNode goal, ref Dictionary<PathNode, PathNode> cameFrom, ref PathNode start){
+	Queue<PathNode> ReconstructPath(PathNode goal, ref PathNode start){
 		PathNode current = goal;
 		Queue<PathNode> path = new Queue<PathNode> ();
 		path.Enqueue (current);
 
 		while (current != start) {
-			current = cameFrom [current];
+			current = current.cameFrom;
 			path.Enqueue (current);
 		}
 
@@ -128,14 +134,14 @@ public class PathFindingSystem : IReactiveSystem, ISetPool, IEnsureComponents{
 	}
 
 	float GetHScore(Vector3 a, Vector3 b){
-		return Mathf.Abs (a.x - b.x) + Mathf.Abs (a.y - b.y);
+		return Vector3.Distance(a, b);
 	}
 
 	void DebugDrawPath(Queue<PathNode> path, Vector3 start){
 		int i = 0;
 		while (path.Count > 0) {
 			var node = path.Dequeue ();
-			var go = DebugDrawNode (node, i.ToString());
+			DebugDrawNode (node, i.ToString());
 			Debug.DrawLine (start, node.position, Color.blue, Mathf.Infinity);
 			start = node.position;
 			i++;

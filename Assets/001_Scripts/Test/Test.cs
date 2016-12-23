@@ -8,35 +8,49 @@ using System.Linq;
 using System.Collections;
 
 public class Test : MonoBehaviour {
+
 	void Start () {
-		StartCoroutine (FindPath (Vector3.zero, new Vector3(5,5,5)));
+		StartCoroutine (FindPath (Vector3.zero, new Vector3(0,0,20)));
 	}
 
 	List<PathNode> GetNeighbors(PathNode current){
 		List<PathNode> neighbors = new List<PathNode> ();
 
-		neighbors.Add (new PathNode (current.position + Neighbors.TopLeft,  2));
-		neighbors.Add (new PathNode (current.position + Neighbors.TopMid,   1));
-		neighbors.Add (new PathNode (current.position + Neighbors.TopRight, 2));
-		neighbors.Add (new PathNode (current.position + Neighbors.MidRight, 1));
-		neighbors.Add (new PathNode (current.position + Neighbors.BotRight, 2));
-		neighbors.Add (new PathNode (current.position + Neighbors.BotMid,   1));
-		neighbors.Add (new PathNode (current.position + Neighbors.BotLeft,  2));
-		neighbors.Add (new PathNode (current.position + Neighbors.MidLeft,  1));
+		foreach (var item in PathNode.neighbors2) {
+			var node = GetNeighborNode (current.position, item.Key);
+			if (node != null) {
+				node.moveCost = item.Value;
+				neighbors.Add (node);
+			}
+		}
+
+//		for (int i = 0; i < PathNode.neighbors.Length; i++) {
+//			var node = GetNeighborNode (current.position, PathNode.neighbors[i]);
+//			if (node != null) {
+//				neighbors.Add (node);
+//			}
+//		}
 
 		return neighbors;
 	}
 
+	PathNode GetNeighborNode(Vector3 current, Vector3 next){
+		var nextPos = current + next;
+
+		if (Physics.Raycast(current, next, Vector3.Distance(current, next))) {
+			return null;
+		}
+
+		return new PathNode (nextPos, 1);
+	}
+
 	IEnumerator FindPath(Vector3 startPos, Vector3 goalPos){
-		var start = new PathNode (startPos);
+		var start = new PathNode (startPos, 0);
 		SimplePriorityQueue<PathNode> frontier = new SimplePriorityQueue<PathNode> ();
 		frontier.Enqueue (start, 0);
 
-		Dictionary<PathNode, PathNode> cameFrom = new Dictionary<PathNode, PathNode> ();
-		cameFrom.Add (start, null);
-
-		Dictionary<PathNode, int> costSoFar = new Dictionary<PathNode, int> ();
-		costSoFar.Add (start, 0);
+		PathNodeList exploredNodes = new PathNodeList ();
+		exploredNodes.Add (start);
 
 		PathNode current;
 		List<PathNode> neighbors;
@@ -46,35 +60,38 @@ public class Test : MonoBehaviour {
 			neighbors = GetNeighbors (current);
 			for (int i = 0; i < neighbors.Count; i++) {
 				var next = neighbors [i];
-				var newCost = costSoFar [current] + next.moveCost;
-				if (!costSoFar.ContainsKey(next) || newCost < costSoFar[next]) {
+				var newCost = current.moveCost + next.moveCost;
+				if (exploredNodes.NotContainsOrHasHigherCost(next, newCost)) {
 					DebugDrawNode (next, newCost.ToString());
-					Debug.DrawLine (current.position, next.position, Color.red, 2f);
-					costSoFar[next] = newCost;
-					cameFrom[next] = current;
-					Debug.Log (costSoFar.Count);
+					Debug.DrawLine (current.position, next.position, Color.red, 1f);
+					next.moveCost = newCost;
+					next.cameFrom = current;
+					var priority = newCost + GetHScore(next.position, goalPos) * 2;
+					exploredNodes.AddOrUpdate (next);
+
 					if (IsReachedGoal(goalPos, next)) { //Reached goal
 						var goal = new PathNode (goalPos);
-						cameFrom.Add (goal, next);
+						goal.cameFrom = next;
+						DebugDrawPath (ReconstructPath(goal, ref start), startPos);
 						yield break;
 					}
 
-					var priority = newCost;
 					frontier.Enqueue (next, priority); //smaller priority go first
+					yield return null;
 				}
 
-				yield return new WaitForSeconds (0.1f);
+
 			}
 		}
 	}
 
-	Queue<PathNode> ReconstructPath(PathNode goal, ref Dictionary<PathNode, PathNode> cameFrom, ref PathNode start){
+	Queue<PathNode> ReconstructPath(PathNode goal, ref PathNode start){
 		PathNode current = goal;
 		Queue<PathNode> path = new Queue<PathNode> ();
 		path.Enqueue (current);
 
 		while (current != start) {
-			current = cameFrom [current];
+			current = current.cameFrom;
 			path.Enqueue (current);
 		}
 
@@ -92,14 +109,14 @@ public class Test : MonoBehaviour {
 	}
 
 	float GetHScore(Vector3 a, Vector3 b){
-		return Mathf.Abs (a.x - b.x) + Mathf.Abs (a.y - b.y);
+		return Vector3.Distance(a, b);
 	}
 
 	void DebugDrawPath(Queue<PathNode> path, Vector3 start){
 		int i = 0;
 		while (path.Count > 0) {
 			var node = path.Dequeue ();
-			var go = DebugDrawNode (node, i.ToString());
+			DebugDrawNode (node, i.ToString());
 			Debug.DrawLine (start, node.position, Color.blue, Mathf.Infinity);
 			start = node.position;
 			i++;
