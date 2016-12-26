@@ -31,9 +31,9 @@ public class PathNode : FastPriorityQueueNode{
 	};
 }
 
-public class PathNodeList{
+public class PathNodeSet{
 	public Dictionary<Vector3, PathNode> nodes;
-	public PathNodeList (){
+	public PathNodeSet (){
 		nodes = new Dictionary<Vector3, PathNode> ();
 	}
 

@@ -40,7 +40,7 @@ public class Test : MonoBehaviour {
 	}
 
 	SimplePriorityQueue<PathNode> frontier = new SimplePriorityQueue<PathNode> ();
-	PathNodeList exploredNodes = new PathNodeList ();
+	PathNodeSet exploredNodes = new PathNodeSet ();
 	List<PathNode> neighbors;
 	IEnumerator FindPath(Vector3 startPos, Vector3 goalPos, float step){
 		var start = new PathNode (startPos, 0);

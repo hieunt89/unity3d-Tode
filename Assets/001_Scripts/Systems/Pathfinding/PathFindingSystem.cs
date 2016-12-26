@@ -73,7 +73,7 @@ public class PathFindingSystem : IReactiveSystem, ISetPool, IEnsureComponents{
 	}
 
 	SimplePriorityQueue<PathNode> frontier = new SimplePriorityQueue<PathNode> ();
-	PathNodeList exploredNodes = new PathNodeList ();
+	PathNodeSet exploredNodes = new PathNodeSet ();
 	List<PathNode> neighbors;
 	Queue<Vector3> FindPath(Vector3 startPos, Vector3 goalPos, float step){
 		var start = new PathNode (startPos, 0);
