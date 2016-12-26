@@ -32,23 +32,21 @@ public class PathNode : FastPriorityQueueNode{
 }
 
 public class PathNodeList{
-	public List<PathNode> nodes;
+	public Dictionary<Vector3, PathNode> nodes;
 	public PathNodeList (){
-		nodes = new List<PathNode> ();
+		nodes = new Dictionary<Vector3, PathNode> ();
 	}
 
 	public void Add(PathNode node){
-		nodes.Add (node);
+		nodes.Add (node.position, node);
 	}
 
 	public void AddOrUpdate(PathNode node){
-		for (int i = 0; i < nodes.Count; i++) {
-			if (nodes[i].position == node.position) {
-				nodes [i] = node;
-				return;
-			}
+		if (nodes.ContainsKey (node.position)) {
+			nodes [node.position] = node;
+		} else {
+			nodes.Add (node.position, node);
 		}
-		nodes.Add (node);
 	}
 
 	public void Clear(){
@@ -56,15 +54,14 @@ public class PathNodeList{
 	}
 
 	public bool NotContainsOrHasHigherCost(PathNode node, float newCost){
-		for (int i = 0; i < nodes.Count; i++) {
-			if (node.position == nodes[i].position) {
-				if (nodes [i].moveCost > newCost) {
-					return true;
-				} else {
-					return false;
-				}
+		if (nodes.ContainsKey (node.position)) {
+			if (nodes [node.position].moveCost > newCost) {
+				return true;
+			} else {
+				return false;
 			}
+		} else {
+			return true;
 		}
-		return true;
 	}
 }

@@ -75,7 +75,7 @@ public class PathFindingSystem : IReactiveSystem, ISetPool, IEnsureComponents{
 	SimplePriorityQueue<PathNode> frontier = new SimplePriorityQueue<PathNode> ();
 	PathNodeList exploredNodes = new PathNodeList ();
 	List<PathNode> neighbors;
-	Queue<PathNode> FindPath(Vector3 startPos, Vector3 goalPos, float step){
+	Queue<Vector3> FindPath(Vector3 startPos, Vector3 goalPos, float step){
 		var start = new PathNode (startPos, 0);
 		frontier.Clear ();
 		frontier.Enqueue (start, 0);
@@ -101,8 +101,8 @@ public class PathFindingSystem : IReactiveSystem, ISetPool, IEnsureComponents{
 						return ReconstructPath (goal, ref start);
 
 					}
-
-					var priority = newCost + GetHScore(next.position, goalPos);
+						
+					var priority = newCost + GetHScore(next.position, goalPos) * 1.5f;
 					frontier.Enqueue (next, priority); //smaller priority go first
 				}
 			}
@@ -111,17 +111,21 @@ public class PathFindingSystem : IReactiveSystem, ISetPool, IEnsureComponents{
 		return null;
 	}
 
-	Queue<PathNode> ReconstructPath(PathNode goal, ref PathNode start){
+	Queue<Vector3> ReconstructPath(PathNode goal, ref PathNode start){
 		PathNode current = goal;
-		Queue<PathNode> path = new Queue<PathNode> ();
-		path.Enqueue (current);
+		Queue<Vector3> path = new Queue<Vector3> ();
+		path.Enqueue (current.position);
 
 		while (current != start) {
 			current = current.cameFrom;
-			path.Enqueue (current);
+			path.Enqueue (current.position);
+
+			if (current == null) {
+				return null;
+			}
 		}
 
-		path = new Queue<PathNode> (path.Reverse ());
+		path = new Queue<Vector3> (path.Reverse ());
 
 		return path;
 	}
@@ -138,20 +142,20 @@ public class PathFindingSystem : IReactiveSystem, ISetPool, IEnsureComponents{
 		return Vector3.Distance(a, b);
 	}
 
-	void DebugDrawPath(Queue<PathNode> path, Vector3 start){
+	void DebugDrawPath(Queue<Vector3> path, Vector3 start){
 		int i = 0;
 		while (path.Count > 0) {
 			var node = path.Dequeue ();
 			DebugDrawNode (node, i.ToString());
-			Debug.DrawLine (start, node.position, Color.blue, Mathf.Infinity);
-			start = node.position;
+			Debug.DrawLine (start, node, Color.blue, Mathf.Infinity);
+			start = node;
 			i++;
 		}
 	}
 
-	GameObject DebugDrawNode(PathNode node, string name){
+	GameObject DebugDrawNode(Vector3 node, string name){
 		var go = GameObject.CreatePrimitive (PrimitiveType.Cube);
-		go.transform.position = node.position;
+		go.transform.position = node;
 		go.transform.localScale = new Vector3 (0.1f, 0.1f, 0.1f);
 		go.name = "nodePath " + name;
 		return go;
