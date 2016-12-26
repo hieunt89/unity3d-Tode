@@ -17,11 +17,9 @@ public class Test : MonoBehaviour {
 		List<PathNode> neighbors = new List<PathNode> ();
 
 		for (int i = 0; i < PathNode.neighbors.Length; i++) {
-			var node = GetNeighborNode (current.position, PathNode.neighbors[i] * step);
+			var node = GetNeighborNode (current.position, PathNode.neighbors[i], step);
 			if (node != null) {
 				node.moveCost = (PathNode.neighbors[i] * step).magnitude ;
-				Debug.Log (node.moveCost);
-
 				neighbors.Add (node);
 			}
 		}
@@ -29,14 +27,27 @@ public class Test : MonoBehaviour {
 		return neighbors;
 	}
 
-	PathNode GetNeighborNode(Vector3 current, Vector3 next){
-		var nextPos = current + next;
+	PathNode GetNeighborNode(Vector3 current, Vector3 next, float step){
+		var nextPos = current + next * step;
 
-		if (Physics.Raycast(current, next, Vector3.Distance(current, nextPos))) {
+		if (Physics.Raycast(current, next, step)) {
+			return null;
+		}
+
+		if (!IsNeighborValid(nextPos, step)) {
 			return null;
 		}
 
 		return new PathNode (nextPos);
+	}
+
+	bool IsNeighborValid(Vector3 pos, float step){
+		for (int i = 0; i < PathNode.neighbors.Length; i++) {
+			if (Physics.Raycast(pos, PathNode.neighbors[i], step)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	SimplePriorityQueue<PathNode> frontier = new SimplePriorityQueue<PathNode> ();
@@ -59,13 +70,13 @@ public class Test : MonoBehaviour {
 				var next = neighbors [i];
 				var newCost = current.moveCost + next.moveCost;
 				if (exploredNodes.NotContainsOrHasHigherCost(next, newCost)) {
-					DebugDrawNode (next.position, newCost.ToString());
+//					DebugDrawNode (next.position, newCost.ToString());
 					Debug.DrawLine (current.position, next.position, Color.red, 1f);
 					next.moveCost = newCost;
 					next.cameFrom = current;
 					exploredNodes.AddOrUpdate (next);
 
-					if (IsReachedGoal(goalPos, next)) { //Reached goal
+					if (IsReachedGoal(goalPos, next, step)) { //Reached goal
 						var goal = new PathNode (goalPos);
 						goal.cameFrom = next;
 						DebugDrawPath (ReconstructPath(goal, ref start), startPos);
@@ -99,8 +110,8 @@ public class Test : MonoBehaviour {
 		return path;
 	}
 
-	bool IsReachedGoal(Vector3 goal, PathNode current){
-		if (Vector3.Distance (current.position, goal) <= ConstantData.CLOSE_COMBAT_RANGE) {
+	bool IsReachedGoal(Vector3 goal, PathNode current, float step){
+		if (Vector3.Distance (current.position, goal) <= step * Mathf.Sqrt(2) ) {
 			return true;
 		} else {
 			return false;

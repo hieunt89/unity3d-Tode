@@ -1,4 +1,5 @@
-﻿public static class ConstantData {
+﻿using UnityEngine;
+public static class ConstantData {
 	public const int INIT_LIFE = 20;
 	public const int INIT_GOLD = 500;
 	public const float GRAVITY = 9.8f;
