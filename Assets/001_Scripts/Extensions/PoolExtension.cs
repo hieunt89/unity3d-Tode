@@ -66,6 +66,7 @@ public static class PoolExtension {
 		}
 
 		return e.IsProjectileMark(true)
+			.IsActive(true)
 			.AddPosition(origin.position.value + origin.pointAttack.offset)
 			.AddOrigin(origin)
 			.AddTarget (target);

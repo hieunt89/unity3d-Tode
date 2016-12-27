@@ -30,11 +30,11 @@ public class Test : MonoBehaviour {
 	PathNode GetNeighborNode(Vector3 current, Vector3 next, float step){
 		var nextPos = current + next * step;
 
-		if (Physics.Raycast(current, next, step)) {
+		if (Physics.Raycast(current, next, (next * step).magnitude)) {
 			return null;
 		}
 
-		if (!IsNeighborValid(nextPos, step)) {
+		if (!IsNeighborValid(nextPos, ConstantData.CLOSE_COMBAT_RANGE)) {
 			return null;
 		}
 

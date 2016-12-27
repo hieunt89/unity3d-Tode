@@ -5,16 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Priority_Queue;
 
-public class PathFindingSystem : IReactiveSystem, ISetPool, IEnsureComponents{
-	#region ISetPool implementation
-	Group _groupPathFinding;
-	public void SetPool (Pool pool)
-	{
-		_groupPathFinding = pool.GetGroup (Matcher.AllOf(Matcher.Ally, Matcher.Active));
-	}
-
-	#endregion
-
+public class PathFindingSystem : IReactiveSystem, IEnsureComponents{
 	#region IEnsureComponents implementation
 
 	public IMatcher ensureComponents {
@@ -28,14 +19,22 @@ public class PathFindingSystem : IReactiveSystem, ISetPool, IEnsureComponents{
 	#region IReactiveExecuteSystem implementation
 	public void Execute (System.Collections.Generic.List<Entity> entities)
 	{
-//		if (_groupPathFinding.count <= 0) {
-//			return;
-//		}
-
-//		var ens = _groupPathFinding.GetEntities ();
+		Queue<Vector3> path;
 		for (int i = 0; i < entities.Count; i++) {
 			var e = entities [i];
-			DebugDrawPath (FindPath (e.position.value, e.destination.value, 1f), e.position.value);
+
+			if (CanGoStraight (e.position.value, e.destination.value)) {
+				path = new Queue<Vector3> ();
+				path.Enqueue (e.destination.value);
+			} else {
+				path = FindPath (e.position.value, e.destination.value, 1f);
+				if (GameManager.ShowDebug) {
+					DebugDrawPath (path, e.position.value);
+				}
+			}
+
+			e.ReplacePathQueue (path);
+			e.ReplaceMoveTo (path.Dequeue());
 		}
 	}
 	#endregion
@@ -48,6 +47,16 @@ public class PathFindingSystem : IReactiveSystem, ISetPool, IEnsureComponents{
 	}
 	#endregion
 
+	bool CanGoStraight(Vector3 pos, Vector3 des){
+		Debug.DrawLine(pos, des, Color.green, Mathf.Infinity);
+		if (Physics.Raycast (pos, des - pos, Vector3.Distance (pos, des))) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	#region Pathfinding
 	List<PathNode> GetNeighbors(PathNode current, float step){
 		List<PathNode> neighbors = new List<PathNode> ();
 
@@ -65,20 +74,20 @@ public class PathFindingSystem : IReactiveSystem, ISetPool, IEnsureComponents{
 	PathNode GetNeighborNode(Vector3 current, Vector3 next, float step){
 		var nextPos = current + next * step;
 
-		if (Physics.Raycast(current, next, step)) {
+		if (Physics.Raycast(current, next, (next * step).magnitude)) {
 			return null;
 		}
 
-		if (!IsNeighborValid(nextPos, step)) {
-			return null;
-		}
+//		if (!IsNeighborValid(nextPos, ConstantData.CLOSE_COMBAT_RANGE)) {
+//			return null;
+//		}
 
 		return new PathNode (nextPos);
 	}
 
-	bool IsNeighborValid(Vector3 pos, float step){
+	bool IsNeighborValid(Vector3 pos, float distance){
 		for (int i = 0; i < PathNode.neighbors.Length; i++) {
-			if (Physics.Raycast(pos, PathNode.neighbors[i], step)) {
+			if (Physics.Raycast(pos, PathNode.neighbors[i], distance)) {
 				return false;
 			}
 		}
@@ -157,10 +166,12 @@ public class PathFindingSystem : IReactiveSystem, ISetPool, IEnsureComponents{
 
 	void DebugDrawPath(Queue<Vector3> path, Vector3 start){
 		int i = 0;
-		while (path.Count > 0) {
-			var node = path.Dequeue ();
-			DebugDrawNode (node, i.ToString());
-			Debug.DrawLine (start, node, Color.blue, Mathf.Infinity);
+		var tempPath = new Queue<Vector3> (path);
+		while (tempPath.Count > 0) {
+			var node = tempPath.Dequeue ();
+			if (GameManager.ShowDebug) {
+				Debug.DrawLine (start, node, Color.blue, Mathf.Infinity);
+			}
 			start = node;
 			i++;
 		}
@@ -173,4 +184,5 @@ public class PathFindingSystem : IReactiveSystem, ISetPool, IEnsureComponents{
 		go.name = "nodePath " + name;
 		return go;
 	}
+	#endregion
 }

@@ -57,54 +57,56 @@ public static class ComponentIds {
     public const int Movable = 46;
     public const int MoveSpeed = 47;
     public const int MoveSpeedBase = 48;
-    public const int Name = 49;
-    public const int NextWave = 50;
-    public const int Origin = 51;
-    public const int Path = 52;
-    public const int PathLength = 53;
-    public const int PathReference = 54;
-    public const int PointAttack = 55;
-    public const int PointTarget = 56;
-    public const int Position = 57;
-    public const int Projectile = 58;
-    public const int ProjectileHoming = 59;
-    public const int ProjectileInstant = 60;
-    public const int ProjectileLaser = 61;
-    public const int ProjectileMark = 62;
-    public const int ProjectileThrowing = 63;
-    public const int ProjectileThrowingParams = 64;
-    public const int RallyPoint = 65;
-    public const int ReachedEnd = 66;
-    public const int Rooted = 67;
-    public const int Selected = 68;
-    public const int SkillCombat = 69;
-    public const int Skill = 70;
-    public const int SkillEntityRefs = 71;
-    public const int SkillList = 72;
-    public const int SkillSummon = 73;
-    public const int SkillUpgrade = 74;
-    public const int Stunned = 75;
-    public const int Target = 76;
-    public const int Targetable = 77;
-    public const int Tick = 78;
-    public const int TimeSpeed = 79;
-    public const int TimeTotal = 80;
-    public const int Tower = 81;
-    public const int TowerBase = 82;
-    public const int TowerReset = 83;
-    public const int TowerUpgrade = 84;
-    public const int TowerUpgrading = 85;
-    public const int TurnSpeed = 86;
-    public const int View = 87;
-    public const int ViewAnims = 88;
-    public const int ViewCollider = 89;
-    public const int ViewLookAt = 90;
-    public const int ViewSelected = 91;
-    public const int ViewSlider = 92;
-    public const int Wave = 93;
-    public const int Wound = 94;
+    public const int MoveTo = 49;
+    public const int Name = 50;
+    public const int NextWave = 51;
+    public const int Origin = 52;
+    public const int Path = 53;
+    public const int PathLength = 54;
+    public const int PathQueue = 55;
+    public const int PathReference = 56;
+    public const int PointAttack = 57;
+    public const int PointTarget = 58;
+    public const int Position = 59;
+    public const int Projectile = 60;
+    public const int ProjectileHoming = 61;
+    public const int ProjectileInstant = 62;
+    public const int ProjectileLaser = 63;
+    public const int ProjectileMark = 64;
+    public const int ProjectileThrowing = 65;
+    public const int ProjectileThrowingParams = 66;
+    public const int RallyPoint = 67;
+    public const int ReachedEnd = 68;
+    public const int Rooted = 69;
+    public const int Selected = 70;
+    public const int SkillCombat = 71;
+    public const int Skill = 72;
+    public const int SkillEntityRefs = 73;
+    public const int SkillList = 74;
+    public const int SkillSummon = 75;
+    public const int SkillUpgrade = 76;
+    public const int Stunned = 77;
+    public const int Target = 78;
+    public const int Targetable = 79;
+    public const int Tick = 80;
+    public const int TimeSpeed = 81;
+    public const int TimeTotal = 82;
+    public const int Tower = 83;
+    public const int TowerBase = 84;
+    public const int TowerReset = 85;
+    public const int TowerUpgrade = 86;
+    public const int TowerUpgrading = 87;
+    public const int TurnSpeed = 88;
+    public const int View = 89;
+    public const int ViewAnims = 90;
+    public const int ViewCollider = 91;
+    public const int ViewLookAt = 92;
+    public const int ViewSelected = 93;
+    public const int ViewSlider = 94;
+    public const int Wave = 95;
+    public const int Wound = 96;
 
-    public const int TotalComponents = 95;
+    public const int TotalComponents = 97;
 
     public static readonly string[] componentNames = {
         "Active",
@@ -156,11 +158,13 @@ public static class ComponentIds {
         "Movable",
         "MoveSpeed",
         "MoveSpeedBase",
+        "MoveTo",
         "Name",
         "NextWave",
         "Origin",
         "Path",
         "PathLength",
+        "PathQueue",
         "PathReference",
         "PointAttack",
         "PointTarget",
@@ -254,11 +258,13 @@ public static class ComponentIds {
         typeof(Movable),
         typeof(MoveSpeed),
         typeof(MoveSpeedBase),
+        typeof(MoveTo),
         typeof(Name),
         typeof(NextWave),
         typeof(Origin),
         typeof(Path),
         typeof(PathLength),
+        typeof(PathQueue),
         typeof(PathReference),
         typeof(PointAttack),
         typeof(PointTarget),

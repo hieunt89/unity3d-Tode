@@ -7,7 +7,7 @@ public class UpdateLookDirectionSystem : IReactiveSystem, ISetPool {
 	Group _groupLookAt;
 	public void SetPool (Pool pool)
 	{
-		_groupLookAt = pool.GetGroup (Matcher.AllOf (Matcher.View, Matcher.Position, Matcher.Active).AnyOf(Matcher.Engage, Matcher.Destination, Matcher.CloseCombat));
+		_groupLookAt = pool.GetGroup (Matcher.AllOf (Matcher.View, Matcher.Position, Matcher.Active).AnyOf(Matcher.Engage, Matcher.Destination, Matcher.CloseCombat, Matcher.MoveTo));
 	}
 
 	#endregion
@@ -25,7 +25,9 @@ public class UpdateLookDirectionSystem : IReactiveSystem, ISetPool {
 		for (int i = 0; i < ens.Length; i++) {
 			var e = ens [i];
 			Vector3 targetDir = Vector3.zero;
-			if (e.hasCloseCombat) {
+			if(e.hasMoveTo){
+				targetDir = e.moveTo.position - e.position.value;
+			}else if (e.hasCloseCombat) {
 				targetDir = e.closeCombat.opponent.position.value - e.position.value;
 			}else if (e.hasEngage) {
 				targetDir = e.engage.target.position.value - e.position.value;

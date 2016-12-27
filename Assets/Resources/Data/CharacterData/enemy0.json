@@ -13,8 +13,8 @@
         "y": 0.28967297077178957,
         "z": 0.028303738683462144
     },
-    "minAtkDmg": 20,
-    "maxAtkDmg": 40,
+    "minAtkDmg": 10,
+    "maxAtkDmg": 10,
     "atkRange": 0.0,
     "armors": [
         {
