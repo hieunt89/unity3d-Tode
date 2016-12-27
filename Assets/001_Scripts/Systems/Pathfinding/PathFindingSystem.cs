@@ -52,7 +52,7 @@ public class PathFindingSystem : IReactiveSystem, ISetPool, IEnsureComponents{
 		List<PathNode> neighbors = new List<PathNode> ();
 
 		for (int i = 0; i < PathNode.neighbors.Length; i++) {
-			var node = GetNeighborNode (current.position, PathNode.neighbors[i] * step);
+			var node = GetNeighborNode (current.position, PathNode.neighbors[i], step);
 			if (node != null) {
 				node.moveCost = (PathNode.neighbors[i] * step).magnitude ;
 				neighbors.Add (node);
@@ -62,14 +62,27 @@ public class PathFindingSystem : IReactiveSystem, ISetPool, IEnsureComponents{
 		return neighbors;
 	}
 
-	PathNode GetNeighborNode(Vector3 current, Vector3 next){
-		var nextPos = current + next;
+	PathNode GetNeighborNode(Vector3 current, Vector3 next, float step){
+		var nextPos = current + next * step;
 
-		if (Physics.Raycast(current, next, Vector3.Distance(current, nextPos))) {
+		if (Physics.Raycast(current, next, step)) {
+			return null;
+		}
+
+		if (!IsNeighborValid(nextPos, step)) {
 			return null;
 		}
 
 		return new PathNode (nextPos);
+	}
+
+	bool IsNeighborValid(Vector3 pos, float step){
+		for (int i = 0; i < PathNode.neighbors.Length; i++) {
+			if (Physics.Raycast(pos, PathNode.neighbors[i], step)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	SimplePriorityQueue<PathNode> frontier = new SimplePriorityQueue<PathNode> ();

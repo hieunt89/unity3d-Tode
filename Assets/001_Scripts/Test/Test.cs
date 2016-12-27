@@ -10,7 +10,7 @@ using System.Collections;
 public class Test : MonoBehaviour {
 
 	void Start () {
-		StartCoroutine (FindPath (Vector3.zero, new Vector3(0,0,20), 3f));
+		StartCoroutine (FindPath (Vector3.zero, new Vector3(0,0,20), 1f));
 	}
 
 	List<PathNode> GetNeighbors(PathNode current, float step){
@@ -76,7 +76,7 @@ public class Test : MonoBehaviour {
 					next.cameFrom = current;
 					exploredNodes.AddOrUpdate (next);
 
-					if (IsReachedGoal(goalPos, next, step)) { //Reached goal
+					if (IsReachedGoal(goalPos, next)) { //Reached goal
 						var goal = new PathNode (goalPos);
 						goal.cameFrom = next;
 						DebugDrawPath (ReconstructPath(goal, ref start), startPos);
@@ -110,8 +110,8 @@ public class Test : MonoBehaviour {
 		return path;
 	}
 
-	bool IsReachedGoal(Vector3 goal, PathNode current, float step){
-		if (Vector3.Distance (current.position, goal) <= step * Mathf.Sqrt(2) ) {
+	bool IsReachedGoal(Vector3 goal, PathNode current){
+		if (Vector3.Distance (current.position, goal) <= ConstantData.CLOSE_COMBAT_RANGE ) {
 			return true;
 		} else {
 			return false;
