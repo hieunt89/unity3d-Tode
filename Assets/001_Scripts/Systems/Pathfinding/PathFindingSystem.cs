@@ -27,7 +27,7 @@ public class PathFindingSystem : IReactiveSystem, IEnsureComponents{
 				path = new Queue<Vector3> ();
 				path.Enqueue (e.destination.value);
 			} else {
-				path = FindPath (e.position.value, e.destination.value, 1f);
+				path = FindPath (e.position.value, e.destination.value, 0.5f, e.viewCollider.collider.bounds.extents.x);
 				if (GameManager.ShowDebug) {
 					DebugDrawPath (path, e.position.value);
 				}
@@ -48,7 +48,6 @@ public class PathFindingSystem : IReactiveSystem, IEnsureComponents{
 	#endregion
 
 	bool CanGoStraight(Vector3 pos, Vector3 des){
-		Debug.DrawLine(pos, des, Color.green, Mathf.Infinity);
 		if (Physics.Raycast (pos, des - pos, Vector3.Distance (pos, des))) {
 			return false;
 		} else {
@@ -57,11 +56,11 @@ public class PathFindingSystem : IReactiveSystem, IEnsureComponents{
 	}
 
 	#region Pathfinding
-	List<PathNode> GetNeighbors(PathNode current, float step){
+	List<PathNode> GetNeighbors(PathNode current, float step, float offset){
 		List<PathNode> neighbors = new List<PathNode> ();
 
 		for (int i = 0; i < PathNode.neighbors.Length; i++) {
-			var node = GetNeighborNode (current.position, PathNode.neighbors[i], step);
+			var node = GetNeighborNode (current.position, PathNode.neighbors[i], step, offset);
 			if (node != null) {
 				node.moveCost = (PathNode.neighbors[i] * step).magnitude ;
 				neighbors.Add (node);
@@ -71,16 +70,16 @@ public class PathFindingSystem : IReactiveSystem, IEnsureComponents{
 		return neighbors;
 	}
 
-	PathNode GetNeighborNode(Vector3 current, Vector3 next, float step){
+	PathNode GetNeighborNode(Vector3 current, Vector3 next, float step, float offset){
 		var nextPos = current + next * step;
 
 		if (Physics.Raycast(current, next, (next * step).magnitude)) {
 			return null;
 		}
 
-//		if (!IsNeighborValid(nextPos, ConstantData.CLOSE_COMBAT_RANGE)) {
-//			return null;
-//		}
+		if (!IsNeighborValid(nextPos, offset)) {
+			return null;
+		}
 
 		return new PathNode (nextPos);
 	}
@@ -97,7 +96,7 @@ public class PathFindingSystem : IReactiveSystem, IEnsureComponents{
 	SimplePriorityQueue<PathNode> frontier = new SimplePriorityQueue<PathNode> ();
 	PathNodeSet exploredNodes = new PathNodeSet ();
 	List<PathNode> neighbors;
-	Queue<Vector3> FindPath(Vector3 startPos, Vector3 goalPos, float step){
+	Queue<Vector3> FindPath(Vector3 startPos, Vector3 goalPos, float step, float nodeOffset){
 		var start = new PathNode (startPos, 0);
 		frontier.Clear ();
 		frontier.Enqueue (start, 0);
@@ -108,7 +107,7 @@ public class PathFindingSystem : IReactiveSystem, IEnsureComponents{
 		while (frontier.Count > 0) {
 			current = frontier.Dequeue ();
 
-			neighbors = GetNeighbors (current, step);
+			neighbors = GetNeighbors (current, step, nodeOffset);
 			for (int i = 0; i < neighbors.Count; i++) {
 				var next = neighbors [i];
 				var newCost = current.moveCost + next.moveCost;
@@ -117,17 +116,18 @@ public class PathFindingSystem : IReactiveSystem, IEnsureComponents{
 					next.cameFrom = current;
 					exploredNodes.AddOrUpdate (next);
 
-					if (IsReachedGoal(goalPos, next)) { //Reached goal
+					if (IsReachedGoal(goalPos, next.position)) { //Reached goal
 						var goal = new PathNode (goalPos);
 						goal.cameFrom = next;
 						return ReconstructPath (goal, ref start);
-
 					}
 						
 					var priority = newCost + GetHScore(next.position, goalPos) * 1.5f;
 					frontier.Enqueue (next, priority); //smaller priority go first
 				}
 			}
+
+
 		}
 
 		return null;
@@ -152,8 +152,8 @@ public class PathFindingSystem : IReactiveSystem, IEnsureComponents{
 		return path;
 	}
 
-	bool IsReachedGoal(Vector3 goal, PathNode current){
-		if (Vector3.Distance (current.position, goal) <= ConstantData.CLOSE_COMBAT_RANGE) {
+	bool IsReachedGoal(Vector3 goal, Vector3 current){
+		if (Vector3.Distance (current, goal) <= ConstantData.CLOSE_COMBAT_RANGE) {
 			return true;
 		} else {
 			return false;

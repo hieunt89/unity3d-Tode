@@ -41,13 +41,22 @@ public class Test : MonoBehaviour {
 		return new PathNode (nextPos);
 	}
 
-	bool IsNeighborValid(Vector3 pos, float step){
+	bool IsNeighborValid(Vector3 pos, float distance){
 		for (int i = 0; i < PathNode.neighbors.Length; i++) {
-			if (Physics.Raycast(pos, PathNode.neighbors[i], step)) {
+			if (Physics.Raycast(pos, PathNode.neighbors[i], distance)) {
 				return false;
 			}
 		}
 		return true;
+	}
+
+	bool CanGoStraight(Vector3 pos, Vector3 des){
+		Debug.DrawLine(pos, des, Color.green, 0.5f);
+		if (Physics.Raycast (pos, des - pos, Vector3.Distance (pos, des))) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	SimplePriorityQueue<PathNode> frontier = new SimplePriorityQueue<PathNode> ();
@@ -70,13 +79,12 @@ public class Test : MonoBehaviour {
 				var next = neighbors [i];
 				var newCost = current.moveCost + next.moveCost;
 				if (exploredNodes.NotContainsOrHasHigherCost(next, newCost)) {
-//					DebugDrawNode (next.position, newCost.ToString());
 					Debug.DrawLine (current.position, next.position, Color.red, 1f);
 					next.moveCost = newCost;
 					next.cameFrom = current;
 					exploredNodes.AddOrUpdate (next);
 
-					if (IsReachedGoal(goalPos, next)) { //Reached goal
+					if (CanGoStraight(next.position, goalPos)) { //Reached goal
 						var goal = new PathNode (goalPos);
 						goal.cameFrom = next;
 						DebugDrawPath (ReconstructPath(goal, ref start), startPos);
