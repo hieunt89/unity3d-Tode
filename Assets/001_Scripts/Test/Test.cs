@@ -84,7 +84,7 @@ public class Test : MonoBehaviour {
 					next.cameFrom = current;
 					exploredNodes.AddOrUpdate (next);
 
-					if (CanGoStraight(next.position, goalPos)) { //Reached goal
+					if (IsReachedGoal(goalPos, next.position)) { //Reached goal
 						var goal = new PathNode (goalPos);
 						goal.cameFrom = next;
 						DebugDrawPath (ReconstructPath(goal, ref start), startPos);
@@ -118,8 +118,8 @@ public class Test : MonoBehaviour {
 		return path;
 	}
 
-	bool IsReachedGoal(Vector3 goal, PathNode current){
-		if (Vector3.Distance (current.position, goal) <= ConstantData.CLOSE_COMBAT_RANGE ) {
+	bool IsReachedGoal(Vector3 goal, Vector3 current){
+		if (Vector3.Distance (current, goal) <= ConstantData.CLOSE_COMBAT_RANGE ) {
 			return true;
 		} else {
 			return false;

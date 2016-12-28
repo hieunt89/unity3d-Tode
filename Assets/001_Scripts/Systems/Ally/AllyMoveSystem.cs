@@ -37,6 +37,8 @@ public class AllyMoveSystem : IReactiveSystem, ISetPool {
 					ally.RemoveMoveTo ();
 					ally.IsMovable (false);
 				}
+			} else if (Physics.Raycast(ally.position.value, ally.moveTo.position, Vector3.Distance(ally.position.value, ally.moveTo.position))) {
+				ally.ReplaceDestination (ally.destination.value);
 			} else {
 				ally.ReplacePosition (Vector3.MoveTowards (ally.position.value, ally.moveTo.position, ally.moveSpeed.speed * tickEn.tick.change));
 			}

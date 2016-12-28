@@ -71,25 +71,24 @@ public class PathFindingSystem : IReactiveSystem, IEnsureComponents{
 	}
 
 	PathNode GetNeighborNode(Vector3 current, Vector3 next, float step, float offset){
-		var nextPos = current + next * step;
-
-		if (Physics.Raycast(current, next, (next * step).magnitude)) {
+		if (!IsNeighborValid (current, next, step, offset)) {
 			return null;
+		} else {
+			return new PathNode (current + next * step);
 		}
-
-		if (!IsNeighborValid(nextPos, offset)) {
-			return null;
-		}
-
-		return new PathNode (nextPos);
 	}
 
-	bool IsNeighborValid(Vector3 pos, float distance){
+	bool IsNeighborValid(Vector3 current, Vector3 next, float step, float offset){
+		if (Physics.Raycast(current, next, (next * step).magnitude)) {
+			return false;
+		}
+
 		for (int i = 0; i < PathNode.neighbors.Length; i++) {
-			if (Physics.Raycast(pos, PathNode.neighbors[i], distance)) {
+			if (Physics.Raycast(current + next * step, PathNode.neighbors[i], offset)) {
 				return false;
 			}
 		}
+
 		return true;
 	}
 
