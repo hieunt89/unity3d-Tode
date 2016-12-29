@@ -28,13 +28,16 @@ public class PathFindingSystem : IReactiveSystem, IEnsureComponents{
 				path.Enqueue (e.destination.value);
 			} else {
 				path = FindPath (e.position.value, e.destination.value, 0.5f, e.viewCollider.collider.bounds.extents.x);
+			}
+
+			if (path != null) {
 				if (GameManager.ShowDebug) {
 					DebugDrawPath (path, e.position.value);
 				}
+				e.ReplacePathQueue (path);
+				e.ReplaceMoveTo (path.Dequeue());
+				e.IsMovable (true);
 			}
-
-			e.ReplacePathQueue (path);
-			e.ReplaceMoveTo (path.Dequeue());
 		}
 	}
 	#endregion

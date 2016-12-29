@@ -2,17 +2,18 @@
 using System.Collections;
 using Entitas;
 
-public class CheckEngageDistanceSystem : IReactiveSystem, ISetPool {
+public class AllyUpdateEngageDestinationSystem : IReactiveSystem, ISetPool {
 	#region ISetPool implementation
 	Group _groupEngaging;
 	public void SetPool (Pool pool)
 	{
-		_groupEngaging = pool.GetGroup (Matcher.AllOf(Matcher.Active, Matcher.Engage).NoneOf(Matcher.CloseCombat));
+		_groupEngaging = pool.GetGroup (Matcher.AllOf(Matcher.Ally, Matcher.Active, Matcher.Engage));
 	}
 
 	#endregion
 
 	#region IReactiveExecuteSystem implementation
+
 	public void Execute (System.Collections.Generic.List<Entity> entities)
 	{
 		if (_groupEngaging.count <= 0) {
@@ -23,30 +24,19 @@ public class CheckEngageDistanceSystem : IReactiveSystem, ISetPool {
 		for (int i = 0; i < ens.Length; i++) {
 			var e = ens [i];
 
-			if (Vector3.Distance (e.position.value, e.engage.target.position.value) <= ConstantData.CLOSE_COMBAT_RANGE) {
-				//reach its target in close combat
-				e.AddCloseCombat (e.engage.target);
-				if (e.hasMoveTo) {
-					e.RemoveMoveTo ();
-				}
-				e.IsMovable (false);
-				e.RemoveEngage ();
-
-				e.closeCombat.opponent.AddCloseCombat (e);
-				e.closeCombat.opponent.IsMovable (false);
-
-				continue;
-			}
+			e.ReplaceDestination (e.engage.target.position.value);
 		}
 	}
+
 	#endregion
 
 	#region IReactiveSystem implementation
+
 	public TriggerOnEvent trigger {
 		get {
 			return Matcher.Tick.OnEntityAdded ();
 		}
 	}
+
 	#endregion
-	
 }

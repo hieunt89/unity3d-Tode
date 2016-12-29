@@ -17,14 +17,20 @@ public class AllyInitSystem : IInitializeSystem, ISetPool{
 	public void Initialize ()
 	{
 		CreateAlly ("enemy1", new Vector3(9f, 0f, 0f));
-		CreateAlly ("enemy1", new Vector3(10f, 0f, 0f));
-		CreateAlly ("enemy1", new Vector3(11f, 0f, 0f));
-
-		CreateAlly ("enemy1", new Vector3(12f, 0f, 0f));
-
-		CreateAlly ("enemy1", new Vector3(13f, 0f, 0f));
-
-
+//		CreateAlly ("enemy1", new Vector3(9f, 0f, 0.5f));
+//		CreateAlly ("enemy1", new Vector3(9f, 0f, -0.5f));
+//
+//		CreateAlly ("enemy1", new Vector3(10f, 0f, 0f));
+//		CreateAlly ("enemy1", new Vector3(10f, 0f, 0.5f));
+//		CreateAlly ("enemy1", new Vector3(10f, 0f, -0.5f));
+//
+//		CreateAlly ("enemy1", new Vector3(11f, 0f, 0f));
+//		CreateAlly ("enemy1", new Vector3(11f, 0f, 0.5f));
+//		CreateAlly ("enemy1", new Vector3(11f, 0f, -0.5f));
+//
+//		CreateAlly ("enemy1", new Vector3(12f, 0f, 0f));
+//		CreateAlly ("enemy1", new Vector3(12f, 0f, 0.5f));
+//		CreateAlly ("enemy1", new Vector3(12f, 0f, -0.5f));
 	}
 
 	#endregion

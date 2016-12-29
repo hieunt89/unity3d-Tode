@@ -7,7 +7,7 @@ public class AllyMoveSystem : IReactiveSystem, ISetPool {
 	Group _groupAllyMoving;
 	public void SetPool (Pool pool)
 	{
-		_groupAllyMoving = pool.GetGroup (Matcher.AllOf(Matcher.Ally, Matcher.Active, Matcher.Destination, Matcher.Movable, Matcher.PathQueue));
+		_groupAllyMoving = pool.GetGroup (Matcher.AllOf(Matcher.Ally, Matcher.Active, Matcher.Destination, Matcher.MoveTo, Matcher.Movable, Matcher.PathQueue));
 	}
 
 	#endregion
@@ -25,10 +25,10 @@ public class AllyMoveSystem : IReactiveSystem, ISetPool {
 		for (int i = 0; i < allies.Length; i++) {
 			var ally = allies [i];
 
-			if (!ally.hasMoveTo) {
-				ally.AddMoveTo (ally.pathQueue.queue.Dequeue());
-			}
-				
+			if (Physics.Raycast(ally.position.value, ally.moveTo.position, Vector3.Distance(ally.position.value, ally.moveTo.position))) {
+				ally.ReplaceDestination (ally.destination.value);
+			} 
+
 			if (ally.position.value == ally.moveTo.position) {
 				if (ally.pathQueue.queue.Count > 0) {
 					ally.ReplaceMoveTo (ally.pathQueue.queue.Dequeue ());
@@ -37,11 +37,9 @@ public class AllyMoveSystem : IReactiveSystem, ISetPool {
 					ally.RemoveMoveTo ();
 					ally.IsMovable (false);
 				}
-			} else if (Physics.Raycast(ally.position.value, ally.moveTo.position, Vector3.Distance(ally.position.value, ally.moveTo.position))) {
-				ally.ReplaceDestination (ally.destination.value);
-			} else {
-				ally.ReplacePosition (Vector3.MoveTowards (ally.position.value, ally.moveTo.position, ally.moveSpeed.speed * tickEn.tick.change));
 			}
+
+			ally.ReplacePosition (Vector3.MoveTowards (ally.position.value, ally.moveTo.position, ally.moveSpeed.speed * tickEn.tick.change));
 		}
 	}
 
